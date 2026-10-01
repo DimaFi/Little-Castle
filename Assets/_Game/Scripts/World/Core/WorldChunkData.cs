@@ -22,6 +22,7 @@ namespace LittleCastle.World
         public float[,] Temperature { get; }
         public float[,] Moisture { get; }
         public BiomeKind[,] Biomes { get; }
+        public SurfaceKind[,] Surfaces { get; }
 
         public float[,] ForestDensity { get; }
         public PlacementBlockFlags[,] PlacementBlocks { get; }
@@ -72,6 +73,11 @@ namespace LittleCastle.World
 
             Biomes =
                 new BiomeKind[
+                    cellsPerSide,
+                    cellsPerSide];
+
+            Surfaces =
+                new SurfaceKind[
                     cellsPerSide,
                     cellsPerSide];
 
@@ -151,6 +157,17 @@ namespace LittleCastle.World
             int cellZ,
             BiomeKind value) =>
             Biomes[cellX, cellZ] = value;
+
+        public SurfaceKind GetSurface(
+            int cellX,
+            int cellZ) =>
+            Surfaces[cellX, cellZ];
+
+        public void SetSurface(
+            int cellX,
+            int cellZ,
+            SurfaceKind value) =>
+            Surfaces[cellX, cellZ] = value;
 
         public float GetForestDensity(
             int cellX,
