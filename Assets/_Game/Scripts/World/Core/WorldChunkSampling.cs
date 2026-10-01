@@ -167,6 +167,26 @@ namespace LittleCastle.World
                     cellZ);
         }
 
+        public static SurfaceKind SampleSurface(
+            WorldChunkData chunk,
+            WorldGenerationSettings settings,
+            float worldX,
+            float worldZ)
+        {
+            GetCellCoordinates(
+                chunk,
+                settings,
+                worldX,
+                worldZ,
+                out int cellX,
+                out int cellZ);
+
+            return
+                chunk.GetSurface(
+                    cellX,
+                    cellZ);
+        }
+
         public static float SampleForestDensity(
             WorldChunkData chunk,
             WorldGenerationSettings settings,
