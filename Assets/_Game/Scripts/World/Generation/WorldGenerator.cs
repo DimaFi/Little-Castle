@@ -16,7 +16,10 @@ namespace LittleCastle.World
         [Header("Preview")]
         [Min(0)]
         [SerializeField] private int previewRadius = 1;
+
         [SerializeField] private Material previewMaterial;
+        [SerializeField] private WorldSpawnCatalog previewSpawnCatalog;
+        [SerializeField] private bool renderGeneratedSpawns = true;
         [SerializeField] private bool generateOnStart = true;
 
         private readonly List<GameObject> previewObjects =
@@ -48,8 +51,6 @@ namespace LittleCastle.World
         [ContextMenu("Regenerate Preview (Next Seed)")]
         public void RegenerateWithNextSeed()
         {
-            // Stable integer sequence. We intentionally avoid UnityEngine.Random
-            // so preview seed changes never mutate authoritative random state.
             unchecked
             {
                 worldSeed = worldSeed * 1664525 + 1013904223;
@@ -91,13 +92,25 @@ namespace LittleCastle.World
                     epsilon,
                     out string northSouthMessage);
 
-            if (deterministic && eastWest && northSouth)
+            bool spawnDeterministic =
+                WorldGenerationDiagnostics.ValidateSpawnDeterminism(
+                    pipeline,
+                    worldSeed,
+                    origin,
+                    epsilon,
+                    out string spawnMessage);
+
+            if (deterministic &&
+                eastWest &&
+                northSouth &&
+                spawnDeterministic)
             {
                 Debug.Log(
                     "World generation diagnostics passed.\n" +
                     determinismMessage + "\n" +
                     eastWestMessage + "\n" +
-                    northSouthMessage,
+                    northSouthMessage + "\n" +
+                    spawnMessage,
                     this);
             }
             else
@@ -106,7 +119,8 @@ namespace LittleCastle.World
                     "World generation diagnostics failed.\n" +
                     determinismMessage + "\n" +
                     eastWestMessage + "\n" +
-                    northSouthMessage,
+                    northSouthMessage + "\n" +
+                    spawnMessage,
                     this);
             }
         }
@@ -162,14 +176,26 @@ namespace LittleCastle.World
                 new GameObject($"Chunk_{coordinate.x}_{coordinate.z}");
 
             chunkObject.transform.SetParent(transform, false);
-            chunkObject.transform.localPosition =
+
+            Vector3 chunkWorldOrigin =
                 coordinate.GetWorldOrigin(settings.ChunkWorldSize);
+
+            chunkObject.transform.localPosition = chunkWorldOrigin;
 
             var meshFilter = chunkObject.AddComponent<MeshFilter>();
             meshFilter.sharedMesh = mesh;
 
             var meshRenderer = chunkObject.AddComponent<MeshRenderer>();
             meshRenderer.sharedMaterial = previewMaterial;
+
+            if (renderGeneratedSpawns && previewSpawnCatalog != null)
+            {
+                ChunkSpawnPresenter.Populate(
+                    chunkObject.transform,
+                    chunkData,
+                    previewSpawnCatalog,
+                    chunkWorldOrigin);
+            }
 
             previewObjects.Add(chunkObject);
         }
