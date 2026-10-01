@@ -14,6 +14,9 @@ namespace LittleCastle.World
         public float slopeCostMultiplier = 5f;
         public float highlandCostMultiplier = 1.5f;
 
+        public float riverCrossingPenalty = 260f;
+        public float riverAvoidancePadding = 2f;
+
         public int maxExpandedNodes = 12000;
 
         public float trailWidth = 2f;
