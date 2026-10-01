@@ -9,6 +9,10 @@ namespace LittleCastle.World
     /// The cache owns data only. Streamed GameObjects/meshes are managed by
     /// presentation code. Evicting a chunk is safe because the same seed and
     /// generation version can regenerate the same base chunk.
+    ///
+    /// A cache can optionally stop generation at an earlier pipeline phase.
+    /// This is used by finite-map visual padding to create terrain without
+    /// gameplay resources/spawns outside playable bounds.
     /// </summary>
     public sealed class WorldChunkCache
     {
@@ -27,6 +31,7 @@ namespace LittleCastle.World
 
         private readonly WorldGenerationPipeline pipeline;
         private readonly int worldSeed;
+        private readonly WorldGenerationStagePhase maximumPhase;
 
         private int maxEntries;
 
@@ -37,10 +42,15 @@ namespace LittleCastle.World
         /// </summary>
         public int MaxEntries => maxEntries;
 
+        public WorldGenerationStagePhase MaximumPhase =>
+            maximumPhase;
+
         public WorldChunkCache(
             WorldGenerationPipeline pipeline,
             int worldSeed,
-            int maxEntries = 0)
+            int maxEntries = 0,
+            WorldGenerationStagePhase maximumPhase =
+                WorldGenerationStagePhase.PostProcess)
         {
             this.pipeline =
                 pipeline ??
@@ -48,6 +58,7 @@ namespace LittleCastle.World
 
             this.worldSeed = worldSeed;
             this.maxEntries = Math.Max(0, maxEntries);
+            this.maximumPhase = maximumPhase;
         }
 
         public WorldChunkData GetOrGenerate(
@@ -62,8 +73,7 @@ namespace LittleCastle.World
             }
 
             WorldChunkData generated =
-                pipeline.GenerateChunk(
-                    worldSeed,
+                Generate(
                     coordinate);
 
             chunks.Add(
@@ -95,8 +105,7 @@ namespace LittleCastle.World
             }
 
             WorldChunkData generated =
-                pipeline.GenerateChunk(
-                    worldSeed,
+                Generate(
                     coordinate);
 
             chunks.Add(
@@ -186,6 +195,16 @@ namespace LittleCastle.World
             usageOrder.Clear();
             usageNodes.Clear();
             pinned.Clear();
+        }
+
+        private WorldChunkData Generate(
+            ChunkCoordinate coordinate)
+        {
+            return
+                pipeline.GenerateChunkThroughPhase(
+                    worldSeed,
+                    coordinate,
+                    maximumPhase);
         }
 
         private void Touch(
