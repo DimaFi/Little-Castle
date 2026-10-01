@@ -14,6 +14,9 @@ namespace LittleCastle.World
         public int playerCount;
         public string mapSizePresetId;
 
+        public WorldSessionStartOptions startOptions =
+            new WorldSessionStartOptions();
+
         public WorldChunkBounds playableChunks;
         public WorldChunkBounds visualChunks;
 
@@ -40,7 +43,8 @@ namespace LittleCastle.World
             int worldSeed,
             int playerCount,
             WorldMapSizePreset preset,
-            ChunkCoordinate mapCenter)
+            ChunkCoordinate mapCenter,
+            WorldSessionStartOptions startOptions = null)
         {
             if (preset == null)
                 throw new ArgumentNullException(nameof(preset));
@@ -83,6 +87,10 @@ namespace LittleCastle.World
                 worldSeed = worldSeed,
                 playerCount = Math.Max(1, playerCount),
                 mapSizePresetId = preset.presetId,
+                startOptions =
+                    startOptions != null
+                        ? startOptions.Clone()
+                        : new WorldSessionStartOptions(),
                 playableChunks = playable,
                 visualChunks =
                     playable.Expand(
