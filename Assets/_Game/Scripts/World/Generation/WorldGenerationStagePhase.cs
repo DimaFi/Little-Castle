@@ -10,6 +10,8 @@ namespace LittleCastle.World
         TerrainModification = 150,
         TerrainAnalysis = 200,
         MacroProjection = 300,
+        Climate = 350,
+        Biome = 375,
         EnvironmentFields = 400,
         Resources = 500,
         LocalSpawns = 600,
