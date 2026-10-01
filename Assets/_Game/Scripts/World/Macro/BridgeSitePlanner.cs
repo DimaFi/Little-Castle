@@ -70,7 +70,9 @@ namespace LittleCastle.World
                                 roadB,
                                 riverA,
                                 riverB,
-                                out Vector2 intersection))
+                                out Vector2 intersection,
+                                out float roadT,
+                                out float riverT))
                             {
                                 continue;
                             }
@@ -114,7 +116,9 @@ namespace LittleCastle.World
                                     yaw,
                                     Mathf.Max(
                                         0.5f,
-                                        river.nominalWidth +
+                                        river.GetWidthAtSegment(
+                                            ws,
+                                            riverT) +
                                         settings.extraSpan)));
                         }
                     }
@@ -127,7 +131,9 @@ namespace LittleCastle.World
             Vector2 p2,
             Vector2 q,
             Vector2 q2,
-            out Vector2 intersection)
+            out Vector2 intersection,
+            out float roadT,
+            out float riverT)
         {
             Vector2 r = p2 - p;
             Vector2 s = q2 - q;
@@ -139,6 +145,8 @@ namespace LittleCastle.World
                 0.000001f)
             {
                 intersection = default(Vector2);
+                roadT = 0f;
+                riverT = 0f;
                 return false;
             }
 
@@ -156,10 +164,14 @@ namespace LittleCastle.World
                 u < 0f || u > 1f)
             {
                 intersection = default(Vector2);
+                roadT = 0f;
+                riverT = 0f;
                 return false;
             }
 
             intersection = p + r * t;
+            roadT = t;
+            riverT = u;
             return true;
         }
 
