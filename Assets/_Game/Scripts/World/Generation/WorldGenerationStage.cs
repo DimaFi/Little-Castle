@@ -11,7 +11,10 @@ namespace LittleCastle.World
         [SerializeField] private bool enabledStage = true;
 
         public bool Enabled => enabledStage;
+        public abstract WorldGenerationStagePhase Phase { get; }
 
-        public abstract void Generate(GenerationContext context, WorldChunkData chunk);
+        public abstract void Generate(
+            GenerationContext context,
+            WorldChunkData chunk);
     }
 }
