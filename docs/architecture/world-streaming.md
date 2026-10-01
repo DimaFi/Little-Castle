@@ -2,15 +2,35 @@
 
 ## Purpose
 
-`WorldStreamer` turns deterministic chunk generation into a runtime world
-that follows a player/camera focus.
+`WorldStreamer` presents a finite deterministic session map around a moving
+camera/player focus without keeping every terrain chunk as a live GameObject.
 
-It is deliberately separate from `WorldGenerator`.
+It is separate from `WorldGenerator`:
 
-- `WorldGenerator` is a bounded preview/debug tool.
-- `WorldStreamer` owns runtime loading/unloading policy.
+- `WorldGenerator` = bounded preview/debug tool;
+- `WorldStreamer` = runtime loading/unloading policy.
 
-## Current runtime pipeline
+## Product model
+
+Little Castle sessions use finite host-selected maps.
+
+Preferred production flow:
+
+```text
+Host chooses player count + map preset + seed
+        ↓
+WorldSessionMap
+        ↓
+Playable bounds + visual bounds
+        ↓
+one MacroWorldPlan for the entire playable map
+        ↓
+WorldStreamer presents nearby chunks
+```
+
+There is no requirement for an infinite world.
+
+## Runtime pipeline
 
 ```text
 Focus Transform
@@ -29,46 +49,69 @@ WorldChunkData
       ↓
 Chunk Mesh + Spawn Presentation
       ↓
-Active Chunk View
+Active StreamedChunkView
 ```
 
-When a chunk becomes distant:
+## Finite-map bounds
 
-```text
-Active Chunk
-    ↓
-Unpin generated data
-    ↓
-Release runtime Mesh
-    ↓
-Destroy transient GameObject tree
-    ↓
-LRU cache may retain or evict generated data
-```
+A configured `WorldSessionMap` contains:
 
-Eviction does not alter the authoritative world because base chunks regenerate
-from the same seed/generation version.
+- `playableChunks`;
+- `visualChunks`.
 
-## Configuration
+### Playable chunks
 
-`WorldStreamingSettings` is referenced from `WorldDefinition`.
+Full generation/presentation is allowed:
 
-Current settings include:
+- terrain;
+- macro projection;
+- environment;
+- resources;
+- local objects;
+- colliders if enabled.
 
-- load radius in chunks;
-- unload padding/hysteresis;
-- circular or square loading shape;
-- maximum chunk loads per frame;
-- maximum chunk unloads per frame;
-- generated-data cache capacity;
-- fixed session macro-plan radius;
-- macro-edge warning distance;
-- generated-spawn presentation toggle;
-- optional MeshCollider creation.
+### Visual-only chunks
 
-## Load and unload radii
+These form a small border outside gameplay bounds.
 
-The streamer uses two radii:
+Current streamer behavior:
+
+- generation stops at `TerrainAnalysis`;
+- no generated object presentation;
+- no gameplay resource presentation;
+- no MeshCollider;
+- chunk exists only to continue the visible terrain beyond the gameplay edge.
+
+Beyond `visualChunks`, no chunk is streamed.
+
+## Camera and movement boundary
+
+`WorldStreamer.TryClampToPlayableBounds(...)` is a utility for future camera
+or unit controllers.
+
+The movement/pathfinding system remains responsible for enforcing gameplay
+movement rules.
+
+Do not let visual padding become traversable gameplay space.
+
+## Host-selected size
+
+`WorldMapRules` defines map presets and player-count restrictions.
+
+A session may not select a map preset that rejects its player count.
+
+Session-authoritative data should include:
+
+- seed;
+- player count;
+- preset ID;
+- generation version.
+
+See `docs/architecture/finite-session-maps.md`.
+
+## Load/unload hysteresis
+
+The streamer uses:
 
 ```text
 load radius
@@ -76,145 +119,97 @@ load radius
 unload radius
 ```
 
-The gap prevents chunks at the edge from repeatedly loading/unloading when the
-focus moves around a boundary.
+This prevents edge chunks from repeatedly loading/unloading as the focus moves
+near a chunk boundary.
 
 ## Prioritized loading
 
-Missing chunks are sorted by squared distance to the focus chunk.
+Missing chunks are sorted by squared distance to the focus.
 
-This means the terrain immediately around the player is generated before
-farther edge chunks.
+Nearest chunks load first.
 
-The current implementation limits how many new chunks are generated each
-frame.
+Chunk generation is currently main-thread and budgeted by:
 
-Generation is intentionally still main-thread/budgeted.
+- maximum loads per frame;
+- maximum unloads per frame.
 
-Do not move current generation directly to `Task.Run` without auditing:
-
-- ScriptableObject access;
-- AnimationCurve evaluation;
-- Unity object access;
-- presentation creation;
-- cancellation/version races.
-
-A later async generation pass should split pure generation snapshots from Unity
-asset access first.
+Do not move the current pipeline directly into `Task.Run` without first
+separating Unity asset access from pure generation data.
 
 ## Generated-data LRU cache
 
-`WorldChunkCache` now uses least-recently-used eviction.
-
-Important behavior:
+`WorldChunkCache` uses least-recently-used eviction.
 
 - active streamed chunks are pinned;
-- pinned chunks are never evicted;
-- unloaded chunks become unpinned;
-- unpinned old chunks may be evicted when capacity is exceeded;
-- capacity is a soft limit if all cached entries are active/pinned.
+- pinned chunks cannot be evicted;
+- unloaded chunks are unpinned;
+- old unpinned chunks may be evicted;
+- evicted chunks regenerate deterministically.
 
-This keeps a long exploration session from retaining every previously visited
-chunk forever.
+A second cache can generate visual-border chunks only through an earlier
+pipeline phase.
 
-## Runtime world delta
+## Runtime delta
 
-`WorldStreamer` passes `WorldRuntimeDeltaState` into
-`ChunkSpawnPresenter`.
+`WorldRuntimeDeltaState` remains separate from generated base data.
 
-Therefore a generated object marked removed can remain absent after:
+A removed generated object stays removed after:
 
-1. its chunk unloads;
-2. cached data is evicted;
-3. the chunk regenerates from seed;
-4. presentation is rebuilt.
+1. chunk unload;
+2. cache eviction;
+3. deterministic regeneration;
+4. presentation rebuild.
 
-The generated base world and player history remain separate.
+## Macro world
 
-## Current macro-world safety rule
+For finite sessions the macro planner receives the full playable world bounds
+once during session initialization.
 
-The current `MacroWorldPlanner` plans bounded world areas.
+Therefore:
 
-Rebuilding a different bounded macro plan every time the player moves could
-change:
+- settlements are stable;
+- river networks are stable;
+- road relationships are stable;
+- bridge sites are stable.
 
-- settlement neighbor relationships;
-- roads;
-- river networks;
-- bridge sites
+Do not rebuild MacroWorldPlan while the camera moves.
 
-inside overlapping areas.
+The old `macroPlanRadiusChunks` behavior remains only as a temporary fallback
+for test scenes/configurations that have not yet assigned `WorldMapRules`.
 
-Therefore the current streamer builds **one fixed MacroWorldPlan per streaming
-session** around the initial focus.
-
-```text
-Initial Focus
-      ↓
-Large Session Macro Bounds
-      ↓
-One MacroWorldPlan
-      ↓
-Many streamed chunks inside it
-```
-
-The streamer deliberately does not silently regenerate the macro plan while
-moving.
-
-When the focus approaches the configured macro edge, it logs a warning.
-
-This is a correctness decision, not the intended final infinite-world design.
-
-## Future macro tiles
-
-The production direction is fixed deterministic macro tiles/regions.
-
-Conceptually:
-
-```text
-Macro Tile (x,z)
-   ├─ owned point features
-   ├─ river descriptors
-   ├─ road graph fragments
-   └─ cross-tile connection contracts
-```
-
-Then a streamer can load/unload macro tiles independently without changing
-already visited world structure.
-
-Do not implement moving-window macro replanning as a shortcut.
+It is not the intended match architecture.
 
 ## Presentation lifecycle
 
-Each streamed chunk owns a `StreamedChunkView`.
+`StreamedChunkView` owns transient runtime mesh resources.
 
-It currently owns the runtime-created terrain Mesh and releases it when the
-chunk unloads.
+When a chunk unloads:
 
-Generated prefab children are destroyed with the chunk root.
+1. remove it from active set;
+2. unpin the correct data cache;
+3. release runtime Mesh;
+4. destroy its transient scene hierarchy.
 
-Future presentation improvements can add:
+Future presentation improvements may add:
 
-- pooled chunk roots;
-- pooled GameObjects;
-- GPU-instanced trees/grass;
+- chunk root pooling;
+- object pooling;
+- GPU-instanced vegetation;
 - HLOD;
-- collider distance tiers;
-- terrain material/splat presentation.
+- collider distance tiers.
 
-These must not change `WorldChunkData`.
+These must not alter authoritative `WorldChunkData`.
 
 ## Current limitations
 
 Not yet implemented:
 
-- true background/asynchronous chunk generation;
-- cancellation tokens/generation request versions;
-- chunk GameObject pooling;
-- GPU-instanced vegetation;
+- async/cancellation-safe chunk generation;
+- pooled chunk roots;
+- large vegetation GPU presentation;
 - multiple streaming focuses;
-- deterministic macro tiles;
-- world-origin rebasing for extreme distances;
-- runtime-profiler metrics.
+- fog-of-war rendering;
+- border darkness renderer;
+- streaming profiler/metrics.
 
-These are explicit follow-up tasks rather than hidden behavior.
+These are follow-up tasks, not reasons to redesign the finite-map model.
