@@ -2,15 +2,12 @@ using UnityEngine;
 
 namespace LittleCastle.World
 {
-    /// <summary>
-    /// Deterministic on-demand macro point planner.
-    /// Queries bounded areas rather than pre-generating an infinite world.
-    /// </summary>
     public sealed class MacroWorldPlanner
     {
         private readonly MacroWorldPlannerSettings settings;
 
-        public MacroWorldPlanner(MacroWorldPlannerSettings settings)
+        public MacroWorldPlanner(
+            MacroWorldPlannerSettings settings)
         {
             this.settings = settings;
         }
@@ -41,6 +38,11 @@ namespace LittleCastle.World
                     plan);
             }
 
+            RoadNetworkPlanner.BuildConnections(
+                worldSeed,
+                plan,
+                settings.RoadNetwork);
+
             return plan;
         }
 
@@ -51,58 +53,73 @@ namespace LittleCastle.World
             WorldTerrainProbe terrainProbe,
             MacroWorldPlan plan)
         {
-            float spacing = Mathf.Max(50f, rule.spacing);
+            float spacing =
+                Mathf.Max(
+                    50f,
+                    rule.spacing);
 
-            int salt = DeterministicHash.String32(
-                string.IsNullOrWhiteSpace(rule.ruleId)
-                    ? rule.kind.ToString()
-                    : rule.ruleId);
+            int salt =
+                DeterministicHash.String32(
+                    string.IsNullOrWhiteSpace(
+                        rule.ruleId)
+                        ? rule.kind.ToString()
+                        : rule.ruleId);
 
             int minGridX =
-                Mathf.FloorToInt(bounds.xMin / spacing) - 1;
+                Mathf.FloorToInt(
+                    bounds.xMin / spacing) - 1;
 
             int maxGridX =
-                Mathf.FloorToInt(bounds.xMax / spacing) + 1;
+                Mathf.FloorToInt(
+                    bounds.xMax / spacing) + 1;
 
             int minGridZ =
-                Mathf.FloorToInt(bounds.yMin / spacing) - 1;
+                Mathf.FloorToInt(
+                    bounds.yMin / spacing) - 1;
 
             int maxGridZ =
-                Mathf.FloorToInt(bounds.yMax / spacing) + 1;
+                Mathf.FloorToInt(
+                    bounds.yMax / spacing) + 1;
 
             float margin =
-                Mathf.Clamp(rule.borderJitter, 0f, 0.45f);
+                Mathf.Clamp(
+                    rule.borderJitter,
+                    0f,
+                    0.45f);
 
             for (int gz = minGridZ; gz <= maxGridZ; gz++)
             {
                 for (int gx = minGridX; gx <= maxGridX; gx++)
                 {
-                    float roll = DeterministicHash.Hash01(
-                        worldSeed,
-                        gx,
-                        gz,
-                        salt ^ 0x101);
+                    float roll =
+                        DeterministicHash.Hash01(
+                            worldSeed,
+                            gx,
+                            gz,
+                            salt ^ 0x101);
 
                     if (roll > rule.chance)
                         continue;
 
-                    float jx = Mathf.Lerp(
-                        margin,
-                        1f - margin,
-                        DeterministicHash.Hash01(
-                            worldSeed,
-                            gx,
-                            gz,
-                            salt ^ 0x102));
+                    float jx =
+                        Mathf.Lerp(
+                            margin,
+                            1f - margin,
+                            DeterministicHash.Hash01(
+                                worldSeed,
+                                gx,
+                                gz,
+                                salt ^ 0x102));
 
-                    float jz = Mathf.Lerp(
-                        margin,
-                        1f - margin,
-                        DeterministicHash.Hash01(
-                            worldSeed,
-                            gx,
-                            gz,
-                            salt ^ 0x103));
+                    float jz =
+                        Mathf.Lerp(
+                            margin,
+                            1f - margin,
+                            DeterministicHash.Hash01(
+                                worldSeed,
+                                gx,
+                                gz,
+                                salt ^ 0x103));
 
                     var position =
                         new Vector2(
@@ -127,11 +144,12 @@ namespace LittleCastle.World
                         }
                     }
 
-                    long id = DeterministicHash.StableId(
-                        worldSeed,
-                        gx,
-                        gz,
-                        salt);
+                    long id =
+                        DeterministicHash.StableId(
+                            worldSeed,
+                            gx,
+                            gz,
+                            salt);
 
                     plan.AddPointFeature(
                         new WorldPointFeatureData(
