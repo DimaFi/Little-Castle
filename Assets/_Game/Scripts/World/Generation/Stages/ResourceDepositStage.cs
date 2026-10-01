@@ -134,6 +134,16 @@ namespace LittleCastle.World
                     if (roll > rule.chance)
                         continue;
 
+                    PlacementBlockFlags placementBlocks =
+                        WorldChunkSampling.SamplePlacementBlocks(
+                            chunk,
+                            context.Settings,
+                            worldX,
+                            worldZ);
+
+                    if ((placementBlocks & PlacementBlockFlags.Resources) != 0)
+                        continue;
+
                     float height = WorldChunkSampling.SampleHeight(
                         chunk,
                         context.Settings,
