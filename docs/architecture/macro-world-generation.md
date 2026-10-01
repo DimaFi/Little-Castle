@@ -31,13 +31,15 @@ Neutral settlements / ruins / landmarks
         ↓
 River source selection + downhill tracing
         ↓
+River confluences + flow profiles
+        ↓
 Road connectivity graph
         ↓
 Terrain-aware road A*
         ↓
 Road × River intersection
         ↓
-Bridge sites
+Bridge sites sized from local river width
         ↓
 MacroWorldPlan
 ```
@@ -93,26 +95,27 @@ Do not put those mutable fields into deterministic generation rules.
 
 ## Rivers
 
-The current `RiverNetworkPlanner` is an early deterministic downhill tracer.
+`RiverNetworkPlanner` is a deterministic lightweight river-network generator.
 
-It:
+It currently:
 
 - selects stable source candidates;
 - prefers elevated terrain;
-- steps downhill through sampled terrain;
-- has turn cost to reduce extreme zig-zagging;
-- creates `WorldRiverData`.
+- traces downhill through sampled terrain;
+- penalizes extreme turns;
+- allows tributaries to join already-generated rivers;
+- accumulates relative flow through confluences;
+- derives local width/depth profiles from downstream progress and accumulated flow;
+- records confluence metadata in `WorldRiverData`.
+
+`RiverTerrainCarvingStage` uses the local channel width/depth rather than a single fixed channel size.
 
 Known limitations:
 
-- it is not a full watershed simulation;
-- streams do not merge yet;
+- not a complete watershed simulation;
 - lakes/basins are not solved;
-- river width is currently nominal rather than varying along the line.
-
-These limitations are algorithmic, not data-contract limitations.
-
-`RiverTerrainCarvingStage` can carve an early physical channel in the generated terrain.
+- discharge values are relative generation weights, not physical units;
+- streams do not yet split or form deltas.
 
 ## Road graph vs road geometry
 
@@ -134,20 +137,21 @@ Output:
 
 `WorldRoadData`
 
-The current path solver uses deterministic coarse-grid A* and penalizes:
+The current path solver uses deterministic coarse-grid A* and considers:
 
 - slope;
 - highlands;
-- excessive steepness.
+- maximum traversable steepness;
+- river crossing corridors;
+- local river width.
 
 It is isolated so it can later be replaced with:
 
 - hierarchical pathfinding;
-- nav/terrain cost fields;
+- cached terrain cost fields;
 - spline optimization;
 - road reuse;
-- river crossing cost;
-- bridge-aware planning.
+- bridge-aware route optimization.
 
 ## Bridges
 
@@ -163,13 +167,16 @@ Bridge data stores:
 - yaw;
 - required span.
 
+Required span is derived from the local river width at the crossing.
+
 Later validation can additionally check:
 
 - bank slope;
-- river width profile;
+- crossing angle;
 - bridge type;
+- road grade;
 - terrain deformation;
-- road grade.
+- approach length.
 
 ## Projection into chunks
 
@@ -179,8 +186,8 @@ Currently it can:
 
 - reserve settlement/ruin areas;
 - reserve road corridors;
-- reserve river corridors;
+- reserve variable-width river corridors;
 - create macro object spawn anchors;
 - create bridge spawn anchors.
 
-The chunk never invents its own road or village.
+The chunk never invents its own road, river or village.
