@@ -13,7 +13,7 @@ namespace LittleCastle.World
         public float searchRadius = 320f;
 
         [Min(0)]
-        public int minimumEffectiveCapacity = 150;
+        public int minimumEffectiveCapacity = 0;
 
         [Min(1)]
         public int targetEffectiveCapacity = 500;
@@ -72,7 +72,7 @@ namespace LittleCastle.World
                 {
                     resourceKind = ResourceKind.Stone,
                     searchRadius = 360f,
-                    minimumEffectiveCapacity = 120,
+                    minimumEffectiveCapacity = 0,
                     targetEffectiveCapacity = 500,
                     weight = 1f
                 },
@@ -80,11 +80,43 @@ namespace LittleCastle.World
                 {
                     resourceKind = ResourceKind.IronOre,
                     searchRadius = 520f,
-                    minimumEffectiveCapacity = 80,
+                    minimumEffectiveCapacity = 0,
                     targetEffectiveCapacity = 350,
                     weight = 0.8f
                 }
             };
+
+        [Header("Local accessibility")]
+        [Min(32f)]
+        [SerializeField] private float exitProbeRadius = 220f;
+
+        [Range(8, 32)]
+        [SerializeField] private int exitDirectionSamples = 16;
+
+        [Min(4f)]
+        [SerializeField] private float exitSampleStep = 24f;
+
+        [Range(0f, 60f)]
+        [SerializeField] private float exitMaximumSlope = 34f;
+
+        [Range(1, 4)]
+        [SerializeField] private int directionSamplesPerExitRoute = 2;
+
+        [Min(0f)]
+        [SerializeField] private float bridgeAcceptancePadding = 24f;
+
+        [Header("Automatic minimum exit routes")]
+        [Tooltip(
+            "Approximate world-space area per player below which 2 exits are " +
+            "allowed. Larger/roomier maps normally require 3 or more.")]
+        [Min(1f)]
+        [SerializeField] private float smallAreaPerPlayer = 180000f;
+
+        [Tooltip(
+            "Approximate world-space area per player above which the auto rule " +
+            "can require 4 local exits.")]
+        [Min(1f)]
+        [SerializeField] private float largeAreaPerPlayer = 650000f;
 
         [Header("Start separation")]
         [Tooltip(
@@ -126,6 +158,14 @@ namespace LittleCastle.World
         public float ForestSampleRadius => Mathf.Max(16f, forestSampleRadius);
         public float MinimumAverageForestDensity => Mathf.Clamp01(minimumAverageForestDensity);
         public IReadOnlyList<StartResourceRequirement> ResourceRequirements => resourceRequirements;
+        public float ExitProbeRadius => Mathf.Max(32f, exitProbeRadius);
+        public int ExitDirectionSamples => Mathf.Clamp(exitDirectionSamples, 8, 32);
+        public float ExitSampleStep => Mathf.Max(4f, exitSampleStep);
+        public float ExitMaximumSlope => Mathf.Clamp(exitMaximumSlope, 0f, 60f);
+        public int DirectionSamplesPerExitRoute => Mathf.Clamp(directionSamplesPerExitRoute, 1, 4);
+        public float BridgeAcceptancePadding => Mathf.Max(0f, bridgeAcceptancePadding);
+        public float SmallAreaPerPlayer => Mathf.Max(1f, smallAreaPerPlayer);
+        public float LargeAreaPerPlayer => Mathf.Max(SmallAreaPerPlayer, largeAreaPerPlayer);
         public float MinimumSeparationMultiplier => Mathf.Max(0.2f, minimumSeparationMultiplier);
         public float TerrainWeight => Mathf.Max(0f, terrainWeight);
         public float ForestWeight => Mathf.Max(0f, forestWeight);
