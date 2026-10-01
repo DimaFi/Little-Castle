@@ -50,9 +50,12 @@ A macro plan deliberately looks beyond the exact requested area.
 
 This reduces edge-dependent decisions such as a settlement choosing different nearest neighbors merely because the visible area changed.
 
-The current system is still an early bounded/on-demand planner.
+For production matches the requested bounds should be the complete finite
+playable session map.
 
-For very large production worlds, evolve this toward fixed macro regions/tiles with cached plans and stable ownership rules.
+The planner is built once when the match is created. It must not be rebuilt
+around the moving camera/player. This keeps settlements, rivers, roads and
+bridges stable for the entire session.
 
 ## Terrain probe
 
