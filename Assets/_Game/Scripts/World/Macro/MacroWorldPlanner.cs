@@ -43,6 +43,14 @@ namespace LittleCastle.World
                 plan,
                 settings.RoadNetwork);
 
+            if (terrainProbe != null)
+            {
+                TerrainRoadPathPlanner.BuildRoadPaths(
+                    plan,
+                    terrainProbe,
+                    settings.RoadPaths);
+            }
+
             return plan;
         }
 
