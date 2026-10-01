@@ -25,6 +25,7 @@ namespace LittleCastle.World
         public SurfaceKind[,] Surfaces { get; }
 
         public float[,] ForestDensity { get; }
+        public float[,] GrassDensity { get; }
         public PlacementBlockFlags[,] PlacementBlocks { get; }
 
         public int SamplesPerSide => CellsPerSide + 1;
@@ -82,6 +83,11 @@ namespace LittleCastle.World
                     cellsPerSide];
 
             ForestDensity =
+                new float[
+                    cellsPerSide,
+                    cellsPerSide];
+
+            GrassDensity =
                 new float[
                     cellsPerSide,
                     cellsPerSide];
@@ -179,6 +185,17 @@ namespace LittleCastle.World
             int cellZ,
             float value) =>
             ForestDensity[cellX, cellZ] = value;
+
+        public float GetGrassDensity(
+            int cellX,
+            int cellZ) =>
+            GrassDensity[cellX, cellZ];
+
+        public void SetGrassDensity(
+            int cellX,
+            int cellZ,
+            float value) =>
+            GrassDensity[cellX, cellZ] = value;
 
         public PlacementBlockFlags GetPlacementBlocks(
             int cellX,
