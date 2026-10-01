@@ -93,6 +93,8 @@ namespace LittleCastle.World
             bool hasTerrainBase = false;
             bool hasTerrainAnalysis = false;
             bool hasMacroProjection = false;
+            bool hasClimate = false;
+            bool hasBiome = false;
             bool hasForestField = false;
             bool hasObjectScatter = false;
             bool hasRiverCarving = false;
@@ -145,6 +147,12 @@ namespace LittleCastle.World
                 if (stage is MacroFeatureProjectionStage)
                     hasMacroProjection = true;
 
+                if (stage is ClimateStage)
+                    hasClimate = true;
+
+                if (stage is BiomeClassificationStage)
+                    hasBiome = true;
+
                 if (stage is ForestDensityStage)
                     hasForestField = true;
 
@@ -191,6 +199,20 @@ namespace LittleCastle.World
                 report.AddWarning(
                     "RiverTerrainCarvingStage exists but no macro planner settings are supplied; " +
                     "it will have no rivers to carve.");
+            }
+
+            if (hasBiome && !hasClimate)
+            {
+                report.AddWarning(
+                    "BiomeClassificationStage exists without ClimateStage. " +
+                    "Moisture/temperature will stay at default values.");
+            }
+
+            if (hasForestField && !hasClimate)
+            {
+                report.AddWarning(
+                    "ForestDensityStage exists without ClimateStage. " +
+                    "The current forest stage is designed to use moisture.");
             }
 
             if (hasObjectScatter &&
@@ -267,6 +289,13 @@ namespace LittleCastle.World
                                 " has minHeight greater than maxHeight.");
                         }
 
+                        if (rule.allowedBiomes == BiomeMask.None)
+                        {
+                            report.AddWarning(
+                                context +
+                                " has BiomeMask.None and can never spawn.");
+                        }
+
                         if (rule.minScale <= 0f ||
                             rule.maxScale <= 0f)
                         {
@@ -324,6 +353,13 @@ namespace LittleCastle.World
                             report.AddError(
                                 context +
                                 " has minHeight greater than maxHeight.");
+                        }
+
+                        if (rule.allowedBiomes == BiomeMask.None)
+                        {
+                            report.AddWarning(
+                                context +
+                                " has BiomeMask.None and can never generate.");
                         }
 
                         if (rule.minCapacity >
