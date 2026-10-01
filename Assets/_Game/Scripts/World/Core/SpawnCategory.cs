@@ -10,6 +10,8 @@ namespace LittleCastle.World
         Decoration = 5,
         Sign = 6,
         RuinProp = 7,
-        ResourceVisual = 8
+        ResourceVisual = 8,
+        Structure = 9,
+        Landmark = 10
     }
 }
