@@ -22,6 +22,9 @@ namespace LittleCastle.World
             usageNodes =
                 new Dictionary<ChunkCoordinate, LinkedListNode<ChunkCoordinate>>();
 
+        private readonly HashSet<ChunkCoordinate> pinned =
+            new HashSet<ChunkCoordinate>();
+
         private readonly WorldGenerationPipeline pipeline;
         private readonly int worldSeed;
 
@@ -100,11 +103,35 @@ namespace LittleCastle.World
             TrimToCapacity();
         }
 
+        public void Pin(ChunkCoordinate coordinate)
+        {
+            if (!chunks.ContainsKey(coordinate))
+                return;
+
+            pinned.Add(coordinate);
+            Touch(coordinate);
+        }
+
+        public void Unpin(ChunkCoordinate coordinate)
+        {
+            if (!pinned.Remove(coordinate))
+                return;
+
+            TrimToCapacity();
+        }
+
+        public bool IsPinned(ChunkCoordinate coordinate)
+        {
+            return pinned.Contains(coordinate);
+        }
+
         public bool Remove(
             ChunkCoordinate coordinate)
         {
             if (!chunks.Remove(coordinate))
                 return false;
+
+            pinned.Remove(coordinate);
 
             if (usageNodes.TryGetValue(
                 coordinate,
@@ -122,6 +149,7 @@ namespace LittleCastle.World
             chunks.Clear();
             usageOrder.Clear();
             usageNodes.Clear();
+            pinned.Clear();
         }
 
         private void Touch(
@@ -158,10 +186,26 @@ namespace LittleCastle.World
             while (chunks.Count > maxEntries &&
                    usageOrder.First != null)
             {
-                ChunkCoordinate oldest =
-                    usageOrder.First.Value;
+                LinkedListNode<ChunkCoordinate> candidate =
+                    usageOrder.First;
 
-                usageOrder.RemoveFirst();
+                while (candidate != null &&
+                       pinned.Contains(candidate.Value))
+                {
+                    candidate = candidate.Next;
+                }
+
+                if (candidate == null)
+                {
+                    // All remaining cached chunks are actively pinned.
+                    // Capacity becomes a soft limit until some are unpinned.
+                    break;
+                }
+
+                ChunkCoordinate oldest =
+                    candidate.Value;
+
+                usageOrder.Remove(candidate);
                 usageNodes.Remove(oldest);
                 chunks.Remove(oldest);
             }
