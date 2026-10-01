@@ -13,12 +13,15 @@ namespace LittleCastle.World
         private Mesh ownedMesh;
 
         public ChunkCoordinate Coordinate { get; private set; }
+        public bool IsPlayableChunk { get; private set; }
 
         public void Initialize(
             ChunkCoordinate coordinate,
-            Mesh mesh)
+            Mesh mesh,
+            bool isPlayableChunk = true)
         {
             Coordinate = coordinate;
+            IsPlayableChunk = isPlayableChunk;
             ownedMesh = mesh;
         }
 
