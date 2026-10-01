@@ -3,11 +3,6 @@ using UnityEngine;
 
 namespace LittleCastle.World
 {
-    /// <summary>
-    /// Writes placement-exclusion flags into chunk cells.
-    /// Macro feature projection stages can use these helpers before local
-    /// scatter/resource stages run.
-    /// </summary>
     public static class WorldPlacementMaskUtility
     {
         public static void BlockCircle(
@@ -52,8 +47,14 @@ namespace LittleCastle.World
             float halfWidth,
             PlacementBlockFlags flags)
         {
-            if (points == null || points.Count < 2)
+            if (chunk == null ||
+                settings == null ||
+                points == null ||
+                points.Count < 2 ||
+                flags == PlacementBlockFlags.None)
+            {
                 return;
+            }
 
             float safeHalfWidth = Mathf.Max(0f, halfWidth);
             float cellSize = settings.CellWorldSize;
@@ -72,14 +73,19 @@ namespace LittleCastle.World
 
                     for (int p = 0; p < points.Count - 1; p++)
                     {
-                        float distanceSqr = DistancePointSegmentSqr(
-                            cellCenter,
-                            points[p],
-                            points[p + 1]);
+                        float distanceSqr =
+                            DistancePointSegmentSqr(
+                                cellCenter,
+                                points[p],
+                                points[p + 1]);
 
                         if (distanceSqr <= maxDistanceSqr)
                         {
-                            chunk.AddPlacementBlocks(x, z, flags);
+                            chunk.AddPlacementBlocks(
+                                x,
+                                z,
+                                flags);
+
                             break;
                         }
                     }
@@ -99,7 +105,8 @@ namespace LittleCastle.World
                 return (point - a).sqrMagnitude;
 
             float t = Mathf.Clamp01(
-                Vector2.Dot(point - a, ab) / lengthSqr);
+                Vector2.Dot(point - a, ab) /
+                lengthSqr);
 
             Vector2 closest = a + ab * t;
             return (point - closest).sqrMagnitude;
