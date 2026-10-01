@@ -56,6 +56,8 @@ namespace LittleCastle.World
         [SerializeField]
         private List<ScatterSpawnRule> rules = new List<ScatterSpawnRule>();
 
+        public IReadOnlyList<ScatterSpawnRule> Rules => rules;
+
         public override void Generate(GenerationContext context, WorldChunkData chunk)
         {
             float chunkSize = context.Settings.ChunkWorldSize;
