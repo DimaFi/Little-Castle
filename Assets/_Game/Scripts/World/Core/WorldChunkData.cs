@@ -1,30 +1,24 @@
 using System;
+using System.Collections.Generic;
 
 namespace LittleCastle.World
 {
-    /// <summary>
-    /// Authoritative generated data for a single chunk.
-    /// Contains no Unity scene-object references.
-    /// </summary>
     [Serializable]
     public sealed class WorldChunkData
     {
+        private readonly List<WorldSpawnData> spawns = new List<WorldSpawnData>();
+        private readonly List<WorldResourceDepositData> resourceDeposits = new List<WorldResourceDepositData>();
+
         public ChunkCoordinate Coordinate { get; }
         public int CellsPerSide { get; }
-
-        /// <summary>
-        /// Height samples live on grid vertices and therefore have
-        /// (CellsPerSide + 1) samples per side.
-        /// </summary>
         public float[,] Heights { get; }
-
-        /// <summary>
-        /// Derived metadata lives per terrain cell.
-        /// </summary>
         public float[,] CellSlopes { get; }
         public TerrainClass[,] TerrainClasses { get; }
+        public float[,] ForestDensity { get; }
 
         public int SamplesPerSide => CellsPerSide + 1;
+        public IReadOnlyList<WorldSpawnData> Spawns => spawns;
+        public IReadOnlyList<WorldResourceDepositData> ResourceDeposits => resourceDeposits;
 
         public WorldChunkData(ChunkCoordinate coordinate, int cellsPerSide)
         {
@@ -37,6 +31,7 @@ namespace LittleCastle.World
             Heights = new float[cellsPerSide + 1, cellsPerSide + 1];
             CellSlopes = new float[cellsPerSide, cellsPerSide];
             TerrainClasses = new TerrainClass[cellsPerSide, cellsPerSide];
+            ForestDensity = new float[cellsPerSide, cellsPerSide];
         }
 
         public float GetHeight(int sampleX, int sampleZ) => Heights[sampleX, sampleZ];
@@ -47,5 +42,11 @@ namespace LittleCastle.World
 
         public TerrainClass GetTerrainClass(int cellX, int cellZ) => TerrainClasses[cellX, cellZ];
         public void SetTerrainClass(int cellX, int cellZ, TerrainClass value) => TerrainClasses[cellX, cellZ] = value;
+
+        public float GetForestDensity(int cellX, int cellZ) => ForestDensity[cellX, cellZ];
+        public void SetForestDensity(int cellX, int cellZ, float value) => ForestDensity[cellX, cellZ] = value;
+
+        public void AddSpawn(WorldSpawnData spawn) => spawns.Add(spawn);
+        public void AddResourceDeposit(WorldResourceDepositData deposit) => resourceDeposits.Add(deposit);
     }
 }
