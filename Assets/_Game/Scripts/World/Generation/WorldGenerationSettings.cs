@@ -17,7 +17,9 @@ namespace LittleCastle.World
 
         [Header("Pipeline")]
         [Tooltip("Stages run in this exact order.")]
-        [SerializeField] private List<WorldGenerationStage> stages = new();
+        [SerializeField]
+        private List<WorldGenerationStage> stages =
+            new List<WorldGenerationStage>();
 
         public int CellsPerSide => Mathf.Max(1, cellsPerSide);
         public float ChunkWorldSize => Mathf.Max(1f, chunkWorldSize);
