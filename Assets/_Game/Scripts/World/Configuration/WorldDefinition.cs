@@ -23,6 +23,10 @@ namespace LittleCastle.World
         [SerializeField]
         private MacroWorldPlannerSettings macroPlannerSettings;
 
+        [Header("Runtime")]
+        [SerializeField]
+        private WorldStreamingSettings streamingSettings;
+
         [Header("Presentation")]
         [SerializeField]
         private WorldSpawnCatalog spawnCatalog;
@@ -37,6 +41,9 @@ namespace LittleCastle.World
 
         public MacroWorldPlannerSettings MacroPlannerSettings =>
             macroPlannerSettings;
+
+        public WorldStreamingSettings StreamingSettings =>
+            streamingSettings;
 
         public WorldSpawnCatalog SpawnCatalog =>
             spawnCatalog;
