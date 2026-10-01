@@ -35,6 +35,8 @@ namespace LittleCastle.World
         private List<WorldSpawnCatalogEntry> entries =
             new List<WorldSpawnCatalogEntry>();
 
+        public IReadOnlyList<WorldSpawnCatalogEntry> Entries => entries;
+
         public bool TryResolve(
             string archetypeId,
             long stableId,
