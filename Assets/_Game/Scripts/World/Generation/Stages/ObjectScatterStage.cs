@@ -51,6 +51,8 @@ namespace LittleCastle.World
         menuName = "Little Castle/World/Generation/Object Scatter Stage")]
     public sealed class ObjectScatterStage : WorldGenerationStage
     {
+        public override WorldGenerationStagePhase Phase =>
+            WorldGenerationStagePhase.LocalSpawns;
         [SerializeField]
         private List<ScatterSpawnRule> rules = new List<ScatterSpawnRule>();
 
