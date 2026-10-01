@@ -6,19 +6,26 @@ namespace LittleCastle.World
     /// <summary>
     /// Budgeted runtime chunk streamer around one focus transform.
     ///
-    /// Current macro generation is bounded/on-demand, so this streamer creates
-    /// one fixed macro plan for the session. It deliberately refuses to silently
-    /// rebuild macro roads/rivers while the player moves because that could
-    /// mutate already visited world structure.
+    /// Preferred production mode is a finite session map selected by the host.
+    /// In that mode one MacroWorldPlan is generated for the entire playable map
+    /// at session start and never changes while the match is running.
     ///
-    /// Future fixed macro tiles can replace the session-plan source without
-    /// changing the chunk/presentation lifecycle implemented here.
+    /// Legacy radius-based macro streaming is retained as a fallback for the
+    /// current Unity test setup until WorldMapRules assets are configured.
     /// </summary>
     public sealed class WorldStreamer : MonoBehaviour
     {
         [Header("World")]
         [SerializeField] private int worldSeed = 12345;
         [SerializeField] private WorldDefinition worldDefinition;
+
+        [Header("Finite session map")]
+        [SerializeField] private bool useFiniteSessionMap = false;
+
+        [Min(1)]
+        [SerializeField] private int sessionPlayerCount = 1;
+
+        [SerializeField] private string mapSizePresetId = "medium";
 
         [Header("Streaming focus")]
         [SerializeField] private Transform focus;
@@ -56,7 +63,9 @@ namespace LittleCastle.World
 
         private WorldGenerationPipeline pipeline;
         private WorldChunkCache chunkCache;
+        private WorldChunkCache visualChunkCache;
         private MacroWorldPlan macroPlan;
+        private WorldSessionMap sessionMap;
 
         private ChunkCoordinate currentFocusChunk;
         private ChunkCoordinate sessionMacroCenterChunk;
@@ -68,9 +77,15 @@ namespace LittleCastle.World
         public int WorldSeed => worldSeed;
         public WorldDefinition Definition => worldDefinition;
         public int ActiveChunkCount => activeChunks.Count;
-        public int CachedChunkCount => chunkCache != null ? chunkCache.Count : 0;
+
+        public int CachedChunkCount =>
+            (chunkCache != null ? chunkCache.Count : 0) +
+            (visualChunkCache != null ? visualChunkCache.Count : 0);
+
         public MacroWorldPlan MacroPlan => macroPlan;
         public WorldRuntimeDeltaState RuntimeDelta => runtimeDelta;
+        public WorldSessionMap SessionMap => sessionMap;
+        public bool UsesFiniteSessionMap => sessionMap != null;
 
         private WorldGenerationSettings GenerationSettings =>
             worldDefinition != null
@@ -80,6 +95,11 @@ namespace LittleCastle.World
         private MacroWorldPlannerSettings MacroSettings =>
             worldDefinition != null
                 ? worldDefinition.MacroPlannerSettings
+                : null;
+
+        private WorldMapRules MapRules =>
+            worldDefinition != null
+                ? worldDefinition.MapRules
                 : null;
 
         private WorldStreamingSettings StreamingSettings =>
@@ -126,6 +146,113 @@ namespace LittleCastle.World
 
             if (chunkCache != null)
                 chunkCache.Clear();
+
+            if (visualChunkCache != null)
+                visualChunkCache.Clear();
+        }
+
+        /// <summary>
+        /// Configures the finite map chosen by a multiplayer host.
+        ///
+        /// Returns false when the requested map preset is not allowed for the
+        /// supplied player count.
+        /// </summary>
+        public bool ConfigureFiniteSession(
+            int seed,
+            int playerCount,
+            string presetId)
+        {
+            if (worldDefinition == null ||
+                MapRules == null)
+            {
+                Debug.LogError(
+                    "Finite session configuration requires WorldMapRules " +
+                    "on WorldDefinition.",
+                    this);
+
+                return false;
+            }
+
+            if (!MapRules.TryResolvePreset(
+                    presetId,
+                    playerCount,
+                    out WorldMapSizePreset preset,
+                    out string error))
+            {
+                Debug.LogError(
+                    error,
+                    this);
+
+                return false;
+            }
+
+            worldSeed = seed;
+            sessionPlayerCount =
+                Mathf.Max(
+                    1,
+                    playerCount);
+
+            mapSizePresetId =
+                presetId;
+
+            useFiniteSessionMap = true;
+
+            sessionMap =
+                WorldSessionMapFactory.Create(
+                    worldSeed,
+                    sessionPlayerCount,
+                    preset,
+                    new ChunkCoordinate(0, 0));
+
+            if (initialized)
+                InitializeStreaming();
+
+            return true;
+        }
+
+        /// <summary>
+        /// Clamps a camera/unit target to gameplay bounds.
+        ///
+        /// The caller remains responsible for movement/pathfinding behavior.
+        /// Visual padding outside playable bounds is intentionally excluded.
+        /// </summary>
+        public bool TryClampToPlayableBounds(
+            ref Vector3 worldPosition,
+            float inset = 0f)
+        {
+            if (sessionMap == null ||
+                GenerationSettings == null)
+            {
+                return false;
+            }
+
+            worldPosition =
+                sessionMap.playableChunks.ClampWorldPosition(
+                    worldPosition,
+                    GenerationSettings.ChunkWorldSize,
+                    inset);
+
+            return true;
+        }
+
+        public bool IsInsidePlayableBounds(
+            Vector3 worldPosition)
+        {
+            if (sessionMap == null ||
+                GenerationSettings == null)
+            {
+                return true;
+            }
+
+            Rect bounds =
+                sessionMap.playableChunks.ToWorldRect(
+                    GenerationSettings.ChunkWorldSize);
+
+            return
+                worldPosition.x >= bounds.xMin &&
+                worldPosition.x < bounds.xMax &&
+                worldPosition.z >= bounds.yMin &&
+                worldPosition.z < bounds.yMax;
         }
 
         [ContextMenu("Initialize Streaming")]
@@ -134,6 +261,9 @@ namespace LittleCastle.World
             ShutdownStreaming();
 
             if (!ValidateRequiredConfiguration())
+                return;
+
+            if (!TryBuildConfiguredFiniteSessionMap())
                 return;
 
             runtimeDelta =
@@ -162,6 +292,16 @@ namespace LittleCastle.World
                     worldSeed,
                     StreamingSettings.MaxCachedChunks);
 
+            if (sessionMap != null)
+            {
+                visualChunkCache =
+                    new WorldChunkCache(
+                        pipeline,
+                        worldSeed,
+                        StreamingSettings.MaxCachedChunks,
+                        WorldGenerationStagePhase.TerrainAnalysis);
+            }
+
             initialized = true;
 
             RefreshDesiredChunks();
@@ -184,7 +324,11 @@ namespace LittleCastle.World
             if (chunkCache != null)
                 chunkCache.Clear();
 
+            if (visualChunkCache != null)
+                visualChunkCache.Clear();
+
             chunkCache = null;
+            visualChunkCache = null;
             pipeline = null;
             macroPlan = null;
         }
@@ -255,6 +399,16 @@ namespace LittleCastle.World
                 return false;
             }
 
+            if (useFiniteSessionMap &&
+                MapRules == null)
+            {
+                Debug.LogError(
+                    "Finite session map is enabled, but WorldDefinition has no WorldMapRules.",
+                    this);
+
+                return false;
+            }
+
             WorldConfigurationValidationReport report =
                 WorldGenerationConfigurationValidator.Validate(
                     worldDefinition);
@@ -278,6 +432,37 @@ namespace LittleCastle.World
             return true;
         }
 
+        private bool TryBuildConfiguredFiniteSessionMap()
+        {
+            if (!useFiniteSessionMap)
+                return true;
+
+            if (sessionMap != null)
+                return true;
+
+            if (!MapRules.TryResolvePreset(
+                    mapSizePresetId,
+                    sessionPlayerCount,
+                    out WorldMapSizePreset preset,
+                    out string error))
+            {
+                Debug.LogError(
+                    error,
+                    this);
+
+                return false;
+            }
+
+            sessionMap =
+                WorldSessionMapFactory.Create(
+                    worldSeed,
+                    sessionPlayerCount,
+                    preset,
+                    new ChunkCoordinate(0, 0));
+
+            return true;
+        }
+
         private MacroWorldPlan BuildSessionMacroPlan(
             ChunkCoordinate center)
         {
@@ -290,30 +475,41 @@ namespace LittleCastle.World
             WorldGenerationSettings settings =
                 GenerationSettings;
 
-            int radius =
-                StreamingSettings.MacroPlanRadiusChunks;
+            Rect requestedBounds;
 
-            float chunkSize =
-                settings.ChunkWorldSize;
+            if (sessionMap != null)
+            {
+                requestedBounds =
+                    sessionMap.playableChunks.ToWorldRect(
+                        settings.ChunkWorldSize);
+            }
+            else
+            {
+                int radius =
+                    StreamingSettings.MacroPlanRadiusChunks;
 
-            float minX =
-                (center.x - radius) *
-                chunkSize;
+                float chunkSize =
+                    settings.ChunkWorldSize;
 
-            float minZ =
-                (center.z - radius) *
-                chunkSize;
+                float minX =
+                    (center.x - radius) *
+                    chunkSize;
 
-            float size =
-                (radius * 2 + 1) *
-                chunkSize;
+                float minZ =
+                    (center.z - radius) *
+                    chunkSize;
 
-            var requestedBounds =
-                new Rect(
-                    minX,
-                    minZ,
-                    size,
-                    size);
+                float size =
+                    (radius * 2 + 1) *
+                    chunkSize;
+
+                requestedBounds =
+                    new Rect(
+                        minX,
+                        minZ,
+                        size,
+                        size);
+            }
 
             var terrainOnlyPipeline =
                 new WorldGenerationPipeline(
@@ -346,9 +542,13 @@ namespace LittleCastle.World
             int radius =
                 StreamingSettings.LoadRadiusChunks;
 
-            for (int z = -radius; z <= radius; z++)
+            for (int z = -radius;
+                 z <= radius;
+                 z++)
             {
-                for (int x = -radius; x <= radius; x++)
+                for (int x = -radius;
+                     x <= radius;
+                     x++)
                 {
                     if (StreamingSettings.CircularLoading &&
                         x * x + z * z >
@@ -362,7 +562,7 @@ namespace LittleCastle.World
                             currentFocusChunk.x + x,
                             currentFocusChunk.z + z);
 
-                    if (!IsInsideSessionMacroArea(
+                    if (!IsInsideStreamableArea(
                             coordinate))
                     {
                         continue;
@@ -460,7 +660,7 @@ namespace LittleCastle.World
                     continue;
                 }
 
-                if (!IsInsideSessionMacroArea(
+                if (!IsInsideStreamableArea(
                         coordinate))
                 {
                     continue;
@@ -506,7 +706,9 @@ namespace LittleCastle.World
                     budget,
                     scratchCoordinates.Count);
 
-            for (int i = 0; i < count; i++)
+            for (int i = 0;
+                 i < count;
+                 i++)
             {
                 UnloadChunk(
                     scratchCoordinates[i]);
@@ -563,8 +765,19 @@ namespace LittleCastle.World
                 return;
             }
 
+            bool isPlayableChunk =
+                sessionMap == null ||
+                sessionMap.IsPlayableChunk(
+                    coordinate);
+
+            WorldChunkCache sourceCache =
+                isPlayableChunk ||
+                visualChunkCache == null
+                    ? chunkCache
+                    : visualChunkCache;
+
             WorldChunkData chunkData =
-                chunkCache.GetOrGeneratePinned(
+                sourceCache.GetOrGeneratePinned(
                     coordinate);
 
             float chunkSize =
@@ -599,7 +812,8 @@ namespace LittleCastle.World
 
             view.Initialize(
                 coordinate,
-                mesh);
+                mesh,
+                isPlayableChunk);
 
             var meshFilter =
                 chunkObject.AddComponent<
@@ -615,7 +829,8 @@ namespace LittleCastle.World
             meshRenderer.sharedMaterial =
                 terrainMaterial;
 
-            if (StreamingSettings.AddMeshCollider)
+            if (isPlayableChunk &&
+                StreamingSettings.AddMeshCollider)
             {
                 var collider =
                     chunkObject.AddComponent<
@@ -628,7 +843,8 @@ namespace LittleCastle.World
             WorldSpawnCatalog catalog =
                 SpawnCatalog;
 
-            if (StreamingSettings.RenderGeneratedSpawns &&
+            if (isPlayableChunk &&
+                StreamingSettings.RenderGeneratedSpawns &&
                 catalog != null)
             {
                 ChunkSpawnPresenter.Populate(
@@ -657,8 +873,18 @@ namespace LittleCastle.World
             activeChunks.Remove(
                 coordinate);
 
-            if (chunkCache != null)
-                chunkCache.Unpin(coordinate);
+            if (view != null &&
+                !view.IsPlayableChunk &&
+                visualChunkCache != null)
+            {
+                visualChunkCache.Unpin(
+                    coordinate);
+            }
+            else if (chunkCache != null)
+            {
+                chunkCache.Unpin(
+                    coordinate);
+            }
 
             if (view == null)
                 return;
@@ -709,9 +935,16 @@ namespace LittleCastle.World
                     GenerationSettings.ChunkWorldSize);
         }
 
-        private bool IsInsideSessionMacroArea(
+        private bool IsInsideStreamableArea(
             ChunkCoordinate coordinate)
         {
+            if (sessionMap != null)
+            {
+                return
+                    sessionMap.IsVisualChunk(
+                        coordinate);
+            }
+
             if (MacroSettings == null)
                 return true;
 
@@ -735,6 +968,13 @@ namespace LittleCastle.World
 
         private void UpdateMacroEdgeWarning()
         {
+            if (sessionMap != null)
+            {
+                // Reaching the edge is intentional for a finite session map.
+                macroEdgeWarningIssued = false;
+                return;
+            }
+
             if (MacroSettings == null)
             {
                 macroEdgeWarningIssued = false;
@@ -771,12 +1011,12 @@ namespace LittleCastle.World
                     macroEdgeWarningIssued = true;
 
                     Debug.LogWarning(
-                        "WorldStreamer focus is approaching the edge of the " +
-                        "fixed session MacroWorldPlan. Remaining macro chunks: " +
+                        "Legacy radius-based WorldStreamer focus is approaching " +
+                        "the edge of its fixed MacroWorldPlan. Remaining macro " +
+                        "chunks: " +
                         remaining +
-                        ". Current implementation will not silently rebuild " +
-                        "roads/rivers while moving. Increase macroPlanRadiusChunks " +
-                        "or migrate to fixed macro tiles before production.",
+                        ". Configure WorldMapRules and a finite session map for " +
+                        "production matches.",
                         this);
                 }
             }
