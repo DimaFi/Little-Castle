@@ -85,11 +85,16 @@ namespace LittleCastle.World
                 rect.xMin +
                 safeInset;
 
+            float exclusiveEdgeInset =
+                Mathf.Max(
+                    safeInset,
+                    0.001f);
+
             float maxWorldX =
                 Mathf.Max(
                     minWorldX,
                     rect.xMax -
-                    safeInset);
+                    exclusiveEdgeInset);
 
             float minWorldZ =
                 rect.yMin +
@@ -99,7 +104,7 @@ namespace LittleCastle.World
                 Mathf.Max(
                     minWorldZ,
                     rect.yMax -
-                    safeInset);
+                    exclusiveEdgeInset);
 
             worldPosition.x =
                 Mathf.Clamp(
