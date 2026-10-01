@@ -30,6 +30,10 @@ namespace LittleCastle.World
         public float sampledHeightRange;
         public float averageForestDensity;
 
+        public int exitRoutes;
+        public float positionalPressure;
+        public float layoutAffinity;
+
         public float terrainScore;
         public float forestScore;
         public float resourceScore;
