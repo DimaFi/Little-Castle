@@ -7,6 +7,8 @@ namespace LittleCastle.World
         menuName = "Little Castle/World/Generation/Forest Density Stage")]
     public sealed class ForestDensityStage : WorldGenerationStage
     {
+        public override WorldGenerationStagePhase Phase =>
+            WorldGenerationStagePhase.EnvironmentFields;
         [Header("Forest regions")]
         [Min(0.000001f)]
         [SerializeField] private float frequency = 0.0018f;
