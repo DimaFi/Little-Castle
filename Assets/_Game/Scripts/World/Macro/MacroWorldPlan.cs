@@ -7,6 +7,9 @@ namespace LittleCastle.World
         private readonly List<WorldPointFeatureData> pointFeatures =
             new List<WorldPointFeatureData>();
 
+        private readonly List<WorldRoadConnectionData> roadConnections =
+            new List<WorldRoadConnectionData>();
+
         private readonly List<WorldRoadData> roads =
             new List<WorldRoadData>();
 
@@ -17,6 +20,9 @@ namespace LittleCastle.World
             new List<WorldBridgeSiteData>();
 
         private readonly HashSet<long> pointFeatureIds =
+            new HashSet<long>();
+
+        private readonly HashSet<long> roadConnectionIds =
             new HashSet<long>();
 
         private readonly HashSet<long> roadIds =
@@ -32,6 +38,9 @@ namespace LittleCastle.World
 
         public IReadOnlyList<WorldPointFeatureData> PointFeatures =>
             pointFeatures;
+
+        public IReadOnlyList<WorldRoadConnectionData> RoadConnections =>
+            roadConnections;
 
         public IReadOnlyList<WorldRoadData> Roads => roads;
         public IReadOnlyList<WorldRiverData> Rivers => rivers;
@@ -51,10 +60,23 @@ namespace LittleCastle.World
             return true;
         }
 
+        public bool AddRoadConnection(
+            WorldRoadConnectionData connection)
+        {
+            if (!roadConnectionIds.Add(connection.stableId))
+                return false;
+
+            roadConnections.Add(connection);
+            return true;
+        }
+
         public bool AddRoad(WorldRoadData road)
         {
-            if (road == null || !roadIds.Add(road.stableId))
+            if (road == null ||
+                !roadIds.Add(road.stableId))
+            {
                 return false;
+            }
 
             roads.Add(road);
             return true;
@@ -62,14 +84,18 @@ namespace LittleCastle.World
 
         public bool AddRiver(WorldRiverData river)
         {
-            if (river == null || !riverIds.Add(river.stableId))
+            if (river == null ||
+                !riverIds.Add(river.stableId))
+            {
                 return false;
+            }
 
             rivers.Add(river);
             return true;
         }
 
-        public bool AddBridgeSite(WorldBridgeSiteData bridgeSite)
+        public bool AddBridgeSite(
+            WorldBridgeSiteData bridgeSite)
         {
             if (!bridgeIds.Add(bridgeSite.stableId))
                 return false;
@@ -78,13 +104,36 @@ namespace LittleCastle.World
             return true;
         }
 
+        public bool TryGetPointFeature(
+            long stableId,
+            out WorldPointFeatureData feature)
+        {
+            for (int i = 0; i < pointFeatures.Count; i++)
+            {
+                if (pointFeatures[i].stableId == stableId)
+                {
+                    feature = pointFeatures[i];
+                    return true;
+                }
+            }
+
+            feature = default(WorldPointFeatureData);
+            return false;
+        }
+
         public void MergeFrom(MacroWorldPlan other)
         {
-            if (other == null || other.WorldSeed != WorldSeed)
+            if (other == null ||
+                other.WorldSeed != WorldSeed)
+            {
                 return;
+            }
 
             for (int i = 0; i < other.PointFeatures.Count; i++)
                 AddPointFeature(other.PointFeatures[i]);
+
+            for (int i = 0; i < other.RoadConnections.Count; i++)
+                AddRoadConnection(other.RoadConnections[i]);
 
             for (int i = 0; i < other.Roads.Count; i++)
                 AddRoad(other.Roads[i]);
