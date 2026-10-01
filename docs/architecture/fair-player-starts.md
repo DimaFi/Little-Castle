@@ -1,267 +1,298 @@
 # Fair Procedural Player Starts
 
-## Goal
+## Product rule
 
-Little Castle maps should remain random and worth exploring, but the random seed
-must not decide the match before players begin.
+Little Castle should create **random, uneven and sometimes funny** starts.
 
-Fairness does **not** mean:
+A player may begin with:
 
-- mirrored terrain;
-- identical forests;
-- one guaranteed resource pile placed next to every player;
-- symmetrical roads/villages;
-- editing the world after players receive their positions.
+- little nearby forest;
+- weak stone access;
+- iron noticeably farther away;
+- awkward terrain;
+- a richer or poorer local economy than another player.
 
-The intended model is:
+That procedural inequality is part of the game.
+
+Fairness exists to prevent **broken topology**, not to make every opening equal.
+
+Examples of starts that should normally be rejected:
+
+- there is no practical buildable starting area;
+- the player is effectively trapped by cliffs/water;
+- the only way out is one bridge/choke;
+- there are too few independent exits for the selected map rules;
+- the selected start formation cannot place all players at reasonable separation.
+
+Examples that are normally allowed:
+
+- one player has much less nearby wood;
+- one player must travel farther for stone;
+- one player has excellent iron but mediocre forest;
+- one player gets an economically awkward start that creates emergent gameplay.
+
+## Host-facing controls
+
+Safe match-creation controls live in `WorldSessionStartOptions`.
+
+Current controls:
+
+### Placement mode
+
+`RandomScattered`
+
+Starts are selected freely across the playable map.
+
+`MapPerimeter`
+
+Starts prefer the outer part of the map and generally expand inward.
+
+`PolygonRing`
+
+Starts prefer evenly spaced positions around a ring.
+
+With 3 players this naturally produces a triangle-like arrangement.
+
+`RadialStar`
+
+Alternates outer and inner radial targets, creating a star-like layout where
+some positions are intentionally more central/pressured.
+
+### Fairness mode
+
+`WildRandom`
+
+Maximum procedural chaos. Resource/forest poverty is not a hard rejection.
+
+`Light`
+
+Default intended mode. Scarcity remains common, but highly pressured interior
+positions prefer somewhat better opportunities.
+
+`Balanced`
+
+Stronger filtering while retaining asymmetric worlds.
+
+`Competitive`
+
+Strongest host-selectable filtering.
+
+### Additional host controls
+
+- layout freedom;
+- positional-pressure resource compensation;
+- start-separation multiplier;
+- minimum local exit routes override;
+- whether rivers require bridges to count as exits;
+- ring radius;
+- star inner/outer radius;
+- deterministic random rotation of formations.
+
+These are intended to be exposed by a future create-match UI.
+
+Low-level safety/tuning remains in `WorldStartFairnessSettings`.
+
+## Pressure compensation
+
+A start near the middle of other players is strategically worse than an edge
+start because threats can approach from more directions.
+
+The planner therefore computes/uses positional pressure.
+
+Higher-pressure layout targets are processed earlier and may place greater
+weight on nearby resource quality.
+
+This does **not** inject resources.
+
+Instead:
 
 ```text
-random deterministic world
-        ↓
-generate macro world
-        ↓
-evaluate many possible player starts
-        ↓
-select well-separated viable starts
-        ↓
-compare start quality
-        ↓
-accept seed OR reject/reroll seed
+generated world
+    ↓
+central/pressured target
+    ↓
+among viable nearby candidates,
+prefer a somewhat richer candidate
 ```
 
-The generator remains random. The session only starts when that random world
-passes a fairness gate.
+How strongly this happens is controlled by:
 
-## Current implementation
+`pressureResourceCompensation`
 
-Files:
+Setting it to 0 disables this compensation.
 
-- `WorldStartFairnessSettings.cs`
-- `WorldPlayerStartData.cs`
-- `WorldStartFairnessReport.cs`
-- `WorldStartFairnessPlanner.cs`
+## Local exits
 
-`WorldDefinition` can reference one `WorldStartFairnessSettings` asset.
+Player starts are evaluated for local escape/access directions.
 
-## Evaluation order
+The probe samples many radial directions around the start.
 
-The fairness planner is created after the match's `MacroWorldPlan` exists.
+A direction can be blocked by:
 
-It uses the normal `WorldGenerationPipeline` through the `Resources` phase.
+- terrain exceeding the configured slope;
+- leaving playable bounds;
+- a river crossing without a suitable generated bridge nearby, when that host
+  option is enabled.
 
-Therefore candidate evaluation sees the same authoritative data that gameplay
-will later use:
+Open angular sectors are converted into independent exit routes.
 
-- terrain height;
-- slope;
-- macro placement masks from roads/rivers/settlements;
-- biome/environment data;
-- forest-density field;
-- generated resource deposits.
+Automatic target:
 
-It does not require prefab presentation.
+- cramped/small area per player: 2 exits may be allowed;
+- normal map: 3 exits;
+- roomy/large area per player: 4 exits.
 
-## Candidate generation
+The host can override this.
 
-Start candidates are generated from a deterministic global grid with seed-based
-jitter.
+This is deliberately more important than resource equality.
 
-This provides controlled randomness without `UnityEngine.Random`.
+A resource-poor player can create interesting gameplay.
 
-Candidates are kept away from the playable map edge and then tested for local
-viability.
+A player whose only exit is one bridge can be strategically doomed before the
+match begins.
 
-## Buildable-area checks
+## Resources are mostly scores, not hard gates
 
-A candidate currently requires:
+`StartResourceRequirement` supports:
 
-- acceptable center slope;
-- acceptable slopes around a configurable build radius;
-- acceptable height variation around the build radius;
-- no conflicting macro placement blocks in the immediate start/build area.
+- resource type;
+- search radius;
+- optional hard minimum effective capacity;
+- target effective capacity;
+- scoring weight.
 
-The intent is that the player can actually begin building instead of spawning
-on a cliff, river corridor or occupied macro feature.
+Default hard minimums are intentionally 0.
 
-## Forest access
-
-The planner samples the existing `ForestDensity` field around the start.
-
-It does not create trees.
-
-Only forest samples inside playable bounds count.
-
-A start below the configured minimum average forest density is rejected.
-
-This is especially important because wood is expected to be a high-consumption
-strategic resource for buildings and military development.
-
-## Strategic resource access
-
-`StartResourceRequirement` defines per-resource policy.
-
-Example configuration:
-
-```text
-Stone:
-  search radius
-  minimum effective capacity
-  target effective capacity
-  weight
-
-IronOre:
-  search radius
-  minimum effective capacity
-  target effective capacity
-  weight
-```
-
-Effective capacity is currently approximated as:
+Effective capacity is approximately:
 
 ```text
 deposit.capacity × deposit.richness
 ```
 
-Only deposits inside playable bounds count.
+The target affects quality scoring and compensation.
 
-The minimum is a hard viability gate.
+It does not mean every player must receive that amount.
 
-The target is used for normalized quality scoring.
+Fairness modes can scale hard gates if designers later configure non-zero
+minimums.
 
-This allows a start with 520 effective stone and one with 650 effective stone
-to both be valid without requiring exact equality.
+Only resources inside playable bounds count.
 
-## Start separation
+## Forest scarcity
 
-Starts are not selected independently.
+Forest density remains part of start quality, but in `WildRandom` it is not a
+hard gate.
 
-After viable candidates are found, the planner selects a set that maximizes a
-combination of:
+`Light` uses only a small fraction of the developer minimum.
 
-- local start quality;
-- distance from already selected starts.
+Therefore very poor forest starts can exist.
 
-Minimum start distance scales with:
+The player still lives in the same finite world and can travel, trade, fight or
+expand toward better areas.
 
-```text
-sqrt(playable map area / player count)
-× separation multiplier
-```
+## Formation adaptation
 
-so the same rule can work for different finite map presets.
+Formation modes define ideal targets, not exact spawn coordinates.
 
-## Player assignment
+Generated terrain/resources can move a start away from its geometric target.
 
-Selected start locations receive deterministic shuffled player indices.
+`layoutFreedom` controls how much adaptation is allowed.
 
-Player 1 is therefore not permanently assigned to the first/best geometric
-candidate.
+This preserves recognizable layouts without spawning players on unsuitable
+terrain just to draw a perfect shape.
 
-The future multiplayer session layer can use these deterministic assignments or
-apply a separate lobby/team allocation policy if required.
+## Random mode
 
-## Seed acceptance
+`RandomScattered` has no predefined geometric targets.
 
-`WorldStartFairnessReport` records:
+The planner still:
 
-- requested player count;
-- generated candidate count;
-- viable candidate count;
-- selected starts;
-- required minimum separation;
-- minimum selected quality;
-- maximum selected quality;
-- score spread;
-- rejection reason.
+- enforces required separation;
+- checks local exits;
+- checks start buildability;
+- can slightly prefer better resource quality for central/pressured positions.
 
-A seed is rejected when:
+The map itself remains deterministic from the session seed.
 
-- too few viable candidates exist;
-- enough candidates exist but they cannot satisfy required separation;
-- selected quality spread exceeds the configured tolerance.
+## Determinism
 
-Recommended session creation flow:
+The same:
 
-```text
-Host presses Create Match
-        ↓
-candidate seed
-        ↓
-finite session map bounds
-        ↓
-MacroWorldPlan
-        ↓
-WorldStartFairnessPlanner
-        ↓
-accepted?
-   yes ─────→ create lobby/match
-   no
-   ↓
-try another seed
-```
+- seed;
+- finite map preset;
+- player count;
+- start options;
+- generation settings;
 
-Do not patch a rejected seed by secretly spawning emergency ore/wood beside a
-specific player unless game design explicitly introduces such a fallback.
+must produce the same selected starts.
 
-## Why exact equality is undesirable
+Do not use `UnityEngine.Random` for authoritative start selection.
 
-Perfect equality would make procedural maps predictable.
+## Seed rejection
 
-The target is a bounded competitive difference.
+A seed does not need equal resources to be accepted.
 
-Players should still have meaningful strategic variation:
+Seed rejection should primarily represent:
 
-- one start may have denser nearby forest;
-- another may have slightly better stone;
-- another may have easier open terrain;
+- insufficient number of physically viable starts;
+- impossible required separation;
+- insufficient exits/chokepoint safety;
+- stricter host fairness modes exceeding their allowed quality spread.
 
-but all starts must cross the same minimum viability floor and stay within the
-accepted total quality spread.
+`WildRandom` effectively disables score-spread rejection.
 
-## Current limitations
+`Light` allows a large score spread.
 
-The first fairness layer focuses on **starting viability**.
+This preserves strange/random worlds.
 
-It does not yet measure all strategic map advantages.
+## Current data
 
-Future fairness metrics can include:
+Files:
 
-- travel-time distance to neutral settlements;
-- travel-time distance to major roads;
-- river crossing access;
-- number/value of nearby neutral settlements;
-- chokepoint advantage;
-- defensibility;
-- distance to map center;
-- distance to contested high-value resource regions;
-- team-vs-team regional symmetry;
-- expected first-contact time.
+- `WorldStartPlacementMode.cs`
+- `WorldStartFairnessMode.cs`
+- `WorldSessionStartOptions.cs`
+- `WorldStartLayoutUtility.cs`
+- `WorldStartAccessEvaluator.cs`
+- `WorldStartFairnessSettings.cs`
+- `WorldPlayerStartData.cs`
+- `WorldStartFairnessReport.cs`
+- `WorldStartFairnessPlanner.cs`
 
-Prefer path/travel cost over straight-line distance once navigation data exists.
+## Current metrics
 
-## Testing
+A start can record:
 
-`WorldStartFairnessTests.cs` verifies that, under relaxed test thresholds:
+- terrain/buildability quality;
+- average forest density;
+- resource metrics;
+- number of independent exits;
+- positional pressure;
+- formation/layout affinity;
+- overall local quality.
 
-- the same seed returns the same starts;
-- requested player count is satisfied;
-- selected starts respect computed minimum separation.
+## Future strategic fairness
 
-Production balance thresholds must later be tuned from real matches rather than
-guessed from editor screenshots.
+The current exit probe is intentionally local.
 
-## 2–16 player direction
+Future global strategic evaluation should measure:
 
-The architecture is intended to support session player counts up to the current
-design target of 16 players.
+- travel-time access to neutral villages;
+- distance/travel cost to roads;
+- number of bridge/river crossing alternatives;
+- whether one player controls a unique choke;
+- central high-value resource access;
+- expected time to first hostile contact;
+- team-vs-team regional pressure.
 
-Do not hard-code assumptions that only 2 or 4 starts exist.
+Prefer navigation/travel cost rather than straight-line distance once navigation
+data exists.
 
-Map-size presets and fairness settings should be tuned together:
+## 2–16 players
 
-- larger player counts require larger allowed maps;
-- larger maps require enough candidate coverage;
-- resource search radii should reflect actual unit travel speed and match pace.
+The start system must not assume 2 or 4 players.
 
-The 30–120 minute match-duration target should remain part of this balancing
-work.
+Current design target is up to 16 players.
+
+Formation generation, separation and exit requirements are derived from player
+count/map scale rather than hard-coded spawn coordinates.
