@@ -79,3 +79,27 @@ A generation change should:
 - not require scene objects to produce authoritative data;
 - document any new data contract;
 - preserve compatibility with future chunk streaming.
+
+
+## Finite session map rule
+
+Little Castle does **not** use an infinite world.
+
+A multiplayer host selects a finite map-size preset and seed before the match.
+
+Mandatory rules:
+
+- map presets must validate allowed player counts;
+- one MacroWorldPlan is generated for the complete playable match bounds;
+- do not rebuild macro roads/rivers/settlements around a moving camera;
+- gameplay units/buildings/resources stay inside playable bounds;
+- visual padding outside playable bounds is terrain-only presentation space;
+- do not implement macro tiles/infinite-world expansion unless the product design changes explicitly.
+
+Fog of war is independent from procedural generation:
+
+- Hidden = never explored;
+- Explored = seen before but not currently visible;
+- Visible = currently observed;
+- units, buildings, towers and owned settlements expose plain vision-source data;
+- rendering/shaders must not become authoritative fog state.
