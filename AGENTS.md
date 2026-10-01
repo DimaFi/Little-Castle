@@ -103,3 +103,19 @@ Fog of war is independent from procedural generation:
 - Visible = currently observed;
 - units, buildings, towers and owned settlements expose plain vision-source data;
 - rendering/shaders must not become authoritative fog state.
+
+
+## Fair-start generation rule
+
+Competitive procedural maps must remain random but pass a deterministic
+fairness gate before match start.
+
+- do not mirror the whole world just to create fairness;
+- do not silently inject emergency resources for one player as the default solution;
+- evaluate the already generated terrain, forest and resource data;
+- require buildable start areas and minimum strategic-resource access;
+- keep player starts sufficiently separated for the selected finite map/player count;
+- reject/reroll a seed if not enough comparable starts exist;
+- keep fairness evaluation deterministic from session inputs;
+- only playable-bounds resources count toward start fairness;
+- future strategic fairness should prefer travel/path cost over straight-line distance.
