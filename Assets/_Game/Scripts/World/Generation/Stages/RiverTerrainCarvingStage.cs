@@ -4,10 +4,11 @@ using UnityEngine;
 namespace LittleCastle.World
 {
     /// <summary>
-    /// Carves simple river channels into base terrain using macro river lines.
+    /// Carves river channels into base terrain using macro river lines.
     ///
     /// Run after the base height stage and before TerrainClassificationStage.
-    /// This is an early geometric trench, not final erosion/hydrology.
+    /// Local river width/depth profiles are respected so headwaters stay
+    /// smaller while downstream/confluence sections become broader/deeper.
     /// </summary>
     [CreateAssetMenu(
         fileName = "RiverTerrainCarvingStage",
@@ -33,8 +34,11 @@ namespace LittleCastle.World
         {
             MacroWorldPlan plan = context.MacroPlan;
 
-            if (plan == null || plan.Rivers.Count == 0)
+            if (plan == null ||
+                plan.Rivers.Count == 0)
+            {
                 return;
+            }
 
             float chunkSize =
                 context.Settings.ChunkWorldSize;
@@ -50,9 +54,13 @@ namespace LittleCastle.World
                 chunk.Coordinate.z *
                 chunkSize;
 
-            for (int z = 0; z < chunk.SamplesPerSide; z++)
+            for (int z = 0;
+                 z < chunk.SamplesPerSide;
+                 z++)
             {
-                for (int x = 0; x < chunk.SamplesPerSide; x++)
+                for (int x = 0;
+                     x < chunk.SamplesPerSide;
+                     x++)
                 {
                     var worldPoint =
                         new Vector2(
@@ -61,27 +69,45 @@ namespace LittleCastle.World
 
                     float maxCarve = 0f;
 
-                    for (int r = 0; r < plan.Rivers.Count; r++)
+                    for (int r = 0;
+                         r < plan.Rivers.Count;
+                         r++)
                     {
                         WorldRiverData river =
                             plan.Rivers[r];
 
                         if (river == null ||
+                            river.centerline == null ||
                             river.centerline.Count < 2)
                         {
                             continue;
                         }
 
+                        if (!TryGetClosestSegment(
+                                worldPoint,
+                                river.centerline,
+                                out float distance,
+                                out int segmentIndex,
+                                out float segmentT))
+                        {
+                            continue;
+                        }
+
+                        float localWidth =
+                            river.GetWidthAtSegment(
+                                segmentIndex,
+                                segmentT);
+
+                        float localDepth =
+                            river.GetDepthAtSegment(
+                                segmentIndex,
+                                segmentT);
+
                         float influenceRadius =
                             Mathf.Max(
                                 0.5f,
-                                river.nominalWidth * 0.5f +
+                                localWidth * 0.5f +
                                 bankFalloff);
-
-                        float distance =
-                            DistanceToPolyline(
-                                worldPoint,
-                                river.centerline);
 
                         if (distance > influenceRadius)
                             continue;
@@ -101,7 +127,7 @@ namespace LittleCastle.World
                         float carve =
                             Mathf.Max(
                                 0f,
-                                river.nominalDepth) *
+                                localDepth) *
                             Mathf.Max(
                                 0f,
                                 depthMultiplier) *
@@ -113,52 +139,82 @@ namespace LittleCastle.World
                                 carve);
                     }
 
-                    if (maxCarve > 0f)
-                    {
-                        chunk.SetHeight(
-                            x,
-                            z,
-                            chunk.GetHeight(x, z) -
-                            maxCarve);
-                    }
+                    if (maxCarve <= 0f)
+                        continue;
+
+                    chunk.SetHeight(
+                        x,
+                        z,
+                        chunk.GetHeight(x, z) -
+                        maxCarve);
                 }
             }
         }
 
-        private static float DistanceToPolyline(
+        private static bool TryGetClosestSegment(
             Vector2 point,
-            IReadOnlyList<Vector2> points)
+            IReadOnlyList<Vector2> points,
+            out float distance,
+            out int segmentIndex,
+            out float segmentT)
         {
+            distance = float.PositiveInfinity;
+            segmentIndex = -1;
+            segmentT = 0f;
+
+            if (points == null ||
+                points.Count < 2)
+            {
+                return false;
+            }
+
             float bestSqr =
                 float.PositiveInfinity;
 
-            for (int i = 0; i < points.Count - 1; i++)
+            for (int i = 0;
+                 i < points.Count - 1;
+                 i++)
             {
                 float distanceSqr =
                     DistancePointSegmentSqr(
                         point,
                         points[i],
-                        points[i + 1]);
+                        points[i + 1],
+                        out float t);
 
-                if (distanceSqr < bestSqr)
-                    bestSqr = distanceSqr;
+                if (distanceSqr >= bestSqr)
+                    continue;
+
+                bestSqr = distanceSqr;
+                segmentIndex = i;
+                segmentT = t;
             }
 
-            return Mathf.Sqrt(bestSqr);
+            if (segmentIndex < 0)
+                return false;
+
+            distance =
+                Mathf.Sqrt(bestSqr);
+
+            return true;
         }
 
         private static float DistancePointSegmentSqr(
             Vector2 point,
             Vector2 a,
-            Vector2 b)
+            Vector2 b,
+            out float segmentT)
         {
             Vector2 ab = b - a;
             float lengthSqr = ab.sqrMagnitude;
 
             if (lengthSqr <= 0.000001f)
+            {
+                segmentT = 0f;
                 return (point - a).sqrMagnitude;
+            }
 
-            float t =
+            segmentT =
                 Mathf.Clamp01(
                     Vector2.Dot(
                         point - a,
@@ -166,7 +222,9 @@ namespace LittleCastle.World
                     lengthSqr);
 
             Vector2 closest =
-                a + ab * t;
+                a +
+                ab *
+                segmentT;
 
             return
                 (point - closest).sqrMagnitude;
