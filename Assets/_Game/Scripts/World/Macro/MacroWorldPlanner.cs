@@ -4,10 +4,7 @@ namespace LittleCastle.World
 {
     /// <summary>
     /// Deterministic on-demand macro point planner.
-    ///
-    /// It can query any rectangular world area without pre-generating an
-    /// infinite world. Terrain suitability is intentionally a future filtering
-    /// layer; this class establishes stable candidates/identity first.
+    /// Queries bounded areas rather than pre-generating an infinite world.
     /// </summary>
     public sealed class MacroWorldPlanner
     {
@@ -20,7 +17,8 @@ namespace LittleCastle.World
 
         public MacroWorldPlan GenerateForBounds(
             int worldSeed,
-            Rect worldBounds)
+            Rect worldBounds,
+            WorldTerrainProbe terrainProbe = null)
         {
             var plan = new MacroWorldPlan(worldSeed);
 
@@ -35,7 +33,12 @@ namespace LittleCastle.World
                 if (rule == null)
                     continue;
 
-                AppendRule(worldSeed, worldBounds, rule, plan);
+                AppendRule(
+                    worldSeed,
+                    worldBounds,
+                    rule,
+                    terrainProbe,
+                    plan);
             }
 
             return plan;
@@ -45,9 +48,11 @@ namespace LittleCastle.World
             int worldSeed,
             Rect bounds,
             MacroPointFeatureRule rule,
+            WorldTerrainProbe terrainProbe,
             MacroWorldPlan plan)
         {
             float spacing = Mathf.Max(50f, rule.spacing);
+
             int salt = DeterministicHash.String32(
                 string.IsNullOrWhiteSpace(rule.ruleId)
                     ? rule.kind.ToString()
@@ -106,6 +111,21 @@ namespace LittleCastle.World
 
                     if (!bounds.Contains(position))
                         continue;
+
+                    if (terrainProbe != null)
+                    {
+                        WorldTerrainSample sample =
+                            terrainProbe.Sample(position);
+
+                        if (!rule.allowedTerrain.Contains(
+                                sample.terrainClass) ||
+                            sample.height < rule.minHeight ||
+                            sample.height > rule.maxHeight ||
+                            sample.slope > rule.maxSlope)
+                        {
+                            continue;
+                        }
+                    }
 
                     long id = DeterministicHash.StableId(
                         worldSeed,
