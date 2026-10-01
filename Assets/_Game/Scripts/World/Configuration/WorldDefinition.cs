@@ -27,6 +27,10 @@ namespace LittleCastle.World
         [SerializeField]
         private WorldMapRules mapRules;
 
+        [Header("Fair starts")]
+        [SerializeField]
+        private WorldStartFairnessSettings startFairnessSettings;
+
         [Header("Runtime")]
         [SerializeField]
         private WorldStreamingSettings streamingSettings;
@@ -48,6 +52,9 @@ namespace LittleCastle.World
 
         public WorldMapRules MapRules =>
             mapRules;
+
+        public WorldStartFairnessSettings StartFairnessSettings =>
+            startFairnessSettings;
 
         public WorldStreamingSettings StreamingSettings =>
             streamingSettings;
