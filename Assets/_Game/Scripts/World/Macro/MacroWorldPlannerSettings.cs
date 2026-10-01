@@ -45,6 +45,11 @@ namespace LittleCastle.World
         private List<MacroPointFeatureRule> pointFeatureRules =
             new List<MacroPointFeatureRule>();
 
+        [Header("Rivers")]
+        [SerializeField]
+        private RiverPlannerSettings rivers =
+            new RiverPlannerSettings();
+
         [Header("Road graph")]
         [SerializeField]
         private RoadNetworkPlannerSettings roadNetwork =
@@ -55,14 +60,18 @@ namespace LittleCastle.World
         private TerrainRoadPathPlannerSettings roadPaths =
             new TerrainRoadPathPlannerSettings();
 
+        [Header("Bridges")]
+        [SerializeField]
+        private BridgePlannerSettings bridges =
+            new BridgePlannerSettings();
+
         public IReadOnlyList<MacroPointFeatureRule> PointFeatureRules =>
             pointFeatureRules;
 
-        public RoadNetworkPlannerSettings RoadNetwork =>
-            roadNetwork;
-
-        public TerrainRoadPathPlannerSettings RoadPaths =>
-            roadPaths;
+        public RiverPlannerSettings Rivers => rivers;
+        public RoadNetworkPlannerSettings RoadNetwork => roadNetwork;
+        public TerrainRoadPathPlannerSettings RoadPaths => roadPaths;
+        public BridgePlannerSettings Bridges => bridges;
 
         public float MaxPointInfluenceRadius
         {
@@ -77,10 +86,9 @@ namespace LittleCastle.World
 
                     if (rule != null)
                     {
-                        max =
-                            Mathf.Max(
-                                max,
-                                rule.influenceRadius);
+                        max = Mathf.Max(
+                            max,
+                            rule.influenceRadius);
                     }
                 }
 
