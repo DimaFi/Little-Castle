@@ -15,6 +15,8 @@ namespace LittleCastle.World
         menuName = "Little Castle/World/Generation/Layered Terrain Stage")]
     public sealed class LayeredTerrainStage : WorldGenerationStage
     {
+        public override WorldGenerationStagePhase Phase =>
+            WorldGenerationStagePhase.TerrainBase;
         [Header("Base")]
         [SerializeField] private float baseHeight = 2f;
 
