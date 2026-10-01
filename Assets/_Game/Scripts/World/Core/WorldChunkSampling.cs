@@ -2,10 +2,6 @@ using UnityEngine;
 
 namespace LittleCastle.World
 {
-    /// <summary>
-    /// Sampling helpers for data already generated inside one chunk.
-    /// Callers must provide a world position that belongs to this chunk.
-    /// </summary>
     public static class WorldChunkSampling
     {
         public static float SampleHeight(
@@ -22,25 +18,53 @@ namespace LittleCastle.World
                 out float gx,
                 out float gz);
 
-            int x0 = Mathf.Clamp(Mathf.FloorToInt(gx), 0, chunk.CellsPerSide);
-            int z0 = Mathf.Clamp(Mathf.FloorToInt(gz), 0, chunk.CellsPerSide);
-            int x1 = Mathf.Min(x0 + 1, chunk.CellsPerSide);
-            int z1 = Mathf.Min(z0 + 1, chunk.CellsPerSide);
+            int x0 =
+                Mathf.Clamp(
+                    Mathf.FloorToInt(gx),
+                    0,
+                    chunk.CellsPerSide);
 
-            float tx = Mathf.Clamp01(gx - x0);
-            float tz = Mathf.Clamp01(gz - z0);
+            int z0 =
+                Mathf.Clamp(
+                    Mathf.FloorToInt(gz),
+                    0,
+                    chunk.CellsPerSide);
 
-            float a = Mathf.Lerp(
-                chunk.GetHeight(x0, z0),
-                chunk.GetHeight(x1, z0),
-                tx);
+            int x1 =
+                Mathf.Min(
+                    x0 + 1,
+                    chunk.CellsPerSide);
 
-            float b = Mathf.Lerp(
-                chunk.GetHeight(x0, z1),
-                chunk.GetHeight(x1, z1),
-                tx);
+            int z1 =
+                Mathf.Min(
+                    z0 + 1,
+                    chunk.CellsPerSide);
 
-            return Mathf.Lerp(a, b, tz);
+            float tx =
+                Mathf.Clamp01(
+                    gx - x0);
+
+            float tz =
+                Mathf.Clamp01(
+                    gz - z0);
+
+            float a =
+                Mathf.Lerp(
+                    chunk.GetHeight(x0, z0),
+                    chunk.GetHeight(x1, z0),
+                    tx);
+
+            float b =
+                Mathf.Lerp(
+                    chunk.GetHeight(x0, z1),
+                    chunk.GetHeight(x1, z1),
+                    tx);
+
+            return
+                Mathf.Lerp(
+                    a,
+                    b,
+                    tz);
         }
 
         public static float SampleSlope(
@@ -57,7 +81,10 @@ namespace LittleCastle.World
                 out int cellX,
                 out int cellZ);
 
-            return chunk.GetCellSlope(cellX, cellZ);
+            return
+                chunk.GetCellSlope(
+                    cellX,
+                    cellZ);
         }
 
         public static TerrainClass SampleTerrainClass(
@@ -74,7 +101,70 @@ namespace LittleCastle.World
                 out int cellX,
                 out int cellZ);
 
-            return chunk.GetTerrainClass(cellX, cellZ);
+            return
+                chunk.GetTerrainClass(
+                    cellX,
+                    cellZ);
+        }
+
+        public static float SampleTemperature(
+            WorldChunkData chunk,
+            WorldGenerationSettings settings,
+            float worldX,
+            float worldZ)
+        {
+            GetCellCoordinates(
+                chunk,
+                settings,
+                worldX,
+                worldZ,
+                out int cellX,
+                out int cellZ);
+
+            return
+                chunk.GetTemperature(
+                    cellX,
+                    cellZ);
+        }
+
+        public static float SampleMoisture(
+            WorldChunkData chunk,
+            WorldGenerationSettings settings,
+            float worldX,
+            float worldZ)
+        {
+            GetCellCoordinates(
+                chunk,
+                settings,
+                worldX,
+                worldZ,
+                out int cellX,
+                out int cellZ);
+
+            return
+                chunk.GetMoisture(
+                    cellX,
+                    cellZ);
+        }
+
+        public static BiomeKind SampleBiome(
+            WorldChunkData chunk,
+            WorldGenerationSettings settings,
+            float worldX,
+            float worldZ)
+        {
+            GetCellCoordinates(
+                chunk,
+                settings,
+                worldX,
+                worldZ,
+                out int cellX,
+                out int cellZ);
+
+            return
+                chunk.GetBiome(
+                    cellX,
+                    cellZ);
         }
 
         public static float SampleForestDensity(
@@ -91,7 +181,10 @@ namespace LittleCastle.World
                 out int cellX,
                 out int cellZ);
 
-            return chunk.GetForestDensity(cellX, cellZ);
+            return
+                chunk.GetForestDensity(
+                    cellX,
+                    cellZ);
         }
 
         public static PlacementBlockFlags SamplePlacementBlocks(
@@ -108,7 +201,10 @@ namespace LittleCastle.World
                 out int cellX,
                 out int cellZ);
 
-            return chunk.GetPlacementBlocks(cellX, cellZ);
+            return
+                chunk.GetPlacementBlocks(
+                    cellX,
+                    cellZ);
         }
 
         private static void GetCellCoordinates(
@@ -127,15 +223,17 @@ namespace LittleCastle.World
                 out float gx,
                 out float gz);
 
-            cellX = Mathf.Clamp(
-                Mathf.FloorToInt(gx),
-                0,
-                chunk.CellsPerSide - 1);
+            cellX =
+                Mathf.Clamp(
+                    Mathf.FloorToInt(gx),
+                    0,
+                    chunk.CellsPerSide - 1);
 
-            cellZ = Mathf.Clamp(
-                Mathf.FloorToInt(gz),
-                0,
-                chunk.CellsPerSide - 1);
+            cellZ =
+                Mathf.Clamp(
+                    Mathf.FloorToInt(gz),
+                    0,
+                    chunk.CellsPerSide - 1);
         }
 
         private static void GetLocalGridCoordinates(
@@ -146,11 +244,21 @@ namespace LittleCastle.World
             out float gridX,
             out float gridZ)
         {
-            float originX = chunk.Coordinate.x * settings.ChunkWorldSize;
-            float originZ = chunk.Coordinate.z * settings.ChunkWorldSize;
+            float originX =
+                chunk.Coordinate.x *
+                settings.ChunkWorldSize;
 
-            gridX = (worldX - originX) / settings.CellWorldSize;
-            gridZ = (worldZ - originZ) / settings.CellWorldSize;
+            float originZ =
+                chunk.Coordinate.z *
+                settings.ChunkWorldSize;
+
+            gridX =
+                (worldX - originX) /
+                settings.CellWorldSize;
+
+            gridZ =
+                (worldZ - originZ) /
+                settings.CellWorldSize;
         }
     }
 }
