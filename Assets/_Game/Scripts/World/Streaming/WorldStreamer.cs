@@ -558,11 +558,8 @@ namespace LittleCastle.World
             }
 
             WorldChunkData chunkData =
-                chunkCache.GetOrGenerate(
+                chunkCache.GetOrGeneratePinned(
                     coordinate);
-
-            chunkCache.Pin(
-                coordinate);
 
             float chunkSize =
                 GenerationSettings.ChunkWorldSize;
