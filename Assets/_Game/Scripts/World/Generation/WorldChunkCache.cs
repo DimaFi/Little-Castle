@@ -78,6 +78,42 @@ namespace LittleCastle.World
             return generated;
         }
 
+        /// <summary>
+        /// Gets/generates a chunk and pins it before capacity trimming.
+        /// Use this when the caller is about to make the chunk actively visible.
+        /// </summary>
+        public WorldChunkData GetOrGeneratePinned(
+            ChunkCoordinate coordinate)
+        {
+            if (chunks.TryGetValue(
+                coordinate,
+                out WorldChunkData existing))
+            {
+                pinned.Add(coordinate);
+                Touch(coordinate);
+                return existing;
+            }
+
+            WorldChunkData generated =
+                pipeline.GenerateChunk(
+                    worldSeed,
+                    coordinate);
+
+            chunks.Add(
+                coordinate,
+                generated);
+
+            AddUsageNode(
+                coordinate);
+
+            pinned.Add(
+                coordinate);
+
+            TrimToCapacity();
+
+            return generated;
+        }
+
         public bool TryGet(
             ChunkCoordinate coordinate,
             out WorldChunkData chunk)
