@@ -41,15 +41,17 @@ This is an implementation roadmap, not a requirement to build everything at once
 - [x] unload budget per frame
 - [x] runtime mesh cleanup on unload
 - [x] runtime-delta-aware spawn presentation
-- [x] fixed session macro-plan safety boundary
+- [x] finite session-map bounds foundation
+- [x] host map-size/player-count validation foundation
+- [x] separate playable and visual-only map bounds
+- [x] terrain-only visual border streaming
+- [x] one stable MacroWorldPlan for the complete finite playable map
 - [ ] asynchronous/background generation boundary
 - [ ] cancellation/request-version safety
 - [ ] visual chunk/root pooling
 - [ ] object/vegetation pooling or instancing
 - [ ] generation/streaming profiler
-- [ ] multiple streaming focuses
-- [ ] fixed deterministic macro tiles
-- [ ] world-origin rebasing for extreme distances
+- [ ] multiple streaming focuses for multiplayer cameras/observers
 
 ## Phase 3 — Macro world plan
 
@@ -130,11 +132,29 @@ Runtime delta examples:
 
 ## Phase 9 — Multiplayer readiness
 
-Prefer synchronizing:
+Finite session setup should synchronize:
 
 - world seed;
 - generator version;
+- player count;
+- selected map-size preset ID;
 - stable macro-plan identity/data where required;
-- authoritative runtime deltas;
+- authoritative runtime deltas.
 
-instead of transmitting every untouched generated tree and terrain sample.
+Fog-of-war state is viewer/team-specific and must not leak hidden enemy
+information to unauthorized clients.
+
+Prefer synchronizing deterministic session inputs and runtime deltas instead of
+transmitting every untouched generated tree and terrain sample.
+
+## Phase 10 — Fog of war
+
+- [x] Hidden / Explored / Visible logical states
+- [x] persistent explored grid foundation
+- [x] plain VisionSourceData contract
+- [ ] per-player/team fog manager
+- [ ] world-space fog texture/renderer
+- [ ] entity visibility filtering
+- [ ] minimap fog
+- [ ] owned-village vision integration
+- [ ] strong map-edge darkness presentation
