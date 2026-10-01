@@ -207,6 +207,26 @@ namespace LittleCastle.World
                     cellZ);
         }
 
+        public static float SampleGrassDensity(
+            WorldChunkData chunk,
+            WorldGenerationSettings settings,
+            float worldX,
+            float worldZ)
+        {
+            GetCellCoordinates(
+                chunk,
+                settings,
+                worldX,
+                worldZ,
+                out int cellX,
+                out int cellZ);
+
+            return
+                chunk.GetGrassDensity(
+                    cellX,
+                    cellZ);
+        }
+
         public static PlacementBlockFlags SamplePlacementBlocks(
             WorldChunkData chunk,
             WorldGenerationSettings settings,
