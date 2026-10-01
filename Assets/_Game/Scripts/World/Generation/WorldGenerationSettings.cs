@@ -8,6 +8,15 @@ namespace LittleCastle.World
         menuName = "Little Castle/World/World Generation Settings")]
     public sealed class WorldGenerationSettings : ScriptableObject
     {
+        [Header("Identity")]
+        [Tooltip(
+            "Stable logical profile ID used by saves/tools. " +
+            "Do not change casually once persistent worlds exist.")]
+        [SerializeField] private string profileId = "main_world";
+
+        [Min(1)]
+        [SerializeField] private int generationVersion = 1;
+
         [Header("Chunk")]
         [Min(1)]
         [SerializeField] private int cellsPerSide = 32;
@@ -21,9 +30,24 @@ namespace LittleCastle.World
         private List<WorldGenerationStage> stages =
             new List<WorldGenerationStage>();
 
-        public int CellsPerSide => Mathf.Max(1, cellsPerSide);
-        public float ChunkWorldSize => Mathf.Max(1f, chunkWorldSize);
-        public float CellWorldSize => ChunkWorldSize / CellsPerSide;
-        public IReadOnlyList<WorldGenerationStage> Stages => stages;
+        public string ProfileId =>
+            string.IsNullOrWhiteSpace(profileId)
+                ? "main_world"
+                : profileId;
+
+        public int GenerationVersion =>
+            Mathf.Max(1, generationVersion);
+
+        public int CellsPerSide =>
+            Mathf.Max(1, cellsPerSide);
+
+        public float ChunkWorldSize =>
+            Mathf.Max(1f, chunkWorldSize);
+
+        public float CellWorldSize =>
+            ChunkWorldSize / CellsPerSide;
+
+        public IReadOnlyList<WorldGenerationStage> Stages =>
+            stages;
     }
 }
