@@ -19,7 +19,8 @@ namespace LittleCastle.World
         [SerializeField] private Material previewMaterial;
         [SerializeField] private bool generateOnStart = true;
 
-        private readonly List<GameObject> previewObjects = new();
+        private readonly List<GameObject> previewObjects =
+            new List<GameObject>();
 
         public int WorldSeed => worldSeed;
 
@@ -34,13 +35,8 @@ namespace LittleCastle.World
         {
             ClearPreview();
 
-            if (settings == null)
-            {
-                Debug.LogError("WorldGenerator requires WorldGenerationSettings.", this);
+            if (!TryCreatePipeline(out WorldGenerationPipeline pipeline))
                 return;
-            }
-
-            var pipeline = new WorldGenerationPipeline(settings);
 
             for (int z = -previewRadius; z <= previewRadius; z++)
             {
@@ -62,6 +58,59 @@ namespace LittleCastle.World
             GeneratePreview();
         }
 
+        [ContextMenu("Run Generation Diagnostics")]
+        public void RunGenerationDiagnostics()
+        {
+            if (!TryCreatePipeline(out WorldGenerationPipeline pipeline))
+                return;
+
+            const float epsilon = 0.0001f;
+            var origin = new ChunkCoordinate(0, 0);
+
+            bool deterministic =
+                WorldGenerationDiagnostics.ValidateDeterminism(
+                    pipeline,
+                    worldSeed,
+                    origin,
+                    epsilon,
+                    out string determinismMessage);
+
+            bool eastWest =
+                WorldGenerationDiagnostics.ValidateEastWestBorder(
+                    pipeline,
+                    worldSeed,
+                    origin,
+                    epsilon,
+                    out string eastWestMessage);
+
+            bool northSouth =
+                WorldGenerationDiagnostics.ValidateNorthSouthBorder(
+                    pipeline,
+                    worldSeed,
+                    origin,
+                    epsilon,
+                    out string northSouthMessage);
+
+            if (deterministic && eastWest && northSouth)
+            {
+                Debug.Log(
+                    "World generation diagnostics passed.\n" +
+                    determinismMessage + "\n" +
+                    eastWestMessage + "\n" +
+                    northSouthMessage,
+                    this);
+            }
+            else
+            {
+                Debug.LogError(
+                    "World generation diagnostics failed.\n" +
+                    determinismMessage + "\n" +
+                    eastWestMessage + "\n" +
+                    northSouthMessage,
+                    this);
+            }
+        }
+
         [ContextMenu("Clear Preview")]
         public void ClearPreview()
         {
@@ -81,14 +130,37 @@ namespace LittleCastle.World
             previewObjects.Clear();
         }
 
+        private bool TryCreatePipeline(out WorldGenerationPipeline pipeline)
+        {
+            if (settings == null)
+            {
+                Debug.LogError(
+                    "WorldGenerator requires WorldGenerationSettings.",
+                    this);
+
+                pipeline = null;
+                return false;
+            }
+
+            pipeline = new WorldGenerationPipeline(settings);
+            return true;
+        }
+
         private void CreatePreviewChunk(
             WorldGenerationPipeline pipeline,
             ChunkCoordinate coordinate)
         {
-            WorldChunkData chunkData = pipeline.GenerateChunk(worldSeed, coordinate);
-            Mesh mesh = ChunkMeshBuilder.Build(chunkData, settings.ChunkWorldSize);
+            WorldChunkData chunkData =
+                pipeline.GenerateChunk(worldSeed, coordinate);
 
-            var chunkObject = new GameObject($"Chunk_{coordinate.x}_{coordinate.z}");
+            Mesh mesh =
+                ChunkMeshBuilder.Build(
+                    chunkData,
+                    settings.ChunkWorldSize);
+
+            var chunkObject =
+                new GameObject($"Chunk_{coordinate.x}_{coordinate.z}");
+
             chunkObject.transform.SetParent(transform, false);
             chunkObject.transform.localPosition =
                 coordinate.GetWorldOrigin(settings.ChunkWorldSize);
