@@ -91,7 +91,8 @@ namespace LittleCastle.World
                         from.worldPosition,
                         to.worldPosition,
                         terrainProbe,
-                        settings);
+                        settings,
+                        plan.Rivers);
 
                 if (path == null || path.Count < 2)
                     continue;
@@ -117,6 +118,21 @@ namespace LittleCastle.World
             Vector2 end,
             WorldTerrainProbe terrainProbe,
             TerrainRoadPathPlannerSettings settings)
+        {
+            return Solve(
+                start,
+                end,
+                terrainProbe,
+                settings,
+                null);
+        }
+
+        public static List<Vector2> Solve(
+            Vector2 start,
+            Vector2 end,
+            WorldTerrainProbe terrainProbe,
+            TerrainRoadPathPlannerSettings settings,
+            IReadOnlyList<WorldRiverData> rivers)
         {
             float step =
                 Mathf.Max(
@@ -271,12 +287,23 @@ namespace LittleCastle.World
                                 settings.highlandCostMultiplier);
                     }
 
+                    float waterPenalty =
+                        IsInsideRiverCorridor(
+                            neighborWorld,
+                            rivers,
+                            settings.riverAvoidancePadding)
+                            ? Mathf.Max(
+                                0f,
+                                settings.riverCrossingPenalty)
+                            : 0f;
+
                     float tentative =
                         GetScore(
                             gScore,
                             current) +
                         moveDistance *
-                        terrainMultiplier;
+                        terrainMultiplier +
+                        waterPenalty;
 
                     float previous =
                         GetScore(
@@ -295,6 +322,76 @@ namespace LittleCastle.World
             }
 
             return null;
+        }
+
+        private static bool IsInsideRiverCorridor(
+            Vector2 point,
+            IReadOnlyList<WorldRiverData> rivers,
+            float extraPadding)
+        {
+            if (rivers == null)
+                return false;
+
+            for (int r = 0; r < rivers.Count; r++)
+            {
+                WorldRiverData river = rivers[r];
+
+                if (river == null ||
+                    river.centerline.Count < 2)
+                {
+                    continue;
+                }
+
+                float radius =
+                    Mathf.Max(
+                        0.1f,
+                        river.nominalWidth * 0.5f +
+                        Mathf.Max(0f, extraPadding));
+
+                float radiusSqr =
+                    radius * radius;
+
+                for (int i = 0;
+                     i < river.centerline.Count - 1;
+                     i++)
+                {
+                    if (DistancePointSegmentSqr(
+                            point,
+                            river.centerline[i],
+                            river.centerline[i + 1]) <=
+                        radiusSqr)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        private static float DistancePointSegmentSqr(
+            Vector2 point,
+            Vector2 a,
+            Vector2 b)
+        {
+            Vector2 ab = b - a;
+            float lengthSqr = ab.sqrMagnitude;
+
+            if (lengthSqr <= 0.000001f)
+                return (point - a).sqrMagnitude;
+
+            float t =
+                Mathf.Clamp01(
+                    Vector2.Dot(
+                        point - a,
+                        ab) /
+                    lengthSqr);
+
+            Vector2 closest =
+                a + ab * t;
+
+            return
+                (point - closest).sqrMagnitude;
         }
 
         private static int FindBestOpenIndex(
