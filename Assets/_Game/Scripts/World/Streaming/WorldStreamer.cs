@@ -27,6 +27,10 @@ namespace LittleCastle.World
 
         [SerializeField] private string mapSizePresetId = "medium";
 
+        [SerializeField]
+        private WorldSessionStartOptions sessionStartOptions =
+            new WorldSessionStartOptions();
+
         [Header("Streaming focus")]
         [SerializeField] private Transform focus;
         [SerializeField] private bool streamOnStart = true;
@@ -160,7 +164,8 @@ namespace LittleCastle.World
         public bool ConfigureFiniteSession(
             int seed,
             int playerCount,
-            string presetId)
+            string presetId,
+            WorldSessionStartOptions startOptions = null)
         {
             if (worldDefinition == null ||
                 MapRules == null)
@@ -195,6 +200,11 @@ namespace LittleCastle.World
             mapSizePresetId =
                 presetId;
 
+            sessionStartOptions =
+                startOptions != null
+                    ? startOptions.Clone()
+                    : new WorldSessionStartOptions();
+
             useFiniteSessionMap = true;
 
             sessionMap =
@@ -202,7 +212,8 @@ namespace LittleCastle.World
                     worldSeed,
                     sessionPlayerCount,
                     preset,
-                    new ChunkCoordinate(0, 0));
+                    new ChunkCoordinate(0, 0),
+                    sessionStartOptions);
 
             if (initialized)
                 InitializeStreaming();
@@ -458,7 +469,8 @@ namespace LittleCastle.World
                     worldSeed,
                     sessionPlayerCount,
                     preset,
-                    new ChunkCoordinate(0, 0));
+                    new ChunkCoordinate(0, 0),
+                    sessionStartOptions);
 
             return true;
         }
