@@ -24,6 +24,11 @@ namespace LittleCastle.World
         [Min(0f)]
         public float influenceRadius = 100f;
 
+        public bool avoidOtherPointFeatures = true;
+
+        [Min(0f)]
+        public float separationPadding = 40f;
+
         [Header("Terrain suitability")]
         public TerrainClassMask allowedTerrain =
             TerrainClassMask.Plains |
@@ -41,6 +46,13 @@ namespace LittleCastle.World
         menuName = "Little Castle/World/Macro World Planner Settings")]
     public sealed class MacroWorldPlannerSettings : ScriptableObject
     {
+        [Header("Planning stability")]
+        [Tooltip(
+            "Extra area planned around a requested region so roads/rivers and " +
+            "neighbor relationships do not depend only on the visible edge.")]
+        [Min(0f)]
+        [SerializeField] private float planningHalo = 3000f;
+
         [SerializeField]
         private List<MacroPointFeatureRule> pointFeatureRules =
             new List<MacroPointFeatureRule>();
@@ -65,6 +77,11 @@ namespace LittleCastle.World
         private BridgePlannerSettings bridges =
             new BridgePlannerSettings();
 
+        public float PlanningHalo =>
+            Mathf.Max(
+                planningHalo,
+                MaxPointInfluenceRadius);
+
         public IReadOnlyList<MacroPointFeatureRule> PointFeatureRules =>
             pointFeatureRules;
 
@@ -88,7 +105,8 @@ namespace LittleCastle.World
                     {
                         max = Mathf.Max(
                             max,
-                            rule.influenceRadius);
+                            rule.influenceRadius +
+                            rule.separationPadding);
                     }
                 }
 
