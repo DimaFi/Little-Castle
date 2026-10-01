@@ -32,13 +32,24 @@ This is an implementation roadmap, not a requirement to build everything at once
 
 ## Phase 2 — World streaming
 
-- [ ] Chunk cache
+- [x] bounded LRU chunk-data cache
+- [x] active-chunk cache pinning
+- [x] player/focus-centered loading radius
+- [x] unload hysteresis radius
+- [x] nearest-first load queue
+- [x] generation/load budget per frame
+- [x] unload budget per frame
+- [x] runtime mesh cleanup on unload
+- [x] runtime-delta-aware spawn presentation
+- [x] fixed session macro-plan safety boundary
 - [ ] asynchronous/background generation boundary
-- [ ] player-centered loading radius
-- [ ] visual chunk pooling
-- [ ] cancellation/version safety
-- [ ] generation profiler
-- [ ] generation budget per frame
+- [ ] cancellation/request-version safety
+- [ ] visual chunk/root pooling
+- [ ] object/vegetation pooling or instancing
+- [ ] generation/streaming profiler
+- [ ] multiple streaming focuses
+- [ ] fixed deterministic macro tiles
+- [ ] world-origin rebasing for extreme distances
 
 ## Phase 3 — Macro world plan
 
