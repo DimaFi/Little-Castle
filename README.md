@@ -25,7 +25,9 @@ The repository already contains:
 - runtime deltas for removed objects and depleted deposits;
 - generation-versioned save metadata;
 - configuration validation and determinism/seam diagnostics;
-- in-memory generated chunk cache.
+- bounded LRU generated-chunk cache with active-chunk pinning;
+- budgeted runtime chunk streaming around a focus transform;
+- explicit fixed-session macro-plan safety boundary for current bounded macro generation.
 
 The central rule is:
 
@@ -44,6 +46,8 @@ WorldDefinition
 │  ├─ rivers
 │  ├─ road graph / path solver
 │  └─ bridges
+├─ WorldStreamingSettings
+│  └─ load/unload/cache/session-macro policy
 └─ WorldSpawnCatalog
    └─ archetypeId -> prefab variants
 ```
@@ -61,6 +65,7 @@ This keeps scene setup small and gives tools/Codex one clear root for world conf
 - `docs/architecture/world-object-generation.md`
 - `docs/architecture/macro-world-generation.md`
 - `docs/architecture/rivers-roads-bridges.md`
+- `docs/architecture/world-streaming.md`
 - `docs/architecture/world-generation-roadmap.md`
 
 ## Unity status
