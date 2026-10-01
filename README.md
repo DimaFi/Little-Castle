@@ -30,7 +30,8 @@ The repository already contains:
 - finite host-selected session-map foundation with player-count restrictions;
 - separate playable bounds and terrain-only visual border;
 - one stable macro plan for the complete finite match;
-- fog-of-war data foundation with Hidden / Explored / Visible states.
+- fog-of-war data foundation with Hidden / Explored / Visible states;
+- deterministic fair-start evaluation that rejects resource/terrain-biased seeds instead of forcing mirrored maps.
 
 The central rule is:
 
@@ -51,6 +52,8 @@ WorldDefinition
 │  └─ bridges
 ├─ WorldMapRules
 │  └─ host-selectable finite map presets / player-count restrictions
+├─ WorldStartFairnessSettings
+│  └─ buildability / forest / resource / separation fairness policy
 ├─ WorldStreamingSettings
 │  └─ load/unload/cache policy
 └─ WorldSpawnCatalog
@@ -74,6 +77,7 @@ This keeps scene setup small and gives tools/Codex one clear root for world conf
 - `docs/architecture/world-streaming.md`
 - `docs/architecture/finite-session-maps.md`
 - `docs/architecture/fog-of-war.md`
+- `docs/architecture/fair-player-starts.md`
 - `docs/architecture/world-generation-roadmap.md`
 
 ## Unity status
