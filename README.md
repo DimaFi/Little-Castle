@@ -2,24 +2,53 @@
 
 Little Castle is a long-term Unity project about building and developing a cozy medieval settlement in a large procedural world.
 
-## Current foundation
+## Current procedural-world foundation
 
-The repository already contains an extensible procedural-world foundation:
+The repository already contains:
 
-- deterministic world seed;
-- chunk coordinates and chunk-local data;
-- ordered ScriptableObject generation pipeline;
-- layered terrain with regional relief, hills, highlands/ridges and detail;
-- per-cell slope and terrain classification;
-- deterministic regeneration with different seeds;
-- seam and determinism diagnostics;
-- macro-world scaffolding for future settlements, ruins and other cross-chunk features;
-- debug mesh preview;
-- architecture documentation for roads, rivers, bridges, forests, resources, neutral settlements, saves and multiplayer.
+- deterministic seed-based generation;
+- chunk coordinates and seamless world-space terrain sampling;
+- ordered generation phases with validation;
+- layered terrain, river carving, slope analysis;
+- climate, biome and logical terrain-surface data;
+- forest-density and scalable grass-density fields;
+- deterministic object scatter for trees, rocks, bushes and props;
+- authoritative stone/ore deposit data;
+- macro neutral settlements, ruins and landmarks;
+- logical road graph + coarse terrain-aware A* road paths;
+- early downhill river tracing;
+- bridge sites derived from road/river intersections;
+- placement exclusion masks so infrastructure reserves space before local scatter;
+- stable generated object IDs;
+- prefab-independent `archetypeId` records;
+- `WorldSpawnCatalog` for mapping logical objects to Unity prefabs;
+- runtime deltas for removed objects and depleted deposits;
+- generation-versioned save metadata;
+- configuration validation and determinism/seam diagnostics;
+- in-memory generated chunk cache.
 
 The central rule is:
 
 > **Generated world data is authoritative; Unity GameObjects are presentation.**
+
+## Root configuration
+
+Unity scenes should reference one `WorldDefinition` asset.
+
+```text
+WorldDefinition
+├─ WorldGenerationSettings
+│  └─ ordered generation stages
+├─ MacroWorldPlannerSettings
+│  ├─ settlements / ruins / landmarks
+│  ├─ rivers
+│  ├─ road graph / path solver
+│  └─ bridges
+└─ WorldSpawnCatalog
+   └─ archetypeId -> prefab variants
+```
+
+This keeps scene setup small and gives tools/Codex one clear root for world configuration.
 
 ## Read before coding
 
@@ -27,34 +56,31 @@ The central rule is:
 - `docs/PROJECT_STRUCTURE.md`
 - `docs/workflows/UNITY_SETUP.md`
 - `docs/workflows/CODEX_WORKFLOW.md`
+- `docs/workflows/WORLD_GENERATION_PRESET.md`
 - `docs/architecture/world-generation.md`
-- `docs/architecture/world-feature-catalog.md`
+- `docs/architecture/world-object-generation.md`
+- `docs/architecture/macro-world-generation.md`
+- `docs/architecture/rivers-roads-bridges.md`
 - `docs/architecture/world-generation-roadmap.md`
 
-## Unity
+## Unity status
 
-The repository root is the future Unity project root.
+The repository root is intended to be the Unity project root.
 
-Once a Unity LTS/version is selected, open this repository itself in Unity and commit the generated:
+Unity has **not yet been opened for this repository**, so `Packages/`, `ProjectSettings/` and Unity-generated `*.meta` files are not committed yet.
 
-- `Packages/`
-- `ProjectSettings/`
-- Unity `*.meta` files.
+The current C# foundation is written against built-in Unity APIs, but it must still be compiled and visually verified inside the chosen Unity version before being treated as production-ready.
+
+Once a Unity version is chosen:
+
+1. open the repository root as the Unity project;
+2. commit `Packages/`, `ProjectSettings/` and generated `*.meta` files;
+3. create the settings assets described in `docs/workflows/WORLD_GENERATION_PRESET.md`;
+4. create one `WorldDefinition`;
+5. assign it to a scene `WorldGenerator`;
+6. run **Validate World Configuration**;
+7. run **Generate Preview**;
+8. run **Run Generation Diagnostics**;
+9. inspect several seeds before adding large art libraries.
 
 Do not create a nested second Unity project.
-
-## First terrain preview
-
-After the Unity project metadata exists:
-
-1. Create a `WorldGenerationSettings` asset.
-2. Create a `LayeredTerrainStage` asset.
-3. Create a `TerrainClassificationStage` asset.
-4. Add the stages to settings **in that order**.
-5. Create a scene GameObject with `WorldGenerator`.
-6. Assign the settings and any preview material.
-7. Run **Generate Preview**.
-8. Run **Regenerate Preview (Next Seed)** to see another deterministic world.
-9. Run **Run Generation Diagnostics** after generation changes.
-
-The older `HeightNoiseStage` is a simpler experimental height stage and should not be stacked with `LayeredTerrainStage` unless that composition is intentional.
