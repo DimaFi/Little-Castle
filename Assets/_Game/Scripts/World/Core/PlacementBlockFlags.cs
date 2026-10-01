@@ -26,6 +26,8 @@ namespace LittleCastle.World
                     return PlacementBlockFlags.Grass;
                 case SpawnCategory.Rock:
                 case SpawnCategory.RuinProp:
+                case SpawnCategory.Structure:
+                case SpawnCategory.Landmark:
                     return PlacementBlockFlags.LargeObjects;
                 case SpawnCategory.Bush:
                 case SpawnCategory.Decoration:
