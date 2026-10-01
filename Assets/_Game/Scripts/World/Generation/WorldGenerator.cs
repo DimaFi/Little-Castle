@@ -62,6 +62,28 @@ namespace LittleCastle.World
             GeneratePreview();
         }
 
+        [ContextMenu("Validate World Configuration")]
+        public void ValidateWorldConfiguration()
+        {
+            WorldConfigurationValidationReport report =
+                WorldGenerationConfigurationValidator.Validate(
+                    settings,
+                    macroPlannerSettings,
+                    previewSpawnCatalog);
+
+            if (report.IsValid)
+            {
+                if (report.Warnings.Count > 0)
+                    Debug.LogWarning(report.ToMultilineString(), this);
+                else
+                    Debug.Log(report.ToMultilineString(), this);
+            }
+            else
+            {
+                Debug.LogError(report.ToMultilineString(), this);
+            }
+        }
+
         [ContextMenu("Run Generation Diagnostics")]
         public void RunGenerationDiagnostics()
         {
