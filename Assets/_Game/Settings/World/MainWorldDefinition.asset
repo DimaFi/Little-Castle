@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9662469eb12f5b4ea897a40db108c35, type: 3}
+  m_Name: MainWorldDefinition
+  m_EditorClassIdentifier: LittleCastle.Runtime::LittleCastle.World.WorldDefinition
+  worldId: little_castle_main
+  generationSettings: {fileID: 11400000, guid: 32ce7b343545b2b4592cf3e6effb584c, type: 2}
+  macroPlannerSettings: {fileID: 11400000, guid: 7f40fe41f9c76c14ab44016f76e8bbc1, type: 2}
+  streamingSettings: {fileID: 11400000, guid: 45373cc45fecd4d4781713d780db54eb, type: 2}
+  spawnCatalog: {fileID: 11400000, guid: f2304c96a4055994e8c4faca6552eb2c, type: 2}

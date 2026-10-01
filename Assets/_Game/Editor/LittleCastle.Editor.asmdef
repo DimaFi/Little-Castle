@@ -1,0 +1,18 @@
+{
+  "name": "LittleCastle.Editor",
+  "rootNamespace": "LittleCastle.Editor",
+  "references": [
+    "LittleCastle.Runtime"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

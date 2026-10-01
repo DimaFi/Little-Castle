@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e51bf5d3949a14478bb35c368c5e366, type: 3}
+  m_Name: MainWorldSpawnCatalog
+  m_EditorClassIdentifier: LittleCastle.Runtime::LittleCastle.World.WorldSpawnCatalog
+  entries:
+  - archetypeId: tree_main_01
+    prefabs:
+    - {fileID: 7908561189645844976, guid: e81b6a4033dc85347b8f48fff80d2ccd, type: 3}
+    scaleMultiplier: 1
+    rotationOffsetEuler: {x: 0, y: 0, z: 0}
+  - archetypeId: rock_ground_01
+    prefabs:
+    - {fileID: 7908561189645844976, guid: e81b6a4033dc85347b8f48fff80d2ccd, type: 3}
+    scaleMultiplier: 1
+    rotationOffsetEuler: {x: 0, y: 0, z: 0}
+  - archetypeId: deposit_stone_01
+    prefabs:
+    - {fileID: 7908561189645844976, guid: e81b6a4033dc85347b8f48fff80d2ccd, type: 3}
+    scaleMultiplier: 1
+    rotationOffsetEuler: {x: 0, y: 0, z: 0}
+  - archetypeId: deposit_iron_01
+    prefabs:
+    - {fileID: 7908561189645844976, guid: e81b6a4033dc85347b8f48fff80d2ccd, type: 3}
+    scaleMultiplier: 1
+    rotationOffsetEuler: {x: 0, y: 0, z: 0}
+  - archetypeId: neutral_village_01
+    prefabs:
+    - {fileID: 7908561189645844976, guid: e81b6a4033dc85347b8f48fff80d2ccd, type: 3}
+    scaleMultiplier: 1
+    rotationOffsetEuler: {x: 0, y: 0, z: 0}
+  - archetypeId: ruin_fortified_01
+    prefabs:
+    - {fileID: 7908561189645844976, guid: e81b6a4033dc85347b8f48fff80d2ccd, type: 3}
+    scaleMultiplier: 1
+    rotationOffsetEuler: {x: 0, y: 0, z: 0}
+  - archetypeId: bridge_wood_small
+    prefabs:
+    - {fileID: 7908561189645844976, guid: e81b6a4033dc85347b8f48fff80d2ccd, type: 3}
+    scaleMultiplier: 1
+    rotationOffsetEuler: {x: 0, y: 0, z: 0}

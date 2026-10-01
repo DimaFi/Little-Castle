@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec7e641107b07a34eb5d8d4ed39b1576, type: 3}
+  m_Name: MainWorldGenerationSettings
+  m_EditorClassIdentifier: LittleCastle.Runtime::LittleCastle.World.WorldGenerationSettings
+  profileId: main_world
+  generationVersion: 1
+  cellsPerSide: 32
+  chunkWorldSize: 64
+  stages:
+  - {fileID: 11400000, guid: 1cc03ce9fd3eaa84abb55a17890ec687, type: 2}
+  - {fileID: 11400000, guid: 05fecee9f0ab8d745a71c45d3e494a9d, type: 2}
+  - {fileID: 11400000, guid: 5401436ea3cb0334aa4a29eebe88a99c, type: 2}
+  - {fileID: 11400000, guid: 2c1662398eea99d409edb04f4ad4ff61, type: 2}
+  - {fileID: 11400000, guid: 18553a0694aca86468feea6ce0c8ba14, type: 2}
+  - {fileID: 11400000, guid: 0a18294acd4cde9448e5d24f94968f03, type: 2}
+  - {fileID: 11400000, guid: 55fb04817c38aea4ab1085f5d76e5092, type: 2}
+  - {fileID: 11400000, guid: 33477c79333afdf4ea7d4f2a55f0c692, type: 2}
+  - {fileID: 11400000, guid: 0f3a881571099314d86486ce43d3e0cf, type: 2}
+  - {fileID: 11400000, guid: b784fcff8aed7bb4d950f0201d68b1e8, type: 2}
+  - {fileID: 11400000, guid: 83624e9cbd909c04fa2167eac3c219f3, type: 2}

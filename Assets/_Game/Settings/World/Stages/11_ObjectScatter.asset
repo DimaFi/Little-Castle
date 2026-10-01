@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0251c478b0cab0748a0949ef222a8d11, type: 3}
+  m_Name: 11_ObjectScatter
+  m_EditorClassIdentifier: LittleCastle.Runtime::LittleCastle.World.ObjectScatterStage
+  enabledStage: 1
+  rules:
+  - ruleId: tree_main_common
+    archetypeId: tree_main_01
+    category: 1
+    spacing: 6
+    baseChance: 0.8
+    borderJitter: 0.12
+    allowedTerrain: 15
+    allowedBiomes: 63
+    minHeight: -1000
+    maxHeight: 1000
+    maxSlope: 28
+    multiplyByForestDensity: 1
+    forestDensityExponent: 1
+    minScale: 0.9
+    maxScale: 1.15
+  - ruleId: rock_ground_common
+    archetypeId: rock_ground_01
+    category: 4
+    spacing: 20
+    baseChance: 0.4
+    borderJitter: 0.12
+    allowedTerrain: 15
+    allowedBiomes: 63
+    minHeight: -1000
+    maxHeight: 1000
+    maxSlope: 45
+    multiplyByForestDensity: 0
+    forestDensityExponent: 1
+    minScale: 0.8
+    maxScale: 1.25
