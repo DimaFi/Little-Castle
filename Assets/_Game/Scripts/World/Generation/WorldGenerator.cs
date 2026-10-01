@@ -7,15 +7,13 @@ namespace LittleCastle.World
     {
         [Header("World")]
         [SerializeField] private int worldSeed = 12345;
-        [SerializeField] private WorldGenerationSettings settings;
-        [SerializeField] private MacroWorldPlannerSettings macroPlannerSettings;
+        [SerializeField] private WorldDefinition worldDefinition;
 
         [Header("Preview")]
         [Min(0)]
         [SerializeField] private int previewRadius = 1;
 
         [SerializeField] private Material previewMaterial;
-        [SerializeField] private WorldSpawnCatalog previewSpawnCatalog;
         [SerializeField] private bool renderGeneratedSpawns = true;
         [SerializeField] private bool generateOnStart = true;
 
@@ -23,6 +21,22 @@ namespace LittleCastle.World
             new List<GameObject>();
 
         public int WorldSeed => worldSeed;
+        public WorldDefinition Definition => worldDefinition;
+
+        private WorldGenerationSettings GenerationSettings =>
+            worldDefinition != null
+                ? worldDefinition.GenerationSettings
+                : null;
+
+        private MacroWorldPlannerSettings MacroSettings =>
+            worldDefinition != null
+                ? worldDefinition.MacroPlannerSettings
+                : null;
+
+        private WorldSpawnCatalog SpawnCatalog =>
+            worldDefinition != null
+                ? worldDefinition.SpawnCatalog
+                : null;
 
         private void Start()
         {
@@ -35,14 +49,24 @@ namespace LittleCastle.World
         {
             ClearPreview();
 
-            if (!TryCreatePipeline(out WorldGenerationPipeline pipeline))
-                return;
-
-            var cache = new WorldChunkCache(pipeline, worldSeed);
-
-            for (int z = -previewRadius; z <= previewRadius; z++)
+            if (!TryCreatePipeline(
+                    out WorldGenerationPipeline pipeline))
             {
-                for (int x = -previewRadius; x <= previewRadius; x++)
+                return;
+            }
+
+            var cache =
+                new WorldChunkCache(
+                    pipeline,
+                    worldSeed);
+
+            for (int z = -previewRadius;
+                 z <= previewRadius;
+                 z++)
+            {
+                for (int x = -previewRadius;
+                     x <= previewRadius;
+                     x++)
                 {
                     CreatePreviewChunk(
                         cache,
@@ -56,7 +80,9 @@ namespace LittleCastle.World
         {
             unchecked
             {
-                worldSeed = worldSeed * 1664525 + 1013904223;
+                worldSeed =
+                    worldSeed * 1664525 +
+                    1013904223;
             }
 
             GeneratePreview();
@@ -67,31 +93,43 @@ namespace LittleCastle.World
         {
             WorldConfigurationValidationReport report =
                 WorldGenerationConfigurationValidator.Validate(
-                    settings,
-                    macroPlannerSettings,
-                    previewSpawnCatalog);
+                    worldDefinition);
 
             if (report.IsValid)
             {
                 if (report.Warnings.Count > 0)
-                    Debug.LogWarning(report.ToMultilineString(), this);
+                {
+                    Debug.LogWarning(
+                        report.ToMultilineString(),
+                        this);
+                }
                 else
-                    Debug.Log(report.ToMultilineString(), this);
+                {
+                    Debug.Log(
+                        report.ToMultilineString(),
+                        this);
+                }
             }
             else
             {
-                Debug.LogError(report.ToMultilineString(), this);
+                Debug.LogError(
+                    report.ToMultilineString(),
+                    this);
             }
         }
 
         [ContextMenu("Run Generation Diagnostics")]
         public void RunGenerationDiagnostics()
         {
-            if (!TryCreatePipeline(out WorldGenerationPipeline pipeline))
+            if (!TryCreatePipeline(
+                    out WorldGenerationPipeline pipeline))
+            {
                 return;
+            }
 
             const float epsilon = 0.0001f;
-            var origin = new ChunkCoordinate(0, 0);
+            var origin =
+                new ChunkCoordinate(0, 0);
 
             bool deterministic =
                 WorldGenerationDiagnostics.ValidateDeterminism(
@@ -153,9 +191,12 @@ namespace LittleCastle.World
         [ContextMenu("Clear Preview")]
         public void ClearPreview()
         {
-            for (int i = previewObjects.Count - 1; i >= 0; i--)
+            for (int i = previewObjects.Count - 1;
+                 i >= 0;
+                 i--)
             {
-                GameObject previewObject = previewObjects[i];
+                GameObject previewObject =
+                    previewObjects[i];
 
                 if (previewObject == null)
                     continue;
@@ -172,17 +213,31 @@ namespace LittleCastle.World
         private bool TryCreatePipeline(
             out WorldGenerationPipeline pipeline)
         {
-            if (settings == null)
+            WorldGenerationSettings settings =
+                GenerationSettings;
+
+            if (worldDefinition == null)
             {
                 Debug.LogError(
-                    "WorldGenerator requires WorldGenerationSettings.",
+                    "WorldGenerator requires a WorldDefinition.",
                     this);
 
                 pipeline = null;
                 return false;
             }
 
-            MacroWorldPlan macroPlan = BuildPreviewMacroPlan();
+            if (settings == null)
+            {
+                Debug.LogError(
+                    "WorldDefinition requires WorldGenerationSettings.",
+                    this);
+
+                pipeline = null;
+                return false;
+            }
+
+            MacroWorldPlan macroPlan =
+                BuildPreviewMacroPlan();
 
             pipeline =
                 new WorldGenerationPipeline(
@@ -194,12 +249,28 @@ namespace LittleCastle.World
 
         private MacroWorldPlan BuildPreviewMacroPlan()
         {
-            if (macroPlannerSettings == null || settings == null)
-                return null;
+            WorldGenerationSettings settings =
+                GenerationSettings;
 
-            float chunkSize = settings.ChunkWorldSize;
-            float min = -previewRadius * chunkSize;
-            float size = (previewRadius * 2 + 1) * chunkSize;
+            MacroWorldPlannerSettings macroSettings =
+                MacroSettings;
+
+            if (macroSettings == null ||
+                settings == null)
+            {
+                return null;
+            }
+
+            float chunkSize =
+                settings.ChunkWorldSize;
+
+            float min =
+                -previewRadius *
+                chunkSize;
+
+            float size =
+                (previewRadius * 2 + 1) *
+                chunkSize;
 
             var bounds =
                 new Rect(
@@ -221,20 +292,28 @@ namespace LittleCastle.World
 
             var planner =
                 new MacroWorldPlanner(
-                    macroPlannerSettings);
+                    macroSettings);
 
-            return planner.GenerateForBounds(
-                worldSeed,
-                bounds,
-                terrainProbe);
+            return
+                planner.GenerateForBounds(
+                    worldSeed,
+                    bounds,
+                    terrainProbe);
         }
 
         private void CreatePreviewChunk(
             WorldChunkCache cache,
             ChunkCoordinate coordinate)
         {
+            WorldGenerationSettings settings =
+                GenerationSettings;
+
+            if (settings == null)
+                return;
+
             WorldChunkData chunkData =
-                cache.GetOrGenerate(coordinate);
+                cache.GetOrGenerate(
+                    coordinate);
 
             Mesh mesh =
                 ChunkMeshBuilder.Build(
@@ -243,9 +322,14 @@ namespace LittleCastle.World
 
             var chunkObject =
                 new GameObject(
-                    $"Chunk_{coordinate.x}_{coordinate.z}");
+                    "Chunk_" +
+                    coordinate.x +
+                    "_" +
+                    coordinate.z);
 
-            chunkObject.transform.SetParent(transform, false);
+            chunkObject.transform.SetParent(
+                transform,
+                false);
 
             Vector3 chunkWorldOrigin =
                 coordinate.GetWorldOrigin(
@@ -265,17 +349,21 @@ namespace LittleCastle.World
             meshRenderer.sharedMaterial =
                 previewMaterial;
 
+            WorldSpawnCatalog catalog =
+                SpawnCatalog;
+
             if (renderGeneratedSpawns &&
-                previewSpawnCatalog != null)
+                catalog != null)
             {
                 ChunkSpawnPresenter.Populate(
                     chunkObject.transform,
                     chunkData,
-                    previewSpawnCatalog,
+                    catalog,
                     chunkWorldOrigin);
             }
 
-            previewObjects.Add(chunkObject);
+            previewObjects.Add(
+                chunkObject);
         }
     }
 }
