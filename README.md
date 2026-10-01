@@ -27,7 +27,10 @@ The repository already contains:
 - configuration validation and determinism/seam diagnostics;
 - bounded LRU generated-chunk cache with active-chunk pinning;
 - budgeted runtime chunk streaming around a focus transform;
-- explicit fixed-session macro-plan safety boundary for current bounded macro generation.
+- finite host-selected session-map foundation with player-count restrictions;
+- separate playable bounds and terrain-only visual border;
+- one stable macro plan for the complete finite match;
+- fog-of-war data foundation with Hidden / Explored / Visible states.
 
 The central rule is:
 
@@ -46,8 +49,10 @@ WorldDefinition
 │  ├─ rivers
 │  ├─ road graph / path solver
 │  └─ bridges
+├─ WorldMapRules
+│  └─ host-selectable finite map presets / player-count restrictions
 ├─ WorldStreamingSettings
-│  └─ load/unload/cache/session-macro policy
+│  └─ load/unload/cache policy
 └─ WorldSpawnCatalog
    └─ archetypeId -> prefab variants
 ```
@@ -67,6 +72,8 @@ This keeps scene setup small and gives tools/Codex one clear root for world conf
 - `docs/architecture/macro-world-generation.md`
 - `docs/architecture/rivers-roads-bridges.md`
 - `docs/architecture/world-streaming.md`
+- `docs/architecture/finite-session-maps.md`
+- `docs/architecture/fog-of-war.md`
 - `docs/architecture/world-generation-roadmap.md`
 
 ## Unity status
