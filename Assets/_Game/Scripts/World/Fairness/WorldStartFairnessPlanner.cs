@@ -416,6 +416,7 @@ namespace LittleCastle.World
 
             if (!EvaluateResources(
                     center,
+                    playableRect,
                     metrics,
                     out float resourceScore))
             {
@@ -660,6 +661,8 @@ namespace LittleCastle.World
             ref float total,
             ref int count)
         {
+            count++;
+
             if (!playableRect.Contains(point))
                 return;
 
@@ -672,12 +675,11 @@ namespace LittleCastle.World
                     generationSettings,
                     point.x,
                     point.y);
-
-            count++;
         }
 
         private bool EvaluateResources(
             Vector2 center,
+            Rect playableRect,
             WorldStartAreaMetrics metrics,
             out float resourceScore)
         {
@@ -708,6 +710,7 @@ namespace LittleCastle.World
                 int effectiveCapacity =
                     SumEffectiveResourceCapacity(
                         center,
+                        playableRect,
                         requirement.resourceKind,
                         requirement.searchRadius);
 
@@ -762,6 +765,7 @@ namespace LittleCastle.World
 
         private int SumEffectiveResourceCapacity(
             Vector2 center,
+            Rect playableRect,
             ResourceKind resourceKind,
             float searchRadius)
         {
@@ -819,6 +823,12 @@ namespace LittleCastle.World
                             new Vector2(
                                 deposit.worldPosition.x,
                                 deposit.worldPosition.z);
+
+                        if (!playableRect.Contains(
+                                depositPosition))
+                        {
+                            continue;
+                        }
 
                         if ((depositPosition -
                              center).sqrMagnitude >
