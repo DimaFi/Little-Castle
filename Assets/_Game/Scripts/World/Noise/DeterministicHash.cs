@@ -51,17 +51,80 @@ namespace LittleCastle.World
             }
         }
 
-        public static long StableId(int seed, int x, int z, int salt)
+        public static long StableId(
+            int seed,
+            int x,
+            int z,
+            int salt)
         {
             unchecked
             {
-                uint hi = (uint)Hash32(seed, x, z, salt);
-                uint lo = (uint)Hash32(seed ^ 0x6D2B79F5, z, x, salt ^ 0x1B873593);
-                return (long)(((ulong)hi << 32) | lo);
+                uint hi =
+                    (uint)Hash32(
+                        seed,
+                        x,
+                        z,
+                        salt);
+
+                uint lo =
+                    (uint)Hash32(
+                        seed ^ 0x6D2B79F5,
+                        z,
+                        x,
+                        salt ^ 0x1B873593);
+
+                return (long)(
+                    ((ulong)hi << 32) |
+                    lo);
             }
         }
 
-        private static uint Mix(uint h, uint value)
+        public static long StablePairId(
+            int seed,
+            long first,
+            long second,
+            int salt)
+        {
+            unchecked
+            {
+                ulong a = (ulong)first;
+                ulong b = (ulong)second;
+
+                if (a > b)
+                {
+                    ulong temp = a;
+                    a = b;
+                    b = temp;
+                }
+
+                int aLow = (int)(a & 0xFFFFFFFFUL);
+                int aHigh = (int)(a >> 32);
+                int bLow = (int)(b & 0xFFFFFFFFUL);
+                int bHigh = (int)(b >> 32);
+
+                uint hi =
+                    (uint)Hash32(
+                        seed,
+                        aLow ^ bHigh,
+                        bLow ^ aHigh,
+                        salt);
+
+                uint lo =
+                    (uint)Hash32(
+                        seed ^ 0x6D2B79F5,
+                        aHigh ^ bLow,
+                        bHigh ^ aLow,
+                        salt ^ 0x1B873593);
+
+                return (long)(
+                    ((ulong)hi << 32) |
+                    lo);
+            }
+        }
+
+        private static uint Mix(
+            uint h,
+            uint value)
         {
             return (h ^ value) * 16777619u;
         }
