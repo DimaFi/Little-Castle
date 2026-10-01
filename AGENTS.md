@@ -107,15 +107,16 @@ Fog of war is independent from procedural generation:
 
 ## Fair-start generation rule
 
-Competitive procedural maps must remain random but pass a deterministic
-fairness gate before match start.
+Procedural starts should remain genuinely uneven.
 
 - do not mirror the whole world just to create fairness;
-- do not silently inject emergency resources for one player as the default solution;
-- evaluate the already generated terrain, forest and resource data;
-- require buildable start areas and minimum strategic-resource access;
-- keep player starts sufficiently separated for the selected finite map/player count;
-- reject/reroll a seed if not enough comparable starts exist;
-- keep fairness evaluation deterministic from session inputs;
-- only playable-bounds resources count toward start fairness;
+- resource/forest poverty is allowed and can create emergent/funny situations;
+- do not silently inject emergency resources for one player by default;
+- prioritize buildability, minimum separation and multiple independent exits over resource equality;
+- a river/choke must not leave a player with only one practical exit in normal configurations;
+- host settings choose placement mode and fairness strength;
+- interior/pressured starts may prefer richer candidates according to host-configurable compensation;
+- use the already generated terrain, forest, resources, rivers and bridges;
+- keep start selection deterministic from session inputs;
+- only playable-bounds resources count;
 - future strategic fairness should prefer travel/path cost over straight-line distance.
