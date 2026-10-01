@@ -37,6 +37,10 @@ namespace LittleCastle.World
                 definition.MapRules,
                 report);
 
+            ValidateStartFairnessSettings(
+                definition.StartFairnessSettings,
+                report);
+
             report.AddInfo(
                 "World definition: '" +
                 definition.WorldId +
@@ -664,6 +668,86 @@ namespace LittleCastle.World
                         context +
                         " visualPaddingChunks cannot be negative.");
                 }
+            }
+        }
+
+        private static void ValidateStartFairnessSettings(
+            WorldStartFairnessSettings settings,
+            WorldConfigurationValidationReport report)
+        {
+            if (settings == null)
+                return;
+
+            if (settings.ResourceRequirements == null ||
+                settings.ResourceRequirements.Count == 0)
+            {
+                report.AddWarning(
+                    "WorldStartFairnessSettings has no strategic resource requirements.");
+            }
+            else
+            {
+                var kinds =
+                    new HashSet<ResourceKind>();
+
+                for (int i = 0;
+                     i < settings.ResourceRequirements.Count;
+                     i++)
+                {
+                    StartResourceRequirement requirement =
+                        settings.ResourceRequirements[i];
+
+                    if (requirement == null)
+                    {
+                        report.AddError(
+                            "Start fairness resource requirement #" +
+                            i +
+                            " is null.");
+
+                        continue;
+                    }
+
+                    if (requirement.resourceKind ==
+                        ResourceKind.Unknown)
+                    {
+                        report.AddWarning(
+                            "Start fairness resource requirement #" +
+                            i +
+                            " uses ResourceKind.Unknown.");
+                    }
+
+                    if (!kinds.Add(
+                            requirement.resourceKind))
+                    {
+                        report.AddWarning(
+                            "Start fairness contains duplicate requirement for " +
+                            requirement.resourceKind +
+                            ".");
+                    }
+
+                    if (requirement.minimumEffectiveCapacity >
+                        requirement.targetEffectiveCapacity)
+                    {
+                        report.AddWarning(
+                            "Start fairness requirement for " +
+                            requirement.resourceKind +
+                            " has minimum capacity above target capacity.");
+                    }
+                }
+            }
+
+            if (settings.MaximumAcceptedScoreSpread > 0.5f)
+            {
+                report.AddWarning(
+                    "Start fairness maximumAcceptedScoreSpread is loose (" +
+                    settings.MaximumAcceptedScoreSpread.ToString("F2") +
+                    "). Large start-quality differences may be accepted.");
+            }
+
+            if (settings.MaximumCandidatesToEvaluate < 32)
+            {
+                report.AddWarning(
+                    "Start fairness evaluates fewer than 32 candidates; " +
+                    "large/high-player maps may reject otherwise valid seeds.");
             }
         }
 
