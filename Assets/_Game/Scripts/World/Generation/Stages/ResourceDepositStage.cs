@@ -62,6 +62,8 @@ namespace LittleCastle.World
         private List<ResourceDepositRule> rules =
             new List<ResourceDepositRule>();
 
+        public IReadOnlyList<ResourceDepositRule> Rules => rules;
+
         public override void Generate(GenerationContext context, WorldChunkData chunk)
         {
             float chunkSize = context.Settings.ChunkWorldSize;
