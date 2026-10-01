@@ -39,8 +39,10 @@ Read these files first, in this order:
 9. `docs/architecture/macro-world-generation.md`
 10. `docs/architecture/rivers-roads-bridges.md`
 11. `docs/architecture/world-streaming.md`
-12. `docs/architecture/world-generation-roadmap.md`
-13. relevant ADR files under `docs/decisions/`
+12. `docs/architecture/finite-session-maps.md`
+13. `docs/architecture/fog-of-war.md`
+14. `docs/architecture/world-generation-roadmap.md`
+15. relevant ADR files under `docs/decisions/`
 
 Do not begin by rewriting classes before reading the architecture.
 
@@ -377,23 +379,27 @@ MacroWorldPlannerSettings
 MacroFeatureProjectionStage
 ```
 
-## Important limitation
+## Finite session-map rule
 
-The current macro planner is bounded.
+Little Castle does **not** use an infinite world.
 
-Do **not** rebuild a moving MacroWorldPlan every time the player changes chunks.
+The host chooses a finite map-size preset and seed before the match.
 
-That could make already visited roads/rivers/settlement relationships change.
+Current finite-map foundation:
 
-The current streaming implementation deliberately uses one fixed macro plan for the session.
+- `WorldMapRules`
+- `WorldMapSizePreset`
+- `WorldSessionMap`
+- `WorldChunkBounds`
 
-Long-term replacement:
+One MacroWorldPlan is generated for the complete playable map when the session
+starts.
 
-```text
-deterministic macro tiles / macro regions
-```
+Do **not** rebuild a moving MacroWorldPlan every time the camera/player changes
+chunks.
 
-not moving-window replanning.
+Do **not** implement deterministic macro tiles unless product design changes
+explicitly.
 
 ---
 
@@ -514,23 +520,30 @@ Do not parent the whole generated world under the moving player/camera.
 
 ---
 
-# 14. Current streaming macro safety boundary
+# 14. Finite session map and visual border
 
-The streamer currently builds one large macro plan around the initial focus.
+Production matches should use `WorldMapRules` and a host-selected
+`WorldMapSizePreset`.
+
+The streamer then uses:
 
 ```text
-Initial Focus
+Playable Bounds
       ↓
-Session Macro Bounds
+one MacroWorldPlan for the entire match
       ↓
-One MacroWorldPlan
-      ↓
-Many runtime chunks
+Visual Bounds = Playable Bounds + terrain-only padding
 ```
 
-When the player approaches the edge, the streamer logs a warning instead of silently rebuilding world-scale features.
+Playable chunks may contain gameplay objects/resources/colliders.
 
-Do not remove this protection during initial testing.
+Visual-only border chunks generate terrain only and must not become traversable
+gameplay space.
+
+Beyond visual bounds, no chunks should be streamed.
+
+The legacy `macroPlanRadiusChunks` path may remain temporarily for old test
+configurations, but it is not the intended match architecture.
 
 ---
 
@@ -812,7 +825,7 @@ Do not expand scope into:
 - advanced NPC AI;
 - complete save-file persistence backend;
 - world-origin rebasing;
-- infinite macro tiling implementation.
+- infinite-world or macro-tiling systems.
 
 Document issues for later instead of mixing them into the first Unity verification pass.
 
@@ -822,16 +835,16 @@ Document issues for later instead of mixing them into the first Unity verificati
 
 After the current code compiles/runs successfully, priority follow-ups are:
 
-1. deterministic macro tiles/regions;
-2. request-version/cancellation-safe async chunk generation;
-3. streaming profiler;
-4. chunk/root pooling;
-5. GPU/instanced vegetation presentation;
-6. road mesh/spline presentation;
-7. water surface presentation;
-8. improved neutral settlement generation/runtime state;
-9. save serialization to disk;
-10. multiplayer-ready streaming/multiple focuses.
+1. configure and test finite host-selected map presets;
+2. fog-of-war renderer + per-player/team visibility manager;
+3. request-version/cancellation-safe async chunk generation;
+4. streaming profiler;
+5. chunk/root pooling;
+6. GPU/instanced vegetation presentation;
+7. road mesh/spline presentation;
+8. water surface presentation;
+9. improved neutral settlement generation/runtime state;
+10. save serialization to disk / multiplayer session integration.
 
 Do not start these before completing the integration report unless an existing compile/runtime bug requires part of them.
 
