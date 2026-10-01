@@ -186,13 +186,33 @@ namespace LittleCastle.World
                     size,
                     size);
 
+            float padding =
+                macroPlannerSettings.MaxPointInfluenceRadius;
+
+            bounds.xMin -= padding;
+            bounds.xMax += padding;
+            bounds.yMin -= padding;
+            bounds.yMax += padding;
+
+            var terrainOnlyPipeline =
+                new WorldGenerationPipeline(
+                    settings,
+                    null);
+
+            var terrainProbe =
+                new WorldTerrainProbe(
+                    terrainOnlyPipeline,
+                    settings,
+                    worldSeed);
+
             var planner =
                 new MacroWorldPlanner(
                     macroPlannerSettings);
 
             return planner.GenerateForBounds(
                 worldSeed,
-                bounds);
+                bounds,
+                terrainProbe);
         }
 
         private void CreatePreviewChunk(
