@@ -31,7 +31,79 @@ namespace LittleCastle.World
                 }
             }
 
-            message = $"Determinism OK for chunk {coordinate}.";
+            message = $"Terrain determinism OK for chunk {coordinate}.";
+            return true;
+        }
+
+        public static bool ValidateSpawnDeterminism(
+            WorldGenerationPipeline pipeline,
+            int worldSeed,
+            ChunkCoordinate coordinate,
+            float epsilon,
+            out string message)
+        {
+            WorldChunkData a = pipeline.GenerateChunk(worldSeed, coordinate);
+            WorldChunkData b = pipeline.GenerateChunk(worldSeed, coordinate);
+
+            if (a.Spawns.Count != b.Spawns.Count)
+            {
+                message =
+                    $"Spawn determinism failed for chunk {coordinate}: " +
+                    $"{a.Spawns.Count} vs {b.Spawns.Count} objects.";
+                return false;
+            }
+
+            for (int i = 0; i < a.Spawns.Count; i++)
+            {
+                WorldSpawnData left = a.Spawns[i];
+                WorldSpawnData right = b.Spawns[i];
+
+                if (left.stableId != right.stableId ||
+                    left.archetypeId != right.archetypeId ||
+                    left.category != right.category ||
+                    Vector3.SqrMagnitude(
+                        left.worldPosition - right.worldPosition) >
+                    epsilon * epsilon ||
+                    Mathf.Abs(left.yawDegrees - right.yawDegrees) > epsilon ||
+                    Mathf.Abs(left.uniformScale - right.uniformScale) > epsilon)
+                {
+                    message =
+                        $"Spawn determinism failed for chunk {coordinate} at index {i}.";
+                    return false;
+                }
+            }
+
+            if (a.ResourceDeposits.Count != b.ResourceDeposits.Count)
+            {
+                message =
+                    $"Resource determinism failed for chunk {coordinate}: " +
+                    $"{a.ResourceDeposits.Count} vs {b.ResourceDeposits.Count} deposits.";
+                return false;
+            }
+
+            for (int i = 0; i < a.ResourceDeposits.Count; i++)
+            {
+                WorldResourceDepositData left = a.ResourceDeposits[i];
+                WorldResourceDepositData right = b.ResourceDeposits[i];
+
+                if (left.stableId != right.stableId ||
+                    left.resourceKind != right.resourceKind ||
+                    Vector3.SqrMagnitude(
+                        left.worldPosition - right.worldPosition) >
+                    epsilon * epsilon ||
+                    Mathf.Abs(left.radius - right.radius) > epsilon ||
+                    Mathf.Abs(left.richness - right.richness) > epsilon ||
+                    left.capacity != right.capacity)
+                {
+                    message =
+                        $"Resource determinism failed for chunk {coordinate} at index {i}.";
+                    return false;
+                }
+            }
+
+            message =
+                $"Spawn/resource determinism OK for chunk {coordinate} " +
+                $"({a.Spawns.Count} spawns, {a.ResourceDeposits.Count} deposits).";
             return true;
         }
 
