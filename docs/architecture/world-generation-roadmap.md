@@ -65,6 +65,23 @@ This is an implementation roadmap, not a requirement to build everything at once
 
 Chunks query this plan and clip/project macro features locally.
 
+## Phase 3A — Fair player starts
+
+- [x] deterministic start-candidate field
+- [x] buildable-area viability checks
+- [x] playable-bounds-only forest scoring
+- [x] configurable strategic resource requirements
+- [x] resource richness/capacity scoring
+- [x] map-size/player-count-scaled start separation
+- [x] selected-start quality spread gate
+- [x] deterministic player-index assignment
+- [x] fairness report with seed rejection reason
+- [ ] automatic multi-seed search/reroll helper
+- [ ] neutral-settlement accessibility fairness
+- [ ] road/river/chokepoint strategic fairness
+- [ ] team-start fairness
+- [ ] production thresholds tuned from real matches
+
 ## Phase 4 — Water
 
 - [x] deterministic first-pass river source strategy
