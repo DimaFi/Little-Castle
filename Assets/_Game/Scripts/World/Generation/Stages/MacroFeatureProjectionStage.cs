@@ -161,15 +161,29 @@ namespace LittleCastle.World
                 if (river == null || river.centerline.Count < 2)
                     continue;
 
-                WorldPlacementMaskUtility.BlockPolyline(
-                    chunk,
-                    context.Settings,
-                    river.centerline,
-                    Mathf.Max(
-                        0f,
-                        river.nominalWidth * 0.5f +
-                        riverClearance),
-                    PlacementBlockFlags.All);
+                if (river.widths != null &&
+                    river.widths.Count == river.centerline.Count)
+                {
+                    WorldPlacementMaskUtility.BlockVariableWidthPolyline(
+                        chunk,
+                        context.Settings,
+                        river.centerline,
+                        river.widths,
+                        riverClearance,
+                        PlacementBlockFlags.All);
+                }
+                else
+                {
+                    WorldPlacementMaskUtility.BlockPolyline(
+                        chunk,
+                        context.Settings,
+                        river.centerline,
+                        Mathf.Max(
+                            0f,
+                            river.nominalWidth * 0.5f +
+                            riverClearance),
+                        PlacementBlockFlags.All);
+                }
             }
         }
 
