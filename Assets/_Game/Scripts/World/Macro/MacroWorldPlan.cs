@@ -2,10 +2,6 @@ using System.Collections.Generic;
 
 namespace LittleCastle.World
 {
-    /// <summary>
-    /// World-scale generated plan shared by many chunks.
-    /// It stores stable macro feature descriptors, not scene objects.
-    /// </summary>
     public sealed class MacroWorldPlan
     {
         private readonly List<WorldPointFeatureData> pointFeatures =
@@ -19,6 +15,18 @@ namespace LittleCastle.World
 
         private readonly List<WorldBridgeSiteData> bridgeSites =
             new List<WorldBridgeSiteData>();
+
+        private readonly HashSet<long> pointFeatureIds =
+            new HashSet<long>();
+
+        private readonly HashSet<long> roadIds =
+            new HashSet<long>();
+
+        private readonly HashSet<long> riverIds =
+            new HashSet<long>();
+
+        private readonly HashSet<long> bridgeIds =
+            new HashSet<long>();
 
         public int WorldSeed { get; }
 
@@ -34,22 +42,58 @@ namespace LittleCastle.World
             WorldSeed = worldSeed;
         }
 
-        public void AddPointFeature(WorldPointFeatureData feature) =>
+        public bool AddPointFeature(WorldPointFeatureData feature)
+        {
+            if (!pointFeatureIds.Add(feature.stableId))
+                return false;
+
             pointFeatures.Add(feature);
-
-        public void AddRoad(WorldRoadData road)
-        {
-            if (road != null)
-                roads.Add(road);
+            return true;
         }
 
-        public void AddRiver(WorldRiverData river)
+        public bool AddRoad(WorldRoadData road)
         {
-            if (river != null)
-                rivers.Add(river);
+            if (road == null || !roadIds.Add(road.stableId))
+                return false;
+
+            roads.Add(road);
+            return true;
         }
 
-        public void AddBridgeSite(WorldBridgeSiteData bridgeSite) =>
+        public bool AddRiver(WorldRiverData river)
+        {
+            if (river == null || !riverIds.Add(river.stableId))
+                return false;
+
+            rivers.Add(river);
+            return true;
+        }
+
+        public bool AddBridgeSite(WorldBridgeSiteData bridgeSite)
+        {
+            if (!bridgeIds.Add(bridgeSite.stableId))
+                return false;
+
             bridgeSites.Add(bridgeSite);
+            return true;
+        }
+
+        public void MergeFrom(MacroWorldPlan other)
+        {
+            if (other == null || other.WorldSeed != WorldSeed)
+                return;
+
+            for (int i = 0; i < other.PointFeatures.Count; i++)
+                AddPointFeature(other.PointFeatures[i]);
+
+            for (int i = 0; i < other.Roads.Count; i++)
+                AddRoad(other.Roads[i]);
+
+            for (int i = 0; i < other.Rivers.Count; i++)
+                AddRiver(other.Rivers[i]);
+
+            for (int i = 0; i < other.BridgeSites.Count; i++)
+                AddBridgeSite(other.BridgeSites[i]);
+        }
     }
 }
