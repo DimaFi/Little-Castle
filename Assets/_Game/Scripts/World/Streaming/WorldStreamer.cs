@@ -709,6 +709,9 @@ namespace LittleCastle.World
         private bool IsInsideSessionMacroArea(
             ChunkCoordinate coordinate)
         {
+            if (MacroSettings == null)
+                return true;
+
             int radius =
                 StreamingSettings.MacroPlanRadiusChunks;
 
@@ -729,6 +732,12 @@ namespace LittleCastle.World
 
         private void UpdateMacroEdgeWarning()
         {
+            if (MacroSettings == null)
+            {
+                macroEdgeWarningIssued = false;
+                return;
+            }
+
             int radius =
                 StreamingSettings.MacroPlanRadiusChunks;
 
