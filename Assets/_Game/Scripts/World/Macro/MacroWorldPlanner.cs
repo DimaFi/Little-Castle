@@ -22,6 +22,11 @@ namespace LittleCastle.World
             if (settings == null)
                 return plan;
 
+            Rect planningBounds =
+                ExpandRect(
+                    worldBounds,
+                    settings.PlanningHalo);
+
             for (int i = 0; i < settings.PointFeatureRules.Count; i++)
             {
                 MacroPointFeatureRule rule =
@@ -32,7 +37,7 @@ namespace LittleCastle.World
 
                 AppendRule(
                     worldSeed,
-                    worldBounds,
+                    planningBounds,
                     rule,
                     terrainProbe,
                     plan);
@@ -42,7 +47,7 @@ namespace LittleCastle.World
             {
                 RiverNetworkPlanner.BuildRivers(
                     worldSeed,
-                    worldBounds,
+                    planningBounds,
                     terrainProbe,
                     settings.Rivers,
                     plan);
@@ -76,15 +81,17 @@ namespace LittleCastle.World
             WorldTerrainProbe terrainProbe,
             MacroWorldPlan plan)
         {
-            float spacing = Mathf.Max(
-                50f,
-                rule.spacing);
+            float spacing =
+                Mathf.Max(
+                    50f,
+                    rule.spacing);
 
-            int salt = DeterministicHash.String32(
-                string.IsNullOrWhiteSpace(
-                    rule.ruleId)
-                    ? rule.kind.ToString()
-                    : rule.ruleId);
+            int salt =
+                DeterministicHash.String32(
+                    string.IsNullOrWhiteSpace(
+                        rule.ruleId)
+                        ? rule.kind.ToString()
+                        : rule.ruleId);
 
             int minGridX =
                 Mathf.FloorToInt(
@@ -102,10 +109,11 @@ namespace LittleCastle.World
                 Mathf.FloorToInt(
                     bounds.yMax / spacing) + 1;
 
-            float margin = Mathf.Clamp(
-                rule.borderJitter,
-                0f,
-                0.45f);
+            float margin =
+                Mathf.Clamp(
+                    rule.borderJitter,
+                    0f,
+                    0.45f);
 
             for (int gz = minGridZ; gz <= maxGridZ; gz++)
             {
@@ -121,27 +129,30 @@ namespace LittleCastle.World
                     if (roll > rule.chance)
                         continue;
 
-                    float jx = Mathf.Lerp(
-                        margin,
-                        1f - margin,
-                        DeterministicHash.Hash01(
-                            worldSeed,
-                            gx,
-                            gz,
-                            salt ^ 0x102));
+                    float jx =
+                        Mathf.Lerp(
+                            margin,
+                            1f - margin,
+                            DeterministicHash.Hash01(
+                                worldSeed,
+                                gx,
+                                gz,
+                                salt ^ 0x102));
 
-                    float jz = Mathf.Lerp(
-                        margin,
-                        1f - margin,
-                        DeterministicHash.Hash01(
-                            worldSeed,
-                            gx,
-                            gz,
-                            salt ^ 0x103));
+                    float jz =
+                        Mathf.Lerp(
+                            margin,
+                            1f - margin,
+                            DeterministicHash.Hash01(
+                                worldSeed,
+                                gx,
+                                gz,
+                                salt ^ 0x103));
 
-                    var position = new Vector2(
-                        (gx + jx) * spacing,
-                        (gz + jz) * spacing);
+                    var position =
+                        new Vector2(
+                            (gx + jx) * spacing,
+                            (gz + jz) * spacing);
 
                     if (!bounds.Contains(position))
                         continue;
@@ -161,6 +172,16 @@ namespace LittleCastle.World
                         }
                     }
 
+                    if (rule.avoidOtherPointFeatures &&
+                        !HasSeparation(
+                            plan,
+                            position,
+                            rule.influenceRadius,
+                            rule.separationPadding))
+                    {
+                        continue;
+                    }
+
                     long id =
                         DeterministicHash.StableId(
                             worldSeed,
@@ -177,6 +198,54 @@ namespace LittleCastle.World
                             rule.influenceRadius));
                 }
             }
+        }
+
+        private static bool HasSeparation(
+            MacroWorldPlan plan,
+            Vector2 position,
+            float influenceRadius,
+            float padding)
+        {
+            for (int i = 0; i < plan.PointFeatures.Count; i++)
+            {
+                WorldPointFeatureData existing =
+                    plan.PointFeatures[i];
+
+                float required =
+                    Mathf.Max(
+                        0f,
+                        influenceRadius) +
+                    Mathf.Max(
+                        0f,
+                        existing.influenceRadius) +
+                    Mathf.Max(
+                        0f,
+                        padding);
+
+                if ((existing.worldPosition - position).sqrMagnitude <
+                    required * required)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private static Rect ExpandRect(
+            Rect rect,
+            float padding)
+        {
+            float safe =
+                Mathf.Max(
+                    0f,
+                    padding);
+
+            rect.xMin -= safe;
+            rect.xMax += safe;
+            rect.yMin -= safe;
+            rect.yMax += safe;
+            return rect;
         }
     }
 }
