@@ -23,6 +23,9 @@ namespace LittleCastle.World
             TerrainClassMask.Steep |
             TerrainClassMask.Highlands;
 
+        public BiomeMask allowedBiomes =
+            BiomeMask.All;
+
         public float minHeight = -1000f;
         public float maxHeight = 1000f;
 
@@ -174,6 +177,16 @@ namespace LittleCastle.World
                             worldZ);
 
                     if (!rule.allowedTerrain.Contains(terrainClass))
+                        continue;
+
+                    BiomeKind biome =
+                        WorldChunkSampling.SampleBiome(
+                            chunk,
+                            context.Settings,
+                            worldX,
+                            worldZ);
+
+                    if (!rule.allowedBiomes.Contains(biome))
                         continue;
 
                     float radiusT = DeterministicHash.Hash01(
