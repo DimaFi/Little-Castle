@@ -29,6 +29,10 @@ namespace LittleCastle.World
                     definition.MacroPlannerSettings,
                     definition.SpawnCatalog);
 
+            ValidateStreamingSettings(
+                definition.StreamingSettings,
+                report);
+
             report.AddInfo(
                 "World definition: '" +
                 definition.WorldId +
@@ -498,6 +502,71 @@ namespace LittleCastle.World
             {
                 report.AddWarning(
                     "Road path solver maxExpandedNodes is very low.");
+            }
+        }
+
+        private static void ValidateStreamingSettings(
+            WorldStreamingSettings settings,
+            WorldConfigurationValidationReport report)
+        {
+            if (settings == null)
+            {
+                report.AddWarning(
+                    "No WorldStreamingSettings assigned. Preview generation can work, " +
+                    "but WorldStreamer cannot initialize.");
+
+                return;
+            }
+
+            if (settings.MacroPlanRadiusChunks <=
+                settings.UnloadRadiusChunks)
+            {
+                report.AddError(
+                    "WorldStreamingSettings macroPlanRadiusChunks must be larger " +
+                    "than the unload radius.");
+            }
+
+            int warningMargin =
+                settings.MacroPlanRadiusChunks -
+                settings.UnloadRadiusChunks;
+
+            if (warningMargin <=
+                settings.MacroEdgeWarningChunks)
+            {
+                report.AddWarning(
+                    "World streaming macro edge warning margin leaves little room " +
+                    "outside the unload radius.");
+            }
+
+            if (settings.MaxCachedChunks > 0)
+            {
+                int diameter =
+                    settings.LoadRadiusChunks * 2 + 1;
+
+                int squareUpperBound =
+                    diameter *
+                    diameter;
+
+                if (settings.MaxCachedChunks <
+                    squareUpperBound)
+                {
+                    report.AddWarning(
+                        "WorldStreamingSettings maxCachedChunks (" +
+                        settings.MaxCachedChunks +
+                        ") is smaller than the square upper bound of simultaneously " +
+                        "loaded chunks (" +
+                        squareUpperBound +
+                        "). Active chunks are pinned, so the cache can temporarily " +
+                        "exceed its configured soft capacity.");
+                }
+            }
+
+            if (settings.MaxChunkLoadsPerFrame > 4)
+            {
+                report.AddWarning(
+                    "WorldStreamingSettings maxChunkLoadsPerFrame is high (" +
+                    settings.MaxChunkLoadsPerFrame +
+                    "). Chunk generation currently runs on the main thread.");
             }
         }
 
