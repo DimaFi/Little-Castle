@@ -14,6 +14,7 @@ namespace LittleCastle.World
         Biome = 375,
         Surface = 390,
         EnvironmentFields = 400,
+        GroundCover = 425,
         Resources = 500,
         LocalSpawns = 600,
         PostProcess = 700
