@@ -25,6 +25,12 @@ namespace LittleCastle.World
         [SerializeField] private bool streamOnStart = true;
 
         [Header("Presentation")]
+        [Tooltip(
+            "Optional stationary scene root for streamed chunk GameObjects. " +
+            "Leave null to place chunks at the scene root. Do not use a root " +
+            "that follows the player.")]
+        [SerializeField] private Transform chunkPresentationRoot;
+
         [SerializeField] private Material terrainMaterial;
 
         [Header("Runtime state")]
@@ -581,8 +587,8 @@ namespace LittleCastle.World
                     coordinate.z);
 
             chunkObject.transform.SetParent(
-                transform,
-                false);
+                chunkPresentationRoot,
+                true);
 
             chunkObject.transform.position =
                 worldOrigin;
