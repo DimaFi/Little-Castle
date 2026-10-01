@@ -13,6 +13,8 @@ namespace LittleCastle.World
         menuName = "Little Castle/World/Generation/Terrain Classification Stage")]
     public sealed class TerrainClassificationStage : WorldGenerationStage
     {
+        public override WorldGenerationStagePhase Phase =>
+            WorldGenerationStagePhase.TerrainAnalysis;
         [Header("Slope thresholds (degrees)")]
         [Range(0f, 45f)]
         [SerializeField] private float rollingSlope = 5f;
