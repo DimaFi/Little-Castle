@@ -13,6 +13,8 @@ namespace LittleCastle.World
         menuName = "Little Castle/World/Generation/Macro Feature Projection Stage")]
     public sealed class MacroFeatureProjectionStage : WorldGenerationStage
     {
+        public override WorldGenerationStagePhase Phase =>
+            WorldGenerationStagePhase.MacroProjection;
         [Header("Point features")]
         [SerializeField]
         private PlacementBlockFlags settlementBlocks =
