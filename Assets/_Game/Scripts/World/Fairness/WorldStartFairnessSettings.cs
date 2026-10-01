@@ -101,6 +101,9 @@ namespace LittleCastle.World
         [SerializeField] private float forestWeight = 1f;
 
         [Min(0f)]
+        [SerializeField] private float resourceWeight = 1.5f;
+
+        [Min(0f)]
         [SerializeField] private float separationWeight = 2f;
 
         [Min(0f)]
@@ -126,6 +129,7 @@ namespace LittleCastle.World
         public float MinimumSeparationMultiplier => Mathf.Max(0.2f, minimumSeparationMultiplier);
         public float TerrainWeight => Mathf.Max(0f, terrainWeight);
         public float ForestWeight => Mathf.Max(0f, forestWeight);
+        public float ResourceWeight => Mathf.Max(0f, resourceWeight);
         public float SeparationWeight => Mathf.Max(0f, separationWeight);
         public float QualityWeight => Mathf.Max(0f, qualityWeight);
         public float MaximumAcceptedScoreSpread => Mathf.Clamp01(maximumAcceptedScoreSpread);
