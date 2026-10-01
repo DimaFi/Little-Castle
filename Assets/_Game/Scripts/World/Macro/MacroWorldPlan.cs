@@ -11,7 +11,8 @@ namespace LittleCastle.World
     /// </summary>
     public sealed class MacroWorldPlan
     {
-        private readonly List<WorldPointFeatureData> pointFeatures = new();
+        private readonly List<WorldPointFeatureData> pointFeatures =
+            new List<WorldPointFeatureData>();
 
         public int WorldSeed { get; }
         public IReadOnlyList<WorldPointFeatureData> PointFeatures => pointFeatures;
