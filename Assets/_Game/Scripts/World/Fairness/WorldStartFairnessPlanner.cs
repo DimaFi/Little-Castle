@@ -34,6 +34,7 @@ namespace LittleCastle.World
         private readonly WorldStartFairnessSettings fairnessSettings;
         private readonly WorldGenerationSettings generationSettings;
         private readonly WorldGenerationPipeline pipeline;
+        private readonly MacroWorldPlan macroPlan;
         private readonly int worldSeed;
 
         private readonly Dictionary<ChunkCoordinate, WorldChunkData> chunkCache =
@@ -54,6 +55,7 @@ namespace LittleCastle.World
                 throw new ArgumentNullException(nameof(generationSettings));
 
             this.worldSeed = worldSeed;
+            this.macroPlan = macroPlan;
 
             pipeline =
                 new WorldGenerationPipeline(
@@ -80,6 +82,23 @@ namespace LittleCastle.World
                 sessionMap.playableChunks.ToWorldRect(
                     generationSettings.ChunkWorldSize);
 
+            WorldSessionStartOptions startOptions =
+                sessionMap.startOptions ??
+                new WorldSessionStartOptions();
+
+            int requiredExitRoutes =
+                ResolveMinimumExitRoutes(
+                    playableRect,
+                    report.requestedPlayerCount,
+                    startOptions);
+
+            List<Vector2> layoutTargets =
+                WorldStartLayoutUtility.BuildTargets(
+                    playableRect,
+                    report.requestedPlayerCount,
+                    worldSeed,
+                    startOptions);
+
             List<RawCandidate> rawCandidates =
                 BuildRawCandidates(
                     playableRect);
@@ -105,6 +124,8 @@ namespace LittleCastle.World
                 if (TryEvaluateCandidate(
                         raw,
                         playableRect,
+                        startOptions,
+                        requiredExitRoutes,
                         out EvaluatedCandidate candidate))
                 {
                     viable.Add(candidate);
@@ -135,6 +156,12 @@ namespace LittleCastle.World
                     playableRect,
                     playerCount);
 
+            minimumStartDistance *=
+                Mathf.Clamp(
+                    startOptions.separationMultiplier,
+                    0.5f,
+                    1.5f);
+
             report.minimumStartDistance =
                 minimumStartDistance;
 
@@ -142,7 +169,10 @@ namespace LittleCastle.World
                 SelectStarts(
                     viable,
                     playerCount,
-                    minimumStartDistance);
+                    minimumStartDistance,
+                    playableRect,
+                    startOptions,
+                    layoutTargets);
 
             if (selected.Count < playerCount)
             {
@@ -156,6 +186,11 @@ namespace LittleCastle.World
                 return report;
             }
 
+            UpdateFinalPressureMetrics(
+                selected,
+                playableRect,
+                minimumStartDistance);
+
             AssignPlayerIndices(
                 selected,
                 report);
@@ -163,15 +198,21 @@ namespace LittleCastle.World
             CalculateSelectedScoreSummary(
                 report);
 
+            float allowedSpread =
+                ResolveAllowedScoreSpread(
+                    startOptions.fairnessMode);
+
             if (report.selectedScoreSpread >
-                fairnessSettings.MaximumAcceptedScoreSpread)
+                allowedSpread)
             {
                 Reject(
                     report,
                     "Selected start quality spread is " +
                     report.selectedScoreSpread.ToString("F3") +
                     ", above the allowed " +
-                    fairnessSettings.MaximumAcceptedScoreSpread.ToString("F3") +
+                    allowedSpread.ToString("F3") +
+                    " for fairness mode " +
+                    startOptions.fairnessMode +
                     ".");
 
                 return report;
@@ -339,6 +380,8 @@ namespace LittleCastle.World
         private bool TryEvaluateCandidate(
             RawCandidate raw,
             Rect playableRect,
+            WorldSessionStartOptions startOptions,
+            int requiredExitRoutes,
             out EvaluatedCandidate candidate)
         {
             candidate = null;
@@ -391,15 +434,20 @@ namespace LittleCastle.World
                     center,
                     playableRect);
 
+            float minimumForest =
+                fairnessSettings.MinimumAverageForestDensity *
+                ResolveHardGateMultiplier(
+                    startOptions.fairnessMode);
+
             if (forestDensity <
-                fairnessSettings.MinimumAverageForestDensity)
+                minimumForest)
             {
                 return false;
             }
 
             float forestScore =
                 Mathf.InverseLerp(
-                    fairnessSettings.MinimumAverageForestDensity,
+                    minimumForest,
                     0.65f,
                     forestDensity);
 
@@ -417,6 +465,7 @@ namespace LittleCastle.World
             if (!EvaluateResources(
                     center,
                     playableRect,
+                    startOptions.fairnessMode,
                     metrics,
                     out float resourceScore))
             {
@@ -425,6 +474,32 @@ namespace LittleCastle.World
 
             metrics.resourceScore =
                 resourceScore;
+
+            int exitRoutes =
+                WorldStartAccessEvaluator.CountExitRoutes(
+                    center,
+                    playableRect,
+                    fairnessSettings,
+                    startOptions,
+                    macroPlan,
+                    generationSettings,
+                    GetChunk);
+
+            metrics.exitRoutes =
+                exitRoutes;
+
+            if (exitRoutes <
+                requiredExitRoutes)
+            {
+                return false;
+            }
+
+            metrics.positionalPressure =
+                CalculateInteriority(
+                    center,
+                    playableRect);
+
+            metrics.layoutAffinity = 1f;
 
             float weightedScore = 0f;
             float totalWeight = 0f;
@@ -680,6 +755,7 @@ namespace LittleCastle.World
         private bool EvaluateResources(
             Vector2 center,
             Rect playableRect,
+            WorldStartFairnessMode fairnessMode,
             WorldStartAreaMetrics metrics,
             out float resourceScore)
         {
@@ -717,7 +793,10 @@ namespace LittleCastle.World
                 int minimum =
                     Mathf.Max(
                         0,
-                        requirement.minimumEffectiveCapacity);
+                        Mathf.RoundToInt(
+                            requirement.minimumEffectiveCapacity *
+                            ResolveHardGateMultiplier(
+                                fairnessMode)));
 
                 if (effectiveCapacity <
                     minimum)
@@ -857,8 +936,23 @@ namespace LittleCastle.World
         private List<EvaluatedCandidate> SelectStarts(
             List<EvaluatedCandidate> viable,
             int playerCount,
-            float minimumStartDistance)
+            float minimumStartDistance,
+            Rect playableRect,
+            WorldSessionStartOptions startOptions,
+            List<Vector2> layoutTargets)
         {
+            if (layoutTargets != null &&
+                layoutTargets.Count == playerCount)
+            {
+                return SelectStartsForLayout(
+                    viable,
+                    playerCount,
+                    minimumStartDistance,
+                    playableRect,
+                    startOptions,
+                    layoutTargets);
+            }
+
             var selected =
                 new List<EvaluatedCandidate>(
                     playerCount);
@@ -880,8 +974,19 @@ namespace LittleCastle.World
                         0) *
                     0.0001f;
 
+                float pressure =
+                    CalculateInteriority(
+                        new Vector2(
+                            candidate.worldPosition.x,
+                            candidate.worldPosition.z),
+                        playableRect);
+
                 float score =
                     candidate.quality +
+                    candidate.metrics.resourceScore *
+                    pressure *
+                    Mathf.Clamp01(
+                        startOptions.pressureResourceCompensation) +
                     tie;
 
                 if (score > firstScore)
@@ -935,11 +1040,22 @@ namespace LittleCastle.World
                                 minimumStartDistance *
                                 1.75f));
 
+                    float pressure =
+                        CalculateInteriority(
+                            new Vector2(
+                                candidate.worldPosition.x,
+                                candidate.worldPosition.z),
+                            playableRect);
+
                     float combined =
                         candidate.quality *
                         fairnessSettings.QualityWeight +
                         separationScore *
                         fairnessSettings.SeparationWeight +
+                        candidate.metrics.resourceScore *
+                        pressure *
+                        Mathf.Clamp01(
+                            startOptions.pressureResourceCompensation) +
                         StableTieBreaker(
                             candidate.stableId,
                             selected.Count) *
@@ -962,6 +1078,352 @@ namespace LittleCastle.World
             }
 
             return selected;
+        }
+
+        private List<EvaluatedCandidate> SelectStartsForLayout(
+            List<EvaluatedCandidate> viable,
+            int playerCount,
+            float minimumStartDistance,
+            Rect playableRect,
+            WorldSessionStartOptions startOptions,
+            List<Vector2> layoutTargets)
+        {
+            var selected =
+                new List<EvaluatedCandidate>(
+                    playerCount);
+
+            var targetOrder =
+                new List<int>(
+                    playerCount);
+
+            for (int i = 0;
+                 i < playerCount;
+                 i++)
+            {
+                targetOrder.Add(i);
+            }
+
+            targetOrder.Sort(
+                delegate(
+                    int a,
+                    int b)
+                {
+                    float pa =
+                        CalculateInteriority(
+                            layoutTargets[a],
+                            playableRect);
+
+                    float pb =
+                        CalculateInteriority(
+                            layoutTargets[b],
+                            playableRect);
+
+                    int compare =
+                        pb.CompareTo(pa);
+
+                    return
+                        compare != 0
+                            ? compare
+                            : a.CompareTo(b);
+                });
+
+            float diagonal =
+                Mathf.Max(
+                    1f,
+                    Mathf.Sqrt(
+                        playableRect.width *
+                        playableRect.width +
+                        playableRect.height *
+                        playableRect.height));
+
+            float layoutWeight =
+                Mathf.Lerp(
+                    4f,
+                    0.45f,
+                    Mathf.Clamp01(
+                        startOptions.layoutFreedom));
+
+            for (int orderIndex = 0;
+                 orderIndex < targetOrder.Count;
+                 orderIndex++)
+            {
+                int targetIndex =
+                    targetOrder[orderIndex];
+
+                Vector2 target =
+                    layoutTargets[targetIndex];
+
+                float targetPressure =
+                    CalculateInteriority(
+                        target,
+                        playableRect);
+
+                EvaluatedCandidate best = null;
+                float bestScore =
+                    float.NegativeInfinity;
+
+                for (int i = 0;
+                     i < viable.Count;
+                     i++)
+                {
+                    EvaluatedCandidate candidate =
+                        viable[i];
+
+                    if (selected.Contains(candidate))
+                        continue;
+
+                    float nearestDistance =
+                        selected.Count > 0
+                            ? GetNearestSelectedDistance(
+                                candidate,
+                                selected)
+                            : float.PositiveInfinity;
+
+                    if (selected.Count > 0 &&
+                        nearestDistance <
+                        minimumStartDistance)
+                    {
+                        continue;
+                    }
+
+                    Vector2 candidatePosition =
+                        new Vector2(
+                            candidate.worldPosition.x,
+                            candidate.worldPosition.z);
+
+                    float targetDistance =
+                        Vector2.Distance(
+                            candidatePosition,
+                            target);
+
+                    float layoutAffinity =
+                        1f -
+                        Mathf.Clamp01(
+                            targetDistance /
+                            (diagonal * 0.5f));
+
+                    float separationScore =
+                        selected.Count == 0
+                            ? 1f
+                            : Mathf.Clamp01(
+                                nearestDistance /
+                                Mathf.Max(
+                                    1f,
+                                    minimumStartDistance *
+                                    1.75f));
+
+                    float resourceCompensation =
+                        candidate.metrics.resourceScore *
+                        targetPressure *
+                        Mathf.Clamp01(
+                            startOptions.pressureResourceCompensation);
+
+                    float score =
+                        candidate.quality *
+                        fairnessSettings.QualityWeight +
+                        separationScore *
+                        fairnessSettings.SeparationWeight +
+                        layoutAffinity *
+                        layoutWeight +
+                        resourceCompensation +
+                        StableTieBreaker(
+                            candidate.stableId,
+                            targetIndex) *
+                        0.0001f;
+
+                    if (score >
+                        bestScore)
+                    {
+                        bestScore = score;
+                        best = candidate;
+
+                        candidate.metrics.layoutAffinity =
+                            layoutAffinity;
+                    }
+                }
+
+                if (best == null)
+                    break;
+
+                selected.Add(best);
+            }
+
+            return selected;
+        }
+
+        private int ResolveMinimumExitRoutes(
+            Rect playableRect,
+            int playerCount,
+            WorldSessionStartOptions options)
+        {
+            if (options != null &&
+                options.minimumExitRoutesOverride > 0)
+            {
+                return
+                    Mathf.Clamp(
+                        options.minimumExitRoutesOverride,
+                        1,
+                        8);
+            }
+
+            float areaPerPlayer =
+                playableRect.width *
+                playableRect.height /
+                Mathf.Max(
+                    1,
+                    playerCount);
+
+            if (areaPerPlayer <=
+                fairnessSettings.SmallAreaPerPlayer)
+            {
+                return 2;
+            }
+
+            if (areaPerPlayer >=
+                fairnessSettings.LargeAreaPerPlayer)
+            {
+                return 4;
+            }
+
+            return 3;
+        }
+
+        private float ResolveAllowedScoreSpread(
+            WorldStartFairnessMode mode)
+        {
+            switch (mode)
+            {
+                case WorldStartFairnessMode.WildRandom:
+                    return 1f;
+
+                case WorldStartFairnessMode.Light:
+                    return
+                        Mathf.Max(
+                            0.65f,
+                            fairnessSettings.MaximumAcceptedScoreSpread);
+
+                case WorldStartFairnessMode.Competitive:
+                    return
+                        fairnessSettings.MaximumAcceptedScoreSpread *
+                        0.7f;
+
+                default:
+                    return
+                        fairnessSettings.MaximumAcceptedScoreSpread;
+            }
+        }
+
+        private static float ResolveHardGateMultiplier(
+            WorldStartFairnessMode mode)
+        {
+            switch (mode)
+            {
+                case WorldStartFairnessMode.WildRandom:
+                    return 0f;
+
+                case WorldStartFairnessMode.Light:
+                    return 0.25f;
+
+                case WorldStartFairnessMode.Competitive:
+                    return 1.15f;
+
+                default:
+                    return 1f;
+            }
+        }
+
+        private static float CalculateInteriority(
+            Vector2 position,
+            Rect rect)
+        {
+            float edgeDistance =
+                Mathf.Min(
+                    position.x - rect.xMin,
+                    rect.xMax - position.x,
+                    position.y - rect.yMin,
+                    rect.yMax - position.y);
+
+            float maximum =
+                Mathf.Max(
+                    1f,
+                    Mathf.Min(
+                        rect.width,
+                        rect.height) *
+                    0.5f);
+
+            return
+                Mathf.Clamp01(
+                    edgeDistance /
+                    maximum);
+        }
+
+        private static void UpdateFinalPressureMetrics(
+            List<EvaluatedCandidate> selected,
+            Rect playableRect,
+            float minimumStartDistance)
+        {
+            for (int i = 0;
+                 i < selected.Count;
+                 i++)
+            {
+                EvaluatedCandidate candidate =
+                    selected[i];
+
+                Vector2 position =
+                    new Vector2(
+                        candidate.worldPosition.x,
+                        candidate.worldPosition.z);
+
+                float interiority =
+                    CalculateInteriority(
+                        position,
+                        playableRect);
+
+                float nearbyPressure = 0f;
+
+                for (int j = 0;
+                     j < selected.Count;
+                     j++)
+                {
+                    if (i == j)
+                        continue;
+
+                    Vector2 other =
+                        new Vector2(
+                            selected[j].worldPosition.x,
+                            selected[j].worldPosition.z);
+
+                    float distance =
+                        Vector2.Distance(
+                            position,
+                            other);
+
+                    nearbyPressure +=
+                        1f -
+                        Mathf.Clamp01(
+                            distance /
+                            Mathf.Max(
+                                1f,
+                                minimumStartDistance *
+                                2.25f));
+                }
+
+                nearbyPressure =
+                    selected.Count > 1
+                        ? Mathf.Clamp01(
+                            nearbyPressure /
+                            Mathf.Max(
+                                1f,
+                                selected.Count - 1))
+                        : 0f;
+
+                candidate.metrics.positionalPressure =
+                    Mathf.Clamp01(
+                        interiority *
+                        0.65f +
+                        nearbyPressure *
+                        0.35f);
+            }
         }
 
         private void AssignPlayerIndices(
