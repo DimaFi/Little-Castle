@@ -429,10 +429,13 @@ namespace LittleCastle.World
                         continue;
                     }
 
+                    // Flow joins after the geometric confluence. Using the
+                    // downstream endpoint keeps tributary contribution from
+                    // artificially widening the upstream side of this segment.
                     int joinPointIndex =
-                        segmentT < 0.5f
-                            ? s
-                            : s + 1;
+                        Mathf.Min(
+                            s + 1,
+                            river.centerline.Count - 1);
 
                     if (distanceSqr <
                             bestDistanceSqr -
