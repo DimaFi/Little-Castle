@@ -2,168 +2,294 @@
 
 ## Goal
 
-Build a procedural world system that can start simple now and scale toward:
+Little Castle needs a procedural world that can grow for years without coupling terrain generation to individual art assets.
 
-- terrain;
-- biomes;
-- rivers and lakes;
-- roads and bridges;
-- vegetation;
-- resource nodes;
-- points of interest;
-- settlements;
-- player territories;
+The target world includes:
+
+- plains, rolling terrain, highlands and more varied terrain later;
+- rivers, water corridors and bridges;
+- multiple road types;
+- dense forests and strategic wood supply;
+- stone and ore deposits;
+- neutral settlements;
+- ruins, abandoned fortified sites and landmarks;
+- signs and road furniture;
+- local vegetation and decorative objects;
+- player construction and destruction;
 - chunk streaming;
-- save overrides;
-- multiplayer synchronization.
+- saves;
+- possible multiplayer.
 
-## Layers
+## Layer model
 
 ```text
 World Seed
-   ↓
-Macro World Planning        (future)
-   ↓
+    ↓
+Regional / Macro World Plan
+    ↓
 Chunk Generation Pipeline
-   ↓
-Authoritative Chunk Data
-   ↓
+    ↓
+Authoritative World Data
+    ↓
+Runtime World Delta
+    ↓
 Rendering / Prefab Layer
-   ↓
+    ↓
 Unity Scene Objects
 ```
 
-The authoritative result is data, not GameObjects.
+**World data is authoritative. GameObjects are presentation.**
 
-## Chunk coordinate model
+## Current terrain pipeline
 
-A chunk coordinate is an integer pair:
+Recommended early pipeline:
+
+```text
+LayeredTerrainStage
+    ↓
+WorldChunkData.Heights
+    ↓
+TerrainClassificationStage
+    ↓
+CellSlopes + TerrainClasses
+    ↓
+ChunkMeshBuilder
+```
+
+`HeightNoiseStage` remains as a simple/experimental height stage. Do not run two independent height-writing stages unless intentionally designing their composition.
+
+## Layered terrain
+
+`LayeredTerrainStage` currently combines:
+
+- very-low-frequency regional relief;
+- rolling hills;
+- ridge-shaped mountain/highland relief;
+- fine detail.
+
+All sampling is performed in **absolute world coordinates**.
+
+Therefore changing chunk boundaries does not change the terrain field itself.
+
+## Chunk coordinates
+
+A chunk coordinate is:
 
 ```text
 (x, z)
 ```
 
-Chunk samples are converted to world coordinates before evaluating noise.
+For N cells per side the chunk stores N + 1 height samples per side.
 
-This prevents visible seams caused by each chunk evaluating independent local coordinates.
+This lets neighboring chunks share the same mathematical border samples.
 
-## Initial pipeline
+Derived terrain metadata is stored per cell:
 
-The first version contains:
+- slope in degrees;
+- coarse `TerrainClass`.
 
-```text
-HeightNoiseStage
-   ↓
-WorldChunkData.Heights
-   ↓
-ChunkMeshBuilder
-```
-
-This is intentionally small. The architecture is the important part.
-
-## Planned stages
-
-Likely local stages:
-
-- BaseHeight
-- Climate
-- Biome
-- TerrainMaterial
-- LocalVegetation
-- ResourceDecoration
-
-Likely macro planners:
-
-- River network
-- Road graph
-- Settlement placement
-- Major landmarks
-- Region ownership
-- Trade routes
-
-Macro planners should generate persistent feature descriptors that chunks query/project locally.
+Terrain class is **not** a biome. Biomes will eventually combine climate, region, height, moisture and possibly soil information.
 
 ## Determinism
 
-Do not use mutable global RNG state.
+Authoritative generation must never depend on mutable `UnityEngine.Random` state.
 
-A deterministic value should derive from stable inputs, for example:
+Random-looking decisions derive from stable values such as:
 
 ```text
-Hash(worldSeed, chunkX, chunkZ, featureSalt)
+worldSeed
+world coordinate
+feature salt/type
+stable feature ID
+generation version
 ```
 
-or from absolute world sample coordinates.
+The same inputs must produce the same generated base world.
 
-## Border rule
+## Diagnostics
 
-For a chunk with N cells per side, its height grid has N + 1 samples.
+`WorldGenerationDiagnostics` currently verifies:
 
-The east border of chunk (x, z) must evaluate the same world coordinates as the west border of chunk (x + 1, z).
+- same seed + same chunk => same heights;
+- east/west chunk borders match;
+- north/south chunk borders match.
 
-## Data model
+The scene-facing `WorldGenerator` exposes:
 
-`WorldChunkData` currently stores:
+- **Generate Preview**
+- **Regenerate Preview (Next Seed)**
+- **Run Generation Diagnostics**
+- **Clear Preview**
 
-- chunk coordinate;
-- resolution;
-- height samples.
+These diagnostics are a guardrail. Later automated Unity tests should supplement them.
 
-It is expected to grow gradually. Avoid turning it into an unstructured bag of everything.
+## Macro world plan
 
-Future feature data should use explicit records/structures such as:
+Some features cannot be generated independently inside each chunk.
 
-- `RiverSegmentData`
-- `RoadSegmentData`
-- `BiomeCellData`
-- `SpawnPointData`
+Examples:
 
-## Rendering
+- settlements;
+- roads;
+- rivers;
+- bridges;
+- major ruins;
+- landmarks;
+- regional forests.
 
-`ChunkMeshBuilder` exists only to make generated data visible.
+These belong to, or are coordinated by, a world-scale plan.
 
-Later it may be replaced or complemented by:
+Initial scaffolding:
 
-- Unity Terrain;
-- custom terrain meshes;
-- GPU instancing;
-- splat maps;
-- vegetation systems;
-- road mesh builders.
+- `MacroWorldPlan`
+- `WorldPointFeatureData`
+- `WorldFeatureKind`
 
-Changing rendering must not require rewriting generation logic.
+Roads and rivers must receive dedicated line/network data types later. Do not force them into point-feature records.
+
+## Neutral settlements
+
+Neutral settlements are world-scale entities rather than decorative village prefabs.
+
+Their generated descriptor should eventually contain stable identity and placement data, while gameplay/runtime state stores things such as:
+
+- relationship with players;
+- economic benefit;
+- influence/control;
+- competition between players;
+- upgrades or destruction if the final design allows it.
+
+The procedural generator chooses *where the settlement exists*.
+
+The gameplay simulation decides *what is currently happening there*.
+
+## Forests
+
+Forests are both visual and strategic.
+
+Wood is expected to be heavily consumed by construction and military development, so forest generation should eventually use:
+
+```text
+Forest region
+    ↓
+density / species / strategic capacity
+    ↓
+concrete tree spawn data
+    ↓
+rendered tree instances
+```
+
+Chopping one tree must not erase the underlying forest-region concept.
+
+## Resources
+
+Stone and ore are authoritative resource features.
+
+Future deposit data should support:
+
+- stable ID;
+- resource type;
+- position/area;
+- richness/capacity;
+- depletion runtime state;
+- extraction suitability.
+
+A visible rock mesh alone must never be the resource database.
+
+## Roads
+
+Roads are generated as a network.
+
+Target pipeline:
+
+```text
+settlements / POIs
+    ↓
+connectivity graph
+    ↓
+terrain-aware path cost
+    ↓
+world-space road path/spline
+    ↓
+chunk clipping
+    ↓
+terrain deformation / surface data
+    ↓
+road visuals
+```
+
+Road types can then change width, cost and visuals without changing the concept of connectivity.
+
+## Rivers and bridges
+
+Rivers must preserve continuity across chunks.
+
+Bridges are derived from meaningful crossings between route corridors and water corridors, then validated against:
+
+- river width;
+- bank slope;
+- crossing angle;
+- terrain suitability.
+
+Do not scatter bridges randomly.
+
+## Local decoration
+
+Local deterministic decoration may include:
+
+- grass;
+- bushes;
+- small rocks;
+- fallen branches;
+- flowers;
+- minor clutter.
+
+It must respect exclusion masks from:
+
+- roads;
+- rivers;
+- settlements;
+- buildings;
+- resource extraction areas.
+
+## Save model
+
+Long term:
+
+```text
+GeneratedBaseWorld
++
+RuntimeWorldDelta
+=
+CurrentWorld
+```
+
+Examples of delta state:
+
+- chopped tree;
+- mined deposit;
+- player building;
+- destroyed bridge;
+- upgraded road;
+- changed neutral-settlement relationship/control.
 
 ## Streaming
 
-Future `WorldStreamer` responsibilities:
+A future `WorldStreamer` will:
 
-- determine required chunks around players;
-- request/generate chunk data;
-- cache chunk data;
-- create/destroy visual chunk instances;
-- preserve runtime modifications separately from base procedural data.
+- decide which chunks players need;
+- generate/load chunk data;
+- cache data;
+- create/recycle visuals;
+- unload presentation safely;
+- keep runtime changes separate from the immutable generated base.
 
-Do not add streaming responsibilities to `WorldGenerator`.
+Do not put these responsibilities into `WorldGenerator`.
 
-## Save games
+## Generation versioning
 
-Base procedural generation should be reproducible from:
-- generator version;
-- world seed;
-- settings identifier/version.
+Algorithm changes can alter worlds.
 
-Runtime changes should be stored as overrides/deltas where practical.
+Before persistent saves matter, iteration is flexible.
 
-Examples:
-- tree removed;
-- building constructed;
-- road upgraded;
-- resource depleted.
-
-## Versioning
-
-Changing generation algorithms can alter existing worlds.
-
-Before production saves exist, iteration is free.
-
-Once persistence matters, add a `generationVersion` field and migration policy before changing world-generation semantics.
+Before shipping persistent worlds, introduce a `generationVersion` and migration/compatibility policy.
