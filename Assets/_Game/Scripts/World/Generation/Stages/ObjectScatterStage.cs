@@ -127,6 +127,20 @@ namespace LittleCastle.World
                         continue;
                     }
 
+                    PlacementBlockFlags categoryBlock =
+                        PlacementBlockFlagsExtensions.ForCategory(
+                            rule.category);
+
+                    PlacementBlockFlags placementBlocks =
+                        WorldChunkSampling.SamplePlacementBlocks(
+                            chunk,
+                            context.Settings,
+                            worldX,
+                            worldZ);
+
+                    if ((placementBlocks & categoryBlock) != 0)
+                        continue;
+
                     float height = WorldChunkSampling.SampleHeight(
                         chunk,
                         context.Settings,
