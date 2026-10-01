@@ -11,6 +11,7 @@ namespace LittleCastle.World
         public WorldFeatureKind kind = WorldFeatureKind.NeutralSettlement;
         public string archetypeId = "neutral_village_01";
 
+        [Header("Distribution")]
         [Min(50f)]
         public float spacing = 800f;
 
@@ -22,6 +23,17 @@ namespace LittleCastle.World
 
         [Min(0f)]
         public float influenceRadius = 100f;
+
+        [Header("Terrain suitability")]
+        public TerrainClassMask allowedTerrain =
+            TerrainClassMask.Plains |
+            TerrainClassMask.RollingHills;
+
+        public float minHeight = -1000f;
+        public float maxHeight = 1000f;
+
+        [Range(0f, 90f)]
+        public float maxSlope = 12f;
     }
 
     [CreateAssetMenu(
@@ -35,5 +47,24 @@ namespace LittleCastle.World
 
         public IReadOnlyList<MacroPointFeatureRule> PointFeatureRules =>
             pointFeatureRules;
+
+        public float MaxPointInfluenceRadius
+        {
+            get
+            {
+                float max = 0f;
+
+                for (int i = 0; i < pointFeatureRules.Count; i++)
+                {
+                    MacroPointFeatureRule rule =
+                        pointFeatureRules[i];
+
+                    if (rule != null)
+                        max = Mathf.Max(max, rule.influenceRadius);
+                }
+
+                return max;
+            }
+        }
     }
 }
