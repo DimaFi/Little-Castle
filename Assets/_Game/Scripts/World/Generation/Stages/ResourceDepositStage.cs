@@ -56,6 +56,8 @@ namespace LittleCastle.World
         menuName = "Little Castle/World/Generation/Resource Deposit Stage")]
     public sealed class ResourceDepositStage : WorldGenerationStage
     {
+        public override WorldGenerationStagePhase Phase =>
+            WorldGenerationStagePhase.Resources;
         [SerializeField]
         private List<ResourceDepositRule> rules =
             new List<ResourceDepositRule>();
