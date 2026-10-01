@@ -1,6 +1,6 @@
 # World Generation Roadmap
 
-This is an implementation roadmap, not a promise that every item must be built immediately.
+This is an implementation roadmap, not a requirement to build everything at once.
 
 ## Phase 0 — Foundation
 
@@ -10,73 +10,93 @@ This is an implementation roadmap, not a promise that every item must be built i
 - [x] Ordered generation stages
 - [x] Height data
 - [x] Debug mesh preview
+- [x] Determinism diagnostics
+- [x] Chunk seam diagnostics
+- [x] Macro-world data scaffold
 
 ## Phase 1 — Terrain model
 
-- [ ] Multiple terrain noise layers
-- [ ] Continental / regional masks
-- [ ] Slope calculation
-- [ ] Height normalization policy
-- [ ] Biome climate inputs
-- [ ] Terrain material IDs
-- [ ] Chunk border tests
+- [x] Layered terrain relief
+- [x] Regional relief mask
+- [x] Rolling hills
+- [x] Ridge/highland component
+- [x] Fine terrain detail
+- [x] Per-cell slope calculation
+- [x] Coarse terrain classification
+- [ ] Height normalization/sea-level policy
+- [ ] Climate inputs
+- [ ] Biome system
+- [ ] Terrain material/surface IDs
+- [ ] Automated Unity tests
+- [ ] Erosion experiments if actually needed
 
 ## Phase 2 — World streaming
 
 - [ ] Chunk cache
-- [ ] Asynchronous generation API
-- [ ] Player-centered loading radius
-- [ ] Visual chunk pooling
-- [ ] Cancellation/version safety
-- [ ] Generation profiler
+- [ ] asynchronous/background generation boundary
+- [ ] player-centered loading radius
+- [ ] visual chunk pooling
+- [ ] cancellation/version safety
+- [ ] generation profiler
+- [ ] generation budget per frame
 
 ## Phase 3 — Macro world plan
 
-Introduce a world-scale data layer above chunks.
+- [ ] deterministic regions
+- [ ] neutral settlement candidates
+- [ ] ruin / landmark candidates
+- [ ] river graph/network
+- [ ] road graph
+- [ ] stable feature IDs
+- [ ] feature exclusion/influence areas
 
-- [ ] Regions
-- [ ] River graph
-- [ ] Settlement candidates
-- [ ] Road graph
-- [ ] Major landmarks
-- [ ] Deterministic feature IDs
+Chunks query this plan and clip/project macro features locally.
 
-Chunks query this plan and clip/project features into local data.
+## Phase 4 — Water
 
-## Phase 4 — Nature
+- [ ] river source/catchment strategy
+- [ ] river continuity
+- [ ] terrain carving
+- [ ] riverbed/surface data
+- [ ] local water rendering
+- [ ] bridge candidate extraction
 
-- [ ] Biomes
-- [ ] Tree placement
-- [ ] Bushes
-- [ ] Rocks
-- [ ] Ground vegetation
-- [ ] Resource nodes
-- [ ] Density masks
-- [ ] exclusion zones near roads/buildings
+## Phase 5 — Neutral settlements and POIs
 
-## Phase 5 — Roads and bridges
+- [ ] settlement spacing
+- [ ] terrain suitability
+- [ ] settlement archetypes
+- [ ] economic profile data
+- [ ] neutral-state runtime model
+- [ ] ruined/fortified minor sites
+- [ ] signpost destination hooks
 
-Road generation must be a graph/path problem, not random decals per chunk.
+## Phase 6 — Roads and bridges
 
-Likely layers:
+- [ ] road connectivity graph
+- [ ] terrain-aware route cost
+- [ ] world-space road paths
+- [ ] road types
+- [ ] chunk clipping
+- [ ] terrain deformation
+- [ ] road material/mesh layer
+- [ ] bridge validation and placement
 
-```text
-Settlement / POI nodes
-        ↓
-Connectivity graph
-        ↓
-Path cost field
-        ↓
-World-space road splines
-        ↓
-Chunk clipping
-        ↓
-Road mesh + terrain deformation
-        ↓
-Bridge placement where road intersects water
-```
+## Phase 7 — Nature and strategic resources
 
-## Phase 6 — Save / runtime modifications
+- [ ] forest-region field
+- [ ] tree spawn data
+- [ ] high-density renewable/managed wood strategy
+- [ ] bushes and ground plants
+- [ ] grass
+- [ ] rock scatter
+- [ ] stone deposits
+- [ ] ore deposits
+- [ ] deposit richness/capacity
+- [ ] exclusion masks near infrastructure
+- [ ] resource depletion runtime state
+
+## Phase 8 — Save / runtime modifications
 
 Separate:
 
@@ -89,17 +109,21 @@ CurrentWorld
 ```
 
 Runtime delta examples:
-- built building;
-- removed tree;
-- changed road;
-- depleted resource;
-- destroyed bridge.
 
-## Phase 7 — Multiplayer readiness
+- built building;
+- chopped tree;
+- mined resource;
+- changed road;
+- destroyed bridge;
+- changed settlement state.
+
+## Phase 9 — Multiplayer readiness
 
 Prefer synchronizing:
+
 - world seed;
 - generator version;
+- stable macro-plan identity/data where required;
 - authoritative runtime deltas;
 
-instead of transmitting the entire untouched generated world.
+instead of transmitting every untouched generated tree and terrain sample.
