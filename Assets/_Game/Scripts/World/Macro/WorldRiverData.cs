@@ -59,7 +59,6 @@ namespace LittleCastle.World
             new List<float>();
 
         public bool HasConfluence =>
-            downstreamRiverId != 0L &&
             downstreamJoinPointIndex >= 0;
 
         public float GetWidthAtPoint(int pointIndex)
