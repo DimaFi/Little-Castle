@@ -7,6 +7,8 @@ namespace LittleCastle.World
         menuName = "Little Castle/World/Generation/Height Noise Stage")]
     public sealed class HeightNoiseStage : WorldGenerationStage
     {
+        public override WorldGenerationStagePhase Phase =>
+            WorldGenerationStagePhase.TerrainBase;
         [Min(0f)]
         [SerializeField] private float heightScale = 12f;
 
