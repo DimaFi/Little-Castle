@@ -3,15 +3,12 @@ using UnityEngine;
 
 namespace LittleCastle.World
 {
-    /// <summary>
-    /// Scene-facing preview entry point.
-    /// Future streaming belongs in a separate WorldStreamer subsystem.
-    /// </summary>
     public sealed class WorldGenerator : MonoBehaviour
     {
         [Header("World")]
         [SerializeField] private int worldSeed = 12345;
         [SerializeField] private WorldGenerationSettings settings;
+        [SerializeField] private MacroWorldPlannerSettings macroPlannerSettings;
 
         [Header("Preview")]
         [Min(0)]
@@ -41,10 +38,16 @@ namespace LittleCastle.World
             if (!TryCreatePipeline(out WorldGenerationPipeline pipeline))
                 return;
 
+            var cache = new WorldChunkCache(pipeline, worldSeed);
+
             for (int z = -previewRadius; z <= previewRadius; z++)
             {
                 for (int x = -previewRadius; x <= previewRadius; x++)
-                    CreatePreviewChunk(pipeline, new ChunkCoordinate(x, z));
+                {
+                    CreatePreviewChunk(
+                        cache,
+                        new ChunkCoordinate(x, z));
+                }
             }
         }
 
@@ -144,7 +147,8 @@ namespace LittleCastle.World
             previewObjects.Clear();
         }
 
-        private bool TryCreatePipeline(out WorldGenerationPipeline pipeline)
+        private bool TryCreatePipeline(
+            out WorldGenerationPipeline pipeline)
         {
             if (settings == null)
             {
@@ -156,16 +160,47 @@ namespace LittleCastle.World
                 return false;
             }
 
-            pipeline = new WorldGenerationPipeline(settings);
+            MacroWorldPlan macroPlan = BuildPreviewMacroPlan();
+
+            pipeline =
+                new WorldGenerationPipeline(
+                    settings,
+                    macroPlan);
+
             return true;
         }
 
+        private MacroWorldPlan BuildPreviewMacroPlan()
+        {
+            if (macroPlannerSettings == null || settings == null)
+                return null;
+
+            float chunkSize = settings.ChunkWorldSize;
+            float min = -previewRadius * chunkSize;
+            float size = (previewRadius * 2 + 1) * chunkSize;
+
+            var bounds =
+                new Rect(
+                    min,
+                    min,
+                    size,
+                    size);
+
+            var planner =
+                new MacroWorldPlanner(
+                    macroPlannerSettings);
+
+            return planner.GenerateForBounds(
+                worldSeed,
+                bounds);
+        }
+
         private void CreatePreviewChunk(
-            WorldGenerationPipeline pipeline,
+            WorldChunkCache cache,
             ChunkCoordinate coordinate)
         {
             WorldChunkData chunkData =
-                pipeline.GenerateChunk(worldSeed, coordinate);
+                cache.GetOrGenerate(coordinate);
 
             Mesh mesh =
                 ChunkMeshBuilder.Build(
@@ -173,22 +208,31 @@ namespace LittleCastle.World
                     settings.ChunkWorldSize);
 
             var chunkObject =
-                new GameObject($"Chunk_{coordinate.x}_{coordinate.z}");
+                new GameObject(
+                    $"Chunk_{coordinate.x}_{coordinate.z}");
 
             chunkObject.transform.SetParent(transform, false);
 
             Vector3 chunkWorldOrigin =
-                coordinate.GetWorldOrigin(settings.ChunkWorldSize);
+                coordinate.GetWorldOrigin(
+                    settings.ChunkWorldSize);
 
-            chunkObject.transform.localPosition = chunkWorldOrigin;
+            chunkObject.transform.localPosition =
+                chunkWorldOrigin;
 
-            var meshFilter = chunkObject.AddComponent<MeshFilter>();
+            var meshFilter =
+                chunkObject.AddComponent<MeshFilter>();
+
             meshFilter.sharedMesh = mesh;
 
-            var meshRenderer = chunkObject.AddComponent<MeshRenderer>();
-            meshRenderer.sharedMaterial = previewMaterial;
+            var meshRenderer =
+                chunkObject.AddComponent<MeshRenderer>();
 
-            if (renderGeneratedSpawns && previewSpawnCatalog != null)
+            meshRenderer.sharedMaterial =
+                previewMaterial;
+
+            if (renderGeneratedSpawns &&
+                previewSpawnCatalog != null)
             {
                 ChunkSpawnPresenter.Populate(
                     chunkObject.transform,
