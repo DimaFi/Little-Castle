@@ -342,24 +342,31 @@ namespace LittleCastle.World
                     continue;
                 }
 
-                float radius =
+                float safePadding =
                     Mathf.Max(
-                        0.1f,
-                        river.nominalWidth * 0.5f +
-                        Mathf.Max(0f, extraPadding));
-
-                float radiusSqr =
-                    radius * radius;
+                        0f,
+                        extraPadding);
 
                 for (int i = 0;
                      i < river.centerline.Count - 1;
                      i++)
                 {
+                    float localWidth =
+                        river.GetWidthAtSegment(
+                            i,
+                            0.5f);
+
+                    float radius =
+                        Mathf.Max(
+                            0.1f,
+                            localWidth * 0.5f +
+                            safePadding);
+
                     if (DistancePointSegmentSqr(
                             point,
                             river.centerline[i],
                             river.centerline[i + 1]) <=
-                        radiusSqr)
+                        radius * radius)
                     {
                         return true;
                     }
