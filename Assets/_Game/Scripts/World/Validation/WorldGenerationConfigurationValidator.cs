@@ -1,0 +1,565 @@
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace LittleCastle.World
+{
+    /// <summary>
+    /// Validates cross-asset world-generation contracts that Unity's inspector
+    /// cannot enforce by itself.
+    /// </summary>
+    public static class WorldGenerationConfigurationValidator
+    {
+        public static WorldConfigurationValidationReport Validate(
+            WorldGenerationSettings generationSettings,
+            MacroWorldPlannerSettings macroSettings,
+            WorldSpawnCatalog spawnCatalog)
+        {
+            var report =
+                new WorldConfigurationValidationReport();
+
+            if (generationSettings == null)
+            {
+                report.AddError(
+                    "WorldGenerationSettings is missing.");
+
+                return report;
+            }
+
+            ValidateGenerationSettings(
+                generationSettings,
+                macroSettings,
+                report);
+
+            var referencedArchetypes =
+                new HashSet<string>();
+
+            var stableRuleIds =
+                new HashSet<string>();
+
+            ValidateGenerationRules(
+                generationSettings,
+                stableRuleIds,
+                referencedArchetypes,
+                report);
+
+            ValidateMacroRules(
+                macroSettings,
+                stableRuleIds,
+                referencedArchetypes,
+                report);
+
+            ValidateSpawnCatalog(
+                spawnCatalog,
+                referencedArchetypes,
+                report);
+
+            report.AddInfo(
+                "Generation profile: '" +
+                generationSettings.ProfileId +
+                "', version " +
+                generationSettings.GenerationVersion +
+                ".");
+
+            return report;
+        }
+
+        private static void ValidateGenerationSettings(
+            WorldGenerationSettings settings,
+            MacroWorldPlannerSettings macroSettings,
+            WorldConfigurationValidationReport report)
+        {
+            if (string.IsNullOrWhiteSpace(settings.ProfileId))
+            {
+                report.AddError(
+                    "Generation profile ID is empty.");
+            }
+
+            if (settings.CellsPerSide < 4)
+            {
+                report.AddWarning(
+                    "CellsPerSide is very low (" +
+                    settings.CellsPerSide +
+                    "). This is acceptable for testing but coarse for terrain.");
+            }
+
+            if (settings.Stages.Count == 0)
+            {
+                report.AddError(
+                    "Generation pipeline has no stages.");
+
+                return;
+            }
+
+            bool hasTerrainBase = false;
+            bool hasTerrainAnalysis = false;
+            bool hasMacroProjection = false;
+            bool hasForestField = false;
+            bool hasObjectScatter = false;
+            bool hasRiverCarving = false;
+            int terrainBaseWriters = 0;
+
+            bool hasPrevious = false;
+            WorldGenerationStagePhase previous =
+                WorldGenerationStagePhase.TerrainBase;
+
+            for (int i = 0; i < settings.Stages.Count; i++)
+            {
+                WorldGenerationStage stage =
+                    settings.Stages[i];
+
+                if (stage == null)
+                {
+                    report.AddWarning(
+                        "Pipeline stage #" + i +
+                        " is null.");
+
+                    continue;
+                }
+
+                if (hasPrevious &&
+                    stage.Phase < previous)
+                {
+                    report.AddError(
+                        "Stage '" +
+                        stage.name +
+                        "' (" +
+                        stage.Phase +
+                        ") appears after later phase " +
+                        previous +
+                        ".");
+                }
+
+                previous = stage.Phase;
+                hasPrevious = true;
+
+                if (stage.Phase ==
+                    WorldGenerationStagePhase.TerrainBase)
+                {
+                    hasTerrainBase = true;
+                    terrainBaseWriters++;
+                }
+
+                if (stage is TerrainClassificationStage)
+                    hasTerrainAnalysis = true;
+
+                if (stage is MacroFeatureProjectionStage)
+                    hasMacroProjection = true;
+
+                if (stage is ForestDensityStage)
+                    hasForestField = true;
+
+                if (stage is ObjectScatterStage)
+                    hasObjectScatter = true;
+
+                if (stage is RiverTerrainCarvingStage)
+                    hasRiverCarving = true;
+            }
+
+            if (!hasTerrainBase)
+            {
+                report.AddError(
+                    "Pipeline has no TerrainBase stage.");
+            }
+
+            if (terrainBaseWriters > 1)
+            {
+                report.AddWarning(
+                    "Pipeline contains " +
+                    terrainBaseWriters +
+                    " TerrainBase stages. Multiple height writers may overwrite " +
+                    "each other unless this is intentional.");
+            }
+
+            if (!hasTerrainAnalysis)
+            {
+                report.AddError(
+                    "TerrainClassificationStage is missing. " +
+                    "Slope/terrain filters used by macro and scatter rules will not work correctly.");
+            }
+
+            if (macroSettings != null &&
+                !hasMacroProjection)
+            {
+                report.AddWarning(
+                    "MacroWorldPlannerSettings is assigned, but " +
+                    "MacroFeatureProjectionStage is missing from the chunk pipeline.");
+            }
+
+            if (hasRiverCarving &&
+                macroSettings == null)
+            {
+                report.AddWarning(
+                    "RiverTerrainCarvingStage exists but no macro planner settings are supplied; " +
+                    "it will have no rivers to carve.");
+            }
+
+            if (hasObjectScatter &&
+                !hasForestField)
+            {
+                report.AddWarning(
+                    "ObjectScatterStage exists without ForestDensityStage. " +
+                    "Rules coupled to forest density will produce no objects.");
+            }
+        }
+
+        private static void ValidateGenerationRules(
+            WorldGenerationSettings settings,
+            HashSet<string> stableRuleIds,
+            HashSet<string> referencedArchetypes,
+            WorldConfigurationValidationReport report)
+        {
+            for (int stageIndex = 0;
+                 stageIndex < settings.Stages.Count;
+                 stageIndex++)
+            {
+                WorldGenerationStage stage =
+                    settings.Stages[stageIndex];
+
+                if (stage is ObjectScatterStage scatter)
+                {
+                    for (int i = 0; i < scatter.Rules.Count; i++)
+                    {
+                        ScatterSpawnRule rule =
+                            scatter.Rules[i];
+
+                        if (rule == null)
+                        {
+                            report.AddWarning(
+                                "ObjectScatterStage has null rule #" + i + ".");
+
+                            continue;
+                        }
+
+                        string context =
+                            "Scatter rule #" + i;
+
+                        ValidateStableRuleId(
+                            rule.ruleId,
+                            context,
+                            stableRuleIds,
+                            report);
+
+                        if (string.IsNullOrWhiteSpace(
+                            rule.archetypeId))
+                        {
+                            report.AddError(
+                                context +
+                                " has empty archetypeId.");
+                        }
+                        else
+                        {
+                            referencedArchetypes.Add(
+                                rule.archetypeId);
+                        }
+
+                        if (rule.spacing < 0.25f)
+                        {
+                            report.AddWarning(
+                                context +
+                                " has extremely small spacing; this can create huge spawn counts.");
+                        }
+
+                        if (rule.minHeight >
+                            rule.maxHeight)
+                        {
+                            report.AddError(
+                                context +
+                                " has minHeight greater than maxHeight.");
+                        }
+
+                        if (rule.minScale <= 0f ||
+                            rule.maxScale <= 0f)
+                        {
+                            report.AddError(
+                                context +
+                                " has non-positive scale.");
+                        }
+                    }
+                }
+                else if (stage is ResourceDepositStage resources)
+                {
+                    for (int i = 0;
+                         i < resources.Rules.Count;
+                         i++)
+                    {
+                        ResourceDepositRule rule =
+                            resources.Rules[i];
+
+                        if (rule == null)
+                        {
+                            report.AddWarning(
+                                "ResourceDepositStage has null rule #" + i + ".");
+
+                            continue;
+                        }
+
+                        string context =
+                            "Resource rule #" + i;
+
+                        ValidateStableRuleId(
+                            rule.ruleId,
+                            context,
+                            stableRuleIds,
+                            report);
+
+                        if (rule.resourceKind ==
+                            ResourceKind.Unknown)
+                        {
+                            report.AddWarning(
+                                context +
+                                " uses ResourceKind.Unknown.");
+                        }
+
+                        if (rule.createVisualSpawn &&
+                            !string.IsNullOrWhiteSpace(
+                                rule.visualArchetypeId))
+                        {
+                            referencedArchetypes.Add(
+                                rule.visualArchetypeId);
+                        }
+
+                        if (rule.minHeight >
+                            rule.maxHeight)
+                        {
+                            report.AddError(
+                                context +
+                                " has minHeight greater than maxHeight.");
+                        }
+
+                        if (rule.minCapacity >
+                            rule.maxCapacity)
+                        {
+                            report.AddWarning(
+                                context +
+                                " has minCapacity > maxCapacity. Runtime generation will swap them, " +
+                                "but the asset should be cleaned up.");
+                        }
+                    }
+                }
+            }
+        }
+
+        private static void ValidateMacroRules(
+            MacroWorldPlannerSettings settings,
+            HashSet<string> stableRuleIds,
+            HashSet<string> referencedArchetypes,
+            WorldConfigurationValidationReport report)
+        {
+            if (settings == null)
+            {
+                report.AddInfo(
+                    "No MacroWorldPlannerSettings assigned.");
+
+                return;
+            }
+
+            for (int i = 0;
+                 i < settings.PointFeatureRules.Count;
+                 i++)
+            {
+                MacroPointFeatureRule rule =
+                    settings.PointFeatureRules[i];
+
+                if (rule == null)
+                {
+                    report.AddWarning(
+                        "Macro point rule #" + i +
+                        " is null.");
+
+                    continue;
+                }
+
+                string context =
+                    "Macro point rule #" + i +
+                    " (" + rule.kind + ")";
+
+                ValidateStableRuleId(
+                    rule.ruleId,
+                    context,
+                    stableRuleIds,
+                    report);
+
+                if (!string.IsNullOrWhiteSpace(
+                    rule.archetypeId))
+                {
+                    referencedArchetypes.Add(
+                        rule.archetypeId);
+                }
+
+                if (rule.minHeight >
+                    rule.maxHeight)
+                {
+                    report.AddError(
+                        context +
+                        " has minHeight greater than maxHeight.");
+                }
+
+                if (rule.spacing <=
+                    rule.influenceRadius * 2f)
+                {
+                    report.AddWarning(
+                        context +
+                        " spacing is not much larger than its influence diameter; " +
+                        "many candidates may be rejected by separation.");
+                }
+            }
+
+            if (settings.Bridges != null &&
+                settings.Bridges.enabled &&
+                !string.IsNullOrWhiteSpace(
+                    settings.Bridges.archetypeId))
+            {
+                referencedArchetypes.Add(
+                    settings.Bridges.archetypeId);
+            }
+
+            if (settings.PlanningHalo <
+                settings.MaxPointInfluenceRadius)
+            {
+                report.AddWarning(
+                    "Macro planning halo is smaller than point-feature influence requirements.");
+            }
+
+            if (settings.RoadNetwork != null &&
+                settings.RoadNetwork.enabled &&
+                settings.RoadNetwork.nearestConnectionsPerSettlement <= 0)
+            {
+                report.AddWarning(
+                    "Road network is enabled but nearestConnectionsPerSettlement <= 0.");
+            }
+
+            if (settings.RoadPaths != null &&
+                settings.RoadPaths.enabled &&
+                settings.RoadPaths.maxExpandedNodes < 100)
+            {
+                report.AddWarning(
+                    "Road path solver maxExpandedNodes is very low.");
+            }
+        }
+
+        private static void ValidateSpawnCatalog(
+            WorldSpawnCatalog catalog,
+            HashSet<string> referencedArchetypes,
+            WorldConfigurationValidationReport report)
+        {
+            if (catalog == null)
+            {
+                if (referencedArchetypes.Count > 0)
+                {
+                    report.AddWarning(
+                        "No WorldSpawnCatalog assigned; generated spawn data is valid, " +
+                        "but referenced archetypes cannot be rendered as prefabs yet.");
+                }
+
+                return;
+            }
+
+            var catalogIds =
+                new HashSet<string>();
+
+            for (int i = 0; i < catalog.Entries.Count; i++)
+            {
+                WorldSpawnCatalogEntry entry =
+                    catalog.Entries[i];
+
+                if (entry == null)
+                {
+                    report.AddWarning(
+                        "Spawn catalog entry #" + i +
+                        " is null.");
+
+                    continue;
+                }
+
+                if (string.IsNullOrWhiteSpace(
+                    entry.archetypeId))
+                {
+                    report.AddError(
+                        "Spawn catalog entry #" + i +
+                        " has empty archetypeId.");
+
+                    continue;
+                }
+
+                if (!catalogIds.Add(
+                    entry.archetypeId))
+                {
+                    report.AddError(
+                        "Duplicate WorldSpawnCatalog archetypeId: '" +
+                        entry.archetypeId +
+                        "'.");
+                }
+
+                if (entry.prefabs == null ||
+                    entry.prefabs.Length == 0)
+                {
+                    report.AddWarning(
+                        "Spawn catalog archetype '" +
+                        entry.archetypeId +
+                        "' has no prefab variants.");
+                }
+                else
+                {
+                    bool anyValid = false;
+
+                    for (int p = 0;
+                         p < entry.prefabs.Length;
+                         p++)
+                    {
+                        if (entry.prefabs[p] != null)
+                        {
+                            anyValid = true;
+                            break;
+                        }
+                    }
+
+                    if (!anyValid)
+                    {
+                        report.AddWarning(
+                            "Spawn catalog archetype '" +
+                            entry.archetypeId +
+                            "' contains only null prefabs.");
+                    }
+                }
+            }
+
+            foreach (string archetypeId in referencedArchetypes)
+            {
+                if (!catalogIds.Contains(archetypeId))
+                {
+                    report.AddWarning(
+                        "Generated archetype '" +
+                        archetypeId +
+                        "' is referenced by rules but missing from WorldSpawnCatalog.");
+                }
+            }
+        }
+
+        private static void ValidateStableRuleId(
+            string ruleId,
+            string context,
+            HashSet<string> stableRuleIds,
+            WorldConfigurationValidationReport report)
+        {
+            if (string.IsNullOrWhiteSpace(ruleId))
+            {
+                report.AddWarning(
+                    context +
+                    " has empty ruleId. Generation will fall back to another value, " +
+                    "but persistent IDs should use an explicit stable ruleId.");
+
+                return;
+            }
+
+            if (!stableRuleIds.Add(ruleId))
+            {
+                report.AddError(
+                    "Duplicate stable ruleId '" +
+                    ruleId +
+                    "' detected at " +
+                    context +
+                    ". ruleId values must be globally unique across world-generation rules.");
+            }
+        }
+    }
+}
