@@ -12,6 +12,7 @@ namespace LittleCastle.World
         MacroProjection = 300,
         Climate = 350,
         Biome = 375,
+        Surface = 390,
         EnvironmentFields = 400,
         Resources = 500,
         LocalSpawns = 600,
