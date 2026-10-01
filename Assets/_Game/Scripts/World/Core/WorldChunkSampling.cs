@@ -94,6 +94,23 @@ namespace LittleCastle.World
             return chunk.GetForestDensity(cellX, cellZ);
         }
 
+        public static PlacementBlockFlags SamplePlacementBlocks(
+            WorldChunkData chunk,
+            WorldGenerationSettings settings,
+            float worldX,
+            float worldZ)
+        {
+            GetCellCoordinates(
+                chunk,
+                settings,
+                worldX,
+                worldZ,
+                out int cellX,
+                out int cellZ);
+
+            return chunk.GetPlacementBlocks(cellX, cellZ);
+        }
+
         private static void GetCellCoordinates(
             WorldChunkData chunk,
             WorldGenerationSettings settings,
