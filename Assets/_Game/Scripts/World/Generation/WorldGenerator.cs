@@ -21,6 +21,8 @@ namespace LittleCastle.World
 
         private readonly List<GameObject> previewObjects = new();
 
+        public int WorldSeed => worldSeed;
+
         private void Start()
         {
             if (generateOnStart)
@@ -45,6 +47,19 @@ namespace LittleCastle.World
                 for (int x = -previewRadius; x <= previewRadius; x++)
                     CreatePreviewChunk(pipeline, new ChunkCoordinate(x, z));
             }
+        }
+
+        [ContextMenu("Regenerate Preview (Next Seed)")]
+        public void RegenerateWithNextSeed()
+        {
+            // Stable integer sequence. We intentionally avoid UnityEngine.Random
+            // so preview seed changes never mutate authoritative random state.
+            unchecked
+            {
+                worldSeed = worldSeed * 1664525 + 1013904223;
+            }
+
+            GeneratePreview();
         }
 
         [ContextMenu("Clear Preview")]
