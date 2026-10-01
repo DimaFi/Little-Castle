@@ -23,6 +23,10 @@ namespace LittleCastle.World
         [SerializeField]
         private MacroWorldPlannerSettings macroPlannerSettings;
 
+        [Header("Session map")]
+        [SerializeField]
+        private WorldMapRules mapRules;
+
         [Header("Runtime")]
         [SerializeField]
         private WorldStreamingSettings streamingSettings;
@@ -41,6 +45,9 @@ namespace LittleCastle.World
 
         public MacroWorldPlannerSettings MacroPlannerSettings =>
             macroPlannerSettings;
+
+        public WorldMapRules MapRules =>
+            mapRules;
 
         public WorldStreamingSettings StreamingSettings =>
             streamingSettings;
