@@ -60,6 +60,7 @@ This keeps scene setup small and gives tools/Codex one clear root for world conf
 - `docs/PROJECT_STRUCTURE.md`
 - `docs/workflows/UNITY_SETUP.md`
 - `docs/workflows/CODEX_WORKFLOW.md`
+- `docs/workflows/CODEX_UNITY_HANDOFF.md`
 - `docs/workflows/WORLD_GENERATION_PRESET.md`
 - `docs/architecture/world-generation.md`
 - `docs/architecture/world-object-generation.md`
