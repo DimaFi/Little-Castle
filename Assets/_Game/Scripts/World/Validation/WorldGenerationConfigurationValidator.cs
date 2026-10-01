@@ -10,6 +10,34 @@ namespace LittleCastle.World
     public static class WorldGenerationConfigurationValidator
     {
         public static WorldConfigurationValidationReport Validate(
+            WorldDefinition definition)
+        {
+            if (definition == null)
+            {
+                var missing =
+                    new WorldConfigurationValidationReport();
+
+                missing.AddError(
+                    "WorldDefinition is missing.");
+
+                return missing;
+            }
+
+            WorldConfigurationValidationReport report =
+                Validate(
+                    definition.GenerationSettings,
+                    definition.MacroPlannerSettings,
+                    definition.SpawnCatalog);
+
+            report.AddInfo(
+                "World definition: '" +
+                definition.WorldId +
+                "'.");
+
+            return report;
+        }
+
+        public static WorldConfigurationValidationReport Validate(
             WorldGenerationSettings generationSettings,
             MacroWorldPlannerSettings macroSettings,
             WorldSpawnCatalog spawnCatalog)
