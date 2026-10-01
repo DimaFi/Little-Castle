@@ -15,16 +15,28 @@ namespace LittleCastle.World
             Transform chunkRoot,
             WorldChunkData chunk,
             WorldSpawnCatalog catalog,
-            Vector3 chunkWorldOrigin)
+            Vector3 chunkWorldOrigin,
+            WorldRuntimeDeltaState runtimeDelta = null)
         {
-            if (chunkRoot == null || chunk == null || catalog == null)
+            if (chunkRoot == null ||
+                chunk == null ||
+                catalog == null)
+            {
                 return 0;
+            }
 
             int created = 0;
 
             for (int i = 0; i < chunk.Spawns.Count; i++)
             {
                 WorldSpawnData spawn = chunk.Spawns[i];
+
+                if (runtimeDelta != null &&
+                    runtimeDelta.IsSpawnRemoved(
+                        spawn.stableId))
+                {
+                    continue;
+                }
 
                 if (!catalog.TryResolve(
                     spawn.archetypeId,
@@ -36,33 +48,50 @@ namespace LittleCastle.World
                 }
 
                 GameObject instance =
-                    Object.Instantiate(prefab, chunkRoot);
+                    Object.Instantiate(
+                        prefab,
+                        chunkRoot);
 
                 instance.name =
-                    spawn.archetypeId + "_" + spawn.stableId;
+                    spawn.archetypeId +
+                    "_" +
+                    spawn.stableId;
 
                 instance.transform.localPosition =
-                    spawn.worldPosition - chunkWorldOrigin;
+                    spawn.worldPosition -
+                    chunkWorldOrigin;
 
                 Quaternion generatedRotation =
-                    Quaternion.Euler(0f, spawn.yawDegrees, 0f);
+                    Quaternion.Euler(
+                        0f,
+                        spawn.yawDegrees,
+                        0f);
 
                 instance.transform.localRotation =
                     generatedRotation *
-                    Quaternion.Euler(entry.rotationOffsetEuler);
+                    Quaternion.Euler(
+                        entry.rotationOffsetEuler);
 
                 float scale =
                     spawn.uniformScale *
-                    Mathf.Max(0.01f, entry.scaleMultiplier);
+                    Mathf.Max(
+                        0.01f,
+                        entry.scaleMultiplier);
 
                 instance.transform.localScale =
-                    instance.transform.localScale * scale;
+                    instance.transform.localScale *
+                    scale;
 
                 GeneratedWorldObject handle =
-                    instance.GetComponent<GeneratedWorldObject>();
+                    instance.GetComponent<
+                        GeneratedWorldObject>();
 
                 if (handle == null)
-                    handle = instance.AddComponent<GeneratedWorldObject>();
+                {
+                    handle =
+                        instance.AddComponent<
+                            GeneratedWorldObject>();
+                }
 
                 handle.Initialize(spawn);
                 created++;
