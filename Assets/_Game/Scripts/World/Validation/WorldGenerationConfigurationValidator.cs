@@ -33,6 +33,10 @@ namespace LittleCastle.World
                 definition.StreamingSettings,
                 report);
 
+            ValidateMapRules(
+                definition.MapRules,
+                report);
+
             report.AddInfo(
                 "World definition: '" +
                 definition.WorldId +
@@ -567,6 +571,99 @@ namespace LittleCastle.World
                     "WorldStreamingSettings maxChunkLoadsPerFrame is high (" +
                     settings.MaxChunkLoadsPerFrame +
                     "). Chunk generation currently runs on the main thread.");
+            }
+        }
+
+        private static void ValidateMapRules(
+            WorldMapRules mapRules,
+            WorldConfigurationValidationReport report)
+        {
+            if (mapRules == null)
+            {
+                // Optional during migration/testing. Production host-created
+                // sessions should assign this asset.
+                return;
+            }
+
+            var ids =
+                new HashSet<string>();
+
+            if (mapRules.Presets.Count == 0)
+            {
+                report.AddWarning(
+                    "WorldMapRules has no map size presets.");
+
+                return;
+            }
+
+            for (int i = 0;
+                 i < mapRules.Presets.Count;
+                 i++)
+            {
+                WorldMapSizePreset preset =
+                    mapRules.Presets[i];
+
+                if (preset == null)
+                {
+                    report.AddError(
+                        "WorldMapRules preset #" +
+                        i +
+                        " is null.");
+
+                    continue;
+                }
+
+                string context =
+                    "Map preset #" +
+                    i;
+
+                if (string.IsNullOrWhiteSpace(
+                        preset.presetId))
+                {
+                    report.AddError(
+                        context +
+                        " has empty presetId.");
+                }
+                else if (!ids.Add(
+                    preset.presetId))
+                {
+                    report.AddError(
+                        "Duplicate map preset ID '" +
+                        preset.presetId +
+                        "'.");
+                }
+
+                if (preset.minimumPlayers < 1)
+                {
+                    report.AddError(
+                        context +
+                        " minimumPlayers must be at least 1.");
+                }
+
+                if (preset.maximumPlayers > 0 &&
+                    preset.maximumPlayers <
+                        preset.minimumPlayers)
+                {
+                    report.AddError(
+                        context +
+                        " maximumPlayers is smaller than minimumPlayers.");
+                }
+
+                if (preset.widthChunks < 4 ||
+                    preset.heightChunks < 4)
+                {
+                    report.AddError(
+                        context +
+                        " is too small. Finite session maps require at least " +
+                        "4x4 playable chunks.");
+                }
+
+                if (preset.visualPaddingChunks < 0)
+                {
+                    report.AddError(
+                        context +
+                        " visualPaddingChunks cannot be negative.");
+                }
             }
         }
 
