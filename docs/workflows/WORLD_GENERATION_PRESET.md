@@ -11,12 +11,21 @@ Create ScriptableObject assets and place them in exactly this order:
 2. RiverTerrainCarvingStage
 3. TerrainClassificationStage
 4. MacroFeatureProjectionStage
-5. ForestDensityStage
-6. ResourceDepositStage
-7. ObjectScatterStage
+5. ClimateStage
+6. BiomeClassificationStage
+7. TerrainSurfaceStage
+8. ForestDensityStage
+9. GroundCoverStage
+10. ResourceDepositStage
+11. ObjectScatterStage
 ```
 
 The pipeline now validates generation phases and will fail fast if phases are ordered backwards.
+
+The climate, biome, surface and ground-cover stages are included in the active
+integration preset because their runtime data is already consumed and covered
+by the Unity verification tests. Omitting them is only appropriate for a
+deliberately reduced terrain-only diagnostic profile.
 
 Do not add `HeightNoiseStage` together with `LayeredTerrainStage` unless intentionally composing/replacing height output.
 

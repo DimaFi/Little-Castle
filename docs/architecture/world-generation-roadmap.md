@@ -24,10 +24,10 @@ This is an implementation roadmap, not a requirement to build everything at once
 - [x] Per-cell slope calculation
 - [x] Coarse terrain classification
 - [ ] Height normalization/sea-level policy
-- [ ] Climate inputs
-- [ ] Biome system
-- [ ] Terrain material/surface IDs
-- [ ] Automated Unity tests
+- [x] Climate inputs
+- [x] Biome system
+- [x] Terrain material/surface IDs
+- [x] Automated Unity EditMode and PlayMode integration tests
 - [ ] Erosion experiments if actually needed
 
 ## Phase 2 — World streaming
@@ -54,29 +54,29 @@ This is an implementation roadmap, not a requirement to build everything at once
 ## Phase 3 — Macro world plan
 
 - [ ] deterministic regions
-- [ ] neutral settlement candidates
-- [ ] ruin / landmark candidates
-- [ ] river graph/network
-- [ ] road graph
-- [ ] stable feature IDs
-- [ ] feature exclusion/influence areas
+- [x] neutral settlement candidates
+- [x] ruin / landmark candidates
+- [x] river graph/network
+- [x] road graph
+- [x] stable feature IDs
+- [x] feature exclusion/influence areas
 
 Chunks query this plan and clip/project macro features locally.
 
 ## Phase 4 — Water
 
-- [ ] river source/catchment strategy
-- [ ] river continuity
-- [ ] terrain carving
-- [ ] riverbed/surface data
+- [x] deterministic first-pass river source strategy
+- [x] river continuity and tributary confluences
+- [x] terrain carving
+- [x] riverbed/surface data
 - [ ] local water rendering
-- [ ] bridge candidate extraction
+- [x] bridge candidate extraction
 
 ## Phase 5 — Neutral settlements and POIs
 
-- [ ] settlement spacing
-- [ ] terrain suitability
-- [ ] settlement archetypes
+- [x] settlement spacing
+- [x] terrain suitability
+- [x] settlement archetype hooks
 - [ ] economic profile data
 - [ ] neutral-state runtime model
 - [ ] ruined/fortified minor sites
@@ -84,28 +84,28 @@ Chunks query this plan and clip/project macro features locally.
 
 ## Phase 6 — Roads and bridges
 
-- [ ] road connectivity graph
-- [ ] terrain-aware route cost
-- [ ] world-space road paths
-- [ ] road types
-- [ ] chunk clipping
+- [x] road connectivity graph
+- [x] terrain-aware route cost
+- [x] world-space road paths
+- [x] road types/width data
+- [x] chunk projection/exclusion
 - [ ] terrain deformation
 - [ ] road material/mesh layer
-- [ ] bridge validation and placement
+- [x] first-pass intersection-based bridge placement
 
 ## Phase 7 — Nature and strategic resources
 
-- [ ] forest-region field
-- [ ] tree spawn data
+- [x] forest-density field
+- [x] tree spawn data
 - [ ] high-density renewable/managed wood strategy
 - [ ] bushes and ground plants
-- [ ] grass
-- [ ] rock scatter
-- [ ] stone deposits
-- [ ] ore deposits
-- [ ] deposit richness/capacity
-- [ ] exclusion masks near infrastructure
-- [ ] resource depletion runtime state
+- [x] scalable grass-density field
+- [x] rock scatter
+- [x] stone deposits
+- [x] ore deposits
+- [x] deposit richness/capacity
+- [x] exclusion masks near infrastructure
+- [x] resource depletion runtime state
 
 ## Phase 8 — Save / runtime modifications
 

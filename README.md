@@ -71,22 +71,26 @@ This keeps scene setup small and gives tools/Codex one clear root for world conf
 
 ## Unity status
 
-The repository root is intended to be the Unity project root.
+The repository root is the Unity project root and is pinned to Unity `6000.5.5f1`.
 
-Unity has **not yet been opened for this repository**, so `Packages/`, `ProjectSettings/` and Unity-generated `*.meta` files are not committed yet.
+The first Unity integration pass is complete:
 
-The current C# foundation is written against built-in Unity APIs, but it must still be compiled and visually verified inside the chosen Unity version before being treated as production-ready.
+- `Packages/`, `ProjectSettings/` and Unity-generated `*.meta` files are present;
+- the runtime and editor/test assemblies compile in batchmode;
+- `Assets/_Game/Settings/World/MainWorldDefinition.asset` is the root configuration;
+- `Assets/_Game/Scenes/WorldGenerationTest.unity` is the minimal preview/streaming scene;
+- automated EditMode and PlayMode coverage verifies deterministic generation,
+  seams, negative coordinates, macro features, caching, mesh cleanup and runtime deltas.
 
-Once a Unity version is chosen:
+See `docs/workflows/UNITY_VERIFICATION_REPORT.md` for the verified environment,
+commands, measurements and remaining limitations.
 
-1. open the repository root as the Unity project;
-2. commit `Packages/`, `ProjectSettings/` and generated `*.meta` files;
-3. create the settings assets described in `docs/workflows/WORLD_GENERATION_PRESET.md`;
-4. create one `WorldDefinition`;
-5. assign it to a scene `WorldGenerator`;
-6. run **Validate World Configuration**;
-7. run **Generate Preview**;
-8. run **Run Generation Diagnostics**;
-9. inspect several seeds before adding large art libraries.
+To inspect manually, open the repository root in Unity Hub, open
+`WorldGenerationTest.unity`, then use the `WorldGenerator` context actions:
+
+1. **Validate World Configuration**;
+2. **Generate Preview**;
+3. **Run Generation Diagnostics**;
+4. **Regenerate Preview (Next Seed)**.
 
 Do not create a nested second Unity project.
