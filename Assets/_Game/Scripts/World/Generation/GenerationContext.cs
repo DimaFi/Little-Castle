@@ -7,11 +7,16 @@ namespace LittleCastle.World
     {
         public int WorldSeed { get; }
         public WorldGenerationSettings Settings { get; }
+        public MacroWorldPlan MacroPlan { get; }
 
-        public GenerationContext(int worldSeed, WorldGenerationSettings settings)
+        public GenerationContext(
+            int worldSeed,
+            WorldGenerationSettings settings,
+            MacroWorldPlan macroPlan = null)
         {
             WorldSeed = worldSeed;
             Settings = settings;
+            MacroPlan = macroPlan;
         }
     }
 }
