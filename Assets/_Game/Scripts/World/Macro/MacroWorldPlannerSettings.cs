@@ -50,11 +50,19 @@ namespace LittleCastle.World
         private RoadNetworkPlannerSettings roadNetwork =
             new RoadNetworkPlannerSettings();
 
+        [Header("Road geometry")]
+        [SerializeField]
+        private TerrainRoadPathPlannerSettings roadPaths =
+            new TerrainRoadPathPlannerSettings();
+
         public IReadOnlyList<MacroPointFeatureRule> PointFeatureRules =>
             pointFeatureRules;
 
         public RoadNetworkPlannerSettings RoadNetwork =>
             roadNetwork;
+
+        public TerrainRoadPathPlannerSettings RoadPaths =>
+            roadPaths;
 
         public float MaxPointInfluenceRadius
         {
