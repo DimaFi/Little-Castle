@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80c087f76aa988c44989267432358b84, type: 3}
   m_Name: MainWorldStreamingSettings
   m_EditorClassIdentifier: LittleCastle.Runtime::LittleCastle.World.WorldStreamingSettings
-  loadRadiusChunks: 1
+  loadRadiusChunks: 4
   unloadPaddingChunks: 1
   circularLoading: 1
-  maxChunkLoadsPerFrame: 1
-  maxChunkUnloadsPerFrame: 2
-  maxCachedChunks: 9
+  maxChunkLoadsPerFrame: 6
+  maxChunkUnloadsPerFrame: 6
+  maxCachedChunks: 64
   macroPlanRadiusChunks: 10
   macroEdgeWarningChunks: 2
   renderGeneratedSpawns: 1
-  addMeshCollider: 0
+  addMeshCollider: 1
