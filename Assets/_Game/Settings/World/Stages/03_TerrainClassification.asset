@@ -16,3 +16,5 @@ MonoBehaviour:
   rollingSlope: 5
   steepSlope: 18
   highlandHeight: 22
+  mountainBarrierHeight: 42
+  mountainBarrierSlope: 32
