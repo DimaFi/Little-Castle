@@ -33,6 +33,7 @@ Material:
     - _MicroFlutter: 0.1
     - _MicroFlutterScale: 2.2
     - _MicroFlutterSpeed: 3.2
+    - _OpacityMapStrength: 0
     - _ColorVariation: 0.08
     - _Cutoff: 0.42
     - _ShadowTintStrength: 0.38
