@@ -5,11 +5,11 @@ using UnityEngine;
 namespace LittleCastle.Building
 {
     /// <summary>
-    /// Deterministically converts a compact wall control path into repeated
-    /// fixed authored modules.
+    /// Deterministically converts one compact wall path into repeated rigid
+    /// modules and optional structural wall towers.
     ///
-    /// No mesh deformation is used. Each module stays rigid and is rotated to
-    /// the local path tangent.
+    /// Smooth control points use Catmull-Rom interpolation.
+    /// Sharp control points force straight segments into/out of that point.
     /// </summary>
     public static class WallPathLayoutUtility
     {
@@ -19,98 +19,144 @@ namespace LittleCastle.Building
             float curveSampleStep,
             List<WallSectionPose> output)
         {
+            BuildSectionsInternal(
+                wall,
+                segmentSpacing,
+                curveSampleStep,
+                null,
+                output);
+        }
+
+        public static void BuildSections(
+            WallRuntimeState wall,
+            WallPlacementDefinition definition,
+            List<WallSectionPose> output)
+        {
+            if (definition == null)
+                throw new ArgumentNullException(nameof(definition));
+
+            BuildSectionsInternal(
+                wall,
+                definition.SegmentSpacing,
+                definition.CurveSampleStep,
+                definition,
+                output);
+        }
+
+        public static void BuildTowerPoses(
+            WallRuntimeState wall,
+            WallPlacementDefinition definition,
+            List<WallTowerPose> output)
+        {
             if (output == null)
                 throw new ArgumentNullException(nameof(output));
 
             output.Clear();
 
             if (wall == null ||
+                definition == null ||
                 wall.controlPoints == null ||
-                wall.controlPoints.Count < 2)
+                wall.controlPoints.Count == 0)
             {
                 return;
             }
 
-            float safeSpacing =
-                Mathf.Max(
-                    0.05f,
-                    segmentSpacing);
+            bool hasStartTower =
+                definition.StartTowerPrefab != null;
 
-            float safeSampleStep =
-                Mathf.Clamp(
-                    curveSampleStep,
-                    0.05f,
-                    safeSpacing);
+            bool hasRepeatTower =
+                definition.RepeatTowerPrefab != null &&
+                definition.AutomaticTowerSpacing >
+                0.01f;
+
+            if (!hasStartTower &&
+                !hasRepeatTower)
+            {
+                return;
+            }
+
+            wall.EnsureControlPointModes();
+
+            if (wall.controlPoints.Count == 1)
+            {
+                if (hasStartTower)
+                {
+                    output.Add(
+                        new WallTowerPose(
+                            CreateTowerId(
+                                wall.wallId,
+                                0),
+                            0,
+                            wall.controlPoints[0],
+                            0f,
+                            true));
+                }
+
+                return;
+            }
 
             var curve =
-                new List<Vector3>(
-                    wall.controlPoints.Count *
-                    8);
+                new List<Vector3>();
 
             BuildDenseCurve(
-                wall.controlPoints,
-                wall.closedLoop,
-                safeSampleStep,
+                wall,
+                definition.CurveSampleStep,
                 curve);
 
             if (curve.Count < 2)
                 return;
 
-            var cumulative =
-                new List<float>(
-                    curve.Count);
-
-            cumulative.Add(0f);
-
-            float totalLength = 0f;
-
-            for (int i = 1;
-                 i < curve.Count;
-                 i++)
-            {
-                totalLength +=
-                    Vector3.Distance(
-                        curve[i - 1],
-                        curve[i]);
-
-                cumulative.Add(
-                    totalLength);
-            }
-
-            if (wall.closedLoop)
-            {
-                totalLength +=
-                    Vector3.Distance(
-                        curve[curve.Count - 1],
-                        curve[0]);
-            }
+            BuildCumulativeLengths(
+                curve,
+                wall.closedLoop,
+                out List<float> cumulative,
+                out float totalLength);
 
             if (totalLength <= 0.001f)
                 return;
 
-            int sectionCount =
-                Mathf.Max(
-                    1,
-                    Mathf.CeilToInt(
-                        totalLength /
-                        safeSpacing));
+            int towerIndex = 0;
 
-            float actualSpacing =
-                totalLength /
-                sectionCount;
-
-            for (int i = 0;
-                 i < sectionCount;
-                 i++)
+            if (hasStartTower)
             {
-                float distance =
-                    wall.closedLoop
-                        ? i * actualSpacing
-                        : Mathf.Min(
+                output.Add(
+                    new WallTowerPose(
+                        CreateTowerId(
+                            wall.wallId,
+                            towerIndex),
+                        towerIndex,
+                        wall.controlPoints[0],
+                        SampleYawAtDistance(
+                            curve,
+                            cumulative,
                             totalLength,
-                            (i + 0.5f) *
-                            actualSpacing);
+                            0f,
+                            wall.closedLoop,
+                            definition.SegmentSpacing),
+                        true));
 
+                towerIndex++;
+            }
+
+            if (!hasRepeatTower)
+                return;
+
+            float spacing =
+                definition.AutomaticTowerSpacing;
+
+            float distance =
+                spacing;
+
+            float minimumDistanceFromStart =
+                Mathf.Max(
+                    definition.TowerSectionClearanceRadius *
+                    2f,
+                    spacing * 0.35f);
+
+            while (distance <
+                   totalLength -
+                   minimumDistanceFromStart)
+            {
                 Vector3 position =
                     SampleAtDistance(
                         curve,
@@ -119,58 +165,27 @@ namespace LittleCastle.Building
                         distance,
                         wall.closedLoop);
 
-                float tangentDistance =
-                    Mathf.Max(
-                        0.03f,
-                        Mathf.Min(
-                            actualSpacing * 0.35f,
-                            0.5f));
-
-                Vector3 before =
-                    SampleAtDistance(
-                        curve,
-                        cumulative,
-                        totalLength,
-                        distance -
-                        tangentDistance,
-                        wall.closedLoop);
-
-                Vector3 after =
-                    SampleAtDistance(
-                        curve,
-                        cumulative,
-                        totalLength,
-                        distance +
-                        tangentDistance,
-                        wall.closedLoop);
-
-                Vector3 tangent =
-                    after -
-                    before;
-
-                tangent.y = 0f;
-
-                if (tangent.sqrMagnitude <=
-                    0.000001f)
-                {
-                    tangent =
-                        Vector3.forward;
-                }
-
                 float yaw =
-                    Mathf.Atan2(
-                        tangent.x,
-                        tangent.z) *
-                    Mathf.Rad2Deg;
+                    SampleYawAtDistance(
+                        curve,
+                        cumulative,
+                        totalLength,
+                        distance,
+                        wall.closedLoop,
+                        definition.SegmentSpacing);
 
                 output.Add(
-                    new WallSectionPose(
-                        CreateSectionId(
+                    new WallTowerPose(
+                        CreateTowerId(
                             wall.wallId,
-                            i),
-                        i,
+                            towerIndex),
+                        towerIndex,
                         position,
-                        yaw));
+                        yaw,
+                        false));
+
+                towerIndex++;
+                distance += spacing;
             }
         }
 
@@ -185,6 +200,7 @@ namespace LittleCastle.Building
             }
 
             float maximum = 0f;
+
             int pairCount =
                 closedLoop
                     ? sections.Count
@@ -217,55 +233,242 @@ namespace LittleCastle.Building
             long wallId,
             int sectionIndex)
         {
-            unchecked
+            return
+                MixStableId(
+                    wallId,
+                    sectionIndex + 1,
+                    0x9E3779B185EBCA87UL);
+        }
+
+        public static long CreateTowerId(
+            long wallId,
+            int towerIndex)
+        {
+            return
+                MixStableId(
+                    wallId,
+                    towerIndex + 1,
+                    0xD6E8FEB86659FD93UL);
+        }
+
+        private static void BuildSectionsInternal(
+            WallRuntimeState wall,
+            float segmentSpacing,
+            float curveSampleStep,
+            WallPlacementDefinition definition,
+            List<WallSectionPose> output)
+        {
+            if (output == null)
+                throw new ArgumentNullException(nameof(output));
+
+            output.Clear();
+
+            if (wall == null ||
+                wall.controlPoints == null ||
+                wall.controlPoints.Count < 2)
             {
-                ulong value =
-                    (ulong)wallId;
+                return;
+            }
 
-                value ^=
-                    (ulong)(sectionIndex + 1) *
-                    0x9E3779B185EBCA87UL;
+            wall.EnsureControlPointModes();
 
-                value ^=
-                    value >>
-                    30;
+            float safeSpacing =
+                Mathf.Max(
+                    0.05f,
+                    segmentSpacing);
 
-                value *=
-                    0xBF58476D1CE4E5B9UL;
+            float safeSampleStep =
+                Mathf.Clamp(
+                    curveSampleStep,
+                    0.05f,
+                    safeSpacing);
 
-                value ^=
-                    value >>
-                    27;
+            var curve =
+                new List<Vector3>(
+                    wall.controlPoints.Count *
+                    8);
 
-                value *=
-                    0x94D049BB133111EBUL;
+            BuildDenseCurve(
+                wall,
+                safeSampleStep,
+                curve);
 
-                value ^=
-                    value >>
-                    31;
+            if (curve.Count < 2)
+                return;
 
-                long result =
-                    (long)value;
+            BuildCumulativeLengths(
+                curve,
+                wall.closedLoop,
+                out List<float> cumulative,
+                out float totalLength);
 
-                if (result == 0)
-                    result = 1;
+            if (totalLength <= 0.001f)
+                return;
 
-                return result;
+            int sectionCount =
+                Mathf.Max(
+                    1,
+                    Mathf.CeilToInt(
+                        totalLength /
+                        safeSpacing));
+
+            float actualSpacing =
+                totalLength /
+                sectionCount;
+
+            var towers =
+                definition != null
+                    ? new List<WallTowerPose>()
+                    : null;
+
+            if (definition != null)
+            {
+                BuildTowerPoses(
+                    wall,
+                    definition,
+                    towers);
+            }
+
+            for (int i = 0;
+                 i < sectionCount;
+                 i++)
+            {
+                float distance =
+                    wall.closedLoop
+                        ? i * actualSpacing
+                        : Mathf.Min(
+                            totalLength,
+                            (i + 0.5f) *
+                            actualSpacing);
+
+                Vector3 position =
+                    SampleAtDistance(
+                        curve,
+                        cumulative,
+                        totalLength,
+                        distance,
+                        wall.closedLoop);
+
+                if (definition != null &&
+                    ShouldSuppressSection(
+                        wall,
+                        definition,
+                        towers,
+                        position))
+                {
+                    continue;
+                }
+
+                float yaw =
+                    SampleYawAtDistance(
+                        curve,
+                        cumulative,
+                        totalLength,
+                        distance,
+                        wall.closedLoop,
+                        actualSpacing);
+
+                output.Add(
+                    new WallSectionPose(
+                        CreateSectionId(
+                            wall.wallId,
+                            i),
+                        i,
+                        position,
+                        yaw));
             }
         }
 
+        private static bool ShouldSuppressSection(
+            WallRuntimeState wall,
+            WallPlacementDefinition definition,
+            IReadOnlyList<WallTowerPose> towers,
+            Vector3 position)
+        {
+            float towerRadius =
+                definition.TowerSectionClearanceRadius;
+
+            if (towerRadius > 0f &&
+                towers != null)
+            {
+                float towerRadiusSqr =
+                    towerRadius *
+                    towerRadius;
+
+                for (int i = 0;
+                     i < towers.Count;
+                     i++)
+                {
+                    Vector3 delta =
+                        position -
+                        towers[i].position;
+
+                    delta.y = 0f;
+
+                    if (delta.sqrMagnitude <=
+                        towerRadiusSqr)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            if (wall.socketAttachments == null ||
+                wall.socketAttachments.Count == 0)
+            {
+                return false;
+            }
+
+            for (int i = 0;
+                 i < wall.socketAttachments.Count;
+                 i++)
+            {
+                WallSocketAttachmentState attachment =
+                    wall.socketAttachments[i];
+
+                if (attachment.controlPointIndex < 0 ||
+                    attachment.controlPointIndex >=
+                    wall.controlPoints.Count ||
+                    attachment.clearanceRadius <= 0f)
+                {
+                    continue;
+                }
+
+                Vector3 center =
+                    wall.controlPoints[
+                        attachment.controlPointIndex];
+
+                Vector3 delta =
+                    position -
+                    center;
+
+                delta.y = 0f;
+
+                if (delta.sqrMagnitude <=
+                    attachment.clearanceRadius *
+                    attachment.clearanceRadius)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         private static void BuildDenseCurve(
-            IReadOnlyList<Vector3> points,
-            bool closedLoop,
+            WallRuntimeState wall,
             float sampleStep,
             List<Vector3> output)
         {
             output.Clear();
 
+            IReadOnlyList<Vector3> points =
+                wall.controlPoints;
+
             if (points.Count == 2 &&
-                !closedLoop)
+                !wall.closedLoop)
             {
-                AppendLinearSegment(
+                AppendLinearSegmentSamples(
                     points[0],
                     points[1],
                     sampleStep,
@@ -276,7 +479,7 @@ namespace LittleCastle.Building
             }
 
             int segmentCount =
-                closedLoop
+                wall.closedLoop
                     ? points.Count
                     : points.Count - 1;
 
@@ -284,16 +487,21 @@ namespace LittleCastle.Building
                  segment < segmentCount;
                  segment++)
             {
+                int p1Index =
+                    segment;
+
+                int p2Index =
+                    (segment + 1) %
+                    points.Count;
+
                 Vector3 p1 =
-                    points[segment];
+                    points[p1Index];
 
                 Vector3 p2 =
-                    points[
-                        (segment + 1) %
-                        points.Count];
+                    points[p2Index];
 
                 Vector3 p0 =
-                    closedLoop
+                    wall.closedLoop
                         ? points[
                             (segment - 1 +
                              points.Count) %
@@ -304,7 +512,7 @@ namespace LittleCastle.Building
                                 segment - 1)];
 
                 Vector3 p3 =
-                    closedLoop
+                    wall.closedLoop
                         ? points[
                             (segment + 2) %
                             points.Count]
@@ -312,6 +520,14 @@ namespace LittleCastle.Building
                             Mathf.Min(
                                 points.Count - 1,
                                 segment + 2)];
+
+                bool forceStraightSegment =
+                    wall.GetControlPointMode(
+                        p1Index) ==
+                    WallControlPointMode.Sharp ||
+                    wall.GetControlPointMode(
+                        p2Index) ==
+                    WallControlPointMode.Sharp;
 
                 float chord =
                     Vector3.Distance(
@@ -333,17 +549,25 @@ namespace LittleCastle.Building
                         (float)step /
                         steps;
 
+                    Vector3 point =
+                        forceStraightSegment
+                            ? Vector3.Lerp(
+                                p1,
+                                p2,
+                                t)
+                            : CatmullRom(
+                                p0,
+                                p1,
+                                p2,
+                                p3,
+                                t);
+
                     output.Add(
-                        CatmullRom(
-                            p0,
-                            p1,
-                            p2,
-                            p3,
-                            t));
+                        point);
                 }
             }
 
-            if (!closedLoop)
+            if (!wall.closedLoop)
             {
                 output.Add(
                     points[
@@ -351,7 +575,7 @@ namespace LittleCastle.Building
             }
         }
 
-        private static void AppendLinearSegment(
+        private static void AppendLinearSegmentSamples(
             Vector3 a,
             Vector3 b,
             float sampleStep,
@@ -387,6 +611,99 @@ namespace LittleCastle.Building
 
             if (includeEnd)
                 output.Add(b);
+        }
+
+        private static void BuildCumulativeLengths(
+            IReadOnlyList<Vector3> curve,
+            bool closedLoop,
+            out List<float> cumulative,
+            out float totalLength)
+        {
+            cumulative =
+                new List<float>(
+                    curve.Count);
+
+            cumulative.Add(0f);
+
+            totalLength = 0f;
+
+            for (int i = 1;
+                 i < curve.Count;
+                 i++)
+            {
+                totalLength +=
+                    Vector3.Distance(
+                        curve[i - 1],
+                        curve[i]);
+
+                cumulative.Add(
+                    totalLength);
+            }
+
+            if (closedLoop)
+            {
+                totalLength +=
+                    Vector3.Distance(
+                        curve[
+                            curve.Count - 1],
+                        curve[0]);
+            }
+        }
+
+        private static float SampleYawAtDistance(
+            IReadOnlyList<Vector3> curve,
+            IReadOnlyList<float> cumulative,
+            float totalLength,
+            float distance,
+            bool closedLoop,
+            float spacingReference)
+        {
+            float tangentDistance =
+                Mathf.Max(
+                    0.03f,
+                    Mathf.Min(
+                        Mathf.Max(
+                            0.1f,
+                            spacingReference) *
+                        0.35f,
+                        0.5f));
+
+            Vector3 before =
+                SampleAtDistance(
+                    curve,
+                    cumulative,
+                    totalLength,
+                    distance -
+                    tangentDistance,
+                    closedLoop);
+
+            Vector3 after =
+                SampleAtDistance(
+                    curve,
+                    cumulative,
+                    totalLength,
+                    distance +
+                    tangentDistance,
+                    closedLoop);
+
+            Vector3 tangent =
+                after -
+                before;
+
+            tangent.y = 0f;
+
+            if (tangent.sqrMagnitude <=
+                0.000001f)
+            {
+                tangent =
+                    Vector3.forward;
+            }
+
+            return
+                Mathf.Atan2(
+                    tangent.x,
+                    tangent.z) *
+                Mathf.Rad2Deg;
         }
 
         private static Vector3 CatmullRom(
@@ -471,7 +788,8 @@ namespace LittleCastle.Building
                         segmentStart;
 
                     float t =
-                        segmentLength <= 0.000001f
+                        segmentLength <=
+                        0.000001f
                             ? 0f
                             : (distance -
                                segmentStart) /
@@ -509,6 +827,48 @@ namespace LittleCastle.Building
                         curve.Count - 1],
                     curve[0],
                     closingT);
+        }
+
+        private static long MixStableId(
+            long wallId,
+            int index,
+            ulong salt)
+        {
+            unchecked
+            {
+                ulong value =
+                    (ulong)wallId;
+
+                value ^=
+                    (ulong)index *
+                    salt;
+
+                value ^=
+                    value >>
+                    30;
+
+                value *=
+                    0xBF58476D1CE4E5B9UL;
+
+                value ^=
+                    value >>
+                    27;
+
+                value *=
+                    0x94D049BB133111EBUL;
+
+                value ^=
+                    value >>
+                    31;
+
+                long result =
+                    (long)value;
+
+                return
+                    result == 0
+                        ? 1
+                        : result;
+            }
         }
     }
 }
