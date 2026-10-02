@@ -11,6 +11,10 @@ Shader "Little Castle/Surface/LC Stylized Lit"
         _OcclusionMap ("Ambient Occlusion", 2D) = "white" {}
         _OcclusionStrength ("AO Strength", Range(0,1)) = 0.75
 
+        _RoughnessMap ("Roughness Map", 2D) = "white" {}
+        _Roughness ("Base Roughness", Range(0,1)) = 0.68
+        _RoughnessMapStrength ("Roughness Map Strength", Range(0,1)) = 0
+
         _EmissionMap ("Emission", 2D) = "black" {}
         [HDR] _EmissionColor ("Emission Color", Color) = (0,0,0,0)
         _EmissionDayStrength ("Emission Day Strength", Range(0,4)) = 0
@@ -78,6 +82,10 @@ Shader "Little Castle/Surface/LC Stylized Lit"
 
             sampler2D _OcclusionMap;
             half _OcclusionStrength;
+
+            sampler2D _RoughnessMap;
+            half _Roughness;
+            half _RoughnessMapStrength;
 
             sampler2D _EmissionMap;
             half4 _EmissionColor;
@@ -324,14 +332,44 @@ Shader "Little Castle/Surface/LC Stylized Lit"
                         sunDirection +
                         viewDirection);
 
+                half roughnessSample =
+                    tex2D(
+                        _RoughnessMap,
+                        i.uv).r;
+
+                half roughness =
+                    saturate(
+                        lerp(
+                            _Roughness,
+                            roughnessSample,
+                            _RoughnessMapStrength));
+
+                half smoothness =
+                    1.0h -
+                    roughness;
+
+                half stylizedSpecularPower =
+                    lerp(
+                        6.0h,
+                        _SpecularPower,
+                        smoothness *
+                        smoothness);
+
+                half stylizedSpecularStrength =
+                    _SpecularStrength *
+                    lerp(
+                        0.32h,
+                        1.0h,
+                        smoothness);
+
                 half sunSpecular =
                     pow(
                         saturate(
                             dot(
                                 normal,
                                 halfDirection)),
-                        _SpecularPower) *
-                    _SpecularStrength *
+                        stylizedSpecularPower) *
+                    stylizedSpecularStrength *
                     sunDiffuse;
 
                 half3 moonHalfDirection =
@@ -345,8 +383,8 @@ Shader "Little Castle/Surface/LC Stylized Lit"
                             dot(
                                 normal,
                                 moonHalfDirection)),
-                        _SpecularPower) *
-                    (_SpecularStrength * 0.35h) *
+                        stylizedSpecularPower) *
+                    (stylizedSpecularStrength * 0.35h) *
                     moonDiffuse;
 
                 half fresnel =
@@ -476,6 +514,10 @@ Shader "Little Castle/Surface/LC Stylized Lit"
 
             sampler2D _BumpMap;
             half _BumpScale;
+
+            sampler2D _RoughnessMap;
+            half _Roughness;
+            half _RoughnessMapStrength;
 
             half _LightWrap;
             half _ShadowSoftness;
@@ -644,14 +686,40 @@ Shader "Little Castle/Surface/LC Stylized Lit"
                         lightDirection +
                         viewDirection);
 
+                half roughnessSample =
+                    tex2D(
+                        _RoughnessMap,
+                        i.uv).r;
+
+                half roughness =
+                    saturate(
+                        lerp(
+                            _Roughness,
+                            roughnessSample,
+                            _RoughnessMapStrength));
+
+                half localSpecularPower =
+                    lerp(
+                        6.0h,
+                        _SpecularPower,
+                        (1.0h - roughness) *
+                        (1.0h - roughness));
+
+                half localSpecularStrength =
+                    _LocalLightSpecular *
+                    lerp(
+                        0.28h,
+                        1.0h,
+                        1.0h - roughness);
+
                 half specular =
                     pow(
                         saturate(
                             dot(
                                 normal,
                                 halfDirection)),
-                        _SpecularPower) *
-                    _LocalLightSpecular;
+                        localSpecularPower) *
+                    localSpecularStrength;
 
                 half3 localColor =
                     _LightColor0.rgb *
