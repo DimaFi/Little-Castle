@@ -339,6 +339,28 @@ For significant generation/streaming changes, verify at representative
 See:
 `docs/decisions/ADR-0002-fast-session-bootstrap-lazy-world-materialization.md`.
 
+## Production model + world-fill preflight rule
+
+Before a production model batch is accepted for large procedural placement, run:
+
+`Little Castle -> Preflight -> Run Full Model + World Preflight`
+
+Do not bypass a reported error by weakening deterministic generation contracts.
+
+Performance rules for the filling test:
+
+- keep authoritative `WorldSpawnData` prefab-independent;
+- preserve one stable archetype ID with multiple visual variants;
+- use authored LODs rather than runtime mesh simplification;
+- keep generated-object colliders near-only through
+  `GeneratedObjectColliderRadiusChunks`;
+- do not restore linear per-spawn catalog scans;
+- do not restore all-entity scans for per-chunk runtime entity queries;
+- preserve macro point spatial indexing and bridge river-segment spatial indexing;
+- optimization must not change output for the same seed/settings unless the
+  generation version is intentionally advanced;
+- inspect the preflight per-stage timings before increasing generation budgets.
+
 ## Authoritative gameplay foundation rule
 
 Before changing population, economy, construction, barracks, neutral trading,
