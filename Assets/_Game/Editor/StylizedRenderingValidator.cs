@@ -78,6 +78,13 @@ namespace LittleCastle.Editor
                 "_FlickerStrength"),
 
             new ShaderRequirement(
+                "Little Castle/Effects/LC Emissive Glow",
+                "_MainTex",
+                "_Color",
+                "_NightStrength",
+                "_FlickerStrength"),
+
+            new ShaderRequirement(
                 "Little Castle/Distance/LC Distant Simple",
                 "_MainTex",
                 "_UseAlphaClip",
@@ -93,6 +100,7 @@ namespace LittleCastle.Editor
             "Assets/_Game/Materials/Shared/LC_Grass_Default.mat",
             "Assets/_Game/Materials/Material_terrain/LC_Terrain_Default.mat",
             "Assets/_Game/Materials/Shared/LC_NightLightPool_Default.mat",
+            "Assets/_Game/Materials/Shared/LC_EmissiveGlow_Default.mat",
             "Assets/_Game/Materials/Shared/LC_Wheat_Mature.mat",
             "Assets/_Game/Materials/Shared/LC_DistantSimple_Default.mat"
         };
