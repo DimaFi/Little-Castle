@@ -88,6 +88,9 @@ namespace LittleCastle.World
         public IReadOnlyList<WorldRuntimeEntityState> RuntimeEntities =>
             runtimeEntities;
 
+        public IReadOnlyList<WorldChunkRevisionRecord> ChunkRevisions =>
+            chunkRevisions;
+
         public bool IsSpawnRemoved(long stableId)
         {
             EnsureIndexes();
@@ -487,6 +490,156 @@ namespace LittleCastle.World
             return snapshot;
         }
 
+        public bool ApplyChunkSnapshot(
+            WorldChunkStateSnapshot snapshot)
+        {
+            if (snapshot == null)
+                return false;
+
+            EnsureIndexes();
+
+            ChunkCoordinate coordinate =
+                snapshot.chunkCoordinate;
+
+            int currentRevision =
+                GetChunkRevision(
+                    coordinate);
+
+            if (snapshot.revision <
+                currentRevision)
+            {
+                return false;
+            }
+
+            bool changed =
+                snapshot.revision !=
+                currentRevision;
+
+            for (int i = removedSpawnChunks.Count - 1;
+                 i >= 0;
+                 i--)
+            {
+                if (removedSpawnChunks[i].chunkCoordinate !=
+                    coordinate)
+                {
+                    continue;
+                }
+
+                long stableId =
+                    removedSpawnChunks[i].stableId;
+
+                removedSpawnChunks.RemoveAt(
+                    i);
+
+                removedSpawnIds.Remove(
+                    stableId);
+
+                changed = true;
+            }
+
+            for (int i = resourceDeposits.Count - 1;
+                 i >= 0;
+                 i--)
+            {
+                if (resourceDeposits[i].chunkCoordinate ==
+                    coordinate)
+                {
+                    resourceDeposits.RemoveAt(
+                        i);
+
+                    changed = true;
+                }
+            }
+
+            for (int i = runtimeEntities.Count - 1;
+                 i >= 0;
+                 i--)
+            {
+                if (runtimeEntities[i].chunkCoordinate ==
+                    coordinate)
+                {
+                    runtimeEntities.RemoveAt(
+                        i);
+
+                    changed = true;
+                }
+            }
+
+            if (snapshot.removedGeneratedSpawnIds != null)
+            {
+                for (int i = 0;
+                     i < snapshot.removedGeneratedSpawnIds.Count;
+                     i++)
+                {
+                    long stableId =
+                        snapshot.removedGeneratedSpawnIds[i];
+
+                    if (!removedSpawnIds.Contains(
+                            stableId))
+                    {
+                        removedSpawnIds.Add(
+                            stableId);
+                    }
+
+                    removedSpawnChunks.Add(
+                        new WorldRemovedSpawnChunkRecord(
+                            stableId,
+                            coordinate));
+                }
+            }
+
+            if (snapshot.resourceDeposits != null)
+            {
+                for (int i = 0;
+                     i < snapshot.resourceDeposits.Count;
+                     i++)
+                {
+                    ResourceDepositRuntimeDelta delta =
+                        snapshot.resourceDeposits[i];
+
+                    delta.chunkCoordinate =
+                        coordinate;
+
+                    resourceDeposits.Add(
+                        delta);
+                }
+            }
+
+            if (snapshot.runtimeEntities != null)
+            {
+                for (int i = 0;
+                     i < snapshot.runtimeEntities.Count;
+                     i++)
+                {
+                    WorldRuntimeEntityState state =
+                        snapshot.runtimeEntities[i];
+
+                    state.chunkCoordinate =
+                        coordinate;
+
+                    runtimeEntities.Add(
+                        state);
+                }
+            }
+
+            SetChunkRevisionExact(
+                coordinate,
+                snapshot.revision);
+
+            RebuildIndexes();
+
+            if (changed)
+            {
+                ChunkRevisionChanged?.Invoke(
+                    coordinate,
+                    Mathf.Max(
+                        0,
+                        snapshot.revision));
+            }
+
+            return changed;
+        }
+
         public void RebuildIndexes()
         {
             removedSpawnIndex =
@@ -578,6 +731,39 @@ namespace LittleCastle.World
                     safeCapacity));
 
             return true;
+        }
+
+        private void SetChunkRevisionExact(
+            ChunkCoordinate chunkCoordinate,
+            int revision)
+        {
+            EnsureIndexes();
+
+            int safeRevision =
+                Mathf.Max(
+                    0,
+                    revision);
+
+            if (chunkRevisionIndex.TryGetValue(
+                    chunkCoordinate,
+                    out int index))
+            {
+                chunkRevisions[index] =
+                    new WorldChunkRevisionRecord(
+                        chunkCoordinate,
+                        safeRevision);
+
+                return;
+            }
+
+            chunkRevisionIndex.Add(
+                chunkCoordinate,
+                chunkRevisions.Count);
+
+            chunkRevisions.Add(
+                new WorldChunkRevisionRecord(
+                    chunkCoordinate,
+                    safeRevision));
         }
 
         private int IncrementChunkRevision(
