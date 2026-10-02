@@ -205,3 +205,73 @@ These optimizations stay on the presentation/streaming side, preserving:
 - future multiplayer authority.
 
 That separation should be preserved.
+
+
+## Cooperative two-ring prefetch update
+
+Observed in Unity before this change:
+
+- roughly 380-400 FPS while idle in the simple test scene;
+- drops toward roughly 20 FPS when new chunk data was generated;
+- Last chunk load around 108-112 ms;
+- Mesh build only around 0.1-0.4 ms;
+- Spawn presentation around 0.1-0.3 ms.
+
+This identified synchronous chunk-data generation as the dominant hitch.
+
+### Architecture change
+
+WorldStreamer no longer synchronously calls GetOrGeneratePinned from
+CreateChunkView.
+
+New flow:
+
+1. visible coordinate requested;
+2. if WorldChunkData is cached, presentation is created immediately;
+3. if data is missing, the coordinate enters urgent cooperative generation;
+4. generation executes only a small number of pipeline stages per frame;
+5. completed data enters WorldChunkCache;
+6. presentation consumes cached data on a later frame.
+
+A larger data-only prefetch ring is generated after urgent work.
+
+Current test policy:
+
+- visible radius = 4;
+- prefetch padding = 2;
+- prefetch radius = 6;
+- circular visible target ~= 49 chunks;
+- circular data-preparation target <= about 113 chunks;
+- cache soft capacity = 160 entries;
+- urgent generation = up to 2 stages/frame;
+- background generation = up to 1 stage/frame;
+- background prefetch pauses when previous frame exceeds 18 ms.
+
+### Threading status
+
+This is cooperative main-thread generation, not worker-thread generation.
+
+Reason:
+
+- stages are ScriptableObjects;
+- some stages use AnimationCurve;
+- thread safety has not been established for the existing pipeline.
+
+Do not wrap the current pipeline in Task.Run.
+
+The next performance decision should use the new HUD value:
+
+`Last gen stage: <stage name> <milliseconds>`
+
+If one stage alone still causes a large hitch, isolate that stage and either:
+
+- split its internal work into smaller deterministic steps; or
+- snapshot its Unity-object inputs into pure managed data and move only that
+  safe work to Jobs/worker threads.
+
+### Resident chunks
+
+Active/resident chunks may exceed the visible target because unload padding is
+intentional hysteresis. This prevents rapid unload/reload churn.
+
+The HUD now distinguishes Resident chunks from Visible target.
