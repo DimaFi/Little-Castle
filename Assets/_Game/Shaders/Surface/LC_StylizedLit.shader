@@ -28,6 +28,9 @@ Shader "Little Castle/Surface/LC Stylized Lit"
 
         _RimStrength ("Soft Rim", Range(0,1)) = 0.05
         _RimPower ("Rim Size", Range(1,8)) = 3.5
+
+        _LocalLightStrength ("Local Light Strength", Range(0,2)) = 0.82
+        _LocalLightSpecular ("Local Light Specular", Range(0,1)) = 0.05
     }
 
     SubShader
@@ -433,6 +436,251 @@ Shader "Little Castle/Surface/LC Stylized Lit"
                 UNITY_APPLY_FOG(
                     i.fogCoord,
                     result);
+
+                return result;
+            }
+
+            ENDCG
+        }
+
+        Pass
+        {
+            Name "FORWARD_ADD"
+            Tags
+            {
+                "LightMode" = "ForwardAdd"
+            }
+
+            Blend One One
+            ZWrite Off
+            ZTest LEqual
+            Cull Back
+
+            CGPROGRAM
+
+            #pragma target 3.0
+            #pragma vertex vertAdd
+            #pragma fragment fragAdd
+            #pragma multi_compile_fwdadd_fullshadows
+            #pragma multi_compile_fog
+            #pragma multi_compile_instancing
+
+            #include "UnityCG.cginc"
+            #include "Lighting.cginc"
+            #include "AutoLight.cginc"
+            #include "UnityStandardUtils.cginc"
+
+            sampler2D _MainTex;
+            float4 _MainTex_ST;
+            fixed4 _Color;
+
+            sampler2D _BumpMap;
+            half _BumpScale;
+
+            half _LightWrap;
+            half _ShadowSoftness;
+            half _SpecularPower;
+            half _LocalLightStrength;
+            half _LocalLightSpecular;
+
+            struct appdataAdd
+            {
+                float4 vertex : POSITION;
+                float3 normal : NORMAL;
+                float4 tangent : TANGENT;
+                float2 uv : TEXCOORD0;
+
+                UNITY_VERTEX_INPUT_INSTANCE_ID
+            };
+
+            struct v2fAdd
+            {
+                float4 position : SV_POSITION;
+                float2 uv : TEXCOORD0;
+                float3 worldPosition : TEXCOORD1;
+                half3 worldNormal : TEXCOORD2;
+                half3 worldTangent : TEXCOORD3;
+                half3 worldBitangent : TEXCOORD4;
+
+                LIGHTING_COORDS(5, 6)
+                UNITY_FOG_COORDS(7)
+
+                UNITY_VERTEX_INPUT_INSTANCE_ID
+                UNITY_VERTEX_OUTPUT_STEREO
+            };
+
+            v2fAdd vertAdd(appdataAdd v)
+            {
+                v2fAdd o;
+
+                UNITY_SETUP_INSTANCE_ID(v);
+                UNITY_TRANSFER_INSTANCE_ID(v, o);
+                UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
+
+                o.position =
+                    UnityObjectToClipPos(
+                        v.vertex);
+
+                o.uv =
+                    TRANSFORM_TEX(
+                        v.uv,
+                        _MainTex);
+
+                o.worldPosition =
+                    mul(
+                        unity_ObjectToWorld,
+                        v.vertex).xyz;
+
+                o.worldNormal =
+                    UnityObjectToWorldNormal(
+                        v.normal);
+
+                o.worldTangent =
+                    UnityObjectToWorldDir(
+                        v.tangent.xyz);
+
+                half tangentSign =
+                    v.tangent.w *
+                    unity_WorldTransformParams.w;
+
+                o.worldBitangent =
+                    cross(
+                        o.worldNormal,
+                        o.worldTangent) *
+                    tangentSign;
+
+                TRANSFER_VERTEX_TO_FRAGMENT(o);
+
+                UNITY_TRANSFER_FOG(
+                    o,
+                    o.position);
+
+                return o;
+            }
+
+            half3 EvaluateAddNormal(v2fAdd i)
+            {
+                half3 tangentNormal =
+                    UnpackScaleNormal(
+                        tex2D(
+                            _BumpMap,
+                            i.uv),
+                        _BumpScale);
+
+                return normalize(
+                    tangentNormal.x *
+                        normalize(i.worldTangent) +
+                    tangentNormal.y *
+                        normalize(i.worldBitangent) +
+                    tangentNormal.z *
+                        normalize(i.worldNormal));
+            }
+
+            half EvaluateAddDiffuse(
+                half3 normal,
+                half3 lightDirection)
+            {
+                half ndotl =
+                    dot(
+                        normal,
+                        lightDirection);
+
+                half wrapped =
+                    saturate(
+                        (ndotl + _LightWrap * 0.35h) /
+                        (1.0h + _LightWrap * 0.35h));
+
+                half center =
+                    0.38h;
+
+                half halfWidth =
+                    max(
+                        0.015h,
+                        _ShadowSoftness *
+                        0.34h);
+
+                return smoothstep(
+                    center - halfWidth,
+                    center + halfWidth,
+                    wrapped);
+            }
+
+            fixed4 fragAdd(v2fAdd i) : SV_Target
+            {
+                UNITY_SETUP_INSTANCE_ID(i);
+
+                fixed3 albedo =
+                    tex2D(
+                        _MainTex,
+                        i.uv).rgb *
+                    _Color.rgb;
+
+                half3 normal =
+                    EvaluateAddNormal(i);
+
+                half3 lightDirection =
+                    normalize(
+                        UnityWorldSpaceLightDir(
+                            i.worldPosition));
+
+                half attenuation;
+                UNITY_LIGHT_ATTENUATION(
+                    attenuation,
+                    i,
+                    i.worldPosition);
+
+                half diffuse =
+                    EvaluateAddDiffuse(
+                        normal,
+                        lightDirection);
+
+                half3 viewDirection =
+                    normalize(
+                        _WorldSpaceCameraPos -
+                        i.worldPosition);
+
+                half3 halfDirection =
+                    normalize(
+                        lightDirection +
+                        viewDirection);
+
+                half specular =
+                    pow(
+                        saturate(
+                            dot(
+                                normal,
+                                halfDirection)),
+                        _SpecularPower) *
+                    _LocalLightSpecular;
+
+                half3 localColor =
+                    _LightColor0.rgb *
+                    attenuation *
+                    _LocalLightStrength;
+
+                half3 color =
+                    albedo *
+                    localColor *
+                    diffuse;
+
+                color +=
+                    localColor *
+                    specular *
+                    diffuse;
+
+                fixed4 result =
+                    fixed4(
+                        color,
+                        0.0);
+
+                UNITY_APPLY_FOG_COLOR(
+                    i.fogCoord,
+                    result,
+                    fixed4(
+                        0,
+                        0,
+                        0,
+                        0));
 
                 return result;
             }
