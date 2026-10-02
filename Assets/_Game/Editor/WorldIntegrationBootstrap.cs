@@ -32,7 +32,7 @@ namespace LittleCastle.Editor
         public const string SpawnCatalogPath =
             WorldSettingsFolder + "/MainWorldSpawnCatalog.asset";
         public const string TerrainMaterialPath =
-            MaterialFolder + "/WorldTerrainDebug.mat";
+            "Assets/_Game/Materials/Material_terrain/LC_Terrain_Default.mat";
         public const string PlaceholderPrefabPath =
             PrefabFolder + "/WorldSpawnPlaceholder.prefab";
         public const string TestScenePath =
@@ -220,31 +220,18 @@ namespace LittleCastle.Editor
         private static Material CreateOrLoadTerrainMaterial()
         {
             Material material =
-                AssetDatabase.LoadAssetAtPath<Material>(TerrainMaterialPath);
+                AssetDatabase.LoadAssetAtPath<
+                    Material>(TerrainMaterialPath);
 
             if (material == null)
             {
-                Shader shader = Shader.Find("Standard");
-
-                if (shader == null)
-                    shader = Shader.Find("Universal Render Pipeline/Lit");
-
-                if (shader == null)
-                {
-                    throw new InvalidOperationException(
-                        "No built-in terrain debug shader is available.");
-                }
-
-                material = new Material(shader)
-                {
-                    name = "WorldTerrainDebug"
-                };
-
-                AssetDatabase.CreateAsset(material, TerrainMaterialPath);
+                throw new InvalidOperationException(
+                    "Little Castle terrain material is missing at '" +
+                    TerrainMaterialPath +
+                    "'. Restore LC_Terrain_Default instead of recreating the " +
+                    "old WorldTerrainDebug material.");
             }
 
-            material.color = new Color(0.34f, 0.55f, 0.27f, 1f);
-            EditorUtility.SetDirty(material);
             return material;
         }
 
