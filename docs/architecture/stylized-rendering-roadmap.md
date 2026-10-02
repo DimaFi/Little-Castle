@@ -138,12 +138,14 @@ adding an expensive per-object lighting manager.
 
 ## Phase 2 - Foliage and grass
 
-Status: PLANNED
+Status: DONE - shader foundation
 
-Create:
+Implemented:
 
 - `LC_Foliage.shader`
 - `LC_Grass.shader`
+- `LC_Foliage_Default.mat`
+- `LC_Grass_Default.mat`
 
 Foliage requirements:
 
@@ -173,11 +175,13 @@ instead of introducing a separate unrelated lighting system.
 
 ## Phase 3 - Terrain
 
-Status: PLANNED
+Status: DONE - first terrain shader foundation
 
-Create:
+Implemented:
 
 - `LC_Terrain.shader`
+- `Assets/_Game/Materials/Material_terrain/LC_Terrain_Default.mat`
+- test scene now uses the stylized terrain material instead of WorldTerrainDebug
 
 Inputs should reuse materials in the project's terrain material organization.
 
@@ -198,15 +202,23 @@ needs require it.
 
 ## Phase 4 - Night emissive and local lights
 
-Status: PLANNED
+Status: IN PROGRESS - infrastructure implemented, content hookup pending
 
-Create/extend:
+Implemented infrastructure:
 
-- shared emission convention for windows, lanterns, forge/fire props;
-- automatic night emissive intensity using `_LC_NightAmount`;
-- subtle non-synchronized flicker;
-- local Point/Spot Light budget manager or pooling strategy;
-- camera/distance-based activation of expensive local lights.
+- `LC_StylizedLit.shader` emission responds to `_LC_NightAmount`;
+- day/night emission strengths are material parameters;
+- subtle spatially de-synchronized flicker is available;
+- `NightLightEmitter` registers local realtime lights;
+- `NightLightBudgetManager` activates only a nearby priority-sorted subset;
+- default manager budget in the test scene is 24 realtime lights within 95 m.
+
+Still pending:
+
+- production window/lantern/fire materials and prefabs;
+- deciding how custom Little Castle materials should receive nearby Point/Spot
+  contribution without creating an excessive ForwardAdd cost;
+- profiling the local-light budget with an actual settlement.
 
 Desired visual relationship:
 
@@ -288,6 +300,18 @@ shader can express it with material parameters.
 - avoid unique 4K masks where procedural/packed data can solve the same job;
 - local realtime lights must be budgeted;
 - screen-space effects come after profiling.
+
+## Current color-space note
+
+ProjectSettings currently report `m_ActiveColorSpace: 0` (Gamma in Unity's
+current serialization convention).
+
+Do not switch the project to Linear casually. The Sol 5.6 review should assess
+whether Linear color space would materially improve the stylized lighting and
+whether existing authored textures/materials are ready for that change.
+
+A color-space migration affects the entire project and should be a deliberate
+visual validation step, not an incidental shader edit.
 
 ## Review handoff for Sol 5.6 Medium
 
