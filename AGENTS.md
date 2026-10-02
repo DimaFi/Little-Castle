@@ -218,3 +218,8 @@ Mandatory rules:
 
 Current implementation status and future agent handoff are canonical in:
 `docs/architecture/stylized-rendering-roadmap.md`.
+
+For vegetation/material authoring also read:
+
+- `docs/architecture/foliage-wind-authoring.md`;
+- `docs/architecture/material-texture-contract.md`.
