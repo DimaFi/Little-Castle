@@ -372,3 +372,19 @@ After the 5.6 review, Sol 6 Medium should:
 
 Sol 6 should treat this roadmap plus ADRs and AGENTS.md as project constraints,
 not as optional historical notes.
+
+
+### Foliage compatibility gate
+
+Before any future agent changes LC_Foliage, tree materials or vegetation model
+authoring, it must first validate at least one real production model against the
+current shader contract.
+
+Use:
+Little Castle -> Rendering -> Validate Selected Foliage Model
+
+The model must be classified as COMPATIBLE, COMPATIBLE WITH MASK/AUTHORING
+CHANGE, REQUIRES SEPARATE LEAF MESH, or NOT SUITABLE FOR CURRENT WIND.
+
+A model-authoring problem is not, by itself, justification for rewriting the
+shared foliage shader.
