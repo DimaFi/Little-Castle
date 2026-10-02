@@ -122,6 +122,11 @@ namespace LittleCastle.Gameplay
         public BuildingRole role = BuildingRole.Other;
         public int level = 1;
 
+        public float worldX;
+        public float worldY;
+        public float worldZ;
+        public float yawDegrees;
+
         public float maxHitPoints = 100f;
         public float hitPoints = 100f;
 
