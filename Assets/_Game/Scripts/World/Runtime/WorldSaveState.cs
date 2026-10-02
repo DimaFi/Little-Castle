@@ -14,6 +14,11 @@ namespace LittleCastle.World
         public WorldRuntimeDeltaState runtimeDelta =
             new WorldRuntimeDeltaState();
 
+        public WorldTimeState worldTime =
+            new WorldTimeState(
+                1,
+                8.0 * 60.0);
+
         public GameplaySessionState gameplay =
             new GameplaySessionState();
 
@@ -29,6 +34,13 @@ namespace LittleCastle.World
                         worldSeed),
                 runtimeDelta =
                     new WorldRuntimeDeltaState(),
+                worldTime =
+                    new WorldTimeState(
+                        1,
+                        definition != null &&
+                        definition.TimeSettings != null
+                            ? definition.TimeSettings.StartHour * 60.0
+                            : 8.0 * 60.0),
                 gameplay =
                     new GameplaySessionState
                     {
