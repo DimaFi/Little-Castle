@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: LC_Grass_Default
+  m_Shader: {fileID: 4800000, guid: 33513dccfd2743e79320b00c44339b95, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 1
+  m_DoubleSidedGI: 1
+  m_CustomRenderQueue: 2450
+  stringTagMap:
+    RenderType: TransparentCutout
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Ints: []
+    m_Floats:
+    - _AmbientStrength: 0.94
+    - _ColorVariation: 0.08
+    - _Cutoff: 0.42
+    - _ShadowTintStrength: 0.38
+    - _TransmissionStrength: 0.85
+    - _UpNormalBias: 0.72
+    - _WindAmplitude: 0.34
+    - _WindBend: 1
+    m_Colors:
+    - _Color: {r: 0.38, g: 0.64, b: 0.24, a: 1}
+    - _RootColor: {r: 0.18, g: 0.32, b: 0.12, a: 1}
+    - _TipColor: {r: 0.62, g: 0.82, b: 0.34, a: 1}
+    - _TransmissionColor: {r: 0.7, g: 0.92, b: 0.3, a: 1}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
