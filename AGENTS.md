@@ -407,6 +407,39 @@ For vegetation/material authoring also read:
 - `docs/architecture/foliage-wind-authoring.md`;
 - `docs/architecture/material-texture-contract.md`.
 
+## FIRST CHECK — night lights and emissive LOD
+
+This check is mandatory before integrating lanterns, torches, fireplaces,
+emissive windows or other repeated local night lights.
+
+Read first:
+
+`docs/architecture/night-lighting-and-lod.md`
+
+Required cost tiers:
+
+- visual glow comes primarily from emission / `LC Emissive Glow`;
+- optional cheap ground response uses `LC Night Light Pool` +
+  `NightLightPoolVisual`;
+- only a limited nearby subset uses actual Point/Spot Lights through
+  `NightLightEmitter` + `NightLightBudgetManager`;
+- repeated local lights normally have realtime shadows OFF;
+- keep Point/Spot ranges compact;
+- do not create one realtime Light for every emissive window;
+- do not assume Unity LODGroup disables child Light components;
+- far LODs must not keep realtime local lights, detailed glow meshes, probes or
+  expensive shadowing;
+- do not increase the global realtime-light budget before profiling a real
+  settlement.
+
+For production light prefabs run:
+
+`Little Castle -> Assets -> Validate Selected Production Model`
+
+and:
+
+`Little Castle -> Rendering -> Validate Stylized Rendering`
+
 ## Production LOD / distant presentation rule
 
 Major production models are expected to arrive from Blender/Astra/Codex with
