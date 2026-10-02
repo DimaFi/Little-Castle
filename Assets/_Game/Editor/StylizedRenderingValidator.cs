@@ -38,8 +38,10 @@ namespace LittleCastle.Editor
                 "_MainTex",
                 "_BumpMap",
                 "_OcclusionMap",
+                "_RoughnessMap",
                 "_EmissionMap",
-                "_EmissionNightStrength"),
+                "_EmissionNightStrength",
+                "_LocalLightStrength"),
 
             new ShaderRequirement(
                 "Little Castle/Foliage/LC Foliage",
