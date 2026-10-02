@@ -14,19 +14,19 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 10
-  m_Fog: 0
+  m_Fog: 1
   m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.01
-  m_LinearFogStart: 0
-  m_LinearFogEnd: 300
+  m_LinearFogStart: 230
+  m_LinearFogEnd: 900
   m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: a7b5de9c3f1a4cbfb986011c89d072e4, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -208,21 +208,42 @@ MonoBehaviour:
   m_EditorClassIdentifier: LittleCastle.Runtime::LittleCastle.World.DayNightLightingController
   timeSystem: {fileID: 85530202}
   sun: {fileID: 825599670}
-  moon: {fileID: 0}
+  moon: {fileID: 190000002}
   sunAzimuth: -30
   maxSunIntensity: 1.1
-  maxMoonIntensity: 0.16
+  maxMoonIntensity: 0.14
   sunDayColor: {r: 1, g: 0.96, b: 0.84, a: 1}
-  sunHorizonColor: {r: 1, g: 0.58, b: 0.34, a: 1}
-  moonColor: {r: 0.62, g: 0.72, b: 1, a: 1}
+  sunHorizonColor: {r: 1, g: 0.56, b: 0.31, a: 1}
+  moonLightColor: {r: 0.58, g: 0.68, b: 1, a: 1}
   dawnTransitionGameHours: 2
   duskTransitionGameHours: 2
+  twilightGameHours: 1.25
+  skyboxMaterial: {fileID: 2100000, guid: a7b5de9c3f1a4cbfb986011c89d072e4, type: 2}
+  dayZenith: {r: 0.24, g: 0.52, b: 0.82, a: 1}
+  dayHorizon: {r: 0.79, g: 0.88, b: 0.94, a: 1}
+  dayLowerSky: {r: 0.54, g: 0.67, b: 0.73, a: 1}
+  nightZenith: {r: 0.035, g: 0.065, b: 0.15, a: 1}
+  nightHorizon: {r: 0.17, g: 0.22, b: 0.34, a: 1}
+  nightLowerSky: {r: 0.11, g: 0.14, b: 0.22, a: 1}
+  twilightZenith: {r: 0.24, g: 0.2, b: 0.38, a: 1}
+  twilightHorizon: {r: 1, g: 0.52, b: 0.31, a: 1}
+  twilightLowerSky: {r: 0.48, g: 0.32, b: 0.38, a: 1}
+  skySunColor: {r: 1.85, g: 1.32, b: 0.76, a: 1}
+  skyMoonColor: {r: 0.83, g: 0.92, b: 1.25, a: 1}
   dayAmbientSky: {r: 0.78, g: 0.82, b: 0.86, a: 1}
   dayAmbientEquator: {r: 0.62, g: 0.66, b: 0.7, a: 1}
   dayAmbientGround: {r: 0.42, g: 0.44, b: 0.4, a: 1}
-  nightAmbientSky: {r: 0.34, g: 0.4, b: 0.54, a: 1}
-  nightAmbientEquator: {r: 0.26, g: 0.31, b: 0.42, a: 1}
-  nightAmbientGround: {r: 0.18, g: 0.21, b: 0.29, a: 1}
+  nightAmbientSky: {r: 0.33, g: 0.39, b: 0.53, a: 1}
+  nightAmbientEquator: {r: 0.24, g: 0.29, b: 0.4, a: 1}
+  nightAmbientGround: {r: 0.17, g: 0.2, b: 0.28, a: 1}
+  controlFog: 1
+  dayFogColor: {r: 0.7, g: 0.79, b: 0.84, a: 1}
+  nightFogColor: {r: 0.16, g: 0.21, b: 0.31, a: 1}
+  twilightFogColor: {r: 0.52, g: 0.34, b: 0.38, a: 1}
+  dayFogStart: 230
+  dayFogEnd: 900
+  nightFogStart: 170
+  nightFogEnd: 720
 --- !u!4 &85530201
 Transform:
   m_ObjectHideFlags: 0
@@ -312,7 +333,7 @@ GameObject:
   - component: {fileID: 825599671}
   - component: {fileID: 825599670}
   m_Layer: 0
-  m_Name: Directional Light
+  m_Name: Sun Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -335,10 +356,10 @@ Light:
   m_InnerSpotAngle: 21.80208
   m_CookieSize2D: {x: 0.5, y: 0.5}
   m_Shadows:
-    m_Type: 0
+    m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.88
     m_Bias: 0.05
     m_NormalBias: 0.4
     m_NearPlane: 0.2
@@ -379,7 +400,7 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ForceVisible: 0
   m_ShapeRadius: 0.025
-  m_ShadowAngle: 0
+  m_ShadowAngle: 0.7
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
@@ -398,6 +419,103 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &190000001
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 190000003}
+  - component: {fileID: 190000002}
+  m_Layer: 0
+  m_Name: Moon Light
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!108 &190000002
+Light:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 190000001}
+  m_Enabled: 1
+  serializedVersion: 13
+  m_Type: 1
+  m_Color: {r: 0.58, g: 0.68, b: 1, a: 1}
+  m_Intensity: 0.14
+  m_Range: 10
+  m_SpotAngle: 30
+  m_InnerSpotAngle: 21.80208
+  m_CookieSize2D: {x: 0.5, y: 0.5}
+  m_Shadows:
+    m_Type: 0
+    m_Resolution: -1
+    m_CustomResolution: -1
+    m_Strength: 0.35
+    m_Bias: 0.05
+    m_NormalBias: 0.4
+    m_NearPlane: 0.2
+    m_CullingMatrixOverride:
+      e00: 1
+      e01: 0
+      e02: 0
+      e03: 0
+      e10: 0
+      e11: 1
+      e12: 0
+      e13: 0
+      e20: 0
+      e21: 0
+      e22: 1
+      e23: 0
+      e30: 0
+      e31: 0
+      e32: 0
+      e33: 1
+    m_UseCullingMatrixOverride: 0
+  m_Cookie: {fileID: 0}
+  m_DrawHalo: 0
+  m_Flare: {fileID: 0}
+  m_RenderMode: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingLayerMask: 1
+  m_Lightmapping: 4
+  m_LightShadowCasterMode: 0
+  m_AreaSize: {x: 1, y: 1}
+  m_BounceIntensity: 1
+  m_ColorTemperature: 9000
+  m_UseColorTemperature: 0
+  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_UseBoundingSphereOverride: 0
+  m_UseViewFrustumForShadowCasterCull: 1
+  m_ForceVisible: 0
+  m_ShapeRadius: 0.025
+  m_ShadowAngle: 0
+  m_LightUnit: 1
+  m_LuxAtDistance: 1
+  m_EnableSpotReflector: 1
+--- !u!4 &190000003
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 190000001}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1735719523
 GameObject:
   m_ObjectHideFlags: 0
@@ -408,6 +526,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1735719525}
   - component: {fileID: 1735719524}
+  - component: {fileID: 1735719526}
   m_Layer: 0
   m_Name: Camera
   m_TagString: MainCamera
@@ -446,9 +565,9 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
-  far clip plane: 2000
-  field of view: 60
+  near clip plane: 0.15
+  far clip plane: 2500
+  field of view: 50
   orthographic: 0
   orthographic size: 5
   m_Depth: 0
@@ -466,6 +585,45 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &1735719526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1735719523}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3b16bfc2d154e41a584fdd8f3c93211, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: LittleCastle.Runtime::LittleCastle.CameraSystem.StrategyCameraController
+  streamingFocus: {fileID: 527813918}
+  worldStreamer: {fileID: 85530199}
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  enableEdgeScroll: 1
+  edgeScrollPixels: 14
+  closePanSpeed: 12
+  farPanSpeed: 58
+  panSmoothing: 10
+  middleDragSpeed: 0.75
+  allowPitchAdjustment: 1
+  minimumPitch: 34
+  maximumPitch: 68
+  initialPitch: 52
+  mouseRotationSensitivity: 3.2
+  keyboardRotationSpeed: 80
+  minimumDistance: 11
+  maximumDistance: 190
+  initialDistance: 115
+  zoomSensitivity: 2.4
+  zoomSmoothing: 12
+  followGroundHeight: 1
+  groundProbeHeight: 1200
+  focusHeightOffset: 0.25
+  groundHeightSmoothing: 8
+  initializeFromCurrentView: 1
 --- !u!4 &1735719525
 Transform:
   m_ObjectHideFlags: 0
@@ -489,3 +647,4 @@ SceneRoots:
   - {fileID: 527813918}
   - {fileID: 1735719525}
   - {fileID: 825599671}
+  - {fileID: 190000003}
