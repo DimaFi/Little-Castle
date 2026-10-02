@@ -191,3 +191,30 @@ Mandatory rules:
 - night must remain readable for building and management gameplay.
 
 See `docs/architecture/camera-and-atmosphere.md`.
+
+## Stylized rendering rule
+
+Little Castle uses a shared lightweight stylized-rendering contract on the
+Built-in Render Pipeline unless a separate measured migration decision is made.
+
+Mandatory rules:
+
+- consume shared `_LC_*` shader globals instead of giving every shader its own
+  unrelated day/night logic;
+- `StylizedLightingGlobals` is presentation-only and never authoritative
+  gameplay state;
+- prefer shared shaders by object family: solid, foliage/grass, terrain and
+  emissive/night presentation;
+- preserve GPU instancing where compatible;
+- use MaterialPropertyBlock for per-instance variation instead of cloning
+  materials at runtime;
+- do not add a new shader for a single asset when an existing shared shader can
+  express it with parameters;
+- do not migrate to URP/HDRP only for atmosphere;
+- keep night readable and use warm local emissive against cool ambient;
+- add realtime local lights through an explicit budget/pooling strategy;
+- review `docs/architecture/stylized-rendering-roadmap.md` before modifying
+  atmosphere, materials or shader architecture.
+
+Current implementation status and future agent handoff are canonical in:
+`docs/architecture/stylized-rendering-roadmap.md`.
