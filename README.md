@@ -71,6 +71,7 @@ This keeps scene setup small and gives tools/Codex one clear root for world conf
 - `docs/workflows/CODEX_UNITY_HANDOFF.md`
 - `docs/workflows/WORLD_GENERATION_PRESET.md`
 - `docs/architecture/world-generation.md`
+- `docs/architecture/gameplay-foundation.md`
 - `docs/architecture/world-object-generation.md`
 - `docs/architecture/macro-world-generation.md`
 - `docs/architecture/rivers-roads-bridges.md`
