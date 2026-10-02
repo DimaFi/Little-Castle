@@ -240,6 +240,10 @@ namespace LittleCastle.World
 
             if (skyboxMaterial != null)
                 RenderSettings.skybox = skyboxMaterial;
+
+            // WorldTimeSystem initializes earlier. Apply once here so shared
+            // shader globals do not start one frame behind the atmosphere.
+            ApplyLighting();
         }
 
         private void Start()
