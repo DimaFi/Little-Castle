@@ -122,12 +122,50 @@ namespace LittleCastle.Building
                 return false;
             }
 
+            a.EnsureControlPointModes();
+            b.EnsureControlPointModes();
+
             for (int i = 0;
                  i < a.controlPoints.Count;
                  i++)
             {
                 if (a.controlPoints[i] !=
-                    b.controlPoints[i])
+                        b.controlPoints[i] ||
+                    a.GetControlPointMode(i) !=
+                        b.GetControlPointMode(i))
+                {
+                    return false;
+                }
+            }
+
+            if (a.socketAttachments.Count !=
+                b.socketAttachments.Count)
+            {
+                return false;
+            }
+
+            for (int i = 0;
+                 i < a.socketAttachments.Count;
+                 i++)
+            {
+                WallSocketAttachmentState left =
+                    a.socketAttachments[i];
+
+                WallSocketAttachmentState right =
+                    b.socketAttachments[i];
+
+                if (left.controlPointIndex !=
+                        right.controlPointIndex ||
+                    left.structureId !=
+                        right.structureId ||
+                    left.socketId !=
+                        right.socketId ||
+                    !UnityEngine.Mathf.Approximately(
+                        left.socketYawDegrees,
+                        right.socketYawDegrees) ||
+                    !UnityEngine.Mathf.Approximately(
+                        left.clearanceRadius,
+                        right.clearanceRadius))
                 {
                     return false;
                 }
