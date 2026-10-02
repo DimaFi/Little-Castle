@@ -52,6 +52,27 @@ namespace LittleCastle.World
         [SerializeField]
         private WorldTimeSystem timeSystem;
 
+        public WorldTimeSystem TimeSystem =>
+            timeSystem;
+
+        public Light Sun =>
+            sun;
+
+        public Light Moon =>
+            moon;
+
+        public float DaylightFactor
+        {
+            get;
+            private set;
+        }
+
+        public float TwilightFactor
+        {
+            get;
+            private set;
+        }
+
         [Header("Directional lights")]
         [SerializeField]
         private Light sun;
@@ -260,6 +281,12 @@ namespace LittleCastle.World
                     hour,
                     sunrise,
                     sunset);
+
+            DaylightFactor =
+                daylight;
+
+            TwilightFactor =
+                twilight;
 
             float solarAngle =
                 GetSolarAngle(
