@@ -208,6 +208,23 @@ for test scenes/configurations that have not yet assigned `WorldMapRules`.
 
 It is not the intended match architecture.
 
+## Terrain collider distance tier
+
+Visible terrain distance and Physics distance are intentionally separate.
+
+When `WorldStreamingSettings.AddMeshCollider` is enabled, only playable
+chunks inside `ColliderRadiusChunks` around the streaming focus keep active
+terrain MeshColliders.
+
+Distant visible chunks remain render-only.
+
+This keeps camera ground-following / nearby gameplay collision available without
+paying MeshCollider cost across the full visible streaming radius.
+
+The test scene currently uses a collider radius of 1 chunk.
+
+Generated-object collider tiers are still a future task.
+
 ## Presentation lifecycle
 
 `StreamedChunkView` owns transient runtime mesh resources.
@@ -225,7 +242,7 @@ Future presentation improvements may add:
 - object pooling;
 - GPU-instanced vegetation;
 - HLOD;
-- collider distance tiers.
+- generated-object collider distance tiers.
 
 These must not alter authoritative `WorldChunkData`.
 
@@ -239,6 +256,9 @@ Not yet implemented:
 - multiple streaming focuses;
 - fog-of-war rendering;
 - border darkness renderer;
-- streaming profiler/metrics.
+- predictive camera-direction streaming.
+
+Streaming diagnostics are now available through `WorldPerformanceOverlay`
+and ProfilerMarker instrumentation for load/unload/mesh/spawn presentation.
 
 These are follow-up tasks, not reasons to redesign the finite-map model.
