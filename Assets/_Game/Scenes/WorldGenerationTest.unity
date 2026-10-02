@@ -157,7 +157,7 @@ MonoBehaviour:
   focus: {fileID: 527813918}
   streamOnStart: 1
   chunkPresentationRoot: {fileID: 419764303}
-  terrainMaterial: {fileID: 2100000, guid: 04c9751b4cdefef49bd1347399fb8160, type: 2}
+  terrainMaterial: {fileID: 2100000, guid: 8dcb0403790744558dc906979c848775, type: 2}
   runtimeDelta:
     removedSpawnIds: 
     resourceDeposits: []
@@ -176,7 +176,7 @@ MonoBehaviour:
   worldSeed: 12345
   worldDefinition: {fileID: 11400000, guid: 2d38fe5d89f5d8b4d9cb3c8256688ceb, type: 2}
   previewRadius: 1
-  previewMaterial: {fileID: 2100000, guid: 04c9751b4cdefef49bd1347399fb8160, type: 2}
+  previewMaterial: {fileID: 2100000, guid: 8dcb0403790744558dc906979c848775, type: 2}
   renderGeneratedSpawns: 1
   generateOnStart: 0
 --- !u!114 &85530202
