@@ -308,6 +308,11 @@ namespace LittleCastle.Gameplay
             if (desiredBread <= 0)
                 return;
 
+            // Keep only fractional progress. Missing input must not create an
+            // infinite production backlog that converts instantly later.
+            settlement.simulation.breadProduction -=
+                desiredBread;
+
             int wheatAvailable =
                 settlement.inventory.Get(
                     GameplayResourceType.Wheat);
@@ -337,9 +342,6 @@ namespace LittleCastle.Gameplay
             settlement.inventory.Add(
                 GameplayResourceType.Bread,
                 produced);
-
-            settlement.simulation.breadProduction -=
-                produced;
         }
 
         private static void ConsumeFood(
