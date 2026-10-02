@@ -92,6 +92,37 @@ namespace LittleCastle.Building
             return true;
         }
 
+        public bool AddControlPointAtSocket(
+            WallConnectionSocket socket)
+        {
+            if (!IsPlacing ||
+                socket == null)
+            {
+                return false;
+            }
+
+            int pointIndex =
+                activeWall.controlPoints.Count;
+
+            activeWall.AddControlPoint(
+                socket.ConnectionPoint,
+                WallControlPointMode.Smooth);
+
+            hasCursorPoint = false;
+
+            if (socket.TryCreateAttachment(
+                    pointIndex,
+                    out WallSocketAttachmentState attachment))
+            {
+                activeWall.socketAttachments.Add(
+                    attachment);
+            }
+
+            RefreshPreview();
+
+            return true;
+        }
+
         public bool RemoveLastControlPoint()
         {
             if (!IsPlacing ||
