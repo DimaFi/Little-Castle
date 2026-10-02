@@ -30,7 +30,7 @@ namespace LittleCastle.World
                 12f,
                 12f,
                 360f,
-                310f);
+                335f);
 
         private float nextSampleTime;
         private float frameTimeAccumulator;
@@ -177,6 +177,17 @@ namespace LittleCastle.World
                     : worldStreamer.LastGenerationStageName) +
                 "  " +
                 worldStreamer.LastGenerationStageMilliseconds.ToString("0.00") +
+                " ms",
+                labelStyle);
+
+            GUILayout.Label(
+                "Worst gen stage: " +
+                (string.IsNullOrEmpty(
+                    worldStreamer.WorstGenerationStageName)
+                    ? "-"
+                    : worldStreamer.WorstGenerationStageName) +
+                "  " +
+                worldStreamer.WorstGenerationStageMilliseconds.ToString("0.00") +
                 " ms",
                 labelStyle);
 
