@@ -108,6 +108,9 @@ Shader "Little Castle/Surface/LC Stylized Lit"
             half4 _LC_MoonDirection;
             half4 _LC_MoonColor;
             half4 _LC_AmbientColor;
+            half4 _LC_AmbientSkyColor;
+            half4 _LC_AmbientEquatorColor;
+            half4 _LC_AmbientGroundColor;
             half4 _LC_ShadowTint;
             half _LC_Daylight;
             half _LC_Twilight;
@@ -235,6 +238,31 @@ Shader "Little Castle/Surface/LC Stylized Lit"
                     wrapped);
             }
 
+            half3 EvaluateHemisphereAmbient(
+                half3 normal)
+            {
+                half up =
+                    saturate(
+                        normal.y);
+
+                half down =
+                    saturate(
+                        -normal.y);
+
+                half side =
+                    saturate(
+                        1.0h -
+                        abs(normal.y));
+
+                return
+                    _LC_AmbientSkyColor.rgb *
+                        up +
+                    _LC_AmbientEquatorColor.rgb *
+                        side +
+                    _LC_AmbientGroundColor.rgb *
+                        down;
+            }
+
             fixed4 frag(v2f i) : SV_Target
             {
                 UNITY_SETUP_INSTANCE_ID(i);
@@ -306,7 +334,8 @@ Shader "Little Castle/Surface/LC Stylized Lit"
                         directPresence);
 
                 half3 ambient =
-                    _LC_AmbientColor.rgb *
+                    EvaluateHemisphereAmbient(
+                        normal) *
                     _AmbientStrength *
                     ambientTint *
                     occlusion;
