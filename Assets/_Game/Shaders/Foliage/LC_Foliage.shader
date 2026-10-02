@@ -3,6 +3,8 @@ Shader "Little Castle/Foliage/LC Foliage"
     Properties
     {
         _MainTex ("Base Color + Alpha", 2D) = "white" {}
+        _OpacityMap ("Opacity Map", 2D) = "white" {}
+        _OpacityMapStrength ("Separate Opacity Strength", Range(0,1)) = 0
         _Color ("Tint", Color) = (1,1,1,1)
         _Cutoff ("Alpha Cutoff", Range(0,1)) = 0.45
 
@@ -71,6 +73,8 @@ Shader "Little Castle/Foliage/LC Foliage"
 
             sampler2D _MainTex;
             float4 _MainTex_ST;
+            sampler2D _OpacityMap;
+            half _OpacityMapStrength;
             fixed4 _Color;
             half _Cutoff;
 
@@ -418,9 +422,20 @@ Shader "Little Castle/Foliage/LC Foliage"
                         _MainTex,
                         i.uv);
 
+                half opacitySample =
+                    tex2D(
+                        _OpacityMap,
+                        i.uv).r;
+
+                half alpha =
+                    lerp(
+                        sample.a,
+                        opacitySample,
+                        _OpacityMapStrength) *
+                    _Color.a;
+
                 clip(
-                    sample.a *
-                    _Color.a -
+                    alpha -
                     _Cutoff);
 
                 half variation =
@@ -593,6 +608,8 @@ Shader "Little Castle/Foliage/LC Foliage"
 
             sampler2D _MainTex;
             float4 _MainTex_ST;
+            sampler2D _OpacityMap;
+            half _OpacityMapStrength;
             fixed4 _Color;
             half _Cutoff;
 
@@ -794,10 +811,21 @@ Shader "Little Castle/Foliage/LC Foliage"
             float4 fragShadow(
                 v2f i) : SV_Target
             {
-                fixed alpha =
+                fixed baseAlpha =
                     tex2D(
                         _MainTex,
-                        i.uv).a *
+                        i.uv).a;
+
+                fixed opacitySample =
+                    tex2D(
+                        _OpacityMap,
+                        i.uv).r;
+
+                fixed alpha =
+                    lerp(
+                        baseAlpha,
+                        opacitySample,
+                        _OpacityMapStrength) *
                     _Color.a;
 
                 clip(
