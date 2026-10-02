@@ -36,6 +36,12 @@ namespace LittleCastle.Building
         [SerializeField]
         private KeyCode toggleClosedLoopKey = KeyCode.C;
 
+        [Tooltip(
+            "One press toggles the last committed point Smooth <-> Sharp. " +
+            "Right Shift is accepted as well.")]
+        [SerializeField]
+        private KeyCode sharpCornerToggleKey = KeyCode.LeftShift;
+
         private bool closedLoop;
         private long activeWallId;
         private int activeOwnerPlayerId;
@@ -132,6 +138,14 @@ namespace LittleCastle.Building
 
                 placementController.SetClosedLoop(
                     closedLoop);
+            }
+
+            if (Input.GetKeyDown(
+                    sharpCornerToggleKey) ||
+                Input.GetKeyDown(
+                    KeyCode.RightShift))
+            {
+                placementController.ToggleLastControlPointMode();
             }
 
             if (Input.GetKeyDown(
