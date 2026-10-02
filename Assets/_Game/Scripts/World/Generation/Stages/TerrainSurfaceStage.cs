@@ -52,6 +52,7 @@ namespace LittleCastle.World
                     SurfaceKind surface;
 
                     if (terrain == TerrainClass.Steep ||
+                        terrain == TerrainClass.MountainBarrier ||
                         biome == BiomeKind.RockyHighland)
                     {
                         surface = SurfaceKind.Rock;
