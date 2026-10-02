@@ -201,10 +201,13 @@ Only nearby playable chunks keep active terrain MeshColliders.
 
 Distant visible chunks remain render-only.
 
-The same principle should later apply to generated object colliders:
+The same principle now applies to generated object colliders through:
 
-- nearby gameplay object: collider active;
-- distant visual object: collider inactive/not instantiated.
+`WorldStreamingSettings.generatedObjectColliderRadiusChunks`
+
+- nearby gameplay object: authored collider state is active;
+- distant visual object: generated-model colliders are disabled while render LODs remain visible;
+- an authored-disabled collider is never force-enabled by the distance tier.
 
 ## Production asset validator
 
@@ -291,3 +294,17 @@ Before accepting a new major model into WorldSpawnCatalog:
 
 A single badly authored prefab is not justification to make the global renderer
 or streamer more expensive.
+
+
+## Full production preflight
+
+Before a mass world-filling test, use:
+
+`Little Castle -> Preflight -> Run Full Model + World Preflight`
+
+This combines Ready-folder synchronization, production-model validation,
+configuration validation and multi-seed data-only generation stress checks.
+
+The stress pass reports each generation stage separately. If one stage exceeds
+the frame budget, optimize/split that stage rather than increasing the number of
+whole chunk stages executed per frame.
