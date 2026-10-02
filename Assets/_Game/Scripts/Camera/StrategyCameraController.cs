@@ -27,9 +27,9 @@ namespace LittleCastle.CameraSystem
 
         [Header("Orbit")]
         [SerializeField] private bool allowPitchAdjustment = true;
-        [SerializeField] private float minimumPitch = 34f;
-        [SerializeField] private float maximumPitch = 68f;
-        [SerializeField] private float initialPitch = 52f;
+        [SerializeField] private float minimumPitch = 6f;
+        [SerializeField] private float maximumPitch = 72f;
+        [SerializeField] private float initialPitch = 42f;
         [SerializeField] private float mouseRotationSensitivity = 3.2f;
         [SerializeField] private float keyboardRotationSpeed = 80f;
 
@@ -315,7 +315,7 @@ namespace LittleCastle.CameraSystem
             closePanSpeed = Mathf.Max(0.1f, closePanSpeed);
             farPanSpeed = Mathf.Max(closePanSpeed, farPanSpeed);
 
-            minimumPitch = Mathf.Clamp(minimumPitch, 20f, 80f);
+            minimumPitch = Mathf.Clamp(minimumPitch, 3f, 80f);
             maximumPitch = Mathf.Clamp(maximumPitch, minimumPitch, 85f);
             initialPitch = Mathf.Clamp(initialPitch, minimumPitch, maximumPitch);
 
