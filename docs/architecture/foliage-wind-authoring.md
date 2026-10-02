@@ -28,6 +28,24 @@ Preferred fix order:
 4. small shared-shader extension;
 5. only then consider a larger shader rewrite.
 
+## Mandatory first check before changing foliage
+
+Before changing this shader, regenerating a tree, or declaring the wind system
+production-ready, inspect a real current tree/leaf mesh and run:
+
+`Little Castle -> Rendering -> Foliage -> Validate Selected Model`
+
+Then test that exact asset at close and far game-camera zoom.
+
+A concept image can show the intended rounded/clustered leaf style, but it
+cannot prove mesh topology. The production asset must be checked for vertices,
+normals, tangents, UV0, opacity setup, separation/masking of trunk vs leaves,
+and animated-shadow alignment.
+
+Read first:
+
+`docs/architecture/foliage-model-shader-preflight.md`
+
 ## Core principle
 
 Wind is vertex animation on the GPU.
