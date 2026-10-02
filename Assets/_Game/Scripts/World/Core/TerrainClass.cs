@@ -10,6 +10,7 @@ namespace LittleCastle.World
         Plains = 1,
         RollingHills = 2,
         Steep = 3,
-        Highlands = 4
+        Highlands = 4,
+        MountainBarrier = 5
     }
 }
