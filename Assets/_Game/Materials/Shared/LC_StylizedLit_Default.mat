@@ -37,6 +37,8 @@ Material:
     - _OcclusionStrength: 0.75
     - _RimPower: 3.5
     - _RimStrength: 0.05
+    - _Roughness: 0.68
+    - _RoughnessMapStrength: 0
     - _ShadowSoftness: 0.34
     - _ShadowTintStrength: 0.48
     - _SpecularPower: 28
