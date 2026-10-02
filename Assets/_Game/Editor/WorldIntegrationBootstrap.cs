@@ -629,6 +629,21 @@ namespace LittleCastle.Editor
             if (streamer.Definition != definition)
                 throw new InvalidOperationException("WorldStreamer rejected the WorldDefinition reference.");
 
+            WorldPerformanceOverlay performanceOverlay =
+                worldRoot.AddComponent<
+                    WorldPerformanceOverlay>();
+
+            var overlayData =
+                new SerializedObject(
+                    performanceOverlay);
+
+            overlayData.FindProperty(
+                "worldStreamer").objectReferenceValue =
+                streamer;
+
+            overlayData.ApplyModifiedPropertiesWithoutUndo();
+            EditorUtility.SetDirty(performanceOverlay);
+
             var cameraObject = new GameObject("Camera");
             Camera camera = cameraObject.AddComponent<Camera>();
             cameraObject.tag = "MainCamera";
