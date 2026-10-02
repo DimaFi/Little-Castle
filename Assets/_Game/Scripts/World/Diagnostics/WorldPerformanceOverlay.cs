@@ -15,6 +15,10 @@ namespace LittleCastle.World
         private WorldStreamer worldStreamer;
 
         [SerializeField]
+        private LittleCastle.Rendering.NightLightBudgetManager
+            nightLightBudgetManager;
+
+        [SerializeField]
         private bool showOverlay = true;
 
         [SerializeField]
@@ -29,8 +33,8 @@ namespace LittleCastle.World
             new Rect(
                 12f,
                 12f,
-                360f,
-                335f);
+                380f,
+                385f);
 
         private float nextSampleTime;
         private float frameTimeAccumulator;
@@ -231,6 +235,27 @@ namespace LittleCastle.World
                 worldStreamer.TotalChunkUnloads,
                 labelStyle);
 
+            if (nightLightBudgetManager != null)
+            {
+                GUILayout.Space(4f);
+
+                GUILayout.Label(
+                    "Night lights: " +
+                    nightLightBudgetManager.ActiveRealtimeLightCount +
+                    " realtime / " +
+                    nightLightBudgetManager.RegisteredEmitterCount +
+                    " registered   pools " +
+                    nightLightBudgetManager.VisiblePoolCount,
+                    labelStyle);
+
+                GUILayout.Label(
+                    "  Candidates: " +
+                    nightLightBudgetManager.CandidateCount +
+                    "   fading: " +
+                    nightLightBudgetManager.FadingRealtimeLightCount,
+                    labelStyle);
+            }
+
             GUILayout.Space(5f);
 
             GUILayout.Label(
@@ -247,6 +272,13 @@ namespace LittleCastle.World
                 worldStreamer =
                     FindFirstObjectByType<
                         WorldStreamer>();
+            }
+
+            if (nightLightBudgetManager == null)
+            {
+                nightLightBudgetManager =
+                    FindFirstObjectByType<
+                        LittleCastle.Rendering.NightLightBudgetManager>();
             }
         }
 
