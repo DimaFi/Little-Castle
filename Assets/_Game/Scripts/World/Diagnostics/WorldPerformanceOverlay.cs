@@ -144,7 +144,9 @@ namespace LittleCastle.World
             GUILayout.Label(
                 "Visible missing: " +
                 worldStreamer.MissingDesiredChunkCount +
-                "   Presentation queue: " +
+                "   Ready: " +
+                (worldStreamer.VisibleReadiness01 * 100f).ToString("0") +
+                "%   Presentation queue: " +
                 worldStreamer.PendingLoadCount,
                 labelStyle);
 
