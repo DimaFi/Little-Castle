@@ -120,3 +120,38 @@ Procedural starts should remain genuinely uneven.
 - keep start selection deterministic from session inputs;
 - only playable-bounds resources count;
 - future strategic fairness should prefer travel/path cost over straight-line distance.
+
+
+## Fast session bootstrap rule
+
+Session creation must stay lightweight even when the installed game contains a
+large asset library and the selected map is large.
+
+Mandatory rules:
+
+- creating a match must not instantiate/materialize the complete finite map;
+- model/texture file size is not network session-state size;
+- clients resolve stable archetype IDs to locally installed assets;
+- bootstrap may build compact strategic data for the whole map, such as
+  bounds, MacroWorldPlan, rivers, roads, bridges, settlements and selected starts;
+- detailed terrain meshes, trees, rocks, resource visuals, colliders and other
+  local presentation are generated lazily per required chunk;
+- only starting/active areas may be prewarmed before MATCH READY;
+- distant chunks must remain unmaterialized until required;
+- do not serialize/transmit the untouched complete generated world between clients;
+- runtime modifications remain deltas over deterministic base generation;
+- performance checks must report bootstrap timing separately from later streaming work.
+
+For significant generation/streaming changes, verify at representative
+2/8/16-player configurations and multiple map sizes:
+
+- bootstrap wall-clock time;
+- MacroWorldPlan time;
+- start/fairness time;
+- number of detailed chunks created before MATCH READY;
+- active GameObject/generated-object count at MATCH READY;
+- first-visit chunk generation cost;
+- memory growth while exploring.
+
+See:
+`docs/decisions/ADR-0002-fast-session-bootstrap-lazy-world-materialization.md`.
