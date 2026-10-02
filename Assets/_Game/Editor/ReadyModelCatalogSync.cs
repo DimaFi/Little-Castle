@@ -247,7 +247,7 @@ namespace LittleCastle.Editor
                  i < prefabs.arraySize;
                  i++)
             {
-                Object asset =
+                UnityEngine.Object asset =
                     prefabs.GetArrayElementAtIndex(
                         i).objectReferenceValue;
 
