@@ -39,6 +39,26 @@ namespace LittleCastle.Editor
             int errors = 0;
             int warnings = 0;
 
+            if (definition.StartTowerPrefab == null)
+            {
+                errors++;
+
+                Debug.LogError(
+                    "[Little Castle Wall] Production wall definition has no " +
+                    "startTowerPrefab. The first committed wall point is " +
+                    "designed to spawn a small structural tower/base.");
+            }
+
+            if (definition.AutomaticTowerSpacing > 0f &&
+                definition.RepeatTowerPrefab == null)
+            {
+                warnings++;
+
+                Debug.LogWarning(
+                    "[Little Castle Wall] Automatic tower spacing is enabled " +
+                    "but no repeat/start tower prefab resolves.");
+            }
+
             Transform root =
                 prefab.transform;
 
