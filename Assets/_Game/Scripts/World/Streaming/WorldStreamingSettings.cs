@@ -57,6 +57,12 @@ namespace LittleCastle.World
         [Min(1f)]
         [SerializeField] private float backgroundPrefetchFrameLimitMs = 18f;
 
+        [Tooltip(
+            "When the camera crosses chunk boundaries, background generation " +
+            "is prioritized this many chunks ahead in the movement direction.")]
+        [Min(0)]
+        [SerializeField] private int prefetchLeadChunks = 2;
+
         [Header("Generated-data cache")]
         [Tooltip(
             "Maximum generated chunk-data entries kept in memory. " +
@@ -133,6 +139,11 @@ namespace LittleCastle.World
             Mathf.Max(
                 1f,
                 backgroundPrefetchFrameLimitMs);
+
+        public int PrefetchLeadChunks =>
+            Mathf.Max(
+                0,
+                prefetchLeadChunks);
 
         public int MaxCachedChunks =>
             Mathf.Max(0, maxCachedChunks);
