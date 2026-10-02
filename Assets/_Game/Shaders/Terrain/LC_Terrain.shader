@@ -97,6 +97,9 @@ Shader "Little Castle/Terrain/LC Terrain"
             half4 _LC_MoonDirection;
             half4 _LC_MoonColor;
             half4 _LC_AmbientColor;
+            half4 _LC_AmbientSkyColor;
+            half4 _LC_AmbientEquatorColor;
+            half4 _LC_AmbientGroundColor;
             half4 _LC_ShadowTint;
 
             struct appdata
@@ -204,6 +207,31 @@ Shader "Little Castle/Terrain/LC Terrain"
                     center - halfWidth,
                     center + halfWidth,
                     wrapped);
+            }
+
+            half3 EvaluateHemisphereAmbient(
+                half3 normal)
+            {
+                half up =
+                    saturate(
+                        normal.y);
+
+                half down =
+                    saturate(
+                        -normal.y);
+
+                half side =
+                    saturate(
+                        1.0h -
+                        abs(normal.y));
+
+                return
+                    _LC_AmbientSkyColor.rgb *
+                        up +
+                    _LC_AmbientEquatorColor.rgb *
+                        side +
+                    _LC_AmbientGroundColor.rgb *
+                        down;
             }
 
             fixed4 frag(v2f i) : SV_Target
@@ -369,7 +397,8 @@ Shader "Little Castle/Terrain/LC Terrain"
                         _ShadowTintStrength);
 
                 half3 ambient =
-                    _LC_AmbientColor.rgb *
+                    EvaluateHemisphereAmbient(
+                        normal) *
                     _AmbientStrength *
                     lerp(
                         shadowTint,
