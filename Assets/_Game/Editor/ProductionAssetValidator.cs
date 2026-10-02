@@ -328,6 +328,18 @@ namespace LittleCastle.Editor
                         "' still uses Reflection Probes.");
                 }
 
+                if (renderer.motionVectorGenerationMode !=
+                    MotionVectorGenerationMode.ForceNoMotion)
+                {
+                    warnings++;
+
+                    Debug.LogWarning(
+                        "[Little Castle Asset] Farthest renderer '" +
+                        renderer.name +
+                        "' still writes motion vectors. Static distant " +
+                        "silhouettes should normally use ForceNoMotion.");
+                }
+
                 foreach (
                     Material material
                     in renderer.sharedMaterials)
