@@ -542,6 +542,9 @@ namespace LittleCastle.World
             if (!TryBuildConfiguredFiniteSessionMap())
                 return;
 
+            if (SpawnCatalog != null)
+                SpawnCatalog.WarmRuntimeCache();
+
             runtimeDelta =
                 runtimeDelta ??
                 new WorldRuntimeDeltaState();
