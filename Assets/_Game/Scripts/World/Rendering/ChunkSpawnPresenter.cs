@@ -49,7 +49,7 @@ namespace LittleCastle.World
                         catalog,
                         chunkWorldOrigin,
                         spawn,
-                        out GameObject ignored))
+                        out _))
                 {
                     created++;
                 }
@@ -77,7 +77,7 @@ namespace LittleCastle.World
                             catalog,
                             chunkWorldOrigin,
                             runtimeSpawn,
-                            out GameObject ignored))
+                            out _))
                     {
                         created++;
                     }
