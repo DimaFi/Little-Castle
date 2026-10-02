@@ -117,9 +117,11 @@ namespace LittleCastle.Editor
                     continue;
                 }
 
-                using (
-                    var material =
-                        new Material(shader))
+                var material =
+                    new Material(
+                        shader);
+
+                try
                 {
                     foreach (
                         string property
@@ -137,6 +139,11 @@ namespace LittleCastle.Editor
                                 "'.");
                         }
                     }
+                }
+                finally
+                {
+                    UnityEngine.Object.DestroyImmediate(
+                        material);
                 }
 
                 if (TryShaderHasError(
