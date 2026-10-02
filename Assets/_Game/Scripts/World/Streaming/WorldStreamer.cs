@@ -125,6 +125,7 @@ namespace LittleCastle.World
         private int totalChunkLoads;
         private int totalChunkUnloads;
         private int activeTerrainColliderCount;
+        private int priorityPreparationRadiusChunks = -1;
 
         public int WorldSeed => worldSeed;
         public WorldDefinition Definition => worldDefinition;
@@ -640,6 +641,7 @@ namespace LittleCastle.World
             lastChunkSpawnCount = 0;
             totalChunkLoads = 0;
             totalChunkUnloads = 0;
+            priorityPreparationRadiusChunks = -1;
             activeTerrainColliderCount = 0;
         }
 
@@ -671,6 +673,26 @@ namespace LittleCastle.World
 
             RefreshDesiredChunks();
             UpdateMacroEdgeWarning();
+        }
+
+        public void SetPriorityPreparationRadius(
+            int radiusChunks)
+        {
+            priorityPreparationRadiusChunks =
+                Mathf.Max(
+                    0,
+                    radiusChunks);
+
+            if (initialized)
+                RefreshGenerationRequests();
+        }
+
+        public void ClearPriorityPreparationRadius()
+        {
+            priorityPreparationRadiusChunks = -1;
+
+            if (initialized)
+                RefreshGenerationRequests();
         }
 
         public void SetRuntimeDelta(
@@ -995,6 +1017,65 @@ namespace LittleCastle.World
                 EnqueueGeneration(
                     scratchCoordinates[i],
                     true);
+            }
+
+            scratchCoordinates.Clear();
+
+            if (priorityPreparationRadiusChunks >= 0)
+            {
+                int priorityRadius =
+                    Mathf.Min(
+                        priorityPreparationRadiusChunks,
+                        StreamingSettings.PrefetchRadiusChunks);
+
+                for (int z = -priorityRadius;
+                     z <= priorityRadius;
+                     z++)
+                {
+                    for (int x = -priorityRadius;
+                         x <= priorityRadius;
+                         x++)
+                    {
+                        if (StreamingSettings.CircularLoading &&
+                            x * x + z * z >
+                            priorityRadius * priorityRadius)
+                        {
+                            continue;
+                        }
+
+                        var coordinate =
+                            new ChunkCoordinate(
+                                currentFocusChunk.x + x,
+                                currentFocusChunk.z + z);
+
+                        if (desiredChunks.Contains(
+                                coordinate) ||
+                            !IsInsideStreamableArea(
+                                coordinate) ||
+                            IsChunkDataCached(
+                                coordinate) ||
+                            IsActiveGenerationCoordinate(
+                                coordinate))
+                        {
+                            continue;
+                        }
+
+                        scratchCoordinates.Add(
+                            coordinate);
+                    }
+                }
+
+                scratchCoordinates.Sort(
+                    CompareDistanceToFocus);
+
+                for (int i = 0;
+                     i < scratchCoordinates.Count;
+                     i++)
+                {
+                    EnqueueGeneration(
+                        scratchCoordinates[i],
+                        true);
+                }
             }
 
             scratchCoordinates.Clear();
