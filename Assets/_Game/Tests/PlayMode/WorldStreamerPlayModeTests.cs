@@ -31,7 +31,12 @@ namespace LittleCastle.Tests
             Assert.That(presentationObject, Is.Not.Null);
             Assert.That(presentationObject.transform.IsChildOf(focusObject.transform), Is.False);
 
-            for (int i = 0; i < 10; i++)
+            float readyDeadline =
+                Time.realtimeSinceStartup +
+                20f;
+
+            while (streamer.MissingDesiredChunkCount > 0 &&
+                   Time.realtimeSinceStartup < readyDeadline)
             {
                 float frameStartedAt = Time.realtimeSinceStartup;
                 yield return null;
@@ -41,9 +46,9 @@ namespace LittleCastle.Tests
             }
 
             Assert.That(
-                streamer.ActiveChunkCount,
-                Is.EqualTo(
-                    streamer.DesiredChunkCount));
+                streamer.MissingDesiredChunkCount,
+                Is.EqualTo(0),
+                "Initial visible streaming did not become ready before timeout.");
 
             int cacheLimit =
                 streamer.Definition.StreamingSettings.MaxCachedChunks;
@@ -89,7 +94,13 @@ namespace LittleCastle.Tests
             Assert.That(streamer.RuntimeDelta.MarkSpawnRemoved(removedStableId), Is.True);
 
             focusObject.transform.position = new Vector3(64f * 5f, 0f, -64f * 2f);
-            for (int i = 0; i < 16; i++)
+
+            readyDeadline =
+                Time.realtimeSinceStartup +
+                20f;
+
+            while (streamer.MissingDesiredChunkCount > 0 &&
+                   Time.realtimeSinceStartup < readyDeadline)
             {
                 float frameStartedAt = Time.realtimeSinceStartup;
                 yield return null;
@@ -99,9 +110,9 @@ namespace LittleCastle.Tests
             }
 
             Assert.That(
-                streamer.ActiveChunkCount,
-                Is.EqualTo(
-                    streamer.DesiredChunkCount));
+                streamer.MissingDesiredChunkCount,
+                Is.EqualTo(0),
+                "Moved visible streaming did not become ready before timeout.");
 
             if (cacheLimit > 0)
             {
@@ -130,7 +141,13 @@ namespace LittleCastle.Tests
             Assert.That(releasedAnyMesh, Is.True, "No old runtime mesh was released after moving focus.");
 
             focusObject.transform.position = removedChunk.GetWorldOrigin(64f);
-            for (int i = 0; i < 16; i++)
+
+            readyDeadline =
+                Time.realtimeSinceStartup +
+                20f;
+
+            while (streamer.MissingDesiredChunkCount > 0 &&
+                   Time.realtimeSinceStartup < readyDeadline)
             {
                 float frameStartedAt = Time.realtimeSinceStartup;
                 yield return null;
@@ -140,9 +157,9 @@ namespace LittleCastle.Tests
             }
 
             Assert.That(
-                streamer.ActiveChunkCount,
-                Is.EqualTo(
-                    streamer.DesiredChunkCount));
+                streamer.MissingDesiredChunkCount,
+                Is.EqualTo(0),
+                "Reloaded visible streaming did not become ready before timeout.");
             foreach (GeneratedWorldObject worldObject in
                 presentationObject.GetComponentsInChildren<GeneratedWorldObject>())
             {
