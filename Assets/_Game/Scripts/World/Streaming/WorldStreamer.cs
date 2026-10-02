@@ -944,6 +944,22 @@ namespace LittleCastle.World
                 return;
             }
 
+            if (activeGenerationWork != null &&
+                !activeGenerationUrgent &&
+                urgentGenerationQueue.Count > 0)
+            {
+                ChunkCoordinate interrupted =
+                    activeGenerationCoordinate;
+
+                activeGenerationWork = null;
+                activeGenerationCache = null;
+                activeGenerationUrgent = false;
+
+                EnqueueGeneration(
+                    interrupted,
+                    false);
+            }
+
             if (activeGenerationWork != null)
             {
                 if (desiredChunks.Contains(
