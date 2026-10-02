@@ -198,8 +198,7 @@ Shader "Little Castle/Foliage/LC Foliage"
 
                 float3 worldNormal =
                     normalize(
-                        mul(
-                            (float3x3)unity_ObjectToWorld,
+                        UnityObjectToWorldNormal(
                             objectNormal));
 
                 float objectSeed = HashObject(objectOrigin);
@@ -684,8 +683,7 @@ Shader "Little Castle/Foliage/LC Foliage"
 
                 float3 worldNormal =
                     normalize(
-                        mul(
-                            (float3x3)unity_ObjectToWorld,
+                        UnityObjectToWorldNormal(
                             objectNormal));
 
                 float objectSeed = HashObject(objectOrigin);
