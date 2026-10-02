@@ -34,7 +34,7 @@ namespace LittleCastle.World
                 12f,
                 12f,
                 380f,
-                385f);
+                405f);
 
         private float nextSampleTime;
         private float frameTimeAccumulator;
@@ -168,7 +168,9 @@ namespace LittleCastle.World
 
             GUILayout.Label(
                 "Terrain colliders active: " +
-                worldStreamer.ActiveTerrainColliderCount,
+                worldStreamer.ActiveTerrainColliderCount +
+                "   Object colliders: " +
+                worldStreamer.ActiveGeneratedObjectColliderCount,
                 labelStyle);
 
             GUILayout.Space(4f);
