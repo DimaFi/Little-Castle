@@ -40,6 +40,7 @@ Material:
     - _Cutoff: 0.45
     - _LightWrap: 0.34
     - _OcclusionStrength: 0.65
+    - _OpacityMapStrength: 0
     - _ShadowSoftness: 0.42
     - _ShadowTintStrength: 0.42
     - _TransmissionPower: 2.3
