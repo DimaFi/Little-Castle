@@ -66,7 +66,14 @@ namespace LittleCastle.Editor
                 "_DirtTex",
                 "_RockTex",
                 "_MacroStrength",
-                "_UseVertexMasks")
+                "_UseVertexMasks"),
+
+            new ShaderRequirement(
+                "Little Castle/Effects/LC Night Light Pool",
+                "_Color",
+                "_Intensity",
+                "_NightThreshold",
+                "_FlickerStrength")
         };
 
         private static readonly string[] RequiredMaterialPaths =
@@ -75,7 +82,9 @@ namespace LittleCastle.Editor
             "Assets/_Game/Materials/Shared/LC_StylizedLit_Default.mat",
             "Assets/_Game/Materials/Shared/LC_Foliage_Default.mat",
             "Assets/_Game/Materials/Shared/LC_Grass_Default.mat",
-            "Assets/_Game/Materials/Material_terrain/LC_Terrain_Default.mat"
+            "Assets/_Game/Materials/Material_terrain/LC_Terrain_Default.mat",
+            "Assets/_Game/Materials/Shared/LC_NightLightPool_Default.mat",
+            "Assets/_Game/Materials/Shared/LC_Wheat_Mature.mat"
         };
 
         [MenuItem(
