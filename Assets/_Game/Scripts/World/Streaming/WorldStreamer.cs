@@ -117,6 +117,8 @@ namespace LittleCastle.World
         private double lastSpawnPresentationMilliseconds;
         private double lastGenerationStageMilliseconds;
         private string lastGenerationStageName = string.Empty;
+        private double worstGenerationStageMilliseconds;
+        private string worstGenerationStageName = string.Empty;
         private int completedPrefetchChunks;
         private int lastChunkSpawnCount;
         private int totalChunkLoads;
@@ -310,6 +312,12 @@ namespace LittleCastle.World
 
         public string LastGenerationStageName =>
             lastGenerationStageName;
+
+        public double WorstGenerationStageMilliseconds =>
+            worstGenerationStageMilliseconds;
+
+        public string WorstGenerationStageName =>
+            worstGenerationStageName;
 
         public int CompletedPrefetchChunks =>
             completedPrefetchChunks;
@@ -610,6 +618,8 @@ namespace LittleCastle.World
             lastSpawnPresentationMilliseconds = 0.0;
             lastGenerationStageMilliseconds = 0.0;
             lastGenerationStageName = string.Empty;
+            worstGenerationStageMilliseconds = 0.0;
+            worstGenerationStageName = string.Empty;
             completedPrefetchChunks = 0;
             lastChunkSpawnCount = 0;
             totalChunkLoads = 0;
@@ -1179,6 +1189,16 @@ namespace LittleCastle.World
 
                 lastGenerationStageName =
                     activeGenerationWork.LastStageName;
+
+                if (lastGenerationStageMilliseconds >
+                    worstGenerationStageMilliseconds)
+                {
+                    worstGenerationStageMilliseconds =
+                        lastGenerationStageMilliseconds;
+
+                    worstGenerationStageName =
+                        lastGenerationStageName;
+                }
 
                 if (executedStage)
                     stagesProcessed++;
