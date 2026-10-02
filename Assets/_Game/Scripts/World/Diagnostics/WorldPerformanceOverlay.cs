@@ -33,6 +33,8 @@ namespace LittleCastle.World
                 250f);
 
         private float nextSampleTime;
+        private float frameTimeAccumulator;
+        private int frameSampleCount;
         private float averageFrameMilliseconds;
         private float framesPerSecond;
 
@@ -49,6 +51,11 @@ namespace LittleCastle.World
             if (Input.GetKeyDown(toggleKey))
                 showOverlay = !showOverlay;
 
+            frameTimeAccumulator +=
+                Time.unscaledDeltaTime;
+
+            frameSampleCount++;
+
             if (Time.unscaledTime <
                 nextSampleTime)
             {
@@ -59,18 +66,28 @@ namespace LittleCastle.World
                 Time.unscaledTime +
                 sampleInterval;
 
-            float dt =
+            float averageDelta =
+                frameTimeAccumulator /
+                Mathf.Max(
+                    1,
+                    frameSampleCount);
+
+            frameTimeAccumulator = 0f;
+            frameSampleCount = 0;
+
+            float measuredMilliseconds =
                 Mathf.Max(
                     0.00001f,
-                    Time.unscaledDeltaTime);
+                    averageDelta) *
+                1000f;
 
             averageFrameMilliseconds =
                 Mathf.Lerp(
                     averageFrameMilliseconds <= 0f
-                        ? dt * 1000f
+                        ? measuredMilliseconds
                         : averageFrameMilliseconds,
-                    dt * 1000f,
-                    0.35f);
+                    measuredMilliseconds,
+                    0.45f);
 
             framesPerSecond =
                 1000f /
