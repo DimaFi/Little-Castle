@@ -2,6 +2,49 @@
 
 This file defines rules for AI coding agents working in this repository.
 
+## FIRST CHECK — foliage / tree model compatibility
+
+This check is mandatory before any work involving trees, leaves, bushes,
+grass or wheat.
+
+Current leaf wind in LC_Foliage combines:
+- Crown Sway;
+- Vertex Wave;
+- Leaf Flutter.
+
+Before editing a vegetation model, material or shader, inspect the real model
+and verify model + shader compatibility together.
+
+Required checks:
+- trunk/branches and leaves are separate, or Vertex Color R can mask rigid
+  trunk vertices from flexible foliage;
+- leaf geometry has enough vertices for visible deformation;
+- leaf/cluster normals are usable for flutter;
+- pivot/local Y is suitable if height masking is used;
+- grass/wheat UV Y runs approximately root 0 -> tip 1;
+- visible and ShadowCaster deformation can use the same topology safely;
+- close zoom does not produce rubber-like stretching/intersection;
+- far zoom does not produce unacceptable flutter shimmer.
+
+Classify the asset before implementation as:
+- COMPATIBLE;
+- COMPATIBLE WITH MASK/AUTHORING CHANGE;
+- REQUIRES SEPARATE LEAF MESH;
+- NOT SUITABLE FOR CURRENT WIND.
+
+Do not rewrite LC_Foliage only because one model is authored incorrectly.
+Prefer fixing material setup, UVs, normals, vertex colors or mesh separation
+before making the shared shader more complicated.
+
+For every foliage/tree task, read first:
+- docs/architecture/foliage-wind-authoring.md;
+- docs/architecture/material-texture-contract.md.
+
+When a concrete vegetation prefab/GameObject is available in Unity, run:
+Little Castle -> Rendering -> Validate Selected Foliage Model
+
+Record the compatibility result in task/PR notes before implementation.
+
 ## Project direction
 
 Little Castle is intended to become a long-lived Unity project with:
