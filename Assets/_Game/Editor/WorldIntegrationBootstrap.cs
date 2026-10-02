@@ -518,6 +518,13 @@ namespace LittleCastle.Editor
             if (colliderRadius != null)
                 colliderRadius.intValue = 1;
 
+            SerializedProperty generatedColliderRadius =
+                serialized.FindProperty(
+                    "generatedObjectColliderRadiusChunks");
+
+            if (generatedColliderRadius != null)
+                generatedColliderRadius.intValue = 1;
+
             serialized.ApplyModifiedPropertiesWithoutUndo();
             EditorUtility.SetDirty(settings);
         }
@@ -554,6 +561,7 @@ namespace LittleCastle.Editor
             }
 
             serialized.ApplyModifiedPropertiesWithoutUndo();
+            catalog.InvalidateRuntimeCache();
             EditorUtility.SetDirty(catalog);
         }
 
