@@ -40,8 +40,33 @@ namespace LittleCastle.Tests
                     (Time.realtimeSinceStartup - frameStartedAt) * 1000f);
             }
 
-            Assert.That(streamer.ActiveChunkCount, Is.EqualTo(5));
-            Assert.That(streamer.CachedChunkCount, Is.LessThanOrEqualTo(9));
+            Assert.That(
+                streamer.ActiveChunkCount,
+                Is.EqualTo(
+                    streamer.DesiredChunkCount));
+
+            int cacheLimit =
+                streamer.Definition.StreamingSettings.MaxCachedChunks;
+
+            if (cacheLimit > 0)
+            {
+                Assert.That(
+                    streamer.CachedChunkCount,
+                    Is.LessThanOrEqualTo(
+                        cacheLimit));
+            }
+
+            if (streamer.Definition.StreamingSettings.AddMeshCollider)
+            {
+                Assert.That(
+                    streamer.ActiveTerrainColliderCount,
+                    Is.GreaterThan(0));
+
+                Assert.That(
+                    streamer.ActiveTerrainColliderCount,
+                    Is.LessThanOrEqualTo(
+                        streamer.ActiveChunkCount));
+            }
 
             Vector3 stationaryRootPosition = presentationObject.transform.position;
             StreamedChunkView[] originalViews =
@@ -73,8 +98,33 @@ namespace LittleCastle.Tests
                     (Time.realtimeSinceStartup - frameStartedAt) * 1000f);
             }
 
-            Assert.That(streamer.ActiveChunkCount, Is.EqualTo(5));
-            Assert.That(streamer.CachedChunkCount, Is.LessThanOrEqualTo(9));
+            Assert.That(
+                streamer.ActiveChunkCount,
+                Is.EqualTo(
+                    streamer.DesiredChunkCount));
+
+            int cacheLimit =
+                streamer.Definition.StreamingSettings.MaxCachedChunks;
+
+            if (cacheLimit > 0)
+            {
+                Assert.That(
+                    streamer.CachedChunkCount,
+                    Is.LessThanOrEqualTo(
+                        cacheLimit));
+            }
+
+            if (streamer.Definition.StreamingSettings.AddMeshCollider)
+            {
+                Assert.That(
+                    streamer.ActiveTerrainColliderCount,
+                    Is.GreaterThan(0));
+
+                Assert.That(
+                    streamer.ActiveTerrainColliderCount,
+                    Is.LessThanOrEqualTo(
+                        streamer.ActiveChunkCount));
+            }
             Assert.That(presentationObject.transform.position, Is.EqualTo(stationaryRootPosition));
 
             bool releasedAnyMesh = false;
@@ -106,7 +156,9 @@ namespace LittleCastle.Tests
 
             Debug.Log(
                 $"WORLD_VERIFY playmode sceneLoad={sceneLoadMilliseconds:F2} ms, " +
-                $"maxObservedFrame={maximumObservedFrameMilliseconds:F2} ms, activeTarget=5.");
+                $"maxObservedFrame={maximumObservedFrameMilliseconds:F2} ms, " +
+                $"activeTarget={streamer.DesiredChunkCount}, " +
+                $"colliders={streamer.ActiveTerrainColliderCount}.");
         }
     }
 }
