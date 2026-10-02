@@ -1,4 +1,5 @@
 using System;
+using LittleCastle.Gameplay;
 
 namespace LittleCastle.World
 {
@@ -13,6 +14,9 @@ namespace LittleCastle.World
         public WorldRuntimeDeltaState runtimeDelta =
             new WorldRuntimeDeltaState();
 
+        public GameplaySessionState gameplay =
+            new GameplaySessionState();
+
         public static WorldSaveState CreateNew(
             WorldDefinition definition,
             int worldSeed)
@@ -24,7 +28,12 @@ namespace LittleCastle.World
                         definition,
                         worldSeed),
                 runtimeDelta =
-                    new WorldRuntimeDeltaState()
+                    new WorldRuntimeDeltaState(),
+                gameplay =
+                    new GameplaySessionState
+                    {
+                        worldSeed = worldSeed
+                    }
             };
         }
     }
