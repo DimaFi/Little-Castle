@@ -10,6 +10,29 @@ Static pre-Unity audit:
 
 `docs/reports/static-stylized-rendering-audit-2026-10-02.md`
 
+## STEP 0 — mandatory foliage model/shader compatibility
+
+Do this before the general atmosphere review.
+
+1. Locate a real current production tree/foliage mesh in the project.
+2. Read:
+   - `docs/architecture/foliage-model-shader-preflight.md`;
+   - `docs/architecture/foliage-wind-authoring.md`.
+3. In Unity select the tree root / Leaves object / Mesh and run:
+   `Little Castle -> Rendering -> Foliage -> Validate Selected Model`.
+4. Determine whether the production model can actually support the current
+   LC_Foliage deformation contract.
+5. If Unity execution is available, test the same model close/far in Play Mode.
+6. Record one outcome:
+   - PASS;
+   - FIX MODEL;
+   - FIX SHADER;
+   - REVISIT ARCHITECTURE.
+
+Do not infer compatibility from the rounded-leaf concept/reference image alone.
+The current style is potentially compatible, but the real mesh topology and
+attributes are the deciding evidence.
+
 ## Goal
 
 Review and refine the current Little Castle atmosphere/rendering stack toward a
