@@ -27,6 +27,12 @@ Material:
     m_Ints: []
     m_Floats:
     - _AmbientStrength: 0.94
+    - _GustScale: 0.018
+    - _GustSpeed: 0.28
+    - _GustStrength: 0.38
+    - _MicroFlutter: 0.1
+    - _MicroFlutterScale: 2.2
+    - _MicroFlutterSpeed: 3.2
     - _ColorVariation: 0.08
     - _Cutoff: 0.42
     - _ShadowTintStrength: 0.38
