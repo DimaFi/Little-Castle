@@ -25,6 +25,7 @@ namespace LittleCastle.Gameplay
         public float chronicSleepDebtThreshold = 20f;
         public float moodLossPerExcessSleepDebtHour = 0.035f;
         public float hungerHappinessLossPerMissingBread = 0.8f;
+        public float settlementHappinessAdaptationPerGameHour = 0.15f;
     }
 
     [Serializable]
