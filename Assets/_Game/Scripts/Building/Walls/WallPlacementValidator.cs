@@ -71,9 +71,10 @@ namespace LittleCastle.Building
             }
 
             float maximumTurn =
-                WallPathLayoutUtility.GetMaximumNeighborTurnDegrees(
-                    sections,
-                    wall.closedLoop);
+                GetMaximumSmoothTurnDegrees(
+                    wall,
+                    definition,
+                    sections);
 
             if (maximumTurn >
                 definition.MaximumTurnDegrees +
@@ -131,6 +132,88 @@ namespace LittleCastle.Building
 
             reason = string.Empty;
             return true;
+        }
+
+        private static float GetMaximumSmoothTurnDegrees(
+            WallRuntimeState wall,
+            WallPlacementDefinition definition,
+            IReadOnlyList<WallSectionPose> sections)
+        {
+            if (sections == null ||
+                sections.Count < 2)
+            {
+                return 0f;
+            }
+
+            float maximum = 0f;
+            float sharpExemptionRadius =
+                definition.SegmentSpacing *
+                1.5f;
+
+            float sharpExemptionRadiusSqr =
+                sharpExemptionRadius *
+                sharpExemptionRadius;
+
+            int pairCount =
+                wall.closedLoop
+                    ? sections.Count
+                    : sections.Count - 1;
+
+            for (int i = 0;
+                 i < pairCount;
+                 i++)
+            {
+                int next =
+                    (i + 1) %
+                    sections.Count;
+
+                Vector3 midpoint =
+                    (sections[i].position +
+                     sections[next].position) *
+                    0.5f;
+
+                bool nearSharpPoint = false;
+
+                for (int p = 0;
+                     p < wall.controlPoints.Count;
+                     p++)
+                {
+                    if (wall.GetControlPointMode(p) !=
+                        WallControlPointMode.Sharp)
+                    {
+                        continue;
+                    }
+
+                    Vector3 delta =
+                        midpoint -
+                        wall.controlPoints[p];
+
+                    delta.y = 0f;
+
+                    if (delta.sqrMagnitude <=
+                        sharpExemptionRadiusSqr)
+                    {
+                        nearSharpPoint = true;
+                        break;
+                    }
+                }
+
+                if (nearSharpPoint)
+                    continue;
+
+                float turn =
+                    Mathf.Abs(
+                        Mathf.DeltaAngle(
+                            sections[i].yawDegrees,
+                            sections[next].yawDegrees));
+
+                maximum =
+                    Mathf.Max(
+                        maximum,
+                        turn);
+            }
+
+            return maximum;
         }
 
         private static bool HasSelfIntersection(
