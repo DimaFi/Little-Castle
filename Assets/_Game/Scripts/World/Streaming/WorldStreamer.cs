@@ -31,6 +31,9 @@ namespace LittleCastle.World
         private static readonly ProfilerMarker SpawnPresentationMarker =
             new ProfilerMarker("World.SpawnPresentation");
 
+        private static readonly ProfilerMarker GenerationStageMarker =
+            new ProfilerMarker("World.Generation.Stage");
+
         [Header("World")]
         [SerializeField] private int worldSeed = 12345;
         [SerializeField] private WorldDefinition worldDefinition;
@@ -730,6 +733,421 @@ namespace LittleCastle.World
                         coordinate);
                 }
             }
+
+            RefreshGenerationRequests();
+        }
+
+        private void RefreshGenerationRequests()
+        {
+            urgentGenerationQueue.Clear();
+            backgroundGenerationQueue.Clear();
+            queuedGeneration.Clear();
+
+            if (pipeline == null ||
+                chunkCache == null)
+            {
+                return;
+            }
+
+            if (activeGenerationWork != null)
+            {
+                if (desiredChunks.Contains(
+                        activeGenerationCoordinate))
+                {
+                    activeGenerationUrgent = true;
+                }
+                else if (!IsWithinRadius(
+                             activeGenerationCoordinate,
+                             currentFocusChunk,
+                             StreamingSettings.PrefetchRadiusChunks,
+                             StreamingSettings.CircularLoading))
+                {
+                    activeGenerationWork = null;
+                    activeGenerationCache = null;
+                    activeGenerationUrgent = false;
+                }
+            }
+
+            scratchCoordinates.Clear();
+
+            foreach (
+                ChunkCoordinate coordinate
+                in desiredChunks)
+            {
+                if (!IsChunkDataCached(
+                        coordinate) &&
+                    !IsActiveGenerationCoordinate(
+                        coordinate))
+                {
+                    scratchCoordinates.Add(
+                        coordinate);
+                }
+            }
+
+            scratchCoordinates.Sort(
+                CompareDistanceToFocus);
+
+            for (int i = 0;
+                 i < scratchCoordinates.Count;
+                 i++)
+            {
+                EnqueueGeneration(
+                    scratchCoordinates[i],
+                    true);
+            }
+
+            scratchCoordinates.Clear();
+
+            int prefetchRadius =
+                StreamingSettings.PrefetchRadiusChunks;
+
+            for (int z = -prefetchRadius;
+                 z <= prefetchRadius;
+                 z++)
+            {
+                for (int x = -prefetchRadius;
+                     x <= prefetchRadius;
+                     x++)
+                {
+                    if (StreamingSettings.CircularLoading &&
+                        x * x + z * z >
+                        prefetchRadius * prefetchRadius)
+                    {
+                        continue;
+                    }
+
+                    var coordinate =
+                        new ChunkCoordinate(
+                            currentFocusChunk.x + x,
+                            currentFocusChunk.z + z);
+
+                    if (desiredChunks.Contains(
+                            coordinate) ||
+                        !IsInsideStreamableArea(
+                            coordinate) ||
+                        IsChunkDataCached(
+                            coordinate) ||
+                        IsActiveGenerationCoordinate(
+                            coordinate))
+                    {
+                        continue;
+                    }
+
+                    scratchCoordinates.Add(
+                        coordinate);
+                }
+            }
+
+            scratchCoordinates.Sort(
+                CompareDistanceToFocus);
+
+            for (int i = 0;
+                 i < scratchCoordinates.Count;
+                 i++)
+            {
+                EnqueueGeneration(
+                    scratchCoordinates[i],
+                    false);
+            }
+        }
+
+        private void EnqueueGeneration(
+            ChunkCoordinate coordinate,
+            bool urgent)
+        {
+            if (IsChunkDataCached(
+                    coordinate) ||
+                IsActiveGenerationCoordinate(
+                    coordinate) ||
+                !queuedGeneration.Add(
+                    coordinate))
+            {
+                return;
+            }
+
+            if (urgent)
+            {
+                urgentGenerationQueue.Enqueue(
+                    coordinate);
+            }
+            else
+            {
+                backgroundGenerationQueue.Enqueue(
+                    coordinate);
+            }
+        }
+
+        private bool IsChunkDataCached(
+            ChunkCoordinate coordinate)
+        {
+            WorldChunkCache cache =
+                GetSourceCache(
+                    coordinate);
+
+            return
+                cache != null &&
+                cache.Contains(
+                    coordinate);
+        }
+
+        private bool IsActiveGenerationCoordinate(
+            ChunkCoordinate coordinate)
+        {
+            return
+                activeGenerationWork != null &&
+                activeGenerationCoordinate ==
+                coordinate;
+        }
+
+        private WorldChunkCache GetSourceCache(
+            ChunkCoordinate coordinate)
+        {
+            bool isPlayableChunk =
+                sessionMap == null ||
+                sessionMap.IsPlayableChunk(
+                    coordinate);
+
+            return
+                isPlayableChunk ||
+                visualChunkCache == null
+                    ? chunkCache
+                    : visualChunkCache;
+        }
+
+        private void ProcessGeneration()
+        {
+            if (pipeline == null ||
+                StreamingSettings == null)
+            {
+                return;
+            }
+
+            if (activeGenerationWork != null)
+            {
+                if (desiredChunks.Contains(
+                        activeGenerationCoordinate))
+                {
+                    activeGenerationUrgent = true;
+                }
+                else if (!IsWithinRadius(
+                             activeGenerationCoordinate,
+                             currentFocusChunk,
+                             StreamingSettings.PrefetchRadiusChunks,
+                             StreamingSettings.CircularLoading))
+                {
+                    activeGenerationWork = null;
+                    activeGenerationCache = null;
+                    activeGenerationUrgent = false;
+                }
+            }
+
+            bool hasUrgentWork =
+                activeGenerationWork != null
+                    ? activeGenerationUrgent
+                    : urgentGenerationQueue.Count > 0;
+
+            int stageBudget =
+                hasUrgentWork
+                    ? StreamingSettings.UrgentGenerationStagesPerFrame
+                    : StreamingSettings.BackgroundGenerationStagesPerFrame;
+
+            if (!hasUrgentWork &&
+                !CanRunBackgroundPrefetch())
+            {
+                return;
+            }
+
+            int stagesProcessed = 0;
+
+            while (stagesProcessed < stageBudget)
+            {
+                if (activeGenerationWork == null &&
+                    !TryBeginNextGenerationWork())
+                {
+                    break;
+                }
+
+                if (activeGenerationWork == null)
+                    break;
+
+                if (!activeGenerationUrgent &&
+                    !CanRunBackgroundPrefetch())
+                {
+                    break;
+                }
+
+                if (activeGenerationWork.IsCompleted)
+                {
+                    CompleteActiveGeneration();
+                    continue;
+                }
+
+                double startedAt =
+                    Time.realtimeSinceStartupAsDouble;
+
+                bool executedStage;
+
+                using (GenerationStageMarker.Auto())
+                {
+                    executedStage =
+                        activeGenerationWork.StepNextStage();
+                }
+
+                lastGenerationStageMilliseconds =
+                    (Time.realtimeSinceStartupAsDouble -
+                     startedAt) *
+                    1000.0;
+
+                lastGenerationStageName =
+                    activeGenerationWork.LastStageName;
+
+                if (executedStage)
+                    stagesProcessed++;
+
+                if (activeGenerationWork.IsCompleted)
+                {
+                    CompleteActiveGeneration();
+                }
+            }
+        }
+
+        private bool TryBeginNextGenerationWork()
+        {
+            if (TryDequeueGenerationCoordinate(
+                    urgentGenerationQueue,
+                    true,
+                    out ChunkCoordinate urgent))
+            {
+                BeginGenerationWork(
+                    urgent,
+                    true);
+
+                return true;
+            }
+
+            if (!CanRunBackgroundPrefetch())
+                return false;
+
+            if (TryDequeueGenerationCoordinate(
+                    backgroundGenerationQueue,
+                    false,
+                    out ChunkCoordinate background))
+            {
+                BeginGenerationWork(
+                    background,
+                    false);
+
+                return true;
+            }
+
+            return false;
+        }
+
+        private bool TryDequeueGenerationCoordinate(
+            Queue<ChunkCoordinate> queue,
+            bool urgent,
+            out ChunkCoordinate coordinate)
+        {
+            while (queue.Count > 0)
+            {
+                coordinate =
+                    queue.Dequeue();
+
+                queuedGeneration.Remove(
+                    coordinate);
+
+                if (IsChunkDataCached(
+                        coordinate) ||
+                    !IsInsideStreamableArea(
+                        coordinate))
+                {
+                    continue;
+                }
+
+                if (urgent)
+                {
+                    if (!desiredChunks.Contains(
+                            coordinate))
+                    {
+                        continue;
+                    }
+                }
+                else if (!IsWithinRadius(
+                             coordinate,
+                             currentFocusChunk,
+                             StreamingSettings.PrefetchRadiusChunks,
+                             StreamingSettings.CircularLoading))
+                {
+                    continue;
+                }
+
+                return true;
+            }
+
+            coordinate = default;
+            return false;
+        }
+
+        private void BeginGenerationWork(
+            ChunkCoordinate coordinate,
+            bool urgent)
+        {
+            WorldChunkCache cache =
+                GetSourceCache(
+                    coordinate);
+
+            if (cache == null)
+                return;
+
+            activeGenerationCoordinate =
+                coordinate;
+
+            activeGenerationCache =
+                cache;
+
+            activeGenerationUrgent =
+                urgent ||
+                desiredChunks.Contains(
+                    coordinate);
+
+            activeGenerationWork =
+                pipeline.BeginIncrementalGeneration(
+                    worldSeed,
+                    coordinate,
+                    cache.MaximumPhase);
+        }
+
+        private void CompleteActiveGeneration()
+        {
+            if (activeGenerationWork == null)
+                return;
+
+            bool wasUrgent =
+                activeGenerationUrgent;
+
+            if (activeGenerationCache != null)
+            {
+                activeGenerationCache.StoreGenerated(
+                    activeGenerationWork.Result);
+            }
+
+            if (!wasUrgent)
+                completedPrefetchChunks++;
+
+            activeGenerationWork = null;
+            activeGenerationCache = null;
+            activeGenerationUrgent = false;
+        }
+
+        private bool CanRunBackgroundPrefetch()
+        {
+            float previousFrameMilliseconds =
+                Time.unscaledDeltaTime *
+                1000f;
+
+            return
+                previousFrameMilliseconds <=
+                StreamingSettings.BackgroundPrefetchFrameLimitMs;
         }
 
         private int CompareDistanceToFocus(
