@@ -216,6 +216,9 @@ namespace LittleCastle.Gameplay
         public long settlementId;
         public int ownerPlayerId = -1;
         public bool isNeutral;
+        public string sourceArchetypeId = string.Empty;
+        public float worldX;
+        public float worldZ;
         public long mainHouseBuildingId;
 
         public float happiness = 65f;
