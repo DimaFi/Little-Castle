@@ -27,6 +27,14 @@ Material:
     m_Ints: []
     m_Floats:
     - _AmbientStrength: 0.92
+    - _CrownSway: 0.42
+    - _FlutterScale: 2.4
+    - _FlutterSpeed: 2.7
+    - _LeafFlutter: 0.16
+    - _UseHeightWindMask: 0
+    - _VertexWave: 0.46
+    - _WindAnchorHeight: 0
+    - _WindHeightRange: 5
     - _BumpScale: 0.65
     - _ColorVariation: 0.055
     - _Cutoff: 0.45
