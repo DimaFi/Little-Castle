@@ -426,35 +426,187 @@ namespace LittleCastle.Editor
             GameObject root,
             ref int warnings)
         {
-            var lights =
+            Light[] lights =
                 root.GetComponentsInChildren<
                     Light>(true);
+
+            var emitters =
+                root.GetComponentsInChildren<
+                    LittleCastle.Rendering.NightLightEmitter>(true);
+
+            var poolVisuals =
+                root.GetComponentsInChildren<
+                    LittleCastle.Rendering.NightLightPoolVisual>(true);
+
+            int localLightCount = 0;
 
             foreach (Light light in lights)
             {
                 if (light == null)
                     continue;
 
-                if (light.type ==
-                        LightType.Point ||
-                    light.type ==
-                        LightType.Spot)
+                if (light.type != LightType.Point &&
+                    light.type != LightType.Spot)
                 {
-                    var emitter =
-                        light.GetComponent<
-                            LittleCastle.Rendering.NightLightEmitter>();
+                    continue;
+                }
 
-                    if (emitter == null)
+                localLightCount++;
+
+                var emitter =
+                    light.GetComponent<
+                        LittleCastle.Rendering.NightLightEmitter>();
+
+                if (emitter == null)
+                {
+                    warnings++;
+
+                    Debug.LogWarning(
+                        "[Little Castle Asset] Local Light '" +
+                        light.name +
+                        "' is not managed by NightLightEmitter. " +
+                        "Production lantern/fire/window lights should be " +
+                        "budget-managed.");
+                }
+                else
+                {
+                    if (emitter.MaxDistance > 120f)
                     {
                         warnings++;
 
                         Debug.LogWarning(
-                            "[Little Castle Asset] Local Light '" +
-                            light.name +
-                            "' is not managed by NightLightEmitter. " +
-                            "Production village/building lights should be " +
-                            "budget-managed or deliberately documented.");
+                            "[Little Castle Asset] NightLightEmitter '" +
+                            emitter.name +
+                            "' has MaxDistance=" +
+                            emitter.MaxDistance.ToString("0.#") +
+                            " m. Realtime local-light LOD should normally be " +
+                            "much shorter than visual/emissive distance.");
                     }
+
+                    if (emitter.PoolMaxDistance <
+                        emitter.MaxDistance)
+                    {
+                        warnings++;
+
+                        Debug.LogWarning(
+                            "[Little Castle Asset] NightLightEmitter '" +
+                            emitter.name +
+                            "' has a cheaper pool distance shorter than its " +
+                            "realtime-light distance. Normally pool/emissive " +
+                            "should survive farther than the real Light.");
+                    }
+                }
+
+                if (light.shadows !=
+                    LightShadows.None)
+                {
+                    warnings++;
+
+                    Debug.LogWarning(
+                        "[Little Castle Asset] Local Light '" +
+                        light.name +
+                        "' has realtime shadows enabled. This is expensive " +
+                        "for repeated lanterns/torches; default production " +
+                        "night lights should use no realtime shadows.");
+                }
+
+                if (light.renderMode ==
+                    LightRenderMode.ForcePixel)
+                {
+                    warnings++;
+
+                    Debug.LogWarning(
+                        "[Little Castle Asset] Local Light '" +
+                        light.name +
+                        "' is ForcePixel. Prefer Auto unless this is a rare " +
+                        "measured hero-light exception.");
+                }
+
+                if (light.range > 30f)
+                {
+                    warnings++;
+
+                    Debug.LogWarning(
+                        "[Little Castle Asset] Local Light '" +
+                        light.name +
+                        "' range is " +
+                        light.range.ToString("0.#") +
+                        " m. Large overlapping Point/Spot ranges multiply " +
+                        "ForwardAdd cost; keep cozy lights compact.");
+                }
+            }
+
+            if (localLightCount > 4)
+            {
+                warnings++;
+
+                Debug.LogWarning(
+                    "[Little Castle Asset] Selected prefab contains " +
+                    localLightCount +
+                    " local Lights. Repeated production buildings should " +
+                    "usually expose fewer realtime emitters and carry most " +
+                    "visual glow through emission/pool visuals.");
+            }
+
+            foreach (
+                LittleCastle.Rendering.NightLightEmitter emitter
+                in emitters)
+            {
+                if (emitter == null)
+                    continue;
+
+                if (emitter.TargetLight == null)
+                {
+                    warnings++;
+
+                    Debug.LogWarning(
+                        "[Little Castle Asset] NightLightEmitter '" +
+                        emitter.name +
+                        "' has no target Light.");
+                }
+            }
+
+            foreach (
+                LittleCastle.Rendering.NightLightPoolVisual pool
+                in poolVisuals)
+            {
+                if (pool == null ||
+                    pool.TargetRenderer == null)
+                {
+                    continue;
+                }
+
+                Material[] materials =
+                    pool.TargetRenderer.sharedMaterials;
+
+                bool foundCorrectShader = false;
+
+                for (int i = 0;
+                     i < materials.Length;
+                     i++)
+                {
+                    Material material =
+                        materials[i];
+
+                    if (material != null &&
+                        material.shader != null &&
+                        material.shader.name ==
+                        "Little Castle/Effects/LC Night Light Pool")
+                    {
+                        foundCorrectShader = true;
+                        break;
+                    }
+                }
+
+                if (!foundCorrectShader)
+                {
+                    warnings++;
+
+                    Debug.LogWarning(
+                        "[Little Castle Asset] NightLightPoolVisual '" +
+                        pool.name +
+                        "' is not using Little Castle/Effects/LC Night Light " +
+                        "Pool on its renderer.");
                 }
             }
         }
