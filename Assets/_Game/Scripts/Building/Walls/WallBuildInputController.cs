@@ -20,6 +20,15 @@ namespace LittleCastle.Building
         [SerializeField]
         private LayerMask groundMask = ~0;
 
+        [SerializeField]
+        private bool enableStructureSocketSnapping = true;
+
+        [Tooltip(
+            "Physics layers containing tower/gate colliders with " +
+            "WallConnectionSocket children.")]
+        [SerializeField]
+        private LayerMask structureSocketMask = ~0;
+
         [SerializeField, Min(1f)]
         private float maximumRayDistance = 5000f;
 
@@ -117,11 +126,20 @@ namespace LittleCastle.Building
             UpdateCursor();
 
             if (Input.GetMouseButtonDown(0) &&
-                TryGetGroundPoint(
-                    out Vector3 point))
+                TryGetBuildPoint(
+                    out Vector3 point,
+                    out WallConnectionSocket socket))
             {
-                placementController.AddControlPoint(
-                    point);
+                if (socket != null)
+                {
+                    placementController.AddControlPointAtSocket(
+                        socket);
+                }
+                else
+                {
+                    placementController.AddControlPoint(
+                        point);
+                }
             }
 
             if (Input.GetKeyDown(
@@ -164,8 +182,9 @@ namespace LittleCastle.Building
 
         private void UpdateCursor()
         {
-            if (TryGetGroundPoint(
-                    out Vector3 point))
+            if (TryGetBuildPoint(
+                    out Vector3 point,
+                    out WallConnectionSocket ignoredSocket))
             {
                 placementController.SetCursorPoint(
                     point);
@@ -174,6 +193,42 @@ namespace LittleCastle.Building
             {
                 placementController.ClearCursorPoint();
             }
+        }
+
+        private bool TryGetBuildPoint(
+            out Vector3 point,
+            out WallConnectionSocket socket)
+        {
+            socket = null;
+
+            if (!TryGetGroundPoint(
+                    out point))
+            {
+                return false;
+            }
+
+            if (!enableStructureSocketSnapping ||
+                placementController == null ||
+                placementController.ActiveDefinition == null)
+            {
+                return true;
+            }
+
+            float snapDistance =
+                placementController.ActiveDefinition
+                    .StructureSocketSnapDistance;
+
+            if (WallSocketSnapUtility.TryFindNearestSocket(
+                    point,
+                    snapDistance,
+                    structureSocketMask,
+                    out socket))
+            {
+                point =
+                    socket.ConnectionPoint;
+            }
+
+            return true;
         }
 
         private bool TryGetGroundPoint(
