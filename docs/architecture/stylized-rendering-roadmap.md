@@ -211,7 +211,7 @@ needs require it.
 
 ## Phase 4 - Night emissive and local lights
 
-Status: IN PROGRESS - infrastructure implemented, content hookup pending
+Status: DONE - production foundation implemented, content hookup/tuning pending
 
 Implemented infrastructure:
 
@@ -223,15 +223,25 @@ Implemented infrastructure:
 - day/night emission strengths are material parameters;
 - subtle spatially de-synchronized flicker is available;
 - `NightLightEmitter` registers local realtime lights;
-- `NightLightBudgetManager` activates only a nearby priority-sorted subset;
-- default manager budget in the test scene is 24 realtime lights within 95 m.
+- `NightLightEmitter` now fades realtime contribution smoothly and uses
+  subtle low-cost flicker without one dormant Update per lantern;
+- `NightLightBudgetManager` activates only a nearby priority-sorted subset
+  with selection-retention hysteresis;
+- `NightLightPoolVisual` controls shared-material additive ground pools
+  through MaterialPropertyBlock;
+- `LC_EmissiveGlow.shader` provides a cheap standalone glow/flame/glass tier;
+- default conservative test-scene budget is 12 realtime lights within 78 m;
+- F8 diagnostics expose registered/candidate/realtime/fading/pool counts.
 
 Still pending:
 
-- production window/lantern/fire materials and prefabs;
-- deciding how custom Little Castle materials should receive nearby Point/Spot
-  contribution without creating an excessive ForwardAdd cost;
-- profiling the local-light budget with an actual settlement.
+- production window/lantern/fire prefabs;
+- visual tuning against actual authored lamps/buildings;
+- profiling ForwardAdd overlap with a real settlement.
+
+Canonical local-light and light-LOD contract:
+
+`docs/architecture/night-lighting-and-lod.md`
 
 Desired visual relationship:
 
