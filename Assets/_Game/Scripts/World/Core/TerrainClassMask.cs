@@ -10,7 +10,8 @@ namespace LittleCastle.World
         RollingHills = 1 << 1,
         Steep = 1 << 2,
         Highlands = 1 << 3,
-        All = Plains | RollingHills | Steep | Highlands
+        MountainBarrier = 1 << 4,
+        All = Plains | RollingHills | Steep | Highlands | MountainBarrier
     }
 
     public static class TerrainClassMaskExtensions
@@ -32,6 +33,9 @@ namespace LittleCastle.World
                     break;
                 case TerrainClass.Highlands:
                     value = TerrainClassMask.Highlands;
+                    break;
+                case TerrainClass.MountainBarrier:
+                    value = TerrainClassMask.MountainBarrier;
                     break;
                 default:
                     return false;
