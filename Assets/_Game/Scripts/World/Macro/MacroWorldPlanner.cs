@@ -1,10 +1,26 @@
 using System.Collections.Generic;
+using Unity.Profiling;
 using UnityEngine;
 
 namespace LittleCastle.World
 {
     public sealed class MacroWorldPlanner
     {
+        private static readonly ProfilerMarker PointFeaturesMarker =
+            new ProfilerMarker("World.Macro.PointFeatures");
+
+        private static readonly ProfilerMarker RiversMarker =
+            new ProfilerMarker("World.Macro.Rivers");
+
+        private static readonly ProfilerMarker RoadGraphMarker =
+            new ProfilerMarker("World.Macro.RoadGraph");
+
+        private static readonly ProfilerMarker RoadPathsMarker =
+            new ProfilerMarker("World.Macro.RoadPaths");
+
+        private static readonly ProfilerMarker BridgesMarker =
+            new ProfilerMarker("World.Macro.Bridges");
+
         /// <summary>
         /// Exact spatial acceleration for point-feature separation checks.
         ///
@@ -170,52 +186,67 @@ namespace LittleCastle.World
             var pointSpatialIndex =
                 new PointFeatureSpatialIndex();
 
-            for (int i = 0;
-                 i < settings.PointFeatureRules.Count;
-                 i++)
+            using (PointFeaturesMarker.Auto())
             {
-                MacroPointFeatureRule rule =
-                    settings.PointFeatureRules[i];
+                for (int i = 0;
+                     i < settings.PointFeatureRules.Count;
+                     i++)
+                {
+                    MacroPointFeatureRule rule =
+                        settings.PointFeatureRules[i];
 
-                if (rule == null)
-                    continue;
+                    if (rule == null)
+                        continue;
 
-                AppendRule(
-                    worldSeed,
-                    planningBounds,
-                    rule,
-                    terrainProbe,
-                    plan,
-                    pointSpatialIndex);
+                    AppendRule(
+                        worldSeed,
+                        planningBounds,
+                        rule,
+                        terrainProbe,
+                        plan,
+                        pointSpatialIndex);
+                }
             }
 
             if (terrainProbe != null)
             {
-                RiverNetworkPlanner.BuildRivers(
-                    worldSeed,
-                    planningBounds,
-                    terrainProbe,
-                    settings.Rivers,
-                    plan);
+                using (RiversMarker.Auto())
+                {
+                    RiverNetworkPlanner.BuildRivers(
+                        worldSeed,
+                        planningBounds,
+                        terrainProbe,
+                        settings.Rivers,
+                        plan);
+                }
             }
 
-            RoadNetworkPlanner.BuildConnections(
-                worldSeed,
-                plan,
-                settings.RoadNetwork);
+            using (RoadGraphMarker.Auto())
+            {
+                RoadNetworkPlanner.BuildConnections(
+                    worldSeed,
+                    plan,
+                    settings.RoadNetwork);
+            }
 
             if (terrainProbe != null)
             {
-                TerrainRoadPathPlanner.BuildRoadPaths(
-                    plan,
-                    terrainProbe,
-                    settings.RoadPaths);
+                using (RoadPathsMarker.Auto())
+                {
+                    TerrainRoadPathPlanner.BuildRoadPaths(
+                        plan,
+                        terrainProbe,
+                        settings.RoadPaths);
+                }
             }
 
-            BridgeSitePlanner.BuildBridgeSites(
-                worldSeed,
-                plan,
-                settings.Bridges);
+            using (BridgesMarker.Auto())
+            {
+                BridgeSitePlanner.BuildBridgeSites(
+                    worldSeed,
+                    plan,
+                    settings.Bridges);
+            }
 
             return plan;
         }
