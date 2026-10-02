@@ -184,6 +184,115 @@ namespace LittleCastle.World
         public int ActiveTerrainColliderCount => activeTerrainColliderCount;
         public Transform Focus => focus;
 
+        public float GetPreparedDataReadiness01(
+            int radiusChunks)
+        {
+            if (!initialized ||
+                StreamingSettings == null)
+            {
+                return 0f;
+            }
+
+            int radius =
+                Mathf.Max(
+                    0,
+                    radiusChunks);
+
+            int expected = 0;
+            int ready = 0;
+
+            for (int z = -radius;
+                 z <= radius;
+                 z++)
+            {
+                for (int x = -radius;
+                     x <= radius;
+                     x++)
+                {
+                    if (StreamingSettings.CircularLoading &&
+                        x * x + z * z >
+                        radius * radius)
+                    {
+                        continue;
+                    }
+
+                    var coordinate =
+                        new ChunkCoordinate(
+                            currentFocusChunk.x + x,
+                            currentFocusChunk.z + z);
+
+                    if (!IsInsideStreamableArea(
+                            coordinate))
+                    {
+                        continue;
+                    }
+
+                    expected++;
+
+                    if (IsChunkDataCached(
+                            coordinate))
+                    {
+                        ready++;
+                    }
+                }
+            }
+
+            return
+                expected <= 0
+                    ? 1f
+                    : (float)ready /
+                      expected;
+        }
+
+        public int GetPreparedDataCount(
+            int radiusChunks)
+        {
+            if (!initialized ||
+                StreamingSettings == null)
+            {
+                return 0;
+            }
+
+            int radius =
+                Mathf.Max(
+                    0,
+                    radiusChunks);
+
+            int ready = 0;
+
+            for (int z = -radius;
+                 z <= radius;
+                 z++)
+            {
+                for (int x = -radius;
+                     x <= radius;
+                     x++)
+                {
+                    if (StreamingSettings.CircularLoading &&
+                        x * x + z * z >
+                        radius * radius)
+                    {
+                        continue;
+                    }
+
+                    var coordinate =
+                        new ChunkCoordinate(
+                            currentFocusChunk.x + x,
+                            currentFocusChunk.z + z);
+
+                    if (IsInsideStreamableArea(
+                            coordinate) &&
+                        IsChunkDataCached(
+                            coordinate))
+                    {
+                        ready++;
+                    }
+                }
+            }
+
+            return ready;
+        }
+
         public double LastChunkLoadMilliseconds =>
             lastChunkLoadMilliseconds;
 
