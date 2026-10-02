@@ -126,6 +126,48 @@ Little Castle -> Rendering -> Validate Selected Foliage Model
 
 Record the compatibility result in task/PR notes before implementation.
 
+## FIRST CHECK — curved wall model contract
+
+This check is mandatory before any work involving player-built stone walls,
+wooden walls, fences or city perimeter wall modules.
+
+Core wall placement already exists in:
+
+- `Assets/_Game/Scripts/Building/Walls/WallPlacementDefinition.cs`
+- `Assets/_Game/Scripts/Building/Walls/WallRuntimeState.cs`
+- `Assets/_Game/Scripts/Building/Walls/WallPathLayoutUtility.cs`
+- `Assets/_Game/Scripts/Building/Walls/WallPlacementValidator.cs`
+- `Assets/_Game/Scripts/Building/Walls/WallPathPresenter.cs`
+- `Assets/_Game/Scripts/Building/Walls/WallPlacementController.cs`
+
+Read first:
+
+`docs/architecture/curved-modular-walls.md`
+
+Mandatory asset contract:
+
+- one base wall module is straight and rigid;
+- module length axis is local +Z;
+- root transform should normally be identity;
+- pivot should be centered in X/Z and near the wall base in Y;
+- real authored module length must match
+  `WallPlacementDefinition.segmentLength`;
+- curves are created by repeated rigid modules rotated along the path;
+- do not bake a curve into the base module;
+- do not rewrite the wall layout system merely because one model has a bad
+  pivot/scale/axis/length;
+- use simple colliders and shared materials;
+- authored LODs belong to the prefab/model, not to the path data.
+
+Authoritative multiplayer/save state is one compact `WallRuntimeState`, not a
+list of per-section transforms.
+
+The derived section IDs are deterministic from `wallId + sectionIndex`.
+
+Codex should adapt the real Blender/Astra prefab to this contract first.
+Small adapter changes are allowed when the real asset proves a genuine
+requirement, but architecture changes must be justified.
+
 ## Project direction
 
 Little Castle is intended to become a long-lived Unity project with:
