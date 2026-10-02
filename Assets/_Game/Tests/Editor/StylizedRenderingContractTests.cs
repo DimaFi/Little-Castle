@@ -31,6 +31,11 @@ namespace LittleCastle.Tests
             "_GrassTex",
             "_MacroStrength",
             "_UseVertexMasks")]
+        [TestCase(
+            "Little Castle/Effects/LC Night Light Pool",
+            "_Intensity",
+            "_NightThreshold",
+            "_FlickerStrength")]
         public void SharedShaders_ExistAndExposeRequiredProperties(
             string shaderName,
             string propertyA,
@@ -94,6 +99,10 @@ namespace LittleCastle.Tests
             "Assets/_Game/Materials/Shared/LC_Grass_Default.mat")]
         [TestCase(
             "Assets/_Game/Materials/Material_terrain/LC_Terrain_Default.mat")]
+        [TestCase(
+            "Assets/_Game/Materials/Shared/LC_NightLightPool_Default.mat")]
+        [TestCase(
+            "Assets/_Game/Materials/Shared/LC_Wheat_Mature.mat")]
         public void DefaultRenderingMaterials_Exist(
             string assetPath)
         {
