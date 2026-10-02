@@ -174,3 +174,20 @@ Mandatory rules:
 - future multiplayer host/server owns the clock and clients consume snapshots.
 
 See `docs/architecture/day-night-cycle.md`.
+
+## Camera and atmosphere rule
+
+Little Castle uses a ground-focused strategy camera and a lightweight stylized
+atmosphere.
+
+Mandatory rules:
+- camera pitch stays downward-looking; do not turn it into unrestricted
+  free-look/FPS controls;
+- camera movement should drive the world-streaming focus;
+- preserve close zoom for inspecting authored models/textures;
+- day/night sky and lighting are presentation driven by `WorldTimeSystem`;
+- prefer the built-in procedural sky shader and cheap lighting before adding
+  render-pipeline or post-processing dependencies;
+- night must remain readable for building and management gameplay.
+
+See `docs/architecture/camera-and-atmosphere.md`.
