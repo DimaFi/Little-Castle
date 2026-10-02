@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using LittleCastle.Building;
 using LittleCastle.Gameplay;
 
 namespace LittleCastle.World
@@ -21,6 +23,9 @@ namespace LittleCastle.World
 
         public GameplaySessionState gameplay =
             new GameplaySessionState();
+
+        public List<WallRuntimeState> walls =
+            new List<WallRuntimeState>();
 
         public static WorldSaveState CreateNew(
             WorldDefinition definition,
@@ -45,7 +50,9 @@ namespace LittleCastle.World
                     new GameplaySessionState
                     {
                         worldSeed = worldSeed
-                    }
+                    },
+                walls =
+                    new List<WallRuntimeState>()
             };
         }
     }
