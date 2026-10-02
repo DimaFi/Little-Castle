@@ -369,3 +369,42 @@ Before adding a major prefab to WorldSpawnCatalog, run:
 Read:
 `docs/architecture/lod-and-production-assets.md`
 
+
+
+## World streaming prefetch rule
+
+Little Castle uses a two-ring streaming model:
+
+- visible/presentation radius;
+- larger data-only prefetch radius.
+
+Generated chunk data should normally be prepared before the camera reaches the
+visible boundary.
+
+Mandatory rules:
+
+- do not synchronously run the full generation pipeline from
+  ChunkSpawn/ChunkView presentation;
+- visible chunks have priority over background prefetch;
+- background prefetch yields when frame time is already high;
+- cooperative generation currently runs generation stages on Unity's main
+  thread because ScriptableObject/AnimationCurve access has not yet been proven
+  thread-safe;
+- do not move the whole pipeline into Task.Run without first separating a
+  thread-safe pure-data snapshot from Unity objects;
+- keep deterministic seed/output behavior unchanged;
+- use profiler/stage timing before splitting or jobifying individual stages.
+
+Current implementation and rationale:
+`docs/architecture/world-streaming.md`.
+
+
+## Test placeholder asset rule
+
+The current WorldSpawnCatalog still uses temporary test placeholder visuals.
+Do not replace placeholders with production trees, buildings, mills, villages
+or other finished Astra/Blender assets unless the user explicitly requests
+production-model integration.
+
+LOD validators and distant shaders are infrastructure only; their existence is
+not permission to migrate finished models automatically.
