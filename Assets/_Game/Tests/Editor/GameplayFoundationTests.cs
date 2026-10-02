@@ -1,6 +1,8 @@
 using LittleCastle.Gameplay;
+using LittleCastle.Building;
 using LittleCastle.World;
 using NUnit.Framework;
+using UnityEngine;
 
 namespace LittleCastle.Tests
 {
@@ -371,6 +373,191 @@ namespace LittleCastle.Tests
         }
 
         [Test]
+        public void BuildingService_StartsFarmAndMainHouseUpgrade()
+        {
+            GameplaySessionState state =
+                CreateTwoPlayerSession();
+
+            SettlementGameplayState capital =
+                state.FindCapital(1);
+
+            capital.inventory.Set(
+                GameplayResourceType.Wood,
+                200);
+
+            capital.inventory.Set(
+                GameplayResourceType.Stone,
+                200);
+
+            capital.inventory.Set(
+                GameplayResourceType.Iron,
+                200);
+
+            GameplayRules rules =
+                GameplayRules.CreateDefault();
+
+            bool started =
+                SettlementBuildingService.TryStartBuilding(
+                    state,
+                    capital,
+                    1,
+                    "farm_wheat_basic",
+                    10f,
+                    0f,
+                    20f,
+                    90f,
+                    2,
+                    rules,
+                    out long farmId);
+
+            Assert.That(started, Is.True);
+            Assert.That(farmId, Is.GreaterThan(0));
+            Assert.That(
+                capital.FindBuilding(farmId).role,
+                Is.EqualTo(BuildingRole.Farm));
+            Assert.That(
+                capital.FindBuilding(farmId).IsConstructed,
+                Is.False);
+
+            bool upgrading =
+                SettlementBuildingService.TryUpgradeBuilding(
+                    capital,
+                    1,
+                    capital.mainHouseBuildingId,
+                    3,
+                    rules);
+
+            Assert.That(upgrading, Is.True);
+            Assert.That(
+                capital.FindBuilding(
+                    capital.mainHouseBuildingId).level,
+                Is.EqualTo(2));
+            Assert.That(
+                capital.FindBuilding(
+                    capital.mainHouseBuildingId).archetypeId,
+                Is.EqualTo("main_house_level_2"));
+        }
+
+        [Test]
+        public void Bootstrap_ImportsNeutralVillageWithStableMarket()
+        {
+            var plan =
+                new MacroWorldPlan(777);
+
+            plan.AddPointFeature(
+                new WorldPointFeatureData(
+                    9001,
+                    WorldFeatureKind.NeutralSettlement,
+                    "neutral_village_01",
+                    new Vector2(120f, -50f),
+                    55f));
+
+            var first =
+                new GameplaySessionState
+                {
+                    worldSeed = 777
+                };
+
+            var second =
+                new GameplaySessionState
+                {
+                    worldSeed = 777
+                };
+
+            GameplaySessionBootstrap.ImportNeutralSettlements(
+                first,
+                plan);
+
+            GameplaySessionBootstrap.ImportNeutralSettlements(
+                second,
+                plan);
+
+            SettlementGameplayState a =
+                first.FindSettlement(9001);
+
+            SettlementGameplayState b =
+                second.FindSettlement(9001);
+
+            Assert.That(a, Is.Not.Null);
+            Assert.That(a.isNeutral, Is.True);
+            Assert.That(a.market.offers.Count, Is.GreaterThan(0));
+            Assert.That(
+                a.inventory.Get(GameplayResourceType.Wheat),
+                Is.EqualTo(
+                    b.inventory.Get(
+                        GameplayResourceType.Wheat)));
+        }
+
+        [Test]
+        public void DamagedWall_CanBeRepairedGraduallyAfterBattle()
+        {
+            var registry =
+                new WallRuntimeRegistry();
+
+            var wall =
+                new WallRuntimeState
+                {
+                    wallId = 7001,
+                    ownerPlayerId = 1,
+                    definitionId = "stone_wall",
+                    maxHitPoints = 500f,
+                    hitPoints = 500f
+                };
+
+            wall.AddControlPoint(
+                new Vector3(0f, 0f, 0f));
+
+            wall.AddControlPoint(
+                new Vector3(10f, 0f, 0f));
+
+            Assert.That(
+                registry.Upsert(wall),
+                Is.True);
+
+            Assert.That(
+                registry.ApplyDamage(
+                    wall.wallId,
+                    200f),
+                Is.True);
+
+            SettlementGameplayState capital =
+                CreateTwoPlayerSession()
+                    .FindCapital(1);
+
+            capital.residents.Add(
+                new ResidentState
+                {
+                    residentId = 1,
+                    energy = 100f,
+                    activity = ResidentActivity.Idle
+                });
+
+            int repaired =
+                WallRepairSystem.AdvanceAfterBattle(
+                    registry,
+                    capital,
+                    2.0,
+                    GameplayRules.CreateDefault()
+                        .wallRepair);
+
+            Assert.That(repaired, Is.EqualTo(1));
+
+            Assert.That(
+                registry.TryGet(
+                    wall.wallId,
+                    out WallRuntimeState repairedWall),
+                Is.True);
+
+            Assert.That(
+                repairedWall.hitPoints,
+                Is.GreaterThan(300f));
+
+            Assert.That(
+                repairedWall.hitPoints,
+                Is.LessThanOrEqualTo(500f));
+        }
+
+        [Test]
         public void NewSave_StoresGameplaySeedWithoutMaterializedMap()
         {
             WorldSaveState save =
@@ -385,6 +572,14 @@ namespace LittleCastle.Tests
             Assert.That(
                 save.gameplay.worldSeed,
                 Is.EqualTo(9876));
+
+            Assert.That(
+                save.worldTime.dayIndex,
+                Is.EqualTo(1));
+
+            Assert.That(
+                save.worldTime.minuteOfDay,
+                Is.EqualTo(8.0 * 60.0));
 
             Assert.That(
                 save.runtimeDelta,
