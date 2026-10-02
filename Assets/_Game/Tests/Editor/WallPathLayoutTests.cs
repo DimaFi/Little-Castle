@@ -250,5 +250,228 @@ namespace LittleCastle.Tests
                     definition);
             }
         }
+        [Test]
+        public void SharpCorner_ProducesHardTurnInsteadOfRoundedCorner()
+        {
+            var wall =
+                new WallRuntimeState
+                {
+                    wallId = 501,
+                    definitionId = "sharp_test"
+                };
+
+            wall.AddControlPoint(
+                new Vector3(0f, 0f, 0f),
+                WallControlPointMode.Sharp);
+
+            wall.AddControlPoint(
+                new Vector3(0f, 0f, 8f),
+                WallControlPointMode.Sharp);
+
+            wall.AddControlPoint(
+                new Vector3(8f, 0f, 8f),
+                WallControlPointMode.Sharp);
+
+            var sections =
+                new List<WallSectionPose>();
+
+            WallPathLayoutUtility.BuildSections(
+                wall,
+                1f,
+                0.25f,
+                sections);
+
+            Assert.That(
+                sections.Count,
+                Is.GreaterThan(8));
+
+            bool hasForwardRun = false;
+            bool hasRightRun = false;
+
+            for (int i = 0;
+                 i < sections.Count;
+                 i++)
+            {
+                float forwardDelta =
+                    Mathf.Abs(
+                        Mathf.DeltaAngle(
+                            sections[i].yawDegrees,
+                            0f));
+
+                float rightDelta =
+                    Mathf.Abs(
+                        Mathf.DeltaAngle(
+                            sections[i].yawDegrees,
+                            90f));
+
+                hasForwardRun |=
+                    forwardDelta < 1f;
+
+                hasRightRun |=
+                    rightDelta < 1f;
+            }
+
+            Assert.That(
+                hasForwardRun,
+                Is.True);
+
+            Assert.That(
+                hasRightRun,
+                Is.True);
+        }
+
+        [Test]
+        public void AutomaticWallTowers_AreDeterministic()
+        {
+            WallPlacementDefinition definition =
+                ScriptableObject.CreateInstance<
+                    WallPlacementDefinition>();
+
+            GameObject towerPrefab =
+                new GameObject(
+                    "TowerPrefab_Test");
+
+            try
+            {
+                var serialized =
+                    new UnityEditor.SerializedObject(
+                        definition);
+
+                serialized.FindProperty(
+                    "startTowerPrefab").objectReferenceValue =
+                    towerPrefab;
+
+                serialized.FindProperty(
+                    "repeatTowerPrefab").objectReferenceValue =
+                    towerPrefab;
+
+                serialized.FindProperty(
+                    "automaticTowerSpacing").floatValue =
+                    6f;
+
+                serialized.ApplyModifiedPropertiesWithoutUndo();
+
+                var wall =
+                    new WallRuntimeState
+                    {
+                        wallId = 777,
+                        definitionId = "tower_test"
+                    };
+
+                wall.AddControlPoint(
+                    Vector3.zero);
+
+                wall.AddControlPoint(
+                    new Vector3(
+                        0f,
+                        0f,
+                        24f));
+
+                var first =
+                    new List<WallTowerPose>();
+
+                var second =
+                    new List<WallTowerPose>();
+
+                WallPathLayoutUtility.BuildTowerPoses(
+                    wall,
+                    definition,
+                    first);
+
+                WallPathLayoutUtility.BuildTowerPoses(
+                    wall,
+                    definition,
+                    second);
+
+                Assert.That(
+                    first.Count,
+                    Is.GreaterThanOrEqualTo(3));
+
+                Assert.That(
+                    second.Count,
+                    Is.EqualTo(
+                        first.Count));
+
+                Assert.That(
+                    first[0].isStartTower,
+                    Is.True);
+
+                for (int i = 0;
+                     i < first.Count;
+                     i++)
+                {
+                    Assert.That(
+                        second[i].towerId,
+                        Is.EqualTo(
+                            first[i].towerId));
+
+                    Assert.That(
+                        second[i].position,
+                        Is.EqualTo(
+                            first[i].position));
+                }
+            }
+            finally
+            {
+                Object.DestroyImmediate(
+                    towerPrefab);
+
+                Object.DestroyImmediate(
+                    definition);
+            }
+        }
+
+        [Test]
+        public void SharpCorners_AreAllowedByPlacementValidator()
+        {
+            WallPlacementDefinition definition =
+                ScriptableObject.CreateInstance<
+                    WallPlacementDefinition>();
+
+            try
+            {
+                var wall =
+                    new WallRuntimeState
+                    {
+                        wallId = 900,
+                        definitionId = "square"
+                    };
+
+                wall.AddControlPoint(
+                    new Vector3(0f, 0f, 0f),
+                    WallControlPointMode.Sharp);
+
+                wall.AddControlPoint(
+                    new Vector3(0f, 0f, 8f),
+                    WallControlPointMode.Sharp);
+
+                wall.AddControlPoint(
+                    new Vector3(8f, 0f, 8f),
+                    WallControlPointMode.Sharp);
+
+                var sections =
+                    new List<WallSectionPose>();
+
+                WallPathLayoutUtility.BuildSections(
+                    wall,
+                    definition,
+                    sections);
+
+                Assert.That(
+                    WallPlacementValidator.Validate(
+                        wall,
+                        definition,
+                        sections,
+                        out string reason),
+                    Is.True,
+                    reason);
+            }
+            finally
+            {
+                Object.DestroyImmediate(
+                    definition);
+            }
+        }
+
     }
 }
