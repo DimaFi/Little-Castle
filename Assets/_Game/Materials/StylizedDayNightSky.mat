@@ -25,13 +25,15 @@ Material:
     m_TexEnvs: []
     m_Ints: []
     m_Floats:
-    - _CloudSpeed: 0.012
-    - _CloudStrength: 0.18
-    - _MoonSize: 0.001
+    - _CloudSpeed: 0.01
+    - _CloudStrength: 0.24
+    - _Daylight: 1
+    - _MoonSize: 0.00006
     - _MoonVisibility: 0
     - _StarVisibility: 0
-    - _SunSize: 0.0012
+    - _SunSize: 0.000045
     - _SunVisibility: 1
+    - _TwilightStrength: 0
     m_Colors:
     - _HorizonColor: {r: 0.78, g: 0.87, b: 0.94, a: 1}
     - _LowerSkyColor: {r: 0.54, g: 0.66, b: 0.72, a: 1}
@@ -40,6 +42,7 @@ Material:
     - _StarColor: {r: 0.8, g: 0.88, b: 1, a: 1}
     - _SunColor: {r: 1.8, g: 1.25, b: 0.72, a: 1}
     - _SunDirection: {r: 0, g: 1, b: 0, a: 0}
+    - _TwilightColor: {r: 1, g: 0.42, b: 0.18, a: 1}
     - _ZenithColor: {r: 0.28, g: 0.55, b: 0.84, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
