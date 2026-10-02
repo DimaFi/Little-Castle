@@ -275,3 +275,175 @@ Owns:
 
 Codex should adapt the asset to this contract before proposing a rewrite of the
 wall architecture.
+
+
+## Structural wall towers
+
+A wall does not begin as a naked line.
+
+The first committed wall point may spawn an authored **small structural wall
+tower/base**:
+
+`WallPlacementDefinition.startTowerPrefab`
+
+From that tower the player drags the wall.
+
+Long walls may automatically receive more small structural towers at a
+deterministic interval:
+
+`WallPlacementDefinition.automaticTowerSpacing`
+
+The repeated tower prefab is:
+
+`WallPlacementDefinition.repeatTowerPrefab`
+
+If no explicit repeat prefab is assigned, the start tower prefab may be reused.
+
+These are part of the wall path presentation. They are NOT independent network
+entities by default.
+
+Their transforms and stable IDs are derived deterministically from:
+
+- wallId;
+- wall path;
+- tower index;
+- WallPlacementDefinition.
+
+Ordinary wall sections inside
+`towerSectionClearanceRadius` are omitted so the tower replaces the wall
+modules rather than overlapping them.
+
+Codex/Astra must therefore author:
+
+1. one straight wall module;
+2. one small structural wall tower/base that visually accepts wall modules on
+   its sides.
+
+The small structural tower is distinct from a future gameplay building such as
+an archer tower.
+
+## Smooth and Sharp control points
+
+Every wall control point has one of two modes:
+
+- `Smooth` — the wall uses the smooth spline through the point;
+- `Sharp` — the adjacent path segments remain straight into/out of the point.
+
+During player placement:
+
+- normal clicks create Smooth control points;
+- pressing Shift once toggles the **last committed point** Smooth <-> Sharp.
+
+This is intended to make both styles easy:
+
+```text
+Smooth:
+──────╮
+      ╰──────
+
+Sharp:
+──────┐
+      └──────
+```
+
+A square/rectangular perimeter is created by marking its corner points Sharp.
+
+Do not replace Sharp with a very small rounding radius. The player explicitly
+requested a true hard-corner mode.
+
+The normal maximum-turn rule applies to smooth curve portions. Deliberately
+Sharp points are exempt from that smooth-turn restriction.
+
+## Defensive structures and wall sockets
+
+Large gameplay structures such as:
+
+- archer towers;
+- gatehouses;
+- bastions;
+- future fortified buildings;
+
+are separate authoritative structures, not generated wall towers.
+
+To connect them cleanly to walls, their prefab must expose one or more child
+objects with:
+
+`WallConnectionSocket`
+
+A WallConnectionSocket defines:
+
+- a stable `socketId`;
+- exact connection position;
+- local +Z preferred outgoing wall direction;
+- snap radius;
+- wall clearance radius.
+
+### Asset authoring requirement
+
+Codex must place sockets at the exact visual place where the centerline of the
+wall should meet the structure.
+
+Recommended prefab shape:
+
+```text
+ArcherTowerRoot
+├── Visuals
+├── Collider(s)
+├── WallSocket_Left
+│   └── WallConnectionSocket
+└── WallSocket_Right
+    └── WallConnectionSocket
+```
+
+For current automatic mouse snapping, each socket should have a small trigger
+Collider on the socket object (or otherwise be directly discoverable by the
+configured socket physics layer).
+
+The socket transform:
+
+- position = exact wall connection point;
+- local +Z = direction the wall should leave the structure.
+
+When a player draws a wall close enough to a socket:
+
+1. cursor preview snaps to the socket;
+2. committed control point uses the exact socket position;
+3. structureId + socketId are stored in `WallSocketAttachmentState`;
+4. ordinary wall sections inside the socket clearance radius are omitted;
+5. the independent structure visually occupies that gap.
+
+This lets a wall terminate at / continue through a defensive structure without
+drawing wall modules through the tower.
+
+### Retrofitting a tower into an existing confirmed wall
+
+The data contract is already prepared for this:
+
+- insert a control point at the wall/tower connection;
+- mark it with a WallSocketAttachmentState;
+- rebuild the deterministic local presentation;
+- sections inside clearance radius disappear.
+
+The future tower-placement gameplay tool still needs to perform that edit when
+the actual archer-tower building system exists.
+
+Do not create a second unrelated wall system for tower retrofits.
+
+## Input behavior target
+
+The intended player flow is:
+
+```text
+build menu -> choose wall
+first click -> small structural start tower appears
+move mouse -> live wall preview stretches from it
+click -> commit a Smooth path point
+Shift -> toggle the last committed point to Sharp
+continue dragging/clicking
+near a defensive tower socket -> preview snaps to socket
+Enter -> confirm
+Esc -> cancel
+```
+
+This interaction contract should remain stable even if final UI bindings are
+later remapped.
