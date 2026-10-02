@@ -123,6 +123,13 @@ namespace LittleCastle.World
             return generated;
         }
 
+        public bool Contains(
+            ChunkCoordinate coordinate)
+        {
+            return chunks.ContainsKey(
+                coordinate);
+        }
+
         public bool TryGet(
             ChunkCoordinate coordinate,
             out WorldChunkData chunk)
@@ -136,6 +143,34 @@ namespace LittleCastle.World
             }
 
             return false;
+        }
+
+        public void StoreGenerated(
+            WorldChunkData chunk)
+        {
+            if (chunk == null)
+                throw new ArgumentNullException(nameof(chunk));
+
+            ChunkCoordinate coordinate =
+                chunk.Coordinate;
+
+            if (chunks.ContainsKey(
+                    coordinate))
+            {
+                Touch(
+                    coordinate);
+
+                return;
+            }
+
+            chunks.Add(
+                coordinate,
+                chunk);
+
+            AddUsageNode(
+                coordinate);
+
+            TrimToCapacity();
         }
 
         public void SetCapacity(int capacity)
