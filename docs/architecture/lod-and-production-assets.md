@@ -107,6 +107,7 @@ Very distant forest/village/horizon readability.
 - no realtime shadows;
 - no local lights;
 - no expensive probes;
+- no motion-vector generation for static silhouettes;
 - use LC Distant Simple where visually acceptable;
 - preserve silhouette before surface detail.
 
@@ -155,6 +156,39 @@ It does not need:
 
 Close presentation is restored when the camera approaches.
 
+## Lighting LOD
+
+Mesh LOD and local-light LOD are intentionally separate.
+
+Unity `LODGroup` switches Renderers; do not rely on it to make every child
+Point/Spot Light cheap.
+
+Little Castle local-light progression is:
+
+```text
+near:
+  emissive + optional pool + budgeted realtime Light
+
+medium:
+  emissive + optional cheap pool
+
+far:
+  emissive only if the authored LOD still needs it
+
+farthest:
+  silhouette only, no realtime local light
+```
+
+Runtime local-light distance/budget is managed by:
+
+- `NightLightEmitter`;
+- `NightLightBudgetManager`;
+- optional `NightLightPoolVisual`.
+
+Canonical details:
+
+`docs/architecture/night-lighting-and-lod.md`
+
 ## Collider tiers
 
 Visible distance and Physics distance are separate.
@@ -185,6 +219,7 @@ The validator currently checks:
 - LOD geometry accidentally increasing;
 - far-LOD shadow casting/receiving;
 - far-LOD probe usage;
+- far-LOD motion-vector generation;
 - far-LOD shader choice;
 - GPU Instancing;
 - CPU Read/Write mesh state;
