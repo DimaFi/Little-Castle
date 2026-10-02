@@ -329,12 +329,6 @@ namespace LittleCastle.Building
                      step < steps;
                      step++)
                 {
-                    if (segment > 0 &&
-                        step == 0)
-                    {
-                        continue;
-                    }
-
                     float t =
                         (float)step /
                         steps;
