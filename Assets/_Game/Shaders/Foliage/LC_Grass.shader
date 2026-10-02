@@ -92,6 +92,9 @@ Shader "Little Castle/Foliage/LC Grass"
             half4 _LC_MoonDirection;
             half4 _LC_MoonColor;
             half4 _LC_AmbientColor;
+            half4 _LC_AmbientSkyColor;
+            half4 _LC_AmbientEquatorColor;
+            half4 _LC_AmbientGroundColor;
             half4 _LC_ShadowTint;
             half _LC_Twilight;
             float4 _LC_Wind;
@@ -317,6 +320,31 @@ Shader "Little Castle/Foliage/LC Grass"
                 return o;
             }
 
+            half3 EvaluateHemisphereAmbient(
+                half3 normal)
+            {
+                half up =
+                    saturate(
+                        normal.y);
+
+                half down =
+                    saturate(
+                        -normal.y);
+
+                half side =
+                    saturate(
+                        1.0h -
+                        abs(normal.y));
+
+                return
+                    _LC_AmbientSkyColor.rgb *
+                        up +
+                    _LC_AmbientEquatorColor.rgb *
+                        side +
+                    _LC_AmbientGroundColor.rgb *
+                        down;
+            }
+
             fixed4 frag(
                 v2f i,
                 fixed facing : VFACE) : SV_Target
@@ -445,7 +473,8 @@ Shader "Little Castle/Foliage/LC Grass"
                         _ShadowTintStrength);
 
                 half3 ambient =
-                    _LC_AmbientColor.rgb *
+                    EvaluateHemisphereAmbient(
+                        normal) *
                     _AmbientStrength *
                     lerp(
                         shadowTint,
