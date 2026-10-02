@@ -24,17 +24,23 @@ namespace LittleCastle.Building
         public long structureId;
         public string socketId;
         public float socketYawDegrees;
+        public float clearanceRadius;
 
         public WallSocketAttachmentState(
             int controlPointIndex,
             long structureId,
             string socketId,
-            float socketYawDegrees)
+            float socketYawDegrees,
+            float clearanceRadius = 0f)
         {
             this.controlPointIndex = controlPointIndex;
             this.structureId = structureId;
             this.socketId = socketId;
             this.socketYawDegrees = socketYawDegrees;
+            this.clearanceRadius =
+                Mathf.Max(
+                    0f,
+                    clearanceRadius);
         }
     }
 
