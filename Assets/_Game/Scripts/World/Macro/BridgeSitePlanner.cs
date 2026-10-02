@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace LittleCastle.World
@@ -7,6 +8,169 @@ namespace LittleCastle.World
     /// </summary>
     public static class BridgeSitePlanner
     {
+        private sealed class RiverSegmentSpatialIndex
+        {
+            private const float CellSize = 64f;
+
+            private readonly Dictionary<Vector2Int, List<int>> buckets =
+                new Dictionary<Vector2Int, List<int>>();
+
+            private readonly HashSet<int> seen =
+                new HashSet<int>();
+
+            public RiverSegmentSpatialIndex(
+                WorldRiverData river)
+            {
+                if (river == null ||
+                    river.centerline == null)
+                {
+                    return;
+                }
+
+                for (int i = 0;
+                     i < river.centerline.Count - 1;
+                     i++)
+                {
+                    AddSegment(
+                        i,
+                        river.centerline[i],
+                        river.centerline[i + 1]);
+                }
+            }
+
+            public void Query(
+                Vector2 a,
+                Vector2 b,
+                List<int> output)
+            {
+                output.Clear();
+                seen.Clear();
+
+                GetCellBounds(
+                    a,
+                    b,
+                    out int minX,
+                    out int maxX,
+                    out int minZ,
+                    out int maxZ);
+
+                for (int z = minZ;
+                     z <= maxZ;
+                     z++)
+                {
+                    for (int x = minX;
+                         x <= maxX;
+                         x++)
+                    {
+                        if (!buckets.TryGetValue(
+                                new Vector2Int(x, z),
+                                out List<int> bucket))
+                        {
+                            continue;
+                        }
+
+                        for (int i = 0;
+                             i < bucket.Count;
+                             i++)
+                        {
+                            int segmentIndex =
+                                bucket[i];
+
+                            if (seen.Add(
+                                    segmentIndex))
+                            {
+                                output.Add(
+                                    segmentIndex);
+                            }
+                        }
+                    }
+                }
+
+                output.Sort();
+            }
+
+            private void AddSegment(
+                int segmentIndex,
+                Vector2 a,
+                Vector2 b)
+            {
+                GetCellBounds(
+                    a,
+                    b,
+                    out int minX,
+                    out int maxX,
+                    out int minZ,
+                    out int maxZ);
+
+                for (int z = minZ;
+                     z <= maxZ;
+                     z++)
+                {
+                    for (int x = minX;
+                         x <= maxX;
+                         x++)
+                    {
+                        var key =
+                            new Vector2Int(
+                                x,
+                                z);
+
+                        if (!buckets.TryGetValue(
+                                key,
+                                out List<int> bucket))
+                        {
+                            bucket =
+                                new List<int>();
+
+                            buckets.Add(
+                                key,
+                                bucket);
+                        }
+
+                        bucket.Add(
+                            segmentIndex);
+                    }
+                }
+            }
+
+            private static void GetCellBounds(
+                Vector2 a,
+                Vector2 b,
+                out int minX,
+                out int maxX,
+                out int minZ,
+                out int maxZ)
+            {
+                minX =
+                    Mathf.FloorToInt(
+                        Mathf.Min(
+                            a.x,
+                            b.x) /
+                        CellSize);
+
+                maxX =
+                    Mathf.FloorToInt(
+                        Mathf.Max(
+                            a.x,
+                            b.x) /
+                        CellSize);
+
+                minZ =
+                    Mathf.FloorToInt(
+                        Mathf.Min(
+                            a.y,
+                            b.y) /
+                        CellSize);
+
+                maxZ =
+                    Mathf.FloorToInt(
+                        Mathf.Max(
+                            a.y,
+                            b.y) /
+                        CellSize);
+            }
+        }
+
         public static void BuildBridgeSites(
             int worldSeed,
             MacroWorldPlan plan,
@@ -22,6 +186,22 @@ namespace LittleCastle.World
             int salt =
                 DeterministicHash.String32(
                     "bridge_site");
+
+            var riverIndexes =
+                new RiverSegmentSpatialIndex[
+                    plan.Rivers.Count];
+
+            for (int i = 0;
+                 i < plan.Rivers.Count;
+                 i++)
+            {
+                riverIndexes[i] =
+                    new RiverSegmentSpatialIndex(
+                        plan.Rivers[i]);
+            }
+
+            var candidateRiverSegments =
+                new List<int>();
 
             for (int r = 0; r < plan.Roads.Count; r++)
             {
@@ -55,10 +235,33 @@ namespace LittleCastle.World
                         Vector2 roadB =
                             road.centerline[rs + 1];
 
-                        for (int ws = 0;
-                             ws < river.centerline.Count - 1;
-                             ws++)
+                        RiverSegmentSpatialIndex riverIndex =
+                            riverIndexes[w];
+
+                        if (riverIndex == null)
+                            continue;
+
+                        riverIndex.Query(
+                            roadA,
+                            roadB,
+                            candidateRiverSegments);
+
+                        for (int candidateIndex = 0;
+                             candidateIndex <
+                                candidateRiverSegments.Count;
+                             candidateIndex++)
                         {
+                            int ws =
+                                candidateRiverSegments[
+                                    candidateIndex];
+
+                            if (ws < 0 ||
+                                ws >=
+                                    river.centerline.Count - 1)
+                            {
+                                continue;
+                            }
+
                             Vector2 riverA =
                                 river.centerline[ws];
 
