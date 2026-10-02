@@ -13,6 +13,10 @@ Shader "Little Castle/Surface/LC Stylized Lit"
 
         _EmissionMap ("Emission", 2D) = "black" {}
         [HDR] _EmissionColor ("Emission Color", Color) = (0,0,0,0)
+        _EmissionDayStrength ("Emission Day Strength", Range(0,4)) = 0
+        _EmissionNightStrength ("Emission Night Strength", Range(0,8)) = 2.4
+        _EmissionFlickerStrength ("Emission Flicker", Range(0,0.3)) = 0.035
+        _EmissionFlickerSpeed ("Emission Flicker Speed", Range(0,12)) = 3.2
 
         _LightWrap ("Light Wrap", Range(0,0.8)) = 0.24
         _ShadowSoftness ("Light / Shadow Softness", Range(0.03,0.8)) = 0.34
@@ -74,6 +78,10 @@ Shader "Little Castle/Surface/LC Stylized Lit"
 
             sampler2D _EmissionMap;
             half4 _EmissionColor;
+            half _EmissionDayStrength;
+            half _EmissionNightStrength;
+            half _EmissionFlickerStrength;
+            half _EmissionFlickerSpeed;
 
             half _LightWrap;
             half _ShadowSoftness;
@@ -93,6 +101,7 @@ Shader "Little Castle/Surface/LC Stylized Lit"
             half _LC_Daylight;
             half _LC_Twilight;
             half _LC_NightAmount;
+            float4 _LC_GameTime;
 
             struct appdata
             {
@@ -358,11 +367,39 @@ Shader "Little Castle/Surface/LC Stylized Lit"
                     fresnel *
                     _RimStrength;
 
+                half emissionStrength =
+                    lerp(
+                        _EmissionDayStrength,
+                        _EmissionNightStrength,
+                        _LC_NightAmount);
+
+                float3 flickerCell =
+                    floor(
+                        i.worldPosition *
+                        0.35);
+
+                half flicker =
+                    1.0h +
+                    sin(
+                        _LC_GameTime.z *
+                        _EmissionFlickerSpeed +
+                        dot(
+                            flickerCell,
+                            float3(
+                                0.73,
+                                1.37,
+                                2.11))) *
+                    _EmissionFlickerStrength;
+
                 half3 emission =
                     tex2D(
                         _EmissionMap,
                         i.uv).rgb *
-                    _EmissionColor.rgb;
+                    _EmissionColor.rgb *
+                    emissionStrength *
+                    max(
+                        0.0h,
+                        flicker);
 
                 half3 lighting =
                     ambient +
