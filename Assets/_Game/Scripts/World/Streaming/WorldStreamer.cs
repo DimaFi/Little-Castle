@@ -105,6 +105,7 @@ namespace LittleCastle.World
         private WorldSessionMap sessionMap;
 
         private ChunkCoordinate currentFocusChunk;
+        private ChunkCoordinate prefetchSortCenter;
         private ChunkCoordinate sessionMacroCenterChunk;
 
         private bool initialized;
@@ -384,8 +385,20 @@ namespace LittleCastle.World
                 if (!hasFocusChunk ||
                     focusChunk != currentFocusChunk)
                 {
+                    ChunkCoordinate previousFocus =
+                        currentFocusChunk;
+
+                    bool hadPreviousFocus =
+                        hasFocusChunk;
+
                     currentFocusChunk = focusChunk;
                     hasFocusChunk = true;
+
+                    UpdatePrefetchSortCenter(
+                        hadPreviousFocus
+                            ? previousFocus
+                            : currentFocusChunk,
+                        currentFocusChunk);
 
                     RefreshDesiredChunks();
                     UpdateMacroEdgeWarning();
@@ -539,6 +552,9 @@ namespace LittleCastle.World
             currentFocusChunk =
                 GetFocusChunk();
 
+            prefetchSortCenter =
+                currentFocusChunk;
+
             hasFocusChunk = true;
             sessionMacroCenterChunk =
                 currentFocusChunk;
@@ -636,10 +652,22 @@ namespace LittleCastle.World
                 return;
             }
 
+            ChunkCoordinate previousFocus =
+                currentFocusChunk;
+
+            bool hadPreviousFocus =
+                hasFocusChunk;
+
             currentFocusChunk =
                 GetFocusChunk();
 
             hasFocusChunk = true;
+
+            UpdatePrefetchSortCenter(
+                hadPreviousFocus
+                    ? previousFocus
+                    : currentFocusChunk,
+                currentFocusChunk);
 
             RefreshDesiredChunks();
             UpdateMacroEdgeWarning();
@@ -1012,7 +1040,7 @@ namespace LittleCastle.World
             }
 
             scratchCoordinates.Sort(
-                CompareDistanceToFocus);
+                CompareDistanceToPrefetchCenter);
 
             for (int i = 0;
                  i < scratchCoordinates.Count;
@@ -1347,6 +1375,74 @@ namespace LittleCastle.World
             return
                 previousFrameMilliseconds <=
                 StreamingSettings.BackgroundPrefetchFrameLimitMs;
+        }
+
+        private void UpdatePrefetchSortCenter(
+            ChunkCoordinate previous,
+            ChunkCoordinate current)
+        {
+            int dx =
+                Mathf.Clamp(
+                    current.x -
+                    previous.x,
+                    -1,
+                    1);
+
+            int dz =
+                Mathf.Clamp(
+                    current.z -
+                    previous.z,
+                    -1,
+                    1);
+
+            int lead =
+                StreamingSettings != null
+                    ? StreamingSettings.PrefetchLeadChunks
+                    : 0;
+
+            prefetchSortCenter =
+                new ChunkCoordinate(
+                    current.x +
+                    dx * lead,
+                    current.z +
+                    dz * lead);
+        }
+
+        private int CompareDistanceToPrefetchCenter(
+            ChunkCoordinate a,
+            ChunkCoordinate b)
+        {
+            int adx =
+                a.x -
+                prefetchSortCenter.x;
+
+            int adz =
+                a.z -
+                prefetchSortCenter.z;
+
+            int bdx =
+                b.x -
+                prefetchSortCenter.x;
+
+            int bdz =
+                b.z -
+                prefetchSortCenter.z;
+
+            int aDistance =
+                adx * adx +
+                adz * adz;
+
+            int bDistance =
+                bdx * bdx +
+                bdz * bdz;
+
+            if (aDistance != bDistance)
+                return aDistance.CompareTo(bDistance);
+
+            return
+                CompareDistanceToFocus(
+                    a,
+                    b);
         }
 
         private int CompareDistanceToFocus(
