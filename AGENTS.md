@@ -2,6 +2,87 @@
 
 This file defines rules for AI coding agents working in this repository.
 
+## FIRST PROJECT PREFLIGHT — foliage model/shader compatibility
+
+This is the first rendering/model compatibility check for any coding agent
+studying Little Castle. Do this **before refactoring vegetation shaders, changing
+tree authoring, regenerating tree models, or assuming the current foliage wind
+works on production assets**.
+
+Current foliage motion is GPU vertex deformation in:
+
+`Assets/_Game/Shaders/Foliage/LC_Foliage.shader`
+
+The shader currently combines:
+
+- slow whole-crown sway;
+- a spatial vertex wave across the crown;
+- small leaf/cluster flutter along leaf normals;
+- global wind direction/strength/speed;
+- optional automatic local-height mask;
+- optional Vertex Color R wind mask;
+- the same deformation in the visible and ShadowCaster passes.
+
+The preferred tree structure is:
+
+```
+TreeRoot
+├── TrunkAndBranches  -> LC_StylizedLit
+└── Leaves            -> LC_Foliage
+```
+
+A combined trunk+leaves mesh is allowed only when a reliable wind mask exists,
+normally Vertex Color R:
+
+- trunk/base = 0;
+- rigid branch base = near 0;
+- flexible branch tips = intermediate;
+- leaves = 1.
+
+### Mandatory first compatibility check
+
+On first project inspection, locate a real current production tree/foliage mesh
+and verify the actual mesh data, not only screenshots/concept art.
+
+Run in Unity:
+
+`Little Castle -> Rendering -> Foliage -> Validate Selected Model`
+
+Then verify manually in Play Mode at close and far camera zoom.
+
+The agent must answer these questions before changing the foliage architecture:
+
+1. Are leaves actual vertices/meshes/cards/clusters that the vertex shader can
+   displace?
+2. Are leaves separated from the trunk, or does a combined mesh have a usable
+   Vertex Color R mask?
+3. Does the leaf mesh have normals for leaf-normal flutter/lighting?
+4. Does it have UV0 for BaseColor/Opacity?
+5. Does it have tangents if the material uses a Normal map?
+6. Does it have enough vertex distribution for visible non-rigid crown motion,
+   rather than only moving as one block?
+7. Do visible leaves and animated shadows remain aligned?
+8. Does close zoom avoid rubber-like stretching?
+9. Does far zoom avoid shimmer/noisy flutter?
+10. Is GPU instancing/batching still viable with the chosen authoring?
+
+A technical validator PASS is not enough to approve the visual result. The
+actual production tree must still be tested in Unity.
+
+The current rounded/clustered Little Castle leaf style is **potentially
+compatible** with this approach and is intentionally designed to benefit from
+shader-driven wind, but compatibility must be confirmed against the actual mesh
+topology before treating it as production-ready.
+
+If the real model is not compatible, prefer the smallest asset-authoring fix
+(separate Leaves mesh, better vertex distribution, Vertex Color R mask, UV/
+normal/tangent correction) before replacing the shared wind architecture.
+
+Canonical details:
+
+- `docs/architecture/foliage-model-shader-preflight.md`
+- `docs/architecture/foliage-wind-authoring.md`
+
 ## FIRST CHECK — foliage / tree model compatibility
 
 This check is mandatory before any work involving trees, leaves, bushes,
