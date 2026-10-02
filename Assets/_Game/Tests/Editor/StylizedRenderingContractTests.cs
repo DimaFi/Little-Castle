@@ -51,6 +51,11 @@ namespace LittleCastle.Tests
             "_Intensity",
             "_NightThreshold",
             "_FlickerStrength")]
+        [TestCase(
+            "Little Castle/Distance/LC Distant Simple",
+            "_MainTex",
+            "_UseAlphaClip",
+            "_TopLightStrength")]
         public void SharedShaders_ExistAndExposeRequiredProperties(
             string shaderName,
             string propertyA,
@@ -118,6 +123,8 @@ namespace LittleCastle.Tests
             "Assets/_Game/Materials/Shared/LC_NightLightPool_Default.mat")]
         [TestCase(
             "Assets/_Game/Materials/Shared/LC_Wheat_Mature.mat")]
+        [TestCase(
+            "Assets/_Game/Materials/Shared/LC_DistantSimple_Default.mat")]
         public void DefaultRenderingMaterials_Exist(
             string assetPath)
         {
