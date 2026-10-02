@@ -27,6 +27,10 @@ Material:
     m_Floats:
     - _AmbientStrength: 0.85
     - _BumpScale: 1
+    - _EmissionDayStrength: 0
+    - _EmissionFlickerSpeed: 3.2
+    - _EmissionFlickerStrength: 0.035
+    - _EmissionNightStrength: 2.4
     - _LightWrap: 0.24
     - _OcclusionStrength: 0.75
     - _RimPower: 3.5
