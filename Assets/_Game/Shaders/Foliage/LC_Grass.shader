@@ -19,6 +19,12 @@ Shader "Little Castle/Foliage/LC Grass"
 
         _WindAmplitude ("Wind Amplitude", Range(0,1)) = 0.34
         _WindBend ("Tip Bend", Range(0,2)) = 1.0
+        _GustStrength ("Gust Strength", Range(0,1)) = 0.38
+        _GustScale ("Gust Spatial Scale", Range(0.001,0.08)) = 0.018
+        _GustSpeed ("Gust Speed", Range(0.05,2)) = 0.28
+        _MicroFlutter ("Tip Micro Flutter", Range(0,0.5)) = 0.10
+        _MicroFlutterScale ("Micro Flutter Scale", Range(0.1,8)) = 2.2
+        _MicroFlutterSpeed ("Micro Flutter Speed", Range(0.1,8)) = 3.2
     }
 
     SubShader
@@ -70,6 +76,12 @@ Shader "Little Castle/Foliage/LC Grass"
 
             half _WindAmplitude;
             half _WindBend;
+            half _GustStrength;
+            half _GustScale;
+            half _GustSpeed;
+            half _MicroFlutter;
+            half _MicroFlutterScale;
+            half _MicroFlutterSpeed;
 
             half4 _LC_SunDirection;
             half4 _LC_SunColor;
@@ -133,6 +145,10 @@ Shader "Little Castle/Foliage/LC Grass"
                         unity_ObjectToWorld,
                         float4(objectVertex, 1.0)).xyz;
 
+                float seed =
+                    HashObject(
+                        objectOrigin);
+
                 float phase =
                     dot(
                         worldPosition.xz,
@@ -141,15 +157,39 @@ Shader "Little Castle/Foliage/LC Grass"
                     _LC_GameTime.z *
                     _LC_Wind.w *
                     1.18 +
-                    HashObject(objectOrigin) *
+                    seed *
                     6.2831853;
 
-                float gust =
+                float baseWave =
                     sin(phase) * 0.72 +
                     sin(
                         phase * 2.14 +
                         0.8) *
                     0.28;
+
+                float gustPhase =
+                    dot(
+                        worldPosition.xz,
+                        _LC_Wind.xy) *
+                        _GustScale +
+                    _LC_GameTime.z *
+                        _LC_Wind.w *
+                        _GustSpeed +
+                    seed * 2.41;
+
+                float gust01 =
+                    0.5 +
+                    0.5 *
+                    sin(gustPhase);
+
+                float gustEnvelope =
+                    lerp(
+                        1.0,
+                        lerp(
+                            0.56,
+                            1.34,
+                            gust01),
+                        _GustStrength);
 
                 float tipWeight =
                     pow(
@@ -159,17 +199,51 @@ Shader "Little Castle/Foliage/LC Grass"
                             _WindBend));
 
                 float sway =
-                    gust *
+                    baseWave *
+                    gustEnvelope *
                     _LC_Wind.z *
                     _WindAmplitude *
                     tipWeight;
+
+                float microPhase =
+                    dot(
+                        worldPosition.xz,
+                        float2(
+                            1.71,
+                            2.37)) *
+                        _MicroFlutterScale +
+                    _LC_GameTime.z *
+                        _LC_Wind.w *
+                        _MicroFlutterSpeed +
+                    seed * 5.17;
+
+                float micro =
+                    (sin(microPhase) * 0.72 +
+                     sin(
+                        microPhase * 2.31 +
+                        0.47) * 0.28) *
+                    _MicroFlutter *
+                    _LC_Wind.z *
+                    tipWeight *
+                    tipWeight;
+
+                float2 perpendicular =
+                    float2(
+                        -_LC_Wind.y,
+                        _LC_Wind.x);
 
                 float3 worldOffset =
                     float3(
                         _LC_Wind.x,
                         0.0,
                         _LC_Wind.y) *
-                    sway;
+                        sway +
+                    float3(
+                        perpendicular.x,
+                        0.0,
+                        perpendicular.y) *
+                        micro *
+                        _WindAmplitude;
 
                 worldOffset.y -=
                     abs(sway) *
@@ -443,6 +517,12 @@ Shader "Little Castle/Foliage/LC Grass"
 
             half _WindAmplitude;
             half _WindBend;
+            half _GustStrength;
+            half _GustScale;
+            half _GustSpeed;
+            half _MicroFlutter;
+            half _MicroFlutterScale;
+            half _MicroFlutterSpeed;
 
             float4 _LC_Wind;
             float4 _LC_GameTime;
@@ -490,6 +570,10 @@ Shader "Little Castle/Foliage/LC Grass"
                         unity_ObjectToWorld,
                         float4(objectVertex, 1.0)).xyz;
 
+                float seed =
+                    HashObject(
+                        objectOrigin);
+
                 float phase =
                     dot(
                         worldPosition.xz,
@@ -498,15 +582,39 @@ Shader "Little Castle/Foliage/LC Grass"
                     _LC_GameTime.z *
                     _LC_Wind.w *
                     1.18 +
-                    HashObject(objectOrigin) *
+                    seed *
                     6.2831853;
 
-                float gust =
+                float baseWave =
                     sin(phase) * 0.72 +
                     sin(
                         phase * 2.14 +
                         0.8) *
                     0.28;
+
+                float gustPhase =
+                    dot(
+                        worldPosition.xz,
+                        _LC_Wind.xy) *
+                        _GustScale +
+                    _LC_GameTime.z *
+                        _LC_Wind.w *
+                        _GustSpeed +
+                    seed * 2.41;
+
+                float gust01 =
+                    0.5 +
+                    0.5 *
+                    sin(gustPhase);
+
+                float gustEnvelope =
+                    lerp(
+                        1.0,
+                        lerp(
+                            0.56,
+                            1.34,
+                            gust01),
+                        _GustStrength);
 
                 float tipWeight =
                     pow(
@@ -516,17 +624,51 @@ Shader "Little Castle/Foliage/LC Grass"
                             _WindBend));
 
                 float sway =
-                    gust *
+                    baseWave *
+                    gustEnvelope *
                     _LC_Wind.z *
                     _WindAmplitude *
                     tipWeight;
+
+                float microPhase =
+                    dot(
+                        worldPosition.xz,
+                        float2(
+                            1.71,
+                            2.37)) *
+                        _MicroFlutterScale +
+                    _LC_GameTime.z *
+                        _LC_Wind.w *
+                        _MicroFlutterSpeed +
+                    seed * 5.17;
+
+                float micro =
+                    (sin(microPhase) * 0.72 +
+                     sin(
+                        microPhase * 2.31 +
+                        0.47) * 0.28) *
+                    _MicroFlutter *
+                    _LC_Wind.z *
+                    tipWeight *
+                    tipWeight;
+
+                float2 perpendicular =
+                    float2(
+                        -_LC_Wind.y,
+                        _LC_Wind.x);
 
                 float3 worldOffset =
                     float3(
                         _LC_Wind.x,
                         0.0,
                         _LC_Wind.y) *
-                    sway;
+                        sway +
+                    float3(
+                        perpendicular.x,
+                        0.0,
+                        perpendicular.y) *
+                        micro *
+                        _WindAmplitude;
 
                 worldOffset.y -=
                     abs(sway) *
