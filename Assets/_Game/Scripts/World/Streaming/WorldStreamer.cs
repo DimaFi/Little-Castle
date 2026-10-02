@@ -397,6 +397,13 @@ namespace LittleCastle.World
             pipeline = null;
             macroPlan = null;
 
+            lastChunkLoadMilliseconds = 0.0;
+            lastChunkUnloadMilliseconds = 0.0;
+            lastMeshBuildMilliseconds = 0.0;
+            lastSpawnPresentationMilliseconds = 0.0;
+            lastChunkSpawnCount = 0;
+            totalChunkLoads = 0;
+            totalChunkUnloads = 0;
             activeTerrainColliderCount = 0;
         }
 
