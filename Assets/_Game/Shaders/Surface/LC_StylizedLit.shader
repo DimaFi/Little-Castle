@@ -665,7 +665,6 @@ Shader "Little Castle/Surface/LC Stylized Lit"
                         UnityWorldSpaceLightDir(
                             i.worldPosition));
 
-                half attenuation;
                 UNITY_LIGHT_ATTENUATION(
                     attenuation,
                     i,
