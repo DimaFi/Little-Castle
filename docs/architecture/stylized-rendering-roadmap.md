@@ -113,6 +113,7 @@ Current features:
 - BaseColor texture and tint;
 - tangent-space normal map;
 - AO map;
+- Roughness maps are supported with a scalar fallback;
 - emission map;
 - wrapped diffuse;
 - soft light/shadow transition;
@@ -146,6 +147,14 @@ Implemented:
 - `LC_Grass.shader`
 - `LC_Foliage_Default.mat`
 - `LC_Grass_Default.mat`
+
+Implemented foliage motion now explicitly supports round/clustered leaf geometry:
+
+- Crown Sway + Vertex Wave + Leaf Flutter;
+- optional automatic height mask;
+- optional Vertex Color R wind mask;
+- separate Opacity maps as well as BaseColor alpha;
+- visible and shadow passes share the same deformation.
 
 Foliage requirements:
 
@@ -207,6 +216,10 @@ Status: IN PROGRESS - infrastructure implemented, content hookup pending
 Implemented infrastructure:
 
 - `LC_StylizedLit.shader` emission responds to `_LC_NightAmount`;
+- `LC_StylizedLit.shader` has a controlled ForwardAdd path for nearby
+  budgeted Point/Spot lights on solid objects;
+- `LC_NightLightPool.shader` provides a cheap additive ground-light pool so
+  terrain does not need one expensive realtime lighting pass per lantern;
 - day/night emission strengths are material parameters;
 - subtle spatially de-synchronized flicker is available;
 - `NightLightEmitter` registers local realtime lights;
@@ -313,6 +326,11 @@ whether existing authored textures/materials are ready for that change.
 A color-space migration affects the entire project and should be a deliberate
 visual validation step, not an incidental shader edit.
 
+Gamma vs Linear must be an A/B visual test. Linear is a plausible improvement
+candidate for light blending, gradients, sunset response and local lights, but
+it is not pre-approved. Keep Gamma unless screenshots/material validation and
+profiling demonstrate that Linear is an improvement for Little Castle.
+
 ## Review handoff for Sol 5.6 Medium
 
 The first review should analyze, not blindly rewrite.
@@ -334,6 +352,11 @@ Review:
 
 The review should preserve the global `_LC_*` contract unless there is a
 specific technical reason to change it.
+
+Also read:
+
+- `docs/architecture/foliage-wind-authoring.md`;
+- `docs/architecture/material-texture-contract.md`.
 
 ## Review / refinement handoff for Sol 6 Medium
 
