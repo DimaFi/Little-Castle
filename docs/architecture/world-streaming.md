@@ -109,6 +109,35 @@ Session-authoritative data should include:
 
 See `docs/architecture/finite-session-maps.md`.
 
+## Session bootstrap boundary
+
+A finite map does not imply that every detailed chunk exists as a Unity object
+when the match begins.
+
+Session creation may build compact world-scale data for correctness, including:
+
+- bounds;
+- MacroWorldPlan;
+- river/road/bridge data;
+- neutral settlement anchors;
+- selected player starts.
+
+Detailed chunk presentation remains lazy.
+
+Before MATCH READY, generate only chunks required immediately for player
+starting areas according to the configured prewarm policy.
+
+Do not:
+
+- create every chunk mesh on the complete map;
+- instantiate all trees/rocks/resources before the match starts;
+- load every possible world asset simply because it exists in the installed game.
+
+The total installed model/texture library should primarily affect install size
+and runtime asset-loading behavior, not deterministic session-state size.
+
+See ADR-0002.
+
 ## Load/unload hysteresis
 
 The streamer uses:
