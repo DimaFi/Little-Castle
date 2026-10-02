@@ -1193,10 +1193,16 @@ namespace LittleCastle.World
                 StreamingSettings.MaxChunkLoadsPerFrame;
 
             int processed = 0;
+            int inspected = 0;
+            int inspectionLimit =
+                loadQueue.Count;
 
             while (processed < budget &&
-                   loadQueue.Count > 0)
+                   loadQueue.Count > 0 &&
+                   inspected < inspectionLimit)
             {
+                inspected++;
+
                 ChunkCoordinate coordinate =
                     loadQueue.Dequeue();
 
@@ -1217,10 +1223,23 @@ namespace LittleCastle.World
                     continue;
                 }
 
-                CreateChunkView(
-                    coordinate);
+                if (CreateChunkView(
+                        coordinate))
+                {
+                    processed++;
+                    continue;
+                }
 
-                processed++;
+                EnqueueGeneration(
+                    coordinate,
+                    true);
+
+                if (queuedLoads.Add(
+                        coordinate))
+                {
+                    loadQueue.Enqueue(
+                        coordinate);
+                }
             }
         }
 
@@ -1307,7 +1326,7 @@ namespace LittleCastle.World
             return a.z.CompareTo(b.z);
         }
 
-        private void CreateChunkView(
+        private bool CreateChunkView(
             ChunkCoordinate coordinate)
         {
             using (LoadMarker.Auto())
@@ -1318,7 +1337,7 @@ namespace LittleCastle.World
                 if (chunkCache == null ||
                     pipeline == null)
                 {
-                    return;
+                    return false;
                 }
 
                 bool isPlayableChunk =
@@ -1327,14 +1346,19 @@ namespace LittleCastle.World
                         coordinate);
 
                 WorldChunkCache sourceCache =
-                    isPlayableChunk ||
-                    visualChunkCache == null
-                        ? chunkCache
-                        : visualChunkCache;
-
-                WorldChunkData chunkData =
-                    sourceCache.GetOrGeneratePinned(
+                    GetSourceCache(
                         coordinate);
+
+                if (sourceCache == null ||
+                    !sourceCache.TryGet(
+                        coordinate,
+                        out WorldChunkData chunkData))
+                {
+                    return false;
+                }
+
+                sourceCache.Pin(
+                    coordinate);
 
                 float chunkSize =
                     GenerationSettings.ChunkWorldSize;
@@ -1453,6 +1477,8 @@ namespace LittleCastle.World
                     (Time.realtimeSinceStartupAsDouble -
                      loadStartedAt) *
                     1000.0;
+
+                return true;
             }
         }
 
