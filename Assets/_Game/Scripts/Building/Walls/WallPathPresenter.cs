@@ -273,32 +273,36 @@ namespace LittleCastle.Building
 
         private void ClearInstances()
         {
-            for (int i = 0;
-                 i < instances.Count;
-                 i++)
+            if (instances.Count > 0)
             {
-                GameObject instance =
-                    instances[i];
-
-                if (instance == null)
-                    continue;
-
-                if (Application.isPlaying)
+                for (int i = 0;
+                     i < instances.Count;
+                     i++)
                 {
-                    Destroy(
-                        instance);
+                    GameObject instance =
+                        instances[i];
+
+                    if (instance == null)
+                        continue;
+
+                    if (Application.isPlaying)
+                    {
+                        instance.SetActive(false);
+                        Destroy(
+                            instance);
+                    }
+                    else
+                    {
+                        DestroyImmediate(
+                            instance);
+                    }
                 }
-                else
-                {
-                    DestroyImmediate(
-                        instance);
-                }
+
+                instances.Clear();
+                return;
             }
 
-            instances.Clear();
-
-            // Also clean children if the presenter was reconstructed/reloaded
-            // without its runtime list.
+            // Fallback for domain reload / serialized scene reconstruction.
             for (int i = transform.childCount - 1;
                  i >= 0;
                  i--)
