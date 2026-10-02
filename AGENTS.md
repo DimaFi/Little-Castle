@@ -139,6 +139,7 @@ Core wall placement already exists in:
 - `Assets/_Game/Scripts/Building/Walls/WallPlacementValidator.cs`
 - `Assets/_Game/Scripts/Building/Walls/WallPathPresenter.cs`
 - `Assets/_Game/Scripts/Building/Walls/WallPlacementController.cs`
+- `Assets/_Game/Scripts/Building/Walls/WallConnectionSocket.cs`
 
 Read first:
 
@@ -158,6 +159,18 @@ Mandatory asset contract:
   pivot/scale/axis/length;
 - use simple colliders and shared materials;
 - authored LODs belong to the prefab/model, not to the path data.
+- the first wall point may instantiate `startTowerPrefab`; the wall is drawn
+  outward from this small structural tower;
+- long walls may generate `repeatTowerPrefab` deterministically by configured
+  spacing;
+- control points support Smooth and Sharp modes; one Shift press toggles the
+  last committed point, and Sharp is a true hard corner suitable for squares;
+- large archer towers/gatehouses are separate structures and must expose
+  `WallConnectionSocket` child points for clean wall docking;
+- a socket's local +Z is the preferred outgoing wall direction;
+- socket clearance must reserve enough space for the tower so ordinary wall
+  modules do not overlap it;
+- do not bake archer towers directly into the generic wall segment asset;
 
 Authoritative multiplayer/save state is one compact `WallRuntimeState`, not a
 list of per-section transforms.
