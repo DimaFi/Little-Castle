@@ -139,7 +139,7 @@ namespace LittleCastle.World
 
         public int MacroPlanRadiusChunks =>
             Mathf.Max(
-                LoadRadiusChunks + 2,
+                PrefetchRadiusChunks + 2,
                 macroPlanRadiusChunks);
 
         public int MacroEdgeWarningChunks =>
