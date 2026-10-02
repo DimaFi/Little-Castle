@@ -1961,6 +1961,15 @@ namespace LittleCastle.World
                 return;
             }
 
+            int previousGeneratedColliderCount =
+                view.ActiveGeneratedObjectColliderCount;
+
+            activeGeneratedObjectColliderCount =
+                Mathf.Max(
+                    0,
+                    activeGeneratedObjectColliderCount -
+                    previousGeneratedColliderCount);
+
             Transform root =
                 view.transform;
 
@@ -2022,7 +2031,8 @@ namespace LittleCastle.World
             view.SetGeneratedObjectCollidersEnabled(
                 objectCollidersEnabled);
 
-            RefreshGeneratedObjectColliderCount();
+            activeGeneratedObjectColliderCount +=
+                view.ActiveGeneratedObjectColliderCount;
 
             lastSpawnPresentationMilliseconds =
                 (Time.realtimeSinceStartupAsDouble -
@@ -2170,25 +2180,6 @@ namespace LittleCastle.World
 
                 activeGeneratedObjectColliderCount +=
                     view.ActiveGeneratedObjectColliderCount;
-            }
-        }
-
-        private void RefreshGeneratedObjectColliderCount()
-        {
-            activeGeneratedObjectColliderCount = 0;
-
-            foreach (
-                KeyValuePair<ChunkCoordinate, StreamedChunkView> pair
-                in activeChunks)
-            {
-                StreamedChunkView view =
-                    pair.Value;
-
-                if (view != null)
-                {
-                    activeGeneratedObjectColliderCount +=
-                        view.ActiveGeneratedObjectColliderCount;
-                }
             }
         }
 
