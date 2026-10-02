@@ -106,6 +106,31 @@ namespace LittleCastle.World
                                     roadDirection.y) *
                                 Mathf.Rad2Deg;
 
+                            float requiredSpan;
+
+                            if (settings.standardizeCrossings)
+                            {
+                                NormalizeRiverCrossing(
+                                    river,
+                                    ws,
+                                    settings);
+
+                                requiredSpan =
+                                    Mathf.Max(
+                                        settings.standardRiverCrossingWidth,
+                                        settings.standardBridgeSpan);
+                            }
+                            else
+                            {
+                                requiredSpan =
+                                    Mathf.Max(
+                                        0.5f,
+                                        river.GetWidthAtSegment(
+                                            ws,
+                                            riverT) +
+                                        settings.extraSpan);
+                            }
+
                             plan.AddBridgeSite(
                                 new WorldBridgeSiteData(
                                     bridgeId,
@@ -114,14 +139,96 @@ namespace LittleCastle.World
                                     settings.archetypeId,
                                     intersection,
                                     yaw,
-                                    Mathf.Max(
-                                        0.5f,
-                                        river.GetWidthAtSegment(
-                                            ws,
-                                            riverT) +
-                                        settings.extraSpan)));
+                                    requiredSpan));
                         }
                     }
+                }
+            }
+        }
+
+        private static void NormalizeRiverCrossing(
+            WorldRiverData river,
+            int segmentIndex,
+            BridgePlannerSettings settings)
+        {
+            if (river == null ||
+                river.centerline == null ||
+                river.centerline.Count < 2)
+            {
+                return;
+            }
+
+            float targetWidth =
+                Mathf.Max(
+                    0.5f,
+                    settings.standardRiverCrossingWidth);
+
+            if (river.widths == null)
+                return;
+
+            if (river.widths.Count !=
+                river.centerline.Count)
+            {
+                river.widths.Clear();
+
+                for (int i = 0;
+                     i < river.centerline.Count;
+                     i++)
+                {
+                    river.widths.Add(
+                        Mathf.Max(
+                            0.1f,
+                            river.nominalWidth));
+                }
+            }
+
+            int a =
+                Mathf.Clamp(
+                    segmentIndex,
+                    0,
+                    river.widths.Count - 2);
+
+            int b = a + 1;
+
+            river.widths[a] =
+                targetWidth;
+
+            river.widths[b] =
+                targetWidth;
+
+            int radius =
+                Mathf.Max(
+                    0,
+                    settings.crossingWidthBlendPointRadius);
+
+            for (int distance = 1;
+                 distance <= radius;
+                 distance++)
+            {
+                float t =
+                    1f -
+                    (float)distance /
+                    (radius + 1f);
+
+                int left = a - distance;
+                int right = b + distance;
+
+                if (left >= 0)
+                {
+                    river.widths[left] =
+                        Mathf.Lerp(
+                            river.widths[left],
+                            targetWidth,
+                            t);
+                }
+
+                if (right < river.widths.Count)
+                {
+                    river.widths[right] =
+                        Mathf.Lerp(
+                            river.widths[right],
+                            targetWidth,
+                            t);
                 }
             }
         }
