@@ -262,7 +262,12 @@ ProfilerMarker names include:
 - `World.Streaming.LoadChunk`;
 - `World.Streaming.UnloadChunk`;
 - `World.MeshBuild`;
-- `World.SpawnPresentation`.
+- `World.SpawnPresentation`;
+- `World.Macro.PointFeatures`;
+- `World.Macro.Rivers`;
+- `World.Macro.RoadGraph`;
+- `World.Macro.RoadPaths`;
+- `World.Macro.Bridges`.
 
 Use these before attempting large optimizations.
 
