@@ -155,3 +155,22 @@ For significant generation/streaming changes, verify at representative
 
 See:
 `docs/decisions/ADR-0002-fast-session-bootstrap-lazy-world-materialization.md`.
+
+## Continuous world-time rule
+
+Little Castle uses one continuous authoritative simulation clock.
+
+Mandatory rules:
+
+- night does not pause the match and does not trigger a global sleep/time-skip;
+- default day is 06:00-20:00 in 360 real seconds;
+- default night is 20:00-06:00 in 90 real seconds;
+- gameplay systems advance from authoritative game-time delta, not directly
+  from wall-clock `Time.deltaTime`;
+- lighting is presentation and must not become authoritative time state;
+- residents may work at night; future rest/mood logic should penalize repeated
+  missed rest instead of hard-blocking night work;
+- save/load stores world-clock state;
+- future multiplayer host/server owns the clock and clients consume snapshots.
+
+See `docs/architecture/day-night-cycle.md`.
