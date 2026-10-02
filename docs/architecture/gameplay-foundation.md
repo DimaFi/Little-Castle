@@ -82,6 +82,11 @@ server ticks do not lose production.
 
 ## Construction
 
+Player construction uses the data-driven `BuildingDefinition` catalog and
+`SettlementBuildingService`. Starting a building spends resources, allocates a
+stable runtime ID and stores its logical world transform before any prefab is
+required.
+
 Buildings are authoritative BuildingRuntimeState records with:
 
 - stable runtime ID;
@@ -98,6 +103,20 @@ Presentation prefabs are not authoritative.
 Existing curved walls remain under the compact WallRuntimeState system; do not
 expand a wall into independently saved segment transforms.
 
+Walls have compact HP on the path state. Damage and repair never require storing
+the derived section transforms. `WallRepairSystem` is intentionally called by
+post-combat logic so residents do not automatically repair a wall during an
+active siege.
+
+### Main-house progression
+
+The default upgrade data currently provides:
+
+`main_house_level_1 -> main_house_level_2 -> main_house_keep -> main_house_small_castle`
+
+Costs, work time and HP are balance data and may change without changing the
+upgrade contract.
+
 ## Barracks and soldiers
 
 Barracks own training queues. Enqueueing training spends resources immediately.
@@ -109,6 +128,11 @@ require rewriting the queue.
 ## Neutral villages and trade
 
 Neutral settlements use the same SettlementGameplayState with isNeutral=true.
+
+`GameplaySessionBootstrap.ImportNeutralSettlements` derives those runtime
+settlements from deterministic `WorldFeatureKind.NeutralSettlement` entries in
+the macro plan. The macro feature stable ID remains the settlement ID, so the
+same seed produces the same village identity and deterministic starting market.
 
 A neutral market exposes offers with:
 
@@ -187,7 +211,8 @@ progress, so Sleeping simulation can advance them without spawning residents.
 
 ## Save/network contract
 
-WorldSaveState stores GameplaySessionState alongside runtime world deltas.
+WorldSaveState stores GameplaySessionState, the authoritative WorldTimeState
+and compact wall paths alongside runtime world deltas.
 
 The save still does not contain the untouched generated map. Base world comes
 from seed; save/network payloads contain mutable runtime state.
