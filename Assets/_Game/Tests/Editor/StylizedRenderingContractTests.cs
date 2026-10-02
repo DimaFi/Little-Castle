@@ -52,6 +52,11 @@ namespace LittleCastle.Tests
             "_NightThreshold",
             "_FlickerStrength")]
         [TestCase(
+            "Little Castle/Effects/LC Emissive Glow",
+            "_MainTex",
+            "_NightStrength",
+            "_FlickerStrength")]
+        [TestCase(
             "Little Castle/Distance/LC Distant Simple",
             "_MainTex",
             "_UseAlphaClip",
@@ -121,6 +126,8 @@ namespace LittleCastle.Tests
             "Assets/_Game/Materials/Material_terrain/LC_Terrain_Default.mat")]
         [TestCase(
             "Assets/_Game/Materials/Shared/LC_NightLightPool_Default.mat")]
+        [TestCase(
+            "Assets/_Game/Materials/Shared/LC_EmissiveGlow_Default.mat")]
         [TestCase(
             "Assets/_Game/Materials/Shared/LC_Wheat_Mature.mat")]
         [TestCase(
