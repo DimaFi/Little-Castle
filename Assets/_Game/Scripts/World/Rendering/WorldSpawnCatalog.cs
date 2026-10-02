@@ -117,6 +117,11 @@ namespace LittleCastle.World
                     : 0;
         }
 
+        public void WarmRuntimeCache()
+        {
+            EnsureRuntimeLookup();
+        }
+
         public void InvalidateRuntimeCache()
         {
             runtimeLookup = null;
