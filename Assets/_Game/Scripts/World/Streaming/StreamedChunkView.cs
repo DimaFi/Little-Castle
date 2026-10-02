@@ -11,9 +11,14 @@ namespace LittleCastle.World
     public sealed class StreamedChunkView : MonoBehaviour
     {
         private Mesh ownedMesh;
+        private MeshCollider terrainCollider;
 
         public ChunkCoordinate Coordinate { get; private set; }
         public bool IsPlayableChunk { get; private set; }
+
+        public bool TerrainColliderEnabled =>
+            terrainCollider != null &&
+            terrainCollider.enabled;
 
         public void Initialize(
             ChunkCoordinate coordinate,
@@ -25,8 +30,51 @@ namespace LittleCastle.World
             ownedMesh = mesh;
         }
 
+        public void SetTerrainColliderEnabled(
+            bool enabled)
+        {
+            if (!IsPlayableChunk)
+                enabled = false;
+
+            if (enabled)
+            {
+                if (terrainCollider == null)
+                {
+                    terrainCollider =
+                        GetComponent<MeshCollider>();
+
+                    if (terrainCollider == null)
+                    {
+                        terrainCollider =
+                            gameObject.AddComponent<
+                                MeshCollider>();
+                    }
+                }
+
+                if (terrainCollider.sharedMesh !=
+                    ownedMesh)
+                {
+                    terrainCollider.sharedMesh =
+                        ownedMesh;
+                }
+
+                terrainCollider.enabled =
+                    ownedMesh != null;
+            }
+            else if (terrainCollider != null)
+            {
+                terrainCollider.enabled = false;
+            }
+        }
+
         public void ReleaseOwnedResources()
         {
+            if (terrainCollider != null)
+            {
+                terrainCollider.enabled = false;
+                terrainCollider.sharedMesh = null;
+            }
+
             if (ownedMesh == null)
                 return;
 
