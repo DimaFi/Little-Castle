@@ -33,6 +33,9 @@ namespace LittleCastle.World
 
         [Header("Runtime")]
         [SerializeField]
+        private WorldTimeSettings timeSettings;
+
+        [SerializeField]
         private WorldStreamingSettings streamingSettings;
 
         [Header("Presentation")]
@@ -55,6 +58,9 @@ namespace LittleCastle.World
 
         public WorldStartFairnessSettings StartFairnessSettings =>
             startFairnessSettings;
+
+        public WorldTimeSettings TimeSettings =>
+            timeSettings;
 
         public WorldStreamingSettings StreamingSettings =>
             streamingSettings;
