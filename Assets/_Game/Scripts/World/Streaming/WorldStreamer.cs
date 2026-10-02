@@ -264,9 +264,9 @@ namespace LittleCastle.World
                     RefreshChunkColliderStates();
                 }
 
-                ProcessGeneration();
                 ProcessUnloads();
                 ProcessLoads();
+                ProcessGeneration();
             }
         }
 
