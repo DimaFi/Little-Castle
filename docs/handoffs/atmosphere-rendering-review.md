@@ -33,6 +33,31 @@ Do not infer compatibility from the rounded-leaf concept/reference image alone.
 The current style is potentially compatible, but the real mesh topology and
 attributes are the deciding evidence.
 
+## FIRST review action — validate a real foliage model
+
+Before broader atmosphere tuning, select at least one representative production
+tree and verify model + LC_Foliage compatibility together.
+
+This is the first rendering review action after successful project import.
+
+Required result:
+- classify the tree as COMPATIBLE / COMPATIBLE WITH MASK-AUTHORING CHANGE /
+  REQUIRES SEPARATE LEAF MESH / NOT SUITABLE FOR CURRENT WIND;
+- inspect leaf vertex density;
+- inspect normals;
+- inspect trunk/leaf separation;
+- inspect Vertex Color R when meshes are combined;
+- inspect pivot/local Y if height masking is considered;
+- verify visible wind and animated shadow alignment;
+- inspect close and far strategy-camera behavior.
+
+Run in Unity when possible:
+
+Little Castle -> Rendering -> Validate Selected Foliage Model
+
+Do not tune global foliage wind amplitudes until at least one real production
+tree has passed this compatibility gate.
+
 ## Goal
 
 Review and refine the current Little Castle atmosphere/rendering stack toward a
