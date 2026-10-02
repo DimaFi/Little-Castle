@@ -148,6 +148,28 @@ namespace LittleCastle.World
                 : 0);
 
         public int DesiredChunkCount => desiredChunks.Count;
+
+        public int MissingDesiredChunkCount
+        {
+            get
+            {
+                int missing = 0;
+
+                foreach (
+                    ChunkCoordinate coordinate
+                    in desiredChunks)
+                {
+                    if (!activeChunks.ContainsKey(
+                            coordinate))
+                    {
+                        missing++;
+                    }
+                }
+
+                return missing;
+            }
+        }
+
         public int ActiveTerrainColliderCount => activeTerrainColliderCount;
         public Transform Focus => focus;
 
