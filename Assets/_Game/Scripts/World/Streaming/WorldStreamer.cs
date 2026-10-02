@@ -1374,8 +1374,22 @@ namespace LittleCastle.World
 
                 if (urgent)
                 {
-                    if (!desiredChunks.Contains(
-                            coordinate))
+                    bool visible =
+                        desiredChunks.Contains(
+                            coordinate);
+
+                    bool startupPriority =
+                        priorityPreparationRadiusChunks >= 0 &&
+                        IsWithinRadius(
+                            coordinate,
+                            currentFocusChunk,
+                            Mathf.Min(
+                                priorityPreparationRadiusChunks,
+                                StreamingSettings.PrefetchRadiusChunks),
+                            StreamingSettings.CircularLoading);
+
+                    if (!visible &&
+                        !startupPriority)
                     {
                         continue;
                     }
