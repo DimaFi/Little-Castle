@@ -38,6 +38,7 @@ namespace LittleCastle.World
         private KeyCode developmentSkipKey = KeyCode.F9;
 
         private bool ready;
+        private bool priorityRequested;
         private GUIStyle labelStyle;
         private GUIStyle boxStyle;
 
@@ -112,6 +113,14 @@ namespace LittleCastle.World
             if (worldStreamer == null)
                 return;
 
+            if (!priorityRequested)
+            {
+                worldStreamer.SetPriorityPreparationRadius(
+                    TargetPreparedRadius);
+
+                priorityRequested = true;
+            }
+
             if (worldStreamer.IsVisibleAreaReady &&
                 worldStreamer.GetPreparedDataReadiness01(
                     TargetPreparedRadius) >=
@@ -127,6 +136,11 @@ namespace LittleCastle.World
                 return;
 
             ready = true;
+
+            if (worldStreamer != null)
+            {
+                worldStreamer.ClearPriorityPreparationRadius();
+            }
 
             if (strategyCamera != null)
             {
