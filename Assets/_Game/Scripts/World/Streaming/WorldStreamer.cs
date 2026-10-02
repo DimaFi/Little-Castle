@@ -889,10 +889,21 @@ namespace LittleCastle.World
                 new MacroWorldPlanner(
                     macroSettings);
 
-            return planner.GenerateForBounds(
-                worldSeed,
-                requestedBounds,
-                terrainProbe);
+            try
+            {
+                return
+                    planner.GenerateForBounds(
+                        worldSeed,
+                        requestedBounds,
+                        terrainProbe);
+            }
+            finally
+            {
+                // Macro planning no longer needs terrain-only chunk samples.
+                // Release references immediately instead of waiting for GC,
+                // especially on large finite session maps.
+                terrainProbe.Clear();
+            }
         }
 
         private void RefreshDesiredChunks()
