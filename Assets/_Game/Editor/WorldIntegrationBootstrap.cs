@@ -508,16 +508,20 @@ namespace LittleCastle.Editor
         private static void ConfigureStreamingSettings(WorldStreamingSettings settings)
         {
             var serialized = new SerializedObject(settings);
-            serialized.FindProperty("loadRadiusChunks").intValue = 1;
+            serialized.FindProperty("loadRadiusChunks").intValue = 4;
             serialized.FindProperty("unloadPaddingChunks").intValue = 1;
             serialized.FindProperty("circularLoading").boolValue = true;
-            serialized.FindProperty("maxChunkLoadsPerFrame").intValue = 1;
-            serialized.FindProperty("maxChunkUnloadsPerFrame").intValue = 2;
-            serialized.FindProperty("maxCachedChunks").intValue = 9;
+            serialized.FindProperty("maxChunkLoadsPerFrame").intValue = 4;
+            serialized.FindProperty("maxChunkUnloadsPerFrame").intValue = 6;
+            serialized.FindProperty("maxCachedChunks").intValue = 160;
+            serialized.FindProperty("prefetchPaddingChunks").intValue = 2;
+            serialized.FindProperty("urgentGenerationStagesPerFrame").intValue = 2;
+            serialized.FindProperty("backgroundGenerationStagesPerFrame").intValue = 1;
+            serialized.FindProperty("backgroundPrefetchFrameLimitMs").floatValue = 18f;
             serialized.FindProperty("macroPlanRadiusChunks").intValue = 10;
             serialized.FindProperty("macroEdgeWarningChunks").intValue = 2;
             serialized.FindProperty("renderGeneratedSpawns").boolValue = true;
-            serialized.FindProperty("addMeshCollider").boolValue = false;
+            serialized.FindProperty("addMeshCollider").boolValue = true;
 
             SerializedProperty colliderRadius =
                 serialized.FindProperty(
