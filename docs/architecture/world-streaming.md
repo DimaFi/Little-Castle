@@ -208,6 +208,81 @@ for test scenes/configurations that have not yet assigned `WorldMapRules`.
 
 It is not the intended match architecture.
 
+## Two-ring data prefetch
+
+Runtime streaming now separates **generated data readiness** from **visual
+presentation**.
+
+Default test policy:
+
+```text
+visible radius:   4 chunks
+prefetch padding: 2 chunks
+data radius:      6 chunks
+```
+
+With circular loading this means roughly:
+
+- 49 visible-target chunks around the focus;
+- up to about 113 nearby chunk-data positions in the prefetch region.
+
+The generated-data cache is currently 160 entries so the prefetch ring has room
+without forcing immediate churn.
+
+### Important behavior
+
+`CreateChunkView` is presentation-only.
+
+It no longer calls `GetOrGeneratePinned` for a missing chunk.
+
+If chunk data is missing:
+
+1. the coordinate stays in the presentation queue;
+2. generation is requested;
+3. the deterministic pipeline is executed cooperatively;
+4. completed `WorldChunkData` is stored in `WorldChunkCache`;
+5. only then is the mesh/GameObject presentation created.
+
+This removes the old path where entering a new area could synchronously execute
+the entire chunk generation pipeline inside one presentation frame.
+
+### Cooperative generation
+
+Current generation stages are ScriptableObjects and some depend on
+AnimationCurve. Therefore the project does **not** currently move the whole
+pipeline to a background thread.
+
+Instead:
+
+- urgent visible generation runs a small number of stages per frame;
+- background prefetch runs even more slowly;
+- urgent work preempts background work;
+- background work pauses when the previous frame exceeds the configured frame
+  time threshold;
+- each completed background chunk enters the data cache without being pinned or
+  visually instantiated.
+
+This is a safe intermediate architecture.
+
+If one individual stage still takes too long, profile that stage and split or
+snapshot/jobify that specific stage rather than hiding the whole pipeline in
+Task.Run.
+
+### Resident vs visible chunks
+
+`ActiveChunkCount` can be larger than `DesiredChunkCount` because
+`unloadPaddingChunks` intentionally keeps a hysteresis ring alive.
+
+Example:
+
+- Visible target: 49
+- Resident chunks: 58-63
+
+This is expected and prevents rapid unload/reload churn when the camera moves
+back and forth across a chunk boundary.
+
+The diagnostics overlay labels these separately.
+
 ## Terrain collider distance tier
 
 Visible terrain distance and Physics distance are intentionally separate.
