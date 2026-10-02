@@ -6,9 +6,8 @@ namespace LittleCastle.Building
     /// <summary>
     /// Local presentation of one authoritative wall path.
     ///
-    /// The presenter derives rigid module transforms locally. It may project
-    /// them to nearby terrain, but the compact wall path remains the saved /
-    /// networked source of truth.
+    /// Small structural wall towers and rigid wall modules are derived locally.
+    /// Separate defensive buildings attach through WallConnectionSocket data.
     /// </summary>
     public sealed class WallPathPresenter : MonoBehaviour
     {
@@ -24,15 +23,22 @@ namespace LittleCastle.Building
         private readonly List<WallSectionPose> sectionBuffer =
             new List<WallSectionPose>();
 
+        private readonly List<WallTowerPose> towerBuffer =
+            new List<WallTowerPose>();
+
         private readonly List<GameObject> instances =
             new List<GameObject>();
 
         public bool LastIsValid { get; private set; }
+
         public string LastValidationMessage { get; private set; } =
             string.Empty;
 
         public IReadOnlyList<WallSectionPose> LastSections =>
             sectionBuffer;
+
+        public IReadOnlyList<WallTowerPose> LastTowers =>
+            towerBuffer;
 
         public bool Rebuild(
             WallPlacementDefinition definition,
@@ -53,25 +59,46 @@ namespace LittleCastle.Building
                 return false;
             }
 
+            WallPathLayoutUtility.BuildTowerPoses(
+                wall,
+                definition,
+                towerBuffer);
+
             WallPathLayoutUtility.BuildSections(
                 wall,
-                definition.SegmentSpacing,
-                definition.CurveSampleStep,
+                definition,
                 sectionBuffer);
 
             if (snapToGround &&
-                !ProjectSectionsToGround(
+                !ProjectLayoutToGround(
                     definition,
                     out string groundReason))
             {
                 LastValidationMessage =
                     groundReason;
 
-                InstantiateSections(
+                InstantiateLayout(
                     definition,
                     wall,
                     preview
                         ? invalidPreviewMaterial
+                        : null);
+
+                return false;
+            }
+
+            // One committed point intentionally shows only the start tower.
+            // Confirmation still requires a real wall path.
+            if (wall.controlPoints.Count < 2)
+            {
+                LastValidationMessage =
+                    "Add another wall point.";
+
+                InstantiateLayout(
+                    definition,
+                    wall,
+                    preview
+                        ? validPreviewMaterial
                         : null);
 
                 return false;
@@ -94,7 +121,7 @@ namespace LittleCastle.Building
                         : invalidPreviewMaterial)
                     : null;
 
-            InstantiateSections(
+            InstantiateLayout(
                 definition,
                 wall,
                 previewMaterial);
@@ -105,15 +132,45 @@ namespace LittleCastle.Building
         public void Clear()
         {
             sectionBuffer.Clear();
+            towerBuffer.Clear();
             LastIsValid = false;
             LastValidationMessage = string.Empty;
             ClearInstances();
         }
 
-        private bool ProjectSectionsToGround(
+        private bool ProjectLayoutToGround(
             WallPlacementDefinition definition,
             out string reason)
         {
+            for (int i = 0;
+                 i < towerBuffer.Count;
+                 i++)
+            {
+                WallTowerPose pose =
+                    towerBuffer[i];
+
+                if (!TryProjectPointToGround(
+                        pose.position,
+                        definition,
+                        out Vector3 projected,
+                        out reason))
+                {
+                    reason =
+                        "Wall tower " +
+                        i +
+                        ": " +
+                        reason;
+
+                    return false;
+                }
+
+                pose.position =
+                    projected;
+
+                towerBuffer[i] =
+                    pose;
+            }
+
             for (int i = 0;
                  i < sectionBuffer.Count;
                  i++)
@@ -121,47 +178,23 @@ namespace LittleCastle.Building
                 WallSectionPose pose =
                     sectionBuffer[i];
 
-                Vector3 origin =
-                    pose.position +
-                    Vector3.up *
-                    groundProbeHeight;
-
-                if (!Physics.Raycast(
-                        origin,
-                        Vector3.down,
-                        out RaycastHit hit,
-                        groundProbeHeight * 2f,
-                        groundMask,
-                        QueryTriggerInteraction.Ignore))
+                if (!TryProjectPointToGround(
+                        pose.position,
+                        definition,
+                        out Vector3 projected,
+                        out reason))
                 {
                     reason =
-                        "No ground was found below wall module " +
+                        "Wall module " +
                         i +
-                        ".";
-
-                    return false;
-                }
-
-                float slope =
-                    Vector3.Angle(
-                        hit.normal,
-                        Vector3.up);
-
-                if (slope >
-                    definition.MaximumGroundSlopeDegrees)
-                {
-                    reason =
-                        "Ground is too steep for this wall (" +
-                        slope.ToString("0.0") +
-                        "°).";
+                        ": " +
+                        reason;
 
                     return false;
                 }
 
                 pose.position =
-                    hit.point +
-                    Vector3.up *
-                    definition.BaseHeightOffset;
+                    projected;
 
                 sectionBuffer[i] =
                     pose;
@@ -169,6 +202,136 @@ namespace LittleCastle.Building
 
             reason = string.Empty;
             return true;
+        }
+
+        private bool TryProjectPointToGround(
+            Vector3 point,
+            WallPlacementDefinition definition,
+            out Vector3 projected,
+            out string reason)
+        {
+            Vector3 origin =
+                point +
+                Vector3.up *
+                groundProbeHeight;
+
+            if (!Physics.Raycast(
+                    origin,
+                    Vector3.down,
+                    out RaycastHit hit,
+                    groundProbeHeight * 2f,
+                    groundMask,
+                    QueryTriggerInteraction.Ignore))
+            {
+                projected = point;
+                reason =
+                    "No ground was found.";
+
+                return false;
+            }
+
+            float slope =
+                Vector3.Angle(
+                    hit.normal,
+                    Vector3.up);
+
+            if (slope >
+                definition.MaximumGroundSlopeDegrees)
+            {
+                projected = point;
+                reason =
+                    "Ground is too steep (" +
+                    slope.ToString("0.0") +
+                    "°).";
+
+                return false;
+            }
+
+            projected =
+                hit.point +
+                Vector3.up *
+                definition.BaseHeightOffset;
+
+            reason = string.Empty;
+            return true;
+        }
+
+        private void InstantiateLayout(
+            WallPlacementDefinition definition,
+            WallRuntimeState wall,
+            Material overrideMaterial)
+        {
+            InstantiateTowers(
+                definition,
+                wall,
+                overrideMaterial);
+
+            InstantiateSections(
+                definition,
+                wall,
+                overrideMaterial);
+        }
+
+        private void InstantiateTowers(
+            WallPlacementDefinition definition,
+            WallRuntimeState wall,
+            Material overrideMaterial)
+        {
+            for (int i = 0;
+                 i < towerBuffer.Count;
+                 i++)
+            {
+                WallTowerPose pose =
+                    towerBuffer[i];
+
+                GameObject prefab =
+                    pose.isStartTower
+                        ? definition.StartTowerPrefab
+                        : definition.RepeatTowerPrefab;
+
+                if (prefab == null)
+                    continue;
+
+                GameObject instance =
+                    Instantiate(
+                        prefab,
+                        pose.position,
+                        pose.Rotation,
+                        transform);
+
+                instance.name =
+                    "Wall_" +
+                    wall.wallId +
+                    "_Tower_" +
+                    pose.towerIndex;
+
+                WallTowerHandle handle =
+                    instance.GetComponent<
+                        WallTowerHandle>();
+
+                if (handle == null)
+                {
+                    handle =
+                        instance.AddComponent<
+                            WallTowerHandle>();
+                }
+
+                handle.Initialize(
+                    wall.wallId,
+                    pose.towerId,
+                    pose.towerIndex,
+                    pose.isStartTower);
+
+                if (overrideMaterial != null)
+                {
+                    ApplyMaterialOverride(
+                        instance,
+                        overrideMaterial);
+                }
+
+                instances.Add(
+                    instance);
+            }
         }
 
         private void InstantiateSections(
@@ -288,6 +451,7 @@ namespace LittleCastle.Building
                     if (Application.isPlaying)
                     {
                         instance.SetActive(false);
+
                         Destroy(
                             instance);
                     }
@@ -302,7 +466,6 @@ namespace LittleCastle.Building
                 return;
             }
 
-            // Fallback for domain reload / serialized scene reconstruction.
             for (int i = transform.childCount - 1;
                  i >= 0;
                  i--)
@@ -316,6 +479,7 @@ namespace LittleCastle.Building
                 if (Application.isPlaying)
                 {
                     child.gameObject.SetActive(false);
+
                     Destroy(
                         child.gameObject);
                 }
