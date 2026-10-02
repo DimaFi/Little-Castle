@@ -75,7 +75,14 @@ namespace LittleCastle.Editor
                 "_Color",
                 "_Intensity",
                 "_NightThreshold",
-                "_FlickerStrength")
+                "_FlickerStrength"),
+
+            new ShaderRequirement(
+                "Little Castle/Distance/LC Distant Simple",
+                "_MainTex",
+                "_UseAlphaClip",
+                "_TopLightStrength",
+                "_AmbientStrength")
         };
 
         private static readonly string[] RequiredMaterialPaths =
@@ -86,7 +93,8 @@ namespace LittleCastle.Editor
             "Assets/_Game/Materials/Shared/LC_Grass_Default.mat",
             "Assets/_Game/Materials/Material_terrain/LC_Terrain_Default.mat",
             "Assets/_Game/Materials/Shared/LC_NightLightPool_Default.mat",
-            "Assets/_Game/Materials/Shared/LC_Wheat_Mature.mat"
+            "Assets/_Game/Materials/Shared/LC_Wheat_Mature.mat",
+            "Assets/_Game/Materials/Shared/LC_DistantSimple_Default.mat"
         };
 
         [MenuItem(
