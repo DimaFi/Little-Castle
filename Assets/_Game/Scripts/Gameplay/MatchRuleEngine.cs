@@ -160,50 +160,56 @@ namespace LittleCastle.Gameplay
 
         public int Evaluate(GameplaySessionState state)
         {
-            decisions.Clear();
-
-            for (int i = 0; i < rules.Count; i++)
-            {
-                rules[i].Evaluate(
-                    state,
-                    decisions);
-            }
+            if (state == null)
+                throw new ArgumentNullException(nameof(state));
 
             int applied = 0;
 
-            for (int i = 0; i < decisions.Count; i++)
+            // Apply each rule before evaluating the next one. This lets a
+            // victory rule observe defeats produced by an earlier rule in the
+            // same authoritative tick.
+            for (int r = 0; r < rules.Count; r++)
             {
-                MatchRuleDecision decision =
-                    decisions[i];
+                decisions.Clear();
 
-                PlayerGameplayState player =
-                    state.FindPlayer(
-                        decision.playerId);
+                rules[r].Evaluate(
+                    state,
+                    decisions);
 
-                if (player == null)
-                    continue;
-
-                if (player.matchStatus ==
-                    decision.status)
+                for (int i = 0; i < decisions.Count; i++)
                 {
-                    continue;
+                    MatchRuleDecision decision =
+                        decisions[i];
+
+                    PlayerGameplayState player =
+                        state.FindPlayer(
+                            decision.playerId);
+
+                    if (player == null)
+                        continue;
+
+                    if (player.matchStatus ==
+                        decision.status)
+                    {
+                        continue;
+                    }
+
+                    if (player.matchStatus ==
+                            PlayerMatchStatus.Defeated &&
+                        decision.status ==
+                            PlayerMatchStatus.Victorious)
+                    {
+                        continue;
+                    }
+
+                    player.matchStatus =
+                        decision.status;
+
+                    player.lastOutcomeReason =
+                        decision.reason;
+
+                    applied++;
                 }
-
-                if (player.matchStatus ==
-                        PlayerMatchStatus.Defeated &&
-                    decision.status ==
-                        PlayerMatchStatus.Victorious)
-                {
-                    continue;
-                }
-
-                player.matchStatus =
-                    decision.status;
-
-                player.lastOutcomeReason =
-                    decision.reason;
-
-                applied++;
             }
 
             return applied;
