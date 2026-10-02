@@ -125,6 +125,7 @@ namespace LittleCastle.World
         private int totalChunkLoads;
         private int totalChunkUnloads;
         private int activeTerrainColliderCount;
+        private int activeGeneratedObjectColliderCount;
         private int priorityPreparationRadiusChunks = -1;
 
         public int WorldSeed => worldSeed;
@@ -186,6 +187,8 @@ namespace LittleCastle.World
                   DesiredChunkCount;
 
         public int ActiveTerrainColliderCount => activeTerrainColliderCount;
+        public int ActiveGeneratedObjectColliderCount =>
+            activeGeneratedObjectColliderCount;
         public Transform Focus => focus;
 
         public float GetPreparedDataReadiness01(
@@ -643,6 +646,7 @@ namespace LittleCastle.World
             totalChunkUnloads = 0;
             priorityPreparationRadiusChunks = -1;
             activeTerrainColliderCount = 0;
+            activeGeneratedObjectColliderCount = 0;
         }
 
         [ContextMenu("Refresh Streaming Now")]
@@ -1857,6 +1861,22 @@ namespace LittleCastle.World
                         1000.0;
                 }
 
+                view.InvalidateGeneratedObjectColliderCache();
+
+                bool objectCollidersEnabled =
+                    isPlayableChunk &&
+                    IsWithinRadius(
+                        coordinate,
+                        currentFocusChunk,
+                        StreamingSettings.GeneratedObjectColliderRadiusChunks,
+                        StreamingSettings.CircularLoading);
+
+                view.SetGeneratedObjectCollidersEnabled(
+                    objectCollidersEnabled);
+
+                activeGeneratedObjectColliderCount +=
+                    view.ActiveGeneratedObjectColliderCount;
+
                 activeChunks.Add(
                     coordinate,
                     view);
@@ -1968,6 +1988,8 @@ namespace LittleCastle.World
             double spawnStartedAt =
                 Time.realtimeSinceStartupAsDouble;
 
+            view.InvalidateGeneratedObjectColliderCache();
+
             using (SpawnPresentationMarker.Auto())
             {
                 lastChunkSpawnCount =
@@ -1978,6 +2000,18 @@ namespace LittleCastle.World
                         worldOrigin,
                         runtimeDelta);
             }
+
+            bool objectCollidersEnabled =
+                IsWithinRadius(
+                    coordinate,
+                    currentFocusChunk,
+                    StreamingSettings.GeneratedObjectColliderRadiusChunks,
+                    StreamingSettings.CircularLoading);
+
+            view.SetGeneratedObjectCollidersEnabled(
+                objectCollidersEnabled);
+
+            RefreshGeneratedObjectColliderCount();
 
             lastSpawnPresentationMilliseconds =
                 (Time.realtimeSinceStartupAsDouble -
@@ -2010,6 +2044,15 @@ namespace LittleCastle.World
                         Mathf.Max(
                             0,
                             activeTerrainColliderCount - 1);
+                }
+
+                if (view != null)
+                {
+                    activeGeneratedObjectColliderCount =
+                        Mathf.Max(
+                            0,
+                            activeGeneratedObjectColliderCount -
+                            view.ActiveGeneratedObjectColliderCount);
                 }
 
                 if (view != null &&
@@ -2073,6 +2116,7 @@ namespace LittleCastle.World
         private void RefreshChunkColliderStates()
         {
             activeTerrainColliderCount = 0;
+            activeGeneratedObjectColliderCount = 0;
 
             if (StreamingSettings == null)
                 return;
@@ -2087,7 +2131,7 @@ namespace LittleCastle.World
                 if (view == null)
                     continue;
 
-                bool enabled =
+                bool terrainEnabled =
                     view.IsPlayableChunk &&
                     StreamingSettings.AddMeshCollider &&
                     IsWithinRadius(
@@ -2097,10 +2141,43 @@ namespace LittleCastle.World
                         StreamingSettings.CircularLoading);
 
                 view.SetTerrainColliderEnabled(
-                    enabled);
+                    terrainEnabled);
 
                 if (view.TerrainColliderEnabled)
                     activeTerrainColliderCount++;
+
+                bool objectCollidersEnabled =
+                    view.IsPlayableChunk &&
+                    IsWithinRadius(
+                        pair.Key,
+                        currentFocusChunk,
+                        StreamingSettings.GeneratedObjectColliderRadiusChunks,
+                        StreamingSettings.CircularLoading);
+
+                view.SetGeneratedObjectCollidersEnabled(
+                    objectCollidersEnabled);
+
+                activeGeneratedObjectColliderCount +=
+                    view.ActiveGeneratedObjectColliderCount;
+            }
+        }
+
+        private void RefreshGeneratedObjectColliderCount()
+        {
+            activeGeneratedObjectColliderCount = 0;
+
+            foreach (
+                KeyValuePair<ChunkCoordinate, StreamedChunkView> pair
+                in activeChunks)
+            {
+                StreamedChunkView view =
+                    pair.Value;
+
+                if (view != null)
+                {
+                    activeGeneratedObjectColliderCount +=
+                        view.ActiveGeneratedObjectColliderCount;
+                }
             }
         }
 
