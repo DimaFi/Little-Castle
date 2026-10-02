@@ -133,6 +133,7 @@ GameObject:
   - component: {fileID: 85530202}
   - component: {fileID: 85530203}
   - component: {fileID: 85530204}
+  - component: {fileID: 85530205}
   m_Layer: 0
   m_Name: WorldRoot
   m_TagString: Untagged
@@ -270,6 +271,23 @@ MonoBehaviour:
   windDirection: {x: 0.85, y: 0.3}
   windStrength: 0.35
   windSpeed: 1
+--- !u!114 &85530205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 85530198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f310674a5d94af4ae89dc24a13a95c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: LittleCastle.Runtime::LittleCastle.Rendering.NightLightBudgetManager
+  lightingGlobals: {fileID: 85530204}
+  targetCamera: {fileID: 1735719524}
+  maxActiveRealtimeLights: 24
+  globalMaxDistance: 95
+  evaluationInterval: 0.2
 --- !u!4 &85530201
 Transform:
   m_ObjectHideFlags: 0
