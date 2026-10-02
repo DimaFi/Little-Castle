@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.Profiling;
 using UnityEngine;
 
 namespace LittleCastle.World
@@ -15,6 +16,21 @@ namespace LittleCastle.World
     /// </summary>
     public sealed class WorldStreamer : MonoBehaviour
     {
+        private static readonly ProfilerMarker UpdateMarker =
+            new ProfilerMarker("World.Streaming.Update");
+
+        private static readonly ProfilerMarker LoadMarker =
+            new ProfilerMarker("World.Streaming.LoadChunk");
+
+        private static readonly ProfilerMarker UnloadMarker =
+            new ProfilerMarker("World.Streaming.UnloadChunk");
+
+        private static readonly ProfilerMarker MeshBuildMarker =
+            new ProfilerMarker("World.MeshBuild");
+
+        private static readonly ProfilerMarker SpawnPresentationMarker =
+            new ProfilerMarker("World.SpawnPresentation");
+
         [Header("World")]
         [SerializeField] private int worldSeed = 12345;
         [SerializeField] private WorldDefinition worldDefinition;
@@ -78,9 +94,43 @@ namespace LittleCastle.World
         private bool hasFocusChunk;
         private bool macroEdgeWarningIssued;
 
+        private double lastChunkLoadMilliseconds;
+        private double lastChunkUnloadMilliseconds;
+        private double lastMeshBuildMilliseconds;
+        private double lastSpawnPresentationMilliseconds;
+        private int lastChunkSpawnCount;
+        private int totalChunkLoads;
+        private int totalChunkUnloads;
+        private int activeTerrainColliderCount;
+
         public int WorldSeed => worldSeed;
         public WorldDefinition Definition => worldDefinition;
         public int ActiveChunkCount => activeChunks.Count;
+        public int PendingLoadCount => loadQueue.Count;
+        public int DesiredChunkCount => desiredChunks.Count;
+        public int ActiveTerrainColliderCount => activeTerrainColliderCount;
+        public Transform Focus => focus;
+
+        public double LastChunkLoadMilliseconds =>
+            lastChunkLoadMilliseconds;
+
+        public double LastChunkUnloadMilliseconds =>
+            lastChunkUnloadMilliseconds;
+
+        public double LastMeshBuildMilliseconds =>
+            lastMeshBuildMilliseconds;
+
+        public double LastSpawnPresentationMilliseconds =>
+            lastSpawnPresentationMilliseconds;
+
+        public int LastChunkSpawnCount =>
+            lastChunkSpawnCount;
+
+        public int TotalChunkLoads =>
+            totalChunkLoads;
+
+        public int TotalChunkUnloads =>
+            totalChunkUnloads;
 
         public int CachedChunkCount =>
             (chunkCache != null ? chunkCache.Count : 0) +
@@ -124,24 +174,28 @@ namespace LittleCastle.World
 
         private void Update()
         {
-            if (!initialized)
-                return;
-
-            ChunkCoordinate focusChunk =
-                GetFocusChunk();
-
-            if (!hasFocusChunk ||
-                focusChunk != currentFocusChunk)
+            using (UpdateMarker.Auto())
             {
-                currentFocusChunk = focusChunk;
-                hasFocusChunk = true;
+                if (!initialized)
+                    return;
 
-                RefreshDesiredChunks();
-                UpdateMacroEdgeWarning();
+                ChunkCoordinate focusChunk =
+                    GetFocusChunk();
+
+                if (!hasFocusChunk ||
+                    focusChunk != currentFocusChunk)
+                {
+                    currentFocusChunk = focusChunk;
+                    hasFocusChunk = true;
+
+                    RefreshDesiredChunks();
+                    UpdateMacroEdgeWarning();
+                    RefreshChunkColliderStates();
+                }
+
+                ProcessUnloads();
+                ProcessLoads();
             }
-
-            ProcessUnloads();
-            ProcessLoads();
         }
 
         private void OnDestroy()
@@ -342,6 +396,8 @@ namespace LittleCastle.World
             visualChunkCache = null;
             pipeline = null;
             macroPlan = null;
+
+            activeTerrainColliderCount = 0;
         }
 
         [ContextMenu("Refresh Streaming Now")]
@@ -771,145 +827,212 @@ namespace LittleCastle.World
         private void CreateChunkView(
             ChunkCoordinate coordinate)
         {
-            if (chunkCache == null ||
-                pipeline == null)
+            using (LoadMarker.Auto())
             {
-                return;
-            }
+                double loadStartedAt =
+                    Time.realtimeSinceStartupAsDouble;
 
-            bool isPlayableChunk =
-                sessionMap == null ||
-                sessionMap.IsPlayableChunk(
-                    coordinate);
+                if (chunkCache == null ||
+                    pipeline == null)
+                {
+                    return;
+                }
 
-            WorldChunkCache sourceCache =
-                isPlayableChunk ||
-                visualChunkCache == null
-                    ? chunkCache
-                    : visualChunkCache;
+                bool isPlayableChunk =
+                    sessionMap == null ||
+                    sessionMap.IsPlayableChunk(
+                        coordinate);
 
-            WorldChunkData chunkData =
-                sourceCache.GetOrGeneratePinned(
-                    coordinate);
+                WorldChunkCache sourceCache =
+                    isPlayableChunk ||
+                    visualChunkCache == null
+                        ? chunkCache
+                        : visualChunkCache;
 
-            float chunkSize =
-                GenerationSettings.ChunkWorldSize;
+                WorldChunkData chunkData =
+                    sourceCache.GetOrGeneratePinned(
+                        coordinate);
 
-            Vector3 worldOrigin =
-                coordinate.GetWorldOrigin(
-                    chunkSize);
+                float chunkSize =
+                    GenerationSettings.ChunkWorldSize;
 
-            Mesh mesh =
-                ChunkMeshBuilder.Build(
-                    chunkData,
-                    chunkSize);
+                Vector3 worldOrigin =
+                    coordinate.GetWorldOrigin(
+                        chunkSize);
 
-            var chunkObject =
-                new GameObject(
-                    "StreamedChunk_" +
-                    coordinate.x +
-                    "_" +
-                    coordinate.z);
+                Mesh mesh;
 
-            chunkObject.transform.SetParent(
-                chunkPresentationRoot,
-                true);
+                double meshStartedAt =
+                    Time.realtimeSinceStartupAsDouble;
 
-            chunkObject.transform.position =
-                worldOrigin;
+                using (MeshBuildMarker.Auto())
+                {
+                    mesh =
+                        ChunkMeshBuilder.Build(
+                            chunkData,
+                            chunkSize);
+                }
 
-            var view =
-                chunkObject.AddComponent<
-                    StreamedChunkView>();
+                lastMeshBuildMilliseconds =
+                    (Time.realtimeSinceStartupAsDouble -
+                     meshStartedAt) *
+                    1000.0;
 
-            view.Initialize(
-                coordinate,
-                mesh,
-                isPlayableChunk);
+                var chunkObject =
+                    new GameObject(
+                        "StreamedChunk_" +
+                        coordinate.x +
+                        "_" +
+                        coordinate.z);
 
-            var meshFilter =
-                chunkObject.AddComponent<
-                    MeshFilter>();
+                chunkObject.transform.SetParent(
+                    chunkPresentationRoot,
+                    true);
 
-            meshFilter.sharedMesh =
-                mesh;
+                chunkObject.transform.position =
+                    worldOrigin;
 
-            var meshRenderer =
-                chunkObject.AddComponent<
-                    MeshRenderer>();
-
-            meshRenderer.sharedMaterial =
-                terrainMaterial;
-
-            if (isPlayableChunk &&
-                StreamingSettings.AddMeshCollider)
-            {
-                var collider =
+                var view =
                     chunkObject.AddComponent<
-                        MeshCollider>();
+                        StreamedChunkView>();
 
-                collider.sharedMesh =
+                view.Initialize(
+                    coordinate,
+                    mesh,
+                    isPlayableChunk);
+
+                var meshFilter =
+                    chunkObject.AddComponent<
+                        MeshFilter>();
+
+                meshFilter.sharedMesh =
                     mesh;
+
+                var meshRenderer =
+                    chunkObject.AddComponent<
+                        MeshRenderer>();
+
+                meshRenderer.sharedMaterial =
+                    terrainMaterial;
+
+                bool colliderEnabled =
+                    isPlayableChunk &&
+                    StreamingSettings.AddMeshCollider &&
+                    IsWithinRadius(
+                        coordinate,
+                        currentFocusChunk,
+                        StreamingSettings.ColliderRadiusChunks,
+                        StreamingSettings.CircularLoading);
+
+                view.SetTerrainColliderEnabled(
+                    colliderEnabled);
+
+                if (view.TerrainColliderEnabled)
+                    activeTerrainColliderCount++;
+
+                WorldSpawnCatalog catalog =
+                    SpawnCatalog;
+
+                lastChunkSpawnCount = 0;
+                lastSpawnPresentationMilliseconds = 0.0;
+
+                if (isPlayableChunk &&
+                    StreamingSettings.RenderGeneratedSpawns &&
+                    catalog != null)
+                {
+                    double spawnStartedAt =
+                        Time.realtimeSinceStartupAsDouble;
+
+                    using (SpawnPresentationMarker.Auto())
+                    {
+                        lastChunkSpawnCount =
+                            ChunkSpawnPresenter.Populate(
+                                chunkObject.transform,
+                                chunkData,
+                                catalog,
+                                worldOrigin,
+                                runtimeDelta);
+                    }
+
+                    lastSpawnPresentationMilliseconds =
+                        (Time.realtimeSinceStartupAsDouble -
+                         spawnStartedAt) *
+                        1000.0;
+                }
+
+                activeChunks.Add(
+                    coordinate,
+                    view);
+
+                totalChunkLoads++;
+
+                lastChunkLoadMilliseconds =
+                    (Time.realtimeSinceStartupAsDouble -
+                     loadStartedAt) *
+                    1000.0;
             }
-
-            WorldSpawnCatalog catalog =
-                SpawnCatalog;
-
-            if (isPlayableChunk &&
-                StreamingSettings.RenderGeneratedSpawns &&
-                catalog != null)
-            {
-                ChunkSpawnPresenter.Populate(
-                    chunkObject.transform,
-                    chunkData,
-                    catalog,
-                    worldOrigin,
-                    runtimeDelta);
-            }
-
-            activeChunks.Add(
-                coordinate,
-                view);
         }
 
         private void UnloadChunk(
             ChunkCoordinate coordinate)
         {
-            if (!activeChunks.TryGetValue(
-                    coordinate,
-                    out StreamedChunkView view))
+            using (UnloadMarker.Auto())
             {
-                return;
-            }
+                double unloadStartedAt =
+                    Time.realtimeSinceStartupAsDouble;
 
-            activeChunks.Remove(
-                coordinate);
+                if (!activeChunks.TryGetValue(
+                        coordinate,
+                        out StreamedChunkView view))
+                {
+                    return;
+                }
 
-            if (view != null &&
-                !view.IsPlayableChunk &&
-                visualChunkCache != null)
-            {
-                visualChunkCache.Unpin(
+                activeChunks.Remove(
                     coordinate);
+
+                if (view != null &&
+                    view.TerrainColliderEnabled)
+                {
+                    activeTerrainColliderCount =
+                        Mathf.Max(
+                            0,
+                            activeTerrainColliderCount - 1);
+                }
+
+                if (view != null &&
+                    !view.IsPlayableChunk &&
+                    visualChunkCache != null)
+                {
+                    visualChunkCache.Unpin(
+                        coordinate);
+                }
+                else if (chunkCache != null)
+                {
+                    chunkCache.Unpin(
+                        coordinate);
+                }
+
+                if (view == null)
+                    return;
+
+                GameObject chunkObject =
+                    view.gameObject;
+
+                view.ReleaseOwnedResources();
+
+                if (Application.isPlaying)
+                    Destroy(chunkObject);
+                else
+                    DestroyImmediate(chunkObject);
+
+                totalChunkUnloads++;
+
+                lastChunkUnloadMilliseconds =
+                    (Time.realtimeSinceStartupAsDouble -
+                     unloadStartedAt) *
+                    1000.0;
             }
-            else if (chunkCache != null)
-            {
-                chunkCache.Unpin(
-                    coordinate);
-            }
-
-            if (view == null)
-                return;
-
-            GameObject chunkObject =
-                view.gameObject;
-
-            view.ReleaseOwnedResources();
-
-            if (Application.isPlaying)
-                Destroy(chunkObject);
-            else
-                DestroyImmediate(chunkObject);
         }
 
         private void ReleaseAllViews()
@@ -933,6 +1056,40 @@ namespace LittleCastle.World
             }
 
             activeChunks.Clear();
+        }
+
+        private void RefreshChunkColliderStates()
+        {
+            activeTerrainColliderCount = 0;
+
+            if (StreamingSettings == null)
+                return;
+
+            foreach (
+                KeyValuePair<ChunkCoordinate, StreamedChunkView> pair
+                in activeChunks)
+            {
+                StreamedChunkView view =
+                    pair.Value;
+
+                if (view == null)
+                    continue;
+
+                bool enabled =
+                    view.IsPlayableChunk &&
+                    StreamingSettings.AddMeshCollider &&
+                    IsWithinRadius(
+                        pair.Key,
+                        currentFocusChunk,
+                        StreamingSettings.ColliderRadiusChunks,
+                        StreamingSettings.CircularLoading);
+
+                view.SetTerrainColliderEnabled(
+                    enabled);
+
+                if (view.TerrainColliderEnabled)
+                    activeTerrainColliderCount++;
+            }
         }
 
         private ChunkCoordinate GetFocusChunk()
