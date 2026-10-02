@@ -14,6 +14,9 @@ namespace LittleCastle.World
     /// </summary>
     public static class ChunkSpawnPresenter
     {
+        [System.ThreadStatic]
+        private static List<WorldRuntimeEntityState>
+            runtimeEntityScratch;
         public static int Populate(
             Transform chunkRoot,
             WorldChunkData chunk,
@@ -57,8 +60,10 @@ namespace LittleCastle.World
 
             if (runtimeDelta != null)
             {
-                var runtimeEntities =
-                    new List<WorldRuntimeEntityState>();
+                List<WorldRuntimeEntityState> runtimeEntities =
+                    runtimeEntityScratch ??
+                    (runtimeEntityScratch =
+                        new List<WorldRuntimeEntityState>());
 
                 runtimeDelta.GetRuntimeEntitiesForChunk(
                     chunk.Coordinate,
@@ -82,6 +87,8 @@ namespace LittleCastle.World
                         created++;
                     }
                 }
+
+                runtimeEntities.Clear();
             }
 
             return created;
@@ -110,10 +117,12 @@ namespace LittleCastle.World
                     prefab,
                     chunkRoot);
 
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
             instance.name =
                 spawn.archetypeId +
                 "_" +
                 spawn.stableId;
+#endif
 
             instance.transform.localPosition =
                 spawn.worldPosition -
