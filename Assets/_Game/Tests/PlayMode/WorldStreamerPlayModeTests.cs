@@ -22,7 +22,7 @@ namespace LittleCastle.Tests
             float maximumObservedFrameMilliseconds = 0f;
 
             WorldStreamer streamer =
-                Object.FindFirstObjectByType<WorldStreamer>();
+                Object.FindAnyObjectByType<WorldStreamer>();
             Assert.That(streamer, Is.Not.Null);
 
             GameObject focusObject = GameObject.Find("TestFocus");
@@ -103,9 +103,6 @@ namespace LittleCastle.Tests
                 Is.EqualTo(
                     streamer.DesiredChunkCount));
 
-            int cacheLimit =
-                streamer.Definition.StreamingSettings.MaxCachedChunks;
-
             if (cacheLimit > 0)
             {
                 Assert.That(
@@ -142,7 +139,10 @@ namespace LittleCastle.Tests
                     (Time.realtimeSinceStartup - frameStartedAt) * 1000f);
             }
 
-            Assert.That(streamer.ActiveChunkCount, Is.EqualTo(5));
+            Assert.That(
+                streamer.ActiveChunkCount,
+                Is.EqualTo(
+                    streamer.DesiredChunkCount));
             foreach (GeneratedWorldObject worldObject in
                 presentationObject.GetComponentsInChildren<GeneratedWorldObject>())
             {
