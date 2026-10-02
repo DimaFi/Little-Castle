@@ -140,11 +140,11 @@ namespace LittleCastle.Editor
             ref int errors,
             ref int warnings)
         {
-            LODGroup group =
-                root.GetComponentInChildren<
+            LODGroup[] groups =
+                root.GetComponentsInChildren<
                     LODGroup>(true);
 
-            if (group == null)
+            if (groups.Length == 0)
             {
                 warnings++;
 
@@ -156,15 +156,42 @@ namespace LittleCastle.Editor
                 return;
             }
 
+            Debug.Log(
+                "[Little Castle Asset] Found " +
+                groups.Length +
+                " LODGroup component(s).");
+
+            foreach (LODGroup group in groups)
+            {
+                ValidateLodGroup(
+                    group,
+                    ref errors,
+                    ref warnings);
+            }
+        }
+
+        private static void ValidateLodGroup(
+            LODGroup group,
+            ref int errors,
+            ref int warnings)
+        {
+            if (group == null)
+                return;
+
             LOD[] lods =
                 group.GetLODs();
+
+            string groupName =
+                group.gameObject.name;
 
             if (lods.Length < 2)
             {
                 warnings++;
 
                 Debug.LogWarning(
-                    "[Little Castle Asset] LODGroup has only " +
+                    "[Little Castle Asset] LODGroup '" +
+                    groupName +
+                    "' has only " +
                     lods.Length +
                     " level. A meaningful distant silhouette LOD is " +
                     "recommended.");
@@ -203,7 +230,9 @@ namespace LittleCastle.Editor
                 }
 
                 Debug.Log(
-                    "[Little Castle Asset] LOD" +
+                    "[Little Castle Asset] " +
+                    groupName +
+                    " LOD" +
                     i +
                     ": renderers=" +
                     lod.renderers.Length +
@@ -222,7 +251,9 @@ namespace LittleCastle.Editor
                     warnings++;
 
                     Debug.LogWarning(
-                        "[Little Castle Asset] LOD" +
+                        "[Little Castle Asset] " +
+                        groupName +
+                        " LOD" +
                         i +
                         " has more vertices than the previous LOD (" +
                         vertices +
@@ -254,8 +285,10 @@ namespace LittleCastle.Editor
                     warnings++;
 
                     Debug.LogWarning(
-                        "[Little Castle Asset] Farthest LOD renderer '" +
+                        "[Little Castle Asset] Farthest renderer '" +
                         renderer.name +
+                        "' in LODGroup '" +
+                        groupName +
                         "' still casts shadows. Distant silhouettes should " +
                         "normally use ShadowCastingMode.Off.");
                 }
@@ -265,8 +298,10 @@ namespace LittleCastle.Editor
                     warnings++;
 
                     Debug.LogWarning(
-                        "[Little Castle Asset] Farthest LOD renderer '" +
+                        "[Little Castle Asset] Farthest renderer '" +
                         renderer.name +
+                        "' in LODGroup '" +
+                        groupName +
                         "' still receives realtime shadows.");
                 }
 
@@ -276,7 +311,7 @@ namespace LittleCastle.Editor
                     warnings++;
 
                     Debug.LogWarning(
-                        "[Little Castle Asset] Farthest LOD renderer '" +
+                        "[Little Castle Asset] Farthest renderer '" +
                         renderer.name +
                         "' still uses Light Probes. Consider Off for the " +
                         "cheapest silhouette tier.");
@@ -288,7 +323,7 @@ namespace LittleCastle.Editor
                     warnings++;
 
                     Debug.LogWarning(
-                        "[Little Castle Asset] Farthest LOD renderer '" +
+                        "[Little Castle Asset] Farthest renderer '" +
                         renderer.name +
                         "' still uses Reflection Probes.");
                 }
