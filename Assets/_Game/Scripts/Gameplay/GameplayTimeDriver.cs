@@ -41,6 +41,9 @@ namespace LittleCastle.Gameplay
             {
                 timeSystem.TimeAdvanced +=
                     HandleTimeAdvanced;
+
+                timeSystem.HourChanged +=
+                    HandleHourChanged;
             }
         }
 
@@ -50,6 +53,36 @@ namespace LittleCastle.Gameplay
             {
                 timeSystem.TimeAdvanced -=
                     HandleTimeAdvanced;
+
+                timeSystem.HourChanged -=
+                    HandleHourChanged;
+            }
+        }
+
+        private void HandleHourChanged(
+            int day,
+            int hour)
+        {
+            if (authority == null ||
+                timeSystem == null ||
+                timeSystem.Settings == null)
+            {
+                return;
+            }
+
+            float dawn =
+                timeSystem.Settings.DayStartHour;
+
+            int integerDawn =
+                Mathf.RoundToInt(dawn);
+
+            if (Mathf.Abs(
+                    dawn -
+                    integerDawn) <= 0.0001f &&
+                hour == integerDawn)
+            {
+                authority.GrantDawnRitualRolls(
+                    day);
             }
         }
 
