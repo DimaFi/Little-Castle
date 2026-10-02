@@ -17,15 +17,30 @@ namespace LittleCastle.Tests
             "_BumpMap",
             "_EmissionNightStrength")]
         [TestCase(
+            "Little Castle/Surface/LC Stylized Lit",
+            "_RoughnessMap",
+            "_LocalLightStrength",
+            "_EmissionMap")]
+        [TestCase(
             "Little Castle/Foliage/LC Foliage",
             "_CrownSway",
             "_VertexWave",
             "_LeafFlutter")]
         [TestCase(
+            "Little Castle/Foliage/LC Foliage",
+            "_OpacityMap",
+            "_UseHeightWindMask",
+            "_TransmissionStrength")]
+        [TestCase(
             "Little Castle/Foliage/LC Grass",
             "_GustStrength",
             "_MicroFlutter",
             "_TransmissionStrength")]
+        [TestCase(
+            "Little Castle/Foliage/LC Grass",
+            "_OpacityMap",
+            "_GustStrength",
+            "_MicroFlutter")]
         [TestCase(
             "Little Castle/Terrain/LC Terrain",
             "_GrassTex",
