@@ -145,6 +145,10 @@ Read first:
 
 `docs/architecture/curved-modular-walls.md`
 
+For real prefab/model integration also read:
+
+`docs/handoffs/wall-asset-integration.md`
+
 Mandatory asset contract:
 
 - one base wall module is straight and rigid;
