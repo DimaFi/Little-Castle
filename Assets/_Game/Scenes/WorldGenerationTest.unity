@@ -287,9 +287,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: LittleCastle.Runtime::LittleCastle.Rendering.NightLightBudgetManager
   lightingGlobals: {fileID: 85530204}
   targetCamera: {fileID: 1735719524}
-  maxActiveRealtimeLights: 24
-  globalMaxDistance: 95
-  evaluationInterval: 0.2
+  maxActiveRealtimeLights: 12
+  globalMaxDistance: 78
+  evaluationInterval: 0.18
+  selectionRetentionDistanceMultiplier: 0.84
 --- !u!114 &85530206
 MonoBehaviour:
   m_ObjectHideFlags: 0
