@@ -47,6 +47,8 @@ namespace LittleCastle.Gameplay
         public ResidentActivity activity =
             ResidentActivity.Idle;
 
+        public bool forceWorkAtNight;
+
         public float GetWorkEfficiency()
         {
             float energyFactor =
