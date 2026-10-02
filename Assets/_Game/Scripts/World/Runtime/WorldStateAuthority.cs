@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using LittleCastle.Building;
 
 namespace LittleCastle.World
 {
@@ -12,8 +13,11 @@ namespace LittleCastle.World
     public sealed class WorldStateAuthority
     {
         private readonly WorldRuntimeDeltaState state;
+        private readonly WallRuntimeRegistry walls =
+            new WallRuntimeRegistry();
 
         public WorldRuntimeDeltaState State => state;
+        public WallRuntimeRegistry Walls => walls;
 
         public WorldStateAuthority(
             WorldRuntimeDeltaState state = null)
@@ -106,6 +110,22 @@ namespace LittleCastle.World
             return
                 state.RemoveRuntimeEntity(
                     runtimeId);
+        }
+
+        public bool UpsertWall(
+            WallRuntimeState wall)
+        {
+            return
+                walls.Upsert(
+                    wall);
+        }
+
+        public bool RemoveWall(
+            long wallId)
+        {
+            return
+                walls.Remove(
+                    wallId);
         }
     }
 }
