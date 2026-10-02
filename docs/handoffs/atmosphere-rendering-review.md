@@ -58,6 +58,28 @@ Little Castle -> Rendering -> Validate Selected Foliage Model
 Do not tune global foliage wind amplitudes until at least one real production
 tree has passed this compatibility gate.
 
+## Performance / LOD foundation added
+
+The current branch also includes a first performance-oriented presentation
+foundation.
+
+Implemented:
+
+- authored-LOD contract for Blender/Astra/Codex models;
+- `LC_DistantSimple.shader` for very cheap far silhouettes;
+- no ShadowCaster / no ForwardAdd in that distant shader;
+- terrain collider distance tiers;
+- WorldStreamer ProfilerMarker instrumentation;
+- WorldPerformanceOverlay in WorldGenerationTest (toggle F8);
+- Production Asset Validator for LOD/material/collider/light/texture checks.
+
+Read:
+
+- `docs/architecture/lod-and-production-assets.md`;
+- `docs/architecture/world-streaming.md`.
+
+Review these before proposing GPU vegetation, HLOD, pooling or async generation.
+
 ## Goal
 
 Review and refine the current Little Castle atmosphere/rendering stack toward a
@@ -306,6 +328,8 @@ Perform a technical and architectural review first.
 Required checks:
 
 1. Open the project with Unity 6000.5.5f1.
+2. Run `Little Castle -> Assets -> Validate Selected Production Model` on at
+   least one representative tree/building when production assets are available.
 2. Let all shaders compile.
 3. Record every compile warning/error.
 4. Run EditMode tests.
