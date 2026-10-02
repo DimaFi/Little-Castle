@@ -49,6 +49,15 @@ namespace LittleCastle.CameraSystem
         [Header("Initialization")]
         [SerializeField] private bool initializeFromCurrentView = true;
 
+        private bool inputEnabled = true;
+
+        public bool InputEnabled => inputEnabled;
+
+        public void SetInputEnabled(bool enabled)
+        {
+            inputEnabled = enabled;
+        }
+
         private Vector3 targetFocus;
         private Vector3 smoothedFocus;
         private Vector3 focusVelocity;
@@ -71,9 +80,12 @@ namespace LittleCastle.CameraSystem
         {
             float dt = Mathf.Max(0.0001f, Time.unscaledDeltaTime);
 
-            ReadRotationInput(dt);
-            ReadZoomInput();
-            ReadPanInput(dt);
+            if (inputEnabled)
+            {
+                ReadRotationInput(dt);
+                ReadZoomInput();
+                ReadPanInput(dt);
+            }
             UpdateGroundHeight(dt);
             ClampFocusToWorld();
             SmoothState(dt);
