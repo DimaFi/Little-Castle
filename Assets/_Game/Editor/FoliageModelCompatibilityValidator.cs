@@ -159,19 +159,16 @@ namespace LittleCastle.Editor
                     GetTriangleCount(mesh);
 
                 bool normalsValid =
-                    mesh.normals != null &&
-                    mesh.normals.Length ==
-                    vertexCount;
+                    mesh.HasVertexAttribute(
+                        UnityEngine.Rendering.VertexAttribute.Normal);
 
                 bool colorsValid =
-                    mesh.colors != null &&
-                    mesh.colors.Length ==
-                    vertexCount;
+                    mesh.HasVertexAttribute(
+                        UnityEngine.Rendering.VertexAttribute.Color);
 
                 bool uvValid =
-                    mesh.uv != null &&
-                    mesh.uv.Length ==
-                    vertexCount;
+                    mesh.HasVertexAttribute(
+                        UnityEngine.Rendering.VertexAttribute.TexCoord0);
 
                 Debug.Log(
                     "[Little Castle Foliage] Mesh '" +
@@ -376,22 +373,37 @@ namespace LittleCastle.Editor
             ref int warnings,
             ref int errors)
         {
-            Vector2[] uv =
-                mesh.uv;
-
-            if (uv == null ||
-                uv.Length != mesh.vertexCount)
+            if (!mesh.HasVertexAttribute(
+                    UnityEngine.Rendering.VertexAttribute.TexCoord0))
             {
                 errors++;
 
                 Debug.LogError(
                     "[Little Castle Foliage] " +
                     path +
-                    " uses LC_Grass but has no complete UV0 channel. " +
+                    " uses LC_Grass but has no UV0 channel. " +
                     "Grass/wheat bending expects UV Y as root-to-tip.");
 
                 return;
             }
+
+            if (!mesh.isReadable)
+            {
+                warnings++;
+
+                Debug.LogWarning(
+                    "[Little Castle Foliage] " +
+                    path +
+                    " has UV0 but Read/Write is disabled, so the validator " +
+                    "cannot measure UV Y range. Do not enable Read/Write " +
+                    "permanently just for wind; inspect the source mesh or " +
+                    "temporarily validate authoring in the Editor.");
+
+                return;
+            }
+
+            Vector2[] uv =
+                mesh.uv;
 
             float minY =
                 float.PositiveInfinity;
