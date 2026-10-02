@@ -134,16 +134,30 @@ namespace LittleCastle.Gameplay
             if (cost == null)
                 return true;
 
-            for (int i = 0; i < cost.Count; i++)
+            for (int resourceIndex = 0;
+                 resourceIndex <= (int)GameplayResourceType.Coin;
+                 resourceIndex++)
             {
-                ResourceAmount required =
-                    cost[i];
+                GameplayResourceType resource =
+                    (GameplayResourceType)resourceIndex;
 
-                if (required.amount <= 0)
-                    continue;
+                long requiredTotal = 0;
 
-                if (Get(required.resource) <
-                    required.amount)
+                for (int i = 0; i < cost.Count; i++)
+                {
+                    ResourceAmount required =
+                        cost[i];
+
+                    if (required.resource == resource &&
+                        required.amount > 0)
+                    {
+                        requiredTotal +=
+                            required.amount;
+                    }
+                }
+
+                if (requiredTotal >
+                    Get(resource))
                 {
                     return false;
                 }
@@ -161,16 +175,35 @@ namespace LittleCastle.Gameplay
             if (cost == null)
                 return true;
 
-            for (int i = 0; i < cost.Count; i++)
+            for (int resourceIndex = 0;
+                 resourceIndex <= (int)GameplayResourceType.Coin;
+                 resourceIndex++)
             {
-                ResourceAmount required =
-                    cost[i];
+                GameplayResourceType resource =
+                    (GameplayResourceType)resourceIndex;
 
-                if (required.amount > 0)
+                long requiredTotal = 0;
+
+                for (int i = 0; i < cost.Count; i++)
+                {
+                    ResourceAmount required =
+                        cost[i];
+
+                    if (required.resource == resource &&
+                        required.amount > 0)
+                    {
+                        requiredTotal +=
+                            required.amount;
+                    }
+                }
+
+                if (requiredTotal > 0)
                 {
                     TryRemove(
-                        required.resource,
-                        required.amount);
+                        resource,
+                        requiredTotal > int.MaxValue
+                            ? int.MaxValue
+                            : (int)requiredTotal);
                 }
             }
 
