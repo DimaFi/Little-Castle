@@ -42,7 +42,8 @@ Read these files first, in this order:
 12. `docs/architecture/finite-session-maps.md`
 13. `docs/architecture/fog-of-war.md`
 14. `docs/architecture/world-generation-roadmap.md`
-15. relevant ADR files under `docs/decisions/`
+15. `docs/decisions/ADR-0002-fast-session-bootstrap-lazy-world-materialization.md`
+16. other relevant ADR files under `docs/decisions/`
 
 Do not begin by rewriting classes before reading the architecture.
 
@@ -812,6 +813,66 @@ Unity/ScriptableObject/AnimationCurve access must be audited before background e
 
 ---
 
+# 25A. Test session bootstrap separately
+
+Session creation must not equal full-map detailed generation.
+
+For a finite session, verify the intended flow:
+
+```text
+seed + session settings
+        ↓
+finite map bounds
+        ↓
+compact MacroWorldPlan
+        ↓
+start/fairness resolution
+        ↓
+prewarm only required starting areas
+        ↓
+MATCH READY
+        ↓
+additional chunks materialize through WorldStreamer during exploration
+```
+
+Do not generate every terrain mesh/tree/rock/resource GameObject on the full map
+before declaring the session ready.
+
+For representative configurations, at minimum:
+
+```text
+2 players
+8 players
+16 players
+```
+
+and more than one map size, record/report:
+
+- total bootstrap wall-clock time;
+- MacroWorldPlan generation time;
+- fairness/start-selection time if enabled;
+- number of detailed chunks generated before MATCH READY;
+- number of active chunk GameObjects before MATCH READY;
+- generated object count before MATCH READY;
+- whether distant chunks remain unmaterialized;
+- first-visit generation/materialization time for a distant chunk;
+- memory/cache growth after traversing multiple areas.
+
+Important:
+
+- start timing before procedural bootstrap work begins;
+- do not hide generation cost before the timer;
+- total installed model/texture library size must not be serialized/transmitted
+  as match state;
+- clients should resolve stable archetype IDs to locally installed content;
+- exact release timing budgets are TBD until representative game-ready assets
+  exist, but timings must still be collected now.
+
+See:
+`docs/decisions/ADR-0002-fast-session-bootstrap-lazy-world-materialization.md`.
+
+---
+
 # 26. Do not implement these yet unless required to fix correctness
 
 Do not expand scope into:
@@ -888,6 +949,17 @@ At the end of the pass, provide a concise report with:
 - runtime delta reload behavior;
 - observed performance.
 
+## Session bootstrap
+
+- bootstrap time;
+- MacroWorldPlan time;
+- start/fairness time;
+- detailed chunks generated before MATCH READY;
+- active/generated object counts at MATCH READY;
+- confirmation that distant chunks were not materialized;
+- first-visit distant-chunk generation cost;
+- memory/cache growth during exploration.
+
 ## Remaining issues
 
 Classify each remaining issue as:
@@ -935,6 +1007,9 @@ The first Unity integration pass is successful when:
 - runtime streaming loads/unloads chunks around a focus;
 - the same seed regenerates the same base chunk;
 - runtime removed-object state survives chunk unload/regeneration;
+- session creation does not materialize the full finite map;
+- distant chunks remain lazy until required;
+- bootstrap/performance metrics are reported rather than hidden;
 - no existing architectural rule had to be broken to achieve this.
 
 If a criterion cannot be completed, document exactly why instead of hiding the limitation.
