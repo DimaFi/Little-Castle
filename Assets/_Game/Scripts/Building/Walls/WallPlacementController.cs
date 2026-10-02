@@ -81,8 +81,9 @@ namespace LittleCastle.Building
             if (!IsPlacing)
                 return false;
 
-            activeWall.controlPoints.Add(
-                worldPoint);
+            activeWall.AddControlPoint(
+                worldPoint,
+                WallControlPointMode.Smooth);
 
             hasCursorPoint = false;
 
@@ -99,8 +100,108 @@ namespace LittleCastle.Building
                 return false;
             }
 
+            int removedIndex =
+                activeWall.controlPoints.Count - 1;
+
             activeWall.controlPoints.RemoveAt(
-                activeWall.controlPoints.Count - 1);
+                removedIndex);
+
+            if (removedIndex <
+                activeWall.controlPointModes.Count)
+            {
+                activeWall.controlPointModes.RemoveAt(
+                    removedIndex);
+            }
+
+            for (int i =
+                     activeWall.socketAttachments.Count - 1;
+                 i >= 0;
+                 i--)
+            {
+                if (activeWall.socketAttachments[i]
+                        .controlPointIndex >=
+                    removedIndex)
+                {
+                    activeWall.socketAttachments.RemoveAt(
+                        i);
+                }
+            }
+
+            RefreshPreview();
+
+            return true;
+        }
+
+        public bool ToggleLastControlPointMode()
+        {
+            if (!IsPlacing ||
+                activeWall.controlPoints.Count == 0)
+            {
+                return false;
+            }
+
+            bool changed =
+                activeWall.ToggleControlPointMode(
+                    activeWall.controlPoints.Count - 1);
+
+            if (changed)
+                RefreshPreview();
+
+            return changed;
+        }
+
+        public WallControlPointMode GetLastControlPointMode()
+        {
+            if (!IsPlacing ||
+                activeWall.controlPoints.Count == 0)
+            {
+                return WallControlPointMode.Smooth;
+            }
+
+            return
+                activeWall.GetControlPointMode(
+                    activeWall.controlPoints.Count - 1);
+        }
+
+        public bool AttachLastControlPointToSocket(
+            long structureId,
+            string socketId,
+            float socketYawDegrees,
+            float clearanceRadius)
+        {
+            if (!IsPlacing ||
+                activeWall.controlPoints.Count == 0 ||
+                structureId == 0 ||
+                string.IsNullOrWhiteSpace(
+                    socketId))
+            {
+                return false;
+            }
+
+            int pointIndex =
+                activeWall.controlPoints.Count - 1;
+
+            for (int i =
+                     activeWall.socketAttachments.Count - 1;
+                 i >= 0;
+                 i--)
+            {
+                if (activeWall.socketAttachments[i]
+                        .controlPointIndex ==
+                    pointIndex)
+                {
+                    activeWall.socketAttachments.RemoveAt(
+                        i);
+                }
+            }
+
+            activeWall.socketAttachments.Add(
+                new WallSocketAttachmentState(
+                    pointIndex,
+                    structureId,
+                    socketId,
+                    socketYawDegrees,
+                    clearanceRadius));
 
             RefreshPreview();
 
@@ -162,8 +263,7 @@ namespace LittleCastle.Building
 
             WallPathLayoutUtility.BuildSections(
                 activeWall,
-                activeDefinition.SegmentSpacing,
-                activeDefinition.CurveSampleStep,
+                activeDefinition,
                 sections);
 
             if (!WallPlacementValidator.Validate(
