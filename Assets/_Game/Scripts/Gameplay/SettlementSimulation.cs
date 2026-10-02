@@ -157,11 +157,25 @@ namespace LittleCastle.Gameplay
                     building.assignedBuilders *
                     averageEfficiency;
 
+                bool wasConstructed =
+                    building.IsConstructed;
+
                 building.completedConstructionWorkHours =
                     Math.Min(
                         building.requiredConstructionWorkHours,
                         building.completedConstructionWorkHours +
                         work);
+
+                if (!wasConstructed &&
+                    building.IsConstructed)
+                {
+                    building.hitPoints =
+                        Math.Max(
+                            building.hitPoints,
+                            building.maxHitPoints);
+
+                    building.assignedBuilders = 0;
+                }
             }
         }
 
