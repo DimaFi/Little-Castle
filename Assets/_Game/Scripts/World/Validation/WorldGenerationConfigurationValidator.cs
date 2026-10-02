@@ -548,33 +548,59 @@ namespace LittleCastle.World
 
             if (settings.MaxCachedChunks > 0)
             {
-                int diameter =
-                    settings.LoadRadiusChunks * 2 + 1;
+                int radius =
+                    settings.PrefetchRadiusChunks;
 
-                int squareUpperBound =
-                    diameter *
-                    diameter;
+                int expectedPrefetchEntries = 0;
+
+                for (int z = -radius;
+                     z <= radius;
+                     z++)
+                {
+                    for (int x = -radius;
+                         x <= radius;
+                         x++)
+                    {
+                        if (settings.CircularLoading &&
+                            x * x + z * z >
+                            radius * radius)
+                        {
+                            continue;
+                        }
+
+                        expectedPrefetchEntries++;
+                    }
+                }
 
                 if (settings.MaxCachedChunks <
-                    squareUpperBound)
+                    expectedPrefetchEntries)
                 {
                     report.AddWarning(
                         "WorldStreamingSettings maxCachedChunks (" +
                         settings.MaxCachedChunks +
-                        ") is smaller than the square upper bound of simultaneously " +
-                        "loaded chunks (" +
-                        squareUpperBound +
-                        "). Active chunks are pinned, so the cache can temporarily " +
-                        "exceed its configured soft capacity.");
+                        ") is smaller than the configured data-prefetch target (" +
+                        expectedPrefetchEntries +
+                        " chunks). Prefetched data may be evicted before the " +
+                        "camera reaches it.");
                 }
             }
 
-            if (settings.MaxChunkLoadsPerFrame > 4)
+            if (settings.MaxChunkLoadsPerFrame > 8)
             {
                 report.AddWarning(
                     "WorldStreamingSettings maxChunkLoadsPerFrame is high (" +
                     settings.MaxChunkLoadsPerFrame +
-                    "). Chunk generation currently runs on the main thread.");
+                    "). Presentation is cheap compared with generation, but " +
+                    "large bursts can still create GameObject/Mesh spikes.");
+            }
+
+            if (settings.UrgentGenerationStagesPerFrame > 4)
+            {
+                report.AddWarning(
+                    "urgentGenerationStagesPerFrame is high (" +
+                    settings.UrgentGenerationStagesPerFrame +
+                    "). Cooperative generation works best when heavy stages " +
+                    "are spread across multiple frames.");
             }
 
             if (settings.AddMeshCollider &&
