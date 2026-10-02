@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 85530203}
   - component: {fileID: 85530204}
   - component: {fileID: 85530205}
+  - component: {fileID: 85530206}
   m_Layer: 0
   m_Name: WorldRoot
   m_TagString: Untagged
@@ -288,6 +289,28 @@ MonoBehaviour:
   maxActiveRealtimeLights: 24
   globalMaxDistance: 95
   evaluationInterval: 0.2
+--- !u!114 &85530206
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 85530198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 911d158b68ae4524a5622e272118768d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: LittleCastle.Runtime::LittleCastle.World.WorldPerformanceOverlay
+  worldStreamer: {fileID: 85530199}
+  showOverlay: 1
+  toggleKey: 289
+  sampleInterval: 0.25
+  screenRect:
+    serializedVersion: 2
+    x: 12
+    y: 12
+    width: 360
+    height: 250
 --- !u!4 &85530201
 Transform:
   m_ObjectHideFlags: 0
