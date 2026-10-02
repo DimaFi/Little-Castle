@@ -42,6 +42,12 @@ namespace LittleCastle.World
         private static readonly int StarVisibilityId =
             Shader.PropertyToID("_StarVisibility");
 
+        private static readonly int TwilightStrengthId =
+            Shader.PropertyToID("_TwilightStrength");
+
+        private static readonly int DaylightId =
+            Shader.PropertyToID("_Daylight");
+
         [Header("Clock")]
         [SerializeField]
         private WorldTimeSystem timeSystem;
@@ -154,15 +160,15 @@ namespace LittleCastle.World
 
         [SerializeField]
         private Color nightAmbientSky =
-            new Color(0.33f, 0.39f, 0.53f, 1f);
+            new Color(0.25f, 0.31f, 0.46f, 1f);
 
         [SerializeField]
         private Color nightAmbientEquator =
-            new Color(0.24f, 0.29f, 0.40f, 1f);
+            new Color(0.20f, 0.25f, 0.36f, 1f);
 
         [SerializeField]
         private Color nightAmbientGround =
-            new Color(0.17f, 0.20f, 0.28f, 1f);
+            new Color(0.13f, 0.16f, 0.24f, 1f);
 
         [Header("Atmospheric fog")]
         [SerializeField]
@@ -385,10 +391,7 @@ namespace LittleCastle.World
             float baseDay =
                 Mathf.Clamp01(
                     daylight +
-                    twilight * 0.22f);
-
-            float twilightBlend =
-                twilight * 0.82f;
+                    twilight * 0.16f);
 
             Color zenith =
                 Color.Lerp(
@@ -407,24 +410,6 @@ namespace LittleCastle.World
                     nightLowerSky,
                     dayLowerSky,
                     baseDay);
-
-            zenith =
-                Color.Lerp(
-                    zenith,
-                    twilightZenith,
-                    twilightBlend);
-
-            horizon =
-                Color.Lerp(
-                    horizon,
-                    twilightHorizon,
-                    twilightBlend);
-
-            lower =
-                Color.Lerp(
-                    lower,
-                    twilightLowerSky,
-                    twilightBlend);
 
             skyboxMaterial.SetColor(
                 ZenithColorId,
@@ -482,7 +467,17 @@ namespace LittleCastle.World
 
             skyboxMaterial.SetFloat(
                 SunVisibilityId,
-                1f);
+                Mathf.Clamp01(
+                    daylight +
+                    twilight * 0.92f));
+
+            skyboxMaterial.SetFloat(
+                TwilightStrengthId,
+                twilight);
+
+            skyboxMaterial.SetFloat(
+                DaylightId,
+                daylight);
 
             skyboxMaterial.SetFloat(
                 MoonVisibilityId,
@@ -524,7 +519,7 @@ namespace LittleCastle.World
                 Color.Lerp(
                     fog,
                     twilightFogColor,
-                    twilight * 0.45f);
+                    twilight * 0.20f);
 
             RenderSettings.fogColor =
                 fog;
