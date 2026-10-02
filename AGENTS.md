@@ -339,6 +339,27 @@ For significant generation/streaming changes, verify at representative
 See:
 `docs/decisions/ADR-0002-fast-session-bootstrap-lazy-world-materialization.md`.
 
+## Authoritative gameplay foundation rule
+
+Before changing population, economy, construction, barracks, neutral trading,
+match outcome rules, ruler progression or world events, read:
+
+`docs/architecture/gameplay-foundation.md`
+
+Mandatory rules:
+
+- authoritative gameplay is plain serializable state, not scene GameObjects;
+- gameplay elapsed time comes from the authoritative world clock;
+- ruler defeat starts recovery and does not eliminate the player;
+- default elimination is destruction of the capital main house;
+- new victory/defeat modes extend `IMatchRule`;
+- player-built buildings store stable IDs, transforms, construction progress and HP;
+- neutral settlements derive stable identity from macro-world features;
+- blessing and curse rolls use deterministic session inputs;
+- curse backlash is a separate roll applied to the caster when triggered;
+- balance values live in gameplay rule data, not UI code;
+- systems must remain compatible with Active/Warm/Sleeping simulation.
+
 ## Continuous world-time rule
 
 Little Castle uses one continuous authoritative simulation clock.
