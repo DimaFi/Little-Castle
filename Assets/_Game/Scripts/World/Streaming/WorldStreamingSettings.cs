@@ -32,6 +32,31 @@ namespace LittleCastle.World
         [Min(1)]
         [SerializeField] private int maxChunkUnloadsPerFrame = 2;
 
+        [Header("Cooperative generation / prefetch")]
+        [Tooltip(
+            "Extra data-only ring generated outside the visible radius. " +
+            "These chunks are cached but not presented until needed.")]
+        [Min(0)]
+        [SerializeField] private int prefetchPaddingChunks = 2;
+
+        [Tooltip(
+            "Maximum generation stages executed per frame while visible chunks " +
+            "are waiting for data. Stages still run on the main thread.")]
+        [Min(1)]
+        [SerializeField] private int urgentGenerationStagesPerFrame = 2;
+
+        [Tooltip(
+            "Maximum generation stages executed per frame for data-only " +
+            "background prefetch after urgent visible work is satisfied.")]
+        [Min(1)]
+        [SerializeField] private int backgroundGenerationStagesPerFrame = 1;
+
+        [Tooltip(
+            "Background prefetch pauses when the previous frame exceeded this " +
+            "time. Urgent visible generation is not blocked by this limit.")]
+        [Min(1f)]
+        [SerializeField] private float backgroundPrefetchFrameLimitMs = 18f;
+
         [Header("Generated-data cache")]
         [Tooltip(
             "Maximum generated chunk-data entries kept in memory. " +
@@ -84,6 +109,30 @@ namespace LittleCastle.World
 
         public int MaxChunkUnloadsPerFrame =>
             Mathf.Max(1, maxChunkUnloadsPerFrame);
+
+        public int PrefetchPaddingChunks =>
+            Mathf.Max(
+                0,
+                prefetchPaddingChunks);
+
+        public int PrefetchRadiusChunks =>
+            LoadRadiusChunks +
+            PrefetchPaddingChunks;
+
+        public int UrgentGenerationStagesPerFrame =>
+            Mathf.Max(
+                1,
+                urgentGenerationStagesPerFrame);
+
+        public int BackgroundGenerationStagesPerFrame =>
+            Mathf.Max(
+                1,
+                backgroundGenerationStagesPerFrame);
+
+        public float BackgroundPrefetchFrameLimitMs =>
+            Mathf.Max(
+                1f,
+                backgroundPrefetchFrameLimitMs);
 
         public int MaxCachedChunks =>
             Mathf.Max(0, maxCachedChunks);
