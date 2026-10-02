@@ -27,6 +27,15 @@ namespace LittleCastle.Rendering
         private static readonly int AmbientColorId =
             Shader.PropertyToID("_LC_AmbientColor");
 
+        private static readonly int AmbientSkyColorId =
+            Shader.PropertyToID("_LC_AmbientSkyColor");
+
+        private static readonly int AmbientEquatorColorId =
+            Shader.PropertyToID("_LC_AmbientEquatorColor");
+
+        private static readonly int AmbientGroundColorId =
+            Shader.PropertyToID("_LC_AmbientGroundColor");
+
         private static readonly int ShadowTintId =
             Shader.PropertyToID("_LC_ShadowTint");
 
@@ -120,6 +129,9 @@ namespace LittleCastle.Rendering
         public Color CurrentSunColor { get; private set; }
         public Color CurrentMoonColor { get; private set; }
         public Color CurrentAmbientColor { get; private set; }
+        public Color CurrentAmbientSkyColor { get; private set; }
+        public Color CurrentAmbientEquatorColor { get; private set; }
+        public Color CurrentAmbientGroundColor { get; private set; }
         public Color CurrentShadowTint { get; private set; }
 
         private void Awake()
@@ -181,9 +193,20 @@ namespace LittleCastle.Rendering
                       moonMultiplier
                     : Color.black;
 
-            CurrentAmbientColor =
-                EvaluateAmbientColor() *
+            CurrentAmbientSkyColor =
+                RenderSettings.ambientSkyColor *
                 ambientMultiplier;
+
+            CurrentAmbientEquatorColor =
+                RenderSettings.ambientEquatorColor *
+                ambientMultiplier;
+
+            CurrentAmbientGroundColor =
+                RenderSettings.ambientGroundColor *
+                ambientMultiplier;
+
+            CurrentAmbientColor =
+                EvaluateAmbientColor();
 
             CurrentShadowTint =
                 EvaluateShadowTint(
@@ -217,6 +240,18 @@ namespace LittleCastle.Rendering
             Shader.SetGlobalColor(
                 AmbientColorId,
                 CurrentAmbientColor);
+
+            Shader.SetGlobalColor(
+                AmbientSkyColorId,
+                CurrentAmbientSkyColor);
+
+            Shader.SetGlobalColor(
+                AmbientEquatorColorId,
+                CurrentAmbientEquatorColor);
+
+            Shader.SetGlobalColor(
+                AmbientGroundColorId,
+                CurrentAmbientGroundColor);
 
             Shader.SetGlobalColor(
                 ShadowTintId,
@@ -304,11 +339,11 @@ namespace LittleCastle.Rendering
         private Color EvaluateAmbientColor()
         {
             return
-                RenderSettings.ambientSkyColor *
+                CurrentAmbientSkyColor *
                 0.50f +
-                RenderSettings.ambientEquatorColor *
+                CurrentAmbientEquatorColor *
                 0.35f +
-                RenderSettings.ambientGroundColor *
+                CurrentAmbientGroundColor *
                 0.15f;
         }
 
