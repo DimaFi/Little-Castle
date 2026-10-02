@@ -345,8 +345,9 @@ namespace LittleCastle.Building
                 !preview.closedLoop &&
                 preview.controlPoints.Count > 0)
             {
-                preview.controlPoints.Add(
-                    cursorPoint);
+                preview.AddControlPoint(
+                    cursorPoint,
+                    WallControlPointMode.Smooth);
             }
 
             previewPresenter.Rebuild(
