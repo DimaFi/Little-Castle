@@ -15,9 +15,13 @@ MonoBehaviour:
   loadRadiusChunks: 4
   unloadPaddingChunks: 1
   circularLoading: 1
-  maxChunkLoadsPerFrame: 6
+  maxChunkLoadsPerFrame: 4
   maxChunkUnloadsPerFrame: 6
-  maxCachedChunks: 64
+  prefetchPaddingChunks: 2
+  urgentGenerationStagesPerFrame: 2
+  backgroundGenerationStagesPerFrame: 1
+  backgroundPrefetchFrameLimitMs: 18
+  maxCachedChunks: 160
   macroPlanRadiusChunks: 10
   macroEdgeWarningChunks: 2
   renderGeneratedSpawns: 1
