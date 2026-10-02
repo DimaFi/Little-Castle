@@ -3,6 +3,8 @@ Shader "Little Castle/Foliage/LC Grass"
     Properties
     {
         _MainTex ("Grass Alpha", 2D) = "white" {}
+        _OpacityMap ("Opacity Map", 2D) = "white" {}
+        _OpacityMapStrength ("Separate Opacity Strength", Range(0,1)) = 0
         _Color ("Middle Color", Color) = (0.38,0.64,0.24,1)
         _RootColor ("Root Color", Color) = (0.18,0.32,0.12,1)
         _TipColor ("Tip Color", Color) = (0.62,0.82,0.34,1)
@@ -61,6 +63,8 @@ Shader "Little Castle/Foliage/LC Grass"
 
             sampler2D _MainTex;
             float4 _MainTex_ST;
+            sampler2D _OpacityMap;
+            half _OpacityMapStrength;
 
             fixed4 _Color;
             fixed4 _RootColor;
@@ -324,8 +328,19 @@ Shader "Little Castle/Foliage/LC Grass"
                         _MainTex,
                         i.uv);
 
+                half opacitySample =
+                    tex2D(
+                        _OpacityMap,
+                        i.uv).r;
+
+                half alpha =
+                    lerp(
+                        alphaSample.a,
+                        opacitySample,
+                        _OpacityMapStrength);
+
                 clip(
-                    alphaSample.a -
+                    alpha -
                     _Cutoff);
 
                 half rootToTip =
@@ -513,6 +528,8 @@ Shader "Little Castle/Foliage/LC Grass"
 
             sampler2D _MainTex;
             float4 _MainTex_ST;
+            sampler2D _OpacityMap;
+            half _OpacityMapStrength;
             half _Cutoff;
 
             half _WindAmplitude;
@@ -710,10 +727,24 @@ Shader "Little Castle/Foliage/LC Grass"
             float4 fragShadow(
                 v2f i) : SV_Target
             {
-                clip(
+                half baseAlpha =
                     tex2D(
                         _MainTex,
-                        i.uv).a -
+                        i.uv).a;
+
+                half opacitySample =
+                    tex2D(
+                        _OpacityMap,
+                        i.uv).r;
+
+                half alpha =
+                    lerp(
+                        baseAlpha,
+                        opacitySample,
+                        _OpacityMapStrength);
+
+                clip(
+                    alpha -
                     _Cutoff);
 
                 SHADOW_CASTER_FRAGMENT(i)
