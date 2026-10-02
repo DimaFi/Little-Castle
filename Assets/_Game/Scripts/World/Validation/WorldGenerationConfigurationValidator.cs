@@ -576,6 +576,17 @@ namespace LittleCastle.World
                     settings.MaxChunkLoadsPerFrame +
                     "). Chunk generation currently runs on the main thread.");
             }
+
+            if (settings.AddMeshCollider &&
+                settings.ColliderRadiusChunks >=
+                settings.LoadRadiusChunks &&
+                settings.LoadRadiusChunks > 1)
+            {
+                report.AddWarning(
+                    "Terrain MeshCollider radius reaches the full visible " +
+                    "streaming radius. Distant visible chunks should normally " +
+                    "remain render-only for lower Physics cost.");
+            }
         }
 
         private static void ValidateMapRules(
