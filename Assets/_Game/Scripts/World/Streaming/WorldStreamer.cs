@@ -1986,6 +1986,13 @@ namespace LittleCastle.World
                 child.gameObject.SetActive(
                     false);
 
+                // Destroy() is delayed until end-of-frame in Play Mode.
+                // Detach old presentation first so a freshly rebuilt collider
+                // cache cannot see objects that are already scheduled to die.
+                child.SetParent(
+                    null,
+                    true);
+
                 if (Application.isPlaying)
                 {
                     Destroy(
