@@ -58,6 +58,10 @@ namespace LittleCastle.Editor
             SerializedProperty entries =
                 serialized.FindProperty("entries");
 
+            RemoveStaleManagedEntries(
+                entries,
+                groups);
+
             int variantsRegistered = 0;
 
             foreach (
@@ -118,6 +122,9 @@ namespace LittleCastle.Editor
             }
 
             serialized.ApplyModifiedPropertiesWithoutUndo();
+
+            catalog.InvalidateRuntimeCache();
+
             EditorUtility.SetDirty(catalog);
             AssetDatabase.SaveAssets();
 
@@ -182,7 +189,87 @@ namespace LittleCastle.Editor
                 variants.Add(model);
             }
 
+            foreach (
+                KeyValuePair<string, List<GameObject>> pair
+                in groups)
+            {
+                pair.Value.Sort(
+                    (left, right) =>
+                        string.CompareOrdinal(
+                            AssetDatabase.GetAssetPath(left),
+                            AssetDatabase.GetAssetPath(right)));
+            }
+
             return groups;
+        }
+
+        private static void RemoveStaleManagedEntries(
+            SerializedProperty entries,
+            Dictionary<string, List<GameObject>> groups)
+        {
+            for (int i = entries.arraySize - 1;
+                 i >= 0;
+                 i--)
+            {
+                SerializedProperty entry =
+                    entries.GetArrayElementAtIndex(i);
+
+                string archetypeId =
+                    entry.FindPropertyRelative(
+                        "archetypeId").stringValue;
+
+                if (groups.ContainsKey(archetypeId) ||
+                    !IsReadyManagedEntry(entry))
+                {
+                    continue;
+                }
+
+                entries.DeleteArrayElementAtIndex(i);
+            }
+        }
+
+        private static bool IsReadyManagedEntry(
+            SerializedProperty entry)
+        {
+            SerializedProperty prefabs =
+                entry.FindPropertyRelative(
+                    "prefabs");
+
+            if (prefabs == null ||
+                prefabs.arraySize == 0)
+            {
+                return false;
+            }
+
+            bool foundReadyAsset = false;
+
+            for (int i = 0;
+                 i < prefabs.arraySize;
+                 i++)
+            {
+                Object asset =
+                    prefabs.GetArrayElementAtIndex(
+                        i).objectReferenceValue;
+
+                if (asset == null)
+                    continue;
+
+                string path =
+                    AssetDatabase.GetAssetPath(
+                        asset);
+
+                if (string.IsNullOrWhiteSpace(path) ||
+                    !path.StartsWith(
+                        ReadyRoot + "/",
+                        StringComparison.Ordinal))
+                {
+                    return false;
+                }
+
+                foundReadyAsset = true;
+            }
+
+            return foundReadyAsset;
         }
 
         private static bool TryReadArchetypeId(
