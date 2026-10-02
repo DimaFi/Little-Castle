@@ -25,6 +25,14 @@ Shader "Little Castle/Foliage/LC Foliage"
 
         _WindAmplitude ("Wind Amplitude", Range(0,1)) = 0.22
         _WindSecondary ("Secondary Motion", Range(0,1)) = 0.28
+        _CrownSway ("Crown Sway", Range(0,1)) = 0.42
+        _VertexWave ("Vertex Wave", Range(0,1)) = 0.46
+        _LeafFlutter ("Leaf Flutter", Range(0,1)) = 0.16
+        _FlutterScale ("Flutter Spatial Scale", Range(0.1,8)) = 2.4
+        _FlutterSpeed ("Flutter Speed", Range(0.1,8)) = 2.7
+        _UseHeightWindMask ("Use Automatic Height Wind Mask", Range(0,1)) = 0
+        _WindAnchorHeight ("Wind Anchor Height", Float) = 0
+        _WindHeightRange ("Wind Height Range", Float) = 5
         _UseVertexWindMask ("Use Vertex Color R Wind Mask", Range(0,1)) = 0
     }
 
@@ -84,6 +92,14 @@ Shader "Little Castle/Foliage/LC Foliage"
 
             half _WindAmplitude;
             half _WindSecondary;
+            half _CrownSway;
+            half _VertexWave;
+            half _LeafFlutter;
+            half _FlutterScale;
+            half _FlutterSpeed;
+            half _UseHeightWindMask;
+            float _WindAnchorHeight;
+            float _WindHeightRange;
             half _UseVertexWindMask;
 
             half4 _LC_SunDirection;
@@ -139,8 +155,34 @@ Shader "Little Castle/Foliage/LC Foliage"
                     43758.5453);
             }
 
+            float EvaluateWindMask(
+                float3 objectVertex,
+                float vertexColorMask)
+            {
+                float safeRange = max(0.001, abs(_WindHeightRange));
+                float heightMask = saturate(
+                    (objectVertex.y - _WindAnchorHeight) / safeRange);
+
+                heightMask =
+                    heightMask *
+                    heightMask *
+                    (3.0 - 2.0 * heightMask);
+
+                float mask =
+                    lerp(
+                        1.0,
+                        heightMask,
+                        _UseHeightWindMask);
+
+                return lerp(
+                    mask,
+                    saturate(vertexColorMask),
+                    _UseVertexWindMask);
+            }
+
             float3 ApplyWind(
                 float3 objectVertex,
+                float3 objectNormal,
                 float vertexMask)
             {
                 float3 objectOrigin =
@@ -154,37 +196,82 @@ Shader "Little Castle/Foliage/LC Foliage"
                         unity_ObjectToWorld,
                         float4(objectVertex, 1.0)).xyz;
 
-                float phase =
-                    dot(
-                        worldPosition.xz,
-                        _LC_Wind.xy) *
-                    0.055 +
-                    _LC_GameTime.z *
-                    _LC_Wind.w +
-                    HashObject(objectOrigin) *
-                    6.2831853;
+                float3 worldNormal =
+                    normalize(
+                        mul(
+                            (float3x3)unity_ObjectToWorld,
+                            objectNormal));
 
-                float primary =
-                    sin(phase);
+                float objectSeed = HashObject(objectOrigin);
 
-                float secondary =
+                float objectPhase =
+                    dot(objectOrigin.xz, _LC_Wind.xy) * 0.035 +
+                    _LC_GameTime.z * _LC_Wind.w +
+                    objectSeed * 6.2831853;
+
+                float vertexPhase =
+                    dot(worldPosition.xz, _LC_Wind.xy) * 0.18 +
+                    worldPosition.y * 0.11 +
+                    _LC_GameTime.z * _LC_Wind.w * 1.27 +
+                    objectSeed * 2.13;
+
+                float crown =
+                    sin(objectPhase) *
+                    _CrownSway;
+
+                float wave =
+                    (sin(vertexPhase) +
+                     sin(vertexPhase * 1.93 + 1.17) *
+                     _WindSecondary) *
+                    _VertexWave;
+
+                float gustEnvelope =
+                    0.72 +
                     sin(
-                        phase * 1.83 +
-                        1.7) *
-                    _WindSecondary;
+                        _LC_GameTime.z * _LC_Wind.w * 0.23 +
+                        dot(
+                            objectOrigin.xz,
+                            float2(0.013, 0.017))) *
+                    0.28;
 
                 float sway =
-                    (primary + secondary) *
+                    (crown + wave) *
+                    gustEnvelope *
                     _LC_Wind.z *
                     _WindAmplitude *
+                    vertexMask;
+
+                float flutterPhase =
+                    dot(
+                        worldPosition,
+                        float3(1.73, 2.31, 1.19)) *
+                        _FlutterScale +
+                    _LC_GameTime.z *
+                        _LC_Wind.w *
+                        _FlutterSpeed +
+                    objectSeed * 4.71;
+
+                float flutter =
+                    (sin(flutterPhase) * 0.70 +
+                     sin(flutterPhase * 2.17 + 0.61) * 0.30) *
+                    _LeafFlutter *
+                    _LC_Wind.z *
                     vertexMask;
 
                 float3 worldOffset =
                     float3(
                         _LC_Wind.x,
-                        abs(sway) * 0.06,
+                        0.0,
                         _LC_Wind.y) *
-                    sway;
+                        sway +
+                    worldNormal *
+                        flutter *
+                        _WindAmplitude *
+                        0.45;
+
+                worldOffset.y +=
+                    abs(sway) *
+                    0.025;
 
                 return
                     objectVertex +
@@ -202,14 +289,14 @@ Shader "Little Castle/Foliage/LC Foliage"
                 UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
                 float mask =
-                    lerp(
-                        1.0,
-                        saturate(v.color.r),
-                        _UseVertexWindMask);
+                    EvaluateWindMask(
+                        v.vertex.xyz,
+                        v.color.r);
 
                 float3 deformedVertex =
                     ApplyWind(
                         v.vertex.xyz,
+                        v.normal,
                         mask);
 
                 float4 vertex =
@@ -512,6 +599,14 @@ Shader "Little Castle/Foliage/LC Foliage"
 
             half _WindAmplitude;
             half _WindSecondary;
+            half _CrownSway;
+            half _VertexWave;
+            half _LeafFlutter;
+            half _FlutterScale;
+            half _FlutterSpeed;
+            half _UseHeightWindMask;
+            float _WindAnchorHeight;
+            float _WindHeightRange;
             half _UseVertexWindMask;
 
             float4 _LC_Wind;
@@ -546,8 +641,34 @@ Shader "Little Castle/Foliage/LC Foliage"
                     43758.5453);
             }
 
+            float EvaluateWindMask(
+                float3 objectVertex,
+                float vertexColorMask)
+            {
+                float safeRange = max(0.001, abs(_WindHeightRange));
+                float heightMask = saturate(
+                    (objectVertex.y - _WindAnchorHeight) / safeRange);
+
+                heightMask =
+                    heightMask *
+                    heightMask *
+                    (3.0 - 2.0 * heightMask);
+
+                float mask =
+                    lerp(
+                        1.0,
+                        heightMask,
+                        _UseHeightWindMask);
+
+                return lerp(
+                    mask,
+                    saturate(vertexColorMask),
+                    _UseVertexWindMask);
+            }
+
             float3 ApplyWind(
                 float3 objectVertex,
+                float3 objectNormal,
                 float vertexMask)
             {
                 float3 objectOrigin =
@@ -561,32 +682,82 @@ Shader "Little Castle/Foliage/LC Foliage"
                         unity_ObjectToWorld,
                         float4(objectVertex, 1.0)).xyz;
 
-                float phase =
-                    dot(
-                        worldPosition.xz,
-                        _LC_Wind.xy) *
-                    0.055 +
-                    _LC_GameTime.z *
-                    _LC_Wind.w +
-                    HashObject(objectOrigin) *
-                    6.2831853;
+                float3 worldNormal =
+                    normalize(
+                        mul(
+                            (float3x3)unity_ObjectToWorld,
+                            objectNormal));
+
+                float objectSeed = HashObject(objectOrigin);
+
+                float objectPhase =
+                    dot(objectOrigin.xz, _LC_Wind.xy) * 0.035 +
+                    _LC_GameTime.z * _LC_Wind.w +
+                    objectSeed * 6.2831853;
+
+                float vertexPhase =
+                    dot(worldPosition.xz, _LC_Wind.xy) * 0.18 +
+                    worldPosition.y * 0.11 +
+                    _LC_GameTime.z * _LC_Wind.w * 1.27 +
+                    objectSeed * 2.13;
+
+                float crown =
+                    sin(objectPhase) *
+                    _CrownSway;
+
+                float wave =
+                    (sin(vertexPhase) +
+                     sin(vertexPhase * 1.93 + 1.17) *
+                     _WindSecondary) *
+                    _VertexWave;
+
+                float gustEnvelope =
+                    0.72 +
+                    sin(
+                        _LC_GameTime.z * _LC_Wind.w * 0.23 +
+                        dot(
+                            objectOrigin.xz,
+                            float2(0.013, 0.017))) *
+                    0.28;
 
                 float sway =
-                    (sin(phase) +
-                     sin(
-                        phase * 1.83 +
-                        1.7) *
-                     _WindSecondary) *
+                    (crown + wave) *
+                    gustEnvelope *
                     _LC_Wind.z *
                     _WindAmplitude *
+                    vertexMask;
+
+                float flutterPhase =
+                    dot(
+                        worldPosition,
+                        float3(1.73, 2.31, 1.19)) *
+                        _FlutterScale +
+                    _LC_GameTime.z *
+                        _LC_Wind.w *
+                        _FlutterSpeed +
+                    objectSeed * 4.71;
+
+                float flutter =
+                    (sin(flutterPhase) * 0.70 +
+                     sin(flutterPhase * 2.17 + 0.61) * 0.30) *
+                    _LeafFlutter *
+                    _LC_Wind.z *
                     vertexMask;
 
                 float3 worldOffset =
                     float3(
                         _LC_Wind.x,
-                        abs(sway) * 0.06,
+                        0.0,
                         _LC_Wind.y) *
-                    sway;
+                        sway +
+                    worldNormal *
+                        flutter *
+                        _WindAmplitude *
+                        0.45;
+
+                worldOffset.y +=
+                    abs(sway) *
+                    0.025;
 
                 return
                     objectVertex +
@@ -602,14 +773,14 @@ Shader "Little Castle/Foliage/LC Foliage"
                 UNITY_SETUP_INSTANCE_ID(v);
 
                 float mask =
-                    lerp(
-                        1.0,
-                        saturate(v.color.r),
-                        _UseVertexWindMask);
+                    EvaluateWindMask(
+                        v.vertex.xyz,
+                        v.color.r);
 
                 v.vertex.xyz =
                     ApplyWind(
                         v.vertex.xyz,
+                        v.normal,
                         mask);
 
                 o.uv =
