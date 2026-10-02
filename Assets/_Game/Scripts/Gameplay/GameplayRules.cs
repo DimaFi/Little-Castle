@@ -28,6 +28,13 @@ namespace LittleCastle.Gameplay
     }
 
     [Serializable]
+    public sealed class WallRepairRules
+    {
+        public float hitPointsPerResidentGameHour = 5f;
+        public int maximumResidentsPerWall = 3;
+    }
+
+    [Serializable]
     public sealed class RulerRules
     {
         public double respawnGameHours = 8.0;
@@ -91,6 +98,9 @@ namespace LittleCastle.Gameplay
 
         public RulerRules ruler =
             new RulerRules();
+
+        public WallRepairRules wallRepair =
+            new WallRepairRules();
 
         public RitualRules rituals =
             new RitualRules();
