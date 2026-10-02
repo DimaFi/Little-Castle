@@ -12,6 +12,14 @@ namespace LittleCastle.World
     [Serializable]
     public sealed class WorldSessionStartOptions
     {
+        [Header("World information")]
+        [Tooltip(
+            "FullMapLive lets clients receive current world-state information " +
+            "for the whole map while still rendering only nearby chunks. " +
+            "FogOfWarLastKnown keeps explored areas at their last known state.")]
+        public WorldInformationMode informationMode =
+            WorldInformationMode.FullMapLive;
+
         [Header("Layout")]
         public WorldStartPlacementMode placementMode =
             WorldStartPlacementMode.RandomScattered;
@@ -73,6 +81,7 @@ namespace LittleCastle.World
         {
             return new WorldSessionStartOptions
             {
+                informationMode = informationMode,
                 placementMode = placementMode,
                 fairnessMode = fairnessMode,
                 layoutFreedom = layoutFreedom,
