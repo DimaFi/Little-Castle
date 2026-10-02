@@ -400,10 +400,6 @@ namespace LittleCastle.Rendering
                 targetLight.shadows =
                     LightShadows.None;
             }
-
-            // Local atmospheric lights are always realtime presentation.
-            targetLight.lightmapBakeType =
-                LightmapBakeType.Realtime;
         }
 
         private void OnValidate()
