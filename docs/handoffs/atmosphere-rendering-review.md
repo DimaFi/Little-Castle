@@ -78,6 +78,7 @@ Current features:
 - BaseColor;
 - normal map;
 - AO;
+- Roughness map + scalar fallback;
 - wrapped/soft direct light;
 - cool artistic shadow tint;
 - sun and moon global lighting;
@@ -95,13 +96,22 @@ Current features:
 
 `Assets/_Game/Shaders/Foliage/LC_Foliage.shader`
 
+Round/clustered leaf wind is an explicit project target. Simple leaf geometry
+is expected to gain much of its perceived life from GPU vertex deformation,
+similar in principle to vegetation motion used by many shader packs.
+
 Current features:
 
 - alpha cutout;
+- BaseColor alpha or separate Opacity maps;
 - two-sided rendering;
 - normal map;
 - AO;
 - global wind;
+- crown sway;
+- spatial vertex wave;
+- leaf-normal micro flutter;
+- optional automatic height mask;
 - optional vertex-R wind mask;
 - per-object tint variation;
 - sun backlighting/transmission;
@@ -164,9 +174,16 @@ Current test-scene defaults:
 
 Important:
 
-The local-light budget infrastructure exists, but custom Little Castle shaders
-do not yet have a finalized cheap policy for arbitrary nearby Point/Spot light
-contribution.
+Solid `LC_StylizedLit` materials now include a ForwardAdd path for the
+budgeted nearby Point/Spot lights.
+
+Terrain intentionally does not add one extra realtime lighting pass per local
+light. A cheap additive ground-light option exists:
+
+`Assets/_Game/Shaders/Effects/LC_NightLightPool.shader`
+
+This is intended for warm pools under lanterns/windows while real Point/Spot
+lights remain budgeted.
 
 Do not blindly add a ForwardAdd pass to every foliage/terrain material before
 profiling. In Built-in Forward rendering that can multiply draw cost per light.
@@ -218,9 +235,11 @@ Do visual captures at minimum near:
 
 Treat this as Gamma under the current Unity serialization convention.
 
+Linear is only a candidate, not a required upgrade.
+
 Review whether Linear color space is desirable, but do not flip it without:
 
-- screenshots before/after;
+- same-camera A/B screenshots before/after at day, sunset and night;
 - material validation;
 - texture import validation;
 - lighting validation;
@@ -289,6 +308,8 @@ Mandatory:
 - `docs/architecture/day-night-cycle.md`
 - `docs/architecture/camera-and-atmosphere.md`
 - `docs/architecture/stylized-rendering-roadmap.md`
+- `docs/architecture/foliage-wind-authoring.md`
+- `docs/architecture/material-texture-contract.md`
 - this file
 
 ## Non-goals for the review
