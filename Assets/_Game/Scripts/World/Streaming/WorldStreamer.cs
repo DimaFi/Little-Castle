@@ -78,10 +78,24 @@ namespace LittleCastle.World
         private readonly HashSet<ChunkCoordinate> queuedLoads =
             new HashSet<ChunkCoordinate>();
 
+        private readonly Queue<ChunkCoordinate> urgentGenerationQueue =
+            new Queue<ChunkCoordinate>();
+
+        private readonly Queue<ChunkCoordinate> backgroundGenerationQueue =
+            new Queue<ChunkCoordinate>();
+
+        private readonly HashSet<ChunkCoordinate> queuedGeneration =
+            new HashSet<ChunkCoordinate>();
+
         private readonly List<ChunkCoordinate> scratchCoordinates =
             new List<ChunkCoordinate>();
 
         private WorldGenerationPipeline pipeline;
+        private WorldChunkGenerationWork activeGenerationWork;
+        private WorldChunkCache activeGenerationCache;
+        private ChunkCoordinate activeGenerationCoordinate;
+        private bool activeGenerationUrgent;
+
         private WorldChunkCache chunkCache;
         private WorldChunkCache visualChunkCache;
         private MacroWorldPlan macroPlan;
@@ -98,6 +112,9 @@ namespace LittleCastle.World
         private double lastChunkUnloadMilliseconds;
         private double lastMeshBuildMilliseconds;
         private double lastSpawnPresentationMilliseconds;
+        private double lastGenerationStageMilliseconds;
+        private string lastGenerationStageName = string.Empty;
+        private int completedPrefetchChunks;
         private int lastChunkSpawnCount;
         private int totalChunkLoads;
         private int totalChunkUnloads;
@@ -107,6 +124,26 @@ namespace LittleCastle.World
         public WorldDefinition Definition => worldDefinition;
         public int ActiveChunkCount => activeChunks.Count;
         public int PendingLoadCount => loadQueue.Count;
+
+        public int PendingGenerationCount =>
+            urgentGenerationQueue.Count +
+            backgroundGenerationQueue.Count +
+            (activeGenerationWork != null ? 1 : 0);
+
+        public int PendingUrgentGenerationCount =>
+            urgentGenerationQueue.Count +
+            (activeGenerationWork != null &&
+             activeGenerationUrgent
+                ? 1
+                : 0);
+
+        public int PendingBackgroundGenerationCount =>
+            backgroundGenerationQueue.Count +
+            (activeGenerationWork != null &&
+             !activeGenerationUrgent
+                ? 1
+                : 0);
+
         public int DesiredChunkCount => desiredChunks.Count;
         public int ActiveTerrainColliderCount => activeTerrainColliderCount;
         public Transform Focus => focus;
@@ -122,6 +159,15 @@ namespace LittleCastle.World
 
         public double LastSpawnPresentationMilliseconds =>
             lastSpawnPresentationMilliseconds;
+
+        public double LastGenerationStageMilliseconds =>
+            lastGenerationStageMilliseconds;
+
+        public string LastGenerationStageName =>
+            lastGenerationStageName;
+
+        public int CompletedPrefetchChunks =>
+            completedPrefetchChunks;
 
         public int LastChunkSpawnCount =>
             lastChunkSpawnCount;
@@ -193,6 +239,7 @@ namespace LittleCastle.World
                     RefreshChunkColliderStates();
                 }
 
+                ProcessGeneration();
                 ProcessUnloads();
                 ProcessLoads();
             }
@@ -384,6 +431,14 @@ namespace LittleCastle.World
             queuedLoads.Clear();
             desiredChunks.Clear();
 
+            urgentGenerationQueue.Clear();
+            backgroundGenerationQueue.Clear();
+            queuedGeneration.Clear();
+
+            activeGenerationWork = null;
+            activeGenerationCache = null;
+            activeGenerationUrgent = false;
+
             ReleaseAllViews();
 
             if (chunkCache != null)
@@ -401,6 +456,9 @@ namespace LittleCastle.World
             lastChunkUnloadMilliseconds = 0.0;
             lastMeshBuildMilliseconds = 0.0;
             lastSpawnPresentationMilliseconds = 0.0;
+            lastGenerationStageMilliseconds = 0.0;
+            lastGenerationStageName = string.Empty;
+            completedPrefetchChunks = 0;
             lastChunkSpawnCount = 0;
             totalChunkLoads = 0;
             totalChunkUnloads = 0;
