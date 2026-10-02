@@ -21,6 +21,7 @@ MonoBehaviour:
   urgentGenerationStagesPerFrame: 2
   backgroundGenerationStagesPerFrame: 1
   backgroundPrefetchFrameLimitMs: 18
+  prefetchLeadChunks: 2
   maxCachedChunks: 160
   macroPlanRadiusChunks: 10
   macroEdgeWarningChunks: 2
