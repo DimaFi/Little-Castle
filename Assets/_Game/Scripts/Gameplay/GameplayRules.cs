@@ -47,6 +47,31 @@ namespace LittleCastle.Gameplay
     }
 
     [Serializable]
+    public sealed class BuildingDefinition
+    {
+        public string archetypeId = string.Empty;
+        public BuildingRole role = BuildingRole.Other;
+        public int level = 1;
+        public float maxHitPoints = 100f;
+        public double constructionWorkHours = 4.0;
+        public List<ResourceAmount> cost =
+            new List<ResourceAmount>();
+    }
+
+    [Serializable]
+    public sealed class BuildingUpgradeDefinition
+    {
+        public BuildingRole role = BuildingRole.Other;
+        public int fromLevel = 1;
+        public int toLevel = 2;
+        public string targetArchetypeId = string.Empty;
+        public float targetMaxHitPoints = 100f;
+        public double constructionWorkHours = 6.0;
+        public List<ResourceAmount> cost =
+            new List<ResourceAmount>();
+    }
+
+    [Serializable]
     public sealed class UnitTrainingDefinition
     {
         public string unitArchetypeId = "soldier_basic";
@@ -70,8 +95,55 @@ namespace LittleCastle.Gameplay
         public RitualRules rituals =
             new RitualRules();
 
+        public List<BuildingDefinition> buildings =
+            new List<BuildingDefinition>();
+
+        public List<BuildingUpgradeDefinition> buildingUpgrades =
+            new List<BuildingUpgradeDefinition>();
+
         public List<UnitTrainingDefinition> unitTraining =
             new List<UnitTrainingDefinition>();
+
+        public BuildingDefinition FindBuilding(
+            string archetypeId)
+        {
+            for (int i = 0; i < buildings.Count; i++)
+            {
+                BuildingDefinition definition =
+                    buildings[i];
+
+                if (definition != null &&
+                    definition.archetypeId ==
+                    archetypeId)
+                {
+                    return definition;
+                }
+            }
+
+            return null;
+        }
+
+        public BuildingUpgradeDefinition FindUpgrade(
+            BuildingRole role,
+            int fromLevel)
+        {
+            for (int i = 0;
+                 i < buildingUpgrades.Count;
+                 i++)
+            {
+                BuildingUpgradeDefinition definition =
+                    buildingUpgrades[i];
+
+                if (definition != null &&
+                    definition.role == role &&
+                    definition.fromLevel == fromLevel)
+                {
+                    return definition;
+                }
+            }
+
+            return null;
+        }
 
         public UnitTrainingDefinition FindUnitTraining(
             string unitArchetypeId)
@@ -97,6 +169,8 @@ namespace LittleCastle.Gameplay
             var rules =
                 new GameplayRules();
 
+            AddDefaultBuildings(rules);
+
             rules.unitTraining.Add(
                 new UnitTrainingDefinition
                 {
@@ -116,6 +190,199 @@ namespace LittleCastle.Gameplay
                 });
 
             return rules;
+        }
+
+        private static void AddDefaultBuildings(
+            GameplayRules rules)
+        {
+            rules.buildings.Add(
+                Building(
+                    "house_basic",
+                    BuildingRole.House,
+                    150f,
+                    3.0,
+                    Resource(
+                        GameplayResourceType.Wood,
+                        8)));
+
+            rules.buildings.Add(
+                Building(
+                    "farm_wheat_basic",
+                    BuildingRole.Farm,
+                    120f,
+                    4.0,
+                    Resource(
+                        GameplayResourceType.Wood,
+                        10)));
+
+            rules.buildings.Add(
+                Building(
+                    "mill_basic",
+                    BuildingRole.Mill,
+                    220f,
+                    7.0,
+                    Resource(
+                        GameplayResourceType.Wood,
+                        14),
+                    Resource(
+                        GameplayResourceType.Stone,
+                        8)));
+
+            rules.buildings.Add(
+                Building(
+                    "market_basic",
+                    BuildingRole.Market,
+                    180f,
+                    5.0,
+                    Resource(
+                        GameplayResourceType.Wood,
+                        12)));
+
+            rules.buildings.Add(
+                Building(
+                    "church_basic",
+                    BuildingRole.Church,
+                    250f,
+                    8.0,
+                    Resource(
+                        GameplayResourceType.Wood,
+                        12),
+                    Resource(
+                        GameplayResourceType.Stone,
+                        14)));
+
+            rules.buildings.Add(
+                Building(
+                    "barracks_basic",
+                    BuildingRole.Barracks,
+                    300f,
+                    9.0,
+                    Resource(
+                        GameplayResourceType.Wood,
+                        18),
+                    Resource(
+                        GameplayResourceType.Stone,
+                        10)));
+
+            rules.buildings.Add(
+                Building(
+                    "archer_tower_basic",
+                    BuildingRole.ArcherTower,
+                    350f,
+                    10.0,
+                    Resource(
+                        GameplayResourceType.Wood,
+                        16),
+                    Resource(
+                        GameplayResourceType.Stone,
+                        18)));
+
+            rules.buildingUpgrades.Add(
+                Upgrade(
+                    BuildingRole.MainHouse,
+                    1,
+                    2,
+                    "main_house_level_2",
+                    750f,
+                    12.0,
+                    Resource(
+                        GameplayResourceType.Wood,
+                        24),
+                    Resource(
+                        GameplayResourceType.Stone,
+                        14)));
+
+            rules.buildingUpgrades.Add(
+                Upgrade(
+                    BuildingRole.MainHouse,
+                    2,
+                    3,
+                    "main_house_keep",
+                    1100f,
+                    18.0,
+                    Resource(
+                        GameplayResourceType.Wood,
+                        32),
+                    Resource(
+                        GameplayResourceType.Stone,
+                        32),
+                    Resource(
+                        GameplayResourceType.Iron,
+                        8)));
+
+            rules.buildingUpgrades.Add(
+                Upgrade(
+                    BuildingRole.MainHouse,
+                    3,
+                    4,
+                    "main_house_small_castle",
+                    1600f,
+                    28.0,
+                    Resource(
+                        GameplayResourceType.Wood,
+                        45),
+                    Resource(
+                        GameplayResourceType.Stone,
+                        60),
+                    Resource(
+                        GameplayResourceType.Iron,
+                        18)));
+        }
+
+        private static BuildingDefinition Building(
+            string archetypeId,
+            BuildingRole role,
+            float hp,
+            double workHours,
+            params ResourceAmount[] cost)
+        {
+            var definition =
+                new BuildingDefinition
+                {
+                    archetypeId = archetypeId,
+                    role = role,
+                    maxHitPoints = hp,
+                    constructionWorkHours =
+                        workHours
+                };
+
+            definition.cost.AddRange(cost);
+            return definition;
+        }
+
+        private static BuildingUpgradeDefinition Upgrade(
+            BuildingRole role,
+            int from,
+            int to,
+            string targetArchetype,
+            float hp,
+            double workHours,
+            params ResourceAmount[] cost)
+        {
+            var definition =
+                new BuildingUpgradeDefinition
+                {
+                    role = role,
+                    fromLevel = from,
+                    toLevel = to,
+                    targetArchetypeId =
+                        targetArchetype,
+                    targetMaxHitPoints = hp,
+                    constructionWorkHours =
+                        workHours
+                };
+
+            definition.cost.AddRange(cost);
+            return definition;
+        }
+
+        private static ResourceAmount Resource(
+            GameplayResourceType resource,
+            int amount)
+        {
+            return new ResourceAmount(
+                resource,
+                amount);
         }
     }
 }
