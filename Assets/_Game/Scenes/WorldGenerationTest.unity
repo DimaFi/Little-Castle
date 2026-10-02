@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 85530204}
   - component: {fileID: 85530205}
   - component: {fileID: 85530206}
+  - component: {fileID: 85530207}
   m_Layer: 0
   m_Name: WorldRoot
   m_TagString: Untagged
@@ -311,6 +312,24 @@ MonoBehaviour:
     y: 12
     width: 360
     height: 310
+--- !u!114 &85530207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 85530198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46c4b0e8c7ef42e8b8533415e6a8a0c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: LittleCastle.Runtime::LittleCastle.World.WorldStartupWarmupController
+  worldStreamer: {fileID: 85530199}
+  strategyCamera: {fileID: 1735719526}
+  extraPreparedRings: 1
+  lockCameraInputUntilReady: 1
+  showLoadingOverlay: 1
+  developmentSkipKey: 290
 --- !u!4 &85530201
 Transform:
   m_ObjectHideFlags: 0
@@ -676,9 +695,9 @@ MonoBehaviour:
   panSmoothing: 10
   middleDragSpeed: 0.75
   allowPitchAdjustment: 1
-  minimumPitch: 40
-  maximumPitch: 68
-  initialPitch: 52
+  minimumPitch: 6
+  maximumPitch: 72
+  initialPitch: 42
   mouseRotationSensitivity: 3.2
   keyboardRotationSpeed: 80
   minimumDistance: 11
