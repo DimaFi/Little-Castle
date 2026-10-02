@@ -4,7 +4,11 @@ Repository: `DimaFi/Little-Castle`
 Branch: `main`  
 Unity: `6000.5.5f1`  
 Rendering pipeline: Built-in Render Pipeline  
-Baseline commit before this handoff: `23db212e5822efaede1778815c2339b21f027bbc`
+Review target: latest `main` after the static rendering audit
+
+Static pre-Unity audit:
+
+`docs/reports/static-stylized-rendering-audit-2026-10-02.md`
 
 ## Goal
 
