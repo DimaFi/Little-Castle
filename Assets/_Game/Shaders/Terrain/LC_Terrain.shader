@@ -113,7 +113,7 @@ Shader "Little Castle/Terrain/LC Terrain"
 
             struct v2f
             {
-                float4 position : SV_POSITION;
+                float4 pos : SV_POSITION;
                 float3 worldPosition : TEXCOORD0;
                 half3 worldNormal : TEXCOORD1;
                 fixed4 vertexColor : TEXCOORD2;
@@ -133,7 +133,7 @@ Shader "Little Castle/Terrain/LC Terrain"
                 UNITY_TRANSFER_INSTANCE_ID(v, o);
                 UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
-                o.position =
+                o.pos =
                     UnityObjectToClipPos(
                         v.vertex);
 
@@ -152,7 +152,7 @@ Shader "Little Castle/Terrain/LC Terrain"
                 TRANSFER_SHADOW(o);
                 UNITY_TRANSFER_FOG(
                     o,
-                    o.position);
+                    o.pos);
 
                 return o;
             }
