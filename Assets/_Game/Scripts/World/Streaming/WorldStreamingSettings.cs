@@ -59,9 +59,16 @@ namespace LittleCastle.World
         [SerializeField] private bool renderGeneratedSpawns = true;
 
         [Tooltip(
-            "MeshColliders are useful for early walking tests but expensive. " +
-            "Leave disabled for large streaming tests unless required.")]
+            "MeshColliders are useful for camera ground following and nearby " +
+            "gameplay, but expensive across the whole visible map.")]
         [SerializeField] private bool addMeshCollider = false;
+
+        [Tooltip(
+            "Only playable chunks inside this radius around the streaming focus " +
+            "keep an active terrain MeshCollider. Visible distant chunks remain " +
+            "render-only. 0 means only the focus chunk.")]
+        [Min(0)]
+        [SerializeField] private int colliderRadiusChunks = 1;
 
         public int LoadRadiusChunks =>
             Mathf.Max(0, loadRadiusChunks);
@@ -94,5 +101,11 @@ namespace LittleCastle.World
 
         public bool AddMeshCollider =>
             addMeshCollider;
+
+        public int ColliderRadiusChunks =>
+            Mathf.Clamp(
+                colliderRadiusChunks,
+                0,
+                LoadRadiusChunks);
     }
 }
