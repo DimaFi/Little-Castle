@@ -7,7 +7,7 @@ namespace LittleCastle.Tests
 {
     public sealed class WorldGenerationCooperativeTests
     {
-        private sealed class CountingStage :
+        public sealed class CountingStage :
             WorldGenerationStage
         {
             public int calls;
