@@ -3,6 +3,31 @@
 This document defines how tree leaves, bushes, grass and wheat should be authored
 so the Little Castle shader wind works predictably.
 
+## Mandatory model compatibility gate
+
+Before a new tree, bush, grass or wheat model is accepted into production,
+verify that the model and shader contract work together.
+
+A valid LC_Foliage shader cannot create convincing motion if the mesh does not
+provide useful vertices, normals, UVs or masking data.
+
+Minimum questions:
+1. Is foliage separate from the rigid trunk?
+2. If not, is Vertex Color R available for a rigid-to-flexible mask?
+3. Is there enough vertex density for Crown Sway, Vertex Wave and Leaf Flutter?
+4. Are normals consistent enough for normal-direction flutter?
+5. Is local Y meaningful if automatic height masking is desired?
+6. Do visible and shadow passes operate on the same topology?
+7. Does close zoom expose deformation artifacts?
+8. Does far zoom need reduced flutter or a different LOD?
+
+Preferred fix order:
+1. material/setup fix;
+2. vertex-color, UV or normal authoring fix;
+3. split leaves from trunk;
+4. small shared-shader extension;
+5. only then consider a larger shader rewrite.
+
 ## Core principle
 
 Wind is vertex animation on the GPU.
