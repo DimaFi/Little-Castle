@@ -83,6 +83,11 @@ namespace LittleCastle.Gameplay
                     gameHours,
                     isNight);
 
+                SettlementHappinessSystem.Advance(
+                    settlement,
+                    gameHours,
+                    rules.population);
+
                 ConstructionSystem.Advance(
                     settlement,
                     gameHours);
@@ -111,6 +116,39 @@ namespace LittleCastle.Gameplay
                     timeState.dayIndex);
 
             matchRules.Evaluate(state);
+        }
+
+        public bool SetResidentForcedNightWork(
+            long settlementId,
+            long residentId,
+            bool forced)
+        {
+            SettlementGameplayState settlement =
+                state.FindSettlement(
+                    settlementId);
+
+            if (settlement == null)
+                return false;
+
+            for (int i = 0;
+                 i < settlement.residents.Count;
+                 i++)
+            {
+                ResidentState resident =
+                    settlement.residents[i];
+
+                if (resident != null &&
+                    resident.residentId ==
+                    residentId)
+                {
+                    resident.forceWorkAtNight =
+                        forced;
+
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public void DefeatRuler(
@@ -311,8 +349,18 @@ namespace LittleCastle.Gameplay
                  i < settlement.residents.Count;
                  i++)
             {
+                ResidentState resident =
+                    settlement.residents[i];
+
+                if (resident == null)
+                    continue;
+
+                ResidentScheduleSystem.UpdatePreferredActivity(
+                    resident,
+                    isNight);
+
                 ResidentNeedsSystem.Advance(
-                    settlement.residents[i],
+                    resident,
                     gameHours,
                     isNight,
                     rules.population);
