@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using LittleCastle.World;
+using LittleCastle.CameraSystem;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -640,7 +641,61 @@ namespace LittleCastle.Editor
             cameraObject.tag = "MainCamera";
             cameraObject.transform.position = new Vector3(72f, 92f, -72f);
             cameraObject.transform.LookAt(new Vector3(32f, 0f, 32f));
-            camera.farClipPlane = 2000f;
+            camera.farClipPlane = 2500f;
+
+            StrategyCameraController strategyCamera =
+                cameraObject.AddComponent<
+                    StrategyCameraController>();
+
+            var cameraControllerData =
+                new SerializedObject(
+                    strategyCamera);
+
+            cameraControllerData.FindProperty(
+                "streamingFocus").objectReferenceValue =
+                focus.transform;
+
+            cameraControllerData.FindProperty(
+                "worldStreamer").objectReferenceValue =
+                streamer;
+
+            cameraControllerData.FindProperty(
+                "minimumPitch").floatValue =
+                6f;
+
+            cameraControllerData.FindProperty(
+                "maximumPitch").floatValue =
+                72f;
+
+            cameraControllerData.FindProperty(
+                "initialPitch").floatValue =
+                42f;
+
+            cameraControllerData.ApplyModifiedPropertiesWithoutUndo();
+            EditorUtility.SetDirty(strategyCamera);
+
+            WorldStartupWarmupController warmup =
+                worldRoot.AddComponent<
+                    WorldStartupWarmupController>();
+
+            var warmupData =
+                new SerializedObject(
+                    warmup);
+
+            warmupData.FindProperty(
+                "worldStreamer").objectReferenceValue =
+                streamer;
+
+            warmupData.FindProperty(
+                "strategyCamera").objectReferenceValue =
+                strategyCamera;
+
+            warmupData.FindProperty(
+                "extraPreparedRings").intValue =
+                1;
+
+            warmupData.ApplyModifiedPropertiesWithoutUndo();
+            EditorUtility.SetDirty(warmup);
 
             var lightObject = new GameObject("Directional Light");
             Light light = lightObject.AddComponent<Light>();
