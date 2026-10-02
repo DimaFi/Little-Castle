@@ -55,6 +55,35 @@ namespace LittleCastle.Building
         [SerializeField] private GameObject segmentPrefab;
 
         [Tooltip(
+            "Small structural tower/base that appears at the first wall point " +
+            "and becomes the origin from which the player drags the wall.")]
+        [SerializeField] private GameObject startTowerPrefab;
+
+        [Tooltip(
+            "Small repeating structural tower inserted automatically along long " +
+            "wall runs. May reuse the start tower prefab.")]
+        [SerializeField] private GameObject repeatTowerPrefab;
+
+        [Tooltip(
+            "Distance between automatically generated structural wall towers. " +
+            "0 disables repeating towers but does not disable the start tower.")]
+        [Min(0f)]
+        [SerializeField] private float automaticTowerSpacing = 14f;
+
+        [Tooltip(
+            "Wall modules whose centers fall inside this radius around an " +
+            "automatic structural tower are omitted to avoid overlap.")]
+        [Min(0f)]
+        [SerializeField] private float towerSectionClearanceRadius = 0.8f;
+
+        [Header("Structure docking")]
+        [Tooltip(
+            "Maximum cursor distance for snapping a wall control point to a " +
+            "WallConnectionSocket on a separate defensive structure.")]
+        [Min(0.1f)]
+        [SerializeField] private float structureSocketSnapDistance = 2.5f;
+
+        [Tooltip(
             "Optional dedicated endpoint/cap. It is not required by the core " +
             "layout algorithm.")]
         [SerializeField] private GameObject endCapPrefab;
@@ -102,6 +131,29 @@ namespace LittleCastle.Building
         public GameObject SegmentPrefab =>
             segmentPrefab;
 
+        public GameObject StartTowerPrefab =>
+            startTowerPrefab;
+
+        public GameObject RepeatTowerPrefab =>
+            repeatTowerPrefab != null
+                ? repeatTowerPrefab
+                : startTowerPrefab;
+
+        public float AutomaticTowerSpacing =>
+            Mathf.Max(
+                0f,
+                automaticTowerSpacing);
+
+        public float TowerSectionClearanceRadius =>
+            Mathf.Max(
+                0f,
+                towerSectionClearanceRadius);
+
+        public float StructureSocketSnapDistance =>
+            Mathf.Max(
+                0.1f,
+                structureSocketSnapDistance);
+
         public GameObject EndCapPrefab =>
             endCapPrefab;
 
@@ -121,6 +173,21 @@ namespace LittleCastle.Building
                 Mathf.Max(
                     0.01f,
                     maximumHeightStep);
+
+            automaticTowerSpacing =
+                Mathf.Max(
+                    0f,
+                    automaticTowerSpacing);
+
+            towerSectionClearanceRadius =
+                Mathf.Max(
+                    0f,
+                    towerSectionClearanceRadius);
+
+            structureSocketSnapDistance =
+                Mathf.Max(
+                    0.1f,
+                    structureSocketSnapDistance);
         }
     }
 }
