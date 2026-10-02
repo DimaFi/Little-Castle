@@ -543,3 +543,39 @@ production-model integration.
 
 LOD validators and distant shaders are infrastructure only; their existence is
 not permission to migrate finished models automatically.
+
+
+## FIRST CHECK — visibility / render budget
+
+This check is mandatory before changing camera-driven LOD, renderer culling,
+offscreen animation sleeping, peripheral quality or production LOD transition
+behavior.
+
+Read first:
+
+`docs/architecture/visibility-render-budget.md`
+
+Mandatory rules:
+
+- Unity remains responsible for frustum/occlusion draw culling;
+- do not Destroy/Instantiate objects because the camera turned;
+- do not add one camera-distance Update loop per object;
+- do not call `LODGroup.ForceLOD` every frame to implement peripheral quality;
+- authored `LODGroup` screen-size transitions own mesh selection;
+- Little Castle shared production shaders support dither LOD cross-fade;
+- quality upgrades are immediate;
+- quality downgrades use hysteresis;
+- keep a prewarm region just outside the camera to avoid turn-in pop;
+- `VisibilityBudgetManager` controls presentation only;
+- camera visibility must never pause authoritative economy, residents, combat,
+  construction, world events or multiplayer state;
+- generated WorldSpawnCatalog objects automatically receive a
+  `VisibilityBudgetTarget` unless their catalog entry explicitly opts out;
+- renderer hierarchies stay alive while hidden so Unity can reveal them without
+  asset recreation;
+- use the F8 visibility counters and
+  `World.VisibilityBudget.Evaluate` profiler marker before changing thresholds.
+
+When a real production model batch exists, follow VIS-001 through VIS-007 in
+the canonical document and record the measured result before adding GPU
+vegetation, HLOD or pooling.

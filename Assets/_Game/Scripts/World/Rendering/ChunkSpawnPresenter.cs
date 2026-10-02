@@ -163,6 +163,26 @@ namespace LittleCastle.World
             handle.Initialize(
                 spawn);
 
+            if (!entry.disableVisibilityBudget)
+            {
+                LittleCastle.Rendering.VisibilityBudgetTarget
+                    visibilityTarget =
+                        instance.GetComponent<
+                            LittleCastle.Rendering.VisibilityBudgetTarget>();
+
+                if (visibilityTarget == null)
+                {
+                    visibilityTarget =
+                        instance.AddComponent<
+                            LittleCastle.Rendering.VisibilityBudgetTarget>();
+                }
+
+                visibilityTarget.SetProfile(
+                    entry.visibilityProfile);
+
+                visibilityTarget.RebuildBounds();
+            }
+
             return true;
         }
     }

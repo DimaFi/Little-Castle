@@ -18,6 +18,17 @@ namespace LittleCastle.World
         public float scaleMultiplier = 1f;
 
         public Vector3 rotationOffsetEuler;
+
+        [Tooltip(
+            "Optional presentation-only camera visibility profile. " +
+            "Null uses VisibilityBudgetManager defaults.")]
+        public LittleCastle.Rendering.VisibilityBudgetProfile
+            visibilityProfile;
+
+        [Tooltip(
+            "Rare opt-out for presentation types managed by another renderer, " +
+            "for example a future GPU vegetation batch.")]
+        public bool disableVisibilityBudget;
     }
 
     /// <summary>
