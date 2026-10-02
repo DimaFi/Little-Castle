@@ -229,3 +229,30 @@ audit.
 
 Runtime correctness and visual quality remain intentionally unclaimed until
 Unity 6000.5.5f1 compiles and renders the stack.
+
+
+## Second static pass after wind / roughness / hemispherical ambient
+
+Re-ran repository checks after the final pre-Unity changes.
+
+Confirmed again:
+
+- all six custom ShaderLab files have balanced braces;
+- every CGPROGRAM has a matching ENDCG;
+- all five newly added/modified C# rendering/editor/test files have balanced
+  braces;
+- no temporary Material is incorrectly used through IDisposable/using syntax;
+- LC_StylizedLit contains exactly one ForwardAdd pass;
+- the duplicate attenuation declaration around UNITY_LIGHT_ATTENUATION was
+  removed;
+- LC_StylizedLit still contains Roughness support;
+- LC_StylizedLit/Foliage/Grass/Terrain all consume hemispherical ambient;
+- StylizedLightingGlobals publishes sky/equator/ground ambient globals;
+- LC_Foliage contains two ApplyWind implementations (visible + shadow), two
+  wind-mask helpers, and two separate-opacity samplers;
+- LC_Grass contains two ApplyGrassWind implementations and two separate-opacity
+  samplers.
+
+No new repository-structure failure was found in this second static pass.
+
+Unity shader compilation/runtime validation is still mandatory.
