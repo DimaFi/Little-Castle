@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionBounces: 1
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
-  m_Sun: {fileID: 0}
+  m_Sun: {fileID: 825599670}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -130,6 +130,8 @@ GameObject:
   - component: {fileID: 85530201}
   - component: {fileID: 85530200}
   - component: {fileID: 85530199}
+  - component: {fileID: 85530202}
+  - component: {fileID: 85530203}
   m_Layer: 0
   m_Name: WorldRoot
   m_TagString: Untagged
@@ -176,6 +178,51 @@ MonoBehaviour:
   previewMaterial: {fileID: 2100000, guid: 04c9751b4cdefef49bd1347399fb8160, type: 2}
   renderGeneratedSpawns: 1
   generateOnStart: 0
+--- !u!114 &85530202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 85530198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b6d1a8e4c956a7f9e32d5907148ca63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: LittleCastle.Runtime::LittleCastle.World.WorldTimeSystem
+  worldDefinition: {fileID: 11400000, guid: 2d38fe5d89f5d8b4d9cb3c8256688ceb, type: 2}
+  timeSettingsOverride: {fileID: 0}
+  runAutomatically: 1
+  simulationSpeedMultiplier: 1
+--- !u!114 &85530203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 85530198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c7e2b9f5da67b80af43e6a18259db74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: LittleCastle.Runtime::LittleCastle.World.DayNightLightingController
+  timeSystem: {fileID: 85530202}
+  sun: {fileID: 825599670}
+  moon: {fileID: 0}
+  sunAzimuth: -30
+  maxSunIntensity: 1.1
+  maxMoonIntensity: 0.16
+  sunDayColor: {r: 1, g: 0.96, b: 0.84, a: 1}
+  sunHorizonColor: {r: 1, g: 0.58, b: 0.34, a: 1}
+  moonColor: {r: 0.62, g: 0.72, b: 1, a: 1}
+  dawnTransitionGameHours: 2
+  duskTransitionGameHours: 2
+  dayAmbientSky: {r: 0.78, g: 0.82, b: 0.86, a: 1}
+  dayAmbientEquator: {r: 0.62, g: 0.66, b: 0.7, a: 1}
+  dayAmbientGround: {r: 0.42, g: 0.44, b: 0.4, a: 1}
+  nightAmbientSky: {r: 0.34, g: 0.4, b: 0.54, a: 1}
+  nightAmbientEquator: {r: 0.26, g: 0.31, b: 0.42, a: 1}
+  nightAmbientGround: {r: 0.18, g: 0.21, b: 0.29, a: 1}
 --- !u!4 &85530201
 Transform:
   m_ObjectHideFlags: 0
