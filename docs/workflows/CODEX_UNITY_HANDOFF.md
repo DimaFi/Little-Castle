@@ -1013,3 +1013,31 @@ The first Unity integration pass is successful when:
 - no existing architectural rule had to be broken to achieve this.
 
 If a criterion cannot be completed, document exactly why instead of hiding the limitation.
+
+
+## Cooperative prefetch is now implemented
+
+Do not restore synchronous full-chunk generation inside WorldStreamer
+presentation.
+
+Current rule:
+
+```text
+WorldStreamer visible request
+        ↓
+data cache ready?
+   yes        no
+    ↓          ↓
+present     cooperative generation
+               ↓
+          cache WorldChunkData
+               ↓
+             present
+```
+
+Background prefetch fills a larger data-only ring outside the visible radius.
+
+Important: do not replace this with Task.Run over the existing
+WorldGenerationPipeline. Some stages still read ScriptableObject and
+AnimationCurve state. First identify/snapshot thread-safe data and profile the
+expensive stage.
