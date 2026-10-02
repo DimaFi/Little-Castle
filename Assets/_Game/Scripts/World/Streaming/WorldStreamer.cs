@@ -170,6 +170,17 @@ namespace LittleCastle.World
             }
         }
 
+        public bool IsVisibleAreaReady =>
+            initialized &&
+            MissingDesiredChunkCount == 0;
+
+        public float VisibleReadiness01 =>
+            DesiredChunkCount <= 0
+                ? (initialized ? 1f : 0f)
+                : 1f -
+                  (float)MissingDesiredChunkCount /
+                  DesiredChunkCount;
+
         public int ActiveTerrainColliderCount => activeTerrainColliderCount;
         public Transform Focus => focus;
 
