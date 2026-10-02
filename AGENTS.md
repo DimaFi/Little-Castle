@@ -347,3 +347,25 @@ For vegetation/material authoring also read:
 
 - `docs/architecture/foliage-wind-authoring.md`;
 - `docs/architecture/material-texture-contract.md`.
+
+## Production LOD / distant presentation rule
+
+Major production models are expected to arrive from Blender/Astra/Codex with
+authored LODs. Do not build a runtime mesh-simplification pipeline by default.
+
+For the farthest forest/village/object LOD:
+
+- preserve silhouette first;
+- disable realtime shadow casting and receiving;
+- do not use local Point/Spot lighting;
+- avoid Light/Reflection Probe cost;
+- prefer `Little Castle/Distance/LC Distant Simple` when visually acceptable;
+- keep colliders near gameplay only, not across the full visible distance.
+
+Before adding a major prefab to WorldSpawnCatalog, run:
+
+`Little Castle -> Assets -> Validate Selected Production Model`
+
+Read:
+`docs/architecture/lod-and-production-assets.md`
+
