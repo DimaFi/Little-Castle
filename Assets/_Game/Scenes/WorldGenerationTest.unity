@@ -132,6 +132,7 @@ GameObject:
   - component: {fileID: 85530199}
   - component: {fileID: 85530202}
   - component: {fileID: 85530203}
+  - component: {fileID: 85530204}
   m_Layer: 0
   m_Name: WorldRoot
   m_TagString: Untagged
@@ -244,6 +245,31 @@ MonoBehaviour:
   dayFogEnd: 900
   nightFogStart: 170
   nightFogEnd: 720
+--- !u!114 &85530204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 85530198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91d59c7dbcc74d24b949902a3937b905, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: LittleCastle.Runtime::LittleCastle.Rendering.StylizedLightingGlobals
+  timeSystem: {fileID: 85530202}
+  atmosphere: {fileID: 85530203}
+  sun: {fileID: 825599670}
+  moon: {fileID: 190000002}
+  dayShadowTint: {r: 0.72, g: 0.82, b: 1, a: 1}
+  twilightShadowTint: {r: 0.48, g: 0.56, b: 0.78, a: 1}
+  nightShadowTint: {r: 0.34, g: 0.44, b: 0.68, a: 1}
+  ambientMultiplier: 1
+  sunMultiplier: 1
+  moonMultiplier: 1
+  windDirection: {x: 0.85, y: 0.3}
+  windStrength: 0.35
+  windSpeed: 1
 --- !u!4 &85530201
 Transform:
   m_ObjectHideFlags: 0
