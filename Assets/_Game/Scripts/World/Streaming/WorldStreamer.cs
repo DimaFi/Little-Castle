@@ -392,13 +392,7 @@ namespace LittleCastle.World
 
         private void OnDestroy()
         {
-            ReleaseAllViews();
-
-            if (chunkCache != null)
-                chunkCache.Clear();
-
-            if (visualChunkCache != null)
-                visualChunkCache.Clear();
+            ShutdownStreaming();
         }
 
         /// <summary>
@@ -527,6 +521,13 @@ namespace LittleCastle.World
                 runtimeDelta ??
                 new WorldRuntimeDeltaState();
 
+            runtimeDelta.RebuildIndexes();
+            runtimeDelta.ChunkRevisionChanged -=
+                OnChunkRuntimeRevisionChanged;
+
+            runtimeDelta.ChunkRevisionChanged +=
+                OnChunkRuntimeRevisionChanged;
+
             currentFocusChunk =
                 GetFocusChunk();
 
@@ -568,6 +569,12 @@ namespace LittleCastle.World
         [ContextMenu("Shutdown Streaming")]
         public void ShutdownStreaming()
         {
+            if (runtimeDelta != null)
+            {
+                runtimeDelta.ChunkRevisionChanged -=
+                    OnChunkRuntimeRevisionChanged;
+            }
+
             initialized = false;
             hasFocusChunk = false;
             macroEdgeWarningIssued = false;
@@ -631,11 +638,25 @@ namespace LittleCastle.World
         public void SetRuntimeDelta(
             WorldRuntimeDeltaState value)
         {
+            if (runtimeDelta != null)
+            {
+                runtimeDelta.ChunkRevisionChanged -=
+                    OnChunkRuntimeRevisionChanged;
+            }
+
             runtimeDelta =
                 value ??
                 new WorldRuntimeDeltaState();
 
             runtimeDelta.RebuildIndexes();
+
+            if (initialized)
+            {
+                runtimeDelta.ChunkRevisionChanged +=
+                    OnChunkRuntimeRevisionChanged;
+
+                RefreshAllActiveSpawnPresentation();
+            }
         }
 
         private bool ValidateRequiredConfiguration()
@@ -1638,6 +1659,119 @@ namespace LittleCastle.World
 
                 return true;
             }
+        }
+
+        private void OnChunkRuntimeRevisionChanged(
+            ChunkCoordinate coordinate,
+            int revision)
+        {
+            if (!initialized)
+                return;
+
+            RefreshChunkSpawnPresentation(
+                coordinate);
+        }
+
+        private void RefreshAllActiveSpawnPresentation()
+        {
+            scratchCoordinates.Clear();
+
+            foreach (
+                KeyValuePair<ChunkCoordinate, StreamedChunkView> pair
+                in activeChunks)
+            {
+                scratchCoordinates.Add(
+                    pair.Key);
+            }
+
+            for (int i = 0;
+                 i < scratchCoordinates.Count;
+                 i++)
+            {
+                RefreshChunkSpawnPresentation(
+                    scratchCoordinates[i]);
+            }
+        }
+
+        private void RefreshChunkSpawnPresentation(
+            ChunkCoordinate coordinate)
+        {
+            if (!activeChunks.TryGetValue(
+                    coordinate,
+                    out StreamedChunkView view) ||
+                view == null ||
+                !view.IsPlayableChunk ||
+                !StreamingSettings.RenderGeneratedSpawns ||
+                SpawnCatalog == null)
+            {
+                return;
+            }
+
+            WorldChunkCache sourceCache =
+                GetSourceCache(
+                    coordinate);
+
+            if (sourceCache == null ||
+                !sourceCache.TryGet(
+                    coordinate,
+                    out WorldChunkData chunkData))
+            {
+                return;
+            }
+
+            Transform root =
+                view.transform;
+
+            for (int i = root.childCount - 1;
+                 i >= 0;
+                 i--)
+            {
+                Transform child =
+                    root.GetChild(i);
+
+                if (child == null)
+                    continue;
+
+                child.gameObject.SetActive(
+                    false);
+
+                if (Application.isPlaying)
+                {
+                    Destroy(
+                        child.gameObject);
+                }
+                else
+                {
+                    DestroyImmediate(
+                        child.gameObject);
+                }
+            }
+
+            float chunkSize =
+                GenerationSettings.ChunkWorldSize;
+
+            Vector3 worldOrigin =
+                coordinate.GetWorldOrigin(
+                    chunkSize);
+
+            double spawnStartedAt =
+                Time.realtimeSinceStartupAsDouble;
+
+            using (SpawnPresentationMarker.Auto())
+            {
+                lastChunkSpawnCount =
+                    ChunkSpawnPresenter.Populate(
+                        root,
+                        chunkData,
+                        SpawnCatalog,
+                        worldOrigin,
+                        runtimeDelta);
+            }
+
+            lastSpawnPresentationMilliseconds =
+                (Time.realtimeSinceStartupAsDouble -
+                 spawnStartedAt) *
+                1000.0;
         }
 
         private void UnloadChunk(
