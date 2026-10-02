@@ -33,9 +33,13 @@ frustum/occlusion culling.
 All are under:
 `Assets/_Game/Scripts/World/Rendering/`.
 
-Generated objects created by `ChunkSpawnPresenter` are integrated by the next
-commit in this implementation series. Non-generated/player-built visual roots
-must carry one `VisibilityBudgetTarget`.
+Generated objects created by `ChunkSpawnPresenter` automatically receive a
+root `VisibilityBudgetTarget` unless their `WorldSpawnCatalogEntry` sets
+`disableVisibilityBudget`. Catalog entries may optionally assign a
+`VisibilityBudgetProfile`.
+
+Non-generated/player-built visual roots must carry one
+`VisibilityBudgetTarget`.
 
 ## Geometry rule
 

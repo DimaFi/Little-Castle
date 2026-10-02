@@ -30,11 +30,13 @@ namespace LittleCastle.Rendering
         private Vector3 localSphereCenter;
         private float localSphereRadius = 1f;
 
+        // Managed components begin in their authored/full state. The manager
+        // must perform a real downgrade before the logical tier becomes Hidden.
         private VisibilityQualityTier currentTier =
-            VisibilityQualityTier.Hidden;
+            VisibilityQualityTier.Full;
 
         private VisibilityQualityTier pendingTier =
-            VisibilityQualityTier.Hidden;
+            VisibilityQualityTier.Full;
 
         private float pendingSince;
         private bool hasPendingTier;
@@ -533,7 +535,9 @@ namespace LittleCastle.Rendering
 
             hasPendingTier = false;
             currentTier =
-                VisibilityQualityTier.Hidden;
+                VisibilityQualityTier.Full;
+            pendingTier =
+                VisibilityQualityTier.Full;
         }
 
         private static float GetMaximumScale(
