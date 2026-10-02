@@ -19,23 +19,79 @@ namespace LittleCastle.World
                 return;
             }
 
-            float safeRadius = Mathf.Max(0f, radius);
-            float cellSize = settings.CellWorldSize;
-            float chunkSize = settings.ChunkWorldSize;
-            float originX = chunk.Coordinate.x * chunkSize;
-            float originZ = chunk.Coordinate.z * chunkSize;
-            float radiusSqr = safeRadius * safeRadius;
+            float safeRadius =
+                Mathf.Max(
+                    0f,
+                    radius);
 
-            for (int z = 0; z < chunk.CellsPerSide; z++)
+            if (!TryGetCellBoundsForWorldRect(
+                    chunk,
+                    settings,
+                    center.x - safeRadius,
+                    center.y - safeRadius,
+                    center.x + safeRadius,
+                    center.y + safeRadius,
+                    out int minCellX,
+                    out int minCellZ,
+                    out int maxCellX,
+                    out int maxCellZ))
             {
-                for (int x = 0; x < chunk.CellsPerSide; x++)
-                {
-                    var cellCenter = new Vector2(
-                        originX + (x + 0.5f) * cellSize,
-                        originZ + (z + 0.5f) * cellSize);
+                return;
+            }
 
-                    if ((cellCenter - center).sqrMagnitude <= radiusSqr)
-                        chunk.AddPlacementBlocks(x, z, flags);
+            float cellSize =
+                settings.CellWorldSize;
+
+            float chunkSize =
+                settings.ChunkWorldSize;
+
+            float originX =
+                chunk.Coordinate.x *
+                chunkSize;
+
+            float originZ =
+                chunk.Coordinate.z *
+                chunkSize;
+
+            float radiusSqr =
+                safeRadius *
+                safeRadius;
+
+            for (int z = minCellZ;
+                 z <= maxCellZ;
+                 z++)
+            {
+                float worldZ =
+                    originZ +
+                    (z + 0.5f) *
+                    cellSize;
+
+                for (int x = minCellX;
+                     x <= maxCellX;
+                     x++)
+                {
+                    float worldX =
+                        originX +
+                        (x + 0.5f) *
+                        cellSize;
+
+                    float dx =
+                        worldX -
+                        center.x;
+
+                    float dz =
+                        worldZ -
+                        center.y;
+
+                    if (dx * dx +
+                        dz * dz <=
+                        radiusSqr)
+                    {
+                        chunk.AddPlacementBlocks(
+                            x,
+                            z,
+                            flags);
+                    }
                 }
             }
         }
@@ -56,23 +112,75 @@ namespace LittleCastle.World
                 return;
             }
 
-            float safeHalfWidth = Mathf.Max(0f, halfWidth);
-            float cellSize = settings.CellWorldSize;
-            float chunkSize = settings.ChunkWorldSize;
-            float originX = chunk.Coordinate.x * chunkSize;
-            float originZ = chunk.Coordinate.z * chunkSize;
-            float maxDistanceSqr = safeHalfWidth * safeHalfWidth;
+            float safeHalfWidth =
+                Mathf.Max(
+                    0f,
+                    halfWidth);
 
-            for (int z = 0; z < chunk.CellsPerSide; z++)
+            if (!TryGetExpandedPolylineCellBounds(
+                    chunk,
+                    settings,
+                    points,
+                    safeHalfWidth,
+                    out int minCellX,
+                    out int minCellZ,
+                    out int maxCellX,
+                    out int maxCellZ))
             {
-                for (int x = 0; x < chunk.CellsPerSide; x++)
-                {
-                    var cellCenter = new Vector2(
-                        originX + (x + 0.5f) * cellSize,
-                        originZ + (z + 0.5f) * cellSize);
+                return;
+            }
 
-                    for (int p = 0; p < points.Count - 1; p++)
+            float cellSize =
+                settings.CellWorldSize;
+
+            float chunkSize =
+                settings.ChunkWorldSize;
+
+            float originX =
+                chunk.Coordinate.x *
+                chunkSize;
+
+            float originZ =
+                chunk.Coordinate.z *
+                chunkSize;
+
+            float maxDistanceSqr =
+                safeHalfWidth *
+                safeHalfWidth;
+
+            for (int z = minCellZ;
+                 z <= maxCellZ;
+                 z++)
+            {
+                float worldZ =
+                    originZ +
+                    (z + 0.5f) *
+                    cellSize;
+
+                for (int x = minCellX;
+                     x <= maxCellX;
+                     x++)
+                {
+                    var cellCenter =
+                        new Vector2(
+                            originX +
+                            (x + 0.5f) *
+                            cellSize,
+                            worldZ);
+
+                    for (int p = 0;
+                         p < points.Count - 1;
+                         p++)
                     {
+                        if (!SegmentExpandedBoundsContainPoint(
+                                points[p],
+                                points[p + 1],
+                                safeHalfWidth,
+                                cellCenter))
+                        {
+                            continue;
+                        }
+
                         float distanceSqr =
                             DistancePointSegmentSqr(
                                 cellCenter,
@@ -80,7 +188,8 @@ namespace LittleCastle.World
                                 points[p + 1],
                                 out float ignoredT);
 
-                        if (distanceSqr <= maxDistanceSqr)
+                        if (distanceSqr <=
+                            maxDistanceSqr)
                         {
                             chunk.AddPlacementBlocks(
                                 x,
@@ -117,40 +226,121 @@ namespace LittleCastle.World
 
             bool hasProfile =
                 fullWidths != null &&
-                fullWidths.Count == points.Count;
+                fullWidths.Count ==
+                points.Count;
 
-            float cellSize = settings.CellWorldSize;
-            float chunkSize = settings.ChunkWorldSize;
-            float originX = chunk.Coordinate.x * chunkSize;
-            float originZ = chunk.Coordinate.z * chunkSize;
-            float safeClearance = Mathf.Max(0f, extraClearance);
+            float safeClearance =
+                Mathf.Max(
+                    0f,
+                    extraClearance);
 
-            for (int z = 0; z < chunk.CellsPerSide; z++)
+            float maximumHalfWidth =
+                safeClearance;
+
+            if (hasProfile)
             {
-                for (int x = 0; x < chunk.CellsPerSide; x++)
+                for (int i = 0;
+                     i < fullWidths.Count;
+                     i++)
                 {
-                    var cellCenter = new Vector2(
-                        originX + (x + 0.5f) * cellSize,
-                        originZ + (z + 0.5f) * cellSize);
+                    maximumHalfWidth =
+                        Mathf.Max(
+                            maximumHalfWidth,
+                            Mathf.Max(
+                                0f,
+                                fullWidths[i]) *
+                            0.5f +
+                            safeClearance);
+                }
+            }
 
-                    for (int p = 0; p < points.Count - 1; p++)
+            if (!TryGetExpandedPolylineCellBounds(
+                    chunk,
+                    settings,
+                    points,
+                    maximumHalfWidth,
+                    out int minCellX,
+                    out int minCellZ,
+                    out int maxCellX,
+                    out int maxCellZ))
+            {
+                return;
+            }
+
+            float cellSize =
+                settings.CellWorldSize;
+
+            float chunkSize =
+                settings.ChunkWorldSize;
+
+            float originX =
+                chunk.Coordinate.x *
+                chunkSize;
+
+            float originZ =
+                chunk.Coordinate.z *
+                chunkSize;
+
+            for (int z = minCellZ;
+                 z <= maxCellZ;
+                 z++)
+            {
+                float worldZ =
+                    originZ +
+                    (z + 0.5f) *
+                    cellSize;
+
+                for (int x = minCellX;
+                     x <= maxCellX;
+                     x++)
+                {
+                    var cellCenter =
+                        new Vector2(
+                            originX +
+                            (x + 0.5f) *
+                            cellSize,
+                            worldZ);
+
+                    for (int p = 0;
+                         p < points.Count - 1;
+                         p++)
                     {
+                        float widthA =
+                            hasProfile
+                                ? Mathf.Max(
+                                    0f,
+                                    fullWidths[p])
+                                : 0f;
+
+                        float widthB =
+                            hasProfile
+                                ? Mathf.Max(
+                                    0f,
+                                    fullWidths[p + 1])
+                                : widthA;
+
+                        float segmentMaxHalfWidth =
+                            Mathf.Max(
+                                widthA,
+                                widthB) *
+                            0.5f +
+                            safeClearance;
+
+                        if (!SegmentExpandedBoundsContainPoint(
+                                points[p],
+                                points[p + 1],
+                                segmentMaxHalfWidth,
+                                cellCenter))
+                        {
+                            continue;
+                        }
+
                         float distanceSqr =
                             DistancePointSegmentSqr(
                                 cellCenter,
                                 points[p],
                                 points[p + 1],
                                 out float segmentT);
-
-                        float widthA =
-                            hasProfile
-                                ? Mathf.Max(0f, fullWidths[p])
-                                : 0f;
-
-                        float widthB =
-                            hasProfile
-                                ? Mathf.Max(0f, fullWidths[p + 1])
-                                : widthA;
 
                         float localHalfWidth =
                             Mathf.Lerp(
@@ -178,28 +368,231 @@ namespace LittleCastle.World
             }
         }
 
+        private static bool TryGetExpandedPolylineCellBounds(
+            WorldChunkData chunk,
+            WorldGenerationSettings settings,
+            IReadOnlyList<Vector2> points,
+            float expansion,
+            out int minCellX,
+            out int minCellZ,
+            out int maxCellX,
+            out int maxCellZ)
+        {
+            float minX =
+                float.PositiveInfinity;
+
+            float minZ =
+                float.PositiveInfinity;
+
+            float maxX =
+                float.NegativeInfinity;
+
+            float maxZ =
+                float.NegativeInfinity;
+
+            for (int i = 0;
+                 i < points.Count;
+                 i++)
+            {
+                Vector2 point =
+                    points[i];
+
+                minX =
+                    Mathf.Min(
+                        minX,
+                        point.x);
+
+                minZ =
+                    Mathf.Min(
+                        minZ,
+                        point.y);
+
+                maxX =
+                    Mathf.Max(
+                        maxX,
+                        point.x);
+
+                maxZ =
+                    Mathf.Max(
+                        maxZ,
+                        point.y);
+            }
+
+            return
+                TryGetCellBoundsForWorldRect(
+                    chunk,
+                    settings,
+                    minX - expansion,
+                    minZ - expansion,
+                    maxX + expansion,
+                    maxZ + expansion,
+                    out minCellX,
+                    out minCellZ,
+                    out maxCellX,
+                    out maxCellZ);
+        }
+
+        private static bool TryGetCellBoundsForWorldRect(
+            WorldChunkData chunk,
+            WorldGenerationSettings settings,
+            float minWorldX,
+            float minWorldZ,
+            float maxWorldX,
+            float maxWorldZ,
+            out int minCellX,
+            out int minCellZ,
+            out int maxCellX,
+            out int maxCellZ)
+        {
+            float cellSize =
+                settings.CellWorldSize;
+
+            float chunkSize =
+                settings.ChunkWorldSize;
+
+            float originX =
+                chunk.Coordinate.x *
+                chunkSize;
+
+            float originZ =
+                chunk.Coordinate.z *
+                chunkSize;
+
+            float chunkMaxX =
+                originX +
+                chunkSize;
+
+            float chunkMaxZ =
+                originZ +
+                chunkSize;
+
+            if (maxWorldX < originX ||
+                maxWorldZ < originZ ||
+                minWorldX > chunkMaxX ||
+                minWorldZ > chunkMaxZ)
+            {
+                minCellX = 0;
+                minCellZ = 0;
+                maxCellX = -1;
+                maxCellZ = -1;
+
+                return false;
+            }
+
+            minCellX =
+                Mathf.Clamp(
+                    Mathf.FloorToInt(
+                        (minWorldX -
+                         originX) /
+                        cellSize),
+                    0,
+                    chunk.CellsPerSide - 1);
+
+            minCellZ =
+                Mathf.Clamp(
+                    Mathf.FloorToInt(
+                        (minWorldZ -
+                         originZ) /
+                        cellSize),
+                    0,
+                    chunk.CellsPerSide - 1);
+
+            maxCellX =
+                Mathf.Clamp(
+                    Mathf.FloorToInt(
+                        (maxWorldX -
+                         originX) /
+                        cellSize),
+                    0,
+                    chunk.CellsPerSide - 1);
+
+            maxCellZ =
+                Mathf.Clamp(
+                    Mathf.FloorToInt(
+                        (maxWorldZ -
+                         originZ) /
+                        cellSize),
+                    0,
+                    chunk.CellsPerSide - 1);
+
+            return
+                minCellX <= maxCellX &&
+                minCellZ <= maxCellZ;
+        }
+
+        private static bool SegmentExpandedBoundsContainPoint(
+            Vector2 a,
+            Vector2 b,
+            float expansion,
+            Vector2 point)
+        {
+            float minX =
+                Mathf.Min(
+                    a.x,
+                    b.x) -
+                expansion;
+
+            float maxX =
+                Mathf.Max(
+                    a.x,
+                    b.x) +
+                expansion;
+
+            float minZ =
+                Mathf.Min(
+                    a.y,
+                    b.y) -
+                expansion;
+
+            float maxZ =
+                Mathf.Max(
+                    a.y,
+                    b.y) +
+                expansion;
+
+            return
+                point.x >= minX &&
+                point.x <= maxX &&
+                point.y >= minZ &&
+                point.y <= maxZ;
+        }
+
         private static float DistancePointSegmentSqr(
             Vector2 point,
             Vector2 a,
             Vector2 b,
             out float segmentT)
         {
-            Vector2 ab = b - a;
-            float lengthSqr = ab.sqrMagnitude;
+            Vector2 ab =
+                b -
+                a;
 
-            if (lengthSqr <= 0.000001f)
+            float lengthSqr =
+                ab.sqrMagnitude;
+
+            if (lengthSqr <=
+                0.000001f)
             {
                 segmentT = 0f;
-                return (point - a).sqrMagnitude;
+                return
+                    (point - a).sqrMagnitude;
             }
 
             segmentT =
                 Mathf.Clamp01(
-                    Vector2.Dot(point - a, ab) /
+                    Vector2.Dot(
+                        point - a,
+                        ab) /
                     lengthSqr);
 
-            Vector2 closest = a + ab * segmentT;
-            return (point - closest).sqrMagnitude;
+            Vector2 closest =
+                a +
+                ab *
+                segmentT;
+
+            return
+                (point -
+                 closest).sqrMagnitude;
         }
     }
 }
