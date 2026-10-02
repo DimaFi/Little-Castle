@@ -53,6 +53,29 @@ This is an implementation roadmap, not a requirement to build everything at once
 - [ ] generation/streaming profiler
 - [ ] multiple streaming focuses for multiplayer cameras/observers
 
+## Phase 2A — Fast session bootstrap
+
+- [x] architecture decision: bootstrap != full-map materialization
+- [x] deterministic session inputs remain small
+- [x] lazy chunk streaming foundation exists
+- [ ] explicit session-bootstrap coordinator/state machine
+- [ ] prewarm policy for player starting chunks
+- [ ] MATCH READY boundary/event
+- [ ] bootstrap timing metrics
+- [ ] MacroWorldPlan timing metrics
+- [ ] fairness/start-selection timing metrics
+- [ ] detailed-chunk count metric before MATCH READY
+- [ ] active object/GameObject count metric before MATCH READY
+- [ ] representative 2/8/16-player bootstrap tests
+- [ ] multiple-map-size bootstrap tests
+- [ ] verify distant chunks are not generated before required
+- [ ] measure first-visit chunk materialization cost
+- [ ] measure memory growth during exploration
+- [ ] define release timing budgets after representative models/textures exist
+
+The complete finite map may be known strategically, but detailed world
+presentation must remain lazy.
+
 ## Phase 3 — Macro world plan
 
 - [ ] deterministic regions
