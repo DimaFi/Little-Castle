@@ -22,3 +22,4 @@ MonoBehaviour:
   macroEdgeWarningChunks: 2
   renderGeneratedSpawns: 1
   addMeshCollider: 1
+  colliderRadiusChunks: 1
