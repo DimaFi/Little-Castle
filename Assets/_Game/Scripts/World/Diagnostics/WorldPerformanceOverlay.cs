@@ -30,7 +30,7 @@ namespace LittleCastle.World
                 12f,
                 12f,
                 360f,
-                250f);
+                310f);
 
         private float nextSampleTime;
         private float frameTimeAccumulator;
@@ -135,17 +135,29 @@ namespace LittleCastle.World
             GUILayout.Space(4f);
 
             GUILayout.Label(
-                "Active chunks: " +
+                "Resident chunks: " +
                 worldStreamer.ActiveChunkCount +
-                " / desired " +
+                "   Visible target: " +
                 worldStreamer.DesiredChunkCount,
                 labelStyle);
 
             GUILayout.Label(
-                "Cached chunks: " +
-                worldStreamer.CachedChunkCount +
-                "   Pending loads: " +
+                "Visible missing: " +
+                worldStreamer.MissingDesiredChunkCount +
+                "   Presentation queue: " +
                 worldStreamer.PendingLoadCount,
+                labelStyle);
+
+            GUILayout.Label(
+                "Cached data: " +
+                worldStreamer.CachedChunkCount +
+                "   Generation: " +
+                worldStreamer.PendingGenerationCount +
+                " (urgent " +
+                worldStreamer.PendingUrgentGenerationCount +
+                " / bg " +
+                worldStreamer.PendingBackgroundGenerationCount +
+                ")",
                 labelStyle);
 
             GUILayout.Label(
@@ -156,7 +168,25 @@ namespace LittleCastle.World
             GUILayout.Space(4f);
 
             GUILayout.Label(
-                "Last chunk load: " +
+                "Last gen stage: " +
+                (string.IsNullOrEmpty(
+                    worldStreamer.LastGenerationStageName)
+                    ? "-"
+                    : worldStreamer.LastGenerationStageName) +
+                "  " +
+                worldStreamer.LastGenerationStageMilliseconds.ToString("0.00") +
+                " ms",
+                labelStyle);
+
+            GUILayout.Label(
+                "Prefetched chunks completed: " +
+                worldStreamer.CompletedPrefetchChunks,
+                labelStyle);
+
+            GUILayout.Space(4f);
+
+            GUILayout.Label(
+                "Last chunk presentation: " +
                 worldStreamer.LastChunkLoadMilliseconds.ToString("0.00") +
                 " ms",
                 labelStyle);
