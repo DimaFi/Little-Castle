@@ -518,6 +518,14 @@ namespace LittleCastle.Editor
             serialized.FindProperty("macroEdgeWarningChunks").intValue = 2;
             serialized.FindProperty("renderGeneratedSpawns").boolValue = true;
             serialized.FindProperty("addMeshCollider").boolValue = false;
+
+            SerializedProperty colliderRadius =
+                serialized.FindProperty(
+                    "colliderRadiusChunks");
+
+            if (colliderRadius != null)
+                colliderRadius.intValue = 1;
+
             serialized.ApplyModifiedPropertiesWithoutUndo();
             EditorUtility.SetDirty(settings);
         }
