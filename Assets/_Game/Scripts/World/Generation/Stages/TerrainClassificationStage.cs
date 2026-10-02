@@ -25,6 +25,15 @@ namespace LittleCastle.World
         [Header("Highland threshold")]
         [SerializeField] private float highlandHeight = 22f;
 
+        [Header("Impassable mountain barrier")]
+        [Tooltip(
+            "Cells at or above this height become hard mountain barriers. " +
+            "Rolling hills and ordinary highlands stay traversable.")]
+        [SerializeField] private float mountainBarrierHeight = 42f;
+
+        [Range(0f, 90f)]
+        [SerializeField] private float mountainBarrierSlope = 32f;
+
         public override void Generate(GenerationContext context, WorldChunkData chunk)
         {
             float cellSize = context.Settings.CellWorldSize;
@@ -52,7 +61,13 @@ namespace LittleCastle.World
 
                     TerrainClass terrainClass;
 
-                    if (averageHeight >= highlandHeight)
+                    if (averageHeight >= mountainBarrierHeight ||
+                        slopeDegrees >= mountainBarrierSlope)
+                    {
+                        terrainClass =
+                            TerrainClass.MountainBarrier;
+                    }
+                    else if (averageHeight >= highlandHeight)
                         terrainClass = TerrainClass.Highlands;
                     else if (slopeDegrees >= steepSlope)
                         terrainClass = TerrainClass.Steep;
