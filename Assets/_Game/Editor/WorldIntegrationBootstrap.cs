@@ -144,7 +144,7 @@ namespace LittleCastle.Editor
                 OpenSceneMode.Single);
 
             WorldGenerator generator =
-                UnityEngine.Object.FindFirstObjectByType<WorldGenerator>();
+                UnityEngine.Object.FindAnyObjectByType<WorldGenerator>();
 
             if (generator == null)
                 throw new InvalidOperationException("WorldGenerator is missing from the test scene.");
@@ -183,8 +183,7 @@ namespace LittleCastle.Editor
         {
             int count = 0;
             GameObject[] objects = UnityEngine.Object.FindObjectsByType<GameObject>(
-                FindObjectsInactive.Include,
-                FindObjectsSortMode.None);
+                FindObjectsInactive.Include);
 
             for (int i = 0; i < objects.Length; i++)
             {
