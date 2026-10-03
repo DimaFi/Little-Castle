@@ -256,6 +256,74 @@ namespace LittleCastle.Editor
                 "B draws a real modular wall; F7 toggles controls; F8 toggles performance.");
         }
 
+        private static Candidate FindCandidateByPrefabName(
+            string prefabName)
+        {
+            string[] guids =
+                AssetDatabase.FindAssets(
+                    prefabName + " t:Prefab",
+                    new[]
+                    {
+                        ReadyModelCatalogSync.ReadyRoot
+                    });
+
+            for (int i = 0; i < guids.Length; i++)
+            {
+                string path =
+                    AssetDatabase.GUIDToAssetPath(
+                        guids[i]);
+
+                GameObject prefab =
+                    AssetDatabase.LoadAssetAtPath<GameObject>(
+                        path);
+
+                if (prefab == null ||
+                    !string.Equals(
+                        prefab.name,
+                        prefabName,
+                        StringComparison.OrdinalIgnoreCase))
+                {
+                    continue;
+                }
+
+                GameObject instance =
+                    PrefabUtility.InstantiatePrefab(
+                        prefab)
+                    as GameObject;
+
+                Bounds bounds =
+                    instance != null
+                        ? GetCombinedLocalRendererBounds(
+                            instance)
+                        : new Bounds(
+                            Vector3.zero,
+                            Vector3.one);
+
+                if (instance != null)
+                {
+                    UnityEngine.Object.DestroyImmediate(
+                        instance);
+                }
+
+                Debug.Log(
+                    "[Little Castle Sandbox] Recovered local prefab '" +
+                    prefabName +
+                    "' from " +
+                    path +
+                    ".");
+
+                return
+                    new Candidate
+                    {
+                        prefab = prefab,
+                        path = path,
+                        bounds = bounds
+                    };
+            }
+
+            return null;
+        }
+
         private static Candidate LoadCanonicalCandidate(
             string path)
         {
@@ -915,8 +983,39 @@ namespace LittleCastle.Editor
             Candidate pillar,
             Candidate end)
         {
-            if (segment == null)
+            // Never rely on heuristic discovery for the canonical wall kit.
+            // The local snapshot proved these exact prefabs exist, so recover
+            // them by exact path/name if an earlier candidate scan missed them.
+            segment =
+                segment ??
+                LoadCanonicalCandidate(
+                    CanonicalWall2mPrefabPath) ??
+                FindCandidateByPrefabName(
+                    "MOD_Wall_Stone_2m_A");
+
+            pillar =
+                pillar ??
+                LoadCanonicalCandidate(
+                    CanonicalWallPillarPrefabPath) ??
+                FindCandidateByPrefabName(
+                    "MOD_Wall_Stone_Pillar_A");
+
+            end =
+                end ??
+                LoadCanonicalCandidate(
+                    CanonicalWallEndPrefabPath) ??
+                FindCandidateByPrefabName(
+                    "MOD_Wall_Stone_End_A");
+
+            if (segment == null ||
+                segment.prefab == null)
+            {
+                Debug.LogError(
+                    "[Little Castle Sandbox] Canonical wall segment " +
+                    "MOD_Wall_Stone_2m_A could not be loaded even though it " +
+                    "was present in the last local asset snapshot.");
                 return null;
+            }
 
             WallPlacementDefinition definition =
                 AssetDatabase.LoadAssetAtPath<
@@ -1218,6 +1317,23 @@ namespace LittleCastle.Editor
 
             inputData.ApplyModifiedPropertiesWithoutUndo();
 
+            if (wallDefinition == null)
+            {
+                wallDefinition =
+                    AssetDatabase.LoadAssetAtPath<
+                        WallPlacementDefinition>(
+                        WallDefinitionPath);
+            }
+
+            if (wallDefinition == null)
+            {
+                wallDefinition =
+                    BuildLocalWallDefinition(
+                        null,
+                        null,
+                        null);
+            }
+
             LocalSandboxController sandbox =
                 root.AddComponent<
                     LocalSandboxController>();
@@ -1248,6 +1364,26 @@ namespace LittleCastle.Editor
                 showcaseHouse;
 
             sandboxData.ApplyModifiedPropertiesWithoutUndo();
+            EditorUtility.SetDirty(sandbox);
+
+            if (wallDefinition != null)
+            {
+                Debug.Log(
+                    "[Little Castle Sandbox] Wall definition bound: " +
+                    AssetDatabase.GetAssetPath(
+                        wallDefinition) +
+                    " | segment=" +
+                    (wallDefinition.SegmentPrefab != null
+                        ? wallDefinition.SegmentPrefab.name
+                        : "NONE") +
+                    ".");
+            }
+            else
+            {
+                Debug.LogError(
+                    "[Little Castle Sandbox] Failed to bind LocalStoneWall " +
+                    "after exact-path and name-based recovery.");
+            }
 
             Selection.activeGameObject =
                 root;
