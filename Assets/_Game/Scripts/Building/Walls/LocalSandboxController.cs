@@ -71,8 +71,20 @@ namespace LittleCastle.Building
 
         public void ToggleWallBuild()
         {
-            if (wallInput == null || wallDefinition == null)
+            if (wallInput == null)
+            {
+                Debug.LogError(
+                    "[Little Castle Sandbox] Wall input controller is missing.");
                 return;
+            }
+
+            if (wallDefinition == null)
+            {
+                Debug.LogError(
+                    "[Little Castle Sandbox] Wall definition is missing. " +
+                    "Rebuild the full local sandbox after syncing wall assets.");
+                return;
+            }
 
             if (wallInput.IsBuilding)
             {
@@ -333,6 +345,12 @@ namespace LittleCastle.Building
 
             GUILayout.Label(
                 "LITTLE CASTLE — LOCAL SANDBOX");
+
+            if (wallDefinition == null)
+            {
+                GUILayout.Label(
+                    "СТЕНА НЕ ПОДКЛЮЧЕНА: Wall Definition = None");
+            }
 
             GUILayout.Label(
                 "B — начать / отменить строительство стены");
