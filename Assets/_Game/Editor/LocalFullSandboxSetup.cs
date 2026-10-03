@@ -237,13 +237,31 @@ namespace LittleCastle.Editor
                 if (prefab == null)
                     continue;
 
+                GameObject instance =
+                    PrefabUtility.InstantiatePrefab(
+                        prefab)
+                    as GameObject;
+
+                Bounds bounds =
+                    instance != null
+                        ? GetCombinedLocalRendererBounds(
+                            instance)
+                        : new Bounds(
+                            Vector3.zero,
+                            Vector3.one);
+
+                if (instance != null)
+                {
+                    UnityEngine.Object.DestroyImmediate(
+                        instance);
+                }
+
                 result.Add(
                     new Candidate
                     {
                         prefab = prefab,
                         path = path,
-                        bounds = GetCombinedLocalRendererBounds(
-                            prefab)
+                        bounds = bounds
                     });
             }
 
