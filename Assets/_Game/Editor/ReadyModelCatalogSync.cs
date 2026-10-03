@@ -253,12 +253,22 @@ namespace LittleCastle.Editor
                 }
                 foreach (Renderer renderer in instance.GetComponentsInChildren<Renderer>(true))
                 {
-                    if (!assigned.Contains(renderer))
+                    if (assigned.Contains(renderer))
+                        continue;
+
+                    if (IsCollisionProxyRenderer(renderer, instance.transform))
                     {
-                        Debug.LogError("[Little Castle Assets] Renderer outside LOD " +
-                            "nodes: " + renderer.name);
-                        return false;
+                        // Blender/FBX collision proxies such as UCX_* can arrive
+                        // with a MeshRenderer even though they are not visual
+                        // geometry. Keep the mesh for later collider assembly,
+                        // but never let it render or invalidate the visual LOD set.
+                        renderer.enabled = false;
+                        continue;
                     }
+
+                    Debug.LogError("[Little Castle Assets] Renderer outside LOD " +
+                        "nodes: " + renderer.name);
+                    return false;
                 }
 
                 var lods = new LOD[nodes.Count];
@@ -286,6 +296,51 @@ namespace LittleCastle.Editor
             {
                 UnityEngine.Object.DestroyImmediate(instance);
             }
+        }
+
+        private static bool IsCollisionProxyRenderer(
+            Renderer renderer,
+            Transform modelRoot)
+        {
+            if (renderer == null)
+                return false;
+
+            for (Transform node = renderer.transform;
+                 node != null;
+                 node = node.parent)
+            {
+                string name = node.name ?? string.Empty;
+
+                if (name.StartsWith(
+                        "UCX_",
+                        StringComparison.OrdinalIgnoreCase) ||
+                    name.StartsWith(
+                        "UBX_",
+                        StringComparison.OrdinalIgnoreCase) ||
+                    name.StartsWith(
+                        "USP_",
+                        StringComparison.OrdinalIgnoreCase) ||
+                    name.StartsWith(
+                        "UCP_",
+                        StringComparison.OrdinalIgnoreCase) ||
+                    name.StartsWith(
+                        "COL_",
+                        StringComparison.OrdinalIgnoreCase) ||
+                    name.IndexOf(
+                        "Collider",
+                        StringComparison.OrdinalIgnoreCase) >= 0 ||
+                    name.IndexOf(
+                        "Collision",
+                        StringComparison.OrdinalIgnoreCase) >= 0)
+                {
+                    return true;
+                }
+
+                if (node == modelRoot)
+                    break;
+            }
+
+            return false;
         }
 
         private static bool TryFindLodRenderers(
