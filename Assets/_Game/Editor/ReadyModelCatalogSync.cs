@@ -201,24 +201,25 @@ namespace LittleCastle.Editor
                 var rendererSets = new List<Renderer[]>();
                 for (int level = 0; level < 4; level++)
                 {
-                    Transform node = FindNamedChild(instance.transform,
-                        "LOD" + level);
-                    if (node == null)
+                    if (!TryFindLodRenderers(
+                            instance.transform,
+                            level,
+                            out Transform node,
+                            out Renderer[] renderers))
+                    {
                         break;
-                    Renderer[] renderers = node.GetComponentsInChildren<Renderer>(true);
-                    if (renderers.Length == 0)
-                        break;
+                    }
+
                     nodes.Add(node);
                     rendererSets.Add(renderers);
                 }
 
-                if (nodes.Count < 3 ||
-                    FindNamedChild(instance.transform,
-                        "LOD" + nodes.Count) != null)
+                if (nodes.Count < 3)
                 {
                     Debug.LogError("[Little Castle Assets] " + model.name +
                         " requires consecutive nonempty LOD0, LOD1 and LOD2 " +
-                        "nodes (optional LOD3).");
+                        "nodes (optional LOD3). Accepted embedded names include " +
+                        "LOD0 or names ending in _LOD0.");
                     return false;
                 }
 
@@ -285,6 +286,83 @@ namespace LittleCastle.Editor
             {
                 UnityEngine.Object.DestroyImmediate(instance);
             }
+        }
+
+        private static bool TryFindLodRenderers(
+            Transform root,
+            int level,
+            out Transform lodRoot,
+            out Renderer[] renderers)
+        {
+            string exactName = "LOD" + level;
+
+            Transform exact =
+                FindNamedChild(
+                    root,
+                    exactName);
+
+            if (exact != null)
+            {
+                renderers =
+                    exact.GetComponentsInChildren<Renderer>(
+                        true);
+
+                if (renderers.Length > 0)
+                {
+                    lodRoot = exact;
+                    return true;
+                }
+            }
+
+            string suffix =
+                "_LOD" + level;
+
+            var collected =
+                new List<Renderer>();
+
+            var seen =
+                new HashSet<Renderer>();
+
+            Transform[] transforms =
+                root.GetComponentsInChildren<Transform>(
+                    true);
+
+            for (int i = 0; i < transforms.Length; i++)
+            {
+                Transform candidate =
+                    transforms[i];
+
+                if (candidate == root ||
+                    !candidate.name.EndsWith(
+                        suffix,
+                        StringComparison.OrdinalIgnoreCase))
+                {
+                    continue;
+                }
+
+                Renderer[] candidateRenderers =
+                    candidate.GetComponentsInChildren<Renderer>(
+                        true);
+
+                for (int r = 0;
+                     r < candidateRenderers.Length;
+                     r++)
+                {
+                    Renderer renderer =
+                        candidateRenderers[r];
+
+                    if (renderer != null &&
+                        seen.Add(renderer))
+                    {
+                        collected.Add(renderer);
+                    }
+                }
+            }
+
+            lodRoot = root;
+            renderers = collected.ToArray();
+
+            return renderers.Length > 0;
         }
 
         private static Transform FindNamedChild(Transform root, string name)
