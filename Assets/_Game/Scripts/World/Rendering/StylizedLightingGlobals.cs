@@ -307,7 +307,7 @@ namespace LittleCastle.Rendering
             if (atmosphere == null)
             {
                 atmosphere =
-                    FindFirstObjectByType<
+                    FindAnyObjectByType<
                         LittleCastle.World.DayNightLightingController>();
             }
 
@@ -316,7 +316,7 @@ namespace LittleCastle.Rendering
                 timeSystem =
                     atmosphere != null
                         ? atmosphere.TimeSystem
-                        : FindFirstObjectByType<
+                        : FindAnyObjectByType<
                             LittleCastle.World.WorldTimeSystem>();
             }
 
