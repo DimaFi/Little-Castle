@@ -278,7 +278,7 @@ Not yet considered finished:
 - GPU-instanced large vegetation presenter;
 - generated-object pooling;
 - chunk-root pooling;
-- HLOD village/forest clusters;
+- concrete HLOD village/forest/wall proxy builders/bakers (runtime foundation exists);
 - predictive camera-direction streaming;
 - object collider distance tiers;
 - mipmap streaming validation;
@@ -313,3 +313,19 @@ configuration validation and multi-seed data-only generation stress checks.
 The stress pass reports each generation stage separately. If one stage exceeds
 the frame budget, optimize/split that stage rather than increasing the number of
 whole chunk stages executed per frame.
+
+
+## HLOD runtime foundation
+
+The repository now contains the presentation-side HLOD switching/rebuild
+foundation, but not a speculative one-size-fits-all wall/village mesh builder.
+
+Canonical details:
+
+`docs/architecture/render-optimization-hlod.md`
+
+The concrete builder must be integrated only after inspecting the real
+production wall/tower/gate materials, LODs and player-identity requirements,
+and after a measured stress-scene baseline. Static authored clusters should
+prefer prebaked/editor HLOD; genuinely dynamic player-built clusters may use a
+budgeted runtime rebuild path.
