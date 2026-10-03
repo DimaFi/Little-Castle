@@ -5,6 +5,7 @@ using LittleCastle.World;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace LittleCastle.Editor
 {
@@ -229,7 +230,10 @@ namespace LittleCastle.Editor
                 ". " +
                 presenter.LastValidationMessage);
 
-            UnityEngine.Object.DestroyImmediate(definition);
+            if (Application.isPlaying)
+                UnityEngine.Object.Destroy(definition);
+            else
+                UnityEngine.Object.DestroyImmediate(definition);
         }
 
         [MenuItem("Little Castle/Testing/Wall/Clear")]
@@ -414,7 +418,7 @@ namespace LittleCastle.Editor
 
         private static bool EnsureTestSceneOpen()
         {
-            if (EditorSceneManager.GetActiveScene().path ==
+            if (SceneManager.GetActiveScene().path ==
                 TestScenePath)
             {
                 return true;
@@ -480,7 +484,7 @@ namespace LittleCastle.Editor
 
             Vector3 center =
                 ResolveTestCenter() +
-                new Vector3(180f, 18f, 180f);
+                new Vector3(0f, 18f, 0f);
 
             float half =
                 (side - 1) *
