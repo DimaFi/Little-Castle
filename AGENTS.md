@@ -339,6 +339,49 @@ For significant generation/streaming changes, verify at representative
 See:
 `docs/decisions/ADR-0002-fast-session-bootstrap-lazy-world-materialization.md`.
 
+## Production model + world-fill preflight rule
+
+Before a production model batch is accepted for large procedural placement, run:
+
+`Little Castle -> Preflight -> Run Full Model + World Preflight`
+
+Do not bypass a reported error by weakening deterministic generation contracts.
+
+Performance rules for the filling test:
+
+- keep authoritative `WorldSpawnData` prefab-independent;
+- preserve one stable archetype ID with multiple visual variants;
+- use authored LODs rather than runtime mesh simplification;
+- keep generated-object colliders near-only through
+  `GeneratedObjectColliderRadiusChunks`;
+- do not restore linear per-spawn catalog scans;
+- do not restore all-entity scans for per-chunk runtime entity queries;
+- preserve macro point spatial indexing and bridge river-segment spatial indexing;
+- optimization must not change output for the same seed/settings unless the
+  generation version is intentionally advanced;
+- inspect the preflight per-stage timings before increasing generation budgets.
+
+## Authoritative gameplay foundation rule
+
+Before changing population, economy, construction, barracks, neutral trading,
+match outcome rules, ruler progression or world events, read:
+
+`docs/architecture/gameplay-foundation.md`
+
+Mandatory rules:
+
+- authoritative gameplay is plain serializable state, not scene GameObjects;
+- gameplay elapsed time comes from the authoritative world clock;
+- ruler defeat starts recovery and does not eliminate the player;
+- default elimination is destruction of the capital main house;
+- new victory/defeat modes extend `IMatchRule`;
+- player-built buildings store stable IDs, transforms, construction progress and HP;
+- neutral settlements derive stable identity from macro-world features;
+- blessing and curse rolls use deterministic session inputs;
+- curse backlash is a separate roll applied to the caster when triggered;
+- balance values live in gameplay rule data, not UI code;
+- systems must remain compatible with Active/Warm/Sleeping simulation.
+
 ## Continuous world-time rule
 
 Little Castle uses one continuous authoritative simulation clock.
@@ -500,3 +543,77 @@ production-model integration.
 
 LOD validators and distant shaders are infrastructure only; their existence is
 not permission to migrate finished models automatically.
+
+
+## FIRST CHECK — visibility / render budget
+
+This check is mandatory before changing camera-driven LOD, renderer culling,
+offscreen animation sleeping, peripheral quality or production LOD transition
+behavior.
+
+Read first:
+
+`docs/architecture/visibility-render-budget.md`
+
+Mandatory rules:
+
+- Unity remains responsible for frustum/occlusion draw culling;
+- do not Destroy/Instantiate objects because the camera turned;
+- do not add one camera-distance Update loop per object;
+- do not call `LODGroup.ForceLOD` every frame to implement peripheral quality;
+- authored `LODGroup` screen-size transitions own mesh selection;
+- Little Castle shared production shaders support dither LOD cross-fade;
+- quality upgrades are immediate;
+- quality downgrades use hysteresis;
+- keep a prewarm region just outside the camera to avoid turn-in pop;
+- `VisibilityBudgetManager` controls presentation only;
+- camera visibility must never pause authoritative economy, residents, combat,
+  construction, world events or multiplayer state;
+- generated WorldSpawnCatalog objects automatically receive a
+  `VisibilityBudgetTarget` unless their catalog entry explicitly opts out;
+- renderer hierarchies stay alive while hidden so Unity can reveal them without
+  asset recreation;
+- use the F8 visibility counters and
+  `World.VisibilityBudget.Evaluate` profiler marker before changing thresholds.
+
+When a real production model batch exists, follow VIS-001 through VIS-007 in
+the canonical document and record the measured result before adding GPU
+vegetation, HLOD or pooling.
+
+
+## FIRST CHECK — HLOD / large-settlement render optimization
+
+This check is mandatory before adding a second camera-distance manager,
+wall/village HLOD, renderer-cluster merging, runtime mesh combining, or broad
+"optimization" changes for walls/towers/buildings.
+
+Read first, in this order:
+
+- `docs/architecture/visibility-render-budget.md`;
+- `docs/architecture/lod-and-production-assets.md`;
+- `docs/architecture/render-optimization-hlod.md`;
+- `docs/handoffs/CODEX_RENDER_OPTIMIZATION.md`.
+
+Canonical rules:
+
+- `VisibilityBudgetManager` remains the single global camera-driven
+  presentation-budget manager;
+- `LODGroup` owns authored geometry LOD by screen size;
+- HLOD is presentation-only and must never own wall/building HP, construction,
+  ownership, save or multiplayer truth;
+- source wall/tower GameObjects stay alive when an HLOD proxy is shown;
+  normally disable source Renderers, not gameplay/collider roots;
+- concrete wall/village HLOD proxy generation must be justified against real
+  production assets and stress-scene profiler data;
+- rapid build/destroy edits are coalesced through `HlodRebuildScheduler`;
+- do not runtime-decimate imported production meshes by default;
+- preserve shared meshes/materials/GPU instancing and use
+  `MaterialPropertyBlock` for per-player visual identity instead of material
+  cloning;
+- HLOD proxies contain no gameplay colliders or authoritative scripts;
+- final acceptance requires Unity Profiler + Frame Debugger measurements, not
+  only triangle-count guesses.
+
+For a Codex/CLI handoff on Windows, run:
+
+`Tools\\Agents\\CODEX_RENDER_OPTIMIZATION.cmd`

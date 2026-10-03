@@ -101,6 +101,13 @@ namespace LittleCastle.World
         [Min(0)]
         [SerializeField] private int colliderRadiusChunks = 1;
 
+        [Tooltip(
+            "Generated model colliders are enabled only inside this radius. " +
+            "Their renderers/LODs can stay visible farther away without paying " +
+            "Physics cost for distant trees, rocks and props.")]
+        [Min(0)]
+        [SerializeField] private int generatedObjectColliderRadiusChunks = 1;
+
         public int LoadRadiusChunks =>
             Mathf.Max(0, loadRadiusChunks);
 
@@ -165,6 +172,12 @@ namespace LittleCastle.World
         public int ColliderRadiusChunks =>
             Mathf.Clamp(
                 colliderRadiusChunks,
+                0,
+                LoadRadiusChunks);
+
+        public int GeneratedObjectColliderRadiusChunks =>
+            Mathf.Clamp(
+                generatedObjectColliderRadiusChunks,
                 0,
                 LoadRadiusChunks);
     }

@@ -38,6 +38,7 @@ Shader "Little Castle/Distance/LC Distant Simple"
             #pragma fragment frag
             #pragma multi_compile_fog
             #pragma multi_compile_instancing
+            #pragma multi_compile _ LOD_FADE_CROSSFADE
 
             #include "UnityCG.cginc"
 
@@ -136,6 +137,11 @@ Shader "Little Castle/Distance/LC Distant Simple"
             fixed4 frag(v2f i) : SV_Target
             {
                 UNITY_SETUP_INSTANCE_ID(i);
+
+#ifdef LOD_FADE_CROSSFADE
+                UNITY_APPLY_DITHER_CROSSFADE(
+                    i.position.xy);
+#endif
 
                 fixed4 sample =
                     tex2D(

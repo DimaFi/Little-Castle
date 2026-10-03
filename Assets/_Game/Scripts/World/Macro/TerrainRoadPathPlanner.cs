@@ -247,10 +247,12 @@ namespace LittleCastle.World
                     WorldTerrainSample sample =
                         terrainProbe.Sample(neighborWorld);
 
-                    if (sample.slope >
-                        Mathf.Max(
-                            0f,
-                            settings.maxSlope))
+                    if (sample.terrainClass ==
+                            TerrainClass.MountainBarrier ||
+                        sample.slope >
+                            Mathf.Max(
+                                0f,
+                                settings.maxSlope))
                     {
                         continue;
                     }

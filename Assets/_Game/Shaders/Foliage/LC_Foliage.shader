@@ -66,6 +66,7 @@ Shader "Little Castle/Foliage/LC Foliage"
             #pragma multi_compile_fwdbase
             #pragma multi_compile_fog
             #pragma multi_compile_instancing
+            #pragma multi_compile _ LOD_FADE_CROSSFADE
 
             #include "UnityCG.cginc"
             #include "AutoLight.cginc"
@@ -445,6 +446,11 @@ Shader "Little Castle/Foliage/LC Foliage"
             {
                 UNITY_SETUP_INSTANCE_ID(i);
 
+#ifdef LOD_FADE_CROSSFADE
+                UNITY_APPLY_DITHER_CROSSFADE(
+                    i.position.xy);
+#endif
+
                 fixed4 sample =
                     tex2D(
                         _MainTex,
@@ -640,6 +646,7 @@ Shader "Little Castle/Foliage/LC Foliage"
             #pragma fragment fragShadow
             #pragma multi_compile_shadowcaster
             #pragma multi_compile_instancing
+            #pragma multi_compile _ LOD_FADE_CROSSFADE
 
             #include "UnityCG.cginc"
 
@@ -848,6 +855,11 @@ Shader "Little Castle/Foliage/LC Foliage"
             float4 fragShadow(
                 v2f i) : SV_Target
             {
+#ifdef LOD_FADE_CROSSFADE
+                UNITY_APPLY_DITHER_CROSSFADE(
+                    i.pos.xy);
+#endif
+
                 fixed baseAlpha =
                     tex2D(
                         _MainTex,

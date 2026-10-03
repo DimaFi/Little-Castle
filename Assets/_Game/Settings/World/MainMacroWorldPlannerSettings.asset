@@ -90,4 +90,8 @@ MonoBehaviour:
   bridges:
     enabled: 1
     archetypeId: bridge_wood_small
+    standardizeCrossings: 1
+    standardRiverCrossingWidth: 8
+    standardBridgeSpan: 12
+    crossingWidthBlendPointRadius: 2
     extraSpan: 2

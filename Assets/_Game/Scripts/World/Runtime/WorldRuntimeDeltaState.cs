@@ -75,6 +75,9 @@ namespace LittleCastle.World
         private Dictionary<long, int> runtimeEntityIndex;
 
         [NonSerialized]
+        private Dictionary<ChunkCoordinate, List<int>> runtimeEntityChunkIndex;
+
+        [NonSerialized]
         private Dictionary<ChunkCoordinate, int> chunkRevisionIndex;
 
         public event Action<ChunkCoordinate, int> ChunkRevisionChanged;
@@ -315,6 +318,14 @@ namespace LittleCastle.World
                 if (previous.chunkCoordinate !=
                     state.chunkCoordinate)
                 {
+                    RemoveRuntimeEntityChunkIndex(
+                        previous.chunkCoordinate,
+                        existingIndex);
+
+                    AddRuntimeEntityChunkIndex(
+                        state.chunkCoordinate,
+                        existingIndex);
+
                     IncrementChunkRevision(
                         previous.chunkCoordinate);
                 }
@@ -325,12 +336,19 @@ namespace LittleCastle.World
                 return true;
             }
 
+            int newIndex =
+                runtimeEntities.Count;
+
             runtimeEntityIndex.Add(
                 state.runtimeId,
-                runtimeEntities.Count);
+                newIndex);
 
             runtimeEntities.Add(
                 state);
+
+            AddRuntimeEntityChunkIndex(
+                state.chunkCoordinate,
+                newIndex);
 
             IncrementChunkRevision(
                 state.chunkCoordinate);
@@ -393,12 +411,30 @@ namespace LittleCastle.World
 
             output.Clear();
 
+            EnsureIndexes();
+
+            if (!runtimeEntityChunkIndex.TryGetValue(
+                    chunkCoordinate,
+                    out List<int> indexes))
+            {
+                return;
+            }
+
             for (int i = 0;
-                 i < runtimeEntities.Count;
+                 i < indexes.Count;
                  i++)
             {
+                int index =
+                    indexes[i];
+
+                if (index < 0 ||
+                    index >= runtimeEntities.Count)
+                {
+                    continue;
+                }
+
                 WorldRuntimeEntityState state =
-                    runtimeEntities[i];
+                    runtimeEntities[index];
 
                 if (state.chunkCoordinate ==
                     chunkCoordinate)
@@ -472,20 +508,9 @@ namespace LittleCastle.World
                 }
             }
 
-            for (int i = 0;
-                 i < runtimeEntities.Count;
-                 i++)
-            {
-                WorldRuntimeEntityState state =
-                    runtimeEntities[i];
-
-                if (state.chunkCoordinate ==
-                    chunkCoordinate)
-                {
-                    snapshot.runtimeEntities.Add(
-                        state);
-                }
-            }
+            GetRuntimeEntitiesForChunk(
+                chunkCoordinate,
+                snapshot.runtimeEntities);
 
             return snapshot;
         }
@@ -876,13 +901,69 @@ namespace LittleCastle.World
             runtimeEntityIndex =
                 new Dictionary<long, int>();
 
+            runtimeEntityChunkIndex =
+                new Dictionary<ChunkCoordinate, List<int>>();
+
             for (int i = 0;
                  i < runtimeEntities.Count;
                  i++)
             {
+                WorldRuntimeEntityState state =
+                    runtimeEntities[i];
+
                 runtimeEntityIndex[
-                    runtimeEntities[i].runtimeId] =
+                    state.runtimeId] =
                     i;
+
+                AddRuntimeEntityChunkIndex(
+                    state.chunkCoordinate,
+                    i);
+            }
+        }
+
+        private void AddRuntimeEntityChunkIndex(
+            ChunkCoordinate coordinate,
+            int index)
+        {
+            if (runtimeEntityChunkIndex == null)
+            {
+                runtimeEntityChunkIndex =
+                    new Dictionary<ChunkCoordinate, List<int>>();
+            }
+
+            if (!runtimeEntityChunkIndex.TryGetValue(
+                    coordinate,
+                    out List<int> indexes))
+            {
+                indexes =
+                    new List<int>();
+
+                runtimeEntityChunkIndex.Add(
+                    coordinate,
+                    indexes);
+            }
+
+            indexes.Add(index);
+        }
+
+        private void RemoveRuntimeEntityChunkIndex(
+            ChunkCoordinate coordinate,
+            int index)
+        {
+            if (runtimeEntityChunkIndex == null ||
+                !runtimeEntityChunkIndex.TryGetValue(
+                    coordinate,
+                    out List<int> indexes))
+            {
+                return;
+            }
+
+            indexes.Remove(index);
+
+            if (indexes.Count == 0)
+            {
+                runtimeEntityChunkIndex.Remove(
+                    coordinate);
             }
         }
 
@@ -891,6 +972,7 @@ namespace LittleCastle.World
             if (removedSpawnIndex == null ||
                 removedSpawnChunkIndex == null ||
                 runtimeEntityIndex == null ||
+                runtimeEntityChunkIndex == null ||
                 chunkRevisionIndex == null)
             {
                 RebuildIndexes();

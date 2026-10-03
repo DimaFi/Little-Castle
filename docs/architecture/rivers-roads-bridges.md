@@ -140,7 +140,7 @@ Bridge sites derive from geometric road/river intersections.
 
 A bridge is not randomly scattered.
 
-Bridge span now uses the **local river width at the actual intersected river segment**, rather than one nominal width for the entire river.
+Production bridge crossings default to one fixed authored bridge: the river width profile is normalized and blended around each road/river intersection, while variable river width is preserved away from the crossing. The legacy local-width span mode remains available when standardization is disabled.
 
 Future bridge validation can add:
 
