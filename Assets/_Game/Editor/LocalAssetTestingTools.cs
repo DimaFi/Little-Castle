@@ -73,7 +73,7 @@ namespace LittleCastle.Editor
                 return;
 
             WorldGenerator generator =
-                UnityEngine.Object.FindFirstObjectByType<WorldGenerator>();
+                UnityEngine.Object.FindAnyObjectByType<WorldGenerator>();
 
             if (generator == null)
             {
