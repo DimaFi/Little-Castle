@@ -13,6 +13,8 @@
 .vs/
 .idea/
 .vscode/
+__pycache__/
+*.pyc
 *.csproj
 *.sln
 *.user
@@ -39,5 +41,29 @@ crashlytics-build.properties
 # Addressables
 /[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata/*/*.bin*
 
+# Local high-volume art library
+#
+# These folders are Unity import targets for locally synchronised production
+# assets. Keep their contents (including Unity-generated .meta files) out of
+# normal Git history. The tracked README describes the required layout.
+#
+# A clone therefore needs a separate asset-library sync before it can use
+# production models/textures. Do not commit WorldSpawnCatalog references to
+# assets from these ignored folders.
+/Assets/_Game/Models/Ready/*
+!/Assets/_Game/Models/Ready/README.md
+/Assets/_Game/Textures/Ready/
+/Assets/_Game/Art/Source/
+
 # Keep meta files tracked once Unity creates them
 !*.meta
+
+# The local-art exception must be repeated after the global meta exception.
+# Keep only the Ready folder's README tracked; Unity regenerates its metadata
+# locally after the external asset library has been synchronised.
+/Assets/_Game/Models.meta
+/Assets/_Game/Models/Ready.meta
+/Assets/_Game/Models/Ready/*.meta
+/Assets/_Game/Textures.meta
+/Assets/_Game/Textures/Ready.meta
+/Assets/_Game/Art/Source.meta

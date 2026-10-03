@@ -31,6 +31,18 @@ namespace LittleCastle.World
         menuName = "Little Castle/World/World Spawn Catalog")]
     public sealed class WorldSpawnCatalog : ScriptableObject
     {
+#if UNITY_EDITOR
+        public delegate bool LocalVariantResolver(
+            WorldSpawnCatalog catalog,
+            string archetypeId,
+            long stableId,
+            out WorldSpawnCatalogEntry entry,
+            out GameObject prefab);
+
+        // Editor-only local assets can override shared placeholder visuals.
+        public static LocalVariantResolver EditorLocalResolver;
+#endif
+
         [SerializeField]
         private List<WorldSpawnCatalogEntry> entries =
             new List<WorldSpawnCatalogEntry>();
@@ -48,6 +60,13 @@ namespace LittleCastle.World
 
             if (string.IsNullOrWhiteSpace(archetypeId))
                 return false;
+
+#if UNITY_EDITOR
+            if (EditorLocalResolver != null &&
+                EditorLocalResolver(this, archetypeId, stableId,
+                    out entry, out prefab))
+                return true;
+#endif
 
             for (int i = 0; i < entries.Count; i++)
             {

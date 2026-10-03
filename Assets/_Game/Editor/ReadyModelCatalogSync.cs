@@ -3,240 +3,280 @@ using System.Collections.Generic;
 using LittleCastle.World;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace LittleCastle.Editor
 {
     /// <summary>
-    /// Registers externally prepared, game-ready models in WorldSpawnCatalog.
-    ///
-    /// Expected folder shape:
-    /// Assets/_Game/Models/Ready/Category/ArchetypeId/VariantFile
-    ///
-    /// Unity does not convert or optimize models here. The external modeling
-    /// pipeline owns that job. This tool only connects ready assets to the
-    /// procedural world's existing archetype IDs.
+    /// Creates local LOD prefabs and an ignored overlay catalog. The shared
+    /// catalog stays usable in clean clones and is never rewritten here.
     /// </summary>
+    [InitializeOnLoad]
     public static class ReadyModelCatalogSync
     {
-        public const string ReadyRoot =
-            "Assets/_Game/Models/Ready";
-
-        public const string SpawnCatalogPath =
+        public const string ReadyRoot = "Assets/_Game/Models/Ready";
+        private const string SharedCatalogPath =
             "Assets/_Game/Settings/World/MainWorldSpawnCatalog.asset";
+        private const string LocalCatalogPath =
+            ReadyRoot + "/LocalWorldSpawnCatalog.asset";
+        private static WorldSpawnCatalog localCatalog;
+
+        static ReadyModelCatalogSync()
+        {
+            WorldSpawnCatalog.EditorLocalResolver = TryResolveLocal;
+        }
 
         [MenuItem("Little Castle/Assets/Sync Ready Models")]
         public static void Sync()
         {
-            WorldSpawnCatalog catalog =
-                AssetDatabase.LoadAssetAtPath<WorldSpawnCatalog>(
-                    SpawnCatalogPath);
-
-            if (catalog == null)
-            {
-                Debug.LogError(
-                    "WorldSpawnCatalog not found: " +
-                    SpawnCatalogPath);
-
-                return;
-            }
-
             if (!AssetDatabase.IsValidFolder(ReadyRoot))
             {
-                Debug.LogWarning(
-                    "Ready model folder does not exist yet: " +
-                    ReadyRoot);
-
+                Debug.LogError("Ready model folder is missing: " + ReadyRoot);
                 return;
             }
 
-            Dictionary<string, List<GameObject>> groups =
-                FindGroups();
+            var groups = new SortedDictionary<string, List<GameObject>>(
+                StringComparer.Ordinal);
+            string[] guids = AssetDatabase.FindAssets(
+                "t:GameObject", new[] { ReadyRoot });
+            var paths = new List<string>();
+            foreach (string guid in guids)
+                paths.Add(AssetDatabase.GUIDToAssetPath(guid));
+            paths.Sort(StringComparer.Ordinal);
+            int rejected = 0;
 
-            SerializedObject serialized =
-                new SerializedObject(catalog);
-
-            SerializedProperty entries =
-                serialized.FindProperty("entries");
-
-            int variantsRegistered = 0;
-
-            foreach (
-                KeyValuePair<string, List<GameObject>> pair
-                in groups)
+            foreach (string path in paths)
             {
-                int index =
-                    FindEntry(
-                        entries,
-                        pair.Key);
+                if (!path.EndsWith(".fbx", StringComparison.OrdinalIgnoreCase) ||
+                    !TryReadIdentity(path, out string category,
+                        out string archetypeId, out string variant))
+                    continue;
+                if (path.EndsWith("_LOD1.fbx", StringComparison.OrdinalIgnoreCase) ||
+                    path.EndsWith("_LOD2.fbx", StringComparison.OrdinalIgnoreCase) ||
+                    path.EndsWith("_LOD3.fbx", StringComparison.OrdinalIgnoreCase))
+                    continue;
 
-                if (index < 0)
+                GameObject model = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+                if (model == null ||
+                    !TryBuildPrefab(model, path, category, archetypeId,
+                        variant, out GameObject prefab))
                 {
-                    index =
-                        entries.arraySize;
-
-                    entries.InsertArrayElementAtIndex(
-                        index);
-
-                    SerializedProperty created =
-                        entries.GetArrayElementAtIndex(
-                            index);
-
-                    created.FindPropertyRelative(
-                        "archetypeId").stringValue =
-                        pair.Key;
-
-                    created.FindPropertyRelative(
-                        "scaleMultiplier").floatValue =
-                        1f;
-
-                    created.FindPropertyRelative(
-                        "rotationOffsetEuler").vector3Value =
-                        Vector3.zero;
+                    rejected++;
+                    continue;
                 }
 
-                SerializedProperty entry =
-                    entries.GetArrayElementAtIndex(
-                        index);
+                // Test releases are importable/inspectable locally but must
+                // never replace procedural runtime visuals before approval.
+                if (category.StartsWith("Test_", StringComparison.Ordinal))
+                    continue;
 
-                SerializedProperty prefabs =
-                    entry.FindPropertyRelative(
-                        "prefabs");
-
-                prefabs.arraySize =
-                    pair.Value.Count;
-
-                for (int i = 0;
-                     i < pair.Value.Count;
-                     i++)
+                if (!groups.TryGetValue(archetypeId, out List<GameObject> prefabs))
                 {
-                    prefabs.GetArrayElementAtIndex(
-                        i).objectReferenceValue =
-                        pair.Value[i];
-
-                    variantsRegistered++;
+                    prefabs = new List<GameObject>();
+                    groups.Add(archetypeId, prefabs);
                 }
+                prefabs.Add(prefab);
             }
 
+            WorldSpawnCatalog catalog =
+                AssetDatabase.LoadAssetAtPath<WorldSpawnCatalog>(LocalCatalogPath);
+            if (catalog == null)
+            {
+                catalog = ScriptableObject.CreateInstance<WorldSpawnCatalog>();
+                AssetDatabase.CreateAsset(catalog, LocalCatalogPath);
+            }
+
+            var serialized = new SerializedObject(catalog);
+            SerializedProperty entries = serialized.FindProperty("entries");
+            entries.arraySize = groups.Count;
+            int groupIndex = 0;
+            foreach (KeyValuePair<string, List<GameObject>> group in groups)
+            {
+                SerializedProperty entry = entries.GetArrayElementAtIndex(groupIndex++);
+                entry.FindPropertyRelative("archetypeId").stringValue = group.Key;
+                entry.FindPropertyRelative("scaleMultiplier").floatValue = 1f;
+                entry.FindPropertyRelative("rotationOffsetEuler").vector3Value =
+                    Vector3.zero;
+                SerializedProperty prefabs = entry.FindPropertyRelative("prefabs");
+                prefabs.arraySize = group.Value.Count;
+                for (int i = 0; i < group.Value.Count; i++)
+                    prefabs.GetArrayElementAtIndex(i).objectReferenceValue = group.Value[i];
+            }
             serialized.ApplyModifiedPropertiesWithoutUndo();
             EditorUtility.SetDirty(catalog);
             AssetDatabase.SaveAssets();
+            localCatalog = catalog;
 
-            Debug.Log(
-                "Ready models synced. Archetypes: " +
-                groups.Count +
-                ", variants: " +
-                variantsRegistered +
-                ".");
+            Debug.Log("[Little Castle Assets] Local catalog: " + groups.Count +
+                      " archetypes; rejected models: " + rejected +
+                      ". Shared catalog untouched. Run the production model " +
+                      "validator on each prefab before approval.");
         }
 
-        private static Dictionary<string, List<GameObject>>
-            FindGroups()
+        private static bool TryResolveLocal(
+            WorldSpawnCatalog source, string archetypeId, long stableId,
+            out WorldSpawnCatalogEntry entry, out GameObject prefab)
         {
-            var groups =
-                new Dictionary<string, List<GameObject>>(
-                    StringComparer.Ordinal);
-
-            string[] guids =
-                AssetDatabase.FindAssets(
-                    "t:GameObject",
-                    new[] { ReadyRoot });
-
-            Array.Sort(
-                guids,
-                StringComparer.Ordinal);
-
-            for (int i = 0;
-                 i < guids.Length;
-                 i++)
-            {
-                string path =
-                    AssetDatabase.GUIDToAssetPath(
-                        guids[i]);
-
-                if (!TryReadArchetypeId(
-                        path,
-                        out string archetypeId))
-                {
-                    continue;
-                }
-
-                GameObject model =
-                    AssetDatabase.LoadAssetAtPath<GameObject>(
-                        path);
-
-                if (model == null)
-                    continue;
-
-                if (!groups.TryGetValue(
-                        archetypeId,
-                        out List<GameObject> variants))
-                {
-                    variants =
-                        new List<GameObject>();
-
-                    groups.Add(
-                        archetypeId,
-                        variants);
-                }
-
-                variants.Add(model);
-            }
-
-            return groups;
-        }
-
-        private static bool TryReadArchetypeId(
-            string path,
-            out string archetypeId)
-        {
-            archetypeId = null;
-
-            string prefix =
-                ReadyRoot + "/";
-
-            if (string.IsNullOrWhiteSpace(path) ||
-                !path.StartsWith(
-                    prefix,
-                    StringComparison.Ordinal))
-            {
+            entry = null;
+            prefab = null;
+            if (AssetDatabase.GetAssetPath(source) != SharedCatalogPath)
                 return false;
-            }
-
-            string[] parts =
-                path.Substring(
-                    prefix.Length).Split('/');
-
-            if (parts.Length < 3)
-                return false;
-
-            archetypeId =
-                parts[1];
-
-            return
-                !string.IsNullOrWhiteSpace(
-                    archetypeId);
+            if (localCatalog == null)
+                localCatalog = AssetDatabase.LoadAssetAtPath<WorldSpawnCatalog>(
+                    LocalCatalogPath);
+            return localCatalog != null && localCatalog.TryResolve(
+                archetypeId, stableId, out entry, out prefab);
         }
 
-        private static int FindEntry(
-            SerializedProperty entries,
-            string archetypeId)
+        private static bool TryReadIdentity(
+            string path, out string category, out string archetypeId,
+            out string variant)
         {
-            for (int i = 0;
-                 i < entries.arraySize;
-                 i++)
+            category = archetypeId = variant = null;
+            string prefix = ReadyRoot + "/";
+            if (!path.StartsWith(prefix, StringComparison.Ordinal))
+                return false;
+            string[] parts = path.Substring(prefix.Length).Split('/');
+            if (parts.Length != 3)
+                return false;
+            category = parts[0];
+            archetypeId = parts[1];
+            variant = System.IO.Path.GetFileNameWithoutExtension(parts[2]);
+            if (variant.EndsWith("_LOD0", StringComparison.OrdinalIgnoreCase))
+                variant = variant.Substring(0, variant.Length - 5);
+            return !string.IsNullOrEmpty(category) &&
+                   !string.IsNullOrEmpty(archetypeId) &&
+                   !string.IsNullOrEmpty(variant);
+        }
+
+        private static bool TryBuildPrefab(
+            GameObject model, string modelPath, string category, string archetypeId,
+            string variant, out GameObject prefab)
+        {
+            prefab = null;
+            string folder = ReadyRoot + "/" + category + "/" + archetypeId + "/";
+            string lod1Path = folder + variant + "_LOD1.fbx";
+            bool separateLods = AssetDatabase.LoadAssetAtPath<GameObject>(lod1Path) != null;
+            GameObject instance = separateLods ? new GameObject(variant) :
+                (GameObject)PrefabUtility.InstantiatePrefab(model);
+            if (instance == null)
+                return false;
+            try
             {
-                SerializedProperty entry =
-                    entries.GetArrayElementAtIndex(i);
-
-                if (entry.FindPropertyRelative(
-                        "archetypeId").stringValue ==
-                    archetypeId)
+                instance.name = variant;
+                if (separateLods)
                 {
-                    return i;
+                    for (int level = 0; level < 4; level++)
+                    {
+                        string lodPath = level == 0 ? modelPath :
+                            folder + variant + "_LOD" + level + ".fbx";
+                        GameObject lodModel = AssetDatabase.LoadAssetAtPath<GameObject>(lodPath);
+                        if (lodModel == null)
+                            break;
+                        GameObject child = (GameObject)PrefabUtility.InstantiatePrefab(
+                            lodModel, instance.transform);
+                        child.name = "LOD" + level;
+                        child.transform.localPosition = Vector3.zero;
+                        child.transform.localRotation = Quaternion.identity;
+                        child.transform.localScale = Vector3.one;
+                    }
                 }
-            }
+                var nodes = new List<Transform>();
+                var rendererSets = new List<Renderer[]>();
+                for (int level = 0; level < 4; level++)
+                {
+                    Transform node = FindNamedChild(instance.transform,
+                        "LOD" + level);
+                    if (node == null)
+                        break;
+                    Renderer[] renderers = node.GetComponentsInChildren<Renderer>(true);
+                    if (renderers.Length == 0)
+                        break;
+                    nodes.Add(node);
+                    rendererSets.Add(renderers);
+                }
 
-            return -1;
+                if (nodes.Count < 3 ||
+                    FindNamedChild(instance.transform,
+                        "LOD" + nodes.Count) != null)
+                {
+                    Debug.LogError("[Little Castle Assets] " + model.name +
+                        " requires consecutive nonempty LOD0, LOD1 and LOD2 " +
+                        "nodes (optional LOD3).");
+                    return false;
+                }
+
+                var assigned = new HashSet<Renderer>();
+                int previousVertices = int.MaxValue;
+                for (int level = 0; level < rendererSets.Count; level++)
+                {
+                    int vertices = 0;
+                    foreach (Renderer renderer in rendererSets[level])
+                    {
+                        if (!assigned.Add(renderer))
+                        {
+                            Debug.LogError("[Little Castle Assets] Renderer in multiple " +
+                                "LOD nodes: " + renderer.name);
+                            return false;
+                        }
+                        MeshFilter filter = renderer.GetComponent<MeshFilter>();
+                        if (filter != null && filter.sharedMesh != null)
+                            vertices += filter.sharedMesh.vertexCount;
+                        SkinnedMeshRenderer skinned = renderer as SkinnedMeshRenderer;
+                        if (skinned != null && skinned.sharedMesh != null)
+                            vertices += skinned.sharedMesh.vertexCount;
+                    }
+                    if (vertices == 0 || vertices >= previousVertices)
+                    {
+                        Debug.LogError("[Little Castle Assets] " + model.name +
+                            " must have fewer vertices at each later LOD.");
+                        return false;
+                    }
+                    previousVertices = vertices;
+                }
+                foreach (Renderer renderer in instance.GetComponentsInChildren<Renderer>(true))
+                {
+                    if (!assigned.Contains(renderer))
+                    {
+                        Debug.LogError("[Little Castle Assets] Renderer outside LOD " +
+                            "nodes: " + renderer.name);
+                        return false;
+                    }
+                }
+
+                var lods = new LOD[nodes.Count];
+                float[] heights = { 0.55f, 0.20f, 0.06f, 0.015f };
+                for (int level = 0; level < nodes.Count; level++)
+                {
+                    bool farthest = level == nodes.Count - 1;
+                    foreach (Renderer renderer in rendererSets[level])
+                        ReadyModelMaterials.ConfigureRenderer(renderer, nodes[level],
+                            category, archetypeId, variant, farthest);
+                    lods[level] = new LOD(heights[level], rendererSets[level]);
+                }
+
+                LODGroup group = instance.GetComponent<LODGroup>();
+                if (group == null)
+                    group = instance.AddComponent<LODGroup>();
+                group.SetLODs(lods);
+                group.RecalculateBounds();
+                string prefabPath = ReadyRoot + "/" + category + "/" +
+                    archetypeId + "/" + variant + ".prefab";
+                prefab = PrefabUtility.SaveAsPrefabAsset(instance, prefabPath);
+                return prefab != null;
+            }
+            finally
+            {
+                UnityEngine.Object.DestroyImmediate(instance);
+            }
+        }
+
+        private static Transform FindNamedChild(Transform root, string name)
+        {
+            foreach (Transform child in root.GetComponentsInChildren<Transform>(true))
+                if (child != root && child.name == name)
+                    return child;
+            return null;
         }
     }
 }
