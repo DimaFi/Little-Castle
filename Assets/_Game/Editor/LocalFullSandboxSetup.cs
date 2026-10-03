@@ -371,6 +371,15 @@ namespace LittleCastle.Editor
         private static Candidate FindHouseCandidate(
             List<Candidate> candidates)
         {
+            Candidate canonical =
+                FindBest(
+                    candidates,
+                    c => Contains(c, "BLD_House_Cottage_A"),
+                    c => 100000 + ScoreHouse(c));
+
+            if (canonical != null)
+                return canonical;
+
             Candidate named =
                 FindBest(
                     candidates,
@@ -559,13 +568,62 @@ namespace LittleCastle.Editor
             Candidate candidate,
             string token)
         {
-            return
-                candidate.prefab.name.IndexOf(
+            if (candidate == null ||
+                string.IsNullOrEmpty(token))
+            {
+                return false;
+            }
+
+            if (candidate.prefab.name.IndexOf(
                     token,
                     StringComparison.OrdinalIgnoreCase) >= 0 ||
                 candidate.path.IndexOf(
                     token,
-                    StringComparison.OrdinalIgnoreCase) >= 0;
+                    StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                return true;
+            }
+
+            // Some imported test releases keep an AssetBook/package name at
+            // the prefab root and put the real model IDs on child transforms
+            // or meshes. Search the hierarchy too so exact authored IDs such as
+            // SM_Wall_Stone_2m_A are still discoverable.
+            Transform[] transforms =
+                candidate.prefab.GetComponentsInChildren<Transform>(
+                    true);
+
+            for (int i = 0; i < transforms.Length; i++)
+            {
+                if (transforms[i] != null &&
+                    transforms[i].name.IndexOf(
+                        token,
+                        StringComparison.OrdinalIgnoreCase) >= 0)
+                {
+                    return true;
+                }
+            }
+
+            MeshFilter[] filters =
+                candidate.prefab.GetComponentsInChildren<MeshFilter>(
+                    true);
+
+            for (int i = 0; i < filters.Length; i++)
+            {
+                Mesh mesh =
+                    filters[i] != null
+                        ? filters[i].sharedMesh
+                        : null;
+
+                if (mesh != null &&
+                    mesh.name.IndexOf(
+                        token,
+                        StringComparison.OrdinalIgnoreCase) >= 0)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         private static bool ContainsAny(
