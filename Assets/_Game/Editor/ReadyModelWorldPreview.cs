@@ -20,7 +20,7 @@ namespace LittleCastle.Editor
                 OpenSceneMode.Single);
 
             WorldGenerator generator =
-                Object.FindFirstObjectByType<WorldGenerator>();
+                Object.FindAnyObjectByType<WorldGenerator>();
 
             if (generator == null)
             {
