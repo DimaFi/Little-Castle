@@ -129,7 +129,7 @@ Shader "Little Castle/Surface/LC Stylized Lit"
 
             struct v2f
             {
-                float4 position : SV_POSITION;
+                float4 pos : SV_POSITION;
                 float2 uv : TEXCOORD0;
                 float3 worldPosition : TEXCOORD1;
                 half3 worldNormal : TEXCOORD2;
@@ -151,7 +151,7 @@ Shader "Little Castle/Surface/LC Stylized Lit"
                 UNITY_TRANSFER_INSTANCE_ID(v, o);
                 UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
-                o.position =
+                o.pos =
                     UnityObjectToClipPos(
                         v.vertex);
 
@@ -186,7 +186,7 @@ Shader "Little Castle/Surface/LC Stylized Lit"
                 TRANSFER_SHADOW(o);
                 UNITY_TRANSFER_FOG(
                     o,
-                    o.position);
+                    o.pos);
 
                 return o;
             }
@@ -566,7 +566,7 @@ Shader "Little Castle/Surface/LC Stylized Lit"
 
             struct v2fAdd
             {
-                float4 position : SV_POSITION;
+                float4 pos : SV_POSITION;
                 float2 uv : TEXCOORD0;
                 float3 worldPosition : TEXCOORD1;
                 half3 worldNormal : TEXCOORD2;
@@ -588,7 +588,7 @@ Shader "Little Castle/Surface/LC Stylized Lit"
                 UNITY_TRANSFER_INSTANCE_ID(v, o);
                 UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
-                o.position =
+                o.pos =
                     UnityObjectToClipPos(
                         v.vertex);
 
@@ -624,7 +624,7 @@ Shader "Little Castle/Surface/LC Stylized Lit"
 
                 UNITY_TRANSFER_FOG(
                     o,
-                    o.position);
+                    o.pos);
 
                 return o;
             }
