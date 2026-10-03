@@ -94,6 +94,7 @@ namespace LittleCastle.Editor
                         (Contains(c, "pillar") ||
                          Contains(c, "post")),
                     c =>
+                        ScoreName(c, "SM_Wall_Stone_Pillar_A") * 20 +
                         ScoreName(c, "pillar") * 5 +
                         ScoreName(c, "stone") * 2);
 
@@ -104,6 +105,7 @@ namespace LittleCastle.Editor
                         Contains(c, "wall") &&
                         Contains(c, "end"),
                     c =>
+                        ScoreName(c, "SM_Wall_Stone_End_A") * 20 +
                         ScoreName(c, "end") * 4);
 
             GameObject[] treeVariants =
@@ -458,22 +460,30 @@ namespace LittleCastle.Editor
         private static bool IsWallSegment(
             Candidate c)
         {
+            if (!Contains(c, "wall"))
+                return false;
+
+            // Asset-book test packages may classify the wall FBX as
+            // Architecture or ModularComponent. The production identity is the
+            // model name/contract, not the temporary Test_* folder.
+            bool looksLikePrimaryTwoMeterSegment =
+                Contains(c, "SM_Wall_Stone_2m_A") ||
+                Contains(c, "Wall_Stone_2m") ||
+                Contains(c, "2m") ||
+                Contains(c, "segment");
+
             return
-                c.path.Contains(
-                    "/Test_Architecture/",
-                    StringComparison.OrdinalIgnoreCase) &&
-                Contains(c, "wall") &&
-                ContainsAny(
-                    c,
-                    "2m",
-                    "segment") &&
+                looksLikePrimaryTwoMeterSegment &&
                 !ContainsAny(
                     c,
                     "gate",
                     "banner",
                     "pillar",
+                    "post",
                     "end",
-                    "leaf");
+                    "leaf",
+                    "trim",
+                    "hinge");
         }
 
         private static Candidate FindBest(
