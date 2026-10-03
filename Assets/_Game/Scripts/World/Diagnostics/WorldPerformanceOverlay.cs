@@ -38,7 +38,7 @@ namespace LittleCastle.World
                 12f,
                 12f,
                 380f,
-                485f);
+                530f);
 
         private float nextSampleTime;
         private float frameTimeAccumulator;
@@ -284,6 +284,25 @@ namespace LittleCastle.World
                     visibilityBudgetManager.FarCount +
                     "   T3 " +
                     visibilityBudgetManager.HiddenCount,
+                    labelStyle);
+            }
+
+            LittleCastle.Rendering.HlodRebuildScheduler
+                hlodScheduler =
+                    LittleCastle.Rendering.HlodRebuildScheduler.Instance;
+
+            if (hlodScheduler != null)
+            {
+                GUILayout.Space(4f);
+
+                GUILayout.Label(
+                    "HLOD: " +
+                    hlodScheduler.PendingCount +
+                    " pending   rebuilds " +
+                    hlodScheduler.TotalRebuildCount +
+                    "   last " +
+                    hlodScheduler.LastRebuildMilliseconds.ToString("0.00") +
+                    " ms",
                     labelStyle);
             }
 
