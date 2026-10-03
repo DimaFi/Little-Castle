@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using LittleCastle.World;
 using UnityEngine;
 
 namespace LittleCastle.Building
@@ -215,19 +217,57 @@ namespace LittleCastle.Building
                 Vector3.up *
                 groundProbeHeight;
 
-            if (!Physics.Raycast(
+            RaycastHit[] hits =
+                Physics.RaycastAll(
                     origin,
                     Vector3.down,
-                    out RaycastHit hit,
                     groundProbeHeight * 2f,
                     groundMask,
-                    QueryTriggerInteraction.Ignore))
+                    QueryTriggerInteraction.Ignore);
+
+            if (hits == null ||
+                hits.Length == 0)
             {
                 projected = point;
                 reason =
                     "No ground was found.";
 
                 return false;
+            }
+
+            Array.Sort(
+                hits,
+                (a, b) =>
+                    a.distance.CompareTo(
+                        b.distance));
+
+            bool foundTerrain = false;
+            RaycastHit hit = default;
+
+            for (int i = 0; i < hits.Length; i++)
+            {
+                StreamedChunkView chunk =
+                    hits[i].collider != null
+                        ? hits[i].collider.GetComponentInParent<
+                            StreamedChunkView>()
+                        : null;
+
+                if (chunk == null ||
+                    !chunk.IsPlayableChunk)
+                {
+                    continue;
+                }
+
+                hit = hits[i];
+                foundTerrain = true;
+                break;
+            }
+
+            if (!foundTerrain)
+            {
+                // Preserve editor/manual-scene usefulness when generated
+                // StreamedChunkView terrain is not present.
+                hit = hits[0];
             }
 
             float slope =
