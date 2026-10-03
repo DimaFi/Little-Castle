@@ -19,7 +19,10 @@ namespace LittleCastle.Editor
             "Assets/_Game/Settings/World/MainWorldSpawnCatalog.asset";
         private const string LocalCatalogPath =
             ReadyRoot + "/LocalWorldSpawnCatalog.asset";
+        public const string LocalTestOverrideCatalogPath =
+            ReadyRoot + "/LocalTestWorldSpawnCatalog.asset";
         private static WorldSpawnCatalog localCatalog;
+        private static WorldSpawnCatalog localTestOverrideCatalog;
 
         static ReadyModelCatalogSync()
         {
@@ -121,9 +124,22 @@ namespace LittleCastle.Editor
             prefab = null;
             if (AssetDatabase.GetAssetPath(source) != SharedCatalogPath)
                 return false;
+            if (localTestOverrideCatalog == null)
+                localTestOverrideCatalog =
+                    AssetDatabase.LoadAssetAtPath<WorldSpawnCatalog>(
+                        LocalTestOverrideCatalogPath);
+
+            if (localTestOverrideCatalog != null &&
+                localTestOverrideCatalog.TryResolve(
+                    archetypeId, stableId, out entry, out prefab))
+            {
+                return true;
+            }
+
             if (localCatalog == null)
                 localCatalog = AssetDatabase.LoadAssetAtPath<WorldSpawnCatalog>(
                     LocalCatalogPath);
+
             return localCatalog != null && localCatalog.TryResolve(
                 archetypeId, stableId, out entry, out prefab);
         }
