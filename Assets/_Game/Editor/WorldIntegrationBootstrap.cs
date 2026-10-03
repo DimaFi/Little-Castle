@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using LittleCastle.World;
 using LittleCastle.CameraSystem;
+using LittleCastle.Rendering;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -34,6 +35,8 @@ namespace LittleCastle.Editor
             WorldSettingsFolder + "/MainWorldSpawnCatalog.asset";
         public const string TerrainMaterialPath =
             "Assets/_Game/Materials/Material_terrain/LC_Terrain_Default.mat";
+        public const string SkyboxMaterialPath =
+            "Assets/_Game/Materials/StylizedDayNightSky.mat";
         public const string PlaceholderPrefabPath =
             PrefabFolder + "/WorldSpawnPlaceholder.prefab";
         public const string TestScenePath =
@@ -697,11 +700,127 @@ namespace LittleCastle.Editor
             warmupData.ApplyModifiedPropertiesWithoutUndo();
             EditorUtility.SetDirty(warmup);
 
-            var lightObject = new GameObject("Directional Light");
-            Light light = lightObject.AddComponent<Light>();
-            light.type = LightType.Directional;
-            light.intensity = 1.1f;
-            lightObject.transform.rotation = Quaternion.Euler(48f, -32f, 0f);
+            // Restore the full atmosphere/rendering slice as part of every
+            // integration refresh. The test scene used to contain these
+            // components, but recreating the scene as a minimal bootstrap
+            // accidentally removed them and left LC terrain shaders without
+            // their shared lighting globals (visually near-black).
+            var sunObject = new GameObject("Sun Light");
+            Light sun = sunObject.AddComponent<Light>();
+            sun.type = LightType.Directional;
+            sun.intensity = 1.1f;
+            sun.shadows = LightShadows.Soft;
+            sunObject.transform.rotation = Quaternion.Euler(48f, -32f, 0f);
+
+            var moonObject = new GameObject("Moon Light");
+            Light moon = moonObject.AddComponent<Light>();
+            moon.type = LightType.Directional;
+            moon.intensity = 0.14f;
+            moon.shadows = LightShadows.None;
+            moonObject.transform.rotation = Quaternion.Euler(228f, -32f, 0f);
+
+            RenderSettings.sun = sun;
+
+            Material skyboxMaterial =
+                AssetDatabase.LoadAssetAtPath<Material>(
+                    SkyboxMaterialPath);
+
+            if (skyboxMaterial != null)
+                RenderSettings.skybox = skyboxMaterial;
+
+            WorldTimeSystem timeSystem =
+                worldRoot.AddComponent<WorldTimeSystem>();
+
+            var timeData =
+                new SerializedObject(timeSystem);
+
+            timeData.FindProperty(
+                "worldDefinition").objectReferenceValue =
+                definition;
+
+            timeData.FindProperty(
+                "runAutomatically").boolValue =
+                true;
+
+            timeData.FindProperty(
+                "simulationSpeedMultiplier").floatValue =
+                1f;
+
+            timeData.ApplyModifiedPropertiesWithoutUndo();
+            EditorUtility.SetDirty(timeSystem);
+
+            DayNightLightingController atmosphere =
+                worldRoot.AddComponent<
+                    DayNightLightingController>();
+
+            var atmosphereData =
+                new SerializedObject(
+                    atmosphere);
+
+            atmosphereData.FindProperty(
+                "timeSystem").objectReferenceValue =
+                timeSystem;
+
+            atmosphereData.FindProperty(
+                "sun").objectReferenceValue =
+                sun;
+
+            atmosphereData.FindProperty(
+                "moon").objectReferenceValue =
+                moon;
+
+            atmosphereData.FindProperty(
+                "skyboxMaterial").objectReferenceValue =
+                skyboxMaterial;
+
+            atmosphereData.ApplyModifiedPropertiesWithoutUndo();
+            EditorUtility.SetDirty(atmosphere);
+
+            StylizedLightingGlobals lightingGlobals =
+                worldRoot.AddComponent<
+                    StylizedLightingGlobals>();
+
+            var lightingData =
+                new SerializedObject(
+                    lightingGlobals);
+
+            lightingData.FindProperty(
+                "timeSystem").objectReferenceValue =
+                timeSystem;
+
+            lightingData.FindProperty(
+                "atmosphere").objectReferenceValue =
+                atmosphere;
+
+            lightingData.FindProperty(
+                "sun").objectReferenceValue =
+                sun;
+
+            lightingData.FindProperty(
+                "moon").objectReferenceValue =
+                moon;
+
+            lightingData.ApplyModifiedPropertiesWithoutUndo();
+            EditorUtility.SetDirty(lightingGlobals);
+
+            NightLightBudgetManager nightLightBudget =
+                worldRoot.AddComponent<
+                    NightLightBudgetManager>();
+
+            var nightBudgetData =
+                new SerializedObject(
+                    nightLightBudget);
+
+            nightBudgetData.FindProperty(
+                "lightingGlobals").objectReferenceValue =
+                lightingGlobals;
+
+            nightBudgetData.FindProperty(
+                "targetCamera").objectReferenceValue =
+                camera;
+
+            nightBudgetData.ApplyModifiedPropertiesWithoutUndo();
+            EditorUtility.SetDirty(nightLightBudget);
 
             EditorSceneManager.SaveScene(scene, TestScenePath);
 
