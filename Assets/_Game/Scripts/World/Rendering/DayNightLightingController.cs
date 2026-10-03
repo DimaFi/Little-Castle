@@ -228,7 +228,7 @@ namespace LittleCastle.World
             if (timeSystem == null)
             {
                 timeSystem =
-                    FindFirstObjectByType<
+                    FindAnyObjectByType<
                         WorldTimeSystem>();
             }
 
