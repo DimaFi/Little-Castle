@@ -1,5 +1,6 @@
 using System.Collections;
 using LittleCastle.CameraSystem;
+using LittleCastle.World;
 using UnityEngine;
 
 namespace LittleCastle.Building
@@ -194,27 +195,61 @@ namespace LittleCastle.Building
                             1200f,
                             preferredHouseXZ.y + offset.y);
 
-                    if (!Physics.Raycast(
+                    RaycastHit[] hits =
+                        Physics.RaycastAll(
                             origin,
                             Vector3.down,
-                            out RaycastHit hit,
                             2400f,
                             ~0,
-                            QueryTriggerInteraction.Ignore))
+                            QueryTriggerInteraction.Ignore);
+
+                    if (hits == null ||
+                        hits.Length == 0)
                     {
                         continue;
                     }
 
+                    System.Array.Sort(
+                        hits,
+                        (a, b) =>
+                            a.distance.CompareTo(
+                                b.distance));
+
+                    bool hasTerrainHit = false;
+                    RaycastHit terrainHit = default;
+
+                    for (int h = 0; h < hits.Length; h++)
+                    {
+                        StreamedChunkView chunk =
+                            hits[h].collider != null
+                                ? hits[h].collider.GetComponentInParent<
+                                    StreamedChunkView>()
+                                : null;
+
+                        if (chunk == null ||
+                            !chunk.IsPlayableChunk)
+                        {
+                            continue;
+                        }
+
+                        terrainHit = hits[h];
+                        hasTerrainHit = true;
+                        break;
+                    }
+
+                    if (!hasTerrainHit)
+                        continue;
+
                     float slope =
                         Vector3.Angle(
-                            hit.normal,
+                            terrainHit.normal,
                             Vector3.up);
 
                     if (slope < bestSlope)
                     {
                         bestSlope = slope;
-                        bestPoint = hit.point;
-                        bestNormal = hit.normal;
+                        bestPoint = terrainHit.point;
+                        bestNormal = terrainHit.normal;
                         found = true;
                     }
 
