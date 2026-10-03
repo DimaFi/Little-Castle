@@ -111,7 +111,7 @@ Shader "Little Castle/Foliage/LC Grass"
 
             struct v2f
             {
-                float4 position : SV_POSITION;
+                float4 pos : SV_POSITION;
                 float2 uv : TEXCOORD0;
                 half3 worldNormal : TEXCOORD1;
                 half bladeHeight : TEXCOORD2;
@@ -286,7 +286,7 @@ Shader "Little Castle/Foliage/LC Grass"
                         deformed,
                         1.0);
 
-                o.position =
+                o.pos =
                     UnityObjectToClipPos(
                         vertex);
 
@@ -315,7 +315,7 @@ Shader "Little Castle/Foliage/LC Grass"
                 TRANSFER_SHADOW(o);
                 UNITY_TRANSFER_FOG(
                     o,
-                    o.position);
+                    o.pos);
 
                 return o;
             }
