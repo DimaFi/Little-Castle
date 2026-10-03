@@ -172,6 +172,7 @@ namespace LittleCastle.Editor
                     wallPillar,
                     wallEnd);
 
+            ConfigureLocalTerrainMaterial();
             WorldIntegrationBootstrap.CreateOrUpdate();
 
             if (AssetDatabase.LoadAssetAtPath<SceneAsset>(
@@ -878,6 +879,158 @@ namespace LittleCastle.Editor
             AssetDatabase.SaveAssets();
 
             return definition;
+        }
+
+        private static void ConfigureLocalTerrainMaterial()
+        {
+            Material terrain =
+                AssetDatabase.LoadAssetAtPath<Material>(
+                    WorldIntegrationBootstrap.TerrainMaterialPath);
+
+            if (terrain == null)
+                return;
+
+            const string terrainFolder =
+                "Assets/_Game/Materials/Material_terrain";
+
+            Texture2D grass =
+                FindBestTerrainTexture(
+                    terrainFolder,
+                    "GrassGround",
+                    "Grass_Ground",
+                    "GroundGrass",
+                    "Grass");
+
+            Texture2D dirt =
+                FindBestTerrainTexture(
+                    terrainFolder,
+                    "DirtPath",
+                    "Dirt_Path",
+                    "GroundDirt",
+                    "Dirt",
+                    "Path");
+
+            Texture2D rock =
+                FindBestTerrainTexture(
+                    terrainFolder,
+                    "RockGround",
+                    "StoneGround",
+                    "GroundRock",
+                    "Rock",
+                    "Stone");
+
+            bool changed = false;
+
+            if (grass != null &&
+                terrain.HasProperty("_GrassTex"))
+            {
+                terrain.SetTexture("_GrassTex", grass);
+                terrain.SetColor("_GrassColor", Color.white);
+                changed = true;
+            }
+
+            if (dirt != null &&
+                terrain.HasProperty("_DirtTex"))
+            {
+                terrain.SetTexture("_DirtTex", dirt);
+                terrain.SetColor("_DirtColor", Color.white);
+                changed = true;
+            }
+
+            if (rock != null &&
+                terrain.HasProperty("_RockTex"))
+            {
+                terrain.SetTexture("_RockTex", rock);
+                terrain.SetColor("_RockColor", Color.white);
+                changed = true;
+            }
+
+            if (changed)
+            {
+                EditorUtility.SetDirty(terrain);
+                AssetDatabase.SaveAssets();
+
+                Debug.Log(
+                    "[Little Castle Sandbox] Local terrain textures linked: " +
+                    "grass=" + (grass != null ? grass.name : "fallback") +
+                    ", dirt=" + (dirt != null ? dirt.name : "fallback") +
+                    ", rock=" + (rock != null ? rock.name : "fallback") + ".");
+            }
+        }
+
+        private static Texture2D FindBestTerrainTexture(
+            string folder,
+            params string[] preferredTokens)
+        {
+            if (!AssetDatabase.IsValidFolder(folder))
+                return null;
+
+            string[] guids =
+                AssetDatabase.FindAssets(
+                    "t:Texture2D",
+                    new[] { folder });
+
+            Texture2D best = null;
+            int bestScore = int.MinValue;
+
+            for (int i = 0; i < guids.Length; i++)
+            {
+                string path =
+                    AssetDatabase.GUIDToAssetPath(
+                        guids[i]);
+
+                string name =
+                    Path.GetFileNameWithoutExtension(
+                        path);
+
+                if (name.IndexOf(
+                        "Normal",
+                        StringComparison.OrdinalIgnoreCase) >= 0 ||
+                    name.IndexOf(
+                        "Rough",
+                        StringComparison.OrdinalIgnoreCase) >= 0 ||
+                    name.IndexOf(
+                        "_AO",
+                        StringComparison.OrdinalIgnoreCase) >= 0 ||
+                    name.IndexOf(
+                        "Height",
+                        StringComparison.OrdinalIgnoreCase) >= 0)
+                {
+                    continue;
+                }
+
+                int score = 0;
+
+                for (int t = 0; t < preferredTokens.Length; t++)
+                {
+                    if (name.IndexOf(
+                            preferredTokens[t],
+                            StringComparison.OrdinalIgnoreCase) >= 0)
+                    {
+                        score +=
+                            (preferredTokens.Length - t) *
+                            10;
+                    }
+                }
+
+                if (score <= bestScore)
+                    continue;
+
+                Texture2D texture =
+                    AssetDatabase.LoadAssetAtPath<Texture2D>(
+                        path);
+
+                if (texture == null)
+                    continue;
+
+                best = texture;
+                bestScore = score;
+            }
+
+            return
+                bestScore > 0
+                    ? best
+                    : null;
         }
 
         private static void WirePlayableSandbox(
