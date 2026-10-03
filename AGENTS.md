@@ -579,3 +579,41 @@ Mandatory rules:
 When a real production model batch exists, follow VIS-001 through VIS-007 in
 the canonical document and record the measured result before adding GPU
 vegetation, HLOD or pooling.
+
+
+## FIRST CHECK — HLOD / large-settlement render optimization
+
+This check is mandatory before adding a second camera-distance manager,
+wall/village HLOD, renderer-cluster merging, runtime mesh combining, or broad
+"optimization" changes for walls/towers/buildings.
+
+Read first, in this order:
+
+- `docs/architecture/visibility-render-budget.md`;
+- `docs/architecture/lod-and-production-assets.md`;
+- `docs/architecture/render-optimization-hlod.md`;
+- `docs/handoffs/CODEX_RENDER_OPTIMIZATION.md`.
+
+Canonical rules:
+
+- `VisibilityBudgetManager` remains the single global camera-driven
+  presentation-budget manager;
+- `LODGroup` owns authored geometry LOD by screen size;
+- HLOD is presentation-only and must never own wall/building HP, construction,
+  ownership, save or multiplayer truth;
+- source wall/tower GameObjects stay alive when an HLOD proxy is shown;
+  normally disable source Renderers, not gameplay/collider roots;
+- concrete wall/village HLOD proxy generation must be justified against real
+  production assets and stress-scene profiler data;
+- rapid build/destroy edits are coalesced through `HlodRebuildScheduler`;
+- do not runtime-decimate imported production meshes by default;
+- preserve shared meshes/materials/GPU instancing and use
+  `MaterialPropertyBlock` for per-player visual identity instead of material
+  cloning;
+- HLOD proxies contain no gameplay colliders or authoritative scripts;
+- final acceptance requires Unity Profiler + Frame Debugger measurements, not
+  only triangle-count guesses.
+
+For a Codex/CLI handoff on Windows, run:
+
+`Tools\\Agents\\CODEX_RENDER_OPTIMIZATION.cmd`
