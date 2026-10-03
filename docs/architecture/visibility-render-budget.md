@@ -203,5 +203,39 @@ Record CPU/GPU frame time, batches/SetPass, triangles, shadow casters, active
 Animators, tier counts, VRAM/memory and fast camera-turn spikes.
 
 ### VIS-007 — measured next steps only
-GPU vegetation, HLOD and pooling remain valid future optimizations, but only
-implement them after VIS-006 identifies a real bottleneck.
+GPU vegetation and pooling remain measured future optimizations. The shared
+HLOD switch/rebuild foundation may exist before VIS-006, but a concrete wall,
+village or forest proxy builder must still be justified by real asset and
+stress-scene profiling.
+
+
+## HLOD extension foundation
+
+The visibility manager remains the only camera-driven tier manager. HLOD plugs
+into it through `IVisibilityBudgetReceiver`; it does not introduce a second
+world manager.
+
+Added extension points:
+
+- `VisibilityFeatureBudgetReceiver` — optional visual-only detail/light/
+  particle/Behaviour gating by existing visibility tier;
+- `VisibilityHlodProxyPolicy` — pure near/proxy/hidden decision policy;
+- `VisibilityHlodProxyReceiver` — switches source Renderers to a visual-only
+  proxy without disabling source gameplay/collider GameObjects;
+- `HlodProxyRebuildable` — base class for concrete proxy builders;
+- `HlodRebuildScheduler` — one coalescing, time-budgeted proxy rebuild queue.
+
+Profiler marker:
+
+- `World.HLOD.RebuildProxy`.
+
+The concrete player-built wall/village proxy builder is intentionally not
+hardcoded until real production wall/tower/gate material, LOD and faction-
+identity contracts are measured in Unity. Canonical next-step architecture and
+stress targets are in:
+
+`docs/architecture/render-optimization-hlod.md`
+
+Agent execution order is in:
+
+`docs/handoffs/CODEX_RENDER_OPTIMIZATION.md`
