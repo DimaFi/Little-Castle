@@ -31,6 +31,8 @@ namespace LittleCastle.Editor
             WorldSettingsFolder + "/MainMacroWorldPlannerSettings.asset";
         public const string StreamingSettingsPath =
             WorldSettingsFolder + "/MainWorldStreamingSettings.asset";
+        public const string TimeSettingsPath =
+            WorldSettingsFolder + "/MainWorldTimeSettings.asset";
         public const string SpawnCatalogPath =
             WorldSettingsFolder + "/MainWorldSpawnCatalog.asset";
         public const string TerrainMaterialPath =
@@ -103,6 +105,10 @@ namespace LittleCastle.Editor
                 CreateOrLoad<WorldStreamingSettings>(StreamingSettingsPath);
             ConfigureStreamingSettings(streaming);
 
+            WorldTimeSettings timeSettings =
+                CreateOrLoad<WorldTimeSettings>(TimeSettingsPath);
+            ConfigureTimeSettings(timeSettings);
+
             WorldSpawnCatalog catalog =
                 CreateOrLoad<WorldSpawnCatalog>(SpawnCatalogPath);
             ConfigureSpawnCatalog(catalog, placeholderPrefab);
@@ -113,6 +119,7 @@ namespace LittleCastle.Editor
                 definition,
                 generation,
                 macro,
+                timeSettings,
                 streaming,
                 catalog);
 
@@ -525,6 +532,19 @@ namespace LittleCastle.Editor
             EditorUtility.SetDirty(settings);
         }
 
+        private static void ConfigureTimeSettings(
+            WorldTimeSettings settings)
+        {
+            var serialized = new SerializedObject(settings);
+            serialized.FindProperty("startHour").floatValue = 8f;
+            serialized.FindProperty("dayStartHour").floatValue = 6f;
+            serialized.FindProperty("nightStartHour").floatValue = 20f;
+            serialized.FindProperty("dayRealSeconds").floatValue = 360f;
+            serialized.FindProperty("nightRealSeconds").floatValue = 90f;
+            serialized.ApplyModifiedPropertiesWithoutUndo();
+            EditorUtility.SetDirty(settings);
+        }
+
         private static void ConfigureSpawnCatalog(
             WorldSpawnCatalog catalog,
             GameObject placeholderPrefab)
@@ -564,6 +584,7 @@ namespace LittleCastle.Editor
             WorldDefinition definition,
             WorldGenerationSettings generation,
             MacroWorldPlannerSettings macro,
+            WorldTimeSettings timeSettings,
             WorldStreamingSettings streaming,
             WorldSpawnCatalog catalog)
         {
@@ -571,6 +592,7 @@ namespace LittleCastle.Editor
             serialized.FindProperty("worldId").stringValue = "little_castle_main";
             serialized.FindProperty("generationSettings").objectReferenceValue = generation;
             serialized.FindProperty("macroPlannerSettings").objectReferenceValue = macro;
+            serialized.FindProperty("timeSettings").objectReferenceValue = timeSettings;
             serialized.FindProperty("streamingSettings").objectReferenceValue = streaming;
             serialized.FindProperty("spawnCatalog").objectReferenceValue = catalog;
             serialized.ApplyModifiedPropertiesWithoutUndo();
@@ -737,6 +759,11 @@ namespace LittleCastle.Editor
             timeData.FindProperty(
                 "worldDefinition").objectReferenceValue =
                 definition;
+
+            timeData.FindProperty(
+                "timeSettingsOverride").objectReferenceValue =
+                AssetDatabase.LoadAssetAtPath<WorldTimeSettings>(
+                    TimeSettingsPath);
 
             timeData.FindProperty(
                 "runAutomatically").boolValue =
