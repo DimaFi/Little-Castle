@@ -132,6 +132,34 @@ namespace LittleCastle.Editor
                         "Bridge")
                     : null;
 
+            // Wall modules keep their authored +Z axis and scale, but the
+            // local test wrapper normalizes the visual base to Y=0. This makes
+            // placement diagnostics about seam/axis quality rather than an
+            // arbitrary FBX origin offset.
+            if (wallSegment != null)
+            {
+                wallSegment.prefab =
+                    CreateGroundedWrapper(
+                        wallSegment.prefab,
+                        "WallSegment");
+            }
+
+            if (wallPillar != null)
+            {
+                wallPillar.prefab =
+                    CreateGroundedWrapper(
+                        wallPillar.prefab,
+                        "WallPillar");
+            }
+
+            if (wallEnd != null)
+            {
+                wallEnd.prefab =
+                    CreateGroundedWrapper(
+                        wallEnd.prefab,
+                        "WallEnd");
+            }
+
             BuildLocalWorldOverrides(
                 treeVariants,
                 normalizedHouse,
