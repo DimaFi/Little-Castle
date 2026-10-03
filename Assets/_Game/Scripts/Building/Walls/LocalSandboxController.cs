@@ -131,12 +131,15 @@ namespace LittleCastle.Building
                     showcaseHouseInstance.name =
                         "Sandbox_ShowcaseHouse";
 
+                    // Buildings stay architecturally upright. We search for a
+                    // sufficiently flat patch, then ground the base; we do not
+                    // tilt the whole house to match a small terrain normal.
                     showcaseHouseInstance.transform.SetPositionAndRotation(
                         position,
-                        Quaternion.FromToRotation(
-                            Vector3.up,
-                            normal) *
-                        Quaternion.Euler(0f, 25f, 0f));
+                        Quaternion.Euler(
+                            0f,
+                            25f,
+                            0f));
 
                     GroundInstance(
                         showcaseHouseInstance,
