@@ -30,6 +30,22 @@ namespace LittleCastle.Editor
         private const string WallDefinitionPath =
             SandboxRoot + "/LocalStoneWall.asset";
 
+        private const string CanonicalHousePrefabPath =
+            ReadyModelCatalogSync.ReadyRoot +
+            "/Test_Building/BLD_House_Cottage_A/BLD_House_Cottage_A.prefab";
+
+        private const string CanonicalWall2mPrefabPath =
+            ReadyModelCatalogSync.ReadyRoot +
+            "/Test_ModularComponent/MOD_Wall_Stone_2m_A/MOD_Wall_Stone_2m_A.prefab";
+
+        private const string CanonicalWallPillarPrefabPath =
+            ReadyModelCatalogSync.ReadyRoot +
+            "/Test_ModularComponent/MOD_Wall_Stone_Pillar_A/MOD_Wall_Stone_Pillar_A.prefab";
+
+        private const string CanonicalWallEndPrefabPath =
+            ReadyModelCatalogSync.ReadyRoot +
+            "/Test_ModularComponent/MOD_Wall_Stone_End_A/MOD_Wall_Stone_End_A.prefab";
+
         private sealed class Candidate
         {
             public GameObject prefab;
@@ -66,6 +82,8 @@ namespace LittleCastle.Editor
                 FindTreeCandidates(candidates);
 
             Candidate house =
+                LoadCanonicalCandidate(
+                    CanonicalHousePrefabPath) ??
                 FindHouseCandidate(candidates);
 
             List<Candidate> rocks =
@@ -78,6 +96,8 @@ namespace LittleCastle.Editor
                     c => ScoreName(c, "bridge"));
 
             Candidate wallSegment =
+                LoadCanonicalCandidate(
+                    CanonicalWall2mPrefabPath) ??
                 FindBest(
                     candidates,
                     IsWallSegment,
@@ -87,6 +107,8 @@ namespace LittleCastle.Editor
                         ScoreName(c, "stone") * 2);
 
             Candidate wallPillar =
+                LoadCanonicalCandidate(
+                    CanonicalWallPillarPrefabPath) ??
                 FindBest(
                     candidates,
                     c =>
@@ -99,6 +121,8 @@ namespace LittleCastle.Editor
                         ScoreName(c, "stone") * 2);
 
             Candidate wallEnd =
+                LoadCanonicalCandidate(
+                    CanonicalWallEndPrefabPath) ??
                 FindBest(
                     candidates,
                     c =>
@@ -230,6 +254,44 @@ namespace LittleCastle.Editor
             Debug.Log(
                 "[Little Castle Sandbox] Ready. Press Play. " +
                 "B draws a real modular wall; F7 toggles controls; F8 toggles performance.");
+        }
+
+        private static Candidate LoadCanonicalCandidate(
+            string path)
+        {
+            GameObject prefab =
+                AssetDatabase.LoadAssetAtPath<GameObject>(
+                    path);
+
+            if (prefab == null)
+                return null;
+
+            GameObject instance =
+                PrefabUtility.InstantiatePrefab(
+                    prefab)
+                as GameObject;
+
+            Bounds bounds =
+                instance != null
+                    ? GetCombinedLocalRendererBounds(
+                        instance)
+                    : new Bounds(
+                        Vector3.zero,
+                        Vector3.one);
+
+            if (instance != null)
+            {
+                UnityEngine.Object.DestroyImmediate(
+                    instance);
+            }
+
+            return
+                new Candidate
+                {
+                    prefab = prefab,
+                    path = path,
+                    bounds = bounds
+                };
         }
 
         private static List<Candidate> CollectReadyPrefabs()
@@ -872,10 +934,15 @@ namespace LittleCastle.Editor
                     WallDefinitionPath);
             }
 
+            // The canonical production contract for MOD_Wall_Stone_2m_A is
+            // exactly two metres along local +Z. Do not infer gameplay spacing
+            // from a wrapper/render bounds measurement.
             float segmentLength =
-                Mathf.Max(
-                    0.1f,
-                    segment.bounds.size.z);
+                segment.path == CanonicalWall2mPrefabPath
+                    ? 2f
+                    : Mathf.Max(
+                        0.1f,
+                        segment.bounds.size.z);
 
             var serialized =
                 new SerializedObject(
