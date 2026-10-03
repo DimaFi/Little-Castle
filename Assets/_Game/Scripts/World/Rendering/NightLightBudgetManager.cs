@@ -298,7 +298,7 @@ namespace LittleCastle.Rendering
             if (lightingGlobals == null)
             {
                 lightingGlobals =
-                    FindFirstObjectByType<
+                    FindAnyObjectByType<
                         StylizedLightingGlobals>();
             }
 
