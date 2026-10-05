@@ -9,8 +9,13 @@ Shader "Little Castle/Foliage/LC Grass"
         _RootColor ("Root Color", Color) = (0.18,0.32,0.12,1)
         _TipColor ("Tip Color", Color) = (0.62,0.82,0.34,1)
         _Cutoff ("Alpha Cutoff", Range(0,1)) = 0.42
+        _UseRootAnchor ("UV1 Root Anchor Fade", Range(0,1)) = 0
+        _FadeStart ("Geometry Fade Start (m)", Float) = 40
+        _FadeEnd ("Geometry Fade End (m)", Float) = 70
 
         _ColorVariation ("Per Clump Variation", Range(0,0.3)) = 0.08
+        _MeadowPaletteStrength ("Shared Meadow Palette", Range(0,1)) = 0
+        _DryColor ("Dry Meadow Middle Color", Color) = (.43,.46,.24,1)
         _UpNormalBias ("Upward Normal Bias", Range(0,1)) = 0.72
 
         _TransmissionColor ("Backlight Color", Color) = (0.70,0.92,0.30,1)
@@ -60,6 +65,8 @@ Shader "Little Castle/Foliage/LC Grass"
 
             #include "UnityCG.cginc"
             #include "AutoLight.cginc"
+            #include "../Surface/LC_SoftShadow.cginc"
+            #include "../Surface/LC_GroundPalette.cginc"
 
             sampler2D _MainTex;
             float4 _MainTex_ST;
@@ -70,7 +77,11 @@ Shader "Little Castle/Foliage/LC Grass"
             fixed4 _RootColor;
             fixed4 _TipColor;
             half _Cutoff;
+            half _UseRootAnchor;
+            float _FadeStart, _FadeEnd;
             half _ColorVariation;
+            half _MeadowPaletteStrength;
+            half4 _DryColor;
             half _UpNormalBias;
 
             half4 _TransmissionColor;
@@ -105,6 +116,7 @@ Shader "Little Castle/Foliage/LC Grass"
                 float4 vertex : POSITION;
                 float3 normal : NORMAL;
                 float2 uv : TEXCOORD0;
+                float3 rootAnchor : TEXCOORD1;
 
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
@@ -116,6 +128,7 @@ Shader "Little Castle/Foliage/LC Grass"
                 half3 worldNormal : TEXCOORD1;
                 half bladeHeight : TEXCOORD2;
                 half variation : TEXCOORD3;
+                half meadowPatch : TEXCOORD6;
 
                 SHADOW_COORDS(4)
                 UNITY_FOG_COORDS(5)
@@ -276,10 +289,12 @@ Shader "Little Castle/Foliage/LC Grass"
                     saturate(
                         v.uv.y);
 
+                float3 rootWorld=mul(unity_ObjectToWorld,float4(v.rootAnchor,1)).xyz;
+                float fade=1-_UseRootAnchor*smoothstep(_FadeStart,max(_FadeStart+.01,_FadeEnd),distance(rootWorld,_WorldSpaceCameraPos));
                 float3 deformed =
                     ApplyGrassWind(
-                        v.vertex.xyz,
-                        bladeHeight);
+                        lerp(v.rootAnchor,v.vertex.xyz,fade),
+                        bladeHeight*fade);
 
                 float4 vertex =
                     float4(
@@ -310,7 +325,8 @@ Shader "Little Castle/Foliage/LC Grass"
 
                 o.variation =
                     HashObject(
-                        objectOrigin);
+                        lerp(objectOrigin,rootWorld,_UseRootAnchor));
+                o.meadowPatch=LCMeadowPatch(rootWorld.xz)*_MeadowPaletteStrength;
 
                 TRANSFER_SHADOW(o);
                 UNITY_TRANSFER_FOG(
@@ -405,6 +421,7 @@ Shader "Little Castle/Foliage/LC Grass"
                     gradient *
                     alphaSample.rgb *
                     variation;
+                albedo*=lerp(half3(1,1,1),_DryColor.rgb/max(_Color.rgb,.01h),i.meadowPatch*.5h);
 
                 half faceSign =
                     facing >= 0
@@ -451,7 +468,7 @@ Shader "Little Castle/Foliage/LC Grass"
                         0.32h);
 
                 half shadow =
-                    SHADOW_ATTENUATION(i);
+                    LC_SHADOW_ATTENUATION(i);
 
                 half sunDiffuse =
                     smoothstep(

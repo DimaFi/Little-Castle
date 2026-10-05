@@ -2,6 +2,8 @@ Shader "Little Castle/Surface/LC Stylized Lit"
 {
     Properties
     {
+        _LightResponse ("Continuous Diffuse", Range(0,1)) = 0
+        [Enum(UnityEngine.Rendering.CullMode)] _Cull ("Cull", Float) = 2
         _MainTex ("Base Color", 2D) = "white" {}
         _Color ("Tint", Color) = (1,1,1,1)
 
@@ -55,7 +57,7 @@ Shader "Little Castle/Surface/LC Stylized Lit"
                 "LightMode" = "ForwardBase"
             }
 
-            Cull Back
+            Cull [_Cull]
             ZWrite On
             ZTest LEqual
 
@@ -71,6 +73,7 @@ Shader "Little Castle/Surface/LC Stylized Lit"
             #include "UnityCG.cginc"
             #include "Lighting.cginc"
             #include "AutoLight.cginc"
+            #include "../Surface/LC_SoftShadow.cginc"
             #include "UnityStandardUtils.cginc"
 
             sampler2D _MainTex;
@@ -94,6 +97,7 @@ Shader "Little Castle/Surface/LC Stylized Lit"
             half _EmissionFlickerStrength;
             half _EmissionFlickerSpeed;
 
+            half _LightResponse;
             half _LightWrap;
             half _ShadowSoftness;
             half _AmbientStrength;
@@ -232,10 +236,10 @@ Shader "Little Castle/Surface/LC Stylized Lit"
                         _ShadowSoftness *
                         0.5h);
 
-                return smoothstep(
+                return lerp(smoothstep(
                     center - halfWidth,
                     center + halfWidth,
-                    wrapped);
+                    wrapped),wrapped,_LightResponse);
             }
 
             half3 EvaluateHemisphereAmbient(
@@ -300,7 +304,7 @@ Shader "Little Castle/Surface/LC Stylized Lit"
                         moonDirection);
 
                 half shadowAttenuation =
-                    SHADOW_ATTENUATION(i);
+                    LC_SHADOW_ATTENUATION(i);
 
                 sunDiffuse *=
                     shadowAttenuation;

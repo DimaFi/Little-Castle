@@ -2,10 +2,14 @@ Shader "Little Castle/Foliage/LC Foliage"
 {
     Properties
     {
+        _LightResponse ("Continuous Diffuse", Range(0,1)) = 0
         _MainTex ("Base Color + Alpha", 2D) = "white" {}
         _OpacityMap ("Opacity Map", 2D) = "white" {}
         _OpacityMapStrength ("Separate Opacity Strength", Range(0,1)) = 0
         _Color ("Tint", Color) = (1,1,1,1)
+        _TextureDetail ("Texture Detail Strength", Range(0,1)) = 1
+        _CanopyNormalBlend ("Canopy Volume Normal Blend", Range(0,1)) = 0
+        _CanopyCenter ("Local Canopy Center", Vector) = (0,4.6,0,0)
         _Cutoff ("Alpha Cutoff", Range(0,1)) = 0.45
 
         [Normal] _BumpMap ("Normal Map", 2D) = "bump" {}
@@ -69,9 +73,13 @@ Shader "Little Castle/Foliage/LC Foliage"
 
             #include "UnityCG.cginc"
             #include "AutoLight.cginc"
+            #include "../Surface/LC_SoftShadow.cginc"
             #include "UnityStandardUtils.cginc"
 
             sampler2D _MainTex;
+            half _TextureDetail;
+            half _CanopyNormalBlend;
+            float4 _CanopyCenter;
             float4 _MainTex_ST;
             sampler2D _OpacityMap;
             half _OpacityMapStrength;
@@ -90,6 +98,7 @@ Shader "Little Castle/Foliage/LC Foliage"
 
             half _AmbientStrength;
             half _ShadowTintStrength;
+            half _LightResponse;
             half _LightWrap;
             half _ShadowSoftness;
             half _ColorVariation;
@@ -327,6 +336,10 @@ Shader "Little Castle/Foliage/LC Foliage"
                 o.worldNormal =
                     UnityObjectToWorldNormal(
                         v.normal);
+                float3 canopyDirection = v.vertex.xyz - _CanopyCenter.xyz;
+                canopyDirection = normalize(canopyDirection + float3(0,0.0001,0));
+                o.worldNormal = normalize(lerp(o.worldNormal,
+                    UnityObjectToWorldNormal(canopyDirection), _CanopyNormalBlend));
 
                 o.worldTangent =
                     UnityObjectToWorldDir(
@@ -380,9 +393,7 @@ Shader "Little Castle/Foliage/LC Foliage"
                         tangentNormal.z *
                             normalize(i.worldNormal));
 
-                return
-                    normal *
-                    faceSign;
+                return normalize(lerp(normal * faceSign, normalize(i.worldNormal), _CanopyNormalBlend));
             }
 
             half EvaluateWrappedDiffuse(
@@ -408,10 +419,10 @@ Shader "Little Castle/Foliage/LC Foliage"
                         _ShadowSoftness *
                         0.5h);
 
-                return smoothstep(
+                return lerp(smoothstep(
                     center - halfWidth,
                     center + halfWidth,
-                    wrapped);
+                    wrapped),wrapped,_LightResponse);
             }
 
             half3 EvaluateHemisphereAmbient(
@@ -473,7 +484,7 @@ Shader "Little Castle/Foliage/LC Foliage"
                         i.variation);
 
                 half3 albedo =
-                    sample.rgb *
+                    lerp(half3(0.65h,0.65h,0.65h), sample.rgb, _TextureDetail) *
                     _Color.rgb *
                     variation;
 
@@ -506,7 +517,7 @@ Shader "Little Castle/Foliage/LC Foliage"
                         moonDirection);
 
                 half shadow =
-                    SHADOW_ATTENUATION(i);
+                    LC_SHADOW_ATTENUATION(i);
 
                 sunDiffuse *=
                     shadow;

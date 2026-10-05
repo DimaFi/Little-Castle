@@ -12,6 +12,21 @@ Shader "Little Castle/Terrain/LC Terrain"
         _RockColor ("Rock Color", Color) = (0.45,0.46,0.40,1)
 
         _WorldTiling ("World Texture Tiling", Range(0.005,0.5)) = 0.075
+        _TextureDetail ("Texture Detail Strength", Range(0,1)) = 1
+        _GroundPalette ("Meadow Surface Palette", Range(0,1)) = 0
+        _DryGrassColor ("Dry Meadow Color", Color) = (.43,.46,.24,1)
+        _GrassDetail ("Meadow Texture Contrast", Range(0,1)) = .22
+        _DirtDetail ("Path Texture Contrast", Range(0,1)) = .65
+        _SoilTex ("Exposed Soil", 2D) = "white" {}
+        _SoilColor ("Exposed Soil Color", Color) = (.39,.34,.20,1)
+        _GrassNormal ("Meadow Normal", 2D) = "bump" {}
+        _DirtNormal ("Path Normal", 2D) = "bump" {}
+        _GrassAO ("Meadow Ambient Occlusion", 2D) = "white" {}
+        _DirtAO ("Path Ambient Occlusion", 2D) = "white" {}
+        _GrassHeight ("Meadow Edge Height", 2D) = "gray" {}
+        _SurfaceDetailStrength ("Surface Normal Strength", Range(0,1)) = 0
+        _LightResponse ("Continuous Diffuse", Range(0,1)) = 0
+        _ContactShadeStrength ("Vertex B Contact Shade", Range(0,0.5)) = 0
 
         _RockSlopeStart ("Rock Slope Start", Range(0,1)) = 0.28
         _RockSlopeEnd ("Rock Slope End", Range(0,1)) = 0.62
@@ -22,6 +37,7 @@ Shader "Little Castle/Terrain/LC Terrain"
 
         _UseVertexMasks ("Use Vertex Masks", Range(0,1)) = 0
         _PathMaskStrength ("Vertex R Path Strength", Range(0,1)) = 1
+        _PathEdgeSharpness ("Path Edge Sharpness", Range(0,1)) = 0
         _WetnessStrength ("Vertex G Wetness Strength", Range(0,1)) = 0.35
 
         _MacroScale ("Macro Variation Scale", Range(0.001,0.08)) = 0.012
@@ -63,16 +79,24 @@ Shader "Little Castle/Terrain/LC Terrain"
 
             #include "UnityCG.cginc"
             #include "AutoLight.cginc"
+            #include "../Surface/LC_SoftShadow.cginc"
+            #include "../Surface/LC_GroundPalette.cginc"
 
             sampler2D _GrassTex;
             sampler2D _DirtTex;
             sampler2D _RockTex;
+            sampler2D _SoilTex, _GrassNormal, _DirtNormal, _GrassAO, _DirtAO, _GrassHeight;
+            half4 _DryGrassColor, _SoilColor;
+            half _GroundPalette, _GrassDetail, _DirtDetail, _SurfaceDetailStrength, _LightResponse;
+            float _LC_LowTerrainDetail;
 
             fixed4 _GrassColor;
             fixed4 _DirtColor;
             fixed4 _RockColor;
 
             half _WorldTiling;
+            half _TextureDetail;
+            half _ContactShadeStrength;
             half _RockSlopeStart;
             half _RockSlopeEnd;
 
@@ -82,6 +106,7 @@ Shader "Little Castle/Terrain/LC Terrain"
 
             half _UseVertexMasks;
             half _PathMaskStrength;
+            half _PathEdgeSharpness;
             half _WetnessStrength;
 
             half _MacroScale;
@@ -203,10 +228,10 @@ Shader "Little Castle/Terrain/LC Terrain"
                         _ShadowSoftness *
                         0.5h);
 
-                return smoothstep(
+                return lerp(smoothstep(
                     center - halfWidth,
                     center + halfWidth,
-                    wrapped);
+                    wrapped),wrapped,_LightResponse);
             }
 
             half3 EvaluateHemisphereAmbient(
@@ -246,16 +271,12 @@ Shader "Little Castle/Terrain/LC Terrain"
                     i.worldPosition.xz *
                     _WorldTiling;
 
-                half3 grass =
-                    tex2D(
-                        _GrassTex,
-                        worldUv).rgb *
-                    _GrassColor.rgb;
+                half3 grassSample=tex2D(_GrassTex,worldUv).rgb;
+                half3 dirtSample=tex2D(_DirtTex,worldUv).rgb;
+                half3 grass = grassSample * _GrassColor.rgb;
 
                 half3 dirt =
-                    tex2D(
-                        _DirtTex,
-                        worldUv).rgb *
+                    dirtSample *
                     _DirtColor.rgb;
 
                 half3 rock =
@@ -268,6 +289,25 @@ Shader "Little Castle/Terrain/LC Terrain"
                     1.0h -
                     saturate(
                         normal.y);
+
+                grass = lerp(_GrassColor.rgb, grass, _TextureDetail);
+                dirt = lerp(_DirtColor.rgb, dirt, _TextureDetail);
+                rock = lerp(_RockColor.rgb, rock, _TextureDetail);
+
+                // Keep the authored palette stable instead of multiplying it dark.
+                // Normal/AO maps share these UVs; no extra meshes or decals.
+                half nearDetail=1-smoothstep(28,65,distance(i.worldPosition,_WorldSpaceCameraPos));
+                half surfaceDetail=_SurfaceDetailStrength*(1-_LC_LowTerrainDetail)*nearDetail;
+                half meadowPatch=LCMeadowPatch(i.worldPosition.xz);
+                [branch] if(_GroundPalette>.001h) {
+                    half meadowValue=clamp(dot(grassSample,half3(.2126,.7152,.0722))/.38h,.65h,1.35h);
+                    grass=lerp(_GrassColor.rgb,_DryGrassColor.rgb,meadowPatch*.5h)*
+                        lerp(1,meadowValue,_GrassDetail);
+                    dirt=_DirtColor.rgb*lerp(half3(1,1,1),clamp(dirtSample/half3(.53,.37,.22),.55,1.5),_DirtDetail);
+                    half soilWeight=smoothstep(.24,.8,i.vertexColor.b)*.65h;
+                    half soilValue=clamp(dot(tex2D(_SoilTex,worldUv).rgb,half3(.2126,.7152,.0722))/.38h,.7h,1.3h);
+                    grass=lerp(grass,_SoilColor.rgb*soilValue,soilWeight);
+                }
 
                 half rockWeight =
                     smoothstep(
@@ -298,6 +338,14 @@ Shader "Little Castle/Terrain/LC Terrain"
                             i.vertexColor.r *
                             _PathMaskStrength),
                         _UseVertexMasks);
+
+                pathMask = lerp(pathMask, smoothstep(.18h,.82h,pathMask), _PathEdgeSharpness);
+                [branch] if(_GroundPalette>.001h) {
+                    half edgeDetail=LCGroundNoise(i.worldPosition.xz*4.7)-.5h;
+                    [branch] if(surfaceDetail>.001h)
+                        edgeDetail+=(tex2D(_GrassHeight,worldUv).r-.5h)*surfaceDetail;
+                    pathMask=saturate(pathMask+edgeDetail*pathMask*(1-pathMask)*1.15h);
+                }
 
                 half wetness =
                     lerp(
@@ -337,6 +385,20 @@ Shader "Little Castle/Terrain/LC Terrain"
                 rockWeight /=
                     totalWeight;
 
+                half microAO=1;
+                [branch] if(surfaceDetail>.001h) {
+                    half3 grassN=UnpackNormal(tex2D(_GrassNormal,worldUv));
+                    half3 dirtN=UnpackNormal(tex2D(_DirtNormal,worldUv));
+                    half3 detailN=normalize(lerp(grassN,dirtN,dirtWeight));
+                    detailN.xy*=surfaceDetail*lerp(.45h,1,dirtWeight);
+                    detailN.z=sqrt(saturate(1-dot(detailN.xy,detailN.xy)));
+                    half3 tangent=normalize(half3(1,0,0)-normal*normal.x);
+                    half3 bitangent=cross(tangent,normal);
+                    normal=normalize(tangent*detailN.x+bitangent*detailN.y+normal*detailN.z);
+                    half ao=lerp(tex2D(_GrassAO,worldUv).r,tex2D(_DirtAO,worldUv).r,dirtWeight);
+                    microAO=lerp(1,ao,surfaceDetail*.35h);
+                }
+
                 half3 albedo =
                     grass *
                         grassWeight +
@@ -348,6 +410,8 @@ Shader "Little Castle/Terrain/LC Terrain"
                 half macro =
                     MacroVariation(
                         i.worldPosition);
+
+                albedo *= 1.0h - saturate(i.vertexColor.b) * _ContactShadeStrength;
 
                 albedo *=
                     1.0h +
@@ -379,7 +443,7 @@ Shader "Little Castle/Terrain/LC Terrain"
                         moonDirection);
 
                 half shadow =
-                    SHADOW_ATTENUATION(i);
+                    LC_SHADOW_ATTENUATION(i);
 
                 sunDiffuse *=
                     shadow;
@@ -399,6 +463,7 @@ Shader "Little Castle/Terrain/LC Terrain"
                 half3 ambient =
                     EvaluateHemisphereAmbient(
                         normal) *
+                    microAO *
                     _AmbientStrength *
                     lerp(
                         shadowTint,

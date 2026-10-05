@@ -153,10 +153,9 @@ namespace LittleCastle.Rendering
             Daylight =
                 atmosphere != null
                     ? atmosphere.DaylightFactor
-                    : timeSystem != null &&
-                      timeSystem.IsDay
-                        ? 1f
-                        : 0f;
+                    : timeSystem != null
+                        ? (timeSystem.IsDay ? 1f : 0f)
+                        : (sun != null && sun.enabled && sun.intensity > 0f ? 1f : 0f);
 
             Twilight =
                 atmosphere != null

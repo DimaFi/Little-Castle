@@ -54,6 +54,7 @@ crashlytics-build.properties
 !/Assets/_Game/Models/Ready/README.md
 /Assets/_Game/Textures/Ready/
 /Assets/_Game/Art/Source/
+/Assets/_Game/Art/Imported/TerrainStarter_v001/
 
 # Keep meta files tracked once Unity creates them
 !*.meta

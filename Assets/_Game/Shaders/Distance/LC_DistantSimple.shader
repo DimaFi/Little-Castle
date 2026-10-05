@@ -4,6 +4,9 @@ Shader "Little Castle/Distance/LC Distant Simple"
     {
         _MainTex ("Base Color", 2D) = "white" {}
         _Color ("Tint", Color) = (1,1,1,1)
+        _TextureDetail ("Texture Detail Strength", Range(0,1)) = 1
+        _CanopyNormalBlend ("Canopy Volume Normal Blend", Range(0,1)) = 0
+        _CanopyCenter ("Local Canopy Center", Vector) = (0,0,0,0)
 
         _Cutoff ("Alpha Cutoff", Range(0,1)) = 0.4
         _UseAlphaClip ("Use Alpha Clip", Range(0,1)) = 0
@@ -44,6 +47,9 @@ Shader "Little Castle/Distance/LC Distant Simple"
             sampler2D _MainTex;
             float4 _MainTex_ST;
             fixed4 _Color;
+            half _TextureDetail;
+            half _CanopyNormalBlend;
+            float4 _CanopyCenter;
 
             half _Cutoff;
             half _UseAlphaClip;
@@ -100,6 +106,9 @@ Shader "Little Castle/Distance/LC Distant Simple"
                 o.worldNormal =
                     UnityObjectToWorldNormal(
                         v.normal);
+                float3 canopyDirection = normalize(v.vertex.xyz - _CanopyCenter.xyz + float3(0,0.0001,0));
+                o.worldNormal = normalize(lerp(o.worldNormal,
+                    UnityObjectToWorldNormal(canopyDirection), _CanopyNormalBlend));
 
                 UNITY_TRANSFER_FOG(
                     o,
@@ -142,6 +151,7 @@ Shader "Little Castle/Distance/LC Distant Simple"
                         _MainTex,
                         i.uv) *
                     _Color;
+                sample.rgb = lerp(_Color.rgb * 0.65h, sample.rgb, _TextureDetail);
 
                 if (_UseAlphaClip > 0.5h)
                 {
