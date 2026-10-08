@@ -70,6 +70,8 @@ namespace LittleCastle.World
 
             bool bridgeAware =
                 terrainProbe != null &&
+                settings.RoadPaths != null &&
+                settings.RoadPaths.enabled &&
                 settings.Bridges != null &&
                 settings.Bridges.enabled &&
                 settings.Bridges.useFixedStoneBridgeSites &&
