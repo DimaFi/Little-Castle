@@ -203,8 +203,19 @@ namespace LittleCastle.World
                 WorldBridgeSiteData bridge =
                     plan.BridgeSites[i];
 
-                if (string.IsNullOrWhiteSpace(
-                        bridge.archetypeId) ||
+                if (FixedBridgeSiteProfile.IsSupported(bridge))
+                {
+                    BlockFixedBridgeFootprint(
+                        context,
+                        chunk,
+                        bridge,
+                        minX,
+                        minZ,
+                        maxX,
+                        maxZ);
+                }
+
+                if (string.IsNullOrWhiteSpace(bridge.archetypeId) ||
                     !PointBelongsToChunk(
                         bridge.worldPosition,
                         minX,
@@ -215,11 +226,18 @@ namespace LittleCastle.World
                     continue;
                 }
 
-                float height = WorldChunkSampling.SampleHeight(
-                    chunk,
-                    context.Settings,
-                    bridge.worldPosition.x,
-                    bridge.worldPosition.y);
+                bool isSupportedFixedSite =
+                    FixedBridgeSiteProfile.IsSupported(bridge);
+
+                float height =
+                    isSupportedFixedSite
+                        ? bridge.baseElevation
+                        : WorldChunkSampling.SampleHeight(
+                            chunk,
+                            context.Settings,
+                            bridge.worldPosition.x,
+                            bridge.worldPosition.y) +
+                          bridgeHeightOffset;
 
                 chunk.AddSpawn(
                     new WorldSpawnData(
@@ -228,10 +246,69 @@ namespace LittleCastle.World
                         SpawnCategory.Structure,
                         new Vector3(
                             bridge.worldPosition.x,
-                            height + bridgeHeightOffset,
+                            height,
                             bridge.worldPosition.y),
                         bridge.yawDegrees,
                         1f));
+            }
+        }
+
+        private static void BlockFixedBridgeFootprint(
+            GenerationContext context,
+            WorldChunkData chunk,
+            WorldBridgeSiteData bridge,
+            float minX,
+            float minZ,
+            float maxX,
+            float maxZ)
+        {
+            FixedBridgeSiteProfile.GetWorldAabbHalfExtents(
+                bridge.yawDegrees,
+                out float halfExtentX,
+                out float halfExtentZ);
+
+            if (bridge.worldPosition.x + halfExtentX < minX ||
+                bridge.worldPosition.x - halfExtentX > maxX ||
+                bridge.worldPosition.y + halfExtentZ < minZ ||
+                bridge.worldPosition.y - halfExtentZ > maxZ)
+            {
+                return;
+            }
+
+            float cellSize = context.Settings.CellWorldSize;
+            float halfCell = cellSize * 0.5f;
+            float radians = bridge.yawDegrees * Mathf.Deg2Rad;
+            float projectedCellHalfExtent =
+                halfCell *
+                (Mathf.Abs(Mathf.Cos(radians)) +
+                 Mathf.Abs(Mathf.Sin(radians)));
+
+            for (int z = 0; z < chunk.CellsPerSide; z++)
+            {
+                float worldZ = minZ + (z + 0.5f) * cellSize;
+
+                for (int x = 0; x < chunk.CellsPerSide; x++)
+                {
+                    float worldX = minX + (x + 0.5f) * cellSize;
+                    Vector2 local =
+                        FixedBridgeSiteProfile.WorldToLocal(
+                            new Vector2(worldX, worldZ),
+                            bridge.worldPosition,
+                            bridge.yawDegrees);
+
+                    if (Mathf.Abs(local.x) <=
+                            FixedBridgeSiteProfile.SupportHalfExtentX +
+                            projectedCellHalfExtent &&
+                        Mathf.Abs(local.y) <=
+                            FixedBridgeSiteProfile.SupportHalfExtentZ +
+                            projectedCellHalfExtent)
+                    {
+                        chunk.AddPlacementBlocks(
+                            x,
+                            z,
+                            PlacementBlockFlags.All);
+                    }
+                }
             }
         }
 

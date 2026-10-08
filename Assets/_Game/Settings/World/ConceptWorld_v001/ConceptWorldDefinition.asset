@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9662469eb12f5b4ea897a40db108c35, type: 3}
+  m_Name: ConceptWorldDefinition
+  m_EditorClassIdentifier: LittleCastle.Runtime::LittleCastle.World.WorldDefinition
+  worldId: little_castle_concept_v001
+  generationSettings: {fileID: 11400000, guid: 461f23dd35e615a4194bc1de095a1244, type: 2}
+  macroPlannerSettings: {fileID: 11400000, guid: 96bcd8a63d649c64287d4d8ae4948d69, type: 2}
+  mapRules: {fileID: 11400000, guid: 7a654bef1730eef458a285d2282d12a8, type: 2}
+  startFairnessSettings: {fileID: 0}
+  timeSettings: {fileID: 11400000, guid: 7f4d4bd50c4882c4e83f54715101b396, type: 2}
+  streamingSettings: {fileID: 11400000, guid: ae995fbe51c091942a4ef9e67ab4e8fc, type: 2}
+  spawnCatalog: {fileID: 11400000, guid: 1250e262e5240644f9d4dcf7fd2ea5b6, type: 2}

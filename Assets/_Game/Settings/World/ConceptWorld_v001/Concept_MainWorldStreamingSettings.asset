@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80c087f76aa988c44989267432358b84, type: 3}
+  m_Name: Concept_MainWorldStreamingSettings
+  m_EditorClassIdentifier: LittleCastle.Runtime::LittleCastle.World.WorldStreamingSettings
+  loadRadiusChunks: 4
+  unloadPaddingChunks: 1
+  circularLoading: 1
+  maxChunkLoadsPerFrame: 4
+  maxChunkUnloadsPerFrame: 6
+  prefetchPaddingChunks: 2
+  urgentGenerationStagesPerFrame: 2
+  backgroundGenerationStagesPerFrame: 1
+  backgroundPrefetchFrameLimitMs: 18
+  prefetchLeadChunks: 2
+  maxCachedChunks: 160
+  macroPlanRadiusChunks: 10
+  macroEdgeWarningChunks: 2
+  renderGeneratedSpawns: 1
+  addMeshCollider: 1
+  colliderRadiusChunks: 1

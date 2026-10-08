@@ -104,6 +104,50 @@ namespace LittleCastle.World
             return true;
         }
 
+        /// <summary>
+        /// Removes one realized road, its logical connection, and every bridge
+        /// site owned by that road. Used only by fixed-site planning when any
+        /// river crossing on the road cannot be served coherently.
+        /// </summary>
+        public bool RemoveRoadAndConnection(long stableId)
+        {
+            bool removed = false;
+
+            for (int i = roads.Count - 1; i >= 0; i--)
+            {
+                if (roads[i] == null ||
+                    roads[i].stableId != stableId)
+                {
+                    continue;
+                }
+
+                roads.RemoveAt(i);
+                roadIds.Remove(stableId);
+                removed = true;
+            }
+
+            for (int i = roadConnections.Count - 1; i >= 0; i--)
+            {
+                if (roadConnections[i].stableId != stableId)
+                    continue;
+
+                roadConnections.RemoveAt(i);
+                roadConnectionIds.Remove(stableId);
+                removed = true;
+            }
+
+            for (int i = bridgeSites.Count - 1; i >= 0; i--)
+            {
+                if (bridgeSites[i].roadId != stableId)
+                    continue;
+
+                bridgeIds.Remove(bridgeSites[i].stableId);
+                bridgeSites.RemoveAt(i);
+            }
+
+            return removed;
+        }
+
         public bool TryGetPointFeature(
             long stableId,
             out WorldPointFeatureData feature)

@@ -1,0 +1,101 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 057cf70c57dbbe048b69a386610bb411, type: 3}
+  m_Name: ConceptMacroWorldPlannerSettings
+  m_EditorClassIdentifier: LittleCastle.Runtime::LittleCastle.World.MacroWorldPlannerSettings
+  planningHalo: 384
+  pointFeatureRules:
+  - ruleId: neutral_village_common
+    kind: 1
+    archetypeId: neutral_village_01
+    spacing: 320
+    chance: 0.85
+    borderJitter: 0.2
+    influenceRadius: 55
+    avoidOtherPointFeatures: 1
+    separationPadding: 24
+    allowedTerrain: 3
+    minHeight: -1000
+    maxHeight: 1000
+    maxSlope: 12
+  - ruleId: ruin_fortified_common
+    kind: 2
+    archetypeId: ruin_fortified_01
+    spacing: 420
+    chance: 0.55
+    borderJitter: 0.2
+    influenceRadius: 28
+    avoidOtherPointFeatures: 1
+    separationPadding: 24
+    allowedTerrain: 3
+    minHeight: -1000
+    maxHeight: 1000
+    maxSlope: 12
+  rivers:
+    enabled: 1
+    sourceSpacing: 480
+    sourceChance: 0.65
+    sourceTerrain: 10
+    minSourceHeight: 8
+    maxSourceSlope: 32
+    traceStep: 24
+    directionSamples: 12
+    maxSteps: 96
+    minimumPreferredDrop: 0.04
+    maxAllowedRise: 0.35
+    turnPenalty: 0.3
+    stopHeight: -2
+    mergeDistance: 28
+    minimumStepsBeforeMerge: 3
+    minimumPoints: 5
+    nominalWidth: 5.7
+    nominalDepth: 1.22
+    headwaterWidthMultiplier: 0.45
+    downstreamWidthMultiplier: 1.15
+    flowWidthExponent: 0.35
+    headwaterDepthMultiplier: 0.65
+    downstreamDepthMultiplier: 1.15
+    flowDepthExponent: 0.2
+    baseSourceFlow: 1
+    downstreamBaseFlowGain: 0.75
+  roadNetwork:
+    enabled: 1
+    roadKind: 1
+    nearestConnectionsPerSettlement: 2
+    maxConnectionDistance: 900
+  roadPaths:
+    enabled: 1
+    gridStep: 24
+    searchPadding: 128
+    maxSlope: 38
+    slopeCostMultiplier: 5
+    highlandCostMultiplier: 1.5
+    riverCrossingPenalty: 260
+    riverAvoidancePadding: 2
+    maxExpandedNodes: 6000
+    trailWidth: 2.3
+    dirtRoadWidth: 2.6
+    improvedRoadWidth: 2.6
+    settlementStreetWidth: 2.6
+    fortifiedRouteWidth: 2.6
+  bridges:
+    enabled: 1
+    archetypeId: ENV_Bridge_Stone_A
+    extraSpan: 2
+    useFixedStoneBridgeSites: 1
+    minimumCompatibleRiverWidth: 1.5
+    maximumCompatibleRiverWidth: 6.5
+    maximumCrossingAngleDeviation: 20
+    maximumApproachGrade: 0.2
+    maximumApproachSlope: 28
+    maximumRiverGrade: 0.2
+    fixedSiteSeparationPadding: 1

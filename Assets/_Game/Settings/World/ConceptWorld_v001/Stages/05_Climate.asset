@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a4285aa70f7f564bafdcf474a7feee4, type: 3}
+  m_Name: 05_Climate
+  m_EditorClassIdentifier: LittleCastle.Runtime::LittleCastle.World.ClimateStage
+  enabledStage: 1
+  temperatureFrequency: 0.00065
+  temperatureOctaves: 3
+  baseTemperature: 0.62
+  altitudeCoolingStart: 12
+  coolingPerHeightUnit: 0.008
+  moistureFrequency: 0.00085
+  moistureOctaves: 3
+  moistureBias: 0.5
+  lacunarity: 2
+  persistence: 0.5

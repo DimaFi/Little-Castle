@@ -69,7 +69,8 @@ namespace LittleCastle.World
             BridgeSitePlanner.BuildBridgeSites(
                 worldSeed,
                 plan,
-                settings.Bridges);
+                settings.Bridges,
+                terrainProbe);
 
             return plan;
         }
