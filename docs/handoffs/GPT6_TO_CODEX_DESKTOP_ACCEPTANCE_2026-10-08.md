@@ -1,5 +1,16 @@
 # GPT-6 → Codex: desktop integration / verification WORK ORDER
 
+## CURRENT STATUS UPDATE — 2026-10-09 (read before the original plan)
+
+**Do not restart the work order below as though nothing was tested.** Actual Codex desktop integration is published in [game PR #20](https://github.com/DimaFi/Little-Castle/pull/20) (head at inspection `deaf52c`), with real Unity 6000.5.5f1 evidence: final integrated **120/120 EditMode + 3/3 PlayMode**, real Bridge Stone A v002 prefab import, and a single per-chunk streamed `RiverWaterPresenter`. These results belong ONLY to #20's tested branch, not new cloud drafts. The #20 acceptance matrix still reports **strict routing FAIL (3 of 4 tested map seed/size combinations), full water/landscape scene FAIL and real 2/8/16 multiplayer/performance GPU matrix incomplete**. This document's original baseline-first plan below is now historical context; review PR #20 and its reports before doing any new check or merge.
+
+**New independent landscape [PR #26](https://github.com/DimaFi/Little-Castle/pull/26)** (branch `gpt6/landscape-measurement-preflight`, head `5fdd77f`) adds source-only, not-yet-Unity-tested diagnostic seed preview images/JSON, connected buildable-region metrics, negative-chunk/scale tests, and **concept-only** variable-width riverbed classification keyed to each river segment's real width. Main/legacy surface settings unaffected. Start from #20's actually tested integration branch; review/cherry-pick #26, compile and run new tests, then export diagnostic PNGs and compare to real-game camera materials. Do not assume logical `SurfaceKind` directly changes rendering: it must be consumed by a reviewed terrain material/shader pipeline.
+
+The original #17 preflight utility must **not** introduce a second global river presenter: a duplicate provisional water renderer prepared by GPT-6 was reverted after discovering #20. Use #20's runtime water owner and preserve its tested release/reload behavior. New changes in #26 are unrelated to that presenter.
+
+Keep source PRs as drafts until actual validation. Required next work: solve strict route failures and minimum-crossing/connectivity diagnostics on 2/8/16/player/map-size matrix, real procedural concept scene water/bridge/bank/landscape visual acceptance, measurements and shader/material binding, not repetitive baseline testing.
+
+
 **Prepared:** 2026-10-08 by GPT-6 (user assigned the former Sol 6 / High queue to this assistant).
 **This is the NEXT WORKING TASK FOR CODEX, not a proposal or a request for another planning pass.**
 **Repository:** DimaFi/Little-Castle. Working base: current-unity-fix at c61a6de1af90c35a843b39325bdc007c1297ff42.
