@@ -124,6 +124,17 @@ namespace LittleCastle.World
                         settings.Bridges.minimumFixedBridgeCount,
                         settings.Bridges.requireConnectedFeatureGraph);
 
+                diagnostics.originalRejectedConnections =
+                    recovery.failedConnections;
+                diagnostics.repairInitialComponents =
+                    repair.initialComponents;
+                diagnostics.repairAttemptedCandidates =
+                    repair.candidatesConsidered;
+                diagnostics.repairAcceptedConnections =
+                    repair.acceptedConnections;
+                diagnostics.repairPathAttempts =
+                    repair.routeAttempts;
+
                 // Rejected requested edges are not themselves a bootstrap
                 // failure once valid alternative roads reconnect the graph.
                 // Without strict connectivity, preserve the old exact
