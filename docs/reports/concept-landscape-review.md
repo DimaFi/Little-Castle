@@ -51,3 +51,16 @@ New Assets/_Game/Tests/Editor/ConceptLandscapeDiagnosticsTests.cs:
 - Real PNG files and metric values have not been generated here; **do not claim specific result percentages** until executing Unity.
 
 This PR advances issue #11 with reproducible diagnostic instrumentation. It does NOT close the visual quality acceptance or replace the downstream Codex work order in issue #19.
+
+## Additional concrete fix: variable-width riverbed surfaces (2026-10-09)
+
+Code in this PR additionally changes **only** the isolated concept surface classification:
+- `Assets/_Game/Scripts/World/Generation/Stages/TerrainSurfaceStage.cs`: new serialized `useVariableRiverWidth` flag, **default false**. The existing Main profile retains exact nominalWidth behavior. When enabled, each local river segment is tested against `WorldRiverData.GetWidthAtSegment(segmentIndex,t)` plus existing `riverbedExtraWidth` padding; the profile is interpolated along the polyline and every segment is tested so widening at bends is not missed.
+- `Assets/_Game/Settings/World/ConceptWorld_v001/Stages/07_TerrainSurface.asset`: opt-in set to true **only in concept asset**. MainWorld stage remains unmodified.
+- New `TerrainSurfaceVariableWidthTests`: asserts widening downstream works, narrow upstream stays narrow, legacy-off remains constant and only the isolated concept asset enables the feature.
+- This addresses a specific mismatch: the old logical riverbed paint radius always used one `nominalWidth` even though `RiverTerrainCarvingStage` and `WorldRiverData` allow varying per-point width.
+
+**Important rendering limitation:** `TerrainSurfaceStage` assigns logical `SurfaceKind` on chunk cells; the current `ChunkMeshBuilder` builds one simple mesh and assigns the streamer's shared terrain material. This PR does **not** magically implement rock/grass/riverbed texture blending or render new bank materials. Codex must verify the actual renderer consumes logical surface information, otherwise implement a separately reviewed shader/material splat mapping after real scene visual review.
+
+**Concurrency and ownership update:** [desktop PR #20](https://github.com/DimaFi/Little-Castle/pull/20) already includes a tested runtime river mesh and source/lifecycle checks. Use it as the authoritative water implementation; do not combine it with a second river presenter. In PR #20, full water scene and landscape visuals remained FAIL/pending despite combined 120/120 EditMode and 3/3 PlayMode tests. Verify the current head, ownership and new tests after integration; these results are historical to PR #20, NOT a test run for this landscape branch.
+
