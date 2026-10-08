@@ -31,6 +31,16 @@ namespace LittleCastle.Tests
             Assert.That(presentationObject, Is.Not.Null);
             Assert.That(presentationObject.transform.IsChildOf(focusObject.transform), Is.False);
 
+            // The production camera writes TestFocus every Update. This
+            // streaming test owns focus movement; otherwise the camera cancels
+            // our teleport before any chunk can unload.
+            foreach (LittleCastle.CameraSystem.StrategyCameraController cameraController in
+                Object.FindObjectsByType<LittleCastle.CameraSystem.StrategyCameraController>())
+                cameraController.enabled = false;
+
+            // LoadSceneAsync completion does not promise Start has run yet.
+            streamer.RefreshStreamingNow();
+
             float readyDeadline =
                 Time.realtimeSinceStartup +
                 20f;
@@ -49,6 +59,8 @@ namespace LittleCastle.Tests
                 streamer.MissingDesiredChunkCount,
                 Is.EqualTo(0),
                 "Initial visible streaming did not become ready before timeout.");
+            LogPhase("initial-ready", streamer,
+                (Time.realtimeSinceStartup - loadStartedAt) * 1000f);
 
             int cacheLimit =
                 streamer.Definition.StreamingSettings.MaxCachedChunks;
@@ -65,7 +77,7 @@ namespace LittleCastle.Tests
             {
                 Assert.That(
                     streamer.ActiveTerrainColliderCount,
-                    Is.GreaterThan(0));
+                    Is.GreaterThan(0), "Initial collider ring was not created.");
 
                 Assert.That(
                     streamer.ActiveTerrainColliderCount,
@@ -93,13 +105,24 @@ namespace LittleCastle.Tests
                 removedObject.GetComponentInParent<StreamedChunkView>().Coordinate;
             Assert.That(streamer.RuntimeDelta.MarkSpawnRemoved(removedStableId), Is.True);
 
-            focusObject.transform.position = new Vector3(64f * 5f, 0f, -64f * 2f);
+            int exitDistance = streamer.Definition.StreamingSettings.UnloadRadiusChunks +
+                streamer.Definition.StreamingSettings.LoadRadiusChunks + 1;
+            Assert.That(exitDistance,
+                Is.LessThanOrEqualTo(streamer.Definition.StreamingSettings.MacroPlanRadiusChunks),
+                "Unload test movement must stay inside the session macro plan.");
+            focusObject.transform.position += new Vector3(64f * exitDistance, 0f, 0f);
+            float movedAt = Time.realtimeSinceStartup;
+            // Without refreshing, MissingDesiredChunkCount still describes
+            // the previous focus until the next Update. The wait may then
+            // exit before a single frame has processed the move.
+            streamer.RefreshStreamingNow();
 
             readyDeadline =
                 Time.realtimeSinceStartup +
                 20f;
 
-            while (streamer.MissingDesiredChunkCount > 0 &&
+            while ((streamer.MissingDesiredChunkCount > 0 ||
+                    originalMeshes.Exists(mesh => mesh != null)) &&
                    Time.realtimeSinceStartup < readyDeadline)
             {
                 float frameStartedAt = Time.realtimeSinceStartup;
@@ -113,6 +136,8 @@ namespace LittleCastle.Tests
                 streamer.MissingDesiredChunkCount,
                 Is.EqualTo(0),
                 "Moved visible streaming did not become ready before timeout.");
+            LogPhase("first-visit-ready", streamer,
+                (Time.realtimeSinceStartup - movedAt) * 1000f);
 
             if (cacheLimit > 0)
             {
@@ -126,7 +151,7 @@ namespace LittleCastle.Tests
             {
                 Assert.That(
                     streamer.ActiveTerrainColliderCount,
-                    Is.GreaterThan(0));
+                    Is.GreaterThan(0), "Moved collider ring was not created.");
 
                 Assert.That(
                     streamer.ActiveTerrainColliderCount,
@@ -135,12 +160,13 @@ namespace LittleCastle.Tests
             }
             Assert.That(presentationObject.transform.position, Is.EqualTo(stationaryRootPosition));
 
-            bool releasedAnyMesh = false;
             foreach (Mesh mesh in originalMeshes)
-                releasedAnyMesh |= mesh == null;
-            Assert.That(releasedAnyMesh, Is.True, "No old runtime mesh was released after moving focus.");
+                Assert.That(mesh == null, Is.True,
+                    "An old runtime mesh survived movement beyond the unload ring.");
 
             focusObject.transform.position = removedChunk.GetWorldOrigin(64f);
+            float returnedAt = Time.realtimeSinceStartup;
+            streamer.RefreshStreamingNow();
 
             readyDeadline =
                 Time.realtimeSinceStartup +
@@ -160,6 +186,8 @@ namespace LittleCastle.Tests
                 streamer.MissingDesiredChunkCount,
                 Is.EqualTo(0),
                 "Reloaded visible streaming did not become ready before timeout.");
+            LogPhase("return-ready", streamer,
+                (Time.realtimeSinceStartup - returnedAt) * 1000f);
             foreach (GeneratedWorldObject worldObject in
                 presentationObject.GetComponentsInChildren<GeneratedWorldObject>())
             {
@@ -167,15 +195,24 @@ namespace LittleCastle.Tests
                     "Removed generated object returned after runtime unload/reload.");
             }
 
-            streamer.ShutdownStreaming();
-            yield return null;
-            Assert.That(streamer.ActiveChunkCount, Is.EqualTo(0));
-
             Debug.Log(
                 $"WORLD_VERIFY playmode sceneLoad={sceneLoadMilliseconds:F2} ms, " +
                 $"maxObservedFrame={maximumObservedFrameMilliseconds:F2} ms, " +
                 $"activeTarget={streamer.DesiredChunkCount}, " +
                 $"colliders={streamer.ActiveTerrainColliderCount}.");
+            streamer.ShutdownStreaming();
+            yield return null;
+            Assert.That(streamer.ActiveChunkCount, Is.EqualTo(0));
+        }
+
+        private static void LogPhase(string phase, WorldStreamer streamer, float elapsedMs)
+        {
+            Debug.Log($"WORLD_VERIFY {phase}: elapsed={elapsedMs:F2} ms, " +
+                $"active={streamer.ActiveChunkCount}, desired={streamer.DesiredChunkCount}, " +
+                $"cached={streamer.CachedChunkCount}, colliders={streamer.ActiveTerrainColliderCount}, " +
+                $"loads={streamer.TotalChunkLoads}, unloads={streamer.TotalChunkUnloads}, " +
+                $"worstStage={streamer.WorstGenerationStageMilliseconds:F2} ms. " +
+                "Legacy WorldGenerationTest, nographics Editor; NOT concept MATCH READY or GPU profiling.");
         }
     }
 }

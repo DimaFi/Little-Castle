@@ -50,5 +50,36 @@ namespace LittleCastle.World
             "Additional world-space gap required between rotated fixed-site " +
             "support rectangles.")]
         public float fixedSiteSeparationPadding = 1f;
+
+        [Header("Bridge-aware route recovery (opt in)")]
+        [Tooltip(
+            "Retry rejected/missing road connections with deterministic " +
+            "terrain-aware paths, validating each against fixed bridge sites. " +
+            "Disabled by default to preserve legacy generation.")]
+        public bool enableBridgeAwareRouting;
+
+        [Range(1, 8)]
+        public int maxBridgeRoutingAttempts = 4;
+
+        [Range(0, 8)]
+        [Tooltip(
+            "After ordinary retry attempts, consider deterministic river " +
+            "crossing anchors with straight ±5.4 m road socket approaches. " +
+            "0 disables guided fallback.")]
+        public int maxGuidedCrossingAttempts = 4;
+
+        [Min(0)]
+        public int minimumFixedBridgeCount = 0;
+
+        [Tooltip(
+            "Validate that every generated point feature can be reached " +
+            "through the realized road graph. This does not alter resources.")]
+        public bool requireConnectedFeatureGraph;
+
+        [Tooltip(
+            "Report impossible route/bridge constraints by an explicit " +
+            "bootstrap exception rather than returning an invalid route plan. " +
+            "Use only with an opt-in bridge-aware profile.")]
+        public bool failOnRoutingError;
     }
 }

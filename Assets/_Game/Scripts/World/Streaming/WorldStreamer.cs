@@ -63,6 +63,9 @@ namespace LittleCastle.World
 
         [SerializeField] private Material terrainMaterial;
 
+        [Tooltip("Opt-in streamed river surface; null preserves legacy presentation.")]
+        [SerializeField] private Material riverWaterMaterial;
+
         [Header("Runtime state")]
         [SerializeField]
         private WorldRuntimeDeltaState runtimeDelta =
@@ -673,6 +676,7 @@ namespace LittleCastle.World
 
             RefreshDesiredChunks();
             UpdateMacroEdgeWarning();
+            RefreshChunkColliderStates();
         }
 
         public void SetPriorityPreparationRadius(
@@ -1811,6 +1815,12 @@ namespace LittleCastle.World
 
                 meshRenderer.sharedMaterial =
                     terrainMaterial;
+
+                if (isPlayableChunk && riverWaterMaterial != null)
+                    view.SetOwnedRiverWater(RiverWaterPresenter.Populate(
+                        chunkObject.transform, chunkData,
+                        GenerationSettings.ChunkWorldSize, macroPlan,
+                        riverWaterMaterial));
 
                 bool colliderEnabled =
                     isPlayableChunk &&

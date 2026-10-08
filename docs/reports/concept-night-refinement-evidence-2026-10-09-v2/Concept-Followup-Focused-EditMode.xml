@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="31" result="Passed" total="31" passed="31" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-10-08 20:51:05Z" end-time="2026-10-08 20:51:05Z" duration="0,2944721">
+  <test-suite type="TestSuite" id="1000" name="Little-Castle" fullname="Little-Castle" runstate="Runnable" testcasecount="120" result="Passed" start-time="2026-10-08 20:51:05Z" end-time="2026-10-08 20:51:05Z" duration="0.294472" total="31" passed="31" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1146" name="LittleCastle.Tests.EditMode.dll" fullname="E:/Games_Develop/Little-Castle/Library/ScriptAssemblies/LittleCastle.Tests.EditMode.dll" runstate="Runnable" testcasecount="120" result="Passed" start-time="2026-10-08 20:51:05Z" end-time="2026-10-08 20:51:05Z" duration="0.280820" total="31" passed="31" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="34704" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1147" name="LittleCastle" fullname="LittleCastle" runstate="Runnable" testcasecount="120" result="Passed" start-time="2026-10-08 20:51:05Z" end-time="2026-10-08 20:51:05Z" duration="0.280019" total="31" passed="31" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1148" name="Tests" fullname="LittleCastle.Tests" runstate="Runnable" testcasecount="120" result="Passed" start-time="2026-10-08 20:51:05Z" end-time="2026-10-08 20:51:05Z" duration="0.279493" total="31" passed="31" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestFixture" id="1029" name="BridgeStonePrefabTests" fullname="LittleCastle.Tests.BridgeStonePrefabTests" classname="LittleCastle.Tests.BridgeStonePrefabTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-10-08 20:51:05Z" end-time="2026-10-08 20:51:05Z" duration="0.072038" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1031" name="AuthoredLODGroups_UseReviewedTriangleCountsAndCheapFarTier" fullname="LittleCastle.Tests.BridgeStonePrefabTests.AuthoredLODGroups_UseReviewedTriangleCountsAndCheapFarTier" methodname="AuthoredLODGroups_UseReviewedTriangleCountsAndCheapFarTier" classname="LittleCastle.Tests.BridgeStonePrefabTests" runstate="Runnable" seed="755563286" result="Passed" start-time="2026-10-08 20:51:05Z" end-time="2026-10-08 20:51:05Z" duration="0.032119" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1030" name="ConceptCatalog_ResolvesOnlyRealFixedBridgePrefab" fullname="LittleCastle.Tests.BridgeStonePrefabTests.ConceptCatalog_ResolvesOnlyRealFixedBridgePrefab" methodname="ConceptCatalog_ResolvesOnlyRealFixedBridgePrefab" classname="LittleCastle.Tests.BridgeStonePrefabTests" runstate="Runnable" seed="1829900794" result="Passed" start-time="2026-10-08 20:51:05Z" end-time="2026-10-08 20:51:05Z" duration="0.007440" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1033" name="NearCollisionBudget_TogglesWithoutMaterialClones" fullname="LittleCastle.Tests.BridgeStonePrefabTests.NearCollisionBudget_TogglesWithoutMaterialClones" methodname="NearCollisionBudget_TogglesWithoutMaterialClones" classname="LittleCastle.Tests.BridgeStonePrefabTests" runstate="Runnable" seed="2087690671" result="Passed" start-time="2026-10-08 20:51:05Z" end-time="2026-10-08 20:51:05Z" duration="0.009420" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1032" name="Prefab_HasNearCollisionAndNoDuplicateWaterOrTerrain" fullname="LittleCastle.Tests.BridgeStonePrefabTests.Prefab_HasNearCollisionAndNoDuplicateWaterOrTerrain" methodname="Prefab_HasNearCollisionAndNoDuplicateWaterOrTerrain" classname="LittleCastle.Tests.BridgeStonePrefabTests" runstate="Runnable" seed="1348024583" result="Passed" start-time="2026-10-08 20:51:05Z" end-time="2026-10-08 20:51:05Z" duration="0.005498" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1056" name="NightLightingRuntimeTests" fullname="LittleCastle.Tests.NightLightingRuntimeTests" classname="LittleCastle.Tests.NightLightingRuntimeTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-10-08 20:51:05Z" end-time="2026-10-08 20:51:05Z" duration="0.021742" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1057" name="NightLightEmitter_FadesInAndOutWithoutInstantPop" fullname="LittleCastle.Tests.NightLightingRuntimeTests.NightLightEmitter_FadesInAndOutWithoutInstantPop" methodname="NightLightEmitter_FadesInAndOutWithoutInstantPop" classname="LittleCastle.Tests.NightLightingRuntimeTests" runstate="Runnable" seed="1035749011" result="Passed" start-time="2026-10-08 20:51:05Z" end-time="2026-10-08 20:51:05Z" duration="0.010594" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1058" name="NightLightPoolVisual_UsesPropertyBlockWithoutMaterialClone" fullname="LittleCastle.Tests.NightLightingRuntimeTests.NightLightPoolVisual_UsesPropertyBlockWithoutMaterialClone" methodname="NightLightPoolVisual_UsesPropertyBlockWithoutMaterialClone" classname="LittleCastle.Tests.NightLightingRuntimeTests" runstate="Runnable" seed="501453400" result="Passed" start-time="2026-10-08 20:51:05Z" end-time="2026-10-08 20:51:05Z" duration="0.009329" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1078" name="StylizedRenderingContractTests" fullname="LittleCastle.Tests.StylizedRenderingContractTests" classname="LittleCastle.Tests.StylizedRenderingContractTests" runstate="Runnable" testcasecount="21" result="Passed" start-time="2026-10-08 20:51:05Z" end-time="2026-10-08 20:51:05Z" duration="0.165283" total="21" passed="21" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1101" name="ColorSpace_IsExplicitlyVisibleToReview" fullname="LittleCastle.Tests.StylizedRenderingContractTests.ColorSpace_IsExplicitlyVisibleToReview" methodname="ColorSpace_IsExplicitlyVisibleToReview" classname="LittleCastle.Tests.StylizedRenderingContractTests" runstate="Runnable" seed="1308599605" result="Passed" start-time="2026-10-08 20:51:05Z" end-time="2026-10-08 20:51:05Z" duration="0.002338" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-suite type="ParameterizedMethod" id="1100" name="DefaultRenderingMaterials_Exist" fullname="LittleCastle.Tests.StylizedRenderingContractTests.DefaultRenderingMaterials_Exist" classname="LittleCastle.Tests.StylizedRenderingContractTests" runstate="Runnable" testcasecount="9" result="Passed" start-time="2026-10-08 20:51:05Z" end-time="2026-10-08 20:51:05Z" duration="0.010335" total="9" passed="9" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1091" name="DefaultRenderingMaterials_Exist(&quot;Assets/_Game/Materials/StylizedDayNightSky.mat&quot;)" fullname="LittleCastle.Tests.StylizedRenderingContractTests.DefaultRenderingMaterials_Exist(&quot;Assets/_Game/Materials/StylizedDayNightSky.mat&quot;)" methodname="DefaultRenderingMaterials_Exist" classname="LittleCastle.Tests.StylizedRenderingContractTests" runstate="Runnable" seed="587382659" result="Passed" start-time="2026-10-08 20:51:05Z" end-time="2026-10-08 20:51:05Z" duration="0.000873" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1092" name="DefaultRenderingMaterials_Exist(&quot;Assets/_Game/Materials/Shared/LC_StylizedLit_Default.mat&quot;)" fullname="LittleCastle.Tests.StylizedRenderingContractTests.DefaultRenderingMaterials_Exist(&quot;Assets/_Game/Materials/Shared/LC_StylizedLit_Default.mat&quot;)" methodname="DefaultRenderingMaterials_Exist" classname="LittleCastle.Tests.StylizedRenderingContractTests" runstate="Runnable" seed="1938243500" result="Passed" start-time="2026-10-08 20:51:05Z" end-time="2026-10-08 20:51:05Z" duration="0.000538" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1093" name="DefaultRenderingMaterials_Exist(&quot;Assets/_Game/Materials/Shared/LC_Foliage_Default.mat&quot;)" fullname="LittleCastle.Tests.StylizedRenderingContractTests.DefaultRenderingMaterials_Exist(&quot;Assets/_Game/Materials/Shared/LC_Foliage_Default.mat&quot;)" methodname="DefaultRenderingMaterials_Exist" classname="LittleCastle.Tests.StylizedRenderingContractTests" runstate="Runnable" seed="639525415" result="Passed" start-time="2026-10-08 20:51:05Z" end-time="2026-10-08 20:51:05Z" duration="0.000756" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1094" name="DefaultRenderingMaterials_Exist(&quot;Assets/_Game/Materials/Shared/LC_Grass_Default.mat&quot;)" fullname="LittleCastle.Tests.StylizedRenderingContractTests.DefaultRenderingMaterials_Exist(&quot;Assets/_Game/Materials/Shared/LC_Grass_Default.mat&quot;)" methodname="DefaultRenderingMaterials_Exist" classname="LittleCastle.Tests.StylizedRenderingContractTests" runstate="Runnable" seed="998466202" result="Passed" start-time="2026-10-08 20:51:05Z" end-time="2026-10-08 20:51:05Z" duration="0.000933" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1095" name="DefaultRenderingMaterials_Exist(&quot;Assets/_Game/Materials/Material_terrain/LC_Terrain_Default.mat&quot;)" fullname="LittleCastle.Tests.StylizedRenderingContractTests.DefaultRenderingMaterials_Exist(&quot;Assets/_Game/Materials/Material_terrain/LC_Terrain_Default.mat&quot;)" methodname="DefaultRenderingMaterials_Exist" classname="LittleCastle.Tests.StylizedRenderingContractTests" runstate="Runnable" seed="1744795968" result="Passed" start-time="2026-10-08 20:51:05Z" end-time="2026-10-08 20:51:05Z" duration="0.000901" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1096" name="DefaultRenderingMaterials_Exist(&quot;Assets/_Game/Materials/Shared/LC_NightLightPool_Default.mat&quot;)" fullname="LittleCastle.Tests.StylizedRenderingContractTests.DefaultRenderingMaterials_Exist(&quot;Assets/_Game/Materials/Shared/LC_NightLightPool_Default.mat&quot;)" methodname="DefaultRenderingMaterials_Exist" classname="LittleCastle.Tests.StylizedRenderingContractTests" runstate="Runnable" seed="1906272646" result="Passed" start-time="2026-10-08 20:51:05Z" end-time="2026-10-08 20:51:05Z" duration="0.000872" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1097" name="DefaultRenderingMaterials_Exist(&quot;Assets/_Game/Materials/Shared/LC_EmissiveGlow_Default.mat&quot;)" fullname="LittleCastle.Tests.StylizedRenderingContractTests.DefaultRenderingMaterials_Exist(&quot;Assets/_Game/Materials/Shared/LC_EmissiveGlow_Default.mat&quot;)" methodname="DefaultRenderingMaterials_Exist" classname="LittleCastle.Tests.StylizedRenderingContractTests" runstate="Runnable" seed="125698287" result="Passed" start-time="2026-10-08 20:51:05Z" end-time="2026-10-08 20:51:05Z" duration="0.000787" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1098" name="DefaultRenderingMaterials_Exist(&quot;Assets/_Game/Materials/Shared/LC_Wheat_Mature.mat&quot;)" fullname="LittleCastle.Tests.StylizedRenderingContractTests.DefaultRenderingMaterials_Exist(&quot;Assets/_Game/Materials/Shared/LC_Wheat_Mature.mat&quot;)" methodname="DefaultRenderingMaterials_Exist" classname="LittleCastle.Tests.StylizedRenderingContractTests" runstate="Runnable" seed="1471617435" result="Passed" start-time="2026-10-08 20:51:05Z" end-time="2026-10-08 20:51:05Z" duration="0.000891" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1099" name="DefaultRenderingMaterials_Exist(&quot;Assets/_Game/Materials/Shared/LC_DistantSimple_Default.mat&quot;)" fullname="LittleCastle.Tests.StylizedRenderingContractTests.DefaultRenderingMaterials_Exist(&quot;Assets/_Game/Materials/Shared/LC_DistantSimple_Default.mat&quot;)" methodname="DefaultRenderingMaterials_Exist" classname="LittleCastle.Tests.StylizedRenderingContractTests" runstate="Runnable" seed="1528252730" result="Passed" start-time="2026-10-08 20:51:05Z" end-time="2026-10-08 20:51:05Z" duration="0.000825" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="ParameterizedMethod" id="1090" name="SharedShaders_ExistAndExposeRequiredProperties" fullname="LittleCastle.Tests.StylizedRenderingContractTests.SharedShaders_ExistAndExposeRequiredProperties" classname="LittleCastle.Tests.StylizedRenderingContractTests" runstate="Runnable" testcasecount="11" result="Passed" start-time="2026-10-08 20:51:05Z" end-time="2026-10-08 20:51:05Z" duration="0.149957" total="11" passed="11" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1079" name="SharedShaders_ExistAndExposeRequiredProperties(&quot;Little Castle/Sky/Stylized Day Night&quot;,&quot;_SunDirection&quot;,&quot;_MoonDirection&quot;,&quot;_Daylight&quot;)" fullname="LittleCastle.Tests.StylizedRenderingContractTests.SharedShaders_ExistAndExposeRequiredProperties(&quot;Little Castle/Sky/Stylized Day Night&quot;,&quot;_SunDirection&quot;,&quot;_MoonDirection&quot;,&quot;_Daylight&quot;)" methodname="SharedShaders_ExistAndExposeRequiredProperties" classname="LittleCastle.Tests.StylizedRenderingContractTests" runstate="Runnable" seed="392466168" result="Passed" start-time="2026-10-08 20:51:05Z" end-time="2026-10-08 20:51:05Z" duration="0.001021" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1080" name="SharedShaders_ExistAndExposeRequiredProperties(&quot;Little Castle/Surface/LC Stylized Lit&quot;,&quot;_MainTex&quot;,&quot;_BumpMap&quot;,&quot;_EmissionNightStrength&quot;)" fullname="LittleCastle.Tests.StylizedRenderingContractTests.SharedShaders_ExistAndExposeRequiredProperties(&quot;Little Castle/Surface/LC Stylized Lit&quot;,&quot;_MainTex&quot;,&quot;_BumpMap&quot;,&quot;_EmissionNightStrength&quot;)" methodname="SharedShaders_ExistAndExposeRequiredProperties" classname="LittleCastle.Tests.StylizedRenderingContractTests" runstate="Runnable" seed="242411990" result="Passed" start-time="2026-10-08 20:51:05Z" end-time="2026-10-08 20:51:05Z" duration="0.139145" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1081" name="SharedShaders_ExistAndExposeRequiredProperties(&quot;Little Castle/Surface/LC Stylized Lit&quot;,&quot;_RoughnessMap&quot;,&quot;_LocalLightStrength&quot;,&quot;_EmissionMap&quot;)" fullname="LittleCastle.Tests.StylizedRenderingContractTests.SharedShaders_ExistAndExposeRequiredProperties(&quot;Little Castle/Surface/LC Stylized Lit&quot;,&quot;_RoughnessMap&quot;,&quot;_LocalLightStrength&quot;,&quot;_EmissionMap&quot;)" methodname="SharedShaders_ExistAndExposeRequiredProperties" classname="LittleCastle.Tests.StylizedRenderingContractTests" runstate="Runnable" seed="126923542" result="Passed" start-time="2026-10-08 20:51:05Z" end-time="2026-10-08 20:51:05Z" duration="0.000438" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1082" name="SharedShaders_ExistAndExposeRequiredProperties(&quot;Little Castle/Foliage/LC Foliage&quot;,&quot;_CrownSway&quot;,&quot;_VertexWave&quot;,&quot;_LeafFlutter&quot;)" fullname="LittleCastle.Tests.StylizedRenderingContractTests.SharedShaders_ExistAndExposeRequiredProperties(&quot;Little Castle/Foliage/LC Foliage&quot;,&quot;_CrownSway&quot;,&quot;_VertexWave&quot;,&quot;_LeafFlutter&quot;)" methodname="SharedShaders_ExistAndExposeRequiredProperties" classname="LittleCastle.Tests.StylizedRenderingContractTests" runstate="Runnable" seed="591319064" result="Passed" start-time="2026-10-08 20:51:05Z" end-time="2026-10-08 20:51:05Z" duration="0.001050" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1083" name="SharedShaders_ExistAndExposeRequiredProperties(&quot;Little Castle/Foliage/LC Foliage&quot;,&quot;_OpacityMap&quot;,&quot;_UseHeightWindMask&quot;,&quot;_TransmissionStrength&quot;)" fullname="LittleCastle.Tests.StylizedRenderingContractTests.SharedShaders_ExistAndExposeRequiredProperties(&quot;Little Castle/Foliage/LC Foliage&quot;,&quot;_OpacityMap&quot;,&quot;_UseHeightWindMask&quot;,&quot;_TransmissionStrength&quot;)" methodname="SharedShaders_ExistAndExposeRequiredProperties" classname="LittleCastle.Tests.StylizedRenderingContractTests" runstate="Runnable" seed="1599711768" result="Passed" start-time="2026-10-08 20:51:05Z" end-time="2026-10-08 20:51:05Z" duration="0.000235" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1084" name="SharedShaders_ExistAndExposeRequiredProperties(&quot;Little Castle/Foliage/LC Grass&quot;,&quot;_GustStrength&quot;,&quot;_MicroFlutter&quot;,&quot;_TransmissionStrength&quot;)" fullname="LittleCastle.Tests.StylizedRenderingContractTests.SharedShaders_ExistAndExposeRequiredProperties(&quot;Little Castle/Foliage/LC Grass&quot;,&quot;_GustStrength&quot;,&quot;_MicroFlutter&quot;,&quot;_TransmissionStrength&quot;)" methodname="SharedShaders_ExistAndExposeRequiredProperties" classname="LittleCastle.Tests.StylizedRenderingContractTests" runstate="Runnable" seed="1213582164" result="Passed" start-time="2026-10-08 20:51:05Z" end-time="2026-10-08 20:51:05Z" duration="0.000578" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1085" name="SharedShaders_ExistAndExposeRequiredProperties(&quot;Little Castle/Foliage/LC Grass&quot;,&quot;_OpacityMap&quot;,&quot;_GustStrength&quot;,&quot;_MicroFlutter&quot;)" fullname="LittleCastle.Tests.StylizedRenderingContractTests.SharedShaders_ExistAndExposeRequiredProperties(&quot;Little Castle/Foliage/LC Grass&quot;,&quot;_OpacityMap&quot;,&quot;_GustStrength&quot;,&quot;_MicroFlutter&quot;)" methodname="SharedShaders_ExistAndExposeRequiredProperties" classname="LittleCastle.Tests.StylizedRenderingContractTests" runstate="Runnable" seed="1487600300" result="Passed" start-time="2026-10-08 20:51:05Z" end-time="2026-10-08 20:51:05Z" duration="0.000131" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1086" name="SharedShaders_ExistAndExposeRequiredProperties(&quot;Little Castle/Terrain/LC Terrain&quot;,&quot;_GrassTex&quot;,&quot;_MacroStrength&quot;,&quot;_UseVertexMasks&quot;)" fullname="LittleCastle.Tests.StylizedRenderingContractTests.SharedShaders_ExistAndExposeRequiredProperties(&quot;Little Castle/Terrain/LC Terrain&quot;,&quot;_GrassTex&quot;,&quot;_MacroStrength&quot;,&quot;_UseVertexMasks&quot;)" methodname="SharedShaders_ExistAndExposeRequiredProperties" classname="LittleCastle.Tests.StylizedRenderingContractTests" runstate="Runnable" seed="963625083" result="Passed" start-time="2026-10-08 20:51:05Z" end-time="2026-10-08 20:51:05Z" duration="0.000492" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1087" name="SharedShaders_ExistAndExposeRequiredProperties(&quot;Little Castle/Effects/LC Night Light Pool&quot;,&quot;_Intensity&quot;,&quot;_NightThreshold&quot;,&quot;_FlickerStrength&quot;)" fullname="LittleCastle.Tests.StylizedRenderingContractTests.SharedShaders_ExistAndExposeRequiredProperties(&quot;Little Castle/Effects/LC Night Light Pool&quot;,&quot;_Intensity&quot;,&quot;_NightThreshold&quot;,&quot;_FlickerStrength&quot;)" methodname="SharedShaders_ExistAndExposeRequiredProperties" classname="LittleCastle.Tests.StylizedRenderingContractTests" runstate="Runnable" seed="556263393" result="Passed" start-time="2026-10-08 20:51:05Z" end-time="2026-10-08 20:51:05Z" duration="0.000137" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1088" name="SharedShaders_ExistAndExposeRequiredProperties(&quot;Little Castle/Effects/LC Emissive Glow&quot;,&quot;_MainTex&quot;,&quot;_NightStrength&quot;,&quot;_FlickerStrength&quot;)" fullname="LittleCastle.Tests.StylizedRenderingContractTests.SharedShaders_ExistAndExposeRequiredProperties(&quot;Little Castle/Effects/LC Emissive Glow&quot;,&quot;_MainTex&quot;,&quot;_NightStrength&quot;,&quot;_FlickerStrength&quot;)" methodname="SharedShaders_ExistAndExposeRequiredProperties" classname="LittleCastle.Tests.StylizedRenderingContractTests" runstate="Runnable" seed="121921965" result="Passed" start-time="2026-10-08 20:51:05Z" end-time="2026-10-08 20:51:05Z" duration="0.000099" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1089" name="SharedShaders_ExistAndExposeRequiredProperties(&quot;Little Castle/Distance/LC Distant Simple&quot;,&quot;_MainTex&quot;,&quot;_UseAlphaClip&quot;,&quot;_TopLightStrength&quot;)" fullname="LittleCastle.Tests.StylizedRenderingContractTests.SharedShaders_ExistAndExposeRequiredProperties(&quot;Little Castle/Distance/LC Distant Simple&quot;,&quot;_MainTex&quot;,&quot;_UseAlphaClip&quot;,&quot;_TopLightStrength&quot;)" methodname="SharedShaders_ExistAndExposeRequiredProperties" classname="LittleCastle.Tests.StylizedRenderingContractTests" runstate="Runnable" seed="211413594" result="Passed" start-time="2026-10-08 20:51:05Z" end-time="2026-10-08 20:51:05Z" duration="0.001517" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+          </test-suite>
+          <test-suite type="TestFixture" id="1141" name="WorldTimeTests" fullname="LittleCastle.Tests.WorldTimeTests" classname="LittleCastle.Tests.WorldTimeTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-10-08 20:51:05Z" end-time="2026-10-08 20:51:05Z" duration="0.009115" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1142" name="DayWindow_TakesSixRealMinutes" fullname="LittleCastle.Tests.WorldTimeTests.DayWindow_TakesSixRealMinutes" methodname="DayWindow_TakesSixRealMinutes" classname="LittleCastle.Tests.WorldTimeTests" runstate="Runnable" seed="774946793" result="Passed" start-time="2026-10-08 20:51:05Z" end-time="2026-10-08 20:51:05Z" duration="0.001043" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1144" name="NightRate_StaysContinuousAcrossMidnight" fullname="LittleCastle.Tests.WorldTimeTests.NightRate_StaysContinuousAcrossMidnight" methodname="NightRate_StaysContinuousAcrossMidnight" classname="LittleCastle.Tests.WorldTimeTests" runstate="Runnable" seed="89936900" result="Passed" start-time="2026-10-08 20:51:05Z" end-time="2026-10-08 20:51:05Z" duration="0.000263" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1143" name="NightWindow_TakesNinetyRealSeconds" fullname="LittleCastle.Tests.WorldTimeTests.NightWindow_TakesNinetyRealSeconds" methodname="NightWindow_TakesNinetyRealSeconds" classname="LittleCastle.Tests.WorldTimeTests" runstate="Runnable" seed="1661534107" result="Passed" start-time="2026-10-08 20:51:05Z" end-time="2026-10-08 20:51:05Z" duration="0.000277" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1145" name="State_CanBeRestored" fullname="LittleCastle.Tests.WorldTimeTests.State_CanBeRestored" methodname="State_CanBeRestored" classname="LittleCastle.Tests.WorldTimeTests" runstate="Runnable" seed="51280223" result="Passed" start-time="2026-10-08 20:51:05Z" end-time="2026-10-08 20:51:05Z" duration="0.000266" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[Saving results to: Logs/Concept-Followup-Focused-EditMode.xml
+]]></output>
+            </test-case>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

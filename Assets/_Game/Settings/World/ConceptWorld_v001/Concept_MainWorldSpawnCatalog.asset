@@ -48,3 +48,8 @@ MonoBehaviour:
     - {fileID: 7908561189645844976, guid: e81b6a4033dc85347b8f48fff80d2ccd, type: 3}
     scaleMultiplier: 1
     rotationOffsetEuler: {x: 0, y: 0, z: 0}
+  - archetypeId: ENV_Bridge_Stone_A
+    prefabs:
+    - {fileID: 752097666068158201, guid: 45bafd188f39d134b854f4517c62154e, type: 3}
+    scaleMultiplier: 1
+    rotationOffsetEuler: {x: 0, y: 0, z: 0}

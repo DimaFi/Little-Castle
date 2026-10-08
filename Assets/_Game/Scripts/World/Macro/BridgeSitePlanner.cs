@@ -117,14 +117,19 @@ namespace LittleCastle.World
                              ws < river.centerline.Count - 1;
                              ws++)
                         {
-                            if (TrySegmentIntersection(
+                            if (SegmentsOverlapCollinearly(
+                                road.centerline[rs],
+                                road.centerline[rs + 1],
+                                river.centerline[ws],
+                                river.centerline[ws + 1]) ||
+                                TrySegmentIntersection(
                                 road.centerline[rs],
                                 road.centerline[rs + 1],
                                 river.centerline[ws],
                                 river.centerline[ws + 1],
-                                out Vector2 intersection,
-                                out float roadT,
-                                out float riverT))
+                                out _,
+                                out _,
+                                out _))
                             {
                                 foundCrossing = true;
                                 break;
@@ -307,8 +312,19 @@ namespace LittleCastle.World
                             Vector2 riverB = river.centerline[ws + 1];
                             Vector2 riverVector = riverB - riverA;
 
-                            if (riverVector.sqrMagnitude <= 0.000001f ||
-                                !TrySegmentIntersection(
+                            if (riverVector.sqrMagnitude <= 0.000001f)
+                                continue;
+
+                            // A road sharing the river centerline cannot be
+                            // served by a transverse fixed bridge.
+                            if (SegmentsOverlapCollinearly(
+                                roadA, roadB, riverA, riverB))
+                            {
+                                roadGroup.hasUnservedCrossing = true;
+                                continue;
+                            }
+
+                            if (!TrySegmentIntersection(
                                     roadA,
                                     roadB,
                                     riverA,
@@ -325,6 +341,9 @@ namespace LittleCastle.World
                                     ws,
                                     riverT);
 
+                            // Keep each incident segment at a corner subject
+                            // to the full geometry check. One valid segment
+                            // cannot excuse an invalid sharp bend.
                             if (localWidth < minimumWidth ||
                                 localWidth > maximumWidth)
                             {
@@ -985,6 +1004,32 @@ namespace LittleCastle.World
                     roadSegment,
                     riverSegment,
                     segmentSalt);
+        }
+
+        private static bool SegmentsOverlapCollinearly(
+            Vector2 a, Vector2 b, Vector2 c, Vector2 d)
+        {
+            Vector2 road = b - a;
+            Vector2 river = d - c;
+            float lengthSqr = road.sqrMagnitude;
+            if (lengthSqr < 0.000001f || river.sqrMagnitude < 0.000001f)
+                return false;
+
+            float cross = road.x * river.y - road.y * river.x;
+            if (Mathf.Abs(cross) >= 0.000001f)
+                return false;
+
+            Vector2 offset = c - a;
+            float distance = Mathf.Abs(offset.x * road.y - offset.y * road.x) /
+                             Mathf.Sqrt(lengthSqr);
+            if (distance > 0.001f)
+                return false;
+
+            float t0 = Vector2.Dot(offset, road) / lengthSqr;
+            float t1 = Vector2.Dot(d - a, road) / lengthSqr;
+            float overlapStart = Mathf.Max(0f, Mathf.Min(t0, t1));
+            float overlapEnd = Mathf.Min(1f, Mathf.Max(t0, t1));
+            return (overlapEnd - overlapStart) * Mathf.Sqrt(lengthSqr) > 0.001f;
         }
 
         private static bool TrySegmentIntersection(
