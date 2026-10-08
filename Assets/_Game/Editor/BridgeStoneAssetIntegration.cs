@@ -162,10 +162,7 @@ namespace LittleCastle.Editor
 
                 var dressingRoot = new GameObject("Dressing_LODGroup");
                 dressingRoot.transform.SetParent(root.transform, false);
-                // Move dressing meshes under own LOD group, preserving local world transforms.
-                for (int i = 0; i < dressing.Length; i++)
-                    foreach (Renderer renderer in dressing[i].renderers)
-                        renderer.transform.root.GetComponent<Transform>(); // Parent below by named group.
+                // Move dressing meshes under their independent LOD group.
                 for (int i = 0; i < 3; i++)
                 {
                     Transform child = root.transform.Find("Dressing_LOD" + i);
@@ -213,8 +210,9 @@ namespace LittleCastle.Editor
                 if (relative.StartsWith("/") || relative.Contains("..") ||
                     relative.Contains(":") || relative.Contains("\\"))
                     throw new InvalidOperationException("Unsafe release path " + relative);
-                if (!hashes.TryAdd(relative, item.Groups["hash"].Value))
+                if (hashes.ContainsKey(relative))
                     throw new InvalidOperationException("Duplicate manifest entry " + relative);
+                hashes.Add(relative, item.Groups["hash"].Value);
             }
             if (hashes.Count != 31)
                 throw new InvalidOperationException(
@@ -326,7 +324,8 @@ namespace LittleCastle.Editor
             {
                 if (filter.sharedMesh == null)
                     throw new InvalidOperationException("Collider missing mesh.");
-                triangleCount += (int)(filter.sharedMesh.triangles.Length / 3);
+                for (int sub = 0; sub < filter.sharedMesh.subMeshCount; sub++)
+                    triangleCount += (int)(filter.sharedMesh.GetIndexCount(sub) / 3);
                 var collider = filter.gameObject.AddComponent<MeshCollider>();
                 collider.sharedMesh = filter.sharedMesh;
                 collider.convex = false;
