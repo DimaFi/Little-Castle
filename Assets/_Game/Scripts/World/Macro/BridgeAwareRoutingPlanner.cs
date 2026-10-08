@@ -125,11 +125,21 @@ namespace LittleCastle.World
                         candidatePlan.BridgeSites))
                         continue;
 
-                    if (!plan.AddRoadConnection(connection))
+                    bool connectionPresent = false;
+                    for (int p = 0; p < plan.RoadConnections.Count; p++)
+                    {
+                        if (plan.RoadConnections[p].stableId == connection.stableId)
+                        {
+                            connectionPresent = true;
+                            break;
+                        }
+                    }
+                    if (!connectionPresent && !plan.AddRoadConnection(connection))
                         continue;
                     if (!plan.AddRoad(proposedRoad))
                     {
-                        plan.RemoveRoadAndConnection(connection.stableId);
+                        if (!connectionPresent)
+                            plan.RemoveRoadAndConnection(connection.stableId);
                         continue;
                     }
 
