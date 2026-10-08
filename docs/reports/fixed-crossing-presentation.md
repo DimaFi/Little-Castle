@@ -3,7 +3,7 @@
 Date: 2026-10-08; executor GPT-6 in ChatGPT.
 Issue: https://github.com/DimaFi/Little-Castle/issues/10
 Branch: gpt6/bridge-water-contract-preflight from current-unity-fix at c61a6de.
-Status: **STREAMED RIVER MESH IMPLEMENTATION SOURCE ADDED; NOT ATTACHED TO A REAL CONCEPT SCENE OR UNITY-VERIFIED**.
+Status: **DATA-TO-PRESENTATION CONTRACT PREPARED; GLOBAL WATER RENDERING NOT YET IMPLEMENTED/VERIFIED**.
 
 ## Repository finding
 
@@ -20,25 +20,10 @@ New read-only Assets/_Game/Scripts/World/Rendering/BridgeSitePresentationUtility
 
 New Editor tests BridgeCrossingPresentationTests.cs cover yaw 0/37/90/180, negative world positions, water/deck heights, road sockets, channel wet vs bank dry, rejects unknown bridge contract. Tests are source only; **Unity Editor tests NOT RUN**. Stable .meta GUIDs committed.
 
-
-## Additional GPT-6 implementation: 2026-10-09
-
-The previous source-only blocker was advanced in the same dedicated draft branch:
-
-- `Assets/_Game/Scripts/World/Rendering/RiverWaterPresenter.cs` now provides an **opt-in, single WorldStreamer-attached water owner**. It scans actually visible `StreamedChunkView` instances and builds up to two new water meshes per frame by default, parented to their corresponding chunk. On unload Unity destroys the water child; `RiverWaterChunkResource.OnDestroy` explicitly releases its transient `Mesh`. It does not instantiate all 96×96 map chunks or touch `WorldStreamer`.
-- `RiverWaterMeshBuilder.Build` forms shared-vertex mitered river ribbons, clips quads to the exact chunk rectangle in absolute coordinates (including negative coordinates), samples the displayed terrain mesh for approximate bed-relative water level and smoothly blends to the **authoritative `baseElevation - 0.85m`** near fixed sites. It uses `Mesh.SetVertices/SetTriangles` and a shared water material (no per-instance `Material`).
-- `Assets/_Game/Editor/ConceptCrossingPresentationBuilder.cs` adds an explicit editor menu **Little Castle → World → Concept Water → Attach Selected Water Material**. Select a reviewed `Material`, open a separate concept scene with exactly one `WorldStreamer`, invoke the menu. The scene is marked dirty, not automatically saved; no Main* edits.
-- `Assets/_Game/Tests/Editor/RiverWaterPresentationTests.cs` checks clipping and equal water heights across the **negative X chunk seam**, fixed v002 water height, exact sampled terrain water elevation without mutating it and no mesh in an unrelated chunk.
-- Stable Unity .meta GUIDs are committed for each new source/test file.
-
-**Important remaining risks requiring Codex acceptance:** actual Unity compilation, corner/junction rivers and confluences (overlap at river junctions can cause z-fighting), width transitions, visual shoreline holes, side banks, runtime importer prefab coexistence, mesh allocation/timing budget and scene persistence. The terrain-relative default water level is an **approximation**, not hydrologically graded longitudinal water elevation. No playable concept scene or actual water material was committed; no screenshots or Unity tests ran. This source should not be approved as polished water before a rendered PlayMode and profiler pass.
-
-After PC #7/#8/#9 integration, Codex should wire into the isolated `ConceptBridgeTest.unity`, run the new Unity tests, inspect river/water/bank seams and refine overlapping confluences and longitudinal profiles. This is now an implementation candidate, not just coordinate math.
-
 ## Remaining integration / explicit handoff to Codex
 
 Only AFTER desktop verification of game #7 (PR #14), routing #8 (PR #15), hydrated art and import #9 (PR #16):
-1. Review and integrate the opt-in `RiverWaterPresenter` implementation above into the approved concept scene, then resolve any remaining overlapping river junctions and ensure a physically coherent waterline across the river. Do not overlay v002 local SM_Bridge_Water_A on it.
+1. Create a global single-owner river water presentation system or reuse an actually present river renderer if introduced by concurrent PRs. Do not overlay v002 local SM_Bridge_Water_A on it. Need one waterline per river consistent with site bridge waterY and continuous upstream/downstream tiles.
 2. Own water meshes per streamed chunk or managed region; never materialize every river across finite map in one GO mesh. Use a stable river/site ID and chunk coordinates to avoid duplicates on streaming load/unload. Preserve world-space seam vertices across negative chunk borders.
 3. For each fixed site use GetWorldAnchors and IsProtectedWaterSurface to prevent double water geometry at the bridge. Tie material and water Y to existing fixed site contract (baseElevation - 0.85). River/terrain intersection must not have dry holes or z-fighting; test 4 bridge rotations and two ends.
 4. Road-to-bridge transition needs actual polyline alignment to ±5.4 sockets and natural bank slope; do NOT move static FBX/Stretch requiredSpan or manufacture phantom perpendicular rivers. Address steep local river grades via deterministic route failure, not teleport.
@@ -50,9 +35,15 @@ Only AFTER desktop verification of game #7 (PR #14), routing #8 (PR #15), hydrat
 
 - Fixed waterY = baseElevation - 0.85 at all authored sites — **UNIT TEST SOURCE PRESENT, UNITY NOT RUN**.
 - Correct sockets and yaw for negative border chunks — **UNIT TEST SOURCE PRESENT, UNITY NOT RUN**.
-- One shared river water owner, chunk-clipped mesh source — **IMPLEMENTATION CANDIDATE, UNITY NOT RUN**; river confluence deduplication/visual acceptance remain pending.
-- Chunk-parented load/unload and seam clipping source — **IMPLEMENTATION CANDIDATE, UNITY NOT RUN**.
+- One global water surface, no duplicate locally embedded water — **NOT IMPLEMENTED**.
+- Fully streamed river water (load/unload, seam, buffer) — **NOT IMPLEMENTED**.
 - Visual banks and approach grades — **NOT IMPLEMENTED**.
 - Scene screenshots and GPU benchmarking — **NOT RUN**.
 
 Do not merge this source draft as a completed water rendering feature. Unity 6000.5.5f1 and actual scene tests must determine next implementation steps. Record PASS/FAIL/BLOCKED against the acceptance criteria in Issue #10 with new dated evidence.
+
+## Ownership update — 2026-10-09
+
+While continuing this task, GPT-6 discovered that [desktop PR #20](https://github.com/DimaFi/Little-Castle/pull/20) already integrated an actual per-chunk `RiverWaterMeshBuilder` / `RiverWaterPresenter`, tested streaming release/reload and authored waterline behavior in Unity. It also records a **PASS for water source/lifecycle but FAIL for complete rendered/streamed concept scene acceptance**. Its final combined results were 120/120 EditMode and 3/3 PlayMode (as reported by desktop PR #20), not results of this branch.
+
+To avoid two incompatible `RiverWaterPresenter` classes and duplicate water surfaces, a provisional parallel renderer introduced on this branch was **reverted**. This branch deliberately contains only its original read-only waterline/socket presentation utility, unit test source and report. **Use the integrated implementation in PR #20 as the authoritative working baseline.** No Unity checks were run by GPT-6 for this branch after the reversion. Next Codex work: inspect PR #20's actual Unity evidence, connect real procedural concept scene and resolve visual river junction/bank/approach gaps, not re-implement another water renderer.
