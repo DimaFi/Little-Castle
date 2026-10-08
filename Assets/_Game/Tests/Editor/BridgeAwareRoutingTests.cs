@@ -178,6 +178,56 @@ namespace LittleCastle.Tests
             Assert.That(plan.Roads.Count, Is.Zero);
         }
 
+        [Test]
+        public void GuidedBridgeAnchors_ChooseStablePerpendicularCrossing()
+        {
+            var river = new WorldRiverData
+            {
+                stableId = 201,
+                nominalWidth = 5f,
+                centerline = new List<Vector2>
+                {
+                    new Vector2(-80f, -16f),
+                    new Vector2(80f, -16f)
+                }
+            };
+
+            var settings = new BridgePlannerSettings
+            {
+                useFixedStoneBridgeSites = true,
+                enableBridgeAwareRouting = true,
+                maxGuidedCrossingAttempts = 4
+            };
+
+            var method = typeof(BridgeAwareRoutingPlanner).GetMethod(
+                "FindGuidedAnchors",
+                BindingFlags.Static | BindingFlags.NonPublic);
+            Assert.That(method, Is.Not.Null);
+
+            object[] args =
+            {
+                new Vector2(-40f, -64f),
+                new Vector2(40f, 32f),
+                new List<WorldRiverData> { river },
+                settings
+            };
+
+            var first = (System.Collections.IList)method.Invoke(null, args);
+            var second = (System.Collections.IList)method.Invoke(null, args);
+            Assert.That(first.Count, Is.GreaterThan(0));
+            Assert.That(first.Count, Is.EqualTo(second.Count));
+
+            Vector2 center = (Vector2)first[0].GetType().GetField("crossing")
+                .GetValue(first[0]);
+            Vector2 axis = (Vector2)first[0].GetType().GetField("roadAxis")
+                .GetValue(first[0]);
+
+            Assert.That(center.x, Is.EqualTo(0f).Within(0.001f));
+            Assert.That(center.y, Is.EqualTo(-16f).Within(0.001f));
+            Assert.That(Vector2.Dot(axis, Vector2.up),
+                Is.EqualTo(1f).Within(0.001f));
+        }
+
         [TestCase(2, 12345)]
         [TestCase(8, -12345)]
         [TestCase(16, 777)]
