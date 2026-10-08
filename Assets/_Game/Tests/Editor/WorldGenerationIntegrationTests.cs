@@ -319,19 +319,27 @@ namespace LittleCastle.Tests
                 streamer.InitializeStreaming();
                 Assert.That(streamer.ActiveChunkCount, Is.EqualTo(0));
 
+                // Cooperative streaming queues data work rather than building
+                // a complete chunk synchronously in ProcessLoads.
                 InvokePrivate(streamer, "ProcessLoads");
-                Assert.That(streamer.ActiveChunkCount, Is.EqualTo(1),
-                    "Load budget should allow exactly one first chunk.");
+                Assert.That(streamer.ActiveChunkCount, Is.EqualTo(0),
+                    "Presentation must wait for data generation.");
+                Assert.That(streamer.PendingUrgentGenerationCount, Is.GreaterThan(0));
+
+                PumpStreamingUntil(
+                    streamer,
+                    () => streamer.ActiveChunkCount > 0,
+                    "No first chunk was presented after cooperative generation.");
 
                 StreamedChunkView firstView =
                     presentation.GetComponentInChildren<StreamedChunkView>();
                 Assert.That(firstView.Coordinate, Is.EqualTo(new ChunkCoordinate(0, 0)),
                     "Nearest chunk must load first.");
 
-                for (int i = 0; i < 8; i++)
-                    InvokePrivate(streamer, "ProcessLoads");
-
-                Assert.That(streamer.ActiveChunkCount, Is.EqualTo(5));
+                PumpStreamingUntil(
+                    streamer,
+                    () => streamer.ActiveChunkCount >= 5,
+                    "Initial streaming did not present five chunks.");
                 Vector3 presentationPosition = presentation.transform.position;
 
                 StreamedChunkView[] oldViews =
@@ -346,20 +354,31 @@ namespace LittleCastle.Tests
                         Is.EqualTo(view.Coordinate.GetWorldOrigin(64f)));
                 }
 
-                focus.transform.position = new Vector3(64f * 4f, 0f, -64f);
+                // Move beyond the unload radius, not merely beyond the
+                // presentation radius (which may be larger than old tests assumed).
+                int destinationX =
+                    streamer.Definition.StreamingSettings.UnloadRadiusChunks + 5;
+                focus.transform.position = new Vector3(64f * destinationX, 0f, -64f);
                 Assert.That(presentation.transform.position, Is.EqualTo(presentationPosition));
                 foreach (StreamedChunkView view in oldViews)
                     Assert.That(view.transform.position, Is.EqualTo(view.Coordinate.GetWorldOrigin(64f)));
 
                 streamer.RefreshStreamingNow();
-                for (int i = 0; i < 12; i++)
-                {
-                    InvokePrivate(streamer, "ProcessUnloads");
-                    InvokePrivate(streamer, "ProcessLoads");
-                }
+                PumpStreamingUntil(
+                    streamer,
+                    () => streamer.TotalChunkUnloads >= oldViews.Length &&
+                          streamer.ActiveChunkCount >= 5,
+                    "Old views did not unload or new chunks did not stream.");
 
-                Assert.That(streamer.ActiveChunkCount, Is.EqualTo(5));
-                Assert.That(streamer.CachedChunkCount, Is.LessThanOrEqualTo(9));
+                int configuredCacheLimit =
+                    streamer.Definition.StreamingSettings.MaxCachedChunks;
+                if (configuredCacheLimit > 0)
+                {
+                    // Pinned active chunks can temporarily exceed the data-cache limit.
+                    Assert.That(
+                        streamer.CachedChunkCount,
+                        Is.LessThanOrEqualTo(configuredCacheLimit + streamer.ActiveChunkCount));
+                }
 
                 foreach (Mesh oldMesh in oldMeshes)
                     Assert.That(oldMesh == null, Is.True, "Unloaded runtime mesh was not destroyed.");
@@ -480,27 +499,26 @@ namespace LittleCastle.Tests
             ChunkCoordinate removedCoordinate = owningView.Coordinate;
             Assert.That(streamer.RuntimeDelta.MarkSpawnRemoved(removedId), Is.True);
 
+            int exitDistance =
+                streamer.Definition.StreamingSettings.UnloadRadiusChunks + 2;
             focus.position = new Vector3(
-                (removedCoordinate.x + 5) * 64f,
+                (removedCoordinate.x + exitDistance) * 64f,
                 0f,
                 removedCoordinate.z * 64f);
             streamer.RefreshStreamingNow();
-            for (int i = 0; i < 12; i++)
-            {
-                InvokePrivate(streamer, "ProcessUnloads");
-                InvokePrivate(streamer, "ProcessLoads");
-            }
+            PumpStreamingUntil(
+                streamer,
+                () => !cache.IsPinned(removedCoordinate),
+                "Removed object's original chunk remained pinned outside unload radius.");
 
-            Assert.That(cache.IsPinned(removedCoordinate), Is.False);
             cache.Remove(removedCoordinate);
 
             focus.position = removedCoordinate.GetWorldOrigin(64f);
             streamer.RefreshStreamingNow();
-            for (int i = 0; i < 12; i++)
-            {
-                InvokePrivate(streamer, "ProcessUnloads");
-                InvokePrivate(streamer, "ProcessLoads");
-            }
+            PumpStreamingUntil(
+                streamer,
+                () => cache.IsPinned(removedCoordinate),
+                "Removed object's original chunk was not reloaded.");
 
             foreach (GeneratedWorldObject worldObject in
                 presentation.GetComponentsInChildren<GeneratedWorldObject>())
@@ -508,6 +526,36 @@ namespace LittleCastle.Tests
                 Assert.That(worldObject.StableId, Is.Not.EqualTo(removedId),
                     "Removed generated object returned after unload, eviction and regeneration.");
             }
+        }
+
+        private static void PumpStreamingUntil(
+            WorldStreamer streamer,
+            Func<bool> completed,
+            string failureMessage)
+        {
+            // Drive the same unload -> load -> cooperative-generation order
+            // used by WorldStreamer.Update, without forcing synchronous
+            // chunk generation or assuming a fixed frame count.
+            const int maxSimulatedFrames = 800;
+
+            for (int frame = 0;
+                 frame < maxSimulatedFrames && !completed();
+                 frame++)
+            {
+                int before = streamer.ActiveChunkCount;
+                InvokePrivate(streamer, "ProcessUnloads");
+                InvokePrivate(streamer, "ProcessLoads");
+                InvokePrivate(streamer, "ProcessGeneration");
+
+                int growth = streamer.ActiveChunkCount - before;
+                Assert.That(
+                    growth,
+                    Is.LessThanOrEqualTo(
+                        streamer.Definition.StreamingSettings.MaxChunkLoadsPerFrame),
+                    "Presentation exceeded its per-frame load budget.");
+            }
+
+            Assert.That(completed(), Is.True, failureMessage);
         }
 
         private static WorldRiverData FindById(
