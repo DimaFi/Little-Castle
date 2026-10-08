@@ -31,6 +31,16 @@ namespace LittleCastle.Tests
             Assert.That(presentationObject, Is.Not.Null);
             Assert.That(presentationObject.transform.IsChildOf(focusObject.transform), Is.False);
 
+            // The production camera writes TestFocus every Update. This
+            // streaming test owns focus movement; otherwise the camera cancels
+            // our teleport before any chunk can unload.
+            foreach (LittleCastle.CameraSystem.StrategyCameraController cameraController in
+                Object.FindObjectsByType<LittleCastle.CameraSystem.StrategyCameraController>())
+                cameraController.enabled = false;
+
+            // LoadSceneAsync completion does not promise Start has run yet.
+            streamer.RefreshStreamingNow();
+
             float readyDeadline =
                 Time.realtimeSinceStartup +
                 20f;
@@ -65,7 +75,7 @@ namespace LittleCastle.Tests
             {
                 Assert.That(
                     streamer.ActiveTerrainColliderCount,
-                    Is.GreaterThan(0));
+                    Is.GreaterThan(0), "Initial collider ring was not created.");
 
                 Assert.That(
                     streamer.ActiveTerrainColliderCount,
@@ -93,7 +103,12 @@ namespace LittleCastle.Tests
                 removedObject.GetComponentInParent<StreamedChunkView>().Coordinate;
             Assert.That(streamer.RuntimeDelta.MarkSpawnRemoved(removedStableId), Is.True);
 
-            focusObject.transform.position = new Vector3(64f * 5f, 0f, -64f * 2f);
+            int exitDistance = streamer.Definition.StreamingSettings.UnloadRadiusChunks +
+                streamer.Definition.StreamingSettings.LoadRadiusChunks + 1;
+            Assert.That(exitDistance,
+                Is.LessThanOrEqualTo(streamer.Definition.StreamingSettings.MacroPlanRadiusChunks),
+                "Unload test movement must stay inside the session macro plan.");
+            focusObject.transform.position += new Vector3(64f * exitDistance, 0f, 0f);
             // Without refreshing, MissingDesiredChunkCount still describes
             // the previous focus until the next Update. The wait may then
             // exit before a single frame has processed the move.
@@ -103,7 +118,8 @@ namespace LittleCastle.Tests
                 Time.realtimeSinceStartup +
                 20f;
 
-            while (streamer.MissingDesiredChunkCount > 0 &&
+            while ((streamer.MissingDesiredChunkCount > 0 ||
+                    originalMeshes.Exists(mesh => mesh != null)) &&
                    Time.realtimeSinceStartup < readyDeadline)
             {
                 float frameStartedAt = Time.realtimeSinceStartup;
@@ -130,7 +146,7 @@ namespace LittleCastle.Tests
             {
                 Assert.That(
                     streamer.ActiveTerrainColliderCount,
-                    Is.GreaterThan(0));
+                    Is.GreaterThan(0), "Moved collider ring was not created.");
 
                 Assert.That(
                     streamer.ActiveTerrainColliderCount,
@@ -139,10 +155,9 @@ namespace LittleCastle.Tests
             }
             Assert.That(presentationObject.transform.position, Is.EqualTo(stationaryRootPosition));
 
-            bool releasedAnyMesh = false;
             foreach (Mesh mesh in originalMeshes)
-                releasedAnyMesh |= mesh == null;
-            Assert.That(releasedAnyMesh, Is.True, "No old runtime mesh was released after moving focus.");
+                Assert.That(mesh == null, Is.True,
+                    "An old runtime mesh survived movement beyond the unload ring.");
 
             focusObject.transform.position = removedChunk.GetWorldOrigin(64f);
             streamer.RefreshStreamingNow();

@@ -673,6 +673,7 @@ namespace LittleCastle.World
 
             RefreshDesiredChunks();
             UpdateMacroEdgeWarning();
+            RefreshChunkColliderStates();
         }
 
         public void SetPriorityPreparationRadius(
