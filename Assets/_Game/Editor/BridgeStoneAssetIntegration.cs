@@ -175,6 +175,18 @@ namespace LittleCastle.Editor
                 dressingGroup.RecalculateBounds();
 
                 AddCollision(root);
+                MonoScript budgetSource = AssetDatabase.LoadAssetAtPath<MonoScript>(
+                    "Assets/_Game/Models/Concept/Bridge_Stone_A/" +
+                    "BridgeStoneNearColliderBudget.cs");
+                Type budgetType = budgetSource != null
+                    ? budgetSource.GetClass()
+                    : null;
+                if (budgetType == null ||
+                    !typeof(MonoBehaviour).IsAssignableFrom(budgetType))
+                    throw new InvalidOperationException(
+                        "Near-camera collider budget component has not compiled.");
+                root.AddComponent(budgetType);
+
                 root.transform.localScale = Vector3.one;
                 root.transform.localRotation = Quaternion.identity;
                 root.transform.localPosition = Vector3.zero;
