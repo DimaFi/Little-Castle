@@ -86,6 +86,12 @@ namespace LittleCastle.Tests
                 "No river => no fake bridge.");
             Assert.That(WorldRouteConnectivityValidator.Validate(a, 0, true).IsValid,
                 Is.True);
+            // Reconnected graph is not permission to invent a required
+            // bridge when no river even exists in this fixture.
+            var minimumBridge = WorldRouteConnectivityValidator.Validate(
+                a, 1, true);
+            Assert.That(minimumBridge.IsValid, Is.False);
+            Assert.That(minimumBridge.fixedBridgeCount, Is.Zero);
             Assert.That(RealizedRoadConnectivityRepair.Repair(
                 seed, a, probe, network, paths, bridges).acceptedConnections,
                 Is.Zero, "Repair should be idempotent on an already connected graph.");
