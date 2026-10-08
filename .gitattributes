@@ -1,0 +1,7 @@
+# Only reviewed concept imports are published; legacy local art stays ignored.
+Assets/_Game/Art/Imported/Bridge_Stone_A/**/Meshes/*.fbx filter=lfs diff=lfs merge=lfs -text
+Assets/_Game/Art/Imported/Bridge_Stone_A/**/Textures/*.png filter=lfs diff=lfs merge=lfs -text
+Assets/_Game/Art/Imported/Bridge_Stone_A/**/Preview/*.png filter=lfs diff=lfs merge=lfs -text
+docs/reports/desktop-verification-2026-10-08/*.png filter=lfs diff=lfs merge=lfs -text
+Assets/_Game/Models/Concept/BridgeValidation/Terrain_*.asset filter=lfs diff=lfs merge=lfs -text
+Assets/_Game/Models/Concept/BridgeValidation/Water_*.asset filter=lfs diff=lfs merge=lfs -text

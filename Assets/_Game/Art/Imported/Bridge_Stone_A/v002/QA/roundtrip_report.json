@@ -1,0 +1,793 @@
+{
+  "blender": "4.4.3",
+  "files": {
+    "Bridge_Sockets.fbx": [],
+    "COL_Bridge_A.fbx": [
+      {
+        "name": "COL_Bridge_Deck",
+        "triangles": 202,
+        "vertices": 84,
+        "bounds_min": [
+          -1.440000057220459,
+          -0.12000040709972382,
+          -5.400000095367432
+        ],
+        "bounds_max": [
+          1.440000057220459,
+          1.0499999523162842,
+          5.400000095367432
+        ],
+        "uv": true,
+        "normals": true,
+        "tangents": true,
+        "materials": [
+          "M_Bridge_Stone"
+        ],
+        "textures": [
+          "T_Bridge_StoneAtlas_BaseColor.png"
+        ]
+      },
+      {
+        "name": "COL_Bridge_Rail_-1",
+        "triangles": 42,
+        "vertices": 20,
+        "bounds_min": [
+          -1.850000023841858,
+          -4.076886739312613e-07,
+          -5.400000095367432
+        ],
+        "bounds_max": [
+          -1.4299999475479126,
+          1.9500000476837158,
+          5.400000095367432
+        ],
+        "uv": true,
+        "normals": true,
+        "tangents": true,
+        "materials": [
+          "M_Bridge_Stone"
+        ],
+        "textures": [
+          "T_Bridge_StoneAtlas_BaseColor.png"
+        ]
+      },
+      {
+        "name": "COL_Bridge_Rail_1",
+        "triangles": 42,
+        "vertices": 20,
+        "bounds_min": [
+          1.4299999475479126,
+          -4.076886739312613e-07,
+          -5.400000095367432
+        ],
+        "bounds_max": [
+          1.850000023841858,
+          1.9500000476837158,
+          5.400000095367432
+        ],
+        "uv": true,
+        "normals": true,
+        "tangents": true,
+        "materials": [
+          "M_Bridge_Stone"
+        ],
+        "textures": [
+          "T_Bridge_StoneAtlas_BaseColor.png"
+        ]
+      }
+    ],
+    "SM_Bridge_Dressing_A_LOD0.fbx": [
+      {
+        "name": "SM_Bridge_Botany_LOD0",
+        "triangles": 1900,
+        "vertices": 3132,
+        "bounds_min": [
+          -4.367855072021484,
+          -0.40937140583992004,
+          -5.660401821136475
+        ],
+        "bounds_max": [
+          4.413402080535889,
+          1.1945658922195435,
+          5.62596321105957
+        ],
+        "uv": true,
+        "normals": true,
+        "tangents": true,
+        "materials": [
+          "M_Bridge_Palette"
+        ],
+        "textures": [
+          "T_Bridge_Palette_BaseColor.png"
+        ]
+      },
+      {
+        "name": "SM_Bridge_Grass_LOD0",
+        "triangles": 7728,
+        "vertices": 11592,
+        "bounds_min": [
+          -5.417357921600342,
+          -0.7151756286621094,
+          -6.3405280113220215
+        ],
+        "bounds_max": [
+          5.378221035003662,
+          0.6094089150428772,
+          6.474332809448242
+        ],
+        "uv": true,
+        "normals": true,
+        "tangents": true,
+        "materials": [
+          "M_Bridge_Grass"
+        ],
+        "textures": [
+          "T_Bridge_Grass_BaseColor.png"
+        ],
+        "root_mid_tip_uv": true
+      },
+      {
+        "name": "SM_Bridge_Rocks_LOD0",
+        "triangles": 2800,
+        "vertices": 1656,
+        "bounds_min": [
+          -5.213698387145996,
+          -1.1553921699523926,
+          -6.763108730316162
+        ],
+        "bounds_max": [
+          5.1697797775268555,
+          0.10650136321783066,
+          6.792026996612549
+        ],
+        "uv": true,
+        "normals": true,
+        "tangents": true,
+        "materials": [
+          "M_Bridge_Stone"
+        ],
+        "textures": [
+          "T_Bridge_StoneAtlas_BaseColor.png"
+        ]
+      }
+    ],
+    "SM_Bridge_Dressing_A_LOD1.fbx": [
+      {
+        "name": "SM_Bridge_Botany_LOD1",
+        "triangles": 814,
+        "vertices": 1318,
+        "bounds_min": [
+          -4.367855072021484,
+          -0.2236996442079544,
+          -5.660401821136475
+        ],
+        "bounds_max": [
+          4.413402080535889,
+          1.150892972946167,
+          5.607821941375732
+        ],
+        "uv": true,
+        "normals": true,
+        "tangents": true,
+        "materials": [
+          "M_Bridge_Palette"
+        ],
+        "textures": [
+          "T_Bridge_Palette_BaseColor.png"
+        ]
+      },
+      {
+        "name": "SM_Bridge_Grass_LOD1",
+        "triangles": 2208,
+        "vertices": 3312,
+        "bounds_min": [
+          -5.417357921600342,
+          -0.6024777889251709,
+          -6.3405280113220215
+        ],
+        "bounds_max": [
+          4.788607597351074,
+          0.6094089150428772,
+          6.42608642578125
+        ],
+        "uv": true,
+        "normals": true,
+        "tangents": true,
+        "materials": [
+          "M_Bridge_Grass"
+        ],
+        "textures": [
+          "T_Bridge_Grass_BaseColor.png"
+        ],
+        "root_mid_tip_uv": true
+      },
+      {
+        "name": "SM_Bridge_Rocks_LOD1",
+        "triangles": 2000,
+        "vertices": 1200,
+        "bounds_min": [
+          -5.213698387145996,
+          -1.1553921699523926,
+          -6.142212867736816
+        ],
+        "bounds_max": [
+          5.1697797775268555,
+          0.08921942114830017,
+          6.765944957733154
+        ],
+        "uv": true,
+        "normals": true,
+        "tangents": true,
+        "materials": [
+          "M_Bridge_Stone"
+        ],
+        "textures": [
+          "T_Bridge_StoneAtlas_BaseColor.png"
+        ]
+      }
+    ],
+    "SM_Bridge_Dressing_A_LOD2.fbx": [
+      {
+        "name": "SM_Bridge_Rocks_LOD2",
+        "triangles": 80,
+        "vertices": 48,
+        "bounds_min": [
+          -2.9327032566070557,
+          -0.6228780150413513,
+          -4.116679668426514
+        ],
+        "bounds_max": [
+          3.0484728813171387,
+          0.08921942114830017,
+          4.272676944732666
+        ],
+        "uv": true,
+        "normals": true,
+        "tangents": true,
+        "materials": [
+          "M_Bridge_Stone"
+        ],
+        "textures": [
+          "T_Bridge_StoneAtlas_BaseColor.png"
+        ]
+      }
+    ],
+    "SM_Bridge_Stone_A_LOD0.fbx": [
+      {
+        "name": "SM_Bridge_FactionCloth_LOD0",
+        "triangles": 768,
+        "vertices": 468,
+        "bounds_min": [
+          -1.5992457866668701,
+          1.19694983959198,
+          -5.480000019073486
+        ],
+        "bounds_max": [
+          1.8149566650390625,
+          2.4669506549835205,
+          5.480000019073486
+        ],
+        "uv": true,
+        "normals": true,
+        "tangents": true,
+        "materials": [
+          "M_Bridge_FactionCloth"
+        ],
+        "textures": []
+      },
+      {
+        "name": "SM_Bridge_Mortar_LOD0",
+        "triangles": 402,
+        "vertices": 164,
+        "bounds_min": [
+          -1.7000000476837158,
+          -1.7200003862380981,
+          -5.400000095367432
+        ],
+        "bounds_max": [
+          1.7000000476837158,
+          0.9599999785423279,
+          5.400000095367432
+        ],
+        "uv": true,
+        "normals": true,
+        "tangents": true,
+        "materials": [
+          "M_Bridge_Palette"
+        ],
+        "textures": [
+          "T_Bridge_Palette_BaseColor.png"
+        ]
+      },
+      {
+        "name": "SM_Bridge_Stone_LOD0",
+        "triangles": 10768,
+        "vertices": 6616,
+        "bounds_min": [
+          -1.8899999856948853,
+          -1.7220003604888916,
+          -5.395999908447266
+        ],
+        "bounds_max": [
+          1.8899999856948853,
+          2.0199999809265137,
+          5.395858287811279
+        ],
+        "uv": true,
+        "normals": true,
+        "tangents": true,
+        "materials": [
+          "M_Bridge_Stone"
+        ],
+        "textures": [
+          "T_Bridge_StoneAtlas_BaseColor.png"
+        ],
+        "arch_open_and_walkway_clear": true
+      },
+      {
+        "name": "SM_Bridge_Trim_LOD0",
+        "triangles": 340,
+        "vertices": 346,
+        "bounds_min": [
+          -1.75,
+          1.19694983959198,
+          -5.480000019073486
+        ],
+        "bounds_max": [
+          1.8181043863296509,
+          2.9169507026672363,
+          5.480000019073486
+        ],
+        "uv": true,
+        "normals": true,
+        "tangents": true,
+        "materials": [
+          "M_Bridge_Palette"
+        ],
+        "textures": [
+          "T_Bridge_Palette_BaseColor.png"
+        ]
+      },
+      {
+        "name": "SM_Bridge_Wood_LOD0",
+        "triangles": 1320,
+        "vertices": 704,
+        "bounds_min": [
+          -1.7280000448226929,
+          0.380754679441452,
+          -5.610000133514404
+        ],
+        "bounds_max": [
+          1.7280000448226929,
+          2.6669507026672363,
+          5.610000133514404
+        ],
+        "uv": true,
+        "normals": true,
+        "tangents": true,
+        "materials": [
+          "M_Bridge_Palette"
+        ],
+        "textures": [
+          "T_Bridge_Palette_BaseColor.png"
+        ]
+      }
+    ],
+    "SM_Bridge_Stone_A_LOD1.fbx": [
+      {
+        "name": "SM_Bridge_FactionCloth_LOD1",
+        "triangles": 280,
+        "vertices": 192,
+        "bounds_min": [
+          -1.5951043367385864,
+          1.19694983959198,
+          -5.480000019073486
+        ],
+        "bounds_max": [
+          1.809104323387146,
+          2.4669506549835205,
+          5.480000019073486
+        ],
+        "uv": true,
+        "normals": true,
+        "tangents": true,
+        "materials": [
+          "M_Bridge_FactionCloth"
+        ],
+        "textures": []
+      },
+      {
+        "name": "SM_Bridge_Mortar_LOD1",
+        "triangles": 282,
+        "vertices": 116,
+        "bounds_min": [
+          -1.7000000476837158,
+          -1.7200003862380981,
+          -5.400000095367432
+        ],
+        "bounds_max": [
+          1.7000000476837158,
+          0.9599999785423279,
+          5.400000095367432
+        ],
+        "uv": true,
+        "normals": true,
+        "tangents": true,
+        "materials": [
+          "M_Bridge_Palette"
+        ],
+        "textures": [
+          "T_Bridge_Palette_BaseColor.png"
+        ]
+      },
+      {
+        "name": "SM_Bridge_Stone_LOD1",
+        "triangles": 6426,
+        "vertices": 4168,
+        "bounds_min": [
+          -1.8899999856948853,
+          -1.7220003604888916,
+          -5.395999908447266
+        ],
+        "bounds_max": [
+          1.8899999856948853,
+          2.0199999809265137,
+          5.395999908447266
+        ],
+        "uv": true,
+        "normals": true,
+        "tangents": true,
+        "materials": [
+          "M_Bridge_Stone"
+        ],
+        "textures": [
+          "T_Bridge_StoneAtlas_BaseColor.png"
+        ]
+      },
+      {
+        "name": "SM_Bridge_Trim_LOD1",
+        "triangles": 260,
+        "vertices": 266,
+        "bounds_min": [
+          -1.75,
+          1.19694983959198,
+          -5.480000019073486
+        ],
+        "bounds_max": [
+          1.8181043863296509,
+          2.9169507026672363,
+          5.480000019073486
+        ],
+        "uv": true,
+        "normals": true,
+        "tangents": true,
+        "materials": [
+          "M_Bridge_Palette"
+        ],
+        "textures": [
+          "T_Bridge_Palette_BaseColor.png"
+        ]
+      },
+      {
+        "name": "SM_Bridge_Wood_LOD1",
+        "triangles": 456,
+        "vertices": 272,
+        "bounds_min": [
+          -1.7280000448226929,
+          0.37455636262893677,
+          -5.610000133514404
+        ],
+        "bounds_max": [
+          1.7280000448226929,
+          2.6669507026672363,
+          5.610000133514404
+        ],
+        "uv": true,
+        "normals": true,
+        "tangents": true,
+        "materials": [
+          "M_Bridge_Palette"
+        ],
+        "textures": [
+          "T_Bridge_Palette_BaseColor.png"
+        ]
+      }
+    ],
+    "SM_Bridge_Stone_A_LOD2.fbx": [
+      {
+        "name": "SM_Bridge_FactionCloth_LOD2",
+        "triangles": 96,
+        "vertices": 80,
+        "bounds_min": [
+          -1.6007106304168701,
+          1.19694983959198,
+          -5.480000019073486
+        ],
+        "bounds_max": [
+          1.809104323387146,
+          2.4669506549835205,
+          5.480000019073486
+        ],
+        "uv": true,
+        "normals": true,
+        "tangents": true,
+        "materials": [
+          "M_Bridge_FactionCloth"
+        ],
+        "textures": []
+      },
+      {
+        "name": "SM_Bridge_Mortar_LOD2",
+        "triangles": 182,
+        "vertices": 76,
+        "bounds_min": [
+          -1.7000000476837158,
+          -1.7200003862380981,
+          -5.400000095367432
+        ],
+        "bounds_max": [
+          1.7000000476837158,
+          0.9599999785423279,
+          5.400000095367432
+        ],
+        "uv": true,
+        "normals": true,
+        "tangents": true,
+        "materials": [
+          "M_Bridge_Palette"
+        ],
+        "textures": [
+          "T_Bridge_Palette_BaseColor.png"
+        ]
+      },
+      {
+        "name": "SM_Bridge_Stone_LOD2",
+        "triangles": 982,
+        "vertices": 1006,
+        "bounds_min": [
+          -1.8899999856948853,
+          -1.7220003604888916,
+          -5.395999908447266
+        ],
+        "bounds_max": [
+          1.8899999856948853,
+          2.0199999809265137,
+          5.395999908447266
+        ],
+        "uv": true,
+        "normals": true,
+        "tangents": true,
+        "materials": [
+          "M_Bridge_Stone"
+        ],
+        "textures": [
+          "T_Bridge_StoneAtlas_BaseColor.png"
+        ]
+      },
+      {
+        "name": "SM_Bridge_Trim_LOD2",
+        "triangles": 212,
+        "vertices": 218,
+        "bounds_min": [
+          -1.75,
+          1.19694983959198,
+          -5.480000019073486
+        ],
+        "bounds_max": [
+          1.8181043863296509,
+          2.9169507026672363,
+          5.480000019073486
+        ],
+        "uv": true,
+        "normals": true,
+        "tangents": true,
+        "materials": [
+          "M_Bridge_Palette"
+        ],
+        "textures": [
+          "T_Bridge_Palette_BaseColor.png"
+        ]
+      },
+      {
+        "name": "SM_Bridge_Wood_LOD2",
+        "triangles": 264,
+        "vertices": 176,
+        "bounds_min": [
+          -1.7280000448226929,
+          0.37455636262893677,
+          -5.610000133514404
+        ],
+        "bounds_max": [
+          1.7280000448226929,
+          2.6669507026672363,
+          5.610000133514404
+        ],
+        "uv": true,
+        "normals": true,
+        "tangents": true,
+        "materials": [
+          "M_Bridge_Palette"
+        ],
+        "textures": [
+          "T_Bridge_Palette_BaseColor.png"
+        ]
+      }
+    ],
+    "SM_Bridge_TerrainReference_LOD0.fbx": [
+      {
+        "name": "SM_Bridge_TerrainReference_LOD0",
+        "triangles": 1792,
+        "vertices": 957,
+        "bounds_min": [
+          -7.0,
+          -1.254998803138733,
+          -8.0
+        ],
+        "bounds_max": [
+          7.0,
+          6.039832101123466e-07,
+          8.0
+        ],
+        "uv": true,
+        "normals": true,
+        "tangents": true,
+        "materials": [
+          "M_Bridge_TerrainReference"
+        ],
+        "textures": [
+          "T_Bridge_Terrain_BaseColor.png"
+        ]
+      }
+    ],
+    "SM_Bridge_TerrainReference_LOD1.fbx": [
+      {
+        "name": "SM_Bridge_TerrainReference_LOD1",
+        "triangles": 448,
+        "vertices": 255,
+        "bounds_min": [
+          -7.0,
+          -1.2529778480529785,
+          -8.0
+        ],
+        "bounds_max": [
+          7.0,
+          6.039832101123466e-07,
+          8.0
+        ],
+        "uv": true,
+        "normals": true,
+        "tangents": true,
+        "materials": [
+          "M_Bridge_TerrainReference"
+        ],
+        "textures": [
+          "T_Bridge_Terrain_BaseColor.png"
+        ]
+      }
+    ],
+    "SM_Bridge_TerrainReference_LOD2.fbx": [
+      {
+        "name": "SM_Bridge_TerrainReference_LOD2",
+        "triangles": 112,
+        "vertices": 72,
+        "bounds_min": [
+          -7.0,
+          -1.252776026725769,
+          -8.0
+        ],
+        "bounds_max": [
+          7.0,
+          6.039832101123466e-07,
+          8.0
+        ],
+        "uv": true,
+        "normals": true,
+        "tangents": true,
+        "materials": [
+          "M_Bridge_TerrainReference"
+        ],
+        "textures": [
+          "T_Bridge_Terrain_BaseColor.png"
+        ]
+      }
+    ],
+    "SM_Bridge_Water_A.fbx": [
+      {
+        "name": "SM_Bridge_Water",
+        "triangles": 1008,
+        "vertices": 570,
+        "bounds_min": [
+          -7.0,
+          -0.850000262260437,
+          -3.3699285984039307
+        ],
+        "bounds_max": [
+          7.0,
+          -0.8499997854232788,
+          3.3699285984039307
+        ],
+        "uv": true,
+        "normals": true,
+        "tangents": true,
+        "materials": [
+          "M_Bridge_Water"
+        ],
+        "textures": [
+          "T_Bridge_Water_BaseColor.png"
+        ],
+        "continuous_water_material": true
+      },
+      {
+        "name": "SM_Bridge_WaterAccents",
+        "triangles": 300,
+        "vertices": 600,
+        "bounds_min": [
+          -6.759287357330322,
+          -0.8440002202987671,
+          -2.8777518272399902
+        ],
+        "bounds_max": [
+          6.830109119415283,
+          -0.8439997434616089,
+          2.841926336288452
+        ],
+        "uv": true,
+        "normals": true,
+        "tangents": true,
+        "materials": [
+          "M_Bridge_Palette"
+        ],
+        "textures": [
+          "T_Bridge_Palette_BaseColor.png"
+        ]
+      }
+    ]
+  },
+  "contract": {
+    "endpoints_match": true,
+    "zero_weight_outer_border": true,
+    "negative_coordinates_and_yaw_seams": true,
+    "deterministic": true,
+    "banners_on_right_entry_pillar_caps": true
+  },
+  "unity_play_mode_tested": false,
+  "bridge_lod0_triangles": 13598,
+  "dressing_lod0_triangles": 12428,
+  "bridge_lod1_triangles": 7704,
+  "dressing_lod1_triangles": 5022,
+  "bridge_lod2_triangles": 1736,
+  "dressing_lod2_triangles": 80,
+  "flag_anchors": [
+    {
+      "anchor": [
+        1.64,
+        -5.12
+      ],
+      "base_y": 0.9769501956408959,
+      "min_y": 0.380754679441452,
+      "max_y": 2.66694974899292,
+      "right_hand_entry": true
+    },
+    {
+      "anchor": [
+        -1.64,
+        5.12
+      ],
+      "base_y": 0.9769501956408959,
+      "min_y": 0.3807554244995117,
+      "max_y": 2.6669507026672363,
+      "right_hand_entry": true
+    }
+  ],
+  "grass_lod_positions_preserved": true,
+  "unique_materials": [
+    "M_Bridge_FactionCloth",
+    "M_Bridge_Grass",
+    "M_Bridge_Palette",
+    "M_Bridge_Stone",
+    "M_Bridge_TerrainReference",
+    "M_Bridge_Water"
+  ],
+  "preview_renders": "six actual Blender renders present; includes Eevee raster check",
+  "passed": true
+}

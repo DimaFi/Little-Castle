@@ -136,6 +136,15 @@ namespace LittleCastle.Editor
             File.Copy(manifestPath, ImportRoot + "/release.json", false);
             AssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport);
 
+            foreach (string modelPath in ModelFiles)
+            {
+                var importer = AssetImporter.GetAtPath(ImportRoot + "/" + modelPath) as ModelImporter;
+                if (importer == null) throw new InvalidOperationException("FBX importer missing.");
+                importer.isReadable = false;
+                importer.materialImportMode = ModelImporterMaterialImportMode.None;
+                importer.SaveAndReimport();
+            }
+
             GameObject root = new GameObject("Bridge_Stone_A_v002");
             try
             {
@@ -252,7 +261,7 @@ namespace LittleCastle.Editor
             var result = new Dictionary<string, Material>();
             foreach (string[] item in settings)
             {
-                var material = new Material(shader) { name = item[0] };
+                var material = new Material(shader) { name = item[0], enableInstancing = true };
                 if (!string.IsNullOrEmpty(item[1]))
                 {
                     Texture texture = AssetDatabase.LoadAssetAtPath<Texture>(
@@ -262,9 +271,23 @@ namespace LittleCastle.Editor
                     material.SetTexture("_MainTex", texture);
                 }
                 material.SetFloat("_Roughness", item[0] == "M_Bridge_FactionCloth" ? 0.96f : 0.86f);
+                if (item[0] == "M_Bridge_FactionCloth")
+                {
+                    material.SetColor("_Color", new Color(0.10f, 0.26f, 0.70f));
+                    material.SetFloat("_Cull", 0f);
+                }
                 string path = materialRoot + "/" + item[0] + ".mat";
                 AssetDatabase.CreateAsset(material, path);
                 result.Add(item[0], material);
+
+                Shader farShader = Shader.Find("Little Castle/Distance/LC Distant Simple");
+                if (farShader == null) throw new InvalidOperationException("Distant shader missing.");
+                var farMaterial = new Material(farShader) {
+                    name = item[0] + "_Far", enableInstancing = true };
+                farMaterial.SetTexture("_MainTex", material.GetTexture("_MainTex"));
+                farMaterial.SetColor("_Color", material.GetColor("_Color"));
+                AssetDatabase.CreateAsset(farMaterial, materialRoot + "/" + farMaterial.name + ".mat");
+                result.Add(farMaterial.name, farMaterial);
             }
             return result;
         }
@@ -300,7 +323,7 @@ namespace LittleCastle.Editor
                     "M_Bridge_Palette";
                 var assigned = new Material[mesh.subMeshCount];
                 for (int i = 0; i < assigned.Length; i++)
-                    assigned[i] = materials[materialId];
+                    assigned[i] = materials[materialId + (distant ? "_Far" : "")];
                 renderer.sharedMaterials = assigned;
 
                 if (distant)
