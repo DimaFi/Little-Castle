@@ -15,6 +15,8 @@ namespace LittleCastle.Editor
         public const string ScenePath = "Assets/_Game/Scenes/ConceptBridgeTest.unity";
         private const string Output = "Assets/_Game/Models/Concept/BridgeValidation";
         private const string Evidence = "docs/reports/desktop-verification-2026-10-08";
+        private const string NightRefinementEvidence =
+            "docs/reports/concept-night-refinement-evidence-2026-10-09-v2";
 
         [MenuItem("Little Castle/World/Bridge/Create Contract Test Scene")]
         public static void Create()
@@ -180,6 +182,59 @@ namespace LittleCastle.Editor
             Capture();
         }
 
+        [MenuItem("Little Castle/World/Bridge/Refine Night Readability")]
+        public static void RefineNightFixture()
+        {
+            EditorSceneManager.OpenScene(ScenePath);
+            var atmosphere = UnityEngine.Object.FindAnyObjectByType<DayNightLightingController>();
+            if (atmosphere == null)
+                throw new InvalidOperationException("Concept bridge atmosphere is missing.");
+
+            // Fixture-only night endpoint. Day ambient and the calibrated
+            // .55 ambient/.65 sun multipliers remain untouched.
+            var settings = new SerializedObject(atmosphere);
+            settings.FindProperty("maxMoonIntensity").floatValue = .28f;
+            settings.FindProperty("moonLightColor").colorValue =
+                new Color(.62f, .72f, 1f, 1f);
+            settings.FindProperty("nightAmbientSky").colorValue =
+                new Color(.66f, .73f, .92f, 1f);
+            settings.FindProperty("nightAmbientEquator").colorValue =
+                new Color(.52f, .60f, .78f, 1f);
+            settings.FindProperty("nightAmbientGround").colorValue =
+                new Color(.39f, .46f, .64f, 1f);
+            settings.ApplyModifiedPropertiesWithoutUndo();
+            atmosphere.ApplyLighting();
+
+            var globals = UnityEngine.Object.FindAnyObjectByType<StylizedLightingGlobals>();
+            if (globals == null)
+                throw new InvalidOperationException("Concept bridge stylized lighting globals are missing.");
+            var globalSettings = new SerializedObject(globals);
+            globalSettings.FindProperty("nightShadowTint").colorValue =
+                new Color(.58f, .66f, .86f, 1f);
+            globalSettings.ApplyModifiedPropertiesWithoutUndo();
+            globals.ApplyGlobals();
+
+            EditorSceneManager.SaveScene(atmosphere.gameObject.scene, ScenePath);
+            AssetDatabase.SaveAssets();
+            Debug.Log("CONCEPT_BRIDGE_NIGHT_REFINED: fixture night palette serialized; " +
+                "day ambient/shadow and .55 ambient/.65 sun calibration unchanged.");
+        }
+
+        public static void CaptureNightRefinement()
+        {
+            if (SystemInfo.graphicsDeviceType == GraphicsDeviceType.Null)
+                throw new InvalidOperationException("Screenshots require a real graphics device, omit -nographics.");
+            RefineNightFixture();
+            EditorSceneManager.OpenScene(ScenePath);
+            var camera = UnityEngine.Object.FindAnyObjectByType<Camera>();
+            Directory.CreateDirectory(NightRefinementEvidence);
+            float baseY = GameObject.Find("Bridge_Stone_A_v002").transform.position.y;
+            Render(camera, NightRefinementEvidence, "Bridge_Close_Day", new Vector3(11f, baseY + 8f, -14f), baseY, false);
+            Render(camera, NightRefinementEvidence, "Bridge_Close_Night", new Vector3(11f, baseY + 8f, -14f), baseY, true);
+            Debug.Log("CONCEPT_BRIDGE_NIGHT_CAPTURE graphics=" + SystemInfo.graphicsDeviceName +
+                "; new evidence folder; actual Unity camera renders; not FPS/GPU benchmark.");
+        }
+
         public static void Capture()
         {
             if (SystemInfo.graphicsDeviceType == GraphicsDeviceType.Null)
@@ -190,15 +245,15 @@ namespace LittleCastle.Editor
             globals.ApplyGlobals();
             Directory.CreateDirectory(Evidence);
             float baseY = GameObject.Find("Bridge_Stone_A_v002").transform.position.y;
-            Render(camera, "Bridge_Close_Day", new Vector3(11f, baseY + 8f, -14f), baseY, false);
-            Render(camera, "Bridge_Gameplay_Day", new Vector3(21f, baseY + 25f, -31f), baseY, false);
-            Render(camera, "Bridge_Far_Day", new Vector3(45f, baseY + 50f, -60f), baseY, false);
-            Render(camera, "Bridge_Close_Night", new Vector3(11f, baseY + 8f, -14f), baseY, true);
+            Render(camera, Evidence, "Bridge_Close_Day", new Vector3(11f, baseY + 8f, -14f), baseY, false);
+            Render(camera, Evidence, "Bridge_Gameplay_Day", new Vector3(21f, baseY + 25f, -31f), baseY, false);
+            Render(camera, Evidence, "Bridge_Far_Day", new Vector3(45f, baseY + 50f, -60f), baseY, false);
+            Render(camera, Evidence, "Bridge_Close_Night", new Vector3(11f, baseY + 8f, -14f), baseY, true);
             Debug.Log("CONCEPT_BRIDGE_CAPTURE graphics=" + SystemInfo.graphicsDeviceName +
                 "; actual Unity camera renders; not FPS/GPU benchmark.");
         }
 
-        private static void Render(Camera camera, string name, Vector3 position, float baseY, bool night)
+        private static void Render(Camera camera, string evidence, string name, Vector3 position, float baseY, bool night)
         {
             camera.transform.position = position;
             camera.transform.LookAt(new Vector3(0f, baseY + .6f, 0f));
@@ -220,7 +275,7 @@ namespace LittleCastle.Editor
                 RenderTexture.active = target;
                 image.ReadPixels(new Rect(0, 0, 1440, 1000), 0, 0);
                 image.Apply();
-                File.WriteAllBytes(Evidence + "/" + name + ".png", image.EncodeToPNG());
+                File.WriteAllBytes(evidence + "/" + name + ".png", image.EncodeToPNG());
             }
             finally
             {

@@ -1337,10 +1337,10 @@ MonoBehaviour:
   moon: {fileID: 859872308}
   sunAzimuth: -30
   maxSunIntensity: 1.1
-  maxMoonIntensity: 0.14
+  maxMoonIntensity: 0.28
   sunDayColor: {r: 1, g: 0.96, b: 0.84, a: 1}
   sunHorizonColor: {r: 1, g: 0.56, b: 0.31, a: 1}
-  moonLightColor: {r: 0.58, g: 0.68, b: 1, a: 1}
+  moonLightColor: {r: 0.62, g: 0.72, b: 1, a: 1}
   dawnTransitionGameHours: 2
   duskTransitionGameHours: 2
   twilightGameHours: 1.25
@@ -1359,9 +1359,9 @@ MonoBehaviour:
   dayAmbientSky: {r: 0.78, g: 0.82, b: 0.86, a: 1}
   dayAmbientEquator: {r: 0.62, g: 0.66, b: 0.7, a: 1}
   dayAmbientGround: {r: 0.42, g: 0.44, b: 0.4, a: 1}
-  nightAmbientSky: {r: 0.25, g: 0.31, b: 0.46, a: 1}
-  nightAmbientEquator: {r: 0.2, g: 0.25, b: 0.36, a: 1}
-  nightAmbientGround: {r: 0.13, g: 0.16, b: 0.24, a: 1}
+  nightAmbientSky: {r: 0.66, g: 0.73, b: 0.92, a: 1}
+  nightAmbientEquator: {r: 0.52, g: 0.6, b: 0.78, a: 1}
+  nightAmbientGround: {r: 0.39, g: 0.46, b: 0.64, a: 1}
   controlFog: 1
   dayFogColor: {r: 0.7, g: 0.79, b: 0.84, a: 1}
   nightFogColor: {r: 0.16, g: 0.21, b: 0.31, a: 1}
@@ -1744,7 +1744,7 @@ MonoBehaviour:
   moon: {fileID: 859872308}
   dayShadowTint: {r: 0.72, g: 0.82, b: 1, a: 1}
   twilightShadowTint: {r: 0.48, g: 0.56, b: 0.78, a: 1}
-  nightShadowTint: {r: 0.34, g: 0.44, b: 0.68, a: 1}
+  nightShadowTint: {r: 0.58, g: 0.66, b: 0.86, a: 1}
   ambientMultiplier: 0.55
   sunMultiplier: 0.65
   moonMultiplier: 1
