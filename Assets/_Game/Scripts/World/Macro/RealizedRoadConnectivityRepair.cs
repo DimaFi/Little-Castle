@@ -45,7 +45,8 @@ namespace LittleCastle.World
             WorldTerrainProbe terrainProbe,
             RoadNetworkPlannerSettings networkSettings,
             TerrainRoadPathPlannerSettings pathSettings,
-            BridgePlannerSettings bridgeSettings)
+            BridgePlannerSettings bridgeSettings,
+            IReadOnlyCollection<long> previouslyRejectedIds = null)
         {
             var result = new Result();
             if (plan == null)
@@ -94,6 +95,9 @@ namespace LittleCastle.World
             float maximumDistanceSquared = maximumDistance * maximumDistance;
             int salt = DeterministicHash.String32(
                 "road_network_connection");
+            var rejectedIds = previouslyRejectedIds != null
+                ? new HashSet<long>(previouslyRejectedIds)
+                : new HashSet<long>();
 
             // Build a finite, stable candidate set; sort by geometric cost
             // and stable identifiers. Feature insertion order has no effect.
@@ -114,13 +118,18 @@ namespace LittleCastle.World
                         distanceSquared > maximumDistanceSquared)
                         continue;
 
+                    long roadId = DeterministicHash.StablePairId(
+                        worldSeed, from.stableId, to.stableId, salt);
+                    if (rejectedIds.Contains(roadId) ||
+                        realizedRoadIds.Contains(roadId))
+                        continue;
+
                     candidates.Add(new Candidate
                     {
                         fromId = from.stableId,
                         toId = to.stableId,
                         distanceSquared = distanceSquared,
-                        roadId = DeterministicHash.StablePairId(
-                            worldSeed, from.stableId, to.stableId, salt)
+                        roadId = roadId
                     });
                 }
             }
