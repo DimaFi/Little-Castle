@@ -1,5 +1,18 @@
 # Карта поставки и интеграции — модульная каменная стена
 
+## Обновление ручных правок — 2026-10-06
+
+Теперь использовать `Little-Castle_Assets/Source/Architecture/Wall_Stone_Modular/v005/`.
+Релиз: `Little-Castle_Assets/Releases/Wall_Stone_Modular/v005/`.
+Мастер `Wall_Fortifications.blend` сохраняет ручную крышу и увеличенную стену.
+Фактическая длинная секция 3.093352 м, короткая 1.546676 м, перекрытие
+0.123734 м. `2m`/`1m` в именах — прежние стабильные ID, не длины.
+Ворота открываются во внутреннюю сторону +X; оси петель X=0.60 м, Z=±1.04 м.
+Существующие импорты TerrainStarter_v001 обновлены с сохранением `.meta`.
+`FortificationModelUpdate` обновляет только связанные prefab/тестовые сцены,
+не WorldSpawnCatalog и не процедурную генерацию. Отчёт проверки —
+`Logs/fortifications-v005-update.txt`. Более ранние разделы ниже исторические.
+
 ## Актуальные файлы — 2026-10-03
 
 Текущий полный исходник: `E:/Games_Develop/Little-Castle_Assets/Source/Architecture/Wall_Stone_Modular/v004/`.

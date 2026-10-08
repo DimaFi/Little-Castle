@@ -50,21 +50,21 @@ copy(plant_package / 'manifest.json', 'Study/garden-plants-source.json')
 ground_package = ART / 'LocalHandoffs/GardenGround-v001'
 copy(ground_package / 'Grass_MeadowSoft_BaseColor.png', 'Study/Textures/Grass_MeadowSoft_BaseColor.png')
 
-wall_source = ROOT / 'Little-Castle_Assets/Source/Architecture/Wall_Stone_Modular/v004'
-wall_release = ROOT / 'Little-Castle_Assets/Releases/TerrainStarter-v001'
+wall_release = ROOT / 'Little-Castle_Assets/Releases/Wall_Stone_Modular/v005'
+wall_manifest = json.loads((wall_release / 'release.json').read_text())
+wall_hashes = {entry['path']: entry['sha256'] for entry in wall_manifest['files']}
 for directory in ('Meshes', 'Textures'):
-    for source in (wall_source / directory).iterdir():
+    for source in (wall_release / directory).iterdir():
         if source.suffix.lower() not in ('.fbx', '.png', '.json'):
             continue
-        release = wall_release / directory / source.name
-        release.parent.mkdir(parents=True, exist_ok=True)
-        if release.exists() and release.read_bytes() != source.read_bytes():
-            raise RuntimeError('Refusing to overwrite wall release: ' + str(release))
-        if not release.exists(): shutil.copyfile(source, release)
-        copy(release, ('Models/' if directory == 'Meshes' else 'Textures/') + source.name)
+        relative = directory + '/' + source.name
+        if hashlib.sha256(source.read_bytes()).hexdigest() != wall_hashes[relative]:
+            raise RuntimeError('Wall release hash mismatch: ' + str(source))
+        copy(source, ('Models/' if directory == 'Meshes' else 'Textures/') + source.name)
 for name in ('Connections.json',):
     release = wall_release / name
-    if not release.exists(): shutil.copyfile(wall_source / name, release)
+    if hashlib.sha256(release.read_bytes()).hexdigest() != wall_hashes[name]:
+        raise RuntimeError('Wall connection contract hash mismatch')
     copy(release, name)
 
 for family, relative in {
@@ -84,7 +84,5 @@ for name in ('SM_Stone_Small_A', 'SM_Stone_Medium_A', 'SM_FlowerCluster_A', 'SM_
     copy(ART / 'Art/Vegetation/Oak_Kit/Exports' / (name + '.fbx'), 'Models/' + name + '.fbx')
 
 (TARGET / 'provenance.json').write_text(json.dumps(dict(status='SCENE_TEST',files=files), indent=2))
-(wall_release / 'release.json').write_text(json.dumps(dict(status='SCENE_TEST',
-    source=str(wall_source), note='Existing geometry QA; runtime validation reported separately',
-    files=[f for f in files if 'Little-Castle_Assets' in f['source']]), indent=2))
+# Releases are immutable: importing a test scene must never rewrite their manifest.
 print('Imported', len(files), 'files;', sum(f['bytes'] for f in files), 'bytes;', TARGET)

@@ -101,7 +101,8 @@ namespace LittleCastle.Editor
             var prefabs = new Dictionary<string, GameObject>();
             foreach (string name in new[] {"house", "oak", "well", "barrel", "crate", "fence", "bench"})
                 prefabs[name] = BuildThreeLod(name);
-            foreach (string name in new[] {"SM_Wall_Stone_2m_A", "SM_Wall_Stone_Pillar_A", "SM_ArcherTower_A"})
+            foreach (string name in new[] {"SM_Wall_Stone_2m_A", "SM_Wall_Stone_Pillar_A", "SM_ArcherTower_A",
+                "SM_Wall_Gatehouse_A", "SM_Wall_GateLeaf_Left_A", "SM_Wall_GateLeaf_Right_A"})
                 prefabs[name] = BuildEmbedded(name);
             foreach (string name in new[] {"SM_Stone_Small_A", "SM_Stone_Medium_A", "SM_FlowerCluster_A", "SM_FlowerCluster_B", "SM_LeafCluster_Small_A"})
                 prefabs[name] = BuildSingle(name);
@@ -204,22 +205,36 @@ namespace LittleCastle.Editor
                 Place(prefabs[i % 2 == 0 ? "SM_Stone_Small_A" : "SM_Stone_Medium_A"],
                     new Vector3(x, plan.Height(x,z) - .04f, z), i * 83, rocks.transform);
             }
-            var walls = new GameObject("Fortifications v004 • rigid 2m modules");
+            var walls = new GameObject("Fortifications v005 • rigid authored modules");
             if(study)
             {
-                for(int side=-1;side<=1;side+=2) for(int i=0;i<3;i++)
-                    Place(prefabs["SM_Wall_Stone_2m_A"],new Vector3(-9.8f+side*(2.7f+i*1.92f),-.06f,-11.8f),90,walls.transform);
-                for(int i=0;i<4;i++)
-                    Place(prefabs["SM_Wall_Stone_2m_A"],new Vector3(-17.5f,-.06f,-10+i*1.92f),0,walls.transform);
-            }
-            else for (int side = -1; side <= 1; side += 2)
-            {
-                for (int i = 0; i < 7; i++)
+                const float gateX = -9.8f, frontZ = -11.8f;
+                PlaceOpenGate(prefabs,new Vector3(gateX,-.04f,frontZ),-90,walls.transform);
+                // Gate sockets sit at +/-1.99m, tower sockets at +/-0.90m.
+                // Length/overlap come from the imported art contract, not legacy ID names.
+                for(int side=-1;side<=1;side+=2)
                 {
-                    float x = side * (4.8f + i * 1.92f);
-                    Place(prefabs["SM_Wall_Stone_2m_A"], new Vector3(x, plan.Height(x,-17)-.04f,-17), 90, walls.transform);
+                    for(int i=0;i<3;i++)
+                        Place(prefabs["SM_Wall_Stone_2m_A"],
+                            new Vector3(gateX+side*(FortificationModelUpdate.GateFirstCenter+i*FortificationModelUpdate.Spacing),-.04f,frontZ),90,walls.transform);
+                    Place(prefabs["SM_ArcherTower_A"],
+                        new Vector3(gateX+side*FortificationModelUpdate.StudyTowerDistance,-.04f,frontZ),90,walls.transform);
                 }
-                Place(prefabs["SM_ArcherTower_A"], new Vector3(side * 3,0,-17), 90, walls.transform);
+                for(int i=0;i<4;i++)
+                    Place(prefabs["SM_Wall_Stone_2m_A"],new Vector3(gateX-FortificationModelUpdate.StudyTowerDistance,-.04f,frontZ+.90f+FortificationModelUpdate.SegmentLength*.5f-FortificationModelUpdate.Overlap+i*FortificationModelUpdate.Spacing),0,walls.transform);
+            }
+            else
+            {
+                PlaceOpenGate(prefabs,new Vector3(0,plan.Height(0,-17)-.04f,-17),-90,walls.transform);
+                for (int side = -1; side <= 1; side += 2)
+                {
+                    for (int i = 0; i < 7; i++)
+                    {
+                        float x = side * (3.90f+FortificationModelUpdate.SegmentLength*.5f-FortificationModelUpdate.Overlap+i*FortificationModelUpdate.Spacing);
+                        Place(prefabs["SM_Wall_Stone_2m_A"], new Vector3(x, plan.Height(x,-17)-.04f,-17), 90, walls.transform);
+                    }
+                    Place(prefabs["SM_ArcherTower_A"], new Vector3(side * 3,0,-17), 90, walls.transform);
+                }
             }
             if(study) TerrainStarterGardenPlants.BuildAndPlace(generatedRoot,plan);
             var lightObject = new GameObject("Sun", typeof(Light));
@@ -427,8 +442,38 @@ namespace LittleCastle.Editor
                 levels[i] = new LOD(i == 0 ? .25f : i == 1 ? .045f : .008f,level);
             }
             var group = root.AddComponent<LODGroup>(); group.SetLODs(levels); group.RecalculateBounds();
-            AddBox(root,levels[0].renderers);
+            if (key == "SM_Wall_Gatehouse_A") AddGatehouseColliders(root);
+            else AddBox(root,levels[0].renderers);
+            FortificationModelUpdate.ApplyAuthoredCollider(root);
             return SavePrefab(root,key);
+        }
+
+        private static void AddGatehouseColliders(GameObject root)
+        {
+            // Keep the 2.08m doorway walkable; a single bounds collider closes it.
+            foreach (float side in new[] {-1f,1f})
+            {
+                var post = root.AddComponent<BoxCollider>();
+                post.center = new Vector3(0,1.52f,side*1.54f);
+                post.size = new Vector3(1.06f,3.04f,1.0f);
+            }
+            var lintel = root.AddComponent<BoxCollider>();
+            lintel.center = new Vector3(0,2.78f,0);
+            lintel.size = new Vector3(1.06f,.52f,2.08f);
+        }
+
+        private static void PlaceOpenGate(Dictionary<string,GameObject> prefabs,Vector3 position,float yaw,Transform parent)
+        {
+            var frame=Place(prefabs["SM_Wall_Gatehouse_A"],position,yaw,parent);
+            foreach (var leaf in new[] {
+                (key:"SM_Wall_GateLeaf_Left_A", z:-1.04f, angle:90f),
+                (key:"SM_Wall_GateLeaf_Right_A", z:1.04f, angle:-90f) })
+            {
+                var obj=(GameObject)PrefabUtility.InstantiatePrefab(prefabs[leaf.key]);
+                obj.transform.SetParent(frame.transform,false);
+                obj.transform.localPosition=new Vector3(FortificationModelUpdate.HingeX,0,leaf.z);
+                obj.transform.localRotation=Quaternion.Euler(0,leaf.angle,0);
+            }
         }
         private static bool HasLod(Transform t,int level,Transform root)
         {
@@ -471,12 +516,24 @@ namespace LittleCastle.Editor
             Vector3 position=camera.transform.position; Quaternion rotation=camera.transform.rotation;
             float ortho=camera.orthographicSize;
             string prefix=camera.gameObject.scene.path==StudyPath ? "garden-" : "village-";
-            RenderCapture(camera,"Logs/TerrainStarter/"+prefix+"overview.png");
-            camera.transform.position=new Vector3(-19,12,-16); camera.transform.LookAt(new Vector3(-10,2,-3));
-            camera.orthographicSize=10;
-            RenderCapture(camera,"Logs/TerrainStarter/"+prefix+"close.png");
-            camera.transform.position=position; camera.transform.rotation=rotation;
-            camera.orthographicSize=ortho;
+            try
+            {
+                RenderCapture(camera,"Logs/TerrainStarter/"+prefix+"overview.png");
+                camera.transform.position=new Vector3(-19,12,-16); camera.transform.LookAt(new Vector3(-10,2,-3));
+                camera.orthographicSize=10;
+                RenderCapture(camera,"Logs/TerrainStarter/"+prefix+"close.png");
+                float gateX=prefix=="garden-" ? -9.8f : 0;
+                float gateZ=prefix=="garden-" ? -11.8f : -17;
+                var target=new Vector3(gateX,1.5f,gateZ);
+                camera.transform.position=target+new Vector3(-14,11,-14);
+                camera.transform.LookAt(target); camera.orthographicSize=6.6f;
+                RenderCapture(camera,"Logs/TerrainStarter/"+prefix+"gate.png");
+            }
+            finally
+            {
+                camera.transform.position=position; camera.transform.rotation=rotation;
+                camera.orthographicSize=ortho;
+            }
         }
         private static void RenderCapture(Camera camera,string path)
         {

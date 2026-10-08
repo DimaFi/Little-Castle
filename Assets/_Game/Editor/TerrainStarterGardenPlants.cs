@@ -87,6 +87,24 @@ namespace LittleCastle.Editor
             foreach (var p in new[] { new Vector2(-20,-10), new Vector2(-16,-15),
                 new Vector2(-13,-17), new Vector2(-5,-16), new Vector2(1,-10) })
                 Plant(prefabs[Keys[1]], p, .85f, count*137.5f, plan, parent.transform, ref count);
+            // The cottage is one instance of the building-edge rule. An
+            // additional house at any position/yaw gets the same perimeter
+            // planting without adding authored scene coordinates.
+            foreach (var stamp in plan.BuildingStamps)
+            {
+                var random=new System.Random(plan.Seed ^ unchecked((int)stamp.stableId*486187739));
+                for(int i=0;i<14;i++)
+                {
+                    bool shrub=i%4==0;
+                    float u=(i+.18f+(float)random.NextDouble()*.45f)/14;
+                    float offset=shrub ? 1.05f+(float)random.NextDouble()*.4f :
+                        .68f+(float)random.NextDouble()*.55f;
+                    Vector2 p=stamp.PerimeterPoint(u,offset);
+                    string key=shrub ? Keys[0] : i%3==0 ? Keys[2] : Keys[1];
+                    Plant(prefabs[key],p,.72f+(float)random.NextDouble()*.27f,
+                        (float)random.NextDouble()*360,plan,parent.transform,ref count);
+                }
+            }
             Debug.Log("[Garden Plants] Placed " + count + " clusters; shared Oak atlas/flower palette, authored LODs, no colliders.");
         }
 
@@ -99,7 +117,8 @@ namespace LittleCastle.Editor
             {
                 float a=i*Mathf.PI*.25f;
                 Vector2 q=i==8 ? p : p+new Vector2(Mathf.Cos(a),Mathf.Sin(a))*radius;
-                if (plan.PathMask(q.x,q.y)>.18f) return;
+                if (plan.PathMask(q.x,q.y)>.18f || plan.BuildingDistance(q.x,q.y)<.08f ||
+                    plan.IsBuildingEntrance(q.x,q.y)) return;
             }
             var obj = (GameObject)PrefabUtility.InstantiatePrefab(prefab);
             obj.transform.SetParent(parent, false);

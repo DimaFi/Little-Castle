@@ -15,21 +15,22 @@ namespace LittleCastle.Editor
             var random=new System.Random(plan.Seed ^ (cx*73856093) ^ (cz*19349663));
             var vertices=new List<Vector3>(); var uv=new List<Vector2>(); var normals=new List<Vector3>(); var triangles=new List<int>();
             var roots=new List<Vector3>();
-            for(int i=0;i<candidates;i++)
+            void AddClump(float x,float z)
             {
-                float x=cx*24+(float)random.NextDouble()*24;
-                float z=cz*24+(float)random.NextDouble()*24;
+                if(x<cx*24 || x>=(cx+1)*24 || z<cz*24 || z>=(cz+1)*24) return;
                 float path=plan.PathMask(x,z);
-                if(path>.5f || (path>.06f && random.NextDouble()<path*1.5f)) continue;
+                if(path>.5f || (path>.06f && random.NextDouble()<path*1.5f)) return;
+                // Any placed house uses the same rotated footprint and entrance.
+                // The additional perimeter pass fills the former bare rectangle.
+                if(plan.BuildingDistance(x,z)<.08f || plan.IsBuildingEntrance(x,z)) return;
                 bool blocked=false;
-                foreach(var h in plan.Houses) if(Mathf.Abs(x-h.x)<4.1f && Mathf.Abs(z-h.z)<3.5f) blocked=true;
                 if(!plan.ArtStudy && Mathf.Abs(z+17)<.85f && Mathf.Abs(x)<19) blocked=true;
                 if(plan.ArtStudy && ((Mathf.Abs(z+11.8f)<.6f && x>-17.5f && x<-2) ||
                     (Mathf.Abs(x+17.5f)<.6f && z>-11.8f && z<-3))) blocked=true;
                 if(Vector2.Distance(new Vector2(x,z),plan.ArtStudy ? new Vector2(-2,-7) : new Vector2(-4,4))<1.3f) blocked=true;
-                if(blocked) continue;
+                if(blocked) return;
                 float contact=plan.ContactShade(x,z);
-                float patch=(.82f+.18f*Mathf.Sin(x*.4f)*Mathf.Cos(z*.3f))*Mathf.Lerp(1,.55f,contact);
+                float patch=(.82f+.18f*Mathf.Sin(x*.4f)*Mathf.Cos(z*.3f))*Mathf.Lerp(1,.82f,contact);
                 for(int b=0;b<5;b++)
                 {
                     float angle=(float)random.NextDouble()*Mathf.PI*2;
@@ -43,6 +44,22 @@ namespace LittleCastle.Editor
                     uv.Add(new Vector2(0,0)); uv.Add(new Vector2(1,0)); uv.Add(new Vector2(.5f,1));
                     normals.Add(Vector3.up); normals.Add(Vector3.up); normals.Add(Vector3.up);
                     triangles.Add(n); triangles.Add(n+1); triangles.Add(n+2);
+                }
+            }
+            for(int i=0;i<candidates;i++)
+                AddClump(cx*24+(float)random.NextDouble()*24,
+                    cz*24+(float)random.NextDouble()*24);
+            int edgeCandidates=Mathf.RoundToInt(candidates*.035f);
+            foreach(var stamp in plan.BuildingStamps)
+            {
+                Vector2 delta=stamp.center-new Vector2(cx*24+12,cz*24+12);
+                if(Mathf.Abs(delta.x)>stamp.halfExtents.x+14 ||
+                    Mathf.Abs(delta.y)>stamp.halfExtents.y+14) continue;
+                for(int i=0;i<edgeCandidates;i++)
+                {
+                    Vector2 p=stamp.PerimeterPoint((i+(float)random.NextDouble())/edgeCandidates,
+                        .14f+(float)random.NextDouble()*.65f);
+                    AddClump(p.x,p.y);
                 }
             }
             var mesh=new Mesh {name=$"Grass_{cx}_{cz}",indexFormat=IndexFormat.UInt32};

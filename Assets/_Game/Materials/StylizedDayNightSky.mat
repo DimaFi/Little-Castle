@@ -35,14 +35,14 @@ Material:
     - _SunVisibility: 0.77
     - _TwilightStrength: -0.25
     m_Colors:
-    - _HorizonColor: {r: 0.63079995, g: 0.796, b: 0.90639997, a: 1}
-    - _LowerSkyColor: {r: 0.446, g: 0.6008, b: 0.7, a: 1}
+    - _HorizonColor: {r: 0.7652, g: 0.85359997, b: 0.916, a: 1}
+    - _LowerSkyColor: {r: 0.5228, g: 0.6488, b: 0.70960003, a: 1}
     - _MoonColor: {r: 0.83, g: 0.92, b: 1.25, a: 1}
-    - _MoonDirection: {r: -0.2885761, g: -0.81663656, b: 0.49982846, a: 0}
+    - _MoonDirection: {r: -0.44208148, g: -0.4671787, b: 0.76570755, a: 0}
     - _StarColor: {r: 0.8, g: 0.88, b: 1, a: 1}
     - _SunColor: {r: 1.85, g: 1.32, b: 0.76, a: 1}
-    - _SunDirection: {r: 0.2885762, g: 0.81663644, b: -0.49982864, a: 0}
+    - _SunDirection: {r: 0.44208148, g: 0.46717864, b: -0.76570755, a: 0}
     - _TwilightColor: {r: 1, g: 0.42, b: 0.18, a: 1}
-    - _ZenithColor: {r: 0.1742, g: 0.43459997, b: 0.75479996, a: 1}
+    - _ZenithColor: {r: 0.23179999, g: 0.5018, b: 0.79319996, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

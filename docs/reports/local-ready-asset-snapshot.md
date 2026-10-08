@@ -7792,7 +7792,7 @@
 ## BLD_House_Cottage_A
 
 - Prefab: Assets/_Game/Models/Ready/Test_Building/BLD_House_Cottage_A/BLD_House_Cottage_A.prefab
-- Source FBX: Assets/_Game/Models/Ready/Test_Building/BLD_House_Cottage_A/BLD_House_Cottage_A_LOD1.fbx
+- Source FBX: Assets/_Game/Models/Ready/Test_Building/BLD_House_Cottage_A/BLD_House_Cottage_A_LOD2.fbx
 - Import: scale=1, readable=False, animations=False
 - LOD levels: 3, group size=7,484
   - LOD0: transition=0,55, renderers=941, vertices=246616, triangles=143552

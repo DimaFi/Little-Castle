@@ -13,12 +13,14 @@ namespace LittleCastle.World
         public readonly bool ArtStudy;
         public readonly List<Vector3> Houses = new List<Vector3>();
         public readonly List<Vector3> Trees = new List<Vector3>();
+        private readonly List<BuildingLandscapeStamp> buildingStamps = new List<BuildingLandscapeStamp>();
+        public IReadOnlyList<BuildingLandscapeStamp> BuildingStamps => buildingStamps;
 
         public TerrainStarterPlan(int seed, bool artStudy = false)
         {
             Seed = seed;
             ArtStudy = artStudy;
-            Houses.Add(new Vector3(-9f, 0f, -4f));
+            AddHouse(1,new Vector3(-9f,0f,-4f),180);
             if (artStudy)
             {
                 foreach (var p in new[] {new Vector2(-18,3),new Vector2(-12,8),new Vector2(-5,7),
@@ -27,9 +29,9 @@ namespace LittleCastle.World
                     Trees.Add(new Vector3(p.x,Height(p.x,p.y),p.y));
                 return;
             }
-            Houses.Add(new Vector3(8f, 0f, 3f));
-            Houses.Add(new Vector3(-11f, 0f, 10f));
-            Houses.Add(new Vector3(10f, 0f, 16f));
+            AddHouse(2,new Vector3(8f,0f,3f),180);
+            AddHouse(3,new Vector3(-11f,0f,10f),180);
+            AddHouse(4,new Vector3(10f,0f,16f),180);
             var random = new System.Random(seed);
             for (int attempt = 0; attempt < 600 && Trees.Count < 65; attempt++)
             {
@@ -44,6 +46,46 @@ namespace LittleCastle.World
                         overlaps = true;
                 if (!overlaps) Trees.Add(new Vector3(x, Height(x, z), z));
             }
+        }
+
+        // This fixture is the first consumer of the position/yaw rule. Runtime
+        // construction can upsert/remove a stamp and rebuild affected visual chunks.
+        public void AddHouse(long stableId,Vector3 position,float yawDegrees)
+        {
+            RemoveHouse(stableId);
+            Houses.Add(position);
+            buildingStamps.Add(new BuildingLandscapeStamp(stableId,
+                new Vector2(position.x,position.z),new Vector2(3.52f,3.08f),
+                yawDegrees,1.35f,3.2f));
+        }
+
+        public bool RemoveHouse(long stableId)
+        {
+            for(int i=0;i<buildingStamps.Count;i++)
+            {
+                if(buildingStamps[i].stableId!=stableId) continue;
+                buildingStamps.RemoveAt(i);
+                Houses.RemoveAt(i);
+                return true;
+            }
+            return false;
+        }
+
+        public float BuildingDistance(float x,float z)
+        {
+            float distance=float.PositiveInfinity;
+            Vector2 point=new Vector2(x,z);
+            foreach(var stamp in buildingStamps)
+                distance=Mathf.Min(distance,stamp.SignedDistance(point));
+            return distance;
+        }
+
+        public bool IsBuildingEntrance(float x,float z)
+        {
+            Vector2 point=new Vector2(x,z);
+            foreach(var stamp in buildingStamps)
+                if(stamp.IsEntrance(point)) return true;
+            return false;
         }
 
         public float Height(float x, float z)
@@ -66,14 +108,14 @@ namespace LittleCastle.World
         public float PathMask(float x, float z)
         {
             float d = Mathf.Abs(x - RoadAt(z));
-            // Footpaths continue to the front of each cottage, never under its floor.
-            foreach (Vector3 house in Houses)
+            // The cottage entry follows its orientation, not a fixed scene axis.
+            foreach (BuildingLandscapeStamp stamp in buildingStamps)
             {
-                Vector2 a = new Vector2(RoadAt(house.z - 4.2f), house.z - 4.2f);
-                Vector2 b = new Vector2(house.x - .8f, house.z - 4.2f);
+                Vector2 b = stamp.LocalToWorld(new Vector2(0,stamp.halfExtents.y+1.12f));
+                Vector2 a = new Vector2(RoadAt(b.y),b.y);
                 Vector2 p = new Vector2(x, z);
                 Vector2 ab = b - a;
-                float t = Mathf.Clamp01(Vector2.Dot(p - a, ab) / ab.sqrMagnitude);
+                float t = Mathf.Clamp01(Vector2.Dot(p - a, ab) / Mathf.Max(.001f,ab.sqrMagnitude));
                 d = Mathf.Min(d, Vector2.Distance(p, a + ab * t) + .6f);
             }
             d += .13f*Mathf.Sin(x*2.1f+z*.8f)+.06f*Mathf.Sin(z*3.7f-x);
@@ -88,12 +130,8 @@ namespace LittleCastle.World
         public float ContactShade(float x, float z)
         {
             float shade = 0;
-            foreach(var h in Houses)
-            {
-                float dx=Mathf.Max(0,Mathf.Abs(x-h.x)-3.7f);
-                float dz=Mathf.Max(0,Mathf.Abs(z-h.z)-3.1f);
-                shade=Mathf.Max(shade,1-Mathf.Clamp01(Mathf.Sqrt(dx*dx+dz*dz)/1.5f));
-            }
+            foreach(var stamp in buildingStamps)
+                shade=Mathf.Max(shade,1-Mathf.Clamp01(stamp.SignedDistance(new Vector2(x,z))/1.5f));
             foreach(var t in Trees)
                 shade=Mathf.Max(shade,.95f*(1-Mathf.Clamp01(Vector2.Distance(new Vector2(x,z),new Vector2(t.x,t.z))/3.4f)));
             return shade;

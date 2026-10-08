@@ -1,5 +1,11 @@
 # Astra 6 production brief — modular stone wall A
 
+Latest: **v005**, 2026-10-06. Preserves manual edits, scales wall kit by
+1.546676, real long-module length 3.093352 m. Gate interior +X, hinge X=0.60 m.
+Use v005 README/Connections and `../reports/fortifications-v005-update-2026-10-06.md`.
+Existing Unity art fixtures were updated and validated. Older sections below
+are historical; do not rebuild user edits from the legacy procedural generator.
+
 ## Current source: optimized fortifications v004, 2026-10-03
 
 Use `E:/Games_Develop/Little-Castle_Assets/Source/Architecture/Wall_Stone_Modular/v004/`.
