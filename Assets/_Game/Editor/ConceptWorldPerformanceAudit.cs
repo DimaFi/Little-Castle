@@ -110,7 +110,7 @@ namespace LittleCastle.Editor
             nextSample = editorTime + 0.5;
 
             WorldStreamer streamer = UnityEngine.Object.FindAnyObjectByType<WorldStreamer>();
-            string noStreamer = "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0";
+            string noStreamer = string.Join(",", new string[24]);
             string rest;
             if (streamer == null)
             {
