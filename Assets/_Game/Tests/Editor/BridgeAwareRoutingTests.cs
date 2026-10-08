@@ -178,6 +178,44 @@ namespace LittleCastle.Tests
             Assert.That(plan.Roads.Count, Is.Zero);
         }
 
+        [TestCase(2, 12345)]
+        [TestCase(8, -12345)]
+        [TestCase(16, 777)]
+        public void Connectivity_HandlesDifferentFeatureCountsAndSeeds(
+            int playerLikeFeatureCount,
+            int seed)
+        {
+            // A deterministic synthetic graph contract, not an in-game
+            // player-start or full finite-map benchmark.
+            var plan = new MacroWorldPlan(seed);
+            for (int i = 0; i < playerLikeFeatureCount; i++)
+            {
+                plan.AddPointFeature(new WorldPointFeatureData(
+                    1000 + i, WorldFeatureKind.NeutralSettlement,
+                    "settlement", new Vector2(-128f + i * 16f, -32f), 0f));
+                if (i == 0)
+                    continue;
+                long roadId = 5000 + i;
+                plan.AddRoadConnection(new WorldRoadConnectionData(
+                    roadId, 1000 + i - 1, 1000 + i, RoadKind.Trail));
+                plan.AddRoad(new WorldRoadData
+                {
+                    stableId = roadId,
+                    roadKind = RoadKind.Trail,
+                    width = 2f,
+                    centerline = new List<Vector2>
+                    {
+                        new Vector2(-128f + (i - 1) * 16f, -32f),
+                        new Vector2(-128f + i * 16f, -32f)
+                    }
+                });
+            }
+            var report = WorldRouteConnectivityValidator.Validate(plan, 0, true);
+            Assert.That(report.IsValid, Is.True, report.Summary);
+            Assert.That(report.components, Is.EqualTo(1));
+            Assert.That(report.realizedRoadCount, Is.EqualTo(playerLikeFeatureCount - 1));
+        }
+
         private static MacroWorldPlan CreateCrossing(float x, float z)
         {
             var plan = new MacroWorldPlan(8102026);
