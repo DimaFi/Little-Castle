@@ -51,6 +51,9 @@ namespace LittleCastle.World
 
         private void OnEnable()
         {
+            // Revisit previously managed chunks so disabled water children
+            // are reactivated after the presenter is toggled off and on.
+            processed.Clear();
             nextScan = 0;
         }
 
