@@ -1768,10 +1768,19 @@ namespace LittleCastle.World
 
                 using (MeshBuildMarker.Auto())
                 {
+                    // Legacy materials remain unmodified. Only
+                    // explicit concept terrain materials with vertex masks
+                    // enabled incur the additional geometry-mask pass.
+                    bool surfaceMasksEnabled =
+                        terrainMaterial != null &&
+                        terrainMaterial.HasProperty("_UseVertexMasks") &&
+                        terrainMaterial.GetFloat("_UseVertexMasks") >= 0.5f;
                     mesh =
                         ChunkMeshBuilder.Build(
                             chunkData,
-                            chunkSize);
+                            chunkSize,
+                            macroPlan,
+                            surfaceMasksEnabled);
                 }
 
                 lastMeshBuildMilliseconds =
