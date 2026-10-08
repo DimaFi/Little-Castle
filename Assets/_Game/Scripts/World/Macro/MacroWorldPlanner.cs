@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace LittleCastle.World
@@ -66,11 +68,69 @@ namespace LittleCastle.World
                     settings.RoadPaths);
             }
 
+            bool bridgeAware =
+                terrainProbe != null &&
+                settings.RoadPaths != null &&
+                settings.RoadPaths.enabled &&
+                settings.Bridges != null &&
+                settings.Bridges.enabled &&
+                settings.Bridges.useFixedStoneBridgeSites &&
+                settings.Bridges.enableBridgeAwareRouting;
+
+            // Capture desired edges before the fixed planner atomically
+            // removes unsupported roads/connections. The recovery is opt-in.
+            List<WorldRoadConnectionData> desiredConnections =
+                bridgeAware
+                    ? new List<WorldRoadConnectionData>(plan.RoadConnections)
+                    : null;
+
             BridgeSitePlanner.BuildBridgeSites(
                 worldSeed,
                 plan,
                 settings.Bridges,
                 terrainProbe);
+
+            if (bridgeAware)
+            {
+                BridgeAwareRoutingPlanner.RecoveryResult recovery =
+                    BridgeAwareRoutingPlanner.RecoverRejectedConnections(
+                        worldSeed,
+                        plan,
+                        desiredConnections,
+                        terrainProbe,
+                        settings.RoadPaths,
+                        settings.Bridges);
+
+                var diagnostics =
+                    WorldRouteConnectivityValidator.Validate(
+                        plan,
+                        settings.Bridges.minimumFixedBridgeCount,
+                        settings.Bridges.requireConnectedFeatureGraph);
+
+                if (recovery.failedConnections > 0)
+                    diagnostics.Fail(
+                        "Unable to realize " + recovery.failedConnections +
+                        " requested road connections after " +
+                        recovery.pathAttempts + " bounded retries.");
+
+                plan.RouteDiagnostics = diagnostics;
+                plan.BridgeAwareRoutingAttempted = true;
+                plan.BridgeAwareRoutingSatisfied = diagnostics.IsValid;
+
+                if (!diagnostics.IsValid)
+                {
+                    string message =
+                        "Bridge-aware macro routing failed: " +
+                        recovery.Summary + "; " +
+                        diagnostics.Summary + "; " +
+                        string.Join("; ", diagnostics.errors);
+
+                    if (settings.Bridges.failOnRoutingError)
+                        throw new InvalidOperationException(message);
+
+                    Debug.LogWarning(message);
+                }
+            }
 
             return plan;
         }
