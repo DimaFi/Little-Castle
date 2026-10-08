@@ -217,6 +217,47 @@ namespace LittleCastle.Tests
         }
 
         [Test]
+        public void FixedPlanner_RejectsRoadRunningAlongRiverWithAndWithoutTerrain()
+        {
+            BridgePlannerSettings settings = CreateFixedPlannerSettings();
+            MacroWorldPlan withTerrain = CreateSingleCrossingPlan(
+                51, 5f, new Vector2(0f, -20f), new Vector2(0f, 20f));
+            MacroWorldPlan withoutTerrain = CreateSingleCrossingPlan(
+                52, 5f, new Vector2(0f, -20f), new Vector2(0f, 20f));
+
+            BridgeSitePlanner.BuildBridgeSites(
+                51, withTerrain, settings, CreateProbe(0f, 0f, 0f));
+            BridgeSitePlanner.BuildBridgeSites(52, withoutTerrain, settings);
+
+            AssertRemovedCrossingRoad(withTerrain);
+            AssertRemovedCrossingRoad(withoutTerrain);
+        }
+
+        [Test]
+        public void FixedPlanner_GentleRiverCornerGetsOneBridgeButSharpCornerRejectsRoad()
+        {
+            BridgePlannerSettings settings = CreateFixedPlannerSettings();
+            WorldTerrainProbe probe = CreateProbe(0f, 0f, 0f);
+            MacroWorldPlan gentle = CreateSingleCrossingPlan(53, 5f);
+            MacroWorldPlan sharp = CreateSingleCrossingPlan(54, 5f);
+
+            gentle.Rivers[0].centerline[1] = Vector2.zero;
+            gentle.Rivers[0].centerline.Add(new Vector2(20f, 3.5f));
+            gentle.Rivers[0].widths.Add(5f);
+            sharp.Rivers[0].centerline[1] = Vector2.zero;
+            sharp.Rivers[0].centerline.Add(new Vector2(20f, 20f));
+            sharp.Rivers[0].widths.Add(5f);
+
+            BridgeSitePlanner.BuildBridgeSites(53, gentle, settings, probe);
+            BridgeSitePlanner.BuildBridgeSites(54, sharp, settings, probe);
+
+            Assert.That(gentle.Roads.Count, Is.EqualTo(1));
+            Assert.That(gentle.BridgeSites.Count, Is.EqualTo(1));
+            Assert.That(gentle.BridgeSites[0].worldPosition, Is.EqualTo(Vector2.zero));
+            AssertRemovedCrossingRoad(sharp);
+        }
+
+        [Test]
         public void FixedPlanner_RejectsOverlappingSitesWithoutLeavingOrphanRoads()
         {
             WorldTerrainProbe probe = CreateProbe(0f, 0f, 0f);

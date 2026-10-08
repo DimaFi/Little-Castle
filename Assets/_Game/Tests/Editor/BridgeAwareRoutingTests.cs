@@ -83,6 +83,49 @@ namespace LittleCastle.Tests
         }
 
         [Test]
+        public void Connectivity_RejectsRoadOverlappingRiverCenterline()
+        {
+            MacroWorldPlan plan = CreateCrossing(0f, 0f);
+            plan.Rivers[0].centerline.Clear();
+            plan.Rivers[0].centerline.Add(new Vector2(0f, -20f));
+            plan.Rivers[0].centerline.Add(new Vector2(0f, 20f));
+
+            var report = WorldRouteConnectivityValidator.Validate(plan, 0, true);
+            Assert.That(report.IsValid, Is.False);
+            Assert.That(report.unbridgedCrossings, Is.GreaterThan(0));
+        }
+
+        [Test]
+        public void Connectivity_RejectsFixedSiteWithDeckAlongRiver()
+        {
+            MacroWorldPlan plan = CreateCrossing(0f, 0f);
+            plan.AddBridgeSite(new WorldBridgeSiteData(
+                504, 101, 201, FixedBridgeSiteProfile.AssetId,
+                Vector2.zero, 90f, FixedBridgeSiteProfile.BridgeLength,
+                0f, FixedBridgeSiteProfile.ContractVersion, true));
+
+            var report = WorldRouteConnectivityValidator.Validate(plan, 1, true);
+            Assert.That(report.IsValid, Is.False);
+            Assert.That(report.orphanBridgeSites, Is.EqualTo(1));
+            Assert.That(report.unbridgedCrossings, Is.GreaterThan(0));
+        }
+
+        [Test]
+        public void Connectivity_NonfixedSiteDoesNotServeFixedCrossing()
+        {
+            MacroWorldPlan plan = CreateCrossing(0f, 0f);
+            plan.AddBridgeSite(new WorldBridgeSiteData(
+                505, 101, 201, "bridge_wood_small",
+                Vector2.zero, 0f, 10.8f));
+
+            var report = WorldRouteConnectivityValidator.Validate(plan);
+            Assert.That(report.IsValid, Is.False);
+            Assert.That(report.fixedBridgeCount, Is.Zero);
+            Assert.That(report.orphanBridgeSites, Is.EqualTo(1));
+            Assert.That(report.unbridgedCrossings, Is.GreaterThan(0));
+        }
+
+        [Test]
         public void Connectivity_DetectsMissingRealizedRoadAndDisconnectedFeature()
         {
             MacroWorldPlan plan = CreateCrossing(0f, 0f);
@@ -179,6 +222,52 @@ namespace LittleCastle.Tests
         }
 
         [Test]
+        public void Recovery_ExhaustsConfiguredSearchesAtIncompatibleRiver()
+        {
+            WorldTerrainProbe probe = CreateFlatProbe();
+            MacroWorldPlan plan = CreateMissingRoad(-64f);
+            plan.AddRiver(new WorldRiverData
+            {
+                stableId = 201,
+                nominalWidth = 8f,
+                centerline = new List<Vector2>
+                {
+                    new Vector2(-500f, 0f),
+                    new Vector2(500f, 0f)
+                }
+            });
+            var roadSettings = new TerrainRoadPathPlannerSettings
+            {
+                enabled = true,
+                gridStep = 8f,
+                searchPadding = 0f,
+                maxExpandedNodes = 2000
+            };
+            var bridgeSettings = new BridgePlannerSettings
+            {
+                enabled = true,
+                useFixedStoneBridgeSites = true,
+                enableBridgeAwareRouting = true,
+                maxBridgeRoutingAttempts = 2,
+                maxGuidedCrossingAttempts = 4
+            };
+            var original = new[]
+            {
+                new WorldRoadConnectionData(101, 1001, 1002, RoadKind.Trail)
+            };
+
+            var result = BridgeAwareRoutingPlanner.RecoverRejectedConnections(
+                8102026, plan, original, probe, roadSettings, bridgeSettings);
+
+            Assert.That(result.attemptedConnections, Is.EqualTo(1));
+            Assert.That(result.pathAttempts, Is.EqualTo(2));
+            Assert.That(result.guidedAttempts, Is.Zero);
+            Assert.That(result.failedConnections, Is.EqualTo(1));
+            Assert.That(plan.Roads.Count, Is.Zero);
+            Assert.That(plan.BridgeSites.Count, Is.Zero);
+        }
+
+        [Test]
         public void GuidedBridgeAnchors_ChooseStablePerpendicularCrossing()
         {
             var river = new WorldRiverData
@@ -264,6 +353,124 @@ namespace LittleCastle.Tests
             Assert.That(report.IsValid, Is.True, report.Summary);
             Assert.That(report.components, Is.EqualTo(1));
             Assert.That(report.realizedRoadCount, Is.EqualTo(playerLikeFeatureCount - 1));
+        }
+
+        [Test]
+        public void Backbone_ConnectsRuinToExistingSettlementGraphWithoutChangingLegacyEdges()
+        {
+            const int seed = 12345;
+            var settings = new RoadNetworkPlannerSettings
+            {
+                nearestConnectionsPerSettlement = 1,
+                maxConnectionDistance = 100f
+            };
+            var plan = new MacroWorldPlan(seed);
+            plan.AddPointFeature(new WorldPointFeatureData(1001,
+                WorldFeatureKind.NeutralSettlement, "settlement",
+                Vector2.zero, 0f));
+            plan.AddPointFeature(new WorldPointFeatureData(1002,
+                WorldFeatureKind.NeutralSettlement, "settlement",
+                new Vector2(20f, 0f), 0f));
+            plan.AddPointFeature(new WorldPointFeatureData(1003,
+                WorldFeatureKind.Ruin, "ruin", new Vector2(20f, 20f), 0f));
+
+            RoadNetworkPlanner.BuildConnections(seed, plan, settings);
+            Assert.That(plan.RoadConnections.Count, Is.EqualTo(1));
+            Assert.That(plan.RoadConnections[0].fromFeatureId, Is.Not.EqualTo(1003));
+            Assert.That(plan.RoadConnections[0].toFeatureId, Is.Not.EqualTo(1003));
+
+            RoadNetworkPlanner.BuildConnectivityBackbone(seed, plan, settings);
+            Assert.That(plan.RoadConnections.Count, Is.EqualTo(2));
+            AddStraightRoadsForConnections(plan);
+            Assert.That(WorldRouteConnectivityValidator.Validate(plan, 0, true).IsValid,
+                Is.True);
+        }
+
+        [Test]
+        public void Backbone_IsStableAcrossFeatureInsertionOrder()
+        {
+            const int seed = -10101;
+            var settings = new RoadNetworkPlannerSettings
+            {
+                nearestConnectionsPerSettlement = 1,
+                maxConnectionDistance = 100f
+            };
+            var features = new[]
+            {
+                new WorldPointFeatureData(11, WorldFeatureKind.NeutralSettlement,
+                    "settlement", Vector2.zero, 0f),
+                new WorldPointFeatureData(22, WorldFeatureKind.NeutralSettlement,
+                    "settlement", new Vector2(20f, 0f), 0f),
+                new WorldPointFeatureData(33, WorldFeatureKind.Ruin,
+                    "ruin", new Vector2(20f, 20f), 0f)
+            };
+            var forward = new MacroWorldPlan(seed);
+            var reverse = new MacroWorldPlan(seed);
+            for (int i = 0; i < features.Length; i++)
+            {
+                forward.AddPointFeature(features[i]);
+                reverse.AddPointFeature(features[features.Length - 1 - i]);
+            }
+
+            RoadNetworkPlanner.BuildConnections(seed, forward, settings);
+            RoadNetworkPlanner.BuildConnections(seed, reverse, settings);
+            RoadNetworkPlanner.BuildConnectivityBackbone(seed, forward, settings);
+            RoadNetworkPlanner.BuildConnectivityBackbone(seed, reverse, settings);
+
+            var forwardIds = new List<long>();
+            var reverseIds = new List<long>();
+            foreach (WorldRoadConnectionData edge in forward.RoadConnections)
+                forwardIds.Add(edge.stableId);
+            foreach (WorldRoadConnectionData edge in reverse.RoadConnections)
+                reverseIds.Add(edge.stableId);
+            forwardIds.Sort();
+            reverseIds.Sort();
+            Assert.That(forwardIds, Is.EqualTo(reverseIds));
+        }
+
+        [Test]
+        public void Backbone_RespectsMaximumDistanceAndReportsImpossibleGraph()
+        {
+            var plan = new MacroWorldPlan(777);
+            plan.AddPointFeature(new WorldPointFeatureData(1001,
+                WorldFeatureKind.NeutralSettlement, "settlement",
+                Vector2.zero, 0f));
+            plan.AddPointFeature(new WorldPointFeatureData(1002,
+                WorldFeatureKind.Ruin, "ruin", new Vector2(500f, 0f), 0f));
+            var settings = new RoadNetworkPlannerSettings
+            {
+                maxConnectionDistance = 100f
+            };
+
+            RoadNetworkPlanner.BuildConnections(777, plan, settings);
+            RoadNetworkPlanner.BuildConnectivityBackbone(777, plan, settings);
+
+            Assert.That(plan.RoadConnections.Count, Is.Zero);
+            var report = WorldRouteConnectivityValidator.Validate(plan, 0, true);
+            Assert.That(report.IsValid, Is.False);
+            Assert.That(report.components, Is.EqualTo(2));
+        }
+
+        private static void AddStraightRoadsForConnections(MacroWorldPlan plan)
+        {
+            foreach (WorldRoadConnectionData edge in plan.RoadConnections)
+            {
+                Assert.That(plan.TryGetPointFeature(edge.fromFeatureId,
+                    out WorldPointFeatureData from), Is.True);
+                Assert.That(plan.TryGetPointFeature(edge.toFeatureId,
+                    out WorldPointFeatureData to), Is.True);
+                plan.AddRoad(new WorldRoadData
+                {
+                    stableId = edge.stableId,
+                    roadKind = edge.roadKind,
+                    width = 2f,
+                    centerline = new List<Vector2>
+                    {
+                        from.worldPosition,
+                        to.worldPosition
+                    }
+                });
+            }
         }
 
         private static MacroWorldPlan CreateCrossing(float x, float z)

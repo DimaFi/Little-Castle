@@ -60,14 +60,6 @@ namespace LittleCastle.World
                 plan,
                 settings.RoadNetwork);
 
-            if (terrainProbe != null)
-            {
-                TerrainRoadPathPlanner.BuildRoadPaths(
-                    plan,
-                    terrainProbe,
-                    settings.RoadPaths);
-            }
-
             bool bridgeAware =
                 terrainProbe != null &&
                 settings.RoadPaths != null &&
@@ -76,6 +68,18 @@ namespace LittleCastle.World
                 settings.Bridges.enabled &&
                 settings.Bridges.useFixedStoneBridgeSites &&
                 settings.Bridges.enableBridgeAwareRouting;
+
+            if (bridgeAware && settings.Bridges.requireConnectedFeatureGraph)
+                RoadNetworkPlanner.BuildConnectivityBackbone(
+                    worldSeed, plan, settings.RoadNetwork);
+
+            if (terrainProbe != null)
+            {
+                TerrainRoadPathPlanner.BuildRoadPaths(
+                    plan,
+                    terrainProbe,
+                    settings.RoadPaths);
+            }
 
             // Capture desired edges before the fixed planner atomically
             // removes unsupported roads/connections. The recovery is opt-in.

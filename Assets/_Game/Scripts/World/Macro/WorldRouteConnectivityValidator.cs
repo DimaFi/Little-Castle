@@ -91,7 +91,8 @@ namespace LittleCastle.World
             for (int i = 0; i < plan.BridgeSites.Count; i++)
             {
                 WorldBridgeSiteData bridge = plan.BridgeSites[i];
-                bool orphan = !roads.ContainsKey(bridge.roadId) ||
+                bool orphan = !bridge.isFixedSite ||
+                              !roads.ContainsKey(bridge.roadId) ||
                               !rivers.Contains(bridge.riverId);
                 if (bridge.isFixedSite)
                 {
@@ -167,17 +168,21 @@ namespace LittleCastle.World
                             if (!TryIntersection(
                                 road.centerline[rs], road.centerline[rs + 1],
                                 river.centerline[ws], river.centerline[ws + 1],
-                                out Vector2 crossing))
+                                out Vector2 crossing,
+                                out bool collinearOverlap))
                                 continue;
 
                             bool served = false;
-                            if (servedBridges.TryGetValue(road.stableId, out var candidates))
+                            if (!collinearOverlap &&
+                                servedBridges.TryGetValue(road.stableId, out var candidates))
                             {
                                 for (int b = 0; b < candidates.Count; b++)
                                 {
                                     WorldBridgeSiteData site = candidates[b];
                                     if (site.riverId == river.stableId &&
-                                        (site.worldPosition - crossing).sqrMagnitude < 0.01f)
+                                        (site.worldPosition - crossing).sqrMagnitude < 0.01f &&
+                                        IsAlignedWithRoad(site, road.centerline[rs],
+                                            road.centerline[rs + 1]))
                                     {
                                         served = true;
                                         break;
@@ -187,8 +192,10 @@ namespace LittleCastle.World
                             if (!served)
                             {
                                 report.unbridgedCrossings++;
-                                report.Fail("Unbridged crossing: road " + road.stableId +
-                                            " river " + river.stableId);
+                                report.Fail((collinearOverlap
+                                    ? "Road overlaps river centerline: road "
+                                    : "Unbridged crossing: road ") + road.stableId +
+                                    " river " + river.stableId);
                             }
                         }
                     }
@@ -214,8 +221,12 @@ namespace LittleCastle.World
                                 if (TryIntersection(
                                     road.centerline[a], road.centerline[a + 1],
                                     river.centerline[z], river.centerline[z + 1],
-                                    out Vector2 location) &&
-                                    (location - bridge.worldPosition).sqrMagnitude < 0.01f)
+                                    out Vector2 location,
+                                    out bool collinearOverlap) &&
+                                    !collinearOverlap &&
+                                    (location - bridge.worldPosition).sqrMagnitude < 0.01f &&
+                                    IsAlignedWithRoad(bridge, road.centerline[a],
+                                        road.centerline[a + 1]))
                                     intersects = true;
                     }
                     if (!intersects)
@@ -257,15 +268,51 @@ namespace LittleCastle.World
             return root;
         }
 
+        private static bool IsAlignedWithRoad(
+            WorldBridgeSiteData site, Vector2 roadA, Vector2 roadB)
+        {
+            Vector2 road = roadB - roadA;
+            if (road.sqrMagnitude < 0.000001f)
+                return false;
+
+            float radians = site.yawDegrees * Mathf.Deg2Rad;
+            Vector2 deck = new Vector2(Mathf.Sin(radians), Mathf.Cos(radians));
+            return Mathf.Abs(Vector2.Dot(road.normalized, deck)) >=
+                   Mathf.Cos(20f * Mathf.Deg2Rad);
+        }
+
         private static bool TryIntersection(
-            Vector2 a, Vector2 b, Vector2 c, Vector2 d, out Vector2 point)
+            Vector2 a, Vector2 b, Vector2 c, Vector2 d,
+            out Vector2 point, out bool collinearOverlap)
         {
             point = default;
+            collinearOverlap = false;
             Vector2 r = b - a;
             Vector2 s = d - c;
             float denominator = r.x * s.y - r.y * s.x;
             if (Mathf.Abs(denominator) < 0.000001f)
-                return false;
+            {
+                float lengthSqr = r.sqrMagnitude;
+                if (lengthSqr < 0.000001f || s.sqrMagnitude < 0.000001f)
+                    return false;
+
+                Vector2 offset = c - a;
+                float distance = Mathf.Abs(offset.x * r.y - offset.y * r.x) /
+                                 Mathf.Sqrt(lengthSqr);
+                if (distance > 0.001f)
+                    return false;
+
+                float t0 = Vector2.Dot(offset, r) / lengthSqr;
+                float t1 = Vector2.Dot(d - a, r) / lengthSqr;
+                float overlapStart = Mathf.Max(0f, Mathf.Min(t0, t1));
+                float overlapEnd = Mathf.Min(1f, Mathf.Max(t0, t1));
+                if ((overlapEnd - overlapStart) * Mathf.Sqrt(lengthSqr) <= 0.001f)
+                    return false;
+
+                point = a + r * ((overlapStart + overlapEnd) * 0.5f);
+                collinearOverlap = true;
+                return true;
+            }
             Vector2 delta = c - a;
             float t = (delta.x * s.y - delta.y * s.x) / denominator;
             float u = (delta.x * r.y - delta.y * r.x) / denominator;
