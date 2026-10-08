@@ -59,6 +59,8 @@ namespace LittleCastle.Tests
                 streamer.MissingDesiredChunkCount,
                 Is.EqualTo(0),
                 "Initial visible streaming did not become ready before timeout.");
+            LogPhase("initial-ready", streamer,
+                (Time.realtimeSinceStartup - loadStartedAt) * 1000f);
 
             int cacheLimit =
                 streamer.Definition.StreamingSettings.MaxCachedChunks;
@@ -109,6 +111,7 @@ namespace LittleCastle.Tests
                 Is.LessThanOrEqualTo(streamer.Definition.StreamingSettings.MacroPlanRadiusChunks),
                 "Unload test movement must stay inside the session macro plan.");
             focusObject.transform.position += new Vector3(64f * exitDistance, 0f, 0f);
+            float movedAt = Time.realtimeSinceStartup;
             // Without refreshing, MissingDesiredChunkCount still describes
             // the previous focus until the next Update. The wait may then
             // exit before a single frame has processed the move.
@@ -133,6 +136,8 @@ namespace LittleCastle.Tests
                 streamer.MissingDesiredChunkCount,
                 Is.EqualTo(0),
                 "Moved visible streaming did not become ready before timeout.");
+            LogPhase("first-visit-ready", streamer,
+                (Time.realtimeSinceStartup - movedAt) * 1000f);
 
             if (cacheLimit > 0)
             {
@@ -160,6 +165,7 @@ namespace LittleCastle.Tests
                     "An old runtime mesh survived movement beyond the unload ring.");
 
             focusObject.transform.position = removedChunk.GetWorldOrigin(64f);
+            float returnedAt = Time.realtimeSinceStartup;
             streamer.RefreshStreamingNow();
 
             readyDeadline =
@@ -180,6 +186,8 @@ namespace LittleCastle.Tests
                 streamer.MissingDesiredChunkCount,
                 Is.EqualTo(0),
                 "Reloaded visible streaming did not become ready before timeout.");
+            LogPhase("return-ready", streamer,
+                (Time.realtimeSinceStartup - returnedAt) * 1000f);
             foreach (GeneratedWorldObject worldObject in
                 presentationObject.GetComponentsInChildren<GeneratedWorldObject>())
             {
@@ -187,15 +195,24 @@ namespace LittleCastle.Tests
                     "Removed generated object returned after runtime unload/reload.");
             }
 
-            streamer.ShutdownStreaming();
-            yield return null;
-            Assert.That(streamer.ActiveChunkCount, Is.EqualTo(0));
-
             Debug.Log(
                 $"WORLD_VERIFY playmode sceneLoad={sceneLoadMilliseconds:F2} ms, " +
                 $"maxObservedFrame={maximumObservedFrameMilliseconds:F2} ms, " +
                 $"activeTarget={streamer.DesiredChunkCount}, " +
                 $"colliders={streamer.ActiveTerrainColliderCount}.");
+            streamer.ShutdownStreaming();
+            yield return null;
+            Assert.That(streamer.ActiveChunkCount, Is.EqualTo(0));
+        }
+
+        private static void LogPhase(string phase, WorldStreamer streamer, float elapsedMs)
+        {
+            Debug.Log($"WORLD_VERIFY {phase}: elapsed={elapsedMs:F2} ms, " +
+                $"active={streamer.ActiveChunkCount}, desired={streamer.DesiredChunkCount}, " +
+                $"cached={streamer.CachedChunkCount}, colliders={streamer.ActiveTerrainColliderCount}, " +
+                $"loads={streamer.TotalChunkLoads}, unloads={streamer.TotalChunkUnloads}, " +
+                $"worstStage={streamer.WorstGenerationStageMilliseconds:F2} ms. " +
+                "Legacy WorldGenerationTest, nographics Editor; NOT concept MATCH READY or GPU profiling.");
         }
     }
 }
