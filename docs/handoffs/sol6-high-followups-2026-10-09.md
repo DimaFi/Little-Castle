@@ -9,7 +9,7 @@ Read AGENTS.md and docs/reports/desktop-acceptance-2026-10-09.md first.
 | A river diagnostics | RiverNetworkPlanner/Settings, new diagnostics/tests, concept macro settings | Parallel B/C/E; API additive only |
 | B realizable connectivity | BridgeAwareRoutingPlanner, RoadNetworkPlanner, MacroWorldPlanner, BridgeAwareRoutingTests | Parallel A/C/E; integration retest after A |
 | C terrain presentation masks | new TerrainPresentationMaskUtility/tests; optional ChunkMeshBuilder overload | Parallel A/B/E; D hooks its API |
-| D real streamed concept scene | WorldStreamer hook, new concept scene builder/profile/scene/PlayMode tests | After A+B+C; one scene owner; measured acceptance follows |
+| D real streamed concept scene | WorldStreamer hook, new concept scene builder/profile/scene/PlayMode tests | After A+B+C+E; one scene owner; measured acceptance follows |
 | E macro probe memory/time | WorldTerrainProbe and new focused tests/audit | Parallel A/B/C; public probe API/output frozen |
 
 Each detailed issue is sourced from the matching file in docs/tasks/sol6-high-2026-10-09/.
