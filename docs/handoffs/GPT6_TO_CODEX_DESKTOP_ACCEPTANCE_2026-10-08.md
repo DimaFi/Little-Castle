@@ -41,10 +41,13 @@ Review PR #14. Run Unity 6000.5.5f1 compile and full EditMode/PlayMode. Investig
     $Unity = "C:/Program Files/Unity/Hub/Editor/6000.5.5f1/Editor/Unity.exe"
     $Project = (Resolve-Path ".").Path
     New-Item -ItemType Directory -Force "$Project/Logs" | Out-Null
-    & $Unity -batchmode -nographics -projectPath $Project -runTests -testPlatform EditMode -testResults "$Project/Logs/GPT6-Desktop-EditMode.xml" -quit -logFile "$Project/Logs/GPT6-Desktop-EditMode.log"
-    & $Unity -batchmode -nographics -projectPath $Project -runTests -testPlatform PlayMode -testResults "$Project/Logs/GPT6-Desktop-PlayMode.xml" -quit -logFile "$Project/Logs/GPT6-Desktop-PlayMode.log"
+    & $Unity -batchmode -nographics -projectPath $Project -runTests -testPlatform EditMode -testResults "$Project/Logs/GPT6-Desktop-EditMode.xml" -logFile "$Project/Logs/GPT6-Desktop-EditMode.log"
+    & $Unity -batchmode -nographics -projectPath $Project -runTests -testPlatform PlayMode -testResults "$Project/Logs/GPT6-Desktop-PlayMode.xml" -logFile "$Project/Logs/GPT6-Desktop-PlayMode.log"
 
 Confirm actual executable path; do not assume the example path is installed. For GPU/visual acceptance use a graphical Editor/Player, not -nographics.
+Do not combine `-quit` with `-runTests`: let the test runner finish and exit.
+On Windows the launcher may return before the Editor; verify the XML and log,
+not just the launcher exit code, before starting the next invocation.
 
 ## Stage B — route connections and finite session acceptance (#8)
 
