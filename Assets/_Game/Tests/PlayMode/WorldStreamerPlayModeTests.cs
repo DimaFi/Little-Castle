@@ -94,6 +94,10 @@ namespace LittleCastle.Tests
             Assert.That(streamer.RuntimeDelta.MarkSpawnRemoved(removedStableId), Is.True);
 
             focusObject.transform.position = new Vector3(64f * 5f, 0f, -64f * 2f);
+            // Without refreshing, MissingDesiredChunkCount still describes
+            // the previous focus until the next Update. The wait may then
+            // exit before a single frame has processed the move.
+            streamer.RefreshStreamingNow();
 
             readyDeadline =
                 Time.realtimeSinceStartup +
@@ -141,6 +145,7 @@ namespace LittleCastle.Tests
             Assert.That(releasedAnyMesh, Is.True, "No old runtime mesh was released after moving focus.");
 
             focusObject.transform.position = removedChunk.GetWorldOrigin(64f);
+            streamer.RefreshStreamingNow();
 
             readyDeadline =
                 Time.realtimeSinceStartup +
