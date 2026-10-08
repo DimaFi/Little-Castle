@@ -1,0 +1,247 @@
+using System.Collections.Generic;
+using System.Reflection;
+using LittleCastle.World;
+using NUnit.Framework;
+using UnityEngine;
+using Object = UnityEngine.Object;
+
+namespace LittleCastle.Tests
+{
+    /// <summary>
+    /// Regression tests for the realized-graph repair after an unsupported
+    /// original connection was rejected. Not a 2/8/16-player PlayMode test.
+    /// </summary>
+    public sealed class RealizedRoadConnectivityRepairTests
+    {
+        private readonly List<Object> owned = new List<Object>();
+
+        public sealed class FlatHeightStage : WorldGenerationStage
+        {
+            public override WorldGenerationStagePhase Phase =>
+                WorldGenerationStagePhase.TerrainBase;
+
+            public override void Generate(
+                GenerationContext context, WorldChunkData chunk)
+            {
+                for (int z = 0; z < chunk.SamplesPerSide; z++)
+                    for (int x = 0; x < chunk.SamplesPerSide; x++)
+                        chunk.SetHeight(x, z, 0f);
+            }
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            for (int i = owned.Count - 1; i >= 0; i--)
+                if (owned[i] != null)
+                    Object.DestroyImmediate(owned[i]);
+            owned.Clear();
+        }
+
+        [Test]
+        public void Repair_AddsActualAlternativeBetweenDisconnectedRoadGroups()
+        {
+            const int seed = 8102026;
+            var probe = CreateFlatProbe(seed);
+            WorldRoadData first, second;
+            var a = TwoComponents(seed, false, out first, out second);
+            var b = TwoComponents(seed, true, out _, out _);
+
+            var network = new RoadNetworkPlannerSettings
+            {
+                enabled = true,
+                roadKind = RoadKind.DirtRoad,
+                maxConnectionDistance = 120f
+            };
+            var paths = new TerrainRoadPathPlannerSettings
+            {
+                enabled = true, gridStep = 8f,
+                searchPadding = 32f, maxExpandedNodes = 2000
+            };
+            var bridges = new BridgePlannerSettings
+            {
+                enabled = true,
+                useFixedStoneBridgeSites = true,
+                enableBridgeAwareRouting = true,
+                requireConnectedFeatureGraph = true,
+                maxBridgeRoutingAttempts = 1,
+                maxGuidedCrossingAttempts = 0,
+                maxConnectivityRepairCandidates = 4
+            };
+
+            var repaired = RealizedRoadConnectivityRepair.Repair(
+                seed, a, probe, network, paths, bridges);
+            var repeated = RealizedRoadConnectivityRepair.Repair(
+                seed, b, probe, network, paths, bridges);
+
+            Assert.That(repaired.initialComponents, Is.EqualTo(2));
+            Assert.That(repaired.remainingComponents, Is.EqualTo(1),
+                repaired.Summary);
+            Assert.That(repaired.acceptedConnections, Is.EqualTo(1));
+            Assert.That(repeated.addedRoadIds,
+                Is.EqualTo(repaired.addedRoadIds),
+                "Feature insertion order must not influence chosen edges.");
+            Assert.That(a.Roads.Count, Is.EqualTo(3));
+            Assert.That(a.BridgeSites.Count, Is.Zero,
+                "No river => no fake bridge.");
+            Assert.That(WorldRouteConnectivityValidator.Validate(a, 0, true).IsValid,
+                Is.True);
+            Assert.That(RealizedRoadConnectivityRepair.Repair(
+                seed, a, probe, network, paths, bridges).acceptedConnections,
+                Is.Zero, "Repair should be idempotent on an already connected graph.");
+        }
+
+        [Test]
+        public void Repair_RespectsMaximumDistanceWithoutInventingConnections()
+        {
+            const int seed = 12345;
+            var probe = CreateFlatProbe(seed);
+            var plan = TwoComponents(seed, false, out _, out _);
+            int before = plan.Roads.Count;
+            var settings = new BridgePlannerSettings
+            {
+                useFixedStoneBridgeSites = true,
+                enableBridgeAwareRouting = true,
+                requireConnectedFeatureGraph = true,
+                maxConnectivityRepairCandidates = 2
+            };
+
+            var outcome = RealizedRoadConnectivityRepair.Repair(
+                seed, plan, probe,
+                new RoadNetworkPlannerSettings
+                {
+                    maxConnectionDistance = 1f
+                },
+                new TerrainRoadPathPlannerSettings(),
+                settings);
+
+            Assert.That(outcome.initialComponents, Is.EqualTo(2));
+            Assert.That(outcome.remainingComponents, Is.EqualTo(2));
+            Assert.That(outcome.candidatesConsidered, Is.Zero);
+            Assert.That(plan.Roads.Count, Is.EqualTo(before));
+            Assert.That(plan.BridgeSites.Count, Is.Zero);
+            Assert.That(WorldRouteConnectivityValidator.Validate(plan, 0, true)
+                .IsValid, Is.False);
+        }
+
+        [Test]
+        public void Repair_ZeroBudgetAndRejectedCandidatesStayExplicitFailures()
+        {
+            const int seed = -10101;
+            var probe = CreateFlatProbe(seed);
+            var plan = TwoComponents(seed, false, out _, out _);
+            var network = new RoadNetworkPlannerSettings
+            {
+                maxConnectionDistance = 120f
+            };
+            var pathSettings = new TerrainRoadPathPlannerSettings
+            {
+                gridStep = 8f, maxExpandedNodes = 1000
+            };
+            var bridgeSettings = new BridgePlannerSettings
+            {
+                useFixedStoneBridgeSites = true,
+                enableBridgeAwareRouting = true,
+                requireConnectedFeatureGraph = true,
+                maxConnectivityRepairCandidates = 0
+            };
+
+            var none = RealizedRoadConnectivityRepair.Repair(
+                seed, plan, probe, network, pathSettings, bridgeSettings);
+            Assert.That(none.remainingComponents, Is.EqualTo(2));
+            Assert.That(none.candidatesConsidered, Is.Zero);
+
+            bridgeSettings.maxConnectivityRepairCandidates = 1;
+            var allCandidates = new List<long>();
+            var features = new List<WorldPointFeatureData>(plan.PointFeatures);
+            int salt = DeterministicHash.String32("road_network_connection");
+            for (int i = 0; i < features.Count; i++)
+                for (int j = i + 1; j < features.Count; j++)
+                    allCandidates.Add(DeterministicHash.StablePairId(
+                        seed, features[i].stableId, features[j].stableId, salt));
+
+            var rejected = RealizedRoadConnectivityRepair.Repair(
+                seed, plan, probe, network, pathSettings,
+                bridgeSettings, allCandidates);
+            Assert.That(rejected.remainingComponents, Is.EqualTo(2));
+            Assert.That(rejected.candidatesConsidered, Is.Zero);
+            Assert.That(plan.Roads.Count, Is.EqualTo(2));
+        }
+
+        private static MacroWorldPlan TwoComponents(
+            int seed, bool reverse,
+            out WorldRoadData first, out WorldRoadData second)
+        {
+            var plan = new MacroWorldPlan(seed);
+            var features = new[]
+            {
+                new WorldPointFeatureData(11, WorldFeatureKind.NeutralSettlement,
+                    "v", new Vector2(-80f, -32f), 0f),
+                new WorldPointFeatureData(22, WorldFeatureKind.NeutralSettlement,
+                    "v", new Vector2(-48f, -32f), 0f),
+                new WorldPointFeatureData(33, WorldFeatureKind.NeutralSettlement,
+                    "v", new Vector2(32f, -32f), 0f),
+                new WorldPointFeatureData(44, WorldFeatureKind.Ruin,
+                    "r", new Vector2(64f, -32f), 0f)
+            };
+            for (int i = 0; i < features.Length; i++)
+                plan.AddPointFeature(features[reverse
+                    ? features.Length - 1 - i : i]);
+
+            first = new WorldRoadData
+            {
+                stableId = 101,
+                roadKind = RoadKind.DirtRoad,
+                width = 3f,
+                centerline = new List<Vector2>
+                {
+                    features[0].worldPosition, features[1].worldPosition
+                }
+            };
+            second = new WorldRoadData
+            {
+                stableId = 102,
+                roadKind = RoadKind.DirtRoad,
+                width = 3f,
+                centerline = new List<Vector2>
+                {
+                    features[2].worldPosition, features[3].worldPosition
+                }
+            };
+            plan.AddRoadConnection(
+                new WorldRoadConnectionData(101, 11, 22, RoadKind.DirtRoad));
+            plan.AddRoadConnection(
+                new WorldRoadConnectionData(102, 33, 44, RoadKind.DirtRoad));
+            plan.AddRoad(first);
+            plan.AddRoad(second);
+            return plan;
+        }
+
+        private WorldTerrainProbe CreateFlatProbe(int seed)
+        {
+            var stage = ScriptableObject.CreateInstance<FlatHeightStage>();
+            owned.Add(stage);
+            var settings =
+                ScriptableObject.CreateInstance<WorldGenerationSettings>();
+            owned.Add(settings);
+            typeof(WorldGenerationSettings).GetField(
+                "chunkWorldSize",
+                BindingFlags.Instance | BindingFlags.NonPublic)
+                .SetValue(settings, 32f);
+            typeof(WorldGenerationSettings).GetField(
+                "cellsPerSide",
+                BindingFlags.Instance | BindingFlags.NonPublic)
+                .SetValue(settings, 32);
+            var stages = (List<WorldGenerationStage>)
+                typeof(WorldGenerationSettings).GetField(
+                    "stages",
+                    BindingFlags.Instance | BindingFlags.NonPublic)
+                .GetValue(settings);
+            stages.Clear();
+            stages.Add(stage);
+            return new WorldTerrainProbe(
+                new WorldGenerationPipeline(settings, null),
+                settings, seed);
+        }
+    }
+}
