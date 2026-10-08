@@ -68,6 +68,14 @@ namespace LittleCastle.World
             "0 disables guided fallback.")]
         public int maxGuidedCrossingAttempts = 4;
 
+        [Range(0, 32)]
+        [Tooltip(
+            "With strict feature connectivity enabled, try this many " +
+            "nearest alternative pairs between disconnected REALIZED " +
+            "road components after original routes fail. 0 disables " +
+            "the last-chance component repair. Never creates fake bridges.")]
+        public int maxConnectivityRepairCandidates = 12;
+
         [Min(0)]
         public int minimumFixedBridgeCount = 0;
 

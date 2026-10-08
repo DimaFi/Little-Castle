@@ -22,6 +22,15 @@ namespace LittleCastle.World
             public int disconnectedFeatures;
             public int components;
             public int minimumBridgeCount;
+
+            // Populated by MacroWorldPlanner only for strict opt-in routing.
+            // These counters describe attempted source recovery, not success
+            // of a full finite player-session accessibility matrix.
+            public int originalRejectedConnections;
+            public int repairInitialComponents;
+            public int repairAttemptedCandidates;
+            public int repairAcceptedConnections;
+            public int repairPathAttempts;
             public readonly List<string> errors = new List<string>();
             public bool IsValid => errors.Count == 0;
 
@@ -35,6 +44,11 @@ namespace LittleCastle.World
                 " missing=" + missingRealizedConnections +
                 " components=" + components +
                 " disconnected=" + disconnectedFeatures +
+                " rejectedOriginal=" + originalRejectedConnections +
+                " repairComponentsBefore=" + repairInitialComponents +
+                " repairCandidates=" + repairAttemptedCandidates +
+                " repairAccepted=" + repairAcceptedConnections +
+                " repairPaths=" + repairPathAttempts +
                 " issues=" + errors.Count;
 
             internal void Fail(string message)
