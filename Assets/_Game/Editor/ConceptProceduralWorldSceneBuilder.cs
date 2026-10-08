@@ -33,7 +33,7 @@ namespace LittleCastle.Editor
                     "Procedural concept scene already exists: " +
                     ScenePath + ". Refusing to overwrite user work.");
 
-            if (EditorSceneManager.GetActiveScene().isDirty)
+            if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().isDirty)
                 throw new InvalidOperationException(
                     "Active scene has unsaved edits. Save or discard manually " +
                     "before creating the isolated concept scene.");
@@ -185,7 +185,7 @@ namespace LittleCastle.Editor
             Directory.CreateDirectory(
                 Path.GetDirectoryName(ScenePath));
             if (!EditorSceneManager.SaveScene(
-                    EditorSceneManager.GetActiveScene(), ScenePath))
+                    UnityEngine.SceneManagement.SceneManager.GetActiveScene(), ScenePath))
                 throw new InvalidOperationException(
                     "Could not save isolated streamed concept scene.");
 
