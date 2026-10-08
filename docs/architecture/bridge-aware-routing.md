@@ -11,6 +11,7 @@ The initial terrain-aware A* constructs coarse roads from logical feature connec
 `BridgePlannerSettings`:
 - `enableBridgeAwareRouting` (default **false**, legacy path unchanged)
 - `maxBridgeRoutingAttempts` (1..8, default 4)
+- `maxGuidedCrossingAttempts` (0..8, default 4; 0 disables socket-guided fallback)
 - `minimumFixedBridgeCount` (default 0)
 - `requireConnectedFeatureGraph` (default false)
 - `failOnRoutingError` (default false)
@@ -22,7 +23,8 @@ These are plain serialized settings; **do not enable Main*** assets automaticall
 1. Runs the already deterministic terrain-aware A* with a bounded alternative grid step, search envelope and river-crossing penalty; does **not** change source planner settings.
 2. Constructs a temporary macro plan containing the proposed road, original rivers and all previously accepted fixed bridge sites. It asks the existing `BridgeSitePlanner` to validate that proposal using the actual polyline, authored fixed bridge geometry, angles, terrain fit and footprint-overlap checks.
 3. Rejects any proposal with an unserved river intersection. Only a coherent road and its newly valid fixed-site records are committed to the actual plan.
-4. If attempts are exhausted, records a failure. Never fabricates resources, bridges, or arbitrary per-chunk geometry.
+4. If ordinary attempts are exhausted, scores deterministic anchor candidates along existing river segments. For each, A* solves two approaches independently while the authored fixed bridge owns a straight central road segment with entry/exit exactly ±5.4 m from the crossing. Every proposed composite polyline must still pass fixed-site and full-crossing validation; no geometry is stretched.
+5. If both ordinary and guided attempts are exhausted, records a failure. Never fabricates resources, bridges, or arbitrary per-chunk geometry.
 
 The source mesh remains exactly 10.8 m long, 2.86 m clear width, local road +Z/river +X, at scale 1. Bridges are not scaled to span a wider river. Original fixed-site implementation and `FixedBridgeSiteProfile` were not modified.
 
@@ -41,7 +43,7 @@ When `failOnRoutingError` is true, the macro planner emits an explicit `InvalidO
 
 ## Known limits / correctness gates
 
-- This draft retries terrain-aware routes but does not create a bespoke socket-constrained A* graph. Difficult rivers can still fail. It uses the existing fixed-site planner as the source of truth for valid road/site geometry; a strict profile should reject infeasible seeds rather than generating phantom bridges.
+- This draft retries terrain-aware routes and includes bounded socket-guided crossing anchors, but does not build a globally optimal bridge-specific road graph. Difficult meanders, steep approaches or inaccessible anchor points can still fail. The existing fixed-site planner remains the source of truth for valid road/site geometry; a strict profile should reject infeasible seeds rather than generating phantom bridges.
 - The graph validator checks centerline intersections and whether actual bridge sites coincide, rather than testing every physical river-bank polygon or pathfinding/navigation mesh. Full bank/sockets/colliders acceptance belongs in issue #10/Unity.
 - The validator's connected graph covers generated point features, including any halo-region features the macro planner generated. Finite playable-bounds path-cost checks and multiplayer 2/8/16 start accessibility still require their dedicated real macro integration tests.
 - It does not enforce that the eventual Unity/presentation scene contains the authored FBX. That is Issue #9.
@@ -54,7 +56,8 @@ When `failOnRoutingError` is true, the macro planner emits an explicit `InvalidO
 - Valid fixed crossings at negative world coordinates.
 - Unsupported crossing, minimum bridge requirement, incorrect/orphan site.
 - Missing realized connection and disconnected feature graph.
-- Repeatable bounded recovery for a missing road and a failure for unknown feature IDs.
+- Repeatable bounded recovery for a missing road, deterministic straight/perpendicular guided anchor selection, and a failure for unknown feature IDs.
+- Synthetic connected graphs with 2/8/16 point features and different seeds. These are not multiplayer performance results.
 
 Actual Unity C# compile/EditMode/PlayMode: **NOT RUN** in this chat. Source-level contract inspection only. Never label these new tests PASS before Unity runs.
 
@@ -64,7 +67,7 @@ Branch: `gpt6/bridge-aware-routing-draft`, based on `current-unity-fix` at `c61a
 
 1. Unity 6000.5.5f1 compile, full EditMode and PlayMode; compare with the preserved original historical tests and draft #7 PR.
 2. Create a separate opt-in test profile; exercise same/different seeds, negative chunk seams, all map sizes and 2/8/16 players. Run `WorldRouteConnectivityValidator` on each. Explicitly count failed seeds/attempts rather than claiming universal bridge success.
-3. Inspect actual river widths, slopes, bends and socket approach tolerances. If fallback is insufficient, extend the route solver to constrain crossing candidate endpoints rather than weakening fixed-site geometry.
+3. Inspect actual river widths, slopes, bends, socket-guided composite polylines, potential double intersections at a centerline vertex and approach tolerances. If fallback is insufficient, extend the route solver's graph or candidate ranking rather than weakening fixed-site geometry.
 4. Measure macro plan timings/memory vs legacy path before raising retry budgets, keeping no whole-world GameObjects.
 5. Integrate only after review, publish new dated NUnit and performance reports, keep original results unchanged.
 
