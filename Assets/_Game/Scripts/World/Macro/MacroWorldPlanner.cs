@@ -115,7 +115,8 @@ namespace LittleCastle.World
                         terrainProbe,
                         settings.RoadNetwork,
                         settings.RoadPaths,
-                        settings.Bridges);
+                        settings.Bridges,
+                        recovery.failedIds);
 
                 var diagnostics =
                     WorldRouteConnectivityValidator.Validate(
