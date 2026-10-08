@@ -43,7 +43,11 @@ namespace LittleCastle.World
             int samples = chunk.SamplesPerSide;
             var result = new Color32[samples * samples];
             if (plan == null)
+            {
+                for (int i = 0; i < result.Length; i++)
+                    result[i] = new Color32(0, 0, 0, 255);
                 return result;
+            }
 
             float minX = chunk.Coordinate.x * chunkWorldSize;
             float minZ = chunk.Coordinate.z * chunkWorldSize;
