@@ -36,6 +36,20 @@ namespace LittleCastle.World
 
         public int WorldSeed { get; }
 
+        /// <summary>
+        /// Diagnostics are populated only by the opt-in bridge-aware mode.
+        /// Null means that the legacy generation path ran unchanged.
+        /// </summary>
+        public WorldRouteConnectivityValidator.Report RouteDiagnostics
+        {
+            get;
+            internal set;
+        }
+
+        public bool BridgeAwareRoutingAttempted { get; internal set; }
+
+        public bool BridgeAwareRoutingSatisfied { get; internal set; }
+
         public IReadOnlyList<WorldPointFeatureData> PointFeatures =>
             pointFeatures;
 
