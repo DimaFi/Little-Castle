@@ -15,6 +15,7 @@ namespace LittleCastle.World
         public readonly bool requiresGameplayPresence;
         public readonly bool hasApprovedSilhouette;
         public readonly bool hasConfirmedForestCluster;
+        public readonly bool isExplicitlyReviewed;
 
         public ForestAssetPresentationEligibility(
             bool requiresGameplayPresence,
@@ -24,6 +25,7 @@ namespace LittleCastle.World
             this.requiresGameplayPresence = requiresGameplayPresence;
             this.hasApprovedSilhouette = hasApprovedSilhouette;
             this.hasConfirmedForestCluster = hasConfirmedForestCluster;
+            isExplicitlyReviewed = true;
         }
 
         public static ForestAssetPresentationEligibility SafeDefault =>
@@ -86,6 +88,12 @@ namespace LittleCastle.World
                         approvedEligibility != null
                             ? approvedEligibility(spawn)
                             : ForestAssetPresentationEligibility.SafeDefault;
+
+                    // The default(struct) eligibility has false flags.
+                    // Never silently interpret that as "decorative".
+                    if (!eligibility.isExplicitlyReviewed)
+                        eligibility =
+                            ForestAssetPresentationEligibility.SafeDefault;
 
                     scratch.Add(new ForestPresentationCandidate(
                         spawn.stableId,
