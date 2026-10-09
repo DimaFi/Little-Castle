@@ -104,9 +104,9 @@ GenerationVersion plus passed seed and approved manifest bytes.
 
 ## EditMode tests authored, NOT RUN
 
-The source includes 14 NUnit test methods with 18 additional
-parameterized case instances/attributes (inspect Test Runner XML
-for actual executed case count). Coverage:
+The source includes 14 NUnit test methods producing 18 test
+cases in total (12 plain [Test] cases plus 6 [TestCase]
+cases; inspect Test Runner XML for actual executed case count). Coverage:
 - deterministic full SHA-256 with domain separation;
 - missing/empty manifest refused;
 - invalid version, world/profile names, hashes refused;
