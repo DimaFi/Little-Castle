@@ -1,5 +1,4 @@
 using System;
-using LittleCastle.World;
 
 namespace LittleCastle.World
 {
@@ -11,6 +10,8 @@ namespace LittleCastle.World
     public interface IWorldStartupAreaPreparation
     {
         void Begin(MacroWorldPlan completedPlan);
+        // Release only temporary priority hints; keep playable data/meshes.
+        void CompletePreparation();
         float PreparedDataReadiness01 { get; }
         bool IsPreparedDataReady { get; }
         float VisibleAreaReadiness01 { get; }
@@ -142,6 +143,7 @@ namespace LittleCastle.World
                         else if (preparation.IsVisibleAreaReady &&
                                  ReportedReady(preparation.VisibleAreaReadiness01))
                         {
+                            preparation.CompletePreparation();
                             Phase = StartupPhase.Ready;
                         }
                         break;
@@ -232,6 +234,7 @@ namespace LittleCastle.World
         private readonly WorldStreamer streamer;
         private readonly int preparedRadius;
         private bool started;
+        private bool priorityRequested;
 
         public WorldStreamerStartingAreaPreparation(
             WorldStreamer streamer, int preparedRadius)
@@ -251,6 +254,7 @@ namespace LittleCastle.World
                     "before starting the starting-area readiness gate.");
 
             streamer.SetPriorityPreparationRadius(preparedRadius);
+            priorityRequested = true;
             started = true;
         }
 
@@ -266,12 +270,18 @@ namespace LittleCastle.World
         public bool IsVisibleAreaReady =>
             started && streamer.IsVisibleAreaReady;
 
+        public void CompletePreparation()
+        {
+            if (!priorityRequested)
+                return;
+            streamer.ClearPriorityPreparationRadius();
+            priorityRequested = false;
+        }
+
         public void CancelPreparation()
         {
-            if (!started)
-                return;
+            CompletePreparation();
             started = false;
-            streamer.ClearPriorityPreparationRadius();
         }
     }
 }
