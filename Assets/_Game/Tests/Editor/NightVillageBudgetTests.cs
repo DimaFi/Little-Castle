@@ -118,7 +118,7 @@ namespace LittleCastle.Tests
                 input, Config(), Vector2.zero, 1f, 12, choices);
             Assert.That(regular.realtimeRequests, Is.EqualTo(2));
             Assert.That(regular.groundPools, Is.EqualTo(5));
-            Assert.That(regular.globalBudgetDenied,
+            Assert.That(regular.realtimeCandidatesDenied,
                 Is.GreaterThanOrEqualTo(3));
 
             var scarce = policy.Evaluate(
