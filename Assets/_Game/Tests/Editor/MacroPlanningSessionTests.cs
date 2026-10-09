@@ -124,34 +124,24 @@ namespace LittleCastle.Tests
         }
 
         [Test]
-        public void NullRule_IsSkippedWithoutChangingLaterFeatureOrder()
+        public void NoPointRules_StillRunsOrderedFinalizationStages()
         {
             MacroWorldPlannerSettings settings = CreateSettings();
             try
             {
-                SerializedObject so = new SerializedObject(settings);
-                SerializedProperty rules = so.FindProperty("pointFeatureRules");
-                rules.InsertArrayElementAtIndex(0);
-                rules.GetArrayElementAtIndex(0).managedReferenceValue = null;
+                var so = new SerializedObject(settings);
+                so.FindProperty("pointFeatureRules").arraySize = 0;
                 so.ApplyModifiedPropertiesWithoutUndo();
-            }
-            catch
-            {
-                // Serialized non-managed classes are not safe to null via
-                // managedReferenceValue on all Unity versions. Keep test
-                // reproducibility by skipping this optional setup check.
-                Object.DestroyImmediate(settings);
-                Assert.Ignore("Inline serialized null-rule injection unsupported.");
-                return;
-            }
 
-            try
-            {
                 var planner = new MacroWorldPlanner(settings);
                 Rect bounds = new Rect(-80f, -80f, 160f, 160f);
+                var staged = planner.BeginPlanning(42, bounds);
+                Assert.That(staged.Step(1), Is.EqualTo(1));
+                Assert.That(staged.Phase,
+                    Is.EqualTo(MacroPlanningSession.PlanningPhase.Rivers));
                 AssertEquivalent(
                     planner.GenerateForBounds(42, bounds),
-                    planner.BeginPlanning(42, bounds).RunToCompletion());
+                    staged.RunToCompletion());
             }
             finally { Object.DestroyImmediate(settings); }
         }
