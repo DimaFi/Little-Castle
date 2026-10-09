@@ -17,8 +17,10 @@ namespace LittleCastle.Tests
         {
             public MacroWorldPlan plan;
             public int beginCalls;
+            public int completeCalls;
             public int cancelCalls;
             public bool throwOnBegin;
+            public bool throwOnComplete;
             public bool throwOnCancel;
             public bool throwOnDataReadiness;
             public float data = 0f;
@@ -32,6 +34,13 @@ namespace LittleCastle.Tests
                 if (throwOnBegin)
                     throw new InvalidOperationException("bad adapter begin");
                 plan = completedPlan;
+            }
+
+            public void CompletePreparation()
+            {
+                completeCalls++;
+                if (throwOnComplete)
+                    throw new InvalidOperationException("priority reset failed");
             }
 
             public float PreparedDataReadiness01
@@ -97,6 +106,34 @@ namespace LittleCastle.Tests
             Assert.That(boot.CanAcceptGameInput, Is.True);
             Assert.That(boot.IsTerminal, Is.True);
             Assert.That(area.beginCalls, Is.EqualTo(1));
+            Assert.That(area.completeCalls, Is.EqualTo(1),
+                "Release priority once after all gates are ready.");
+            Assert.That(area.cancelCalls, Is.Zero,
+                "Successful readiness must not cancel the playable world.");
+            boot.Tick();
+            Assert.That(area.completeCalls, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void CompletionFailure_FailsClosedAndStillCancels()
+        {
+            var area = new PreparedArea
+            {
+                data = 1f,
+                dataReady = true,
+                visible = 1f,
+                visibleReady = true,
+                throwOnComplete = true
+            };
+            var boot = Start(area);
+            boot.Tick();
+            boot.Tick();
+            boot.Tick();
+            Assert.That(boot.Phase,
+                Is.EqualTo(WorldStartupBootstrapAdapter.StartupPhase.Failed));
+            Assert.That(area.completeCalls, Is.EqualTo(1));
+            Assert.That(area.cancelCalls, Is.EqualTo(1));
+            Assert.That(boot.CanAcceptGameInput, Is.False);
         }
 
         [Test]
