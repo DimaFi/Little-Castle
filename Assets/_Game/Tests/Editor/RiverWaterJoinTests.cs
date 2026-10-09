@@ -241,6 +241,37 @@ namespace LittleCastle.Tests
             }
         }
 
+        [Test]
+        public void ReusingInactiveWaterPresenter_AvoidsDuplicateObjects()
+        {
+            var plan = new MacroWorldPlan(99);
+            plan.AddRiver(River(990,
+                new Vector2(-60f, -29f),
+                new Vector2(-1f, -29f), 8f, 2f));
+            var root = new GameObject("Q05ParkedChunkRoot");
+            created.Add(root);
+            Shader shader = Shader.Find("Standard");
+            Assert.That(shader, Is.Not.Null);
+            var material = new Material(shader);
+            created.Add(material);
+
+            WorldChunkData data = Chunk(-1, -1);
+            RiverWaterPresenter first = RiverWaterPresenter.Populate(
+                root.transform, data, ChunkWorldSize, plan, material);
+            Assert.That(first, Is.Not.Null);
+            Mesh mesh = first.OwnedMesh;
+            Assert.That(mesh, Is.Not.Null);
+            Assert.That(root.transform.childCount, Is.EqualTo(1));
+
+            first.gameObject.SetActive(false);
+            RiverWaterPresenter again = RiverWaterPresenter.Populate(
+                root.transform, data, ChunkWorldSize, plan, material);
+            Assert.That(again, Is.SameAs(first));
+            Assert.That(first.OwnedMesh, Is.SameAs(mesh));
+            Assert.That(root.transform.childCount, Is.EqualTo(1),
+                "A parked water GameObject must not be duplicated.");
+        }
+
         private Mesh Build(int cx, int cz, MacroWorldPlan plan)
         {
             Mesh mesh = RiverWaterMeshBuilder.Build(
