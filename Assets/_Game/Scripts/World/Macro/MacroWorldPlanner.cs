@@ -105,17 +105,48 @@ namespace LittleCastle.World
                         settings.RoadPaths,
                         settings.Bridges);
 
+                // First repair failed original links, then seek alternate
+                // paths between the components of REALIZED, not merely
+                // logical, roads. No new feature/resource or fake bridge.
+                RealizedRoadConnectivityRepair.Result repair =
+                    RealizedRoadConnectivityRepair.Repair(
+                        worldSeed,
+                        plan,
+                        terrainProbe,
+                        settings.RoadNetwork,
+                        settings.RoadPaths,
+                        settings.Bridges,
+                        recovery.failedIds);
+
                 var diagnostics =
                     WorldRouteConnectivityValidator.Validate(
                         plan,
                         settings.Bridges.minimumFixedBridgeCount,
                         settings.Bridges.requireConnectedFeatureGraph);
 
-                if (recovery.failedConnections > 0)
+                diagnostics.originalRejectedConnections =
+                    recovery.failedConnections;
+                diagnostics.repairInitialComponents =
+                    repair.initialComponents;
+                diagnostics.repairAttemptedCandidates =
+                    repair.candidatesConsidered;
+                diagnostics.repairAcceptedConnections =
+                    repair.acceptedConnections;
+                diagnostics.repairPathAttempts =
+                    repair.routeAttempts;
+
+                // Rejected requested edges are not themselves a bootstrap
+                // failure once valid alternative roads reconnect the graph.
+                // Without strict connectivity, preserve the old exact
+                // reporting behavior for failed requested connections.
+                if (recovery.failedConnections > 0 &&
+                    (!settings.Bridges.requireConnectedFeatureGraph ||
+                     diagnostics.components > 1))
                     diagnostics.Fail(
                         "Unable to realize " + recovery.failedConnections +
                         " requested road connections after " +
-                        recovery.pathAttempts + " bounded retries.");
+                        recovery.pathAttempts + " bounded retries; " +
+                        "alternate repair: " + repair.Summary);
 
                 plan.RouteDiagnostics = diagnostics;
                 plan.BridgeAwareRoutingAttempted = true;
@@ -126,6 +157,7 @@ namespace LittleCastle.World
                     string message =
                         "Bridge-aware macro routing failed: " +
                         recovery.Summary + "; " +
+                        "repair=" + repair.Summary + "; " +
                         diagnostics.Summary + "; " +
                         string.Join("; ", diagnostics.errors);
 
