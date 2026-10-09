@@ -39,6 +39,7 @@ namespace LittleCastle.World
 
         private bool ready;
         private bool priorityRequested;
+        private bool bootstrapFailureReported;
         private WorldStartupBootstrapAdapter bootstrap;
         private GUIStyle labelStyle;
         private GUIStyle boxStyle;
@@ -150,7 +151,24 @@ namespace LittleCastle.World
 
             if (bootstrap != null)
             {
+                // The camera may be instantiated or assigned after Awake.
+                // Keep it locked even if another component enabled input.
+                if (strategyCamera != null)
+                    strategyCamera.SetInputEnabled(false);
+
                 bootstrap.Tick();
+                if (bootstrap.Phase ==
+                        WorldStartupBootstrapAdapter.StartupPhase.Failed &&
+                    !bootstrapFailureReported)
+                {
+                    bootstrapFailureReported = true;
+                    Debug.LogError(
+                        "[Little Castle Startup] Bootstrap failed: " +
+                        (bootstrap.Failure != null
+                            ? bootstrap.Failure.ToString()
+                            : "unspecified failure"));
+                }
+
                 if (bootstrap.CanAcceptGameInput)
                     CompleteWarmup();
                 return;
