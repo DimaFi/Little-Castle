@@ -299,6 +299,23 @@ namespace LittleCastle.Tests
         }
 
         [Test]
+        public void DefaultEligibilityStruct_CannotAccidentallyThinGameplayTree()
+        {
+            var chunk = new WorldChunkData(new ChunkCoordinate(0, 0), 4);
+            chunk.AddSpawn(Spawn(404, SpawnCategory.Tree, 999f));
+            var choices = new List<ForestPresentationChoice>();
+            var stats = new ForestPresentationAdapter().EvaluateActiveChunks(
+                new[] { chunk }, null, _ => default,
+                Vector2.zero, 10, Settings(full: 0, retention: 0f),
+                choices);
+
+            Assert.That(stats.gameplayProtected, Is.EqualTo(1));
+            Assert.That(choices[0].presentation,
+                Is.EqualTo(ForestPresentationKind.AuthoredPrefab));
+            Assert.That(choices[0].retainGameplayCollider, Is.True);
+        }
+
+        [Test]
         public void AdapterDetectsDuplicateStableIdsAcrossChunkSeams()
         {
             var left = new WorldChunkData(new ChunkCoordinate(-1, 0), 4);
