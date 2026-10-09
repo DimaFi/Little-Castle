@@ -92,7 +92,11 @@ namespace LittleCastle.Tests
             Mesh b = Build(1, 0, plan);
             Assert.That(a, Is.Not.Null);
             Assert.That(b, Is.Not.Null);
-            AssertMatching(Edge(a, 0f, 64f), Edge(b, 64f, 64f));
+            List<Vector2> aEdge = Edge(a, 0f, 64f);
+            List<Vector2> bEdge = Edge(b, 64f, 64f);
+            Assert.That(aEdge.Count, Is.GreaterThan(0),
+                "A dry-dry border cannot falsely pass seam parity.");
+            AssertMatching(aEdge, bEdge);
         }
 
         [Test]
