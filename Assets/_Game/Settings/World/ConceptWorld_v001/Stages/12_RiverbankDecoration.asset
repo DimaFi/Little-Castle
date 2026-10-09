@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45ab8c1588e2497fbc8fd950dc8ca451, type: 3}
+  m_Name: 12_RiverbankDecoration
+  m_EditorClassIdentifier: LittleCastle.Runtime::LittleCastle.World.RiverbankDecorationStage
+  enabledStage: 0
+  roadExtraClearance: 2
+  bridgeExtraClearance: 2
+  featureExtraClearance: 2
+  maxCandidateChecksPerChunk: 1024
+  maxSpawnsPerChunk: 24
+  rules:
+  - ruleId: bank_reed_visual_v1
+    archetypeId: concept_river_reed_PENDING_INTAKE
+    category: 5
+    spacing: 5
+    chance: 0.38
+    jitterMargin: 0.15
+    minimumBankDistance: 3.5
+    maximumBankDistance: 8
+    minimumMoisture: 0.55
+    maximumSlope: 15
+    minimumScale: 0.8
+    maximumScale: 1.15
+  - ruleId: bank_shrub_visual_v1
+    archetypeId: concept_river_shrub_PENDING_INTAKE
+    category: 5
+    spacing: 9
+    chance: 0.15
+    jitterMargin: 0.15
+    minimumBankDistance: 5
+    maximumBankDistance: 13
+    minimumMoisture: 0.45
+    maximumSlope: 22
+    minimumScale: 0.7
+    maximumScale: 1.2
+  - ruleId: bank_flower_visual_v1
+    archetypeId: concept_river_flower_PENDING_INTAKE
+    category: 5
+    spacing: 9
+    chance: 0.07
+    jitterMargin: 0.15
+    minimumBankDistance: 4.5
+    maximumBankDistance: 11
+    minimumMoisture: 0.5
+    maximumSlope: 18
+    minimumScale: 0.75
+    maximumScale: 1.05
