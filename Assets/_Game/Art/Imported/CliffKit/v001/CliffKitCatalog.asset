@@ -1,0 +1,85 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e51bf5d3949a14478bb35c368c5e366, type: 3}
+  m_Name: CliffKitCatalog
+  m_EditorClassIdentifier: LittleCastle.Runtime::LittleCastle.World.WorldSpawnCatalog
+  entries:
+  - archetypeId: cliffkit_cliff_straight_a
+    prefabs:
+    - {fileID: 6298241136717993420, guid: 9f71bee1698755b408d87be2642332a4, type: 3}
+    scaleMultiplier: 1
+    rotationOffsetEuler: {x: 0, y: 0, z: 0}
+  - archetypeId: cliffkit_cliff_straight_b
+    prefabs:
+    - {fileID: 5079106373653736260, guid: 391dc5b859cd6564db6dd4872b32e758, type: 3}
+    scaleMultiplier: 1
+    rotationOffsetEuler: {x: 0, y: 0, z: 0}
+  - archetypeId: cliffkit_cliff_convex_a
+    prefabs:
+    - {fileID: 2610016022889244868, guid: b18c9485b4864954c848f44bf9971d92, type: 3}
+    scaleMultiplier: 1
+    rotationOffsetEuler: {x: 0, y: 0, z: 0}
+  - archetypeId: cliffkit_cliff_concave_a
+    prefabs:
+    - {fileID: 4579319087134866030, guid: 8d58afc2ac3047b4798c04aaada382dc, type: 3}
+    scaleMultiplier: 1
+    rotationOffsetEuler: {x: 0, y: 0, z: 0}
+  - archetypeId: cliffkit_cliff_terrace_low
+    prefabs:
+    - {fileID: 5455293759441236245, guid: 11c11f5b7fc8b1140a5aff3780b07aac, type: 3}
+    scaleMultiplier: 1
+    rotationOffsetEuler: {x: 0, y: 0, z: 0}
+  - archetypeId: cliffkit_cliff_terrace_high
+    prefabs:
+    - {fileID: 7099555766035861720, guid: 081a4acf799f3a24f9f90368c5997c0a, type: 3}
+    scaleMultiplier: 1
+    rotationOffsetEuler: {x: 0, y: 0, z: 0}
+  - archetypeId: cliffkit_cliff_end_left
+    prefabs:
+    - {fileID: 8732654988953825421, guid: 24df23c2be3947d4d9672f429b20d23b, type: 3}
+    scaleMultiplier: 1
+    rotationOffsetEuler: {x: 0, y: 0, z: 0}
+  - archetypeId: cliffkit_cliff_end_right
+    prefabs:
+    - {fileID: 3398542005102338772, guid: ef85a667dcdf96246b63c4af52caf4a6, type: 3}
+    scaleMultiplier: 1
+    rotationOffsetEuler: {x: 0, y: 0, z: 0}
+  - archetypeId: cliffkit_rock_outcrop_large
+    prefabs:
+    - {fileID: 7584899199419651605, guid: f8df805b6da07b64ebf9ba5cd781bd19, type: 3}
+    scaleMultiplier: 1
+    rotationOffsetEuler: {x: 0, y: 0, z: 0}
+  - archetypeId: cliffkit_rock_outcrop_medium
+    prefabs:
+    - {fileID: 2709838109711963146, guid: 4c5025e20718f7c4b8b230d28165d0c3, type: 3}
+    scaleMultiplier: 1
+    rotationOffsetEuler: {x: 0, y: 0, z: 0}
+  - archetypeId: cliffkit_rock_boulder_small
+    prefabs:
+    - {fileID: 3258590532952647970, guid: 6dbeb8c6f9527a740a54ac016d700cc7, type: 3}
+    scaleMultiplier: 1
+    rotationOffsetEuler: {x: 0, y: 0, z: 0}
+  - archetypeId: cliffkit_rock_boulder_large
+    prefabs:
+    - {fileID: 130339603139191006, guid: 92acb926498e4974d9b08848835aa186, type: 3}
+    scaleMultiplier: 1
+    rotationOffsetEuler: {x: 0, y: 0, z: 0}
+  - archetypeId: cliffkit_ramp_hike_a
+    prefabs:
+    - {fileID: 8412276235071776742, guid: 87d0e9672c0cc2f4bb1aef19149c375a, type: 3}
+    scaleMultiplier: 1
+    rotationOffsetEuler: {x: 0, y: 0, z: 0}
+  - archetypeId: cliffkit_ramp_hike_b
+    prefabs:
+    - {fileID: 3156352835722479296, guid: 6fdf3f4cd4edda24792a096f4120e3c5, type: 3}
+    scaleMultiplier: 1
+    rotationOffsetEuler: {x: 0, y: 0, z: 0}

@@ -1,0 +1,24 @@
+CliffKitImport-failed-forward.log
+Forcing GfxDevice: Null
+    Renderer: Null Device
+    Vendor:   Unity Technologies
+InvalidDataException: Ramp must ascend along +Z.
+Exiting without the bug reporter. Application will terminate with return code 1
+CliffKitImport-failed-rootrotation.log
+Forcing GfxDevice: Null
+    Renderer: Null Device
+    Vendor:   Unity Technologies
+InvalidDataException: Metre scale or basis mismatch: Rock_Outcrop_Large (8.00, 6.39, 4.76)
+Exiting without the bug reporter. Application will terminate with return code 1
+CliffKitImport.log
+Forcing GfxDevice: Null
+    Renderer: Null Device
+    Vendor:   Unity Technologies
+CLIFFKIT_IMPORT_PASS prefabs=14; separate catalog; navigation/Player acceptance pending.
+Exiting without the bug reporter. Application will terminate with return code 0
+CliffKitReview.log
+Forcing GfxDevice: Direct3D 11
+    Renderer: NVIDIA GeForce RTX 4070 Ti SUPER (ID=0x2705)
+    Vendor:   NVIDIA
+CLIFFKIT_DESKTOP_REVIEW 4 source seeds; negative seams/regeneration checked. Fixture is NOT procedural-world or navigation acceptance.
+Exiting without the bug reporter. Application will terminate with return code 0

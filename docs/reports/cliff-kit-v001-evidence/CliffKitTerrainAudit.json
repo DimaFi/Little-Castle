@@ -1,0 +1,65 @@
+{
+    "unity": "6000.5.5f1",
+    "status": "SOURCE_TERRAIN_AUDIT_ONLY",
+    "macro": "NOT_SUPPLIED",
+    "nav": "NOT_RUN",
+    "playerGpu": "NOT_RUN",
+    "seeds": [
+        {
+            "seed": 12345,
+            "maxScarpMask": 0.0,
+            "sampledHill": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "negativeHeightSeam": true,
+            "regenerationIdentical": true,
+            "rampAccepted": false,
+            "cliffAccepted": false,
+            "rampReason": "ramp-does-not-match-ground",
+            "cliffReason": "cliff-does-not-match-ground"
+        },
+        {
+            "seed": 54321,
+            "maxScarpMask": 0.2515878975391388,
+            "sampledHill": {
+                "x": -128.0,
+                "y": -272.0
+            },
+            "negativeHeightSeam": true,
+            "regenerationIdentical": true,
+            "rampAccepted": false,
+            "cliffAccepted": false,
+            "rampReason": "ramp-does-not-match-ground",
+            "cliffReason": "cliff-does-not-match-ground"
+        },
+        {
+            "seed": -10101,
+            "maxScarpMask": 1.0,
+            "sampledHill": {
+                "x": 48.0,
+                "y": -288.0
+            },
+            "negativeHeightSeam": true,
+            "regenerationIdentical": true,
+            "rampAccepted": false,
+            "cliffAccepted": false,
+            "rampReason": "ramp-does-not-match-ground",
+            "cliffReason": "cliff-does-not-match-ground"
+        },
+        {
+            "seed": 777,
+            "maxScarpMask": 0.0,
+            "sampledHill": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "negativeHeightSeam": true,
+            "regenerationIdentical": true,
+            "rampAccepted": false,
+            "cliffAccepted": false,
+            "rampReason": "ramp-does-not-match-ground",
+            "cliffReason": "cliff-does-not-match-ground"
+        }
+    ]
+}
