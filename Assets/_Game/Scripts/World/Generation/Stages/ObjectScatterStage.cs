@@ -205,18 +205,24 @@ namespace LittleCastle.World
                     if (!rule.allowedBiomes.Contains(biome))
                         continue;
 
-                    SurfaceKind surface = WorldChunkSampling.SampleSurface(
-                        chunk, context.Settings, worldX, worldZ);
+                    // Legacy remains exactly as it was: do not do
+                    // additional per-candidate surface sampling unless
+                    // an opt-in category actually requires it.
+                    bool needTreeSurface = restrictTreeSurfaces &&
+                        rule.category == SpawnCategory.Tree;
+                    bool needRockSurface = biasDecorativeRocksToSlopes &&
+                        rule.category == SpawnCategory.Rock;
+                    SurfaceKind surface = SurfaceKind.Unknown;
+                    if (needTreeSurface || needRockSurface)
+                        surface = WorldChunkSampling.SampleSurface(
+                            chunk, context.Settings, worldX, worldZ);
 
-                    if (restrictTreeSurfaces &&
-                        rule.category == SpawnCategory.Tree &&
-                        !IsNaturalTreeSurface(surface))
+                    if (needTreeSurface && !IsNaturalTreeSurface(surface))
                         continue;
 
                     float chance = Mathf.Clamp01(rule.baseChance);
 
-                    if (biasDecorativeRocksToSlopes &&
-                        rule.category == SpawnCategory.Rock)
+                    if (needRockSurface)
                     {
                         // No new rocks or increased population: solely
                         // shift existing chance toward true exposed stone
