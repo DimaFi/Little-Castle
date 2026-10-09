@@ -52,6 +52,24 @@ namespace LittleCastle.World
             if (plan == null)
                 return result;
 
+            var rejectedIds = previouslyRejectedIds != null
+                ? new HashSet<long>(previouslyRejectedIds)
+                : new HashSet<long>();
+
+            bool strictBridgeAware =
+                bridgeSettings != null &&
+                bridgeSettings.enabled &&
+                bridgeSettings.useFixedStoneBridgeSites &&
+                bridgeSettings.enableBridgeAwareRouting &&
+                bridgeSettings.requireConnectedFeatureGraph;
+
+            // A failed requested edge is abandoned only when the strict
+            // bridge-aware recovery explicitly reports its ID. Retire that
+            // stale logical edge before validation, but never use cleanup to
+            // remove a materialized road (valid or otherwise).
+            if (strictBridgeAware && rejectedIds.Count > 0)
+                RemoveUnrealizedRejectedConnections(plan, rejectedIds);
+
             var features = new List<WorldPointFeatureData>(plan.PointFeatures);
             features.Sort((a, b) => a.stableId.CompareTo(b.stableId));
 
@@ -59,18 +77,21 @@ namespace LittleCastle.World
             for (int i = 0; i < features.Count; i++)
                 parent.Add(features[i].stableId, features[i].stableId);
 
-            var realizedRoadIds = new HashSet<long>();
+            var roadsById = new Dictionary<long, WorldRoadData>();
             for (int i = 0; i < plan.Roads.Count; i++)
                 if (plan.Roads[i] != null)
-                    realizedRoadIds.Add(plan.Roads[i].stableId);
+                    roadsById[plan.Roads[i].stableId] = plan.Roads[i];
 
             int components = parent.Count;
             for (int i = 0; i < plan.RoadConnections.Count; i++)
             {
                 WorldRoadConnectionData edge = plan.RoadConnections[i];
-                if (realizedRoadIds.Contains(edge.stableId) &&
+                if (roadsById.TryGetValue(
+                        edge.stableId, out WorldRoadData road) &&
                     parent.ContainsKey(edge.fromFeatureId) &&
                     parent.ContainsKey(edge.toFeatureId) &&
+                    WorldRouteConnectivityValidator.RoadReachesFeatures(
+                        plan, edge, road) &&
                     Union(parent, edge.fromFeatureId, edge.toFeatureId))
                     components--;
             }
@@ -81,10 +102,7 @@ namespace LittleCastle.World
             if (components <= 1 || terrainProbe == null ||
                 networkSettings == null || !networkSettings.enabled ||
                 pathSettings == null || !pathSettings.enabled ||
-                bridgeSettings == null || !bridgeSettings.enabled ||
-                !bridgeSettings.useFixedStoneBridgeSites ||
-                !bridgeSettings.enableBridgeAwareRouting ||
-                !bridgeSettings.requireConnectedFeatureGraph ||
+                !strictBridgeAware ||
                 bridgeSettings.maxConnectivityRepairCandidates <= 0)
                 return result;
 
@@ -95,10 +113,6 @@ namespace LittleCastle.World
             float maximumDistanceSquared = maximumDistance * maximumDistance;
             int salt = DeterministicHash.String32(
                 "road_network_connection");
-            var rejectedIds = previouslyRejectedIds != null
-                ? new HashSet<long>(previouslyRejectedIds)
-                : new HashSet<long>();
-
             // Build a finite, stable candidate set; sort by geometric cost
             // and stable identifiers. Feature insertion order has no effect.
             var candidates = new List<Candidate>();
@@ -121,7 +135,7 @@ namespace LittleCastle.World
                     long roadId = DeterministicHash.StablePairId(
                         worldSeed, from.stableId, to.stableId, salt);
                     if (rejectedIds.Contains(roadId) ||
-                        realizedRoadIds.Contains(roadId))
+                        roadsById.ContainsKey(roadId))
                         continue;
 
                     candidates.Add(new Candidate
@@ -175,21 +189,23 @@ namespace LittleCastle.World
                 }
 
                 // Only a truly materialized, accepted road connects nodes.
-                bool materialized = false;
+                WorldRoadData materialized = null;
                 for (int j = 0; j < plan.Roads.Count; j++)
                     if (plan.Roads[j] != null &&
                         plan.Roads[j].stableId == candidate.roadId)
                     {
-                        materialized = true;
+                        materialized = plan.Roads[j];
                         break;
                     }
 
-                if (!materialized)
+                if (!WorldRouteConnectivityValidator.RoadReachesFeatures(
+                        plan, connection, materialized))
                 {
                     result.rejectedConnections++;
                     continue;
                 }
 
+                roadsById[candidate.roadId] = materialized;
                 result.acceptedConnections++;
                 result.addedRoadIds.Add(candidate.roadId);
                 if (Union(parent, candidate.fromId, candidate.toId))
@@ -198,6 +214,29 @@ namespace LittleCastle.World
 
             result.remainingComponents = components;
             return result;
+        }
+
+        private static void RemoveUnrealizedRejectedConnections(
+            MacroWorldPlan plan,
+            HashSet<long> rejectedIds)
+        {
+            var materializedIds = new HashSet<long>();
+            for (int i = 0; i < plan.Roads.Count; i++)
+                if (plan.Roads[i] != null)
+                    materializedIds.Add(plan.Roads[i].stableId);
+
+            var abandonedIds = new List<long>();
+            for (int i = 0; i < plan.RoadConnections.Count; i++)
+            {
+                long id = plan.RoadConnections[i].stableId;
+                if (rejectedIds.Contains(id) &&
+                    !materializedIds.Contains(id))
+                    abandonedIds.Add(id);
+            }
+
+            abandonedIds.Sort();
+            for (int i = 0; i < abandonedIds.Count; i++)
+                plan.RemoveRoadAndConnection(abandonedIds[i]);
         }
 
         private static long Find(Dictionary<long, long> parent, long id)

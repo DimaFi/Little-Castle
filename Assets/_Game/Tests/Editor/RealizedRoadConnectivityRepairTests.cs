@@ -39,13 +39,14 @@ namespace LittleCastle.Tests
         }
 
         [Test]
-        public void Repair_AddsActualAlternativeBetweenDisconnectedRoadGroups()
+        public void Repair_CleansRejectedLogicalEdgeAfterAlternativeConnectsGraph()
         {
             const int seed = 8102026;
             var probe = CreateFlatProbe(seed);
-            WorldRoadData first, second;
-            var a = TwoComponents(seed, false, out first, out second);
+            var a = TwoComponents(seed, false, out _, out _);
             var b = TwoComponents(seed, true, out _, out _);
+            WorldRoadConnectionData rejectedA = AddRejectedCrossConnection(a, seed);
+            WorldRoadConnectionData rejectedB = AddRejectedCrossConnection(b, seed);
 
             var network = new RoadNetworkPlannerSettings
             {
@@ -70,9 +71,11 @@ namespace LittleCastle.Tests
             };
 
             var repaired = RealizedRoadConnectivityRepair.Repair(
-                seed, a, probe, network, paths, bridges);
+                seed, a, probe, network, paths, bridges,
+                new[] { rejectedA.stableId });
             var repeated = RealizedRoadConnectivityRepair.Repair(
-                seed, b, probe, network, paths, bridges);
+                seed, b, probe, network, paths, bridges,
+                new[] { rejectedB.stableId });
 
             Assert.That(repaired.initialComponents, Is.EqualTo(2));
             Assert.That(repaired.remainingComponents, Is.EqualTo(1),
@@ -82,10 +85,16 @@ namespace LittleCastle.Tests
                 Is.EqualTo(repaired.addedRoadIds),
                 "Feature insertion order must not influence chosen edges.");
             Assert.That(a.Roads.Count, Is.EqualTo(3));
+            Assert.That(a.RoadConnections.Count, Is.EqualTo(3),
+                "The stale rejected edge should be replaced, not retained.");
+            Assert.That(HasRoadConnection(a, rejectedA.stableId), Is.False);
             Assert.That(a.BridgeSites.Count, Is.Zero,
                 "No river => no fake bridge.");
-            Assert.That(WorldRouteConnectivityValidator.Validate(a, 0, true).IsValid,
-                Is.True);
+            var connected = WorldRouteConnectivityValidator.Validate(a, 0, true);
+            Assert.That(connected.IsValid, Is.True,
+                string.Join("; ", connected.errors));
+            Assert.That(connected.missingRealizedConnections, Is.Zero);
+            Assert.That(connected.components, Is.EqualTo(1));
             // Reconnected graph is not permission to invent a required
             // bridge when no river even exists in this fixture.
             var minimumBridge = WorldRouteConnectivityValidator.Validate(
@@ -136,6 +145,7 @@ namespace LittleCastle.Tests
             const int seed = -10101;
             var probe = CreateFlatProbe(seed);
             var plan = TwoComponents(seed, false, out _, out _);
+            WorldRoadConnectionData failed = AddRejectedCrossConnection(plan, seed);
             var network = new RoadNetworkPlannerSettings
             {
                 maxConnectionDistance = 120f
@@ -153,9 +163,17 @@ namespace LittleCastle.Tests
             };
 
             var none = RealizedRoadConnectivityRepair.Repair(
-                seed, plan, probe, network, pathSettings, bridgeSettings);
+                seed, plan, probe, network, pathSettings, bridgeSettings,
+                new[] { failed.stableId });
             Assert.That(none.remainingComponents, Is.EqualTo(2));
             Assert.That(none.candidatesConsidered, Is.Zero);
+            Assert.That(HasRoadConnection(plan, failed.stableId), Is.False,
+                "Explicitly abandoned logical edges are cleanup-safe even with no repair budget.");
+            var disconnected = WorldRouteConnectivityValidator.Validate(
+                plan, 0, true);
+            Assert.That(disconnected.IsValid, Is.False);
+            Assert.That(disconnected.components, Is.EqualTo(2),
+                "Cleanup must not conceal a disconnected realized graph.");
 
             bridgeSettings.maxConnectivityRepairCandidates = 1;
             var allCandidates = new List<long>();
@@ -172,6 +190,144 @@ namespace LittleCastle.Tests
             Assert.That(rejected.remainingComponents, Is.EqualTo(2));
             Assert.That(rejected.candidatesConsidered, Is.Zero);
             Assert.That(plan.Roads.Count, Is.EqualTo(2));
+        }
+
+        [Test]
+        public void Repair_NonStrictModePreservesRejectedLogicalEdge()
+        {
+            const int seed = 7001;
+            var probe = CreateFlatProbe(seed);
+            var plan = TwoComponents(seed, false, out _, out _);
+            WorldRoadConnectionData failed = AddRejectedCrossConnection(plan, seed);
+            var bridges = new BridgePlannerSettings
+            {
+                useFixedStoneBridgeSites = true,
+                enableBridgeAwareRouting = true,
+                requireConnectedFeatureGraph = false,
+                maxConnectivityRepairCandidates = 4
+            };
+
+            var outcome = RealizedRoadConnectivityRepair.Repair(
+                seed, plan, probe,
+                new RoadNetworkPlannerSettings { maxConnectionDistance = 120f },
+                new TerrainRoadPathPlannerSettings(), bridges,
+                new[] { failed.stableId });
+
+            Assert.That(outcome.acceptedConnections, Is.Zero);
+            Assert.That(HasRoadConnection(plan, failed.stableId), Is.True,
+                "Legacy/non-strict reporting retains its desired-edge contract.");
+            Assert.That(WorldRouteConnectivityValidator.Validate(plan).IsValid,
+                Is.False);
+        }
+
+        [Test]
+        public void Repair_DoesNotRemoveMaterializedRoadWithRejectedId()
+        {
+            const int seed = 7002;
+            var probe = CreateFlatProbe(seed);
+            var plan = TwoComponents(seed, false, out _, out _);
+            WorldRoadConnectionData connection = AddRejectedCrossConnection(plan, seed);
+            var acceptedRoad = new WorldRoadData
+            {
+                stableId = connection.stableId,
+                roadKind = RoadKind.DirtRoad,
+                width = 3f,
+                centerline = new List<Vector2>
+                {
+                    new Vector2(-48f, -32f),
+                    new Vector2(32f, -32f)
+                }
+            };
+            Assert.That(plan.AddRoad(acceptedRoad), Is.True);
+
+            var outcome = RealizedRoadConnectivityRepair.Repair(
+                seed, plan, probe,
+                new RoadNetworkPlannerSettings(),
+                new TerrainRoadPathPlannerSettings(),
+                StrictBridgeSettings(0),
+                new[] { connection.stableId });
+
+            Assert.That(outcome.initialComponents, Is.EqualTo(1));
+            Assert.That(HasRoadConnection(plan, connection.stableId), Is.True);
+            Assert.That(HasRoad(plan, connection.stableId), Is.True,
+                "A failed-ID report must never discard a materialized road.");
+            Assert.That(WorldRouteConnectivityValidator.Validate(plan, 0, true)
+                .IsValid, Is.True);
+        }
+
+        [Test]
+        public void Repair_MatchingIdWithWrongEndpointsDoesNotConnectComponents()
+        {
+            const int seed = 7003;
+            var probe = CreateFlatProbe(seed);
+            var plan = TwoComponents(seed, false, out _, out _);
+            WorldRoadConnectionData connection = AddRejectedCrossConnection(plan, seed);
+            Assert.That(plan.AddRoad(new WorldRoadData
+            {
+                stableId = connection.stableId,
+                roadKind = RoadKind.DirtRoad,
+                width = 3f,
+                centerline = new List<Vector2>
+                {
+                    new Vector2(100f, 100f),
+                    new Vector2(120f, 100f)
+                }
+            }), Is.True);
+
+            var outcome = RealizedRoadConnectivityRepair.Repair(
+                seed, plan, probe,
+                new RoadNetworkPlannerSettings(),
+                new TerrainRoadPathPlannerSettings(),
+                StrictBridgeSettings(0),
+                new[] { connection.stableId });
+
+            Assert.That(outcome.initialComponents, Is.EqualTo(2));
+            Assert.That(outcome.remainingComponents, Is.EqualTo(2));
+            Assert.That(HasRoad(plan, connection.stableId), Is.True,
+                "Conservative cleanup leaves suspect materialized data for validation.");
+            var report = WorldRouteConnectivityValidator.Validate(plan, 0, true);
+            Assert.That(report.IsValid, Is.False);
+            Assert.That(report.missingRealizedConnections, Is.EqualTo(1));
+            Assert.That(report.components, Is.EqualTo(2));
+        }
+
+        private static BridgePlannerSettings StrictBridgeSettings(int budget)
+        {
+            return new BridgePlannerSettings
+            {
+                useFixedStoneBridgeSites = true,
+                enableBridgeAwareRouting = true,
+                requireConnectedFeatureGraph = true,
+                maxConnectivityRepairCandidates = budget
+            };
+        }
+
+        private static WorldRoadConnectionData AddRejectedCrossConnection(
+            MacroWorldPlan plan, int seed)
+        {
+            long id = DeterministicHash.StablePairId(
+                seed, 22, 33,
+                DeterministicHash.String32("road_network_connection"));
+            var connection = new WorldRoadConnectionData(
+                id, 22, 33, RoadKind.DirtRoad);
+            Assert.That(plan.AddRoadConnection(connection), Is.True);
+            return connection;
+        }
+
+        private static bool HasRoadConnection(MacroWorldPlan plan, long id)
+        {
+            for (int i = 0; i < plan.RoadConnections.Count; i++)
+                if (plan.RoadConnections[i].stableId == id)
+                    return true;
+            return false;
+        }
+
+        private static bool HasRoad(MacroWorldPlan plan, long id)
+        {
+            for (int i = 0; i < plan.Roads.Count; i++)
+                if (plan.Roads[i] != null && plan.Roads[i].stableId == id)
+                    return true;
+            return false;
         }
 
         private static MacroWorldPlan TwoComponents(
