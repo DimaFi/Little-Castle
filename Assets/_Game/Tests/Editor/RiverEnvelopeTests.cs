@@ -94,7 +94,7 @@ namespace LittleCastle.Tests
             Assert.That(RiverEnvelopeUtility.TryCreateSegment(
                 river, 1, out var narrow), Is.True);
 
-            Vector2 point = new Vector2(4f, 3f);
+            Vector2 point = new Vector2(5.5f, 3f);
             float broadValue = RiverEnvelopeUtility.WetnessAt(
                 point, broad, BankEdgeMeters);
             float narrowValue = RiverEnvelopeUtility.WetnessAt(
