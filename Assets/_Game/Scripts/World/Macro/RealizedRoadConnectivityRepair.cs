@@ -34,7 +34,6 @@ namespace LittleCastle.World
             public bool candidateSelectionTruncated =>
                 discardedCandidatePairs > 0;
 
-
             public string Summary =>
                 "initial=" + initialComponents +
                 " remaining=" + remainingComponents +
@@ -46,6 +45,7 @@ namespace LittleCastle.World
                 " eligiblePairs=" + eligibleCandidatePairs +
                 " prepared=" + preparedCandidateCount +
                 " discarded=" + discardedCandidatePairs +
+                " poolTruncated=" + candidateSelectionTruncated +
                 " attemptBudgetExhausted=" + attemptBudgetExhausted;
         }
 
