@@ -21,6 +21,15 @@ namespace LittleCastle.World
         [Min(0f)]
         [SerializeField] private float riverbedExtraWidth = 0.5f;
 
+        [Header("Concept river profile (opt in)")]
+        [Tooltip(
+            "Use per-point river width profile for riverbed surface, " +
+            "matching carved water channels. Disabled preserves legacy " +
+            "nominalWidth behavior in existing Main world profiles.")]
+        [SerializeField] private bool useVariableRiverWidth;
+
+        public bool UseVariableRiverWidth => useVariableRiverWidth;
+
         public override void Generate(
             GenerationContext context,
             WorldChunkData chunk)
@@ -185,16 +194,34 @@ namespace LittleCastle.World
                             continue;
                         }
 
-                        float halfWidth =
-                            Mathf.Max(
-                                0.1f,
-                                river.nominalWidth * 0.5f +
-                                riverbedExtraWidth);
+                        bool intersects;
 
-                        if (DistanceToPolylineSqr(
-                                point,
-                                river.centerline) <=
-                            halfWidth * halfWidth)
+                        if (useVariableRiverWidth)
+                        {
+                            intersects =
+                                IsInsideProfileRiverbed(
+                                    point,
+                                    river,
+                                    riverbedExtraWidth);
+                        }
+                        else
+                        {
+                            // Exact legacy-off branch: intentionally uses
+                            // constant nominalWidth for older saved worlds.
+                            float halfWidth =
+                                Mathf.Max(
+                                    0.1f,
+                                    river.nominalWidth * 0.5f +
+                                    riverbedExtraWidth);
+
+                            intersects =
+                                DistanceToPolylineSqr(
+                                    point,
+                                    river.centerline) <=
+                                halfWidth * halfWidth;
+                        }
+
+                        if (intersects)
                         {
                             chunk.SetSurface(
                                 x,
@@ -206,6 +233,37 @@ namespace LittleCastle.World
                     }
                 }
             }
+        }
+
+        private static bool IsInsideProfileRiverbed(
+            Vector2 point,
+            WorldRiverData river,
+            float extraWidth)
+        {
+            // Evaluate every segment's interpolated channel width. Choosing
+            // only the nearest centerline point can miss the wider side of
+            // a sharp bend or confluence transition.
+            float padding = Mathf.Max(0f, extraWidth);
+
+            for (int i = 0; i < river.centerline.Count - 1; i++)
+            {
+                Vector2 a = river.centerline[i];
+                Vector2 b = river.centerline[i + 1];
+                Vector2 delta = b - a;
+                float squaredLength = delta.sqrMagnitude;
+                if (squaredLength <= 0.000001f)
+                    continue;
+
+                float t = Mathf.Clamp01(
+                    Vector2.Dot(point - a, delta) / squaredLength);
+                Vector2 nearest = a + delta * t;
+                float halfWidth = Mathf.Max(0.1f,
+                    river.GetWidthAtSegment(i, t) * 0.5f + padding);
+
+                if ((point - nearest).sqrMagnitude <= halfWidth * halfWidth)
+                    return true;
+            }
+            return false;
         }
 
         private static SurfaceKind GetRoadSurface(
