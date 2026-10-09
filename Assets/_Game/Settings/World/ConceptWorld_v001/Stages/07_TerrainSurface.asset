@@ -16,3 +16,4 @@ MonoBehaviour:
   roadSurfaceExtraWidth: 0.5
   riverbedExtraWidth: 0.5
   useVariableRiverWidth: 1
+  useSegmentBroadPhase: 1

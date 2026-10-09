@@ -30,6 +30,47 @@ namespace LittleCastle.World
 
         public bool UseVariableRiverWidth => useVariableRiverWidth;
 
+        [Header("Concept chunk broad phase (opt in)")]
+        [Tooltip(
+            "Build chunk-local road/river segment candidates before cell " +
+            "surface tests. Disabled preserves the legacy whole-plan scans.")]
+        [SerializeField] private bool useSegmentBroadPhase;
+
+        public bool UseSegmentBroadPhase => useSegmentBroadPhase;
+
+        private struct RoadSurfaceSegment
+        {
+            public Vector2 a;
+            public Vector2 b;
+            public float halfWidth;
+            public RoadKind roadKind;
+            public SegmentBounds bounds;
+        }
+
+        private struct RiverSurfaceSegment
+        {
+            public WorldRiverData river;
+            public int segmentIndex;
+            public Vector2 a;
+            public Vector2 b;
+            public float legacyHalfWidth;
+            public SegmentBounds bounds;
+        }
+
+        private struct SegmentBounds
+        {
+            public float minX;
+            public float minZ;
+            public float maxX;
+            public float maxZ;
+
+            public bool Contains(Vector2 point) =>
+                point.x >= minX &&
+                point.x <= maxX &&
+                point.y >= minZ &&
+                point.y <= maxZ;
+        }
+
         public override void Generate(
             GenerationContext context,
             WorldChunkData chunk)
@@ -40,6 +81,43 @@ namespace LittleCastle.World
 
             if (plan == null)
                 return;
+
+            if (useSegmentBroadPhase)
+            {
+                float chunkSize = context.Settings.ChunkWorldSize;
+                float minX = chunk.Coordinate.x * chunkSize;
+                float minZ = chunk.Coordinate.z * chunkSize;
+                float maxX = minX + chunkSize;
+                float maxZ = minZ + chunkSize;
+
+                List<RoadSurfaceSegment> roadSegments =
+                    BuildRoadSegments(
+                        plan,
+                        minX,
+                        minZ,
+                        maxX,
+                        maxZ);
+
+                List<RiverSurfaceSegment> riverSegments =
+                    BuildRiverSegments(
+                        plan,
+                        minX,
+                        minZ,
+                        maxX,
+                        maxZ);
+
+                ApplyRoadSurfacesBroadPhase(
+                    context,
+                    chunk,
+                    roadSegments);
+
+                ApplyRiverSurfacesBroadPhase(
+                    context,
+                    chunk,
+                    riverSegments);
+
+                return;
+            }
 
             ApplyRoadSurfaces(context, chunk, plan);
             ApplyRiverSurfaces(context, chunk, plan);
@@ -85,6 +163,348 @@ namespace LittleCastle.World
                 }
             }
         }
+
+        private List<RoadSurfaceSegment> BuildRoadSegments(
+            MacroWorldPlan plan,
+            float minX,
+            float minZ,
+            float maxX,
+            float maxZ)
+        {
+            var result = new List<RoadSurfaceSegment>();
+
+            // Preserve road-major and segment-major order so the first road
+            // intersecting a cell keeps the exact legacy surface priority.
+            for (int r = 0; r < plan.Roads.Count; r++)
+            {
+                WorldRoadData road = plan.Roads[r];
+                if (road == null || road.centerline.Count < 2)
+                    continue;
+
+                float halfWidth =
+                    Mathf.Max(
+                        0.1f,
+                        road.width * 0.5f +
+                        roadSurfaceExtraWidth);
+
+                for (int s = 0; s < road.centerline.Count - 1; s++)
+                {
+                    Vector2 a = road.centerline[s];
+                    Vector2 b = road.centerline[s + 1];
+                    if (!TryGetLocalBounds(
+                            a,
+                            b,
+                            halfWidth,
+                            minX,
+                            minZ,
+                            maxX,
+                            maxZ,
+                            out SegmentBounds bounds))
+                    {
+                        continue;
+                    }
+
+                    result.Add(new RoadSurfaceSegment
+                    {
+                        a = a,
+                        b = b,
+                        halfWidth = halfWidth,
+                        roadKind = road.roadKind,
+                        bounds = bounds
+                    });
+                }
+            }
+
+            return result;
+        }
+
+        private List<RiverSurfaceSegment> BuildRiverSegments(
+            MacroWorldPlan plan,
+            float minX,
+            float minZ,
+            float maxX,
+            float maxZ)
+        {
+            var result = new List<RiverSurfaceSegment>();
+            float profilePadding = Mathf.Max(0f, riverbedExtraWidth);
+
+            for (int r = 0; r < plan.Rivers.Count; r++)
+            {
+                WorldRiverData river = plan.Rivers[r];
+                if (river == null || river.centerline.Count < 2)
+                    continue;
+
+                float legacyHalfWidth =
+                    Mathf.Max(
+                        0.1f,
+                        river.nominalWidth * 0.5f +
+                        riverbedExtraWidth);
+
+                for (int s = 0; s < river.centerline.Count - 1; s++)
+                {
+                    Vector2 a = river.centerline[s];
+                    Vector2 b = river.centerline[s + 1];
+                    float boundsPadding;
+
+                    if (useVariableRiverWidth)
+                    {
+                        if ((b - a).sqrMagnitude <= 0.000001f)
+                            continue;
+
+                        float halfStart =
+                            Mathf.Max(
+                                0.1f,
+                                river.GetWidthAtPoint(s) * 0.5f +
+                                profilePadding);
+
+                        float halfEnd =
+                            Mathf.Max(
+                                0.1f,
+                                river.GetWidthAtPoint(s + 1) * 0.5f +
+                                profilePadding);
+
+                        boundsPadding =
+                            ConservativePadding(
+                                halfStart,
+                                halfEnd);
+                    }
+                    else
+                    {
+                        // Legacy nominal-width mode includes degenerate point
+                        // segments through DistancePointSegmentSqr.
+                        boundsPadding = legacyHalfWidth;
+                    }
+
+                    if (!TryGetLocalBounds(
+                            a,
+                            b,
+                            boundsPadding,
+                            minX,
+                            minZ,
+                            maxX,
+                            maxZ,
+                            out SegmentBounds bounds))
+                    {
+                        continue;
+                    }
+
+                    result.Add(new RiverSurfaceSegment
+                    {
+                        river = river,
+                        segmentIndex = s,
+                        a = a,
+                        b = b,
+                        legacyHalfWidth = legacyHalfWidth,
+                        bounds = bounds
+                    });
+                }
+            }
+
+            return result;
+        }
+
+        private void ApplyRoadSurfacesBroadPhase(
+            GenerationContext context,
+            WorldChunkData chunk,
+            IReadOnlyList<RoadSurfaceSegment> segments)
+        {
+            float cellSize = context.Settings.CellWorldSize;
+            float chunkSize = context.Settings.ChunkWorldSize;
+            float originX = chunk.Coordinate.x * chunkSize;
+            float originZ = chunk.Coordinate.z * chunkSize;
+
+            for (int z = 0; z < chunk.CellsPerSide; z++)
+            {
+                for (int x = 0; x < chunk.CellsPerSide; x++)
+                {
+                    var point = new Vector2(
+                        originX + (x + 0.5f) * cellSize,
+                        originZ + (z + 0.5f) * cellSize);
+
+                    for (int i = 0; i < segments.Count; i++)
+                    {
+                        RoadSurfaceSegment segment = segments[i];
+                        if (!segment.bounds.Contains(point))
+                            continue;
+
+                        float distanceSqr =
+                            DistancePointSegmentSqr(
+                                point,
+                                segment.a,
+                                segment.b);
+
+                        if (!RoadSegmentIntersects(
+                                distanceSqr,
+                                segment.halfWidth))
+                            continue;
+
+                        chunk.SetSurface(
+                            x,
+                            z,
+                            GetRoadSurface(segment.roadKind));
+                        break;
+                    }
+                }
+            }
+        }
+
+        private void ApplyRiverSurfacesBroadPhase(
+            GenerationContext context,
+            WorldChunkData chunk,
+            IReadOnlyList<RiverSurfaceSegment> segments)
+        {
+            float cellSize = context.Settings.CellWorldSize;
+            float chunkSize = context.Settings.ChunkWorldSize;
+            float originX = chunk.Coordinate.x * chunkSize;
+            float originZ = chunk.Coordinate.z * chunkSize;
+            float profilePadding = Mathf.Max(0f, riverbedExtraWidth);
+
+            for (int z = 0; z < chunk.CellsPerSide; z++)
+            {
+                for (int x = 0; x < chunk.CellsPerSide; x++)
+                {
+                    var point = new Vector2(
+                        originX + (x + 0.5f) * cellSize,
+                        originZ + (z + 0.5f) * cellSize);
+
+                    for (int i = 0; i < segments.Count; i++)
+                    {
+                        RiverSurfaceSegment segment = segments[i];
+                        if (!segment.bounds.Contains(point))
+                            continue;
+
+                        bool intersects;
+
+                        if (useVariableRiverWidth)
+                        {
+                            Vector2 delta = segment.b - segment.a;
+                            float squaredLength = delta.sqrMagnitude;
+                            float t = Mathf.Clamp01(
+                                Vector2.Dot(
+                                    point - segment.a,
+                                    delta) /
+                                squaredLength);
+                            Vector2 nearest = segment.a + delta * t;
+                            float halfWidth = Mathf.Max(
+                                0.1f,
+                                segment.river.GetWidthAtSegment(
+                                    segment.segmentIndex,
+                                    t) * 0.5f +
+                                profilePadding);
+
+                            intersects =
+                                (point - nearest).sqrMagnitude <=
+                                halfWidth * halfWidth;
+                        }
+                        else
+                        {
+                            intersects =
+                                RiverSegmentIntersects(
+                                    DistancePointSegmentSqr(
+                                        point,
+                                        segment.a,
+                                        segment.b),
+                                    segment.legacyHalfWidth);
+                        }
+
+                        if (!intersects)
+                            continue;
+
+                        chunk.SetSurface(
+                            x,
+                            z,
+                            SurfaceKind.Riverbed);
+                        break;
+                    }
+                }
+            }
+        }
+
+        private static float ConservativePadding(
+            float a,
+            float b)
+        {
+            if (!IsFinite(a) || !IsFinite(b))
+                return float.PositiveInfinity;
+
+            return Mathf.Max(a, b);
+        }
+
+        private static bool RoadSegmentIntersects(
+            float distanceSqr,
+            float halfWidth)
+        {
+            float widthSqr = halfWidth * halfWidth;
+            if (float.IsNaN(widthSqr) || float.IsPositiveInfinity(widthSqr))
+                return true;
+
+            return
+                !float.IsNaN(distanceSqr) &&
+                distanceSqr <= widthSqr;
+        }
+
+        private static bool RiverSegmentIntersects(
+            float distanceSqr,
+            float halfWidth)
+        {
+            float widthSqr = halfWidth * halfWidth;
+            if (float.IsPositiveInfinity(widthSqr))
+                return true;
+
+            return distanceSqr <= widthSqr;
+        }
+
+        private static bool TryGetLocalBounds(
+            Vector2 a,
+            Vector2 b,
+            float padding,
+            float minX,
+            float minZ,
+            float maxX,
+            float maxZ,
+            out SegmentBounds bounds)
+        {
+            if (!IsFinite(a.x) ||
+                !IsFinite(a.y) ||
+                !IsFinite(b.x) ||
+                !IsFinite(b.y) ||
+                !IsFinite(padding))
+            {
+                bounds = new SegmentBounds
+                {
+                    minX = minX,
+                    minZ = minZ,
+                    maxX = maxX,
+                    maxZ = maxZ
+                };
+                return true;
+            }
+
+            float segmentMinX = Mathf.Min(a.x, b.x) - padding;
+            float segmentMinZ = Mathf.Min(a.y, b.y) - padding;
+            float segmentMaxX = Mathf.Max(a.x, b.x) + padding;
+            float segmentMaxZ = Mathf.Max(a.y, b.y) + padding;
+
+            if (segmentMaxX < minX || segmentMinX > maxX ||
+                segmentMaxZ < minZ || segmentMinZ > maxZ)
+            {
+                bounds = default(SegmentBounds);
+                return false;
+            }
+
+            bounds = new SegmentBounds
+            {
+                minX = Mathf.Max(minX, segmentMinX),
+                minZ = Mathf.Max(minZ, segmentMinZ),
+                maxX = Mathf.Min(maxX, segmentMaxX),
+                maxZ = Mathf.Min(maxZ, segmentMaxZ)
+            };
+            return true;
+        }
+
+        private static bool IsFinite(float value) =>
+            !float.IsNaN(value) &&
+            !float.IsInfinity(value);
 
         private void ApplyRoadSurfaces(
             GenerationContext context,

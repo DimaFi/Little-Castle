@@ -17,5 +17,6 @@ MonoBehaviour:
   ruinBlocks: 7
   landmarkBlocks: 3
   roadClearance: 2
+  treeCrownClearance: 5
   riverClearance: 3
   bridgeHeightOffset: 0.15

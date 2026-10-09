@@ -47,6 +47,12 @@ MonoBehaviour:
     sourceTerrain: 10
     minSourceHeight: 8
     maxSourceSlope: 32
+    useNaturalSourceFallback: 1
+    fallbackSourceSpacing: 320
+    fallbackMaximumAttempts: 24
+    fallbackSourceTerrain: 3
+    fallbackMinSourceHeight: 1
+    fallbackMinimumNetDrop: 0.5
     traceStep: 24
     directionSamples: 12
     maxSteps: 96
@@ -99,3 +105,10 @@ MonoBehaviour:
     maximumApproachSlope: 28
     maximumRiverGrade: 0.2
     fixedSiteSeparationPadding: 1
+    enableBridgeAwareRouting: 1
+    maxBridgeRoutingAttempts: 2
+    maxGuidedCrossingAttempts: 2
+    maxConnectivityRepairCandidates: 12
+    minimumFixedBridgeCount: 1
+    requireConnectedFeatureGraph: 1
+    failOnRoutingError: 1

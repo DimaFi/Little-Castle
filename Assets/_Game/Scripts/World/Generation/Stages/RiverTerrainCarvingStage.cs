@@ -28,6 +28,17 @@ namespace LittleCastle.World
         private AnimationCurve crossSection =
             AnimationCurve.EaseInOut(0f, 1f, 1f, 0f);
 
+        [Header("Concept river profile (opt in)")]
+        [Tooltip(
+            "Evaluate every valid river segment and use its maximum carve " +
+            "contribution. This keeps carving aligned with variable-width " +
+            "riverbed and wetness envelopes around sharp bends. Disabled " +
+            "preserves legacy closest-segment behavior.")]
+        [SerializeField] private bool useAnySegmentCarveEnvelope;
+
+        public bool UseAnySegmentCarveEnvelope =>
+            useAnySegmentCarveEnvelope;
+
         public override void Generate(
             GenerationContext context,
             WorldChunkData chunk)
@@ -83,6 +94,20 @@ namespace LittleCastle.World
                             continue;
                         }
 
+                        if (useAnySegmentCarveEnvelope)
+                        {
+                            maxCarve =
+                                Mathf.Max(
+                                    maxCarve,
+                                    GetMaxSegmentCarve(
+                                        worldPoint,
+                                        river));
+
+                            continue;
+                        }
+
+                        // Exact legacy-off branch: select only the closest
+                        // centerline segment before evaluating its profile.
                         if (!TryGetClosestSegment(
                                 worldPoint,
                                 river.centerline,
@@ -149,6 +174,78 @@ namespace LittleCastle.World
                         maxCarve);
                 }
             }
+        }
+
+        private float GetMaxSegmentCarve(
+            Vector2 point,
+            WorldRiverData river)
+        {
+            float maxCarve = 0f;
+
+            for (int i = 0;
+                 i < river.centerline.Count - 1;
+                 i++)
+            {
+                Vector2 a = river.centerline[i];
+                Vector2 b = river.centerline[i + 1];
+
+                if ((b - a).sqrMagnitude <= 0.000001f)
+                    continue;
+
+                float distanceSqr =
+                    DistancePointSegmentSqr(
+                        point,
+                        a,
+                        b,
+                        out float segmentT);
+
+                float localWidth =
+                    river.GetWidthAtSegment(
+                        i,
+                        segmentT);
+
+                float influenceRadius =
+                    Mathf.Max(
+                        0.5f,
+                        localWidth * 0.5f +
+                        bankFalloff);
+
+                if (distanceSqr >
+                    influenceRadius * influenceRadius)
+                {
+                    continue;
+                }
+
+                float normalized =
+                    Mathf.Clamp01(
+                        Mathf.Sqrt(distanceSqr) /
+                        influenceRadius);
+
+                float profile =
+                    crossSection != null
+                        ? Mathf.Clamp01(
+                            crossSection.Evaluate(
+                                normalized))
+                        : 1f - normalized;
+
+                float carve =
+                    Mathf.Max(
+                        0f,
+                        river.GetDepthAtSegment(
+                            i,
+                            segmentT)) *
+                    Mathf.Max(
+                        0f,
+                        depthMultiplier) *
+                    profile;
+
+                maxCarve =
+                    Mathf.Max(
+                        maxCarve,
+                        carve);
+            }
+
+            return maxCarve;
         }
 
         private static bool TryGetClosestSegment(

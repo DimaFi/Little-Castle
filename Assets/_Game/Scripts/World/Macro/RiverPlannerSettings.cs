@@ -23,6 +23,31 @@ namespace LittleCastle.World
         [Range(0f, 90f)]
         public float maxSourceSlope = 32f;
 
+        [Header("Zero-river natural source fallback")]
+        [Tooltip(
+            "When enabled, a bounded deterministic source pass runs only " +
+            "when the ordinary source pass leaves the plan with no rivers. " +
+            "Disabled preserves the legacy source order and output.")]
+        public bool useNaturalSourceFallback = false;
+
+        [Min(100f)]
+        public float fallbackSourceSpacing = 320f;
+
+        [Range(1, 32)]
+        public int fallbackMaximumAttempts = 24;
+
+        public TerrainClassMask fallbackSourceTerrain =
+            TerrainClassMask.Plains |
+            TerrainClassMask.RollingHills;
+
+        public float fallbackMinSourceHeight = 1f;
+
+        [Min(0.0001f)]
+        [Tooltip(
+            "Minimum source-to-terminal height loss required before a " +
+            "fallback trace is accepted as a natural downhill river.")]
+        public float fallbackMinimumNetDrop = 0.5f;
+
         [Header("Tracing")]
         public float traceStep = 28f;
 

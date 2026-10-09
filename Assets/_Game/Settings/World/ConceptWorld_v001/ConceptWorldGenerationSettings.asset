@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ConceptWorldGenerationSettings
   m_EditorClassIdentifier: LittleCastle.Runtime::LittleCastle.World.WorldGenerationSettings
   profileId: concept_world_v001
-  generationVersion: 2
+  generationVersion: 3
   cellsPerSide: 64
   chunkWorldSize: 32
   stages:
