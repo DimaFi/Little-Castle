@@ -31,7 +31,7 @@ namespace LittleCastle.World
                     worldCenter, 0, float.NaN, float.NaN);
             }
 
-            float radians = yawDegrees * Mathf.Deg2Rad;
+            float radians = (yawDegrees % 360f) * Mathf.Deg2Rad;
             float sine = Mathf.Sin(radians);
             float cosine = Mathf.Cos(radians);
             int count = 0;
@@ -53,6 +53,11 @@ namespace LittleCastle.World
                         (2f * definition.halfExtents.x * x) / (grid - 1);
                     Vector2 point = RotateTranslate(
                         worldCenter, localX, localZ, sine, cosine);
+
+                    if (!IsFinite(point.x) || !IsFinite(point.y))
+                        return Failed(
+                            BuildingFootprintRejection.InvalidRequest,
+                            point, count, minimum, maximum);
 
                     count++;
                     BuildingSiteSample sample = sampleWorld(point);
@@ -89,6 +94,11 @@ namespace LittleCastle.World
                         definition.entranceDepth * (z + 1) / EntranceRows;
                     Vector2 point = RotateTranslate(
                         worldCenter, localX, localZ, sine, cosine);
+                    if (!IsFinite(point.x) || !IsFinite(point.y))
+                        return Failed(
+                            BuildingFootprintRejection.InvalidRequest,
+                            point, count, minimum, maximum);
+
                     count++;
                     BuildingSiteSample sample = sampleWorld(point);
                     BuildingFootprintRejection rejected = CheckSample(
