@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 934e1c8ee0ab49eb9899548252f7f093, type: 3}
+  m_Name: ConceptQualitySettings
+  m_EditorClassIdentifier: LittleCastle.Runtime::LittleCastle.Rendering.ConceptQualitySettings
+  low:
+    shadowDistanceMeters: 28
+    decorativeGrassVisibleFraction: 0.4
+    forestNearMeters: 20
+    forestFarMeters: 68
+    optionalDecorativeColliderMeters: 6
+    maxFullDecorativeTreePrefabs: 150
+    maxDecorativeTreeColliders: 10
+    farClusterIndividualRetention: 0.1
+    maxVillageRealtimeLightRequests: 0
+    maxVillageGroundGlows: 2
+    villageRealtimeDistance: 18
+    villagePoolDistance: 42
+    villageEmissiveDistance: 95
+  medium:
+    shadowDistanceMeters: 54
+    decorativeGrassVisibleFraction: 0.7
+    forestNearMeters: 32
+    forestFarMeters: 110
+    optionalDecorativeColliderMeters: 9
+    maxFullDecorativeTreePrefabs: 300
+    maxDecorativeTreeColliders: 24
+    farClusterIndividualRetention: 0.35
+    maxVillageRealtimeLightRequests: 1
+    maxVillageGroundGlows: 3
+    villageRealtimeDistance: 28
+    villagePoolDistance: 64
+    villageEmissiveDistance: 140
+  high:
+    shadowDistanceMeters: 85
+    decorativeGrassVisibleFraction: 1
+    forestNearMeters: 48
+    forestFarMeters: 170
+    optionalDecorativeColliderMeters: 14
+    maxFullDecorativeTreePrefabs: 600
+    maxDecorativeTreeColliders: 48
+    farClusterIndividualRetention: 1
+    maxVillageRealtimeLightRequests: 2
+    maxVillageGroundGlows: 5
+    villageRealtimeDistance: 34
+    villagePoolDistance: 92
+    villageEmissiveDistance: 200
