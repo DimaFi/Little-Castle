@@ -22,6 +22,15 @@ namespace LittleCastle.World
             public int disconnectedFeatures;
             public int components;
             public int minimumBridgeCount;
+
+            // Populated by MacroWorldPlanner only for strict opt-in routing.
+            // These counters describe attempted source recovery, not success
+            // of a full finite player-session accessibility matrix.
+            public int originalRejectedConnections;
+            public int repairInitialComponents;
+            public int repairAttemptedCandidates;
+            public int repairAcceptedConnections;
+            public int repairPathAttempts;
             public readonly List<string> errors = new List<string>();
             public bool IsValid => errors.Count == 0;
 
@@ -35,6 +44,11 @@ namespace LittleCastle.World
                 " missing=" + missingRealizedConnections +
                 " components=" + components +
                 " disconnected=" + disconnectedFeatures +
+                " rejectedOriginal=" + originalRejectedConnections +
+                " repairComponentsBefore=" + repairInitialComponents +
+                " repairCandidates=" + repairAttemptedCandidates +
+                " repairAccepted=" + repairAcceptedConnections +
+                " repairPaths=" + repairPathAttempts +
                 " issues=" + errors.Count;
 
             internal void Fail(string message)
@@ -126,9 +140,10 @@ namespace LittleCastle.World
             {
                 WorldRoadConnectionData connection = plan.RoadConnections[i];
                 coveredRoadIds.Add(connection.stableId);
-                if (!roads.ContainsKey(connection.stableId) ||
+                if (!roads.TryGetValue(connection.stableId, out WorldRoadData realizedRoad) ||
                     !featureIds.Contains(connection.fromFeatureId) ||
-                    !featureIds.Contains(connection.toFeatureId))
+                    !featureIds.Contains(connection.toFeatureId) ||
+                    !RoadReachesFeatures(plan, connection, realizedRoad))
                 {
                     report.missingRealizedConnections++;
                     report.Fail("Unrealized or invalid logical road " + connection.stableId);
@@ -250,6 +265,44 @@ namespace LittleCastle.World
                             " < " + report.minimumBridgeCount);
 
             return report;
+        }
+
+        /// <summary>
+        /// A matching ID is not proof of connectivity. Solvers preserve the
+        /// exact feature endpoints; tolerate only small numeric drift, not a
+        /// road-width-sized gap. Reversed centerlines are equally valid.
+        /// Shared with strict component repair; never modifies world data.
+        /// </summary>
+        internal static bool RoadReachesFeatures(
+            MacroWorldPlan plan,
+            WorldRoadConnectionData connection,
+            WorldRoadData road)
+        {
+            if (plan == null || road == null ||
+                road.stableId != connection.stableId ||
+                road.centerline == null || road.centerline.Count < 2 ||
+                !plan.TryGetPointFeature(connection.fromFeatureId, out WorldPointFeatureData from) ||
+                !plan.TryGetPointFeature(connection.toFeatureId, out WorldPointFeatureData to) ||
+                !IsFinite(from.worldPosition) || !IsFinite(to.worldPosition))
+                return false;
+
+            for (int i = 0; i < road.centerline.Count; i++)
+                if (!IsFinite(road.centerline[i]))
+                    return false;
+
+            const float toleranceSquared = 0.1f * 0.1f;
+            Vector2 first = road.centerline[0];
+            Vector2 last = road.centerline[road.centerline.Count - 1];
+            return ((first - from.worldPosition).sqrMagnitude <= toleranceSquared &&
+                    (last - to.worldPosition).sqrMagnitude <= toleranceSquared) ||
+                   ((first - to.worldPosition).sqrMagnitude <= toleranceSquared &&
+                    (last - from.worldPosition).sqrMagnitude <= toleranceSquared);
+        }
+
+        private static bool IsFinite(Vector2 point)
+        {
+            return !float.IsNaN(point.x) && !float.IsInfinity(point.x) &&
+                   !float.IsNaN(point.y) && !float.IsInfinity(point.y);
         }
 
         private static long Find(Dictionary<long, long> parents, long id)

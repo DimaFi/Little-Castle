@@ -4,6 +4,69 @@ using UnityEngine;
 namespace LittleCastle.World
 {
     /// <summary>
+    /// Optional counters for river source selection. Supplying diagnostics does
+    /// not change candidate order, stable IDs, or tracing decisions.
+    /// </summary>
+    [System.Serializable]
+    public sealed class RiverPlannerDiagnostics
+    {
+        public int ordinaryGridCandidates;
+        public int ordinaryChanceRejected;
+        public int ordinaryOutsideBounds;
+        public int ordinaryTerrainRejected;
+        public int ordinaryHeightRejected;
+        public int ordinarySlopeRejected;
+        public int ordinaryEligibleSources;
+        public int ordinaryTraceAttempts;
+        public int ordinaryRejectedTraces;
+        public int ordinaryAcceptedRivers;
+
+        public bool fallbackTriggered;
+        public int fallbackAttemptLimit;
+        public int fallbackCandidatesEvaluated;
+        public int fallbackTerrainRejected;
+        public int fallbackHeightRejected;
+        public int fallbackSlopeRejected;
+        public int fallbackEligibleSources;
+        public int fallbackTraceAttempts;
+        public int fallbackRejectedShortTraces;
+        public int fallbackRejectedInsufficientDrop;
+        public int fallbackAcceptedRivers;
+        public long fallbackAcceptedRiverId;
+
+        public int totalRiversAfterBuild;
+
+        internal void Reset()
+        {
+            ordinaryGridCandidates = 0;
+            ordinaryChanceRejected = 0;
+            ordinaryOutsideBounds = 0;
+            ordinaryTerrainRejected = 0;
+            ordinaryHeightRejected = 0;
+            ordinarySlopeRejected = 0;
+            ordinaryEligibleSources = 0;
+            ordinaryTraceAttempts = 0;
+            ordinaryRejectedTraces = 0;
+            ordinaryAcceptedRivers = 0;
+
+            fallbackTriggered = false;
+            fallbackAttemptLimit = 0;
+            fallbackCandidatesEvaluated = 0;
+            fallbackTerrainRejected = 0;
+            fallbackHeightRejected = 0;
+            fallbackSlopeRejected = 0;
+            fallbackEligibleSources = 0;
+            fallbackTraceAttempts = 0;
+            fallbackRejectedShortTraces = 0;
+            fallbackRejectedInsufficientDrop = 0;
+            fallbackAcceptedRivers = 0;
+            fallbackAcceptedRiverId = 0L;
+
+            totalRiversAfterBuild = 0;
+        }
+    }
+
+    /// <summary>
     /// Deterministic downhill river-network tracer.
     ///
     /// Rivers are generated in stable source-grid order. A later tributary may
@@ -25,6 +88,17 @@ namespace LittleCastle.World
             public long downstreamRiverId;
             public int downstreamJoinPointIndex = -1;
             public Vector2 confluencePosition;
+            public float sourceHeight;
+            public float terminalHeight;
+        }
+
+        private sealed class FallbackCandidate
+        {
+            public int gridX;
+            public int gridZ;
+            public long stableId;
+            public Vector2 position;
+            public float height;
         }
 
         public static void BuildRivers(
@@ -34,6 +108,29 @@ namespace LittleCastle.World
             RiverPlannerSettings settings,
             MacroWorldPlan plan)
         {
+            BuildRivers(
+                worldSeed,
+                sourceBounds,
+                terrainProbe,
+                settings,
+                plan,
+                null);
+        }
+
+        /// <summary>
+        /// Additive diagnostic overload. Counters observe the same planner pass
+        /// and never participate in source selection or tracing.
+        /// </summary>
+        public static void BuildRivers(
+            int worldSeed,
+            Rect sourceBounds,
+            WorldTerrainProbe terrainProbe,
+            RiverPlannerSettings settings,
+            MacroWorldPlan plan,
+            RiverPlannerDiagnostics diagnostics)
+        {
+            diagnostics?.Reset();
+
             if (terrainProbe == null ||
                 settings == null ||
                 !settings.enabled ||
@@ -71,6 +168,9 @@ namespace LittleCastle.World
             {
                 for (int gx = minGridX; gx <= maxGridX; gx++)
                 {
+                    if (diagnostics != null)
+                        diagnostics.ordinaryGridCandidates++;
+
                     float roll =
                         DeterministicHash.Hash01(
                             worldSeed,
@@ -79,7 +179,12 @@ namespace LittleCastle.World
                             salt ^ 0x201);
 
                     if (roll > settings.sourceChance)
+                    {
+                        if (diagnostics != null)
+                            diagnostics.ordinaryChanceRejected++;
+
                         continue;
+                    }
 
                     float jx =
                         DeterministicHash.Hash01(
@@ -101,19 +206,47 @@ namespace LittleCastle.World
                             (gz + jz) * spacing);
 
                     if (!sourceBounds.Contains(source))
+                    {
+                        if (diagnostics != null)
+                            diagnostics.ordinaryOutsideBounds++;
+
                         continue;
+                    }
 
                     WorldTerrainSample sourceSample =
                         terrainProbe.Sample(source);
 
                     if (!settings.sourceTerrain.Contains(
-                            sourceSample.terrainClass) ||
-                        sourceSample.height <
-                            settings.minSourceHeight ||
-                        sourceSample.slope >
-                            settings.maxSourceSlope)
+                            sourceSample.terrainClass))
                     {
+                        if (diagnostics != null)
+                            diagnostics.ordinaryTerrainRejected++;
+
                         continue;
+                    }
+
+                    if (sourceSample.height <
+                        settings.minSourceHeight)
+                    {
+                        if (diagnostics != null)
+                            diagnostics.ordinaryHeightRejected++;
+
+                        continue;
+                    }
+
+                    if (sourceSample.slope >
+                        settings.maxSourceSlope)
+                    {
+                        if (diagnostics != null)
+                            diagnostics.ordinarySlopeRejected++;
+
+                        continue;
+                    }
+
+                    if (diagnostics != null)
+                    {
+                        diagnostics.ordinaryEligibleSources++;
+                        diagnostics.ordinaryTraceAttempts++;
                     }
 
                     long riverId =
@@ -138,6 +271,9 @@ namespace LittleCastle.World
                                 2,
                                 settings.minimumPoints))
                     {
+                        if (diagnostics != null)
+                            diagnostics.ordinaryRejectedTraces++;
+
                         continue;
                     }
 
@@ -164,13 +300,312 @@ namespace LittleCastle.World
                     river.centerline.AddRange(
                         trace.path);
 
-                    plan.AddRiver(river);
+                    bool added =
+                        plan.AddRiver(river);
+
+                    if (added && diagnostics != null)
+                        diagnostics.ordinaryAcceptedRivers++;
                 }
+            }
+
+            if (plan.Rivers.Count == 0 &&
+                settings.useNaturalSourceFallback)
+            {
+                TryBuildNaturalSourceFallback(
+                    worldSeed,
+                    sourceBounds,
+                    terrainProbe,
+                    settings,
+                    plan,
+                    diagnostics);
             }
 
             BuildFlowProfiles(
                 plan.Rivers,
                 settings);
+
+            if (diagnostics != null)
+                diagnostics.totalRiversAfterBuild = plan.Rivers.Count;
+        }
+
+        private static void TryBuildNaturalSourceFallback(
+            int worldSeed,
+            Rect sourceBounds,
+            WorldTerrainProbe terrainProbe,
+            RiverPlannerSettings settings,
+            MacroWorldPlan plan,
+            RiverPlannerDiagnostics diagnostics)
+        {
+            int attemptLimit =
+                Mathf.Clamp(
+                    settings.fallbackMaximumAttempts,
+                    1,
+                    32);
+
+            if (diagnostics != null)
+            {
+                diagnostics.fallbackTriggered = true;
+                diagnostics.fallbackAttemptLimit = attemptLimit;
+            }
+
+            float spacing =
+                Mathf.Max(
+                    100f,
+                    settings.fallbackSourceSpacing);
+
+            int minGridX =
+                Mathf.FloorToInt(
+                    sourceBounds.xMin / spacing) - 1;
+
+            int maxGridX =
+                Mathf.FloorToInt(
+                    sourceBounds.xMax / spacing) + 1;
+
+            int minGridZ =
+                Mathf.FloorToInt(
+                    sourceBounds.yMin / spacing) - 1;
+
+            int maxGridZ =
+                Mathf.FloorToInt(
+                    sourceBounds.yMax / spacing) + 1;
+
+            int countX =
+                Mathf.Max(
+                    1,
+                    maxGridX - minGridX + 1);
+
+            int countZ =
+                Mathf.Max(
+                    1,
+                    maxGridZ - minGridZ + 1);
+
+            long totalLong =
+                (long)countX *
+                countZ;
+
+            int total =
+                totalLong > int.MaxValue
+                    ? int.MaxValue
+                    : (int)totalLong;
+
+            if (total <= 0)
+                return;
+
+            int salt =
+                DeterministicHash.String32(
+                    "river_source_fallback_v1");
+
+            int start =
+                (int)(
+                    (uint)DeterministicHash.Hash32(
+                        worldSeed,
+                        minGridX,
+                        minGridZ,
+                        salt ^ 0x301) %
+                    (uint)total);
+
+            int stride =
+                FindCoprimeStride(
+                    total,
+                    DeterministicHash.Hash32(
+                        worldSeed,
+                        maxGridX,
+                        maxGridZ,
+                        salt ^ 0x302));
+
+            var candidates =
+                new List<FallbackCandidate>(
+                    attemptLimit);
+
+            int evaluated = 0;
+            int visitLimit =
+                Mathf.Min(
+                    total,
+                    attemptLimit * 8);
+
+            for (int visit = 0;
+                 visit < visitLimit &&
+                 evaluated < attemptLimit;
+                 visit++)
+            {
+                int flatIndex =
+                    (int)(
+                        ((long)start +
+                         (long)visit * stride) %
+                        total);
+
+                int gx =
+                    minGridX +
+                    flatIndex % countX;
+
+                int gz =
+                    minGridZ +
+                    flatIndex / countX;
+
+                float jx =
+                    DeterministicHash.Hash01(
+                        worldSeed,
+                        gx,
+                        gz,
+                        salt ^ 0x303);
+
+                float jz =
+                    DeterministicHash.Hash01(
+                        worldSeed,
+                        gx,
+                        gz,
+                        salt ^ 0x304);
+
+                var source =
+                    new Vector2(
+                        (gx + jx) * spacing,
+                        (gz + jz) * spacing);
+
+                if (!sourceBounds.Contains(source))
+                    continue;
+
+                WorldTerrainSample sample =
+                    terrainProbe.Sample(source);
+
+                evaluated++;
+
+                if (diagnostics != null)
+                    diagnostics.fallbackCandidatesEvaluated++;
+
+                if (!settings.fallbackSourceTerrain.Contains(
+                        sample.terrainClass))
+                {
+                    if (diagnostics != null)
+                        diagnostics.fallbackTerrainRejected++;
+
+                    continue;
+                }
+
+                if (sample.height <
+                    settings.fallbackMinSourceHeight)
+                {
+                    if (diagnostics != null)
+                        diagnostics.fallbackHeightRejected++;
+
+                    continue;
+                }
+
+                if (sample.slope >
+                    settings.maxSourceSlope)
+                {
+                    if (diagnostics != null)
+                        diagnostics.fallbackSlopeRejected++;
+
+                    continue;
+                }
+
+                if (diagnostics != null)
+                    diagnostics.fallbackEligibleSources++;
+
+                candidates.Add(
+                    new FallbackCandidate
+                    {
+                        gridX = gx,
+                        gridZ = gz,
+                        stableId =
+                            DeterministicHash.StableId(
+                                worldSeed,
+                                gx,
+                                gz,
+                                salt),
+                        position = source,
+                        height = sample.height
+                    });
+            }
+
+            candidates.Sort(CompareFallbackCandidates);
+
+            for (int i = 0;
+                 i < candidates.Count;
+                 i++)
+            {
+                FallbackCandidate candidate =
+                    candidates[i];
+
+                if (diagnostics != null)
+                    diagnostics.fallbackTraceAttempts++;
+
+                TraceResult trace =
+                    TraceRiver(
+                        worldSeed,
+                        candidate.stableId,
+                        candidate.position,
+                        terrainProbe,
+                        settings,
+                        plan.Rivers);
+
+                if (trace == null ||
+                    trace.path.Count <
+                        Mathf.Max(
+                            2,
+                            settings.minimumPoints))
+                {
+                    if (diagnostics != null)
+                        diagnostics.fallbackRejectedShortTraces++;
+
+                    continue;
+                }
+
+                float netDrop =
+                    trace.sourceHeight -
+                    trace.terminalHeight;
+
+                if (netDrop <
+                    Mathf.Max(
+                        0.0001f,
+                        settings.fallbackMinimumNetDrop))
+                {
+                    if (diagnostics != null)
+                    {
+                        diagnostics
+                            .fallbackRejectedInsufficientDrop++;
+                    }
+
+                    continue;
+                }
+
+                var river =
+                    new WorldRiverData
+                    {
+                        stableId = candidate.stableId,
+                        nominalWidth =
+                            Mathf.Max(
+                                0.5f,
+                                settings.nominalWidth),
+                        nominalDepth =
+                            Mathf.Max(
+                                0.1f,
+                                settings.nominalDepth),
+                        downstreamRiverId =
+                            trace.downstreamRiverId,
+                        downstreamJoinPointIndex =
+                            trace.downstreamJoinPointIndex,
+                        confluencePosition =
+                            trace.confluencePosition
+                    };
+
+                river.centerline.AddRange(
+                    trace.path);
+
+                if (!plan.AddRiver(river))
+                    continue;
+
+                if (diagnostics != null)
+                {
+                    diagnostics.fallbackAcceptedRivers++;
+                    diagnostics.fallbackAcceptedRiverId =
+                        river.stableId;
+                }
+
+                // The fallback exists only to recover an otherwise empty
+                // network. One genuine downhill river is sufficient.
+                break;
+            }
         }
 
         private static TraceResult TraceRiver(
@@ -207,6 +642,12 @@ namespace LittleCastle.World
 
             WorldTerrainSample currentSample =
                 terrainProbe.Sample(current);
+
+            result.sourceHeight =
+                currentSample.height;
+
+            result.terminalHeight =
+                currentSample.height;
 
             float initialAngle =
                 StableUnitFromLong(riverId) *
@@ -326,6 +767,9 @@ namespace LittleCastle.World
                 currentSample = bestSample;
                 previousDirection = bestDirection;
 
+                result.terminalHeight =
+                    currentSample.height;
+
                 long key =
                     TraceCellKey(
                         current,
@@ -369,6 +813,72 @@ namespace LittleCastle.World
             }
 
             return result;
+        }
+
+        private static int CompareFallbackCandidates(
+            FallbackCandidate a,
+            FallbackCandidate b)
+        {
+            int heightOrder =
+                b.height.CompareTo(
+                    a.height);
+
+            if (heightOrder != 0)
+                return heightOrder;
+
+            int idOrder =
+                a.stableId.CompareTo(
+                    b.stableId);
+
+            if (idOrder != 0)
+                return idOrder;
+
+            int zOrder =
+                a.gridZ.CompareTo(
+                    b.gridZ);
+
+            return
+                zOrder != 0
+                    ? zOrder
+                    : a.gridX.CompareTo(b.gridX);
+        }
+
+        private static int FindCoprimeStride(
+            int total,
+            int hash)
+        {
+            if (total <= 1)
+                return 1;
+
+            int stride =
+                1 +
+                (int)(
+                    (uint)hash %
+                    (uint)(total - 1));
+
+            while (GreatestCommonDivisor(stride, total) != 1)
+            {
+                stride++;
+
+                if (stride >= total)
+                    stride = 1;
+            }
+
+            return stride;
+        }
+
+        private static int GreatestCommonDivisor(
+            int a,
+            int b)
+        {
+            while (b != 0)
+            {
+                int remainder = a % b;
+                a = b;
+                b = remainder;
+            }
+
+            return a;
         }
 
         private static bool TryFindConfluence(

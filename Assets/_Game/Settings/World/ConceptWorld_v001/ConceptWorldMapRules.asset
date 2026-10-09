@@ -13,6 +13,13 @@ MonoBehaviour:
   m_Name: ConceptWorldMapRules
   m_EditorClassIdentifier: LittleCastle.Runtime::LittleCastle.World.WorldMapRules
   presets:
+  - presetId: concept_slice
+    displayName: Concept visual slice (not balanced)
+    minimumPlayers: 1
+    maximumPlayers: 2
+    widthChunks: 32
+    heightChunks: 32
+    visualPaddingChunks: 6
   - presetId: concept_preview
     displayName: Concept preview (not balanced)
     minimumPlayers: 1

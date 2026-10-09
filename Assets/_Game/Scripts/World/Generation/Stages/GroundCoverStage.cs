@@ -25,6 +25,21 @@ namespace LittleCastle.World
         [Range(0f, 1f)]
         [SerializeField] private float moistureInfluence = 0.25f;
 
+        [Header("Concept-only natural placement (opt in)")]
+        [Tooltip("Honor the authoritative Grass placement-block bit on roads, " +
+                 "bridge supports, rivers and settlement clearings. Legacy off.")]
+        [SerializeField] private bool respectGrassPlacementBlocks;
+
+        [Tooltip("Fade grass density on steep slopes without changing terrain " +
+                 "height, SurfaceKind, or any resource/road placement.")]
+        [SerializeField] private bool fadeGrassOnSteepSlopes;
+
+        [Range(0f, 90f)]
+        [SerializeField] private float slopeFadeStart = 20f;
+
+        [Range(0f, 90f)]
+        [SerializeField] private float slopeFadeEnd = 36f;
+
         public override void Generate(
             GenerationContext context,
             WorldChunkData chunk)
@@ -33,6 +48,18 @@ namespace LittleCastle.World
             {
                 for (int x = 0; x < chunk.CellsPerSide; x++)
                 {
+                    // These are *visual ground cover* samples, not
+                    // one persistent spawn per blade. Placement clearance
+                    // is authoritative and already projected from macro
+                    // settlements, roads, rivers and bridge footprints.
+                    if (respectGrassPlacementBlocks &&
+                        chunk.IsPlacementBlocked(
+                            x, z, PlacementBlockFlags.Grass))
+                    {
+                        chunk.SetGrassDensity(x, z, 0f);
+                        continue;
+                    }
+
                     SurfaceKind surface =
                         chunk.GetSurface(x, z);
 
@@ -68,6 +95,21 @@ namespace LittleCastle.World
                         moistureFactor *
                         forestFactor *
                         densityMultiplier;
+
+                    if (fadeGrassOnSteepSlopes)
+                    {
+                        float slope = chunk.GetCellSlope(x, z);
+                        float start = Mathf.Clamp(
+                            slopeFadeStart, 0f, 90f);
+                        float end = Mathf.Max(
+                            start + 0.001f, slopeFadeEnd);
+                        // Below start retains legacy coverage; above end
+                        // becomes bare ground. Rock base surface remains
+                        // unconditionally zero in either mode.
+                        density *= 1f - Mathf.SmoothStep(
+                            0f, 1f, Mathf.InverseLerp(
+                                start, end, slope));
+                    }
 
                     chunk.SetGrassDensity(
                         x,

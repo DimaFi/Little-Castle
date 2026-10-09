@@ -33,6 +33,10 @@ namespace LittleCastle.World
         [Min(0f)]
         [SerializeField] private float riverClearance = 3f;
 
+        [Header("Production crown clearance (concept opt in)")]
+        [Min(0f)]
+        [SerializeField] private float treeCrownClearance;
+
         [Header("Bridges")]
         [Min(0f)]
         [SerializeField] private float bridgeHeightOffset = 0.15f;
@@ -50,6 +54,13 @@ namespace LittleCastle.World
             ProjectRoadMasks(context, chunk, plan);
             ProjectRiverMasks(context, chunk, plan);
             ProjectBridgeSites(context, chunk, plan);
+            if (treeCrownClearance > 0f)
+                foreach (WorldRoadData road in plan.Roads)
+                    if (road != null && road.centerline.Count >= 2)
+                        WorldPlacementMaskUtility.BlockPolyline(
+                            chunk, context.Settings, road.centerline,
+                            Mathf.Max(roadClearance, treeCrownClearance) + road.width * .5f,
+                            PlacementBlockFlags.Trees);
         }
 
         private void ProjectPointFeatures(
