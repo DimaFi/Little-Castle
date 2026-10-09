@@ -1,0 +1,2 @@
+Real Play scene; seed=-10101; generationVersion=3; rivers=2; fixedSites=2; roads=35; activeChunks=49; cachedChunks=201; terrainColliders=9; houses=1; strictRoutes=True; worstStage=02_RiverTerrainCarving; worstStageMs=77.224; lastMeshMs=0.405; lastSpawnMs=0.413
+Not an FPS/balance/full-map acceptance.
