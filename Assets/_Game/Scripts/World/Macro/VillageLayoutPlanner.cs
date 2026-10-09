@@ -79,6 +79,7 @@ namespace LittleCastle.World
                      option < MaximumAlternativesPerHouse; option++)
                 {
                     attempts++;
+                    lastFootprint = BuildingFootprintRejection.None;
                     float degrees =
                         globalAngle + 360f * slot / settings.houseCount +
                         AngleAlternatives[option];
@@ -242,7 +243,9 @@ namespace LittleCastle.World
                 ? new Vector2(-span.y, span.x) / length
                 : Vector2.right;
 
-            float[] previous = { float.NaN, float.NaN, float.NaN };
+            float previousLeft = float.NaN;
+            float previousCenter = float.NaN;
+            float previousRight = float.NaN;
             for (int i = 0; i <= segments; i++)
             {
                 Vector2 center =
@@ -258,11 +261,20 @@ namespace LittleCastle.World
                     BuildingSiteSample at = sample(point);
                     if (!Walkable(at, settings.maximumCourtyardSlope))
                         return false;
-                    if (i > 0 && Mathf.Abs(at.height - previous[lane]) >
+                    float previous = lane == 0
+                        ? previousLeft
+                        : lane == 1 ? previousCenter : previousRight;
+                    if (i > 0 &&
+                        Mathf.Abs(at.height - previous) >
                         settings.maximumPathStep)
                         return false;
 
-                    previous[lane] = at.height;
+                    if (lane == 0)
+                        previousLeft = at.height;
+                    else if (lane == 1)
+                        previousCenter = at.height;
+                    else
+                        previousRight = at.height;
                 }
             }
 
