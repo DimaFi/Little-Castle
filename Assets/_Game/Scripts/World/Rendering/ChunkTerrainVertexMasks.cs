@@ -24,14 +24,6 @@ namespace LittleCastle.World
             public float halfWidth;
         }
 
-        private struct RiverSegment
-        {
-            public Vector2 a;
-            public Vector2 b;
-            public float halfStartWidth;
-            public float halfEndWidth;
-        }
-
         public static Color32[] Build(
             WorldChunkData chunk,
             float chunkWorldSize,
@@ -55,7 +47,7 @@ namespace LittleCastle.World
             float maxZ = minZ + chunkWorldSize;
             float cellSize = chunkWorldSize / chunk.CellsPerSide;
             var roads = new List<RoadSegment>();
-            var rivers = new List<RiverSegment>();
+            var rivers = new List<RiverEnvelopeUtility.Segment>();
 
             // Coarse AABB culling happens once per visible chunk (not once
             // for each of its ~4K vertices). No full map materialization.
@@ -90,26 +82,14 @@ namespace LittleCastle.World
 
                 for (int s = 0; s < river.centerline.Count - 1; s++)
                 {
-                    Vector2 a = river.centerline[s];
-                    Vector2 b = river.centerline[s + 1];
-                    if ((b - a).sqrMagnitude <= 0.000001f)
-                        continue;
-
-                    float halfA = Mathf.Max(0.1f,
-                        river.GetWidthAtPoint(s) * 0.5f);
-                    float halfB = Mathf.Max(0.1f,
-                        river.GetWidthAtPoint(s + 1) * 0.5f);
-                    if (!Overlaps(a, b,
-                            Mathf.Max(halfA, halfB) + RiverBankEdgeMeters,
+                    if (!RiverEnvelopeUtility.TryCreateSegment(
+                            river, s, out RiverEnvelopeUtility.Segment segment) ||
+                        !RiverEnvelopeUtility.OverlapsChunk(
+                            segment, RiverBankEdgeMeters,
                             minX, minZ, maxX, maxZ))
                         continue;
 
-                    rivers.Add(new RiverSegment
-                    {
-                        a = a, b = b,
-                        halfStartWidth = halfA,
-                        halfEndWidth = halfB
-                    });
+                    rivers.Add(segment);
                 }
             }
 
@@ -137,18 +117,13 @@ namespace LittleCastle.World
 
                     for (int i = 0; i < rivers.Count; i++)
                     {
-                        RiverSegment segment = rivers[i];
-                        float distance = DistanceToSegment(
-                            world, segment.a, segment.b, out float t);
-                        float halfWidth = Mathf.Lerp(
-                            segment.halfStartWidth,
-                            segment.halfEndWidth, t);
-                        // Outside the water centerline, retain a smooth
-                        // naturally darkened damp bank. Under water the
-                        // value is harmless, since the surface is covered.
+                        RiverEnvelopeUtility.Segment segment = rivers[i];
+                        // Maximum over every eligible river segment is
+                        // intentional: a wide bend/confluence must not
+                        // lose its influence to a narrower nearer one.
                         riverbank = Mathf.Max(riverbank,
-                            SoftCorridor(distance, halfWidth,
-                                RiverBankEdgeMeters));
+                            RiverEnvelopeUtility.WetnessAt(
+                                world, segment, RiverBankEdgeMeters));
                     }
 
                     // Wet channel material overrides the dirt footpath at
