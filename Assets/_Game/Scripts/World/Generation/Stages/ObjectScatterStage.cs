@@ -236,6 +236,11 @@ namespace LittleCastle.World
                                                 rockSlopeBiasStart + 0.001f,
                                                 rockSlopeBiasFull),
                                             slope)));
+                        // Exactly zero affinity should never spawn a
+                        // decorative prop, including the rare Hash01 == 0
+                        // case. This condition exists only in opt-in mode.
+                        if (rockAffinity <= 0f)
+                            continue;
                         chance *= rockAffinity;
                     }
 
