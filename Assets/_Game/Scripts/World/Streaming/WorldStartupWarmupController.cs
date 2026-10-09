@@ -54,9 +54,10 @@ namespace LittleCastle.World
         {
             if (value == null)
                 throw new System.ArgumentNullException(nameof(value));
-            if (ready || bootstrap != null)
+            if (ready || bootstrap != null || priorityRequested)
                 throw new System.InvalidOperationException(
-                    "Bootstrap may be attached only once before input is released.");
+                    "Attach bootstrap before legacy warmup or input release; " +
+                    "mixed owners could leave a stale priority radius.");
 
             bootstrap = value;
             ResolveReferences();
