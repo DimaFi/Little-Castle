@@ -28,7 +28,8 @@ namespace LittleCastle.Tests
             }
 
             public StreamedChunkView Add(
-                int cx, int cz, bool playable = true)
+                int cx, int cz, bool playable = true,
+                float heightOffset = 0f)
             {
                 var coordinate = new ChunkCoordinate(cx, cz);
                 var chunk = new WorldChunkData(coordinate, 8);
@@ -42,7 +43,8 @@ namespace LittleCastle.Tests
                         // Exactly shared edge heights, unequal local normals.
                         float height =
                             1f + .2f * wx + .1f * wz +
-                            .02f * wx * wx + .01f * wz * wz;
+                            .02f * wx * wx + .01f * wz * wz +
+                            heightOffset;
                         chunk.SetHeight(x, z, height);
                     }
                 }
@@ -198,6 +200,28 @@ namespace LittleCastle.Tests
             Assert.That(west.colors32, Is.EqualTo(colors));
             Assert.That(west.uv, Is.EqualTo(uv));
             Assert.That(west.bounds, Is.EqualTo(bounds));
+        }
+
+        [Test]
+        public void ActualHeightCrack_CannotBeHiddenByVisualNormalWeld()
+        {
+            Fixture fixture = NewFixture();
+            fixture.Add(-1, -1);
+            fixture.Add(0, -1, heightOffset: 3f);
+
+            Mesh west = fixture.Mesh(-1, -1);
+            Mesh east = fixture.Mesh(0, -1);
+            Vector3[] westNormals = west.normals;
+            Vector3[] eastNormals = east.normals;
+
+            int changed = ChunkTerrainNormalSeams.RefreshAround(
+                new ChunkCoordinate(0, -1), fixture.views, 8f, fixture.Lookup);
+
+            Assert.That(changed, Is.Zero,
+                "A real 3m height discontinuity is a generation failure, " +
+                "not a lighting artifact that can be welded.");
+            Assert.That(west.normals, Is.EqualTo(westNormals));
+            Assert.That(east.normals, Is.EqualTo(eastNormals));
         }
 
         [Test]
