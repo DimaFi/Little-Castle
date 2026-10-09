@@ -65,6 +65,9 @@ Attaching an adapter after legacy warmup has requested its own
 priority radius, or already released the camera, is rejected.
 
 Any early failure or cancellation leaves the camera input locked.
+The controller also reasserts the lock for a **late-resolved camera**
+while Q02 is active, and logs a failed bootstrap exactly once for
+root diagnostics.
 `OnDisable` cancels an in-flight attached adapter. The previous
 no-adapter startup behavior stays available for old scenes.
 
