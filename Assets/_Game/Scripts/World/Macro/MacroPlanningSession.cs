@@ -125,7 +125,8 @@ namespace LittleCastle.World
             if (IsTerminal)
                 return 0;
 
-            var budgetClock = Stopwatch.StartNew();
+            // Timestamp budget has no per-frame Stopwatch allocation.
+            long startedTicks = Stopwatch.GetTimestamp();
             if (!elapsed.IsRunning)
                 elapsed.Start();
 
@@ -135,7 +136,9 @@ namespace LittleCastle.World
                 while (!IsTerminal && executed < maxWorkUnits)
                 {
                     if (executed > 0 &&
-                        budgetClock.Elapsed.TotalMilliseconds >= maxMilliseconds)
+                        !double.IsPositiveInfinity(maxMilliseconds) &&
+                        (Stopwatch.GetTimestamp() - startedTicks) *
+                        (1000d / Stopwatch.Frequency) >= maxMilliseconds)
                         break;
 
                     ExecuteOneUnit();
@@ -148,6 +151,9 @@ namespace LittleCastle.World
                 failure = exception;
                 workingPlan = null;
                 desiredConnections = null;
+                currentRule = null;
+                recovery = null;
+                repair = null;
                 Phase = PlanningPhase.Faulted;
                 elapsed.Stop();
                 throw;
@@ -182,6 +188,8 @@ namespace LittleCastle.World
             workingPlan = null;
             desiredConnections = null;
             currentRule = null;
+            recovery = null;
+            repair = null;
             Phase = PlanningPhase.Cancelled;
             elapsed.Stop();
 
