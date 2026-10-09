@@ -39,10 +39,43 @@ namespace LittleCastle.World
 
         private bool ready;
         private bool priorityRequested;
+        private WorldStartupBootstrapAdapter bootstrap;
         private GUIStyle labelStyle;
         private GUIStyle boxStyle;
 
         public bool IsReady => ready;
+
+        /// <summary>
+        /// Root-owned opt-in: attach BEFORE legacy warmup has completed.
+        /// The root must integrate the same completed macro plan into
+        /// WorldStreamer; Q02 intentionally does not modify WorldStreamer.
+        /// </summary>
+        public void AttachBootstrap(WorldStartupBootstrapAdapter value)
+        {
+            if (value == null)
+                throw new System.ArgumentNullException(nameof(value));
+            if (ready || bootstrap != null)
+                throw new System.InvalidOperationException(
+                    "Bootstrap may be attached only once before input is released.");
+
+            bootstrap = value;
+            ResolveReferences();
+            if (strategyCamera != null)
+                strategyCamera.SetInputEnabled(false);
+        }
+
+        public void CancelBootstrap()
+        {
+            if (bootstrap == null || ready)
+                return;
+            bootstrap.Cancel();
+            if (strategyCamera != null)
+                strategyCamera.SetInputEnabled(false);
+        }
+
+        public WorldStartupBootstrapAdapter.StartupPhase? BootstrapPhase =>
+            bootstrap != null ? bootstrap.Phase :
+            (WorldStartupBootstrapAdapter.StartupPhase?)null;
 
         public int TargetPreparedRadius
         {
@@ -67,6 +100,17 @@ namespace LittleCastle.World
         {
             get
             {
+                if (bootstrap != null)
+                {
+                    if (bootstrap.Phase ==
+                        WorldStartupBootstrapAdapter.StartupPhase.StartingData)
+                        return bootstrap.StartingDataReadiness01;
+                    if (bootstrap.Phase ==
+                        WorldStartupBootstrapAdapter.StartupPhase.VisibleReady)
+                        return bootstrap.VisibleAreaReadiness01;
+                    return bootstrap.IsReady ? 1f : 0f;
+                }
+
                 if (worldStreamer == null)
                     return 0f;
 
@@ -103,8 +147,18 @@ namespace LittleCastle.World
 
             ResolveReferences();
 
-            if (Input.GetKeyDown(
-                    developmentSkipKey))
+            if (bootstrap != null)
+            {
+                bootstrap.Tick();
+                if (bootstrap.CanAcceptGameInput)
+                    CompleteWarmup();
+                return;
+            }
+
+            // Never allow a debug bypass to weaken the root bootstrap gate.
+            // The legacy skip remains available only in development builds.
+            if ((Application.isEditor || Debug.isDebugBuild) &&
+                Input.GetKeyDown(developmentSkipKey))
             {
                 CompleteWarmup();
                 return;
@@ -135,9 +189,14 @@ namespace LittleCastle.World
             if (ready)
                 return;
 
+            // A root bootstrap session must pass all three gates: macro,
+            // starting data and actually visible/usable chunk presentation.
+            if (bootstrap != null && !bootstrap.CanAcceptGameInput)
+                return;
+
             ready = true;
 
-            if (worldStreamer != null)
+            if (bootstrap == null && worldStreamer != null)
             {
                 worldStreamer.ClearPriorityPreparationRadius();
             }
@@ -166,14 +225,20 @@ namespace LittleCastle.World
             }
         }
 
+        private void OnDisable()
+        {
+            if (bootstrap != null && !ready)
+                bootstrap.Cancel();
+            else if (bootstrap == null && priorityRequested &&
+                     worldStreamer != null)
+                worldStreamer.ClearPriorityPreparationRadius();
+        }
+
         private void OnGUI()
         {
-            if (!showLoadingOverlay ||
-                ready ||
-                worldStreamer == null)
-            {
+            if (!showLoadingOverlay || ready ||
+                (worldStreamer == null && bootstrap == null))
                 return;
-            }
 
             EnsureStyles();
 
@@ -203,17 +268,50 @@ namespace LittleCastle.World
                 "PREPARING WORLD",
                 labelStyle);
 
-            GUILayout.Label(
-                "Safe starting area: " +
-                (Readiness01 * 100f).ToString("0") +
-                "%",
-                labelStyle);
-
-            GUILayout.Label(
-                "Prepared radius: " +
-                TargetPreparedRadius +
-                " chunks   •   F9 skips only in development",
-                labelStyle);
+            if (bootstrap != null)
+            {
+                switch (bootstrap.Phase)
+                {
+                    case WorldStartupBootstrapAdapter.StartupPhase.MacroPlanning:
+                        GUILayout.Label(
+                            "Macro: " + bootstrap.MacroPhase +
+                            "  •  grid candidates: " +
+                            bootstrap.MacroPointCellsExamined,
+                            labelStyle);
+                        break;
+                    case WorldStartupBootstrapAdapter.StartupPhase.StartingData:
+                        GUILayout.Label(
+                            "Starting-area data: " +
+                            (bootstrap.StartingDataReadiness01 * 100f)
+                                .ToString("0") + "%", labelStyle);
+                        break;
+                    case WorldStartupBootstrapAdapter.StartupPhase.VisibleReady:
+                        GUILayout.Label(
+                            "Visible starting area: " +
+                            (bootstrap.VisibleAreaReadiness01 * 100f)
+                                .ToString("0") + "%", labelStyle);
+                        break;
+                    case WorldStartupBootstrapAdapter.StartupPhase.Cancelled:
+                        GUILayout.Label("Startup cancelled", labelStyle);
+                        break;
+                    case WorldStartupBootstrapAdapter.StartupPhase.Failed:
+                        GUILayout.Label("Startup failed — inspect log", labelStyle);
+                        break;
+                }
+                GUILayout.Label(
+                    "Waiting for verified match readiness", labelStyle);
+            }
+            else
+            {
+                GUILayout.Label(
+                    "Safe starting area: " +
+                    (Readiness01 * 100f).ToString("0") + "%",
+                    labelStyle);
+                GUILayout.Label(
+                    "Prepared radius: " + TargetPreparedRadius +
+                    " chunks   •   F9 is a development-only skip",
+                    labelStyle);
+            }
 
             GUILayout.EndArea();
         }
