@@ -235,7 +235,6 @@ namespace LittleCastle.World
             float distance = float.PositiveInfinity;
             float width = 0f;
             float depth = 0f;
-            long riverId = 0;
             for (int i = 0; i < segments.Count; i++)
             {
                 Segment segment = segments[i];
@@ -257,7 +256,6 @@ namespace LittleCastle.World
                 distance = candidateDistance;
                 width = candidateWidth;
                 depth = Mathf.Lerp(segment.depthA, segment.depthB, t);
-                riverId = segment.riverId;
             }
 
             float halfWidth = width * 0.5f;
