@@ -61,8 +61,8 @@ once per Update, shows phase-specific progress and does **not**
 honor the F9 development shortcut while a Q02 adapter is attached.
 Legacy F9 skip is now limited to Editor or `Debug.isDebugBuild`
 when Q02 is absent, to prevent a release-build bootstrap bypass.
-Attaching an adapter after legacy warmup already released the camera
-is rejected.
+Attaching an adapter after legacy warmup has requested its own
+priority radius, or already released the camera, is rejected.
 
 Any early failure or cancellation leaves the camera input locked.
 `OnDisable` cancels an in-flight attached adapter. The previous
@@ -71,7 +71,9 @@ no-adapter startup behavior stays available for old scenes.
 ## Ownership, cleanup, fail-closed semantics
 
 `IWorldStartupAreaPreparation` defines `Begin(completedPlan)`,
-separate prepared/visible readiness, and `CancelPreparation()`.
+separate prepared/visible readiness, `CompletePreparation()` (release
+only temporary prewarm priority **on success** while keeping data/meshes),
+and `CancelPreparation()` (release partial preparation on failure/abort).
 Cancellation and failure are idempotent: release the current active
 preparation once and invoke the optional owner-owned cleanup callback
 once (even when `Begin` throws). Cleanup exceptions lead to
@@ -118,6 +120,7 @@ cause frame hitches larger than a soft budget. This PR is a
 - cancellation after macro, before starting-area readiness;
 - pre-cancelled macro cannot start area preparation;
 - `Begin` failure / readiness provider exception fail closed and release;
+- success finalization once; exception from that finalizer fails closed;
 - cleanup exception becomes Failed, never Ready;
 - NaN / infinity / out-of-range progress cannot manufacture readiness;
 - invalid macro work/time budgets rejected at construction;
@@ -146,6 +149,8 @@ Root then creates a tiny **real root-owned integration sandbox**:
 - construct adapter before legacy warmup releases input;
 - verify no gameplay movement during macro, during incomplete
   starting-data prep, or when only visible meshes are ready;
+- verify successful readiness releases temporary priority exactly once
+  without deleting playable data; failure during this step fails closed;
 - verify cancellation at each phase plus missing active chunk,
   negative coordinate start, streamer destroyed/unloaded, and failed
   strict route diagnostics; no camera unlock, stale priority radius,
