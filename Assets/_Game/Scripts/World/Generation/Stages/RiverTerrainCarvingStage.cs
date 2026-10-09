@@ -39,10 +39,44 @@ namespace LittleCastle.World
         public bool UseAnySegmentCarveEnvelope =>
             useAnySegmentCarveEnvelope;
 
+        [Header("Concept chunk-local river broad phase (opt in)")]
+        [Tooltip(
+            "Cull river segments against this chunk's expanded bounds once " +
+            "before sampling height vertices. Only active when the " +
+            "any-segment carve envelope is enabled; legacy Main is unchanged.")]
+        [SerializeField] private bool useChunkLocalCarveBroadPhase;
+
+        public bool UseChunkLocalCarveBroadPhase =>
+            useChunkLocalCarveBroadPhase;
+
+        // Diagnostics for the most recent Generate call; not authoritative
+        // generation state. Excluded segments require no per-vertex samples.
+        public int LastCandidateSegments { get; private set; }
+        public int LastScannedSegments { get; private set; }
+
+        private readonly struct CarveSegment
+        {
+            public readonly WorldRiverData river;
+            public readonly int index;
+            public readonly Vector2 a;
+            public readonly Vector2 b;
+
+            public CarveSegment(
+                WorldRiverData river, int index, Vector2 a, Vector2 b)
+            {
+                this.river = river;
+                this.index = index;
+                this.a = a;
+                this.b = b;
+            }
+        }
+
         public override void Generate(
             GenerationContext context,
             WorldChunkData chunk)
         {
+            LastCandidateSegments = 0;
+            LastScannedSegments = 0;
             MacroWorldPlan plan = context.MacroPlan;
 
             if (plan == null ||
@@ -65,6 +99,16 @@ namespace LittleCastle.World
                 chunk.Coordinate.z *
                 chunkSize;
 
+            // Opt-in only for the any-segment carve policy; the nearest-only
+            // legacy path must still inspect the whole centerline to choose
+            // its unique closest segment even if that segment contributes 0.
+            List<CarveSegment> localSegments =
+                useAnySegmentCarveEnvelope &&
+                useChunkLocalCarveBroadPhase
+                    ? CollectChunkCandidates(
+                        plan, originX, originZ, chunkSize)
+                    : null;
+
             for (int z = 0;
                  z < chunk.SamplesPerSide;
                  z++)
@@ -79,6 +123,29 @@ namespace LittleCastle.World
                             originZ + z * cellSize);
 
                     float maxCarve = 0f;
+
+                    if (localSegments != null)
+                    {
+                        // Stable river/segment order matches the previous
+                        // nested iteration and Mathf.Max accumulation.
+                        for (int c = 0; c < localSegments.Count; c++)
+                        {
+                            CarveSegment candidate = localSegments[c];
+                            maxCarve = Mathf.Max(
+                                maxCarve,
+                                GetSegmentCarve(
+                                    worldPoint,
+                                    candidate.river,
+                                    candidate.index,
+                                    candidate.a,
+                                    candidate.b));
+                        }
+
+                        if (maxCarve > 0f)
+                            chunk.SetHeight(
+                                x, z, chunk.GetHeight(x, z) - maxCarve);
+                        continue;
+                    }
 
                     for (int r = 0;
                          r < plan.Rivers.Count;
@@ -176,76 +243,125 @@ namespace LittleCastle.World
             }
         }
 
+        private List<CarveSegment> CollectChunkCandidates(
+            MacroWorldPlan plan,
+            float originX,
+            float originZ,
+            float chunkSize)
+        {
+            var result = new List<CarveSegment>(16);
+            float maxX = originX + chunkSize;
+            float maxZ = originZ + chunkSize;
+
+            for (int r = 0; r < plan.Rivers.Count; r++)
+            {
+                WorldRiverData river = plan.Rivers[r];
+                if (river == null || river.centerline == null ||
+                    river.centerline.Count < 2)
+                    continue;
+
+                for (int segmentIndex = 0;
+                     segmentIndex < river.centerline.Count - 1;
+                     segmentIndex++)
+                {
+                    LastScannedSegments++;
+                    if (!RiverEnvelopeUtility.TryCreateSegment(
+                            river, segmentIndex,
+                            out RiverEnvelopeUtility.Segment segment))
+                        continue;
+
+                    // Conservative bound: Q04's minimum half-width is
+                    // 0.1m vs carving's >=0.05m, and the added margin
+                    // dominates max(0.5m, halfWidth + bankFalloff).
+                    // This may include extra segments but must NEVER omit
+                    // a segment that can affect any boundary vertex.
+                    if (!RiverEnvelopeUtility.OverlapsChunk(
+                            segment,
+                            Mathf.Max(0.5f, bankFalloff),
+                            originX, originZ, maxX, maxZ))
+                        continue;
+
+                    result.Add(new CarveSegment(
+                        river, segmentIndex, segment.a, segment.b));
+                }
+            }
+
+            LastCandidateSegments = result.Count;
+            return result;
+        }
+
         private float GetMaxSegmentCarve(
             Vector2 point,
             WorldRiverData river)
         {
             float maxCarve = 0f;
 
-            for (int i = 0;
-                 i < river.centerline.Count - 1;
-                 i++)
+            for (int i = 0; i < river.centerline.Count - 1; i++)
             {
                 Vector2 a = river.centerline[i];
                 Vector2 b = river.centerline[i + 1];
-
                 if ((b - a).sqrMagnitude <= 0.000001f)
                     continue;
 
-                float distanceSqr =
-                    DistancePointSegmentSqr(
-                        point,
-                        a,
-                        b,
-                        out float segmentT);
-
-                float localWidth =
-                    river.GetWidthAtSegment(
-                        i,
-                        segmentT);
-
-                float influenceRadius =
-                    Mathf.Max(
-                        0.5f,
-                        localWidth * 0.5f +
-                        bankFalloff);
-
-                if (distanceSqr >
-                    influenceRadius * influenceRadius)
-                {
-                    continue;
-                }
-
-                float normalized =
-                    Mathf.Clamp01(
-                        Mathf.Sqrt(distanceSqr) /
-                        influenceRadius);
-
-                float profile =
-                    crossSection != null
-                        ? Mathf.Clamp01(
-                            crossSection.Evaluate(
-                                normalized))
-                        : 1f - normalized;
-
-                float carve =
-                    Mathf.Max(
-                        0f,
-                        river.GetDepthAtSegment(
-                            i,
-                            segmentT)) *
-                    Mathf.Max(
-                        0f,
-                        depthMultiplier) *
-                    profile;
-
-                maxCarve =
-                    Mathf.Max(
-                        maxCarve,
-                        carve);
+                maxCarve = Mathf.Max(
+                    maxCarve, GetSegmentCarve(point, river, i, a, b));
             }
 
             return maxCarve;
+        }
+
+        /// <summary>
+        /// Shared exact per-segment carving math for both the original full
+        /// scan and the chunk-local candidate scan. Never substitute Q04's
+        /// wetness mask radius/curve: carving has its own depth profile.
+        /// </summary>
+        private float GetSegmentCarve(
+            Vector2 point,
+            WorldRiverData river,
+            int segmentIndex,
+            Vector2 a,
+            Vector2 b)
+        {
+            float distanceSqr =
+                DistancePointSegmentSqr(
+                    point, a, b, out float segmentT);
+
+            float localWidth =
+                river.GetWidthAtSegment(
+                    segmentIndex, segmentT);
+
+            float influenceRadius =
+                Mathf.Max(
+                    0.5f,
+                    localWidth * 0.5f +
+                    bankFalloff);
+
+            if (distanceSqr >
+                influenceRadius * influenceRadius)
+                return 0f;
+
+            float normalized =
+                Mathf.Clamp01(
+                    Mathf.Sqrt(distanceSqr) /
+                    influenceRadius);
+
+            float profile =
+                crossSection != null
+                    ? Mathf.Clamp01(
+                        crossSection.Evaluate(normalized))
+                    : 1f - normalized;
+
+            float carve =
+                Mathf.Max(
+                    0f,
+                    river.GetDepthAtSegment(
+                        segmentIndex, segmentT)) *
+                Mathf.Max(
+                    0f,
+                    depthMultiplier) *
+                profile;
+
+            return carve;
         }
 
         private static bool TryGetClosestSegment(
