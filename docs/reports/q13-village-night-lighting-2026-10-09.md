@@ -34,7 +34,7 @@ rock/scarp work. The existing 12-light global limit is not increased.
 Only a future root integration explicitly using the Q13 policy can
 change live village presentation.
 
-## Owned additions relative to Q11 (11 files)
+## Owned additions relative to Q11 (13 files)
 
 - NEW `Scripts/World/Rendering/ConceptVillageNightLightingSettings.cs` + GUID .meta
 - NEW `Scripts/World/Rendering/VillageNightLightingPolicy.cs` + GUID .meta
