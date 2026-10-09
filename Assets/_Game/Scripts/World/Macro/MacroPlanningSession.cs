@@ -155,12 +155,15 @@ namespace LittleCastle.World
                 recovery = null;
                 repair = null;
                 Phase = PlanningPhase.Faulted;
-                elapsed.Stop();
                 throw;
             }
-
-            if (IsTerminal)
+            finally
+            {
+                // Count only actual work inside Step, not the idle time
+                // between frames where the main thread runs other systems.
                 elapsed.Stop();
+            }
+
             return executed;
         }
 
