@@ -12,6 +12,9 @@ namespace LittleCastle.World
     /// </summary>
     public static class RealizedRoadConnectivityRepair
     {
+        // This bounds memory even when the configured search distance is unlimited.
+        // Failed or now-redundant candidates may consume slots; incompleteness is reported.
+        public const int MaxPreparedCandidates = 512;
         public sealed class Result
         {
             public int initialComponents;
@@ -20,7 +23,16 @@ namespace LittleCastle.World
             public int acceptedConnections;
             public int routeAttempts;
             public int rejectedConnections;
+            public long candidatePairChecks;
+            public long eligibleCandidatePairs;
+            public long discardedCandidatePairs;
+            public int preparedCandidateCount;
+            public bool attemptBudgetExhausted;
+            public readonly List<long> attemptedRoadIds = new List<long>();
             public readonly List<long> addedRoadIds = new List<long>();
+
+            public bool candidateSelectionTruncated =>
+                discardedCandidatePairs > 0;
 
             public string Summary =>
                 "initial=" + initialComponents +
@@ -28,7 +40,13 @@ namespace LittleCastle.World
                 " candidates=" + candidatesConsidered +
                 " accepted=" + acceptedConnections +
                 " rejected=" + rejectedConnections +
-                " pathAttempts=" + routeAttempts;
+                " pathAttempts=" + routeAttempts +
+                " pairChecks=" + candidatePairChecks +
+                " eligiblePairs=" + eligibleCandidatePairs +
+                " prepared=" + preparedCandidateCount +
+                " discarded=" + discardedCandidatePairs +
+                " poolTruncated=" + candidateSelectionTruncated +
+                " attemptBudgetExhausted=" + attemptBudgetExhausted;
         }
 
         private struct Candidate
@@ -113,48 +131,13 @@ namespace LittleCastle.World
             float maximumDistanceSquared = maximumDistance * maximumDistance;
             int salt = DeterministicHash.String32(
                 "road_network_connection");
-            // Build a finite, stable candidate set; sort by geometric cost
-            // and stable identifiers. Feature insertion order has no effect.
-            var candidates = new List<Candidate>();
-            for (int i = 0; i < features.Count; i++)
-            {
-                for (int j = i + 1; j < features.Count; j++)
-                {
-                    WorldPointFeatureData from = features[i];
-                    WorldPointFeatureData to = features[j];
-                    if (Find(parent, from.stableId) ==
-                        Find(parent, to.stableId))
-                        continue;
-
-                    float distanceSquared =
-                        (from.worldPosition - to.worldPosition).sqrMagnitude;
-                    if (maximumDistance > 0f &&
-                        distanceSquared > maximumDistanceSquared)
-                        continue;
-
-                    long roadId = DeterministicHash.StablePairId(
-                        worldSeed, from.stableId, to.stableId, salt);
-                    if (rejectedIds.Contains(roadId) ||
-                        roadsById.ContainsKey(roadId))
-                        continue;
-
-                    candidates.Add(new Candidate
-                    {
-                        fromId = from.stableId,
-                        toId = to.stableId,
-                        distanceSquared = distanceSquared,
-                        roadId = roadId
-                    });
-                }
-            }
-            candidates.Sort((a, b) =>
-            {
-                int order = a.distanceSquared.CompareTo(b.distanceSquared);
-                if (order != 0) return order;
-                order = a.fromId.CompareTo(b.fromId);
-                if (order != 0) return order;
-                return a.toId.CompareTo(b.toId);
-            });
+            // Keep only the closest pairs, not an O(featureCount^2) list.
+            // An X-sorted sweep also avoids distant pairs when a distance
+            // restriction is configured; unrestricted dense cases still need
+            // O(N^2) comparisons, but only O(N + MaxPreparedCandidates) memory.
+            var candidates = PrepareCandidates(
+                worldSeed, features, parent, rejectedIds, roadsById,
+                maximumDistance, maximumDistanceSquared, salt, result);
 
             for (int i = 0;
                  i < candidates.Count && components > 1 &&
@@ -168,6 +151,7 @@ namespace LittleCastle.World
                     continue;
 
                 result.candidatesConsidered++;
+                result.attemptedRoadIds.Add(candidate.roadId);
                 var connection = new WorldRoadConnectionData(
                     candidate.roadId, candidate.fromId, candidate.toId,
                     networkSettings.roadKind);
@@ -213,7 +197,118 @@ namespace LittleCastle.World
             }
 
             result.remainingComponents = components;
+            result.attemptBudgetExhausted =
+                components > 1 && result.candidatesConsidered >= maxCandidates;
             return result;
+        }
+
+        private static List<Candidate> PrepareCandidates(
+            int worldSeed,
+            List<WorldPointFeatureData> features,
+            Dictionary<long, long> parent,
+            HashSet<long> rejectedIds,
+            Dictionary<long, WorldRoadData> roadsById,
+            float maximumDistance,
+            float maximumDistanceSquared,
+            int salt,
+            Result result)
+        {
+            // Sort spatially for an inexpensive, conservative X-distance
+            // rejection. Canonicalize pair IDs independently of this order.
+            var spatial = new List<WorldPointFeatureData>(features);
+            spatial.Sort((a, b) =>
+            {
+                int order = a.worldPosition.x.CompareTo(b.worldPosition.x);
+                if (order != 0) return order;
+                order = a.worldPosition.y.CompareTo(b.worldPosition.y);
+                if (order != 0) return order;
+                return a.stableId.CompareTo(b.stableId);
+            });
+
+            var candidates = new List<Candidate>(
+                System.Math.Min(MaxPreparedCandidates, spatial.Count));
+            for (int i = 0; i < spatial.Count; i++)
+            {
+                WorldPointFeatureData first = spatial[i];
+                long firstComponent = Find(parent, first.stableId);
+                for (int j = i + 1; j < spatial.Count; j++)
+                {
+                    WorldPointFeatureData second = spatial[j];
+                    if (maximumDistance > 0f &&
+                        second.worldPosition.x - first.worldPosition.x >
+                        maximumDistance)
+                        break;
+
+                    result.candidatePairChecks++;
+                    if (firstComponent == Find(parent, second.stableId))
+                        continue;
+
+                    float distanceSquared =
+                        (first.worldPosition - second.worldPosition).sqrMagnitude;
+                    if (maximumDistance > 0f &&
+                        distanceSquared > maximumDistanceSquared)
+                        continue;
+
+                    long fromId = System.Math.Min(first.stableId, second.stableId);
+                    long toId = System.Math.Max(first.stableId, second.stableId);
+                    long roadId = DeterministicHash.StablePairId(
+                        worldSeed, fromId, toId, salt);
+                    if (rejectedIds.Contains(roadId) ||
+                        roadsById.ContainsKey(roadId))
+                        continue;
+
+                    result.eligibleCandidatePairs++;
+                    var candidate = new Candidate
+                    {
+                        fromId = fromId,
+                        toId = toId,
+                        roadId = roadId,
+                        distanceSquared = distanceSquared
+                    };
+
+                    // Sorted bounded insertion preserves the previous
+                    // distance/fromId/toId ordering, independent of input
+                    // insertion and spatial traversal order.
+                    if (candidates.Count == MaxPreparedCandidates &&
+                        CompareCandidates(
+                            candidate, candidates[candidates.Count - 1]) >= 0)
+                    {
+                        result.discardedCandidatePairs++;
+                        continue;
+                    }
+
+                    int low = 0;
+                    int high = candidates.Count;
+                    while (low < high)
+                    {
+                        int mid = low + (high - low) / 2;
+                        if (CompareCandidates(candidate, candidates[mid]) > 0)
+                            low = mid + 1;
+                        else
+                            high = mid;
+                    }
+
+                    if (candidates.Count == MaxPreparedCandidates)
+                    {
+                        candidates.RemoveAt(candidates.Count - 1);
+                        result.discardedCandidatePairs++;
+                    }
+
+                    candidates.Insert(low, candidate);
+                }
+            }
+
+            result.preparedCandidateCount = candidates.Count;
+            return candidates;
+        }
+
+        private static int CompareCandidates(Candidate a, Candidate b)
+        {
+            int order = a.distanceSquared.CompareTo(b.distanceSquared);
+            if (order != 0) return order;
+            order = a.fromId.CompareTo(b.fromId);
+            if (order != 0) return order;
+            return a.toId.CompareTo(b.toId);
         }
 
         private static void RemoveUnrealizedRejectedConnections(
