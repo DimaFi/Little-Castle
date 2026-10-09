@@ -22,28 +22,73 @@ Material:
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
-    m_TexEnvs: []
+    m_TexEnvs:
+    - _DirtAO:
+        m_Texture: {fileID: 2800000, guid: 48e6af80058bccf46b27864efb8598ef, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DirtNormal:
+        m_Texture: {fileID: 2800000, guid: e6e828adfd9e7f949817da4c52cbad23, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DirtTex:
+        m_Texture: {fileID: 2800000, guid: f2fe06aa6bafa1a438df475ed90bcf94, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _GrassAO:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _GrassHeight:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _GrassNormal:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _GrassTex:
+        m_Texture: {fileID: 2800000, guid: eef5318b12cf9b04e9ca581c5ebd72b0, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _RockTex:
+        m_Texture: {fileID: 2800000, guid: ad3ddc1c76ae06449bea4a1c4b3b49fb, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SoilTex:
+        m_Texture: {fileID: 2800000, guid: 8c96f7dff98448d4a9755c5979fe67c8, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
     - _AmbientStrength: 0.9
+    - _ContactShadeStrength: 0.42
+    - _DirtDetail: 0.65
     - _DirtHeightEnd: 2
     - _DirtHeightStart: 0
+    - _GrassDetail: 0.4
+    - _GroundPalette: 1
     - _HeightBlendStrength: 0
+    - _LightResponse: 0.55
     - _LightWrap: 0.22
     - _MacroScale: 0.012
     - _MacroStrength: 0.1
+    - _PathEdgeSharpness: 0.7
     - _PathMaskStrength: 1
     - _RockSlopeEnd: 0.55
     - _RockSlopeStart: 0.24
     - _ShadowSoftness: 0.36
     - _ShadowTintStrength: 0.45
+    - _SurfaceDetailStrength: 0.28
+    - _TextureDetail: 0.22
     - _UseVertexMasks: 1
     - _WetnessStrength: 0.55
-    - _GroundPalette: 1
-    - _WorldTiling: 0.075
+    - _WorldTiling: 0.36
     m_Colors:
-    - _GrassColor: {r: 0.34, g: 0.47, b: 0.28, a: 1}
-    - _DirtColor: {r: 0.46, g: 0.37, b: 0.27, a: 1}
+    - _DirtColor: {r: 0.53, g: 0.38, b: 0.24, a: 1}
+    - _DryGrassColor: {r: 0.43, g: 0.46, b: 0.24, a: 1}
+    - _GrassColor: {r: 0.35, g: 0.43, b: 0.22, a: 1}
     - _RockColor: {r: 0.56, g: 0.54, b: 0.47, a: 1}
+    - _SoilColor: {r: 0.39, g: 0.34, b: 0.2, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

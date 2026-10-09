@@ -15,12 +15,12 @@ MonoBehaviour:
   entries:
   - archetypeId: tree_main_01
     prefabs:
-    - {fileID: 7908561189645844976, guid: e81b6a4033dc85347b8f48fff80d2ccd, type: 3}
+    - {fileID: 551560475079860146, guid: a1587a18a293ea64bb3326655f222a45, type: 3}
     scaleMultiplier: 1
     rotationOffsetEuler: {x: 0, y: 0, z: 0}
   - archetypeId: rock_ground_01
     prefabs:
-    - {fileID: 7908561189645844976, guid: e81b6a4033dc85347b8f48fff80d2ccd, type: 3}
+    - {fileID: 8381071314062874232, guid: 972d2dfee3460754eac8d222a4c1c059, type: 3}
     scaleMultiplier: 1
     rotationOffsetEuler: {x: 0, y: 0, z: 0}
   - archetypeId: deposit_stone_01
@@ -35,7 +35,7 @@ MonoBehaviour:
     rotationOffsetEuler: {x: 0, y: 0, z: 0}
   - archetypeId: neutral_village_01
     prefabs:
-    - {fileID: 7908561189645844976, guid: e81b6a4033dc85347b8f48fff80d2ccd, type: 3}
+    - {fileID: 6815734947253506508, guid: 5c3a56716a1def74cbde2c8fd9e7dceb, type: 3}
     scaleMultiplier: 1
     rotationOffsetEuler: {x: 0, y: 0, z: 0}
   - archetypeId: ruin_fortified_01

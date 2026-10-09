@@ -79,13 +79,19 @@ namespace LittleCastle.Editor
                     "verified Bridge_Stone_A_v002 prefab. No placeholders.");
 
             if (!definition.MapRules.TryResolvePreset(
-                "concept_preview", 2, out _, out string error))
+                "concept_slice", 2, out _, out string error))
                 throw new InvalidOperationException(
                     "Concept 2-player finite map preset invalid: " + error);
 
             // Explicit new asset only, no edits to Main or BridgeTest scene.
             EditorSceneManager.NewScene(
                 NewSceneSetup.EmptyScene, NewSceneMode.Single);
+            // NewScene can unload unreferenced ScriptableObjects. Resolve the
+            // persistent definition again before assigning scene references.
+            definition = AssetDatabase.LoadAssetAtPath<WorldDefinition>(
+                ConceptWorldProfileBuilder.DefinitionPath);
+            if (definition == null)
+                throw new InvalidOperationException("Concept definition unloaded during scene creation.");
 
             var focus = new GameObject("Camera Streaming Focus");
             focus.transform.position = Vector3.zero;
@@ -93,13 +99,13 @@ namespace LittleCastle.Editor
             var root = new GameObject("Concept WorldStreamer");
             var streamer = root.AddComponent<WorldStreamer>();
             var state = new SerializedObject(streamer);
-            state.FindProperty("worldSeed").intValue = 12345;
+            state.FindProperty("worldSeed").intValue = -10101;
             state.FindProperty("worldDefinition").objectReferenceValue =
                 definition;
             state.FindProperty("useFiniteSessionMap").boolValue = true;
             state.FindProperty("sessionPlayerCount").intValue = 2;
             state.FindProperty("mapSizePresetId").stringValue =
-                "concept_preview";
+                "concept_slice";
             state.FindProperty("focus").objectReferenceValue =
                 focus.transform;
             state.FindProperty("streamOnStart").boolValue = true;
@@ -116,7 +122,7 @@ namespace LittleCastle.Editor
             var cameraGo = new GameObject("Concept RTS Camera");
             var camera = cameraGo.AddComponent<Camera>();
             camera.tag = "MainCamera";
-            camera.clearFlags = CameraClearFlags.SolidColor;
+            camera.clearFlags = CameraClearFlags.Skybox;
             camera.backgroundColor = new Color(.73f, .80f, .83f);
             camera.nearClipPlane = .1f;
             camera.farClipPlane = 1800f;
@@ -166,6 +172,13 @@ namespace LittleCastle.Editor
                 sun;
             atmosphereData.FindProperty("moon").objectReferenceValue =
                 moon;
+            atmosphereData.FindProperty("maxMoonIntensity").floatValue = .22f;
+            atmosphereData.FindProperty("nightAmbientSky").colorValue = new Color(.34f, .42f, .57f);
+            atmosphereData.FindProperty("nightAmbientEquator").colorValue = new Color(.28f, .35f, .46f);
+            atmosphereData.FindProperty("nightAmbientGround").colorValue = new Color(.22f, .28f, .36f);
+            atmosphereData.FindProperty("skyboxMaterial").objectReferenceValue =
+                AssetDatabase.LoadAssetAtPath<Material>(
+                    "Assets/_Game/Settings/World/ConceptWorld_v001/Concept_Sky.mat");
             atmosphereData.ApplyModifiedPropertiesWithoutUndo();
 
             var lighting = new GameObject("Concept Stylized Lighting")
@@ -194,7 +207,7 @@ namespace LittleCastle.Editor
             Debug.Log(
                 "[Concept Procedural] Created isolated true streaming " +
                 "scene: " + ScenePath +
-                " | seed=12345, players=2, concept_preview finite map; " +
+                " | seed=-10101, players=2, concept_slice finite map; " +
                 "runtime content is generated in Play. This is NOT a PASS " +
                 "for macro routes, fairness, GPU or the finished visuals. " +
                 "Cold macro startup may be expensive: profile it.");
