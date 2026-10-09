@@ -123,6 +123,14 @@ namespace LittleCastle.World
                         continue;
 
                     int n = bl.Cells;
+                    if (!Close(bl.data.GetHeight(n, n),
+                            br.data.GetHeight(0, n)) ||
+                        !Close(bl.data.GetHeight(n, n),
+                            tl.data.GetHeight(n, 0)) ||
+                        !Close(bl.data.GetHeight(n, n),
+                            tr.data.GetHeight(0, 0)))
+                        continue;
+
                     float dxSlope =
                         (br.data.GetHeight(1, n) -
                          bl.data.GetHeight(n - 1, n)) / (2f * step);
@@ -173,6 +181,12 @@ namespace LittleCastle.World
         {
             int n = west.Cells;
             int stride = west.Stride;
+            // A normal weld must never conceal an actual height crack.
+            for (int z = 0; z <= n; z++)
+                if (!Close(west.data.GetHeight(n, z),
+                        east.data.GetHeight(0, z)))
+                    return;
+
             for (int z = 1; z < n; z++)
             {
                 float dxSlope =
@@ -193,6 +207,11 @@ namespace LittleCastle.World
         {
             int n = south.Cells;
             int stride = south.Stride;
+            for (int x = 0; x <= n; x++)
+                if (!Close(south.data.GetHeight(x, n),
+                        north.data.GetHeight(x, 0)))
+                    return;
+
             for (int x = 1; x < n; x++)
             {
                 float dxSlope =
@@ -205,6 +224,13 @@ namespace LittleCastle.World
                 Assign(updates, south, n * stride + x, normal);
                 Assign(updates, north, x, normal);
             }
+        }
+
+        private static bool Close(float a, float b)
+        {
+            return !float.IsNaN(a) && !float.IsNaN(b) &&
+                !float.IsInfinity(a) && !float.IsInfinity(b) &&
+                Mathf.Abs(a - b) <= 0.001f;
         }
 
         private static Vector3 Normal(float dx, float dz)
