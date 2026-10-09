@@ -205,15 +205,8 @@ namespace LittleCastle.World
                     if (!rule.allowedBiomes.Contains(biome))
                         continue;
 
-                    SurfaceKind surface = chunk.GetSurface(
-                        Mathf.Clamp(
-                            Mathf.FloorToInt((worldX - minX) /
-                                context.Settings.CellWorldSize),
-                            0, chunk.CellsPerSide - 1),
-                        Mathf.Clamp(
-                            Mathf.FloorToInt((worldZ - minZ) /
-                                context.Settings.CellWorldSize),
-                            0, chunk.CellsPerSide - 1));
+                    SurfaceKind surface = WorldChunkSampling.SampleSurface(
+                        chunk, context.Settings, worldX, worldZ);
 
                     if (restrictTreeSurfaces &&
                         rule.category == SpawnCategory.Tree &&
