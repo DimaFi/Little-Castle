@@ -248,6 +248,26 @@ namespace LittleCastle.Tests
         }
 
         [Test]
+        public void HittingSpawnQuota_RemainsIdempotentOnSameChunk()
+        {
+            Set(stage, "maxSpawnsPerChunk", 2);
+            var chunk = Chunk(-1, -1);
+            var context = new GenerationContext(
+                -10101, settings, RiverPlan());
+            stage.Generate(context, chunk);
+            Assert.That(chunk.Spawns.Count, Is.EqualTo(2));
+            long first = chunk.Spawns[0].stableId;
+            long second = chunk.Spawns[1].stableId;
+
+            stage.Generate(context, chunk);
+            Assert.That(chunk.Spawns.Count, Is.EqualTo(2),
+                "The previously committed 2 candidates consume the quota.");
+            Assert.That(chunk.Spawns[0].stableId, Is.EqualTo(first));
+            Assert.That(chunk.Spawns[1].stableId, Is.EqualTo(second));
+            Assert.That(stage.LastAddedSpawns, Is.Zero);
+        }
+
+        [Test]
         public void InvalidRuleOrGameplayBushCategory_FailsClosed()
         {
             stage.Rules[0].minimumBankDistance = 20f;
