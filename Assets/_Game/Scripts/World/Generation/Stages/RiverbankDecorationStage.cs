@@ -170,8 +170,25 @@ namespace LittleCastle.World
             }
 
             var knownIds = new HashSet<long>();
+            int alreadyOwned = 0;
             foreach (WorldSpawnData existing in chunk.Spawns)
+            {
                 knownIds.Add(existing.stableId);
+                // Include previously committed Q09 candidates in the
+                // per-chunk quota. Otherwise a second Generate() could
+                // append another full budget and defeat idempotence.
+                for (int r = 0; r < rules.Count; r++)
+                {
+                    RiverbankDecorationRule own = rules[r];
+                    if (own != null && own.IsValid &&
+                        own.archetypeId == existing.archetypeId &&
+                        existing.category == SpawnCategory.Decoration)
+                    {
+                        alreadyOwned++;
+                        break;
+                    }
+                }
+            }
 
             // Per-rule grid coordinates are ABSOLUTE world space and
             // half-open at the maximum chunk boundary. Revisit and adjacent
@@ -193,7 +210,8 @@ namespace LittleCastle.World
                     for (int gx = startX; gx <= endX; gx++)
                     {
                         if (LastCandidateChecks >= maxCandidateChecksPerChunk ||
-                            LastAddedSpawns >= maxSpawnsPerChunk)
+                            alreadyOwned + LastAddedSpawns >=
+                                maxSpawnsPerChunk)
                             return;
 
                         float jitterX = Mathf.Lerp(
