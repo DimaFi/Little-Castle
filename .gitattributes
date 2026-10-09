@@ -6,3 +6,9 @@ docs/reports/desktop-verification-2026-10-08/*.png filter=lfs diff=lfs merge=lfs
 docs/reports/concept-night-refinement-evidence-2026-10-09*/*.png filter=lfs diff=lfs merge=lfs -text
 Assets/_Game/Models/Concept/BridgeValidation/Terrain_*.asset filter=lfs diff=lfs merge=lfs -text
 Assets/_Game/Models/Concept/BridgeValidation/Water_*.asset filter=lfs diff=lfs merge=lfs -text
+# Reviewed, immutable CliffKit payload; authoring tools and .blend stay in the art repository.
+Assets/_Game/Art/Imported/CliffKit/v001/Meshes/*.fbx filter=lfs diff=lfs merge=lfs -text
+Assets/_Game/Art/Imported/CliffKit/v001/Textures/**/*.png filter=lfs diff=lfs merge=lfs -text
+Assets/_Game/Art/Imported/CliffKit/v001/** -text
+docs/reports/cliff-kit-v001-evidence/*.png filter=lfs diff=lfs merge=lfs -text
+docs/reports/cliff-kit-v001-evidence/*.jpg filter=lfs diff=lfs merge=lfs -text

@@ -1,0 +1,700 @@
+{
+  "asset_id": "ENV_CliffKit",
+  "version": "v001",
+  "status": "REVIEWED_BLENDER_CANDIDATE_ISOLATED_UNITY_INTAKE",
+  "source_commit": "7dcd0945b507d4b78e620d5afd8a0cfedf2915c3",
+  "source_path": "Source/Environment/CliffKit/v001",
+  "blender": "4.4.3",
+  "export_date": "2026-10-09",
+  "unit": "m",
+  "pivot": "toe centre; Unity Y-up +Z uphill",
+  "collider_intention": "none; real gameplay terrain owns collision and navigation",
+  "unity_tested": false,
+  "files": [
+    {
+      "path": "ASSET_CATALOG.json",
+      "sha256": "9709a50e6eb943ac5a9b4712ab0f685e919cbc4590942191b36777952663c676",
+      "bytes": 10109
+    },
+    {
+      "path": "Meshes/Cliff_Concave_A_LOD0.fbx",
+      "sha256": "10a0ba92502f52d664597cb6b3539f3153cd22d1c31a31339ff23cfa49fd78df",
+      "bytes": 60044
+    },
+    {
+      "path": "Meshes/Cliff_Concave_A_LOD1.fbx",
+      "sha256": "aae74bdfd348b2727ac97059188c4654d59e30d096979b5383c84a5c470118f1",
+      "bytes": 37148
+    },
+    {
+      "path": "Meshes/Cliff_Concave_A_LOD2.fbx",
+      "sha256": "596d8cc517b11bc4b91d6558c52a93b9aef37ec5eb4614cd3c7c7ba1cdf4a652",
+      "bytes": 33452
+    },
+    {
+      "path": "Meshes/Cliff_Convex_A_LOD0.fbx",
+      "sha256": "86e6a9f94d9db792275e50984450a57f8027d5ede01be2d22fef97c71c90dde1",
+      "bytes": 60124
+    },
+    {
+      "path": "Meshes/Cliff_Convex_A_LOD1.fbx",
+      "sha256": "4936fff46bf82fd80cf052b8c546e4654cc3fd394b89984a0978eba8e872583a",
+      "bytes": 37180
+    },
+    {
+      "path": "Meshes/Cliff_Convex_A_LOD2.fbx",
+      "sha256": "e6b3bed9092d3fc3903fe1ae70a6f669c47e6bf95d452c3e6506dbdd67048a92",
+      "bytes": 33452
+    },
+    {
+      "path": "Meshes/Cliff_End_Left_LOD0.fbx",
+      "sha256": "093ee96c1d79d81fdcfb31e10a768c19cc64fed4c6bf760d4531172fece9a1d0",
+      "bytes": 59148
+    },
+    {
+      "path": "Meshes/Cliff_End_Left_LOD1.fbx",
+      "sha256": "cccc77c3631127395a2c5a9f28da9617db49d3a1ef7ae5cc56284b7baf19d820",
+      "bytes": 36860
+    },
+    {
+      "path": "Meshes/Cliff_End_Left_LOD2.fbx",
+      "sha256": "6c298476c22ac0995e13d175ff8707a289f121e8ed3bb711307ca38ad9a3055b",
+      "bytes": 32924
+    },
+    {
+      "path": "Meshes/Cliff_End_Right_LOD0.fbx",
+      "sha256": "bb623be185159e20b589b5b2d6e677f51f1c911df37697fc31ebe0313b6c0a4e",
+      "bytes": 59180
+    },
+    {
+      "path": "Meshes/Cliff_End_Right_LOD1.fbx",
+      "sha256": "d5531c620a44ac5857238ecc78558df393c81f9ebd3c99d5a9c9a6582c0cabce",
+      "bytes": 36860
+    },
+    {
+      "path": "Meshes/Cliff_End_Right_LOD2.fbx",
+      "sha256": "badd6a3fb3c9f0d10e20351d115be9d9a269221590487a2cd98a1317ef2563b8",
+      "bytes": 32972
+    },
+    {
+      "path": "Meshes/Cliff_Straight_A_LOD0.fbx",
+      "sha256": "261b8fbdb4b783bad2c3ca4e2fa0242cc855dafaec9eb3837a7e647350f3e873",
+      "bytes": 59068
+    },
+    {
+      "path": "Meshes/Cliff_Straight_A_LOD1.fbx",
+      "sha256": "d01fa985cacba84bb8be85af52ef66892d0bf5aceb05134f22b22341ecc0f560",
+      "bytes": 36572
+    },
+    {
+      "path": "Meshes/Cliff_Straight_A_LOD2.fbx",
+      "sha256": "8d2d5e14718da2e77c6de87c8b9c0bafc8829e04a6c0374f23639b1a08f3bfde",
+      "bytes": 32876
+    },
+    {
+      "path": "Meshes/Cliff_Straight_B_LOD0.fbx",
+      "sha256": "2cb8321fab4419800ea2f31168b0aa29da8a1cfa8d00e3c4b107ef2d77e069f2",
+      "bytes": 59196
+    },
+    {
+      "path": "Meshes/Cliff_Straight_B_LOD1.fbx",
+      "sha256": "fa607b643525804179085ca1670a39300d9de1f5460a31cda56d9dabb6bb5552",
+      "bytes": 36748
+    },
+    {
+      "path": "Meshes/Cliff_Straight_B_LOD2.fbx",
+      "sha256": "4d053144d1b2bb45ac67dfc56578056e85738a38f2e29d86dbcd31e4c7430827",
+      "bytes": 33004
+    },
+    {
+      "path": "Meshes/Cliff_Terrace_High_LOD0.fbx",
+      "sha256": "80252c927e315c177c8c998c5e514d5d5f58f53d99d8f34600eda015967883d2",
+      "bytes": 58748
+    },
+    {
+      "path": "Meshes/Cliff_Terrace_High_LOD1.fbx",
+      "sha256": "83a3cacb87f32f167cb898a38a207ac6bfdcd3ca854dfb0e79a1e8c47362e029",
+      "bytes": 36636
+    },
+    {
+      "path": "Meshes/Cliff_Terrace_High_LOD2.fbx",
+      "sha256": "0234d00278121c204dbb38ec00cb1aab6d0718172aa1256740ca2293b684a2d1",
+      "bytes": 32876
+    },
+    {
+      "path": "Meshes/Cliff_Terrace_Low_LOD0.fbx",
+      "sha256": "cddc0760a9ed8c35863a2b367793185b848138ad6760a3717049ccedb0a16309",
+      "bytes": 59372
+    },
+    {
+      "path": "Meshes/Cliff_Terrace_Low_LOD1.fbx",
+      "sha256": "2042dd04c920c4b357f2dd3de796c22cacb969cc2546812ff3bb6186b42b913a",
+      "bytes": 36780
+    },
+    {
+      "path": "Meshes/Cliff_Terrace_Low_LOD2.fbx",
+      "sha256": "18cf464619718962be561492158419521239ff82ad9ee069fbafb5499deee216",
+      "bytes": 32988
+    },
+    {
+      "path": "Meshes/Ramp_Hike_A_LOD0.fbx",
+      "sha256": "c28463a28e10f41678ba21c2d480c2416bd0069fafb72b763e85fd324b23baa8",
+      "bytes": 42140
+    },
+    {
+      "path": "Meshes/Ramp_Hike_A_LOD1.fbx",
+      "sha256": "dba8f8a08171f70e7c1b8a39cc74d494dcc76a416312e653cc4de8682bb55f82",
+      "bytes": 32492
+    },
+    {
+      "path": "Meshes/Ramp_Hike_A_LOD2.fbx",
+      "sha256": "09dfdda494221507de3f8cb65260aea382985e647c1fbda69233a834302619b0",
+      "bytes": 30284
+    },
+    {
+      "path": "Meshes/Ramp_Hike_B_LOD0.fbx",
+      "sha256": "6435dc04db65fa1ad3e8f51418d62b5b25f8b28df9dc37c02f0e7fd3bcbca71e",
+      "bytes": 42220
+    },
+    {
+      "path": "Meshes/Ramp_Hike_B_LOD1.fbx",
+      "sha256": "2d66267bde47971b0aed4a1671b8c66535cb006d9d3dbac277eff8228336912e",
+      "bytes": 32588
+    },
+    {
+      "path": "Meshes/Ramp_Hike_B_LOD2.fbx",
+      "sha256": "4bdf122e699ddf8d6c802b83052a3a0659f831500c552bbfc6a11fe5e9d1fa60",
+      "bytes": 30316
+    },
+    {
+      "path": "Meshes/Rock_Boulder_Large_LOD0.fbx",
+      "sha256": "cc6078dcba48e3e2491fcab377a4c8d25e51c599ec724dda334b9ced70f2385d",
+      "bytes": 28620
+    },
+    {
+      "path": "Meshes/Rock_Boulder_Large_LOD1.fbx",
+      "sha256": "29c0f06a4f46530a3430996b87547cf5ce47bdc1f3fa2fcff579b12fb0ffe143",
+      "bytes": 25036
+    },
+    {
+      "path": "Meshes/Rock_Boulder_Large_LOD2.fbx",
+      "sha256": "6e528787ed78d604eef0f99e42e990a7d25c6f8a242e939be9602fce23baad81",
+      "bytes": 23756
+    },
+    {
+      "path": "Meshes/Rock_Boulder_Small_LOD0.fbx",
+      "sha256": "ed725226352b0dc125bf3793466bd119996e22e1dc432e2b15c7d271fe8c5b2e",
+      "bytes": 28604
+    },
+    {
+      "path": "Meshes/Rock_Boulder_Small_LOD1.fbx",
+      "sha256": "b7dc16cbf296d59ca5f637d58517d07233cfa443b57d59bff7507f692612d24a",
+      "bytes": 25004
+    },
+    {
+      "path": "Meshes/Rock_Boulder_Small_LOD2.fbx",
+      "sha256": "d8dc744298d63215b6b5591160b3afc241d769de7858848e48d0629805ce6319",
+      "bytes": 23772
+    },
+    {
+      "path": "Meshes/Rock_Outcrop_Large_LOD0.fbx",
+      "sha256": "9de292e3416da68607151072fb4ed2d7afe149be93fa37f819254570df3577a2",
+      "bytes": 28572
+    },
+    {
+      "path": "Meshes/Rock_Outcrop_Large_LOD1.fbx",
+      "sha256": "b5f8731d23dded0069a77954a1da355511f987d62112f391d728af7870df86b2",
+      "bytes": 24972
+    },
+    {
+      "path": "Meshes/Rock_Outcrop_Large_LOD2.fbx",
+      "sha256": "1d1f21e5f1fdf471b63b9bfd67f37e8f920a72ce578041637a36967c9770c80d",
+      "bytes": 23724
+    },
+    {
+      "path": "Meshes/Rock_Outcrop_Medium_LOD0.fbx",
+      "sha256": "ea578a8447157fd1071c00fc2a2b44d899e0f99258ac2d775905bfaab10a5861",
+      "bytes": 28556
+    },
+    {
+      "path": "Meshes/Rock_Outcrop_Medium_LOD1.fbx",
+      "sha256": "ac229dbbfee36705135a647009a983a408113122661e9e91477d6f0ec63722f1",
+      "bytes": 24988
+    },
+    {
+      "path": "Meshes/Rock_Outcrop_Medium_LOD2.fbx",
+      "sha256": "ea87a142b3e09c8709a8545fcb82f9c4f11c031f52ae7139ffd0f4e2a82f64c2",
+      "bytes": 23740
+    },
+    {
+      "path": "Textures/Rock_Limestone_A/BaseColor.png",
+      "sha256": "7661792d8ad1bdfca3951cda216c91a69602b6cdb2266d258f06b77f78f5beff",
+      "bytes": 286271
+    },
+    {
+      "path": "Textures/Rock_Limestone_A/Normal_OpenGL.png",
+      "sha256": "b74de25d993fc61a7612e1f91a3456f1fd88c31450fc92f6e73e999b7717fa3d",
+      "bytes": 714101
+    },
+    {
+      "path": "Textures/Rock_Limestone_A/Roughness.png",
+      "sha256": "0c8966f4c4d9a174beefaa56530ebdd1a2a764907dc524d9702c9973c36eda34",
+      "bytes": 87906
+    },
+    {
+      "path": "Textures/Rock_Limestone_A/AO_Approx.png",
+      "sha256": "ab3515756c3e8ba5ba423cb81957113faceaa8878773496b98080c71a16cd5da",
+      "bytes": 117853
+    },
+    {
+      "path": "Textures/Rock_Limestone_B/BaseColor.png",
+      "sha256": "62259019f2e524a164f1481960c2d7036bdc12f56760c5dfacacfe8a09f67a0c",
+      "bytes": 289892
+    },
+    {
+      "path": "Textures/Rock_Limestone_B/Normal_OpenGL.png",
+      "sha256": "5ebde49e500bfc5c076f483cd05366ea281e1cc93bea46735033f120e7682a63",
+      "bytes": 711331
+    },
+    {
+      "path": "Textures/Rock_Limestone_B/Roughness.png",
+      "sha256": "147b75a7bc455f798759df35688a3e9b6bd0c6f8908ba358616ccd169e18feba",
+      "bytes": 88479
+    },
+    {
+      "path": "Textures/Rock_Limestone_B/AO_Approx.png",
+      "sha256": "cf8cd864f4f1a9ecf8db3cc8f5cbbfd844b2ff4a122429d0f7d41f2313a81153",
+      "bytes": 120250
+    },
+    {
+      "path": "Textures/GrassCap_A/BaseColor.png",
+      "sha256": "19bbe9ebe6033d87b6d1f9bbaa18cc1991af129366f1e67b96b21ce0102a860e",
+      "bytes": 226443
+    },
+    {
+      "path": "Textures/GrassCap_A/Normal_OpenGL.png",
+      "sha256": "d1bc5043973a807af0dd4608540d7638801293084b10573b52762761d93f9f45",
+      "bytes": 101450
+    },
+    {
+      "path": "Textures/GrassCap_A/Roughness.png",
+      "sha256": "af8b327b1123082fc1e696f7100ebb315b4895aa8fc76925a390e3680ee8d1a7",
+      "bytes": 48667
+    },
+    {
+      "path": "Textures/GrassCap_A/AO_Approx.png",
+      "sha256": "c5541526bee0df7936f3c75cd1367bde19c72c21606e281fe6e0966557d6d36c",
+      "bytes": 48375
+    }
+  ],
+  "files_sha256": {
+    "ASSET_CATALOG.json": "9709a50e6eb943ac5a9b4712ab0f685e919cbc4590942191b36777952663c676",
+    "Meshes/Cliff_Concave_A_LOD0.fbx": "10a0ba92502f52d664597cb6b3539f3153cd22d1c31a31339ff23cfa49fd78df",
+    "Meshes/Cliff_Concave_A_LOD1.fbx": "aae74bdfd348b2727ac97059188c4654d59e30d096979b5383c84a5c470118f1",
+    "Meshes/Cliff_Concave_A_LOD2.fbx": "596d8cc517b11bc4b91d6558c52a93b9aef37ec5eb4614cd3c7c7ba1cdf4a652",
+    "Meshes/Cliff_Convex_A_LOD0.fbx": "86e6a9f94d9db792275e50984450a57f8027d5ede01be2d22fef97c71c90dde1",
+    "Meshes/Cliff_Convex_A_LOD1.fbx": "4936fff46bf82fd80cf052b8c546e4654cc3fd394b89984a0978eba8e872583a",
+    "Meshes/Cliff_Convex_A_LOD2.fbx": "e6b3bed9092d3fc3903fe1ae70a6f669c47e6bf95d452c3e6506dbdd67048a92",
+    "Meshes/Cliff_End_Left_LOD0.fbx": "093ee96c1d79d81fdcfb31e10a768c19cc64fed4c6bf760d4531172fece9a1d0",
+    "Meshes/Cliff_End_Left_LOD1.fbx": "cccc77c3631127395a2c5a9f28da9617db49d3a1ef7ae5cc56284b7baf19d820",
+    "Meshes/Cliff_End_Left_LOD2.fbx": "6c298476c22ac0995e13d175ff8707a289f121e8ed3bb711307ca38ad9a3055b",
+    "Meshes/Cliff_End_Right_LOD0.fbx": "bb623be185159e20b589b5b2d6e677f51f1c911df37697fc31ebe0313b6c0a4e",
+    "Meshes/Cliff_End_Right_LOD1.fbx": "d5531c620a44ac5857238ecc78558df393c81f9ebd3c99d5a9c9a6582c0cabce",
+    "Meshes/Cliff_End_Right_LOD2.fbx": "badd6a3fb3c9f0d10e20351d115be9d9a269221590487a2cd98a1317ef2563b8",
+    "Meshes/Cliff_Straight_A_LOD0.fbx": "261b8fbdb4b783bad2c3ca4e2fa0242cc855dafaec9eb3837a7e647350f3e873",
+    "Meshes/Cliff_Straight_A_LOD1.fbx": "d01fa985cacba84bb8be85af52ef66892d0bf5aceb05134f22b22341ecc0f560",
+    "Meshes/Cliff_Straight_A_LOD2.fbx": "8d2d5e14718da2e77c6de87c8b9c0bafc8829e04a6c0374f23639b1a08f3bfde",
+    "Meshes/Cliff_Straight_B_LOD0.fbx": "2cb8321fab4419800ea2f31168b0aa29da8a1cfa8d00e3c4b107ef2d77e069f2",
+    "Meshes/Cliff_Straight_B_LOD1.fbx": "fa607b643525804179085ca1670a39300d9de1f5460a31cda56d9dabb6bb5552",
+    "Meshes/Cliff_Straight_B_LOD2.fbx": "4d053144d1b2bb45ac67dfc56578056e85738a38f2e29d86dbcd31e4c7430827",
+    "Meshes/Cliff_Terrace_High_LOD0.fbx": "80252c927e315c177c8c998c5e514d5d5f58f53d99d8f34600eda015967883d2",
+    "Meshes/Cliff_Terrace_High_LOD1.fbx": "83a3cacb87f32f167cb898a38a207ac6bfdcd3ca854dfb0e79a1e8c47362e029",
+    "Meshes/Cliff_Terrace_High_LOD2.fbx": "0234d00278121c204dbb38ec00cb1aab6d0718172aa1256740ca2293b684a2d1",
+    "Meshes/Cliff_Terrace_Low_LOD0.fbx": "cddc0760a9ed8c35863a2b367793185b848138ad6760a3717049ccedb0a16309",
+    "Meshes/Cliff_Terrace_Low_LOD1.fbx": "2042dd04c920c4b357f2dd3de796c22cacb969cc2546812ff3bb6186b42b913a",
+    "Meshes/Cliff_Terrace_Low_LOD2.fbx": "18cf464619718962be561492158419521239ff82ad9ee069fbafb5499deee216",
+    "Meshes/Ramp_Hike_A_LOD0.fbx": "c28463a28e10f41678ba21c2d480c2416bd0069fafb72b763e85fd324b23baa8",
+    "Meshes/Ramp_Hike_A_LOD1.fbx": "dba8f8a08171f70e7c1b8a39cc74d494dcc76a416312e653cc4de8682bb55f82",
+    "Meshes/Ramp_Hike_A_LOD2.fbx": "09dfdda494221507de3f8cb65260aea382985e647c1fbda69233a834302619b0",
+    "Meshes/Ramp_Hike_B_LOD0.fbx": "6435dc04db65fa1ad3e8f51418d62b5b25f8b28df9dc37c02f0e7fd3bcbca71e",
+    "Meshes/Ramp_Hike_B_LOD1.fbx": "2d66267bde47971b0aed4a1671b8c66535cb006d9d3dbac277eff8228336912e",
+    "Meshes/Ramp_Hike_B_LOD2.fbx": "4bdf122e699ddf8d6c802b83052a3a0659f831500c552bbfc6a11fe5e9d1fa60",
+    "Meshes/Rock_Boulder_Large_LOD0.fbx": "cc6078dcba48e3e2491fcab377a4c8d25e51c599ec724dda334b9ced70f2385d",
+    "Meshes/Rock_Boulder_Large_LOD1.fbx": "29c0f06a4f46530a3430996b87547cf5ce47bdc1f3fa2fcff579b12fb0ffe143",
+    "Meshes/Rock_Boulder_Large_LOD2.fbx": "6e528787ed78d604eef0f99e42e990a7d25c6f8a242e939be9602fce23baad81",
+    "Meshes/Rock_Boulder_Small_LOD0.fbx": "ed725226352b0dc125bf3793466bd119996e22e1dc432e2b15c7d271fe8c5b2e",
+    "Meshes/Rock_Boulder_Small_LOD1.fbx": "b7dc16cbf296d59ca5f637d58517d07233cfa443b57d59bff7507f692612d24a",
+    "Meshes/Rock_Boulder_Small_LOD2.fbx": "d8dc744298d63215b6b5591160b3afc241d769de7858848e48d0629805ce6319",
+    "Meshes/Rock_Outcrop_Large_LOD0.fbx": "9de292e3416da68607151072fb4ed2d7afe149be93fa37f819254570df3577a2",
+    "Meshes/Rock_Outcrop_Large_LOD1.fbx": "b5f8731d23dded0069a77954a1da355511f987d62112f391d728af7870df86b2",
+    "Meshes/Rock_Outcrop_Large_LOD2.fbx": "1d1f21e5f1fdf471b63b9bfd67f37e8f920a72ce578041637a36967c9770c80d",
+    "Meshes/Rock_Outcrop_Medium_LOD0.fbx": "ea578a8447157fd1071c00fc2a2b44d899e0f99258ac2d775905bfaab10a5861",
+    "Meshes/Rock_Outcrop_Medium_LOD1.fbx": "ac229dbbfee36705135a647009a983a408113122661e9e91477d6f0ec63722f1",
+    "Meshes/Rock_Outcrop_Medium_LOD2.fbx": "ea87a142b3e09c8709a8545fcb82f9c4f11c031f52ae7139ffd0f4e2a82f64c2",
+    "Textures/Rock_Limestone_A/BaseColor.png": "7661792d8ad1bdfca3951cda216c91a69602b6cdb2266d258f06b77f78f5beff",
+    "Textures/Rock_Limestone_A/Normal_OpenGL.png": "b74de25d993fc61a7612e1f91a3456f1fd88c31450fc92f6e73e999b7717fa3d",
+    "Textures/Rock_Limestone_A/Roughness.png": "0c8966f4c4d9a174beefaa56530ebdd1a2a764907dc524d9702c9973c36eda34",
+    "Textures/Rock_Limestone_A/AO_Approx.png": "ab3515756c3e8ba5ba423cb81957113faceaa8878773496b98080c71a16cd5da",
+    "Textures/Rock_Limestone_B/BaseColor.png": "62259019f2e524a164f1481960c2d7036bdc12f56760c5dfacacfe8a09f67a0c",
+    "Textures/Rock_Limestone_B/Normal_OpenGL.png": "5ebde49e500bfc5c076f483cd05366ea281e1cc93bea46735033f120e7682a63",
+    "Textures/Rock_Limestone_B/Roughness.png": "147b75a7bc455f798759df35688a3e9b6bd0c6f8908ba358616ccd169e18feba",
+    "Textures/Rock_Limestone_B/AO_Approx.png": "cf8cd864f4f1a9ecf8db3cc8f5cbbfd844b2ff4a122429d0f7d41f2313a81153",
+    "Textures/GrassCap_A/BaseColor.png": "19bbe9ebe6033d87b6d1f9bbaa18cc1991af129366f1e67b96b21ce0102a860e",
+    "Textures/GrassCap_A/Normal_OpenGL.png": "d1bc5043973a807af0dd4608540d7638801293084b10573b52762761d93f9f45",
+    "Textures/GrassCap_A/Roughness.png": "af8b327b1123082fc1e696f7100ebb315b4895aa8fc76925a390e3680ee8d1a7",
+    "Textures/GrassCap_A/AO_Approx.png": "c5541526bee0df7936f3c75cd1367bde19c72c21606e281fe6e0966557d6d36c"
+  },
+  "assets": [
+    {
+      "id": "Cliff_Straight_A",
+      "kind": "cliff",
+      "width": 16,
+      "height": 6.0,
+      "depth": 5,
+      "profile": "straight",
+      "grass": true,
+      "archetypeId": "cliffkit_cliff_straight_a",
+      "lod_triangle_counts": [
+        924,
+        272,
+        170
+      ],
+      "lod_fbx": [
+        "Meshes/Cliff_Straight_A_LOD0.fbx",
+        "Meshes/Cliff_Straight_A_LOD1.fbx",
+        "Meshes/Cliff_Straight_A_LOD2.fbx"
+      ],
+      "pivot": "toe centre; metres; Unity Y-up; +Z uphill",
+      "render_only_not_navigation": true,
+      "colliders": "none; terrain owns collision",
+      "clear_walk_width_m": 0,
+      "nominal_grade_degrees": 0
+    },
+    {
+      "id": "Cliff_Straight_B",
+      "kind": "cliff",
+      "width": 12,
+      "height": 8.0,
+      "depth": 5,
+      "profile": "straight",
+      "grass": true,
+      "archetypeId": "cliffkit_cliff_straight_b",
+      "lod_triangle_counts": [
+        924,
+        272,
+        170
+      ],
+      "lod_fbx": [
+        "Meshes/Cliff_Straight_B_LOD0.fbx",
+        "Meshes/Cliff_Straight_B_LOD1.fbx",
+        "Meshes/Cliff_Straight_B_LOD2.fbx"
+      ],
+      "pivot": "toe centre; metres; Unity Y-up; +Z uphill",
+      "render_only_not_navigation": true,
+      "colliders": "none; terrain owns collision",
+      "clear_walk_width_m": 0,
+      "nominal_grade_degrees": 0
+    },
+    {
+      "id": "Cliff_Convex_A",
+      "kind": "cliff",
+      "width": 18,
+      "height": 7.0,
+      "depth": 5,
+      "profile": "convex",
+      "grass": true,
+      "archetypeId": "cliffkit_cliff_convex_a",
+      "lod_triangle_counts": [
+        924,
+        272,
+        170
+      ],
+      "lod_fbx": [
+        "Meshes/Cliff_Convex_A_LOD0.fbx",
+        "Meshes/Cliff_Convex_A_LOD1.fbx",
+        "Meshes/Cliff_Convex_A_LOD2.fbx"
+      ],
+      "pivot": "toe centre; metres; Unity Y-up; +Z uphill",
+      "render_only_not_navigation": true,
+      "colliders": "none; terrain owns collision",
+      "clear_walk_width_m": 0,
+      "nominal_grade_degrees": 0
+    },
+    {
+      "id": "Cliff_Concave_A",
+      "kind": "cliff",
+      "width": 18,
+      "height": 7.0,
+      "depth": 5,
+      "profile": "concave",
+      "grass": true,
+      "archetypeId": "cliffkit_cliff_concave_a",
+      "lod_triangle_counts": [
+        924,
+        272,
+        170
+      ],
+      "lod_fbx": [
+        "Meshes/Cliff_Concave_A_LOD0.fbx",
+        "Meshes/Cliff_Concave_A_LOD1.fbx",
+        "Meshes/Cliff_Concave_A_LOD2.fbx"
+      ],
+      "pivot": "toe centre; metres; Unity Y-up; +Z uphill",
+      "render_only_not_navigation": true,
+      "colliders": "none; terrain owns collision",
+      "clear_walk_width_m": 0,
+      "nominal_grade_degrees": 0
+    },
+    {
+      "id": "Cliff_Terrace_Low",
+      "kind": "cliff",
+      "width": 14,
+      "height": 3.5,
+      "depth": 6,
+      "profile": "terrace",
+      "grass": true,
+      "archetypeId": "cliffkit_cliff_terrace_low",
+      "lod_triangle_counts": [
+        924,
+        272,
+        170
+      ],
+      "lod_fbx": [
+        "Meshes/Cliff_Terrace_Low_LOD0.fbx",
+        "Meshes/Cliff_Terrace_Low_LOD1.fbx",
+        "Meshes/Cliff_Terrace_Low_LOD2.fbx"
+      ],
+      "pivot": "toe centre; metres; Unity Y-up; +Z uphill",
+      "render_only_not_navigation": true,
+      "colliders": "none; terrain owns collision",
+      "clear_walk_width_m": 0,
+      "nominal_grade_degrees": 0
+    },
+    {
+      "id": "Cliff_Terrace_High",
+      "kind": "cliff",
+      "width": 16,
+      "height": 10.0,
+      "depth": 7,
+      "profile": "terrace",
+      "grass": true,
+      "archetypeId": "cliffkit_cliff_terrace_high",
+      "lod_triangle_counts": [
+        924,
+        272,
+        170
+      ],
+      "lod_fbx": [
+        "Meshes/Cliff_Terrace_High_LOD0.fbx",
+        "Meshes/Cliff_Terrace_High_LOD1.fbx",
+        "Meshes/Cliff_Terrace_High_LOD2.fbx"
+      ],
+      "pivot": "toe centre; metres; Unity Y-up; +Z uphill",
+      "render_only_not_navigation": true,
+      "colliders": "none; terrain owns collision",
+      "clear_walk_width_m": 0,
+      "nominal_grade_degrees": 0
+    },
+    {
+      "id": "Cliff_End_Left",
+      "kind": "cliff",
+      "width": 12,
+      "height": 6.0,
+      "depth": 5,
+      "profile": "end_left",
+      "grass": true,
+      "archetypeId": "cliffkit_cliff_end_left",
+      "lod_triangle_counts": [
+        924,
+        272,
+        170
+      ],
+      "lod_fbx": [
+        "Meshes/Cliff_End_Left_LOD0.fbx",
+        "Meshes/Cliff_End_Left_LOD1.fbx",
+        "Meshes/Cliff_End_Left_LOD2.fbx"
+      ],
+      "pivot": "toe centre; metres; Unity Y-up; +Z uphill",
+      "render_only_not_navigation": true,
+      "colliders": "none; terrain owns collision",
+      "clear_walk_width_m": 0,
+      "nominal_grade_degrees": 0
+    },
+    {
+      "id": "Cliff_End_Right",
+      "kind": "cliff",
+      "width": 12,
+      "height": 6.0,
+      "depth": 5,
+      "profile": "end_right",
+      "grass": true,
+      "archetypeId": "cliffkit_cliff_end_right",
+      "lod_triangle_counts": [
+        924,
+        272,
+        170
+      ],
+      "lod_fbx": [
+        "Meshes/Cliff_End_Right_LOD0.fbx",
+        "Meshes/Cliff_End_Right_LOD1.fbx",
+        "Meshes/Cliff_End_Right_LOD2.fbx"
+      ],
+      "pivot": "toe centre; metres; Unity Y-up; +Z uphill",
+      "render_only_not_navigation": true,
+      "colliders": "none; terrain owns collision",
+      "clear_walk_width_m": 0,
+      "nominal_grade_degrees": 0
+    },
+    {
+      "id": "Rock_Outcrop_Large",
+      "kind": "rock",
+      "width": 8,
+      "height": 4.0,
+      "depth": 6,
+      "profile": "outcrop",
+      "grass": false,
+      "archetypeId": "cliffkit_rock_outcrop_large",
+      "lod_triangle_counts": [
+        192,
+        96,
+        64
+      ],
+      "lod_fbx": [
+        "Meshes/Rock_Outcrop_Large_LOD0.fbx",
+        "Meshes/Rock_Outcrop_Large_LOD1.fbx",
+        "Meshes/Rock_Outcrop_Large_LOD2.fbx"
+      ],
+      "pivot": "toe centre; metres; Unity Y-up; +Z uphill",
+      "render_only_not_navigation": true,
+      "colliders": "none; terrain owns collision",
+      "clear_walk_width_m": 0,
+      "nominal_grade_degrees": 0
+    },
+    {
+      "id": "Rock_Outcrop_Medium",
+      "kind": "rock",
+      "width": 4,
+      "height": 2.4,
+      "depth": 3,
+      "profile": "outcrop",
+      "grass": false,
+      "archetypeId": "cliffkit_rock_outcrop_medium",
+      "lod_triangle_counts": [
+        192,
+        96,
+        64
+      ],
+      "lod_fbx": [
+        "Meshes/Rock_Outcrop_Medium_LOD0.fbx",
+        "Meshes/Rock_Outcrop_Medium_LOD1.fbx",
+        "Meshes/Rock_Outcrop_Medium_LOD2.fbx"
+      ],
+      "pivot": "toe centre; metres; Unity Y-up; +Z uphill",
+      "render_only_not_navigation": true,
+      "colliders": "none; terrain owns collision",
+      "clear_walk_width_m": 0,
+      "nominal_grade_degrees": 0
+    },
+    {
+      "id": "Rock_Boulder_Small",
+      "kind": "rock",
+      "width": 1.7,
+      "height": 1.1,
+      "depth": 1.4,
+      "profile": "boulder",
+      "grass": false,
+      "archetypeId": "cliffkit_rock_boulder_small",
+      "lod_triangle_counts": [
+        192,
+        96,
+        64
+      ],
+      "lod_fbx": [
+        "Meshes/Rock_Boulder_Small_LOD0.fbx",
+        "Meshes/Rock_Boulder_Small_LOD1.fbx",
+        "Meshes/Rock_Boulder_Small_LOD2.fbx"
+      ],
+      "pivot": "toe centre; metres; Unity Y-up; +Z uphill",
+      "render_only_not_navigation": true,
+      "colliders": "none; terrain owns collision",
+      "clear_walk_width_m": 0,
+      "nominal_grade_degrees": 0
+    },
+    {
+      "id": "Rock_Boulder_Large",
+      "kind": "rock",
+      "width": 3.6,
+      "height": 2.6,
+      "depth": 3.2,
+      "profile": "boulder",
+      "grass": false,
+      "archetypeId": "cliffkit_rock_boulder_large",
+      "lod_triangle_counts": [
+        192,
+        96,
+        64
+      ],
+      "lod_fbx": [
+        "Meshes/Rock_Boulder_Large_LOD0.fbx",
+        "Meshes/Rock_Boulder_Large_LOD1.fbx",
+        "Meshes/Rock_Boulder_Large_LOD2.fbx"
+      ],
+      "pivot": "toe centre; metres; Unity Y-up; +Z uphill",
+      "render_only_not_navigation": true,
+      "colliders": "none; terrain owns collision",
+      "clear_walk_width_m": 0,
+      "nominal_grade_degrees": 0
+    },
+    {
+      "id": "Ramp_Hike_A",
+      "kind": "ramp",
+      "width": 7,
+      "height": 6.5,
+      "depth": 24,
+      "profile": "hike",
+      "grass": true,
+      "archetypeId": "cliffkit_ramp_hike_a",
+      "lod_triangle_counts": [
+        576,
+        192,
+        108
+      ],
+      "lod_fbx": [
+        "Meshes/Ramp_Hike_A_LOD0.fbx",
+        "Meshes/Ramp_Hike_A_LOD1.fbx",
+        "Meshes/Ramp_Hike_A_LOD2.fbx"
+      ],
+      "pivot": "toe centre; metres; Unity Y-up; +Z uphill",
+      "render_only_not_navigation": true,
+      "colliders": "none; terrain owns collision",
+      "clear_walk_width_m": 3.5,
+      "nominal_grade_degrees": 15.154068050312599
+    },
+    {
+      "id": "Ramp_Hike_B",
+      "kind": "ramp",
+      "width": 9,
+      "height": 9.0,
+      "depth": 32,
+      "profile": "hike",
+      "grass": true,
+      "archetypeId": "cliffkit_ramp_hike_b",
+      "lod_triangle_counts": [
+        576,
+        192,
+        108
+      ],
+      "lod_fbx": [
+        "Meshes/Ramp_Hike_B_LOD0.fbx",
+        "Meshes/Ramp_Hike_B_LOD1.fbx",
+        "Meshes/Ramp_Hike_B_LOD2.fbx"
+      ],
+      "pivot": "toe centre; metres; Unity Y-up; +Z uphill",
+      "render_only_not_navigation": true,
+      "colliders": "none; terrain owns collision",
+      "clear_walk_width_m": 4.5,
+      "nominal_grade_degrees": 15.708637829015744
+    }
+  ],
+  "notes": "Source/QA contains 70 real Blender renders, mesh/FBX evidence and texture provenance. Unity intake and gameplay/GPU acceptance must be recorded separately. Height and MossMask preserved in source only. Cap is rigid opaque ground, not foliage wind geometry."
+}

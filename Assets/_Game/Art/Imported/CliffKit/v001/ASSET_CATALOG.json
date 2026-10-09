@@ -1,0 +1,361 @@
+{
+  "schema": "cliffkit-v001",
+  "seed": 20261009,
+  "blender": "4.4.3",
+  "unit": "m",
+  "source_basis": "Blender Z-up",
+  "unity_basis": "Y-up +Z uphill",
+  "status": "ART_CANDIDATE_UNITY_ACCEPTANCE_REQUIRED",
+  "assets": [
+    {
+      "id": "Cliff_Straight_A",
+      "kind": "cliff",
+      "width": 16,
+      "height": 6.0,
+      "depth": 5,
+      "profile": "straight",
+      "grass": true,
+      "archetypeId": "cliffkit_cliff_straight_a",
+      "lod_triangle_counts": [
+        924,
+        272,
+        170
+      ],
+      "lod_fbx": [
+        "Meshes/Cliff_Straight_A_LOD0.fbx",
+        "Meshes/Cliff_Straight_A_LOD1.fbx",
+        "Meshes/Cliff_Straight_A_LOD2.fbx"
+      ],
+      "pivot": "toe centre; metres; Unity Y-up; +Z uphill",
+      "render_only_not_navigation": true,
+      "colliders": "none; terrain owns collision",
+      "clear_walk_width_m": 0,
+      "nominal_grade_degrees": 0
+    },
+    {
+      "id": "Cliff_Straight_B",
+      "kind": "cliff",
+      "width": 12,
+      "height": 8.0,
+      "depth": 5,
+      "profile": "straight",
+      "grass": true,
+      "archetypeId": "cliffkit_cliff_straight_b",
+      "lod_triangle_counts": [
+        924,
+        272,
+        170
+      ],
+      "lod_fbx": [
+        "Meshes/Cliff_Straight_B_LOD0.fbx",
+        "Meshes/Cliff_Straight_B_LOD1.fbx",
+        "Meshes/Cliff_Straight_B_LOD2.fbx"
+      ],
+      "pivot": "toe centre; metres; Unity Y-up; +Z uphill",
+      "render_only_not_navigation": true,
+      "colliders": "none; terrain owns collision",
+      "clear_walk_width_m": 0,
+      "nominal_grade_degrees": 0
+    },
+    {
+      "id": "Cliff_Convex_A",
+      "kind": "cliff",
+      "width": 18,
+      "height": 7.0,
+      "depth": 5,
+      "profile": "convex",
+      "grass": true,
+      "archetypeId": "cliffkit_cliff_convex_a",
+      "lod_triangle_counts": [
+        924,
+        272,
+        170
+      ],
+      "lod_fbx": [
+        "Meshes/Cliff_Convex_A_LOD0.fbx",
+        "Meshes/Cliff_Convex_A_LOD1.fbx",
+        "Meshes/Cliff_Convex_A_LOD2.fbx"
+      ],
+      "pivot": "toe centre; metres; Unity Y-up; +Z uphill",
+      "render_only_not_navigation": true,
+      "colliders": "none; terrain owns collision",
+      "clear_walk_width_m": 0,
+      "nominal_grade_degrees": 0
+    },
+    {
+      "id": "Cliff_Concave_A",
+      "kind": "cliff",
+      "width": 18,
+      "height": 7.0,
+      "depth": 5,
+      "profile": "concave",
+      "grass": true,
+      "archetypeId": "cliffkit_cliff_concave_a",
+      "lod_triangle_counts": [
+        924,
+        272,
+        170
+      ],
+      "lod_fbx": [
+        "Meshes/Cliff_Concave_A_LOD0.fbx",
+        "Meshes/Cliff_Concave_A_LOD1.fbx",
+        "Meshes/Cliff_Concave_A_LOD2.fbx"
+      ],
+      "pivot": "toe centre; metres; Unity Y-up; +Z uphill",
+      "render_only_not_navigation": true,
+      "colliders": "none; terrain owns collision",
+      "clear_walk_width_m": 0,
+      "nominal_grade_degrees": 0
+    },
+    {
+      "id": "Cliff_Terrace_Low",
+      "kind": "cliff",
+      "width": 14,
+      "height": 3.5,
+      "depth": 6,
+      "profile": "terrace",
+      "grass": true,
+      "archetypeId": "cliffkit_cliff_terrace_low",
+      "lod_triangle_counts": [
+        924,
+        272,
+        170
+      ],
+      "lod_fbx": [
+        "Meshes/Cliff_Terrace_Low_LOD0.fbx",
+        "Meshes/Cliff_Terrace_Low_LOD1.fbx",
+        "Meshes/Cliff_Terrace_Low_LOD2.fbx"
+      ],
+      "pivot": "toe centre; metres; Unity Y-up; +Z uphill",
+      "render_only_not_navigation": true,
+      "colliders": "none; terrain owns collision",
+      "clear_walk_width_m": 0,
+      "nominal_grade_degrees": 0
+    },
+    {
+      "id": "Cliff_Terrace_High",
+      "kind": "cliff",
+      "width": 16,
+      "height": 10.0,
+      "depth": 7,
+      "profile": "terrace",
+      "grass": true,
+      "archetypeId": "cliffkit_cliff_terrace_high",
+      "lod_triangle_counts": [
+        924,
+        272,
+        170
+      ],
+      "lod_fbx": [
+        "Meshes/Cliff_Terrace_High_LOD0.fbx",
+        "Meshes/Cliff_Terrace_High_LOD1.fbx",
+        "Meshes/Cliff_Terrace_High_LOD2.fbx"
+      ],
+      "pivot": "toe centre; metres; Unity Y-up; +Z uphill",
+      "render_only_not_navigation": true,
+      "colliders": "none; terrain owns collision",
+      "clear_walk_width_m": 0,
+      "nominal_grade_degrees": 0
+    },
+    {
+      "id": "Cliff_End_Left",
+      "kind": "cliff",
+      "width": 12,
+      "height": 6.0,
+      "depth": 5,
+      "profile": "end_left",
+      "grass": true,
+      "archetypeId": "cliffkit_cliff_end_left",
+      "lod_triangle_counts": [
+        924,
+        272,
+        170
+      ],
+      "lod_fbx": [
+        "Meshes/Cliff_End_Left_LOD0.fbx",
+        "Meshes/Cliff_End_Left_LOD1.fbx",
+        "Meshes/Cliff_End_Left_LOD2.fbx"
+      ],
+      "pivot": "toe centre; metres; Unity Y-up; +Z uphill",
+      "render_only_not_navigation": true,
+      "colliders": "none; terrain owns collision",
+      "clear_walk_width_m": 0,
+      "nominal_grade_degrees": 0
+    },
+    {
+      "id": "Cliff_End_Right",
+      "kind": "cliff",
+      "width": 12,
+      "height": 6.0,
+      "depth": 5,
+      "profile": "end_right",
+      "grass": true,
+      "archetypeId": "cliffkit_cliff_end_right",
+      "lod_triangle_counts": [
+        924,
+        272,
+        170
+      ],
+      "lod_fbx": [
+        "Meshes/Cliff_End_Right_LOD0.fbx",
+        "Meshes/Cliff_End_Right_LOD1.fbx",
+        "Meshes/Cliff_End_Right_LOD2.fbx"
+      ],
+      "pivot": "toe centre; metres; Unity Y-up; +Z uphill",
+      "render_only_not_navigation": true,
+      "colliders": "none; terrain owns collision",
+      "clear_walk_width_m": 0,
+      "nominal_grade_degrees": 0
+    },
+    {
+      "id": "Rock_Outcrop_Large",
+      "kind": "rock",
+      "width": 8,
+      "height": 4.0,
+      "depth": 6,
+      "profile": "outcrop",
+      "grass": false,
+      "archetypeId": "cliffkit_rock_outcrop_large",
+      "lod_triangle_counts": [
+        192,
+        96,
+        64
+      ],
+      "lod_fbx": [
+        "Meshes/Rock_Outcrop_Large_LOD0.fbx",
+        "Meshes/Rock_Outcrop_Large_LOD1.fbx",
+        "Meshes/Rock_Outcrop_Large_LOD2.fbx"
+      ],
+      "pivot": "toe centre; metres; Unity Y-up; +Z uphill",
+      "render_only_not_navigation": true,
+      "colliders": "none; terrain owns collision",
+      "clear_walk_width_m": 0,
+      "nominal_grade_degrees": 0
+    },
+    {
+      "id": "Rock_Outcrop_Medium",
+      "kind": "rock",
+      "width": 4,
+      "height": 2.4,
+      "depth": 3,
+      "profile": "outcrop",
+      "grass": false,
+      "archetypeId": "cliffkit_rock_outcrop_medium",
+      "lod_triangle_counts": [
+        192,
+        96,
+        64
+      ],
+      "lod_fbx": [
+        "Meshes/Rock_Outcrop_Medium_LOD0.fbx",
+        "Meshes/Rock_Outcrop_Medium_LOD1.fbx",
+        "Meshes/Rock_Outcrop_Medium_LOD2.fbx"
+      ],
+      "pivot": "toe centre; metres; Unity Y-up; +Z uphill",
+      "render_only_not_navigation": true,
+      "colliders": "none; terrain owns collision",
+      "clear_walk_width_m": 0,
+      "nominal_grade_degrees": 0
+    },
+    {
+      "id": "Rock_Boulder_Small",
+      "kind": "rock",
+      "width": 1.7,
+      "height": 1.1,
+      "depth": 1.4,
+      "profile": "boulder",
+      "grass": false,
+      "archetypeId": "cliffkit_rock_boulder_small",
+      "lod_triangle_counts": [
+        192,
+        96,
+        64
+      ],
+      "lod_fbx": [
+        "Meshes/Rock_Boulder_Small_LOD0.fbx",
+        "Meshes/Rock_Boulder_Small_LOD1.fbx",
+        "Meshes/Rock_Boulder_Small_LOD2.fbx"
+      ],
+      "pivot": "toe centre; metres; Unity Y-up; +Z uphill",
+      "render_only_not_navigation": true,
+      "colliders": "none; terrain owns collision",
+      "clear_walk_width_m": 0,
+      "nominal_grade_degrees": 0
+    },
+    {
+      "id": "Rock_Boulder_Large",
+      "kind": "rock",
+      "width": 3.6,
+      "height": 2.6,
+      "depth": 3.2,
+      "profile": "boulder",
+      "grass": false,
+      "archetypeId": "cliffkit_rock_boulder_large",
+      "lod_triangle_counts": [
+        192,
+        96,
+        64
+      ],
+      "lod_fbx": [
+        "Meshes/Rock_Boulder_Large_LOD0.fbx",
+        "Meshes/Rock_Boulder_Large_LOD1.fbx",
+        "Meshes/Rock_Boulder_Large_LOD2.fbx"
+      ],
+      "pivot": "toe centre; metres; Unity Y-up; +Z uphill",
+      "render_only_not_navigation": true,
+      "colliders": "none; terrain owns collision",
+      "clear_walk_width_m": 0,
+      "nominal_grade_degrees": 0
+    },
+    {
+      "id": "Ramp_Hike_A",
+      "kind": "ramp",
+      "width": 7,
+      "height": 6.5,
+      "depth": 24,
+      "profile": "hike",
+      "grass": true,
+      "archetypeId": "cliffkit_ramp_hike_a",
+      "lod_triangle_counts": [
+        576,
+        192,
+        108
+      ],
+      "lod_fbx": [
+        "Meshes/Ramp_Hike_A_LOD0.fbx",
+        "Meshes/Ramp_Hike_A_LOD1.fbx",
+        "Meshes/Ramp_Hike_A_LOD2.fbx"
+      ],
+      "pivot": "toe centre; metres; Unity Y-up; +Z uphill",
+      "render_only_not_navigation": true,
+      "colliders": "none; terrain owns collision",
+      "clear_walk_width_m": 3.5,
+      "nominal_grade_degrees": 15.154068050312599
+    },
+    {
+      "id": "Ramp_Hike_B",
+      "kind": "ramp",
+      "width": 9,
+      "height": 9.0,
+      "depth": 32,
+      "profile": "hike",
+      "grass": true,
+      "archetypeId": "cliffkit_ramp_hike_b",
+      "lod_triangle_counts": [
+        576,
+        192,
+        108
+      ],
+      "lod_fbx": [
+        "Meshes/Ramp_Hike_B_LOD0.fbx",
+        "Meshes/Ramp_Hike_B_LOD1.fbx",
+        "Meshes/Ramp_Hike_B_LOD2.fbx"
+      ],
+      "pivot": "toe centre; metres; Unity Y-up; +Z uphill",
+      "render_only_not_navigation": true,
+      "colliders": "none; terrain owns collision",
+      "clear_walk_width_m": 4.5,
+      "nominal_grade_degrees": 15.708637829015744
+    }
+  ]
+}
