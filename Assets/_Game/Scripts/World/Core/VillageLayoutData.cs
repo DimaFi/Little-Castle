@@ -20,6 +20,7 @@ namespace LittleCastle.World
         public float pathSampleInterval;
         public float maximumPathStep;
         public float maximumCourtyardSlope;
+        public float maximumWellHeightSpread;
 
         public bool IsValid =>
             houseCount >= 3 && houseCount <= 5 &&
@@ -35,6 +36,8 @@ namespace LittleCastle.World
             pathSampleInterval >= 0.25f &&
             pathSampleInterval <= 3f &&
             Finite(maximumPathStep) && maximumPathStep >= 0f &&
+            Finite(maximumWellHeightSpread) &&
+            maximumWellHeightSpread >= 0f &&
             Finite(maximumCourtyardSlope) &&
             maximumCourtyardSlope >= 0f &&
             maximumCourtyardSlope <= 90f &&
@@ -161,6 +164,7 @@ namespace LittleCastle.World
         public readonly BuildingFootprintRejection footprintRejection;
         public readonly int failedSlot;
         public readonly int candidatesAttempted;
+        public readonly VillageLayoutRejection lastCandidateReason;
         public readonly Vector2 rejectedAt;
 
         public VillageLayoutFailure(
@@ -168,12 +172,14 @@ namespace LittleCastle.World
             BuildingFootprintRejection footprintRejection,
             int failedSlot,
             int candidatesAttempted,
+            VillageLayoutRejection lastCandidateReason,
             Vector2 rejectedAt)
         {
             this.reason = reason;
             this.footprintRejection = footprintRejection;
             this.failedSlot = failedSlot;
             this.candidatesAttempted = candidatesAttempted;
+            this.lastCandidateReason = lastCandidateReason;
             this.rejectedAt = rejectedAt;
         }
     }
