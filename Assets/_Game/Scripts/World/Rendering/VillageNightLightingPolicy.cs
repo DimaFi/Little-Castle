@@ -62,20 +62,20 @@ namespace LittleCastle.Rendering
         public readonly int emissive;
         public readonly int groundPools;
         public readonly int realtimeRequests;
-        public readonly int globalBudgetDenied;
+        public readonly int realtimeCandidatesDenied;
 
         public VillageNightBudgetMetrics(
             int markers,
             int emissive,
             int groundPools,
             int realtimeRequests,
-            int globalBudgetDenied)
+            int realtimeCandidatesDenied)
         {
             this.markers = markers;
             this.emissive = emissive;
             this.groundPools = groundPools;
             this.realtimeRequests = realtimeRequests;
-            this.globalBudgetDenied = globalBudgetDenied;
+            this.realtimeCandidatesDenied = realtimeCandidatesDenied;
         }
     }
 
