@@ -61,6 +61,25 @@ namespace LittleCastle.World
 
         public IReadOnlyList<ScatterSpawnRule> Rules => rules;
 
+        [Header("Concept-only natural prop distribution (opt in)")]
+        [Tooltip("Avoid placing tree trunks on exposed rock, roads and riverbed " +
+                 "cells even if the broad terrain/biome masks would allow them.")]
+        [SerializeField] private bool restrictTreeSurfaces;
+
+        [Tooltip("Bias non-resource decorative rock spawn rolls towards actual " +
+                 "rock surfaces or hills; never raises density above the " +
+                 "authored baseChance. Does not affect resource deposits.")]
+        [SerializeField] private bool biasDecorativeRocksToSlopes;
+
+        [Range(0f, 1f)]
+        [SerializeField] private float flatRockChanceMultiplier = 0.25f;
+
+        [Range(0f, 90f)]
+        [SerializeField] private float rockSlopeBiasStart = 8f;
+
+        [Range(0f, 90f)]
+        [SerializeField] private float rockSlopeBiasFull = 30f;
+
         public override void Generate(GenerationContext context, WorldChunkData chunk)
         {
             float chunkSize = context.Settings.ChunkWorldSize;
@@ -80,7 +99,7 @@ namespace LittleCastle.World
             }
         }
 
-        private static void GenerateRule(
+        private void GenerateRule(
             GenerationContext context,
             WorldChunkData chunk,
             ScatterSpawnRule rule,
@@ -186,7 +205,46 @@ namespace LittleCastle.World
                     if (!rule.allowedBiomes.Contains(biome))
                         continue;
 
+                    SurfaceKind surface = chunk.GetSurface(
+                        Mathf.Clamp(
+                            Mathf.FloorToInt((worldX - minX) /
+                                context.Settings.CellWorldSize),
+                            0, chunk.CellsPerSide - 1),
+                        Mathf.Clamp(
+                            Mathf.FloorToInt((worldZ - minZ) /
+                                context.Settings.CellWorldSize),
+                            0, chunk.CellsPerSide - 1));
+
+                    if (restrictTreeSurfaces &&
+                        rule.category == SpawnCategory.Tree &&
+                        !IsNaturalTreeSurface(surface))
+                        continue;
+
                     float chance = Mathf.Clamp01(rule.baseChance);
+
+                    if (biasDecorativeRocksToSlopes &&
+                        rule.category == SpawnCategory.Rock)
+                    {
+                        // No new rocks or increased population: solely
+                        // shift existing chance toward true exposed stone
+                        // and steep slopes, retaining some flatland props.
+                        float rockAffinity =
+                            surface == SurfaceKind.Rock
+                                ? 1f
+                                : Mathf.Lerp(
+                                    Mathf.Clamp01(flatRockChanceMultiplier),
+                                    1f,
+                                    Mathf.SmoothStep(
+                                        0f, 1f,
+                                        Mathf.InverseLerp(
+                                            Mathf.Clamp(
+                                                rockSlopeBiasStart, 0f, 90f),
+                                            Mathf.Max(
+                                                rockSlopeBiasStart + 0.001f,
+                                                rockSlopeBiasFull),
+                                            slope)));
+                        chance *= rockAffinity;
+                    }
 
                     if (rule.multiplyByForestDensity)
                     {
@@ -243,6 +301,13 @@ namespace LittleCastle.World
                             scale));
                 }
             }
+        }
+
+        private static bool IsNaturalTreeSurface(SurfaceKind surface)
+        {
+            return surface == SurfaceKind.Grass ||
+                   surface == SurfaceKind.WoodlandFloor ||
+                   surface == SurfaceKind.Mud;
         }
     }
 }
