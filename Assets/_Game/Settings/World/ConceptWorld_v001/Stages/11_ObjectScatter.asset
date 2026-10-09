@@ -13,6 +13,11 @@ MonoBehaviour:
   m_Name: 11_ObjectScatter
   m_EditorClassIdentifier: LittleCastle.Runtime::LittleCastle.World.ObjectScatterStage
   enabledStage: 1
+  restrictTreeSurfaces: 1
+  biasDecorativeRocksToSlopes: 1
+  flatRockChanceMultiplier: 0.25
+  rockSlopeBiasStart: 8
+  rockSlopeBiasFull: 30
   rules:
   - ruleId: tree_main_common
     archetypeId: tree_main_01
