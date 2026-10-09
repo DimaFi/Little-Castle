@@ -127,7 +127,7 @@ produces cells independent of chunk arrival order:
   Existing worlds remain unchanged while the asset is
   disabled and not in saved pipeline.
 
-## Authored tests (11 methods, not executed)
+## Authored tests (12 methods, not executed)
 
 `LittleCastle.Tests.RiverbankDecorationTests` covers:
 - no river => zero decoration;
@@ -141,6 +141,8 @@ produces cells independent of chunk arrival order:
 - fixed bridge yaw-oriented support/entry area stays clear;
 - macro settlement influence radius stays clear;
 - max candidate/spawn caps cannot exceed configured bounds;
+- re-entering Generate after hitting a 2-spawn quota remains idempotent
+  instead of appending two more records;
 - malformed rule, gameplay Bush category rejected;
 - actual serialized concept stage imports DISABLED with
   three `PENDING_INTAKE` IDs.
