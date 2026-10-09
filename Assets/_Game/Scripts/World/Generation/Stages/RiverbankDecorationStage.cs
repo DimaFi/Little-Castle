@@ -24,8 +24,9 @@ namespace LittleCastle.World
         public bool IsValid =>
             !string.IsNullOrWhiteSpace(ruleId) &&
             !string.IsNullOrWhiteSpace(archetypeId) &&
-            (category == SpawnCategory.Decoration ||
-             category == SpawnCategory.Bush) &&
+            // Even bush-shaped visuals are Decoration until root explicitly
+            // defines a gameplay bush/resources contract.
+            category == SpawnCategory.Decoration &&
             Finite(spacing) && spacing >= 4f &&
             Finite(chance) && chance >= 0f && chance <= 1f &&
             Finite(jitterMargin) &&
