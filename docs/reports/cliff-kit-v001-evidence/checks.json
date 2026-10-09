@@ -1,0 +1,24 @@
+{
+  "CliffKitEditMode.xml": {
+    "total": "187",
+    "passed": "187",
+    "failed": "0",
+    "skipped": "0",
+    "result": "Passed",
+    "duration": "22,8377297",
+    "start-time": "2026-10-09 19:18:13Z",
+    "end-time": "2026-10-09 19:18:36Z"
+  },
+  "CliffKitPlayMode.xml": {
+    "total": "5",
+    "passed": "5",
+    "failed": "0",
+    "skipped": "0",
+    "result": "Passed",
+    "duration": "9,1882896",
+    "start-time": "2026-10-09 19:21:06Z",
+    "end-time": "2026-10-09 19:21:15Z"
+  },
+  "release_sha256": "6caf39663fb6c7c2956b620add0fdf20afde30b95900013b5850eb78782fcff0",
+  "game_payload_sha256_pass": true
+}
