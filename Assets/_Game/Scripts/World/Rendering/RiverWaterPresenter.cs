@@ -25,10 +25,20 @@ namespace LittleCastle.World
                 plan == null || material == null)
                 return null;
 
+            // Chunk roots may be parked inactive during streaming. Avoid
+            // creating a second water object when a parked presenter exists.
             RiverWaterPresenter existing =
-                chunkRoot.GetComponentInChildren<RiverWaterPresenter>();
+                chunkRoot.GetComponentInChildren<RiverWaterPresenter>(true);
             if (existing != null && existing.OwnedMesh != null)
-                return existing;
+            {
+                existing.ResolveComponents();
+                if (existing.meshFilter != null &&
+                    existing.meshRenderer != null)
+                {
+                    existing.meshRenderer.sharedMaterial = material;
+                    return existing;
+                }
+            }
 
             Mesh mesh = RiverWaterMeshBuilder.Build(
                 chunk, chunkWorldSize, plan);
@@ -46,6 +56,20 @@ namespace LittleCastle.World
                 presenter.meshRenderer = waterObject.AddComponent<MeshRenderer>();
             }
 
+            presenter.ResolveComponents();
+            if (presenter.meshFilter == null ||
+                presenter.meshRenderer == null)
+            {
+                // Do not orphan a transient mesh when a legacy presenter
+                // has missing components. Recycle safely without releasing
+                // another presenter's still-owned mesh.
+                if (Application.isPlaying)
+                    Destroy(mesh);
+                else
+                    DestroyImmediate(mesh);
+                return null;
+            }
+
             presenter.ownedMesh = mesh;
             presenter.meshFilter.sharedMesh = mesh;
             presenter.meshRenderer.sharedMaterial = material;
@@ -56,8 +80,17 @@ namespace LittleCastle.World
             return presenter;
         }
 
+        private void ResolveComponents()
+        {
+            if (meshFilter == null)
+                meshFilter = GetComponent<MeshFilter>();
+            if (meshRenderer == null)
+                meshRenderer = GetComponent<MeshRenderer>();
+        }
+
         public void ReleaseOwnedResources()
         {
+            ResolveComponents();
             if (meshFilter != null)
                 meshFilter.sharedMesh = null;
             if (meshRenderer != null)
