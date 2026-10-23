@@ -201,10 +201,13 @@ Only nearby playable chunks keep active terrain MeshColliders.
 
 Distant visible chunks remain render-only.
 
-The same principle should later apply to generated object colliders:
+The same principle now applies to generated object colliders through:
 
-- nearby gameplay object: collider active;
-- distant visual object: collider inactive/not instantiated.
+`WorldStreamingSettings.generatedObjectColliderRadiusChunks`
+
+- nearby gameplay object: authored collider state is active;
+- distant visual object: generated-model colliders are disabled while render LODs remain visible;
+- an authored-disabled collider is never force-enabled by the distance tier.
 
 ## Production asset validator
 
@@ -259,7 +262,12 @@ ProfilerMarker names include:
 - `World.Streaming.LoadChunk`;
 - `World.Streaming.UnloadChunk`;
 - `World.MeshBuild`;
-- `World.SpawnPresentation`.
+- `World.SpawnPresentation`;
+- `World.Macro.PointFeatures`;
+- `World.Macro.Rivers`;
+- `World.Macro.RoadGraph`;
+- `World.Macro.RoadPaths`;
+- `World.Macro.Bridges`.
 
 Use these before attempting large optimizations.
 
@@ -270,7 +278,7 @@ Not yet considered finished:
 - GPU-instanced large vegetation presenter;
 - generated-object pooling;
 - chunk-root pooling;
-- HLOD village/forest clusters;
+- concrete HLOD village/forest/wall proxy builders/bakers (runtime foundation exists);
 - predictive camera-direction streaming;
 - object collider distance tiers;
 - mipmap streaming validation;
@@ -291,3 +299,33 @@ Before accepting a new major model into WorldSpawnCatalog:
 
 A single badly authored prefab is not justification to make the global renderer
 or streamer more expensive.
+
+
+## Full production preflight
+
+Before a mass world-filling test, use:
+
+`Little Castle -> Preflight -> Run Full Model + World Preflight`
+
+This combines Ready-folder synchronization, production-model validation,
+configuration validation and multi-seed data-only generation stress checks.
+
+The stress pass reports each generation stage separately. If one stage exceeds
+the frame budget, optimize/split that stage rather than increasing the number of
+whole chunk stages executed per frame.
+
+
+## HLOD runtime foundation
+
+The repository now contains the presentation-side HLOD switching/rebuild
+foundation, but not a speculative one-size-fits-all wall/village mesh builder.
+
+Canonical details:
+
+`docs/architecture/render-optimization-hlod.md`
+
+The concrete builder must be integrated only after inspecting the real
+production wall/tower/gate materials, LODs and player-identity requirements,
+and after a measured stress-scene baseline. Static authored clusters should
+prefer prebaked/editor HLOD; genuinely dynamic player-built clusters may use a
+budgeted runtime rebuild path.

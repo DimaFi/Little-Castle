@@ -56,6 +56,79 @@ namespace LittleCastle.Building
             return true;
         }
 
+        public bool ApplyDamage(
+            long wallId,
+            float damage)
+        {
+            if (damage <= 0f ||
+                !walls.TryGetValue(
+                    wallId,
+                    out WallRuntimeState wall))
+            {
+                return false;
+            }
+
+            float before =
+                wall.hitPoints;
+
+            wall.hitPoints =
+                Math.Max(
+                    0f,
+                    wall.hitPoints -
+                    damage);
+
+            if (Math.Abs(
+                    wall.hitPoints -
+                    before) <=
+                0.0001f)
+            {
+                return false;
+            }
+
+            WallChanged?.Invoke(
+                wall.Clone());
+
+            return true;
+        }
+
+        public bool Repair(
+            long wallId,
+            float hitPoints)
+        {
+            if (hitPoints <= 0f ||
+                !walls.TryGetValue(
+                    wallId,
+                    out WallRuntimeState wall) ||
+                wall.IsDestroyed)
+            {
+                return false;
+            }
+
+            float before =
+                wall.hitPoints;
+
+            wall.hitPoints =
+                Math.Min(
+                    Math.Max(
+                        1f,
+                        wall.maxHitPoints),
+                    wall.hitPoints +
+                    hitPoints);
+
+            if (Math.Abs(
+                    wall.hitPoints -
+                    before) <=
+                0.0001f)
+            {
+                return false;
+            }
+
+            WallChanged?.Invoke(
+                wall.Clone());
+
+            return true;
+        }
+
         public bool Remove(
             long wallId)
         {
@@ -116,6 +189,12 @@ namespace LittleCastle.Building
                 a.ownerPlayerId != b.ownerPlayerId ||
                 a.definitionId != b.definitionId ||
                 a.closedLoop != b.closedLoop ||
+                !UnityEngine.Mathf.Approximately(
+                    a.maxHitPoints,
+                    b.maxHitPoints) ||
+                !UnityEngine.Mathf.Approximately(
+                    a.hitPoints,
+                    b.hitPoints) ||
                 a.controlPoints.Count !=
                     b.controlPoints.Count)
             {

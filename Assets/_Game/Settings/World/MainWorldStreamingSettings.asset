@@ -28,3 +28,4 @@ MonoBehaviour:
   renderGeneratedSpawns: 1
   addMeshCollider: 1
   colliderRadiusChunks: 1
+  generatedObjectColliderRadiusChunks: 1

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using LittleCastle.Building;
+using LittleCastle.Gameplay;
 
 namespace LittleCastle.World
 {
@@ -16,17 +17,28 @@ namespace LittleCastle.World
         private readonly WallRuntimeRegistry walls =
             new WallRuntimeRegistry();
 
+        private readonly GameplaySimulationAuthority gameplay;
+
         public WorldRuntimeDeltaState State => state;
         public WallRuntimeRegistry Walls => walls;
+        public GameplaySimulationAuthority Gameplay => gameplay;
 
         public WorldStateAuthority(
-            WorldRuntimeDeltaState state = null)
+            WorldRuntimeDeltaState state = null,
+            GameplaySessionState gameplayState = null,
+            GameplayRules gameplayRules = null)
         {
             this.state =
                 state ??
                 new WorldRuntimeDeltaState();
 
             this.state.RebuildIndexes();
+
+            gameplay =
+                new GameplaySimulationAuthority(
+                    gameplayState ??
+                    new GameplaySessionState(),
+                    gameplayRules);
         }
 
         public int GetChunkRevision(

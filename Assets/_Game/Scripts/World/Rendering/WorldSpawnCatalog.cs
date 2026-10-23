@@ -18,6 +18,17 @@ namespace LittleCastle.World
         public float scaleMultiplier = 1f;
 
         public Vector3 rotationOffsetEuler;
+
+        [Tooltip(
+            "Optional presentation-only camera visibility profile. " +
+            "Null uses VisibilityBudgetManager defaults.")]
+        public LittleCastle.Rendering.VisibilityBudgetProfile
+            visibilityProfile;
+
+        [Tooltip(
+            "Rare opt-out for presentation types managed by another renderer, " +
+            "for example a future GPU vegetation batch.")]
+        public bool disableVisibilityBudget;
     }
 
     /// <summary>
@@ -25,15 +36,27 @@ namespace LittleCastle.World
     ///
     /// Replacing a prefab here changes visuals without changing generated
     /// world identity or save data.
+    ///
+    /// Runtime resolution is cached by archetype ID so dense chunks do not
+    /// linearly scan the full catalog for every tree/rock/prop instance.
     /// </summary>
     [CreateAssetMenu(
         fileName = "WorldSpawnCatalog",
         menuName = "Little Castle/World/World Spawn Catalog")]
     public sealed class WorldSpawnCatalog : ScriptableObject
     {
+        private sealed class CachedEntry
+        {
+            public WorldSpawnCatalogEntry entry;
+            public GameObject[] validPrefabs;
+        }
+
         [SerializeField]
         private List<WorldSpawnCatalogEntry> entries =
             new List<WorldSpawnCatalogEntry>();
+
+        [NonSerialized]
+        private Dictionary<string, CachedEntry> runtimeLookup;
 
         public IReadOnlyList<WorldSpawnCatalogEntry> Entries => entries;
 
@@ -49,12 +72,103 @@ namespace LittleCastle.World
             if (string.IsNullOrWhiteSpace(archetypeId))
                 return false;
 
+            EnsureRuntimeLookup();
+
+            if (!runtimeLookup.TryGetValue(
+                    archetypeId,
+                    out CachedEntry cached) ||
+                cached == null ||
+                cached.validPrefabs == null ||
+                cached.validPrefabs.Length == 0)
+            {
+                return false;
+            }
+
+            ulong positiveId =
+                unchecked((ulong)stableId);
+
+            int target =
+                (int)(
+                    positiveId %
+                    (ulong)cached.validPrefabs.Length);
+
+            entry = cached.entry;
+            prefab = cached.validPrefabs[target];
+            return prefab != null;
+        }
+
+        public bool ContainsArchetype(
+            string archetypeId)
+        {
+            if (string.IsNullOrWhiteSpace(archetypeId))
+                return false;
+
+            EnsureRuntimeLookup();
+
+            return
+                runtimeLookup.ContainsKey(
+                    archetypeId);
+        }
+
+        public int GetValidVariantCount(
+            string archetypeId)
+        {
+            if (string.IsNullOrWhiteSpace(archetypeId))
+                return 0;
+
+            EnsureRuntimeLookup();
+
+            return
+                runtimeLookup.TryGetValue(
+                    archetypeId,
+                    out CachedEntry cached) &&
+                cached != null &&
+                cached.validPrefabs != null
+                    ? cached.validPrefabs.Length
+                    : 0;
+        }
+
+        public void WarmRuntimeCache()
+        {
+            EnsureRuntimeLookup();
+        }
+
+        public void InvalidateRuntimeCache()
+        {
+            runtimeLookup = null;
+        }
+
+        private void OnEnable()
+        {
+            InvalidateRuntimeCache();
+        }
+
+#if UNITY_EDITOR
+        private void OnValidate()
+        {
+            InvalidateRuntimeCache();
+        }
+#endif
+
+        private void EnsureRuntimeLookup()
+        {
+            if (runtimeLookup != null)
+                return;
+
+            runtimeLookup =
+                new Dictionary<string, CachedEntry>(
+                    StringComparer.Ordinal);
+
             for (int i = 0; i < entries.Count; i++)
             {
-                WorldSpawnCatalogEntry candidate = entries[i];
+                WorldSpawnCatalogEntry candidate =
+                    entries[i];
 
                 if (candidate == null ||
-                    candidate.archetypeId != archetypeId ||
+                    string.IsNullOrWhiteSpace(
+                        candidate.archetypeId) ||
+                    runtimeLookup.ContainsKey(
+                        candidate.archetypeId) ||
                     candidate.prefabs == null ||
                     candidate.prefabs.Length == 0)
                 {
@@ -63,37 +177,44 @@ namespace LittleCastle.World
 
                 int validCount = 0;
 
-                for (int p = 0; p < candidate.prefabs.Length; p++)
+                for (int p = 0;
+                     p < candidate.prefabs.Length;
+                     p++)
                 {
                     if (candidate.prefabs[p] != null)
                         validCount++;
                 }
 
                 if (validCount == 0)
-                    return false;
+                    continue;
 
-                ulong positiveId = unchecked((ulong)stableId);
-                int target = (int)(positiveId % (ulong)validCount);
+                var validPrefabs =
+                    new GameObject[validCount];
 
-                for (int p = 0; p < candidate.prefabs.Length; p++)
+                int write = 0;
+
+                for (int p = 0;
+                     p < candidate.prefabs.Length;
+                     p++)
                 {
-                    GameObject variant = candidate.prefabs[p];
+                    GameObject variant =
+                        candidate.prefabs[p];
 
                     if (variant == null)
                         continue;
 
-                    if (target == 0)
-                    {
-                        entry = candidate;
-                        prefab = variant;
-                        return true;
-                    }
-
-                    target--;
+                    validPrefabs[write++] =
+                        variant;
                 }
-            }
 
-            return false;
+                runtimeLookup.Add(
+                    candidate.archetypeId,
+                    new CachedEntry
+                    {
+                        entry = candidate,
+                        validPrefabs = validPrefabs
+                    });
+            }
         }
     }
 }

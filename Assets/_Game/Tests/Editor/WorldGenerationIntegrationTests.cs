@@ -234,6 +234,26 @@ namespace LittleCastle.Tests
                     Assert.That(bridge.requiredSpan, Is.GreaterThan(0f));
                     Assert.That(FindById(first.Rivers, bridge.riverId), Is.Not.Null);
                     Assert.That(FindRoadById(first.Roads, bridge.roadId), Is.Not.Null);
+
+                    BridgePlannerSettings bridgeSettings =
+                        definition.MacroPlannerSettings.Bridges;
+
+                    if (bridgeSettings != null &&
+                        bridgeSettings.standardizeCrossings)
+                    {
+                        float expectedSpan =
+                            Mathf.Max(
+                                bridgeSettings.standardRiverCrossingWidth,
+                                bridgeSettings.standardBridgeSpan);
+
+                        Assert.That(
+                            bridge.requiredSpan,
+                            Is.EqualTo(expectedSpan)
+                                .Within(Epsilon),
+                            "Standardized bridge span changed for seed " +
+                            seed +
+                            ".");
+                    }
                 }
 
                 if (!carvingObserved && first.Rivers.Count > 0)

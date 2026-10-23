@@ -98,3 +98,70 @@ Later, when real models are available, the pipeline can be extended with:
 - texture remapping;
 - GPU-instanced vegetation;
 - biome-specific archetype groups.
+
+
+## Mandatory preflight before the real filling test
+
+After copying a new production batch into `Models/Ready`, run:
+
+```text
+Little Castle > Preflight > Run Full Model + World Preflight
+```
+
+The command performs the test in this order:
+
+1. synchronizes `Models/Ready` into `WorldSpawnCatalog`;
+2. removes stale catalog entries that were previously managed by the Ready folder;
+3. validates every ready model with the production asset rules;
+4. verifies that generated archetype IDs resolve to catalog variants;
+5. validates `WorldDefinition` and all generation/streaming contracts;
+6. generates 125 data-only chunks across five deterministic seeds;
+7. validates seams, deterministic spawns and stable IDs;
+8. checks that generated objects remain inside their owning chunk;
+9. checks that roads do not cross `MountainBarrier`;
+10. checks the fixed standardized bridge span;
+11. records per-generation-stage average/max timings;
+12. reports spawn density by category and the maximum spawn count in one chunk.
+
+A PASS means the data contracts are internally consistent. It does **not**
+replace a visual pass in the Game view with the real model scale and silhouette.
+
+### Test order with real models
+
+Use this order:
+
+```text
+external model preparation
+        ↓
+Models/Ready/<Category>/<ArchetypeId>/
+        ↓
+Full Model + World Preflight
+        ↓
+Sync Models And Generate Preview
+        ↓
+inspect scale / density / repetition
+        ↓
+Play WorldGenerationTest
+        ↓
+F8 diagnostics while moving the camera
+```
+
+Do not tune procedural density around a broken model scale. Validate the asset
+first, then judge world composition.
+
+## Runtime presentation performance rules
+
+The runtime catalog now caches `archetypeId -> valid prefab variants`; dense
+chunks no longer scan the entire catalog for every tree/rock/prop.
+
+Generated object colliders are distance-tiered independently from visual LOD.
+Far trees/rocks may remain rendered while their Physics colliders are disabled.
+
+The current production rule remains:
+
+- author geometry LODs before mass placement;
+- keep far shadows/lights/probes cheap;
+- use the F8 overlay to identify measured bottlenecks;
+- do not move authoritative generation to prefabs/GameObjects;
+- do not add speculative GPU/HLOD systems until real production models show
+  that ordinary authored LOD + collider tiers are insufficient.

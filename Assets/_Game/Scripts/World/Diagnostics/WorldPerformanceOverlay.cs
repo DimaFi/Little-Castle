@@ -19,6 +19,10 @@ namespace LittleCastle.World
             nightLightBudgetManager;
 
         [SerializeField]
+        private LittleCastle.Rendering.VisibilityBudgetManager
+            visibilityBudgetManager;
+
+        [SerializeField]
         private bool showOverlay = true;
 
         [SerializeField]
@@ -34,7 +38,7 @@ namespace LittleCastle.World
                 12f,
                 12f,
                 380f,
-                385f);
+                530f);
 
         private float nextSampleTime;
         private float frameTimeAccumulator;
@@ -168,7 +172,9 @@ namespace LittleCastle.World
 
             GUILayout.Label(
                 "Terrain colliders active: " +
-                worldStreamer.ActiveTerrainColliderCount,
+                worldStreamer.ActiveTerrainColliderCount +
+                "   Object colliders: " +
+                worldStreamer.ActiveGeneratedObjectColliderCount,
                 labelStyle);
 
             GUILayout.Space(4f);
@@ -256,6 +262,50 @@ namespace LittleCastle.World
                     labelStyle);
             }
 
+            if (visibilityBudgetManager != null)
+            {
+                GUILayout.Space(4f);
+
+                GUILayout.Label(
+                    "Visibility: " +
+                    visibilityBudgetManager.RegisteredTargetCount +
+                    " targets   camera " +
+                    visibilityBudgetManager.ApproximateCameraVisibleCount +
+                    "   culled-visible " +
+                    visibilityBudgetManager.CullingVisibleCount,
+                    labelStyle);
+
+                GUILayout.Label(
+                    "  T0 " +
+                    visibilityBudgetManager.FullCount +
+                    "   T1 " +
+                    visibilityBudgetManager.BalancedCount +
+                    "   T2 " +
+                    visibilityBudgetManager.FarCount +
+                    "   T3 " +
+                    visibilityBudgetManager.HiddenCount,
+                    labelStyle);
+            }
+
+            LittleCastle.Rendering.HlodRebuildScheduler
+                hlodScheduler =
+                    LittleCastle.Rendering.HlodRebuildScheduler.Instance;
+
+            if (hlodScheduler != null)
+            {
+                GUILayout.Space(4f);
+
+                GUILayout.Label(
+                    "HLOD: " +
+                    hlodScheduler.PendingCount +
+                    " pending   rebuilds " +
+                    hlodScheduler.TotalRebuildCount +
+                    "   last " +
+                    hlodScheduler.LastRebuildMilliseconds.ToString("0.00") +
+                    " ms",
+                    labelStyle);
+            }
+
             GUILayout.Space(5f);
 
             GUILayout.Label(
@@ -279,6 +329,13 @@ namespace LittleCastle.World
                 nightLightBudgetManager =
                     FindFirstObjectByType<
                         LittleCastle.Rendering.NightLightBudgetManager>();
+            }
+
+            if (visibilityBudgetManager == null)
+            {
+                visibilityBudgetManager =
+                    FindFirstObjectByType<
+                        LittleCastle.Rendering.VisibilityBudgetManager>();
             }
         }
 

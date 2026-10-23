@@ -263,7 +263,7 @@ Current river generation supports:
 - local-width terrain carving;
 - variable-width placement exclusion;
 - local-width road crossing cost;
-- bridge span based on river width at the crossing.
+- standardized bridge crossing width for the single production bridge archetype, while the river profile stays variable away from crossings.
 
 Important files:
 
@@ -345,7 +345,7 @@ BridgeSitePlanner
 WorldBridgeSiteData
 ```
 
-Bridge span now uses local river width at the actual crossing.
+Production bridge sites now default to the standardized crossing contract: the river profile is blended toward the configured crossing width so one authored bridge can be reused.
 
 Bridges are not random scatter objects.
 

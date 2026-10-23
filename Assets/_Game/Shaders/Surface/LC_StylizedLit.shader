@@ -67,6 +67,7 @@ Shader "Little Castle/Surface/LC Stylized Lit"
             #pragma multi_compile_fwdbase
             #pragma multi_compile_fog
             #pragma multi_compile_instancing
+            #pragma multi_compile _ LOD_FADE_CROSSFADE
 
             #include "UnityCG.cginc"
             #include "Lighting.cginc"
@@ -266,6 +267,11 @@ Shader "Little Castle/Surface/LC Stylized Lit"
             fixed4 frag(v2f i) : SV_Target
             {
                 UNITY_SETUP_INSTANCE_ID(i);
+
+#ifdef LOD_FADE_CROSSFADE
+                UNITY_APPLY_DITHER_CROSSFADE(
+                    i.position.xy);
+#endif
 
                 fixed4 albedoSample =
                     tex2D(
@@ -531,6 +537,7 @@ Shader "Little Castle/Surface/LC Stylized Lit"
             #pragma multi_compile_fwdadd_fullshadows
             #pragma multi_compile_fog
             #pragma multi_compile_instancing
+            #pragma multi_compile _ LOD_FADE_CROSSFADE
 
             #include "UnityCG.cginc"
             #include "Lighting.cginc"
@@ -680,6 +687,11 @@ Shader "Little Castle/Surface/LC Stylized Lit"
             {
                 UNITY_SETUP_INSTANCE_ID(i);
 
+#ifdef LOD_FADE_CROSSFADE
+                UNITY_APPLY_DITHER_CROSSFADE(
+                    i.position.xy);
+#endif
+
                 fixed3 albedo =
                     tex2D(
                         _MainTex,
@@ -803,6 +815,7 @@ Shader "Little Castle/Surface/LC Stylized Lit"
             #pragma fragment fragShadow
             #pragma multi_compile_shadowcaster
             #pragma multi_compile_instancing
+            #pragma multi_compile _ LOD_FADE_CROSSFADE
 
             #include "UnityCG.cginc"
 
@@ -836,6 +849,11 @@ Shader "Little Castle/Surface/LC Stylized Lit"
             float4 fragShadow(
                 v2f i) : SV_Target
             {
+#ifdef LOD_FADE_CROSSFADE
+                UNITY_APPLY_DITHER_CROSSFADE(
+                    i.pos.xy);
+#endif
+
                 SHADOW_CASTER_FRAGMENT(i)
             }
 

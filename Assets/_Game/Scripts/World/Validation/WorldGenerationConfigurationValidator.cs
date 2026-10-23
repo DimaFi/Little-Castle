@@ -613,6 +613,16 @@ namespace LittleCastle.World
                     "streaming radius. Distant visible chunks should normally " +
                     "remain render-only for lower Physics cost.");
             }
+
+            if (settings.GeneratedObjectColliderRadiusChunks >=
+                    settings.LoadRadiusChunks &&
+                settings.LoadRadiusChunks > 1)
+            {
+                report.AddWarning(
+                    "Generated-object collider radius reaches the full visible " +
+                    "streaming radius. Trees, rocks and props should normally " +
+                    "keep Physics only near the gameplay focus.");
+            }
         }
 
         private static void ValidateMapRules(

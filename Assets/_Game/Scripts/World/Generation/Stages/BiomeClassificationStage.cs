@@ -45,7 +45,8 @@ namespace LittleCastle.World
 
                     BiomeKind biome;
 
-                    if (terrain == TerrainClass.Steep)
+                    if (terrain == TerrainClass.Steep ||
+                        terrain == TerrainClass.MountainBarrier)
                     {
                         biome = BiomeKind.RockyHighland;
                     }

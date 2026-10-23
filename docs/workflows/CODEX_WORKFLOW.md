@@ -80,3 +80,19 @@ Examples:
 | Chopped tree | Runtime modification |
 
 Do not force macro features into local generation stages.
+
+
+## Render optimization / HLOD work
+
+For any task involving mass walls/towers/buildings, HLOD, camera-driven
+renderer budgets or runtime proxy rebuilding, read:
+
+1. `docs/architecture/visibility-render-budget.md`;
+2. `docs/architecture/lod-and-production-assets.md`;
+3. `docs/architecture/render-optimization-hlod.md`;
+4. `docs/handoffs/CODEX_RENDER_OPTIMIZATION.md`.
+
+Do not create a parallel optimization manager. The existing
+`VisibilityBudgetManager` is the canonical tier source; new presentation
+features attach through `IVisibilityBudgetReceiver` and the shared HLOD rebuild
+scheduler.

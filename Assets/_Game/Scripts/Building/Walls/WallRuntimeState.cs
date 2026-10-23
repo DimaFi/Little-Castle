@@ -58,6 +58,19 @@ namespace LittleCastle.Building
         public string definitionId;
         public bool closedLoop;
 
+        [Min(1f)]
+        public float maxHitPoints = 100f;
+
+        [Min(0f)]
+        public float hitPoints = 100f;
+
+        public bool IsDestroyed =>
+            hitPoints <= 0f;
+
+        public bool IsDamaged =>
+            !IsDestroyed &&
+            hitPoints < maxHitPoints;
+
         public List<Vector3> controlPoints =
             new List<Vector3>();
 
@@ -153,7 +166,9 @@ namespace LittleCastle.Building
                     wallId = wallId,
                     ownerPlayerId = ownerPlayerId,
                     definitionId = definitionId,
-                    closedLoop = closedLoop
+                    closedLoop = closedLoop,
+                    maxHitPoints = maxHitPoints,
+                    hitPoints = hitPoints
                 };
 
             clone.controlPoints.AddRange(

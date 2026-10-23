@@ -16,6 +16,21 @@ namespace LittleCastle.Editor
         private const string DistantShaderName =
             "Little Castle/Distance/LC Distant Simple";
 
+        public readonly struct ValidationResult
+        {
+            public int Errors { get; }
+            public int Warnings { get; }
+            public bool IsValid => Errors == 0;
+
+            public ValidationResult(
+                int errors,
+                int warnings)
+            {
+                Errors = Mathf.Max(0, errors);
+                Warnings = Mathf.Max(0, warnings);
+            }
+        }
+
         [MenuItem(
             "Little Castle/Assets/Validate Selected Production Model")]
         public static void ValidateSelected()
@@ -30,6 +45,28 @@ namespace LittleCastle.Editor
                     "or prefab asset first.");
 
                 return;
+            }
+
+            Validate(
+                root,
+                true);
+        }
+
+        public static ValidationResult Validate(
+            GameObject root,
+            bool logSummary = true)
+        {
+            if (root == null)
+            {
+                if (logSummary)
+                {
+                    Debug.LogError(
+                        "[Little Castle Asset] Cannot validate a null model.");
+                }
+
+                return new ValidationResult(
+                    1,
+                    0);
             }
 
             int errors = 0;
@@ -107,32 +144,39 @@ namespace LittleCastle.Editor
                 uniqueTextures,
                 ref warnings);
 
-            Debug.Log(
-                "[Little Castle Asset] '" +
-                root.name +
-                "': renderers=" +
-                renderers.Length +
-                ", unique materials=" +
-                uniqueMaterials.Count +
-                ", textures=" +
-                uniqueTextures.Count +
-                ".");
+            if (logSummary)
+            {
+                Debug.Log(
+                    "[Little Castle Asset] '" +
+                    root.name +
+                    "': renderers=" +
+                    renderers.Length +
+                    ", unique materials=" +
+                    uniqueMaterials.Count +
+                    ", textures=" +
+                    uniqueTextures.Count +
+                    ".");
 
-            string summary =
-                "[Little Castle Asset] Validation finished for '" +
-                root.name +
-                "'. Errors=" +
-                errors +
-                ", warnings=" +
-                warnings +
-                ".";
+                string summary =
+                    "[Little Castle Asset] Validation finished for '" +
+                    root.name +
+                    "'. Errors=" +
+                    errors +
+                    ", warnings=" +
+                    warnings +
+                    ".";
 
-            if (errors > 0)
-                Debug.LogError(summary);
-            else if (warnings > 0)
-                Debug.LogWarning(summary);
-            else
-                Debug.Log(summary);
+                if (errors > 0)
+                    Debug.LogError(summary);
+                else if (warnings > 0)
+                    Debug.LogWarning(summary);
+                else
+                    Debug.Log(summary);
+            }
+
+            return new ValidationResult(
+                errors,
+                warnings);
         }
 
         private static void ValidateLods(

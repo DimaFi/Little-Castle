@@ -52,3 +52,22 @@ The second command syncs the model variants into `WorldSpawnCatalog`, opens
 the existing world-generation test scene and rebuilds the preview.
 
 For early visual testing, models may be completely untextured.
+
+
+## Before the production filling test
+
+Run:
+
+```text
+Little Castle > Preflight > Run Full Model + World Preflight
+```
+
+Do this after every large new model batch.
+
+The preflight synchronizes this folder, checks every production model, verifies
+catalog coverage and stress-generates multiple seeds before the models are judged
+in the world.
+
+A model can be visually unfinished during an early composition test, but it must
+still have sane geometry/import structure. Major repeated assets should have
+authored LODs before large-scale performance testing.

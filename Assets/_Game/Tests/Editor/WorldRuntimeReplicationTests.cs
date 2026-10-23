@@ -154,6 +154,96 @@ namespace LittleCastle.Tests
         }
 
         [Test]
+        public void RuntimeEntityChunkIndex_FollowsMoveAndRemoval()
+        {
+            var state =
+                new WorldRuntimeDeltaState();
+
+            var firstChunk =
+                new ChunkCoordinate(
+                    2,
+                    -1);
+
+            var secondChunk =
+                new ChunkCoordinate(
+                    3,
+                    -1);
+
+            var entity =
+                new WorldRuntimeEntityState(
+                    -100,
+                    firstChunk,
+                    "test_structure",
+                    SpawnCategory.Structure,
+                    Vector3.zero,
+                    0f,
+                    1f);
+
+            Assert.That(
+                state.UpsertRuntimeEntity(
+                    entity),
+                Is.True);
+
+            var results =
+                new List<WorldRuntimeEntityState>();
+
+            state.GetRuntimeEntitiesForChunk(
+                firstChunk,
+                results);
+
+            Assert.That(
+                results.Count,
+                Is.EqualTo(1));
+
+            entity.chunkCoordinate =
+                secondChunk;
+
+            entity.worldPosition =
+                new Vector3(
+                    64f * 3f,
+                    0f,
+                    -64f);
+
+            Assert.That(
+                state.UpsertRuntimeEntity(
+                    entity),
+                Is.True);
+
+            state.GetRuntimeEntitiesForChunk(
+                firstChunk,
+                results);
+
+            Assert.That(
+                results.Count,
+                Is.EqualTo(0));
+
+            state.GetRuntimeEntitiesForChunk(
+                secondChunk,
+                results);
+
+            Assert.That(
+                results.Count,
+                Is.EqualTo(1));
+
+            Assert.That(
+                results[0].runtimeId,
+                Is.EqualTo(-100));
+
+            Assert.That(
+                state.RemoveRuntimeEntity(
+                    -100),
+                Is.True);
+
+            state.GetRuntimeEntitiesForChunk(
+                secondChunk,
+                results);
+
+            Assert.That(
+                results.Count,
+                Is.EqualTo(0));
+        }
+
+        [Test]
         public void InformationMode_FullMapReceivesLiveState_FogNeedsVisibility()
         {
             Assert.That(
