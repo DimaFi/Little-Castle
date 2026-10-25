@@ -20,7 +20,7 @@
 | Цвет дня и ночи | через текущий контроллер | подбор по эталонным кадрам |
 | Мягкий солнечный glow | приближённый scattering | реальная проверка затенения солнца |
 | Лучи между деревьями | нет | shadowed volumetric scattering |
-| Свет фонарей внутри тумана | нет | injection local lights into froxels |
+| Свет фонарей внутри тумана | до 4 бюджетных Point Light, затухание без теней | полноценное injection local lights into froxels |
 | Косвенный свет на стенах | существующая stylized-имитация | dynamic GI research/implementation |
 | Четыре биома | фокус камеры + один priority zone | интеграция реальных полей биомов |
 | Производительность | ручное число шагов | upscaling, temporal reprojection, GPU budgets |

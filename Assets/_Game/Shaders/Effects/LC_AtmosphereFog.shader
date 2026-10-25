@@ -37,6 +37,9 @@ Shader "Hidden/Little Castle/Atmosphere Fog"
             float _LC_AF_VolumeCount;
             float4 _LC_AF_Spheres[4];
             float4 _LC_AF_VolumeParams[4];
+            float _LC_AF_PointLightCount;
+            float4 _LC_AF_PointLights[4];
+            float4 _LC_AF_PointColors[4];
 
             // Existing Little Castle lighting contract, NOT a new world clock.
             float4 _LC_SunDirection;
@@ -85,6 +88,19 @@ Shader "Hidden/Little Castle/Atmosphere Fog"
                     float inside = sphere.w - distance(p, sphere.xyz);
                     float weight = saturate(inside / max(0.1, prm.y));
                     result += prm.x * (weight * weight * (3.0 - 2.0 * weight));
+                }
+                return result;
+            }
+
+            float3 NightFogLight(float3 p)
+            {
+                float3 result = 0;
+                [unroll] for (int n = 0; n < 4; n++)
+                {
+                    if (n >= (int)_LC_AF_PointLightCount) break;
+                    float4 light = _LC_AF_PointLights[n];
+                    float w = saturate(1.0 - distance(p, light.xyz) / max(0.01, light.w));
+                    result += _LC_AF_PointColors[n].rgb * w * w;
                 }
                 return result;
             }
@@ -141,7 +157,8 @@ Shader "Hidden/Little Castle/Atmosphere Fog"
                     }
                     density += LocalDensity(p);
                     float segmentT = exp(-max(0.0, density) * stepLength);
-                    inscatter += transmittance * (1.0 - segmentT) * scatterColor;
+                    float3 sampleLight = scatterColor + NightFogLight(p);
+                    inscatter += transmittance * (1.0 - segmentT) * sampleLight;
                     transmittance *= segmentT;
                 }
 

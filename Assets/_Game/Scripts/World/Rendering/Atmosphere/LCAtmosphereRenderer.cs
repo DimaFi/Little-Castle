@@ -14,6 +14,7 @@ namespace LittleCastle.Rendering.Atmosphere
     public sealed class LCAtmosphereRenderer : MonoBehaviour
     {
         private const int MaxVolumes = 4;
+        private const int MaxNightFogLights = 4;
         private const string ShaderName = "Hidden/Little Castle/Atmosphere Fog";
 
         [Header("References")]
@@ -23,6 +24,8 @@ namespace LittleCastle.Rendering.Atmosphere
         [Header("Safety switches")]
         [SerializeField] private bool replaceLegacyDistanceFog = true;
         [SerializeField] private bool enablePass = true;
+        [Tooltip("Adds warm unshadowed fog glow from existing budgeted Point Lights.")]
+        [SerializeField] private bool scatterNightLights = true;
 
         private Camera _camera;
         private Material _material;
@@ -32,6 +35,10 @@ namespace LittleCastle.Rendering.Atmosphere
         private readonly Vector4[] _spheres = new Vector4[MaxVolumes];
         private readonly Vector4[] _volumeParams = new Vector4[MaxVolumes];
         private readonly LCAtmosphereFogVolume[] _selected = new LCAtmosphereFogVolume[MaxVolumes];
+        private readonly Light[] _selectedLights = new Light[MaxNightFogLights];
+        private readonly float[] _lightScores = new float[MaxNightFogLights];
+        private readonly Vector4[] _lightPositions = new Vector4[MaxNightFogLights];
+        private readonly Vector4[] _lightColors = new Vector4[MaxNightFogLights];
         private readonly float[] _selectedDistance = new float[MaxVolumes];
         private static bool _warnedUnsupported;
 
@@ -153,6 +160,7 @@ namespace LittleCastle.Rendering.Atmosphere
             BindProfiles(baseline, biome, biomeWeight);
             BindFrustum();
             BindVolumes();
+            BindBudgetedNightLights();
             Graphics.Blit(source, destination, _material, 0);
         }
 
@@ -199,6 +207,60 @@ namespace LittleCastle.Rendering.Atmosphere
             _material.SetMatrix("_LC_AF_FrustumCorners", rays);
             _material.SetVector("_LC_AF_CameraPosition", cameraTransform.position);
             _material.SetVector("_LC_AF_CameraForward", cameraTransform.forward);
+        }
+
+        private void BindBudgetedNightLights()
+        {
+            // This uses ONLY the real lights activated by the existing
+            // NightLightBudgetManager. We do not allocate new lights.
+            for (int i = 0; i < MaxNightFogLights; i++)
+            {
+                _selectedLights[i] = null;
+                _lightScores[i] = float.PositiveInfinity;
+                _lightPositions[i] = Vector4.zero;
+                _lightColors[i] = Vector4.zero;
+            }
+
+            if (scatterNightLights)
+            {
+                foreach (LittleCastle.Rendering.NightLightEmitter emitter in
+                    LittleCastle.Rendering.NightLightEmitter.ActiveEmitters)
+                {
+                    if (emitter == null || !emitter.isActiveAndEnabled) continue;
+                    Light light = emitter.TargetLight;
+                    if (light == null || !light.isActiveAndEnabled ||
+                        light.type != LightType.Point || light.intensity <= 0.005f) continue;
+                    float score = Mathf.Max(0f,
+                        Vector3.Distance(transform.position, light.transform.position) - light.range);
+                    for (int slot = 0; slot < MaxNightFogLights; slot++)
+                    {
+                        if (score >= _lightScores[slot]) continue;
+                        for (int j = MaxNightFogLights - 1; j > slot; j--)
+                        {
+                            _selectedLights[j] = _selectedLights[j - 1];
+                            _lightScores[j] = _lightScores[j - 1];
+                        }
+                        _selectedLights[slot] = light;
+                        _lightScores[slot] = score;
+                        break;
+                    }
+                }
+            }
+
+            int count = 0;
+            for (int i = 0; i < MaxNightFogLights; i++)
+            {
+                Light light = _selectedLights[i];
+                if (light == null) continue;
+                Vector3 p = light.transform.position;
+                _lightPositions[i] = new Vector4(p.x, p.y, p.z, Mathf.Max(0.01f, light.range));
+                Color c = light.color * (light.intensity * 0.42f);
+                _lightColors[i] = new Vector4(c.r, c.g, c.b, 0f);
+                count++;
+            }
+            _material.SetFloat("_LC_AF_PointLightCount", count);
+            _material.SetVectorArray("_LC_AF_PointLights", _lightPositions);
+            _material.SetVectorArray("_LC_AF_PointColors", _lightColors);
         }
 
         private void BindVolumes()
