@@ -33,7 +33,6 @@ namespace LittleCastle.Rendering.Atmosphere
         private readonly Vector4[] _volumeParams = new Vector4[MaxVolumes];
         private readonly LCAtmosphereFogVolume[] _selected = new LCAtmosphereFogVolume[MaxVolumes];
         private readonly float[] _selectedDistance = new float[MaxVolumes];
-        private readonly Matrix4x4 _unused = Matrix4x4.identity; // no mutable global camera state
         private static bool _warnedUnsupported;
 
         private void OnEnable()
@@ -46,9 +45,12 @@ namespace LittleCastle.Rendering.Atmosphere
         private void CreateMaterialIfNeeded()
         {
             if (_material != null) return;
-            Shader shader = Shader.Find(ShaderName);
+            // A Resources material makes this Hidden shader survive player-build stripping.
+            Material template = Resources.Load<Material>("Atmosphere/LC_AtmosphereFog");
+            Shader shader = template != null ? template.shader : Shader.Find(ShaderName);
             if (shader == null || !shader.isSupported) return;
-            _material = new Material(shader) { hideFlags = HideFlags.HideAndDontSave };
+            _material = template != null ? new Material(template) : new Material(shader);
+            _material.hideFlags = HideFlags.HideAndDontSave;
         }
 
         private LCAtmosphereProfile GetDefaultProfile()
