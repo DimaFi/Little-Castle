@@ -1,0 +1,258 @@
+[
+  {
+    "folder": "Acceptance\\Gamma\\Measurements\\h12-mode0",
+    "status": "PASS",
+    "space": "Gamma",
+    "mode": "HDR",
+    "hour": 12.0,
+    "gpu": {
+      "samples": 567,
+      "meanMs": 0.5935931205749512,
+      "medianMs": 0.579584002494812,
+      "p95Ms": 0.7649279832839966,
+      "p99Ms": 0.9359359741210938
+    },
+    "cpu": {
+      "samples": 600,
+      "meanMs": 0.9002739787101746,
+      "medianMs": 0.8877999782562256,
+      "p95Ms": 1.2293000221252441,
+      "p99Ms": 1.4496999979019165
+    },
+    "frame": {
+      "samples": 600,
+      "meanMs": 0.8999761939048767,
+      "medianMs": 0.8992000222206116,
+      "p95Ms": 1.2007999420166016,
+      "p99Ms": 1.3630000352859497
+    },
+    "clumps": 13552,
+    "triangles": 504812,
+    "draws": 28,
+    "allocatedBytes": 137294810
+  },
+  {
+    "folder": "Acceptance\\Gamma\\Measurements\\h12-mode1",
+    "status": "PASS",
+    "space": "Gamma",
+    "mode": "HDR+AO",
+    "hour": 12.0,
+    "gpu": {
+      "samples": 571,
+      "meanMs": 0.8920348882675171,
+      "medianMs": 0.8622080087661743,
+      "p95Ms": 1.1212799549102783,
+      "p99Ms": 1.3957120180130005
+    },
+    "cpu": {
+      "samples": 600,
+      "meanMs": 1.1893128156661987,
+      "medianMs": 1.1547000408172607,
+      "p95Ms": 1.6875,
+      "p99Ms": 2.0446999073028564
+    },
+    "frame": {
+      "samples": 600,
+      "meanMs": 1.188624620437622,
+      "medianMs": 1.1571999788284302,
+      "p95Ms": 1.621999979019165,
+      "p99Ms": 2.0387001037597656
+    },
+    "clumps": 13552,
+    "triangles": 504812,
+    "draws": 28,
+    "allocatedBytes": 138261514
+  },
+  {
+    "folder": "Acceptance\\Linear\\Measurements\\h1-mode0",
+    "status": "PASS",
+    "space": "Linear",
+    "mode": "HDR",
+    "hour": 1.0,
+    "gpu": {
+      "samples": 577,
+      "meanMs": 0.5462197065353394,
+      "medianMs": 0.5355520248413086,
+      "p95Ms": 0.5416960120201111,
+      "p99Ms": 0.8560640215873718
+    },
+    "cpu": {
+      "samples": 600,
+      "meanMs": 0.8525785207748413,
+      "medianMs": 0.8324000239372253,
+      "p95Ms": 1.2289999723434448,
+      "p99Ms": 1.4652999639511108
+    },
+    "frame": {
+      "samples": 600,
+      "meanMs": 0.8521230220794678,
+      "medianMs": 0.8511000275611877,
+      "p95Ms": 1.174299955368042,
+      "p99Ms": 1.3593000173568726
+    },
+    "clumps": 13552,
+    "triangles": 504812,
+    "draws": 28,
+    "allocatedBytes": 135195483
+  },
+  {
+    "folder": "Acceptance\\Linear\\Measurements\\h1-mode1",
+    "status": "PASS",
+    "space": "Linear",
+    "mode": "HDR+AO",
+    "hour": 1.0,
+    "gpu": {
+      "samples": 577,
+      "meanMs": 0.7274601459503174,
+      "medianMs": 0.7065600156784058,
+      "p95Ms": 0.9154559969902039,
+      "p99Ms": 1.0690560340881348
+    },
+    "cpu": {
+      "samples": 600,
+      "meanMs": 1.0708872079849243,
+      "medianMs": 1.0810999870300293,
+      "p95Ms": 1.5298000574111938,
+      "p99Ms": 1.9172999858856201
+    },
+    "frame": {
+      "samples": 600,
+      "meanMs": 1.0714226961135864,
+      "medianMs": 1.075600028038025,
+      "p95Ms": 1.4753999710083008,
+      "p99Ms": 1.717900037765503
+    },
+    "clumps": 13552,
+    "triangles": 504812,
+    "draws": 28,
+    "allocatedBytes": 136901363
+  },
+  {
+    "folder": "Acceptance\\Linear\\Measurements\\h12-mode0",
+    "status": "PASS",
+    "space": "Linear",
+    "mode": "HDR",
+    "hour": 12.0,
+    "gpu": {
+      "samples": 512,
+      "meanMs": 0.5884779691696167,
+      "medianMs": 0.5754879713058472,
+      "p95Ms": 0.5980160236358643,
+      "p99Ms": 0.9123839735984802
+    },
+    "cpu": {
+      "samples": 600,
+      "meanMs": 1.0591853857040405,
+      "medianMs": 1.0068000555038452,
+      "p95Ms": 1.6440999507904053,
+      "p99Ms": 1.9973000288009644
+    },
+    "frame": {
+      "samples": 600,
+      "meanMs": 1.058730125427246,
+      "medianMs": 1.0250999927520752,
+      "p95Ms": 1.5591000318527222,
+      "p99Ms": 1.9199999570846558
+    },
+    "clumps": 13552,
+    "triangles": 504812,
+    "draws": 28,
+    "allocatedBytes": 136080106
+  },
+  {
+    "folder": "Acceptance\\Linear\\Measurements\\h12-mode1",
+    "status": "PASS",
+    "space": "Linear",
+    "mode": "HDR+AO",
+    "hour": 12.0,
+    "gpu": {
+      "samples": 486,
+      "meanMs": 0.8925097584724426,
+      "medianMs": 0.857088029384613,
+      "p95Ms": 1.1827199459075928,
+      "p99Ms": 1.356544017791748
+    },
+    "cpu": {
+      "samples": 600,
+      "meanMs": 1.5811100006103516,
+      "medianMs": 1.4617999792099,
+      "p95Ms": 2.729300022125244,
+      "p99Ms": 3.2379000186920166
+    },
+    "frame": {
+      "samples": 600,
+      "meanMs": 1.5810927152633667,
+      "medianMs": 1.4812999963760376,
+      "p95Ms": 2.6175999641418457,
+      "p99Ms": 3.255000114440918
+    },
+    "clumps": 13552,
+    "triangles": 504812,
+    "draws": 28,
+    "allocatedBytes": 137015010
+  },
+  {
+    "folder": "Acceptance\\Linear\\Measurements\\h18.5-mode0",
+    "status": "PASS",
+    "space": "Linear",
+    "mode": "HDR",
+    "hour": 18.5,
+    "gpu": {
+      "samples": 505,
+      "meanMs": 0.5779212713241577,
+      "medianMs": 0.5652480125427246,
+      "p95Ms": 0.7485439777374268,
+      "p99Ms": 0.8888319730758667
+    },
+    "cpu": {
+      "samples": 600,
+      "meanMs": 1.0182830095291138,
+      "medianMs": 0.9847000241279602,
+      "p95Ms": 1.5255999565124512,
+      "p99Ms": 1.9329999685287476
+    },
+    "frame": {
+      "samples": 600,
+      "meanMs": 1.0176910161972046,
+      "medianMs": 1.0053000450134277,
+      "p95Ms": 1.4266999959945679,
+      "p99Ms": 1.6172000169754028
+    },
+    "clumps": 13552,
+    "triangles": 504812,
+    "draws": 28,
+    "allocatedBytes": 135985078
+  },
+  {
+    "folder": "Acceptance\\Linear\\Measurements\\h18.5-mode1",
+    "status": "PASS",
+    "space": "Linear",
+    "mode": "HDR+AO",
+    "hour": 18.5,
+    "gpu": {
+      "samples": 579,
+      "meanMs": 0.903246283531189,
+      "medianMs": 0.8714240193367004,
+      "p95Ms": 1.2052479982376099,
+      "p99Ms": 1.410048007965088
+    },
+    "cpu": {
+      "samples": 600,
+      "meanMs": 1.1898795366287231,
+      "medianMs": 1.1575000286102295,
+      "p95Ms": 1.6826000213623047,
+      "p99Ms": 2.0875000953674316
+    },
+    "frame": {
+      "samples": 600,
+      "meanMs": 1.1872601509094238,
+      "medianMs": 1.1660000085830688,
+      "p95Ms": 1.6267000436782837,
+      "p99Ms": 1.871000051498413
+    },
+    "clumps": 13552,
+    "triangles": 504812,
+    "draws": 28,
+    "allocatedBytes": 137446422
+  }
+]

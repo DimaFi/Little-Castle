@@ -1,0 +1,54 @@
+{
+  "parentGitCommit": "e6a02df6f57461df9cd7cf853e8e9d62b776d71a",
+  "requiresUncommittedLocalUrpBaseline": true,
+  "files": [
+    {
+      "path": "Assets/_Game/Scripts/Research/InnerverseGrassStudy.cs",
+      "sha256": "29079d6f437c5a32550b22575255bdebb03d933d74fc79aa536fea3e7c46c75c",
+      "mainSnapshotSHA256": "3d977a0b5511c758901862e7ce1685e4d320ffe58c8a35209679d14c615f6e47",
+      "bytes": 3256
+    },
+    {
+      "path": "Assets/_Game/Scripts/World/Rendering/ChunkTerrainVertexMasks.cs",
+      "sha256": "f1bb94f0f797bc064d6618b67f4cd926914929a7f054176b2c40ef700c6d379b",
+      "mainSnapshotSHA256": "a1febd6267704dd0ff4b74cf94ef1c67d469bec08c8fc2e3780d5a28f28bf311",
+      "bytes": 8083
+    },
+    {
+      "path": "Assets/_Game/Scripts/World/Rendering/DayNightLightingController.cs",
+      "sha256": "d99a6fa7adbf31d0e5978a072bc70f7ab31610df20740f4b1df178503728d6d4",
+      "mainSnapshotSHA256": "21a1780c1f9c521f2b8226a739af8b08e8419faa9a6f04200e69a332978c49b8",
+      "bytes": 22440
+    },
+    {
+      "path": "Assets/_Game/Scripts/World/Rendering/LightingPaletteProfile.cs",
+      "sha256": "ebcded17fcfc75b1db03a7929f0964ae77a40bff84552f8f89b6b1078da4a989",
+      "mainSnapshotSHA256": "dbafefecfffca12b992762f28c45cb544179a4c0f719db3bd5ddcd81b093ba8c",
+      "bytes": 1548
+    },
+    {
+      "path": "Assets/_Game/Scripts/World/Rendering/StylizedLightingGlobals.cs",
+      "sha256": "36ba268fc742e7d04bb6a2324b0c47d5f2dc6e1eebd8b4a92bae01396222b62f",
+      "mainSnapshotSHA256": "3fbc66c431d55c2f5c53821d366714cd65b79afa0b76d3b54d94db945a400afd",
+      "bytes": 12207
+    },
+    {
+      "path": "Assets/_Game/Shaders/Foliage/LC_Grass.shader",
+      "sha256": "217b2802d3a4d17a1a72701bf77b4f434f08640ea1ab2181b29fabdaaafcbd9e",
+      "mainSnapshotSHA256": "d88c1469014459cf711f02827333f56511cea4d01dbbbc620c58ed5afd10650e",
+      "bytes": 5742
+    },
+    {
+      "path": "Assets/_Game/Shaders/Foliage/LC_GrassURP.hlsl",
+      "sha256": "a5e4b56ad2dfd9f340b20e6f47875e3d7e0e559020431ccb45ee38def2b1dd77",
+      "mainSnapshotSHA256": "cc9de48eba8eccbfb874f34e98a2dc2f2c77978843c4966a7c43c2c74424d57b",
+      "bytes": 15382
+    },
+    {
+      "path": "Assets/_Game/Shaders/Terrain/LC_Terrain.shader",
+      "sha256": "1503dee52ddc12c70cbb0fd1d41610e4924a308c192c3bac29dfc13275e8da49",
+      "mainSnapshotSHA256": "27ae34322162d3efcd7a1d6f5748bf831056b0d004cd5f0e1d72c24ddf9b5e77",
+      "bytes": 23906
+    }
+  ]
+}

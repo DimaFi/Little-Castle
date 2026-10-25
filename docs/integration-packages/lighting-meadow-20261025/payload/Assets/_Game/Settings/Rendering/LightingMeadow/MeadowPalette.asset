@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb213383442ba1541b6bd4052d882064, type: 3}
+  m_Name: MeadowPalette
+  m_EditorClassIdentifier: LittleCastle.Runtime::LittleCastle.World.LightingPaletteProfile
+  sunIntensity: 0.95
+  moonIntensity: 0.2
+  sunDay: {r: 1, g: 0.96, b: 0.86, a: 1}
+  sunHorizon: {r: 1, g: 0.52, b: 0.23, a: 1}
+  sunColorFromElevation: 1
+  horizonColorElevation: 5
+  dayColorElevation: 32
+  moon: {r: 0.58, g: 0.68, b: 1, a: 1}
+  daySky: {r: 0.56, g: 0.64, b: 0.75, a: 1}
+  dayEquator: {r: 0.45, g: 0.51, b: 0.57, a: 1}
+  dayGround: {r: 0.31, g: 0.34, b: 0.25, a: 1}
+  nightSky: {r: 0.5, g: 0.6, b: 0.78, a: 1}
+  nightEquator: {r: 0.42, g: 0.51, b: 0.63, a: 1}
+  nightGround: {r: 0.31, g: 0.38, b: 0.47, a: 1}

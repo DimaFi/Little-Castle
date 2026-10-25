@@ -1,0 +1,180 @@
+Log: [Little Castle Foliage] Compatibility review started: Oak_A_Study
+Log: [Little Castle Foliage] Mesh 'Oak_A_Study/SM_Tree_Oak_A': vertices=12389, triangles=12068, normals=OK, vertexColors=NO, UV0=OK, shaders=[Little Castle/Surface/LC Stylized Lit, Little Castle/Foliage/LC Foliage].
+Log: [Little Castle Foliage] Oak_A_Study/SM_Tree_Oak_A contains both foliage and solid material regions. This can be valid when submeshes separate leaves from trunk/branches. Verify submesh assignment.
+Log: [Little Castle Foliage] Mesh 'Oak_A_Study/SM_Tree_Oak_A_LOD1': vertices=8283, triangles=6858, normals=OK, vertexColors=NO, UV0=OK, shaders=[Little Castle/Surface/LC Stylized Lit, Little Castle/Foliage/LC Foliage].
+Log: [Little Castle Foliage] Oak_A_Study/SM_Tree_Oak_A_LOD1 contains both foliage and solid material regions. This can be valid when submeshes separate leaves from trunk/branches. Verify submesh assignment.
+Log: [Little Castle Foliage] Mesh 'Oak_A_Study/SM_Tree_Oak_A_LOD2': vertices=5134, triangles=3106, normals=OK, vertexColors=NO, UV0=OK, shaders=[Little Castle/Surface/LC Stylized Lit, Little Castle/Foliage/LC Foliage].
+Log: [Little Castle Foliage] Oak_A_Study/SM_Tree_Oak_A_LOD2 contains both foliage and solid material regions. This can be valid when submeshes separate leaves from trunk/branches. Verify submesh assignment.
+Log: [Little Castle Foliage] Compatibility review finished for 'Oak_A_Study'. foliageRenderers=3, grassRenderers=0, solidRenderers=3, errors=0, warnings=0. Manual close/far visual validation is still required.
+OAK=Assets/_Game/Art/Studies/ValleyArt_Pass03/Oak_A_Study.prefab
+Mesh=Assets/_Game/Art/Studies/ValleyArt_Pass03/OakKit/SM_Tree_Oak_A.fbx / SM_Tree_Oak_A; vertices=12389; submeshes=2; bounds=Center: (0.08, 0.23, -3.39), Extents: (3.67, 2.89, 3.70)
+Normal=True
+Tangent=True
+Color=False
+TexCoord0=True
+TexCoord1=False
+Materials=Oak_Bark:Little Castle/Surface/LC Stylized Lit;Oak_Leaves:Little Castle/Foliage/LC Foliage
+UVY-height correlation=0,06195035
+Mesh=Assets/_Game/Art/Studies/ValleyArt_Pass03/OakKit/SM_Tree_Oak_A_LOD1.fbx / SM_Tree_Oak_A_LOD1; vertices=8283; submeshes=2; bounds=Center: (0.08, 0.23, -3.39), Extents: (3.67, 2.89, 3.70)
+Normal=True
+Tangent=True
+Color=False
+TexCoord0=True
+TexCoord1=False
+Materials=Oak_Bark:Little Castle/Surface/LC Stylized Lit;Oak_Leaves:Little Castle/Foliage/LC Foliage
+UVY-height correlation=0,06749596
+Mesh=Assets/_Game/Art/Studies/ValleyArt_Pass03/OakKit/SM_Tree_Oak_A_LOD2.fbx / SM_Tree_Oak_A_LOD2; vertices=5134; submeshes=2; bounds=Center: (0.08, 0.23, -3.39), Extents: (3.67, 2.89, 3.70)
+Normal=True
+Tangent=True
+Color=False
+TexCoord0=True
+TexCoord1=False
+Materials=Oak_Bark:Little Castle/Surface/LC Stylized Lit;Oak_Leaves:Little Castle/Foliage/LC Foliage
+UVY-height correlation=0,06216579
+Log: [Little Castle Foliage] Compatibility review started: Oak_B_Study
+Log: [Little Castle Foliage] Mesh 'Oak_B_Study/SM_Tree_Oak_B': vertices=12406, triangles=12068, normals=OK, vertexColors=NO, UV0=OK, shaders=[Little Castle/Surface/LC Stylized Lit, Little Castle/Foliage/LC Foliage].
+Log: [Little Castle Foliage] Oak_B_Study/SM_Tree_Oak_B contains both foliage and solid material regions. This can be valid when submeshes separate leaves from trunk/branches. Verify submesh assignment.
+Log: [Little Castle Foliage] Mesh 'Oak_B_Study/SM_Tree_Oak_B_LOD1': vertices=8282, triangles=6858, normals=OK, vertexColors=NO, UV0=OK, shaders=[Little Castle/Surface/LC Stylized Lit, Little Castle/Foliage/LC Foliage].
+Log: [Little Castle Foliage] Oak_B_Study/SM_Tree_Oak_B_LOD1 contains both foliage and solid material regions. This can be valid when submeshes separate leaves from trunk/branches. Verify submesh assignment.
+Log: [Little Castle Foliage] Mesh 'Oak_B_Study/SM_Tree_Oak_B_LOD2': vertices=5135, triangles=3106, normals=OK, vertexColors=NO, UV0=OK, shaders=[Little Castle/Surface/LC Stylized Lit, Little Castle/Foliage/LC Foliage].
+Log: [Little Castle Foliage] Oak_B_Study/SM_Tree_Oak_B_LOD2 contains both foliage and solid material regions. This can be valid when submeshes separate leaves from trunk/branches. Verify submesh assignment.
+Log: [Little Castle Foliage] Compatibility review finished for 'Oak_B_Study'. foliageRenderers=3, grassRenderers=0, solidRenderers=3, errors=0, warnings=0. Manual close/far visual validation is still required.
+OAK=Assets/_Game/Art/Studies/ValleyArt_Pass03/Oak_B_Study.prefab
+Mesh=Assets/_Game/Art/Studies/ValleyArt_Pass03/OakKit/SM_Tree_Oak_B.fbx / SM_Tree_Oak_B; vertices=12406; submeshes=2; bounds=Center: (-0.01, 0.25, -3.27), Extents: (4.37, 3.23, 3.58)
+Normal=True
+Tangent=True
+Color=False
+TexCoord0=True
+TexCoord1=False
+Materials=Oak_Bark:Little Castle/Surface/LC Stylized Lit;Oak_Leaves:Little Castle/Foliage/LC Foliage
+UVY-height correlation=0,06402497
+Mesh=Assets/_Game/Art/Studies/ValleyArt_Pass03/OakKit/SM_Tree_Oak_B_LOD1.fbx / SM_Tree_Oak_B_LOD1; vertices=8282; submeshes=2; bounds=Center: (-0.01, 0.25, -3.27), Extents: (4.37, 3.23, 3.58)
+Normal=True
+Tangent=True
+Color=False
+TexCoord0=True
+TexCoord1=False
+Materials=Oak_Bark:Little Castle/Surface/LC Stylized Lit;Oak_Leaves:Little Castle/Foliage/LC Foliage
+UVY-height correlation=0,07225509
+Mesh=Assets/_Game/Art/Studies/ValleyArt_Pass03/OakKit/SM_Tree_Oak_B_LOD2.fbx / SM_Tree_Oak_B_LOD2; vertices=5135; submeshes=2; bounds=Center: (-0.01, 0.25, -3.27), Extents: (4.37, 3.23, 3.58)
+Normal=True
+Tangent=True
+Color=False
+TexCoord0=True
+TexCoord1=False
+Materials=Oak_Bark:Little Castle/Surface/LC Stylized Lit;Oak_Leaves:Little Castle/Foliage/LC Foliage
+UVY-height correlation=0,0655398
+Log: [Little Castle Foliage] Compatibility review started: Oak_C_Study
+Log: [Little Castle Foliage] Mesh 'Oak_C_Study/SM_Tree_Oak_C': vertices=12402, triangles=12068, normals=OK, vertexColors=NO, UV0=OK, shaders=[Little Castle/Surface/LC Stylized Lit, Little Castle/Foliage/LC Foliage].
+Log: [Little Castle Foliage] Oak_C_Study/SM_Tree_Oak_C contains both foliage and solid material regions. This can be valid when submeshes separate leaves from trunk/branches. Verify submesh assignment.
+Log: [Little Castle Foliage] Mesh 'Oak_C_Study/SM_Tree_Oak_C_LOD1': vertices=8288, triangles=6858, normals=OK, vertexColors=NO, UV0=OK, shaders=[Little Castle/Surface/LC Stylized Lit, Little Castle/Foliage/LC Foliage].
+Log: [Little Castle Foliage] Oak_C_Study/SM_Tree_Oak_C_LOD1 contains both foliage and solid material regions. This can be valid when submeshes separate leaves from trunk/branches. Verify submesh assignment.
+Log: [Little Castle Foliage] Mesh 'Oak_C_Study/SM_Tree_Oak_C_LOD2': vertices=5138, triangles=3106, normals=OK, vertexColors=NO, UV0=OK, shaders=[Little Castle/Surface/LC Stylized Lit, Little Castle/Foliage/LC Foliage].
+Log: [Little Castle Foliage] Oak_C_Study/SM_Tree_Oak_C_LOD2 contains both foliage and solid material regions. This can be valid when submeshes separate leaves from trunk/branches. Verify submesh assignment.
+Log: [Little Castle Foliage] Compatibility review finished for 'Oak_C_Study'. foliageRenderers=3, grassRenderers=0, solidRenderers=3, errors=0, warnings=0. Manual close/far visual validation is still required.
+OAK=Assets/_Game/Art/Studies/ValleyArt_Pass03/Oak_C_Study.prefab
+Mesh=Assets/_Game/Art/Studies/ValleyArt_Pass03/OakKit/SM_Tree_Oak_C.fbx / SM_Tree_Oak_C; vertices=12402; submeshes=2; bounds=Center: (0.02, -0.01, -3.65), Extents: (3.28, 2.63, 3.96)
+Normal=True
+Tangent=True
+Color=False
+TexCoord0=True
+TexCoord1=False
+Materials=Oak_Bark:Little Castle/Surface/LC Stylized Lit;Oak_Leaves:Little Castle/Foliage/LC Foliage
+UVY-height correlation=0,05285765
+Mesh=Assets/_Game/Art/Studies/ValleyArt_Pass03/OakKit/SM_Tree_Oak_C_LOD1.fbx / SM_Tree_Oak_C_LOD1; vertices=8288; submeshes=2; bounds=Center: (0.02, -0.01, -3.65), Extents: (3.28, 2.63, 3.96)
+Normal=True
+Tangent=True
+Color=False
+TexCoord0=True
+TexCoord1=False
+Materials=Oak_Bark:Little Castle/Surface/LC Stylized Lit;Oak_Leaves:Little Castle/Foliage/LC Foliage
+UVY-height correlation=0,05293369
+Mesh=Assets/_Game/Art/Studies/ValleyArt_Pass03/OakKit/SM_Tree_Oak_C_LOD2.fbx / SM_Tree_Oak_C_LOD2; vertices=5138; submeshes=2; bounds=Center: (0.02, -0.01, -3.65), Extents: (3.28, 2.63, 3.96)
+Normal=True
+Tangent=True
+Color=False
+TexCoord0=True
+TexCoord1=False
+Materials=Oak_Bark:Little Castle/Surface/LC Stylized Lit;Oak_Leaves:Little Castle/Foliage/LC Foliage
+UVY-height correlation=0,05287085
+Log: [Little Castle Foliage] Compatibility review started: Oak_D_Study
+Log: [Little Castle Foliage] Mesh 'Oak_D_Study/SM_Tree_Oak_D': vertices=12393, triangles=12068, normals=OK, vertexColors=NO, UV0=OK, shaders=[Little Castle/Surface/LC Stylized Lit, Little Castle/Foliage/LC Foliage].
+Log: [Little Castle Foliage] Oak_D_Study/SM_Tree_Oak_D contains both foliage and solid material regions. This can be valid when submeshes separate leaves from trunk/branches. Verify submesh assignment.
+Log: [Little Castle Foliage] Mesh 'Oak_D_Study/SM_Tree_Oak_D_LOD1': vertices=8287, triangles=6858, normals=OK, vertexColors=NO, UV0=OK, shaders=[Little Castle/Surface/LC Stylized Lit, Little Castle/Foliage/LC Foliage].
+Log: [Little Castle Foliage] Oak_D_Study/SM_Tree_Oak_D_LOD1 contains both foliage and solid material regions. This can be valid when submeshes separate leaves from trunk/branches. Verify submesh assignment.
+Log: [Little Castle Foliage] Mesh 'Oak_D_Study/SM_Tree_Oak_D_LOD2': vertices=5138, triangles=3106, normals=OK, vertexColors=NO, UV0=OK, shaders=[Little Castle/Surface/LC Stylized Lit, Little Castle/Foliage/LC Foliage].
+Log: [Little Castle Foliage] Oak_D_Study/SM_Tree_Oak_D_LOD2 contains both foliage and solid material regions. This can be valid when submeshes separate leaves from trunk/branches. Verify submesh assignment.
+Log: [Little Castle Foliage] Compatibility review finished for 'Oak_D_Study'. foliageRenderers=3, grassRenderers=0, solidRenderers=3, errors=0, warnings=0. Manual close/far visual validation is still required.
+OAK=Assets/_Game/Art/Studies/ValleyArt_Pass03/Oak_D_Study.prefab
+Mesh=Assets/_Game/Art/Studies/ValleyArt_Pass03/OakKit/SM_Tree_Oak_D.fbx / SM_Tree_Oak_D; vertices=12393; submeshes=2; bounds=Center: (0.82, 0.07, -3.42), Extents: (3.86, 3.09, 3.72)
+Normal=True
+Tangent=True
+Color=False
+TexCoord0=True
+TexCoord1=False
+Materials=Oak_Bark:Little Castle/Surface/LC Stylized Lit;Oak_Leaves:Little Castle/Foliage/LC Foliage
+UVY-height correlation=0,06432646
+Mesh=Assets/_Game/Art/Studies/ValleyArt_Pass03/OakKit/SM_Tree_Oak_D_LOD1.fbx / SM_Tree_Oak_D_LOD1; vertices=8287; submeshes=2; bounds=Center: (0.82, 0.07, -3.42), Extents: (3.86, 3.09, 3.72)
+Normal=True
+Tangent=True
+Color=False
+TexCoord0=True
+TexCoord1=False
+Materials=Oak_Bark:Little Castle/Surface/LC Stylized Lit;Oak_Leaves:Little Castle/Foliage/LC Foliage
+UVY-height correlation=0,07168111
+Mesh=Assets/_Game/Art/Studies/ValleyArt_Pass03/OakKit/SM_Tree_Oak_D_LOD2.fbx / SM_Tree_Oak_D_LOD2; vertices=5138; submeshes=2; bounds=Center: (0.82, 0.07, -3.42), Extents: (3.86, 3.09, 3.72)
+Normal=True
+Tangent=True
+Color=False
+TexCoord0=True
+TexCoord1=False
+Materials=Oak_Bark:Little Castle/Surface/LC Stylized Lit;Oak_Leaves:Little Castle/Foliage/LC Foliage
+UVY-height correlation=0,06736925
+Log: [Little Castle Foliage] Compatibility review started: Exact native Meadow preflight
+Log: [Little Castle Foliage] Mesh 'Exact native Meadow preflight': vertices=240, triangles=144, normals=OK, vertexColors=NO, UV0=OK, shaders=[Little Castle/Foliage/LC Grass].
+Log: [Little Castle Foliage] Exact native Meadow preflight grass/wheat UV Y range=1. Visual root-to-tip orientation still requires manual inspection.
+Log: [Little Castle Foliage] Compatibility review finished for 'Exact native Meadow preflight'. foliageRenderers=0, grassRenderers=1, solidRenderers=0, errors=0, warnings=0. Manual close/far visual validation is still required.
+Mesh=Assets/_Game/Art/Studies/Meadow_20261025/Meadow_Blades_LOD0.asset / Meadow_Blades_LOD0; vertices=240; submeshes=1; bounds=Center: (-0.02, 0.24, 0.03), Extents: (1.26, 0.94, 1.23)
+Normal=True
+Tangent=False
+Color=False
+TexCoord0=True
+TexCoord1=True
+Materials=Meadow_Blades:Little Castle/Foliage/LC Grass
+UVY-height correlation=0,9383818
+Log: [Little Castle Foliage] Compatibility review started: Exact native Meadow preflight
+Log: [Little Castle Foliage] Mesh 'Exact native Meadow preflight': vertices=144, triangles=48, normals=OK, vertexColors=NO, UV0=OK, shaders=[Little Castle/Foliage/LC Grass].
+Log: [Little Castle Foliage] Exact native Meadow preflight grass/wheat UV Y range=1. Visual root-to-tip orientation still requires manual inspection.
+Log: [Little Castle Foliage] Compatibility review finished for 'Exact native Meadow preflight'. foliageRenderers=0, grassRenderers=1, solidRenderers=0, errors=0, warnings=0. Manual close/far visual validation is still required.
+Mesh=Assets/_Game/Art/Studies/Meadow_20261025/Meadow_Blades_LOD1.asset / Meadow_Blades_LOD1; vertices=144; submeshes=1; bounds=Center: (-0.02, 0.24, 0.03), Extents: (1.26, 0.94, 1.23)
+Normal=True
+Tangent=False
+Color=False
+TexCoord0=True
+TexCoord1=True
+Materials=Meadow_Blades:Little Castle/Foliage/LC Grass
+UVY-height correlation=0,9571024
+Log: [Little Castle Foliage] Compatibility review started: Exact native Meadow preflight
+Log: [Little Castle Foliage] Mesh 'Exact native Meadow preflight': vertices=60, triangles=20, normals=OK, vertexColors=NO, UV0=OK, shaders=[Little Castle/Foliage/LC Grass].
+Log: [Little Castle Foliage] Exact native Meadow preflight grass/wheat UV Y range=1. Visual root-to-tip orientation still requires manual inspection.
+Log: [Little Castle Foliage] Compatibility review finished for 'Exact native Meadow preflight'. foliageRenderers=0, grassRenderers=1, solidRenderers=0, errors=0, warnings=0. Manual close/far visual validation is still required.
+Mesh=Assets/_Game/Art/Studies/Meadow_20261025/Meadow_Blades_LOD2.asset / Meadow_Blades_LOD2; vertices=60; submeshes=1; bounds=Center: (-0.06, 0.23, 0.03), Extents: (1.22, 0.93, 1.23)
+Normal=True
+Tangent=False
+Color=False
+TexCoord0=True
+TexCoord1=True
+Materials=Meadow_Blades:Little Castle/Foliage/LC Grass
+UVY-height correlation=0,9522728
+Log: [Little Castle Foliage] Compatibility review started: Exact native Meadow preflight
+Log: [Little Castle Foliage] Mesh 'Exact native Meadow preflight': vertices=24, triangles=8, normals=OK, vertexColors=NO, UV0=OK, shaders=[Little Castle/Foliage/LC Grass].
+Log: [Little Castle Foliage] Exact native Meadow preflight grass/wheat UV Y range=1. Visual root-to-tip orientation still requires manual inspection.
+Log: [Little Castle Foliage] Compatibility review finished for 'Exact native Meadow preflight'. foliageRenderers=0, grassRenderers=1, solidRenderers=0, errors=0, warnings=0. Manual close/far visual validation is still required.
+Mesh=Assets/_Game/Art/Studies/Meadow_20261025/Meadow_Blades_LOD3.asset / Meadow_Blades_LOD3; vertices=24; submeshes=1; bounds=Center: (-0.06, 0.22, -0.24), Extents: (1.22, 0.92, 0.96)
+Normal=True
+Tangent=False
+Color=False
+TexCoord0=True
+TexCoord1=True
+Materials=Meadow_Blades:Little Castle/Foliage/LC Grass
+UVY-height correlation=0,9596878

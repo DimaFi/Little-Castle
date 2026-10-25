@@ -1,0 +1,11 @@
+{
+  "relevantProcessFilter": [
+    "Unity.exe",
+    "Meadow.exe",
+    "LittleCastle_LightingMeadow.exe"
+  ],
+  "initialRelevantProcesses": [],
+  "finalRelevantProcesses": [],
+  "note": "Both filtered process enumerations returned no rows. Initial empty-array serialization in runner produced no file; this record preserves that result. Other applications were not isolated. Own PNG/export and Unity batch jobs were finished before measurements.",
+  "recordedUTC": "2026-10-25T23:05:54.586374+00:00"
+}

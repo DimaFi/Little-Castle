@@ -1,0 +1,24 @@
+{
+  "editmode.xml": {
+    "sha256": "389dfe4ca58688837ed95dfdc3981365fdda1056457bbd0c89b20a2df98718aa",
+    "result": "Passed",
+    "total": "178",
+    "passed": "178",
+    "failed": "0",
+    "skipped": "0",
+    "start-time": "2026-10-25 19:33:58Z",
+    "end-time": "2026-10-25 19:34:19Z",
+    "duration": "21,6113689"
+  },
+  "playmode.xml": {
+    "sha256": "536da8d213ec83e53468bb025ec0d36c339e2c137906b5697f281048184d5486",
+    "result": "Passed",
+    "total": "6",
+    "passed": "6",
+    "failed": "0",
+    "skipped": "0",
+    "start-time": "2026-10-25 19:34:34Z",
+    "end-time": "2026-10-25 19:34:46Z",
+    "duration": "12,3050374"
+  }
+}

@@ -1,0 +1,1124 @@
+{
+  "Gamma": {
+    "images": [
+      {
+        "file": "ao-close-01.0.png",
+        "sha256": "d2d4f78db7d044449618e98d62050df1751973d978cf1506278374c32553e7ce",
+        "meanRGB": 50.574623107910156,
+        "stdRGB": 14.881190299987793
+      },
+      {
+        "file": "ao-close-12.0.png",
+        "sha256": "01ffd2fcb141f3f88657f4279298713bf0d5a315a8adb1b52318d11bc14c13b9",
+        "meanRGB": 121.47187042236328,
+        "stdRGB": 37.74903869628906
+      },
+      {
+        "file": "ao-close-18.5.png",
+        "sha256": "b3cf7eca98c9021d15a80c6000b24500401c3ce8f85e66fddc47105ca5028ce9",
+        "meanRGB": 71.71253204345703,
+        "stdRGB": 27.770462036132812
+      },
+      {
+        "file": "ao-meadow-01.0.png",
+        "sha256": "b4016a887f9638d69823c65254598f3aa9c64d63042ac9182931f45434b7f0e5",
+        "meanRGB": 51.17889404296875,
+        "stdRGB": 13.049784660339355
+      },
+      {
+        "file": "ao-meadow-12.0.png",
+        "sha256": "4168bcf1ef38a876e6786f5a27048fe32d8a68ec0b7535dee34bff3c01e2b90d",
+        "meanRGB": 125.53299713134766,
+        "stdRGB": 37.09370422363281
+      },
+      {
+        "file": "ao-meadow-18.5.png",
+        "sha256": "51c9c4db0573c943726c8518337a2bbd6443e807289c6bf1dcf01f1d69a0210e",
+        "meanRGB": 83.84729766845703,
+        "stdRGB": 34.593177795410156
+      },
+      {
+        "file": "ao-oak-contact-01.0.png",
+        "sha256": "b6bb00285bb638117e94a7cc1c854d7b12e23562be569fe94ecd26df6c6560d7",
+        "meanRGB": 46.36024856567383,
+        "stdRGB": 15.321320533752441
+      },
+      {
+        "file": "ao-oak-contact-12.0.png",
+        "sha256": "52795cd8af9b4ee41e86cb53eef84771b53afc0c0a485e2fb175f0bd54bd27cd",
+        "meanRGB": 121.767333984375,
+        "stdRGB": 46.40650939941406
+      },
+      {
+        "file": "ao-oak-contact-18.5.png",
+        "sha256": "d2cbb90911ac9bc30486eedf09b2f3492b6b770456ef74c8f1cba761f80fe849",
+        "meanRGB": 83.9666748046875,
+        "stdRGB": 48.248077392578125
+      },
+      {
+        "file": "ao-roots-disabled.png",
+        "sha256": "14e29b5c43935311b1d32974cf594008f769bc22355285ac9e70dc1204882b63",
+        "meanRGB": 121.83759307861328,
+        "stdRGB": 37.63729476928711
+      },
+      {
+        "file": "ao-strategy-01.0.png",
+        "sha256": "a9041cfe6f466d08b9955e9fffe032d1770501d60a765466d8b97d873721affd",
+        "meanRGB": 54.37202835083008,
+        "stdRGB": 11.075604438781738
+      },
+      {
+        "file": "ao-strategy-12.0.png",
+        "sha256": "3182de28083772af11cbc276e98e0427fce44a420cc594241623b4d556103f44",
+        "meanRGB": 129.5169677734375,
+        "stdRGB": 30.046998977661133
+      },
+      {
+        "file": "ao-strategy-18.5.png",
+        "sha256": "71d35bc4e116dd122eba26b17e8f16e4fa49851bf63543ebc90935d4fe45f5d8",
+        "meanRGB": 86.91961669921875,
+        "stdRGB": 26.842172622680664
+      },
+      {
+        "file": "camera-0-00.png",
+        "sha256": "6da1d1e774fb163a08362b5a14dbe42e50edae78f30d81e9bf01ced5af3072d2",
+        "meanRGB": 125.53330993652344,
+        "stdRGB": 37.093589782714844
+      },
+      {
+        "file": "camera-0-01.png",
+        "sha256": "44336fcd97c0b7d789a3348dddba9497829ec35608034b5adb557e94777313e9",
+        "meanRGB": 125.52536010742188,
+        "stdRGB": 37.10099792480469
+      },
+      {
+        "file": "camera-0-02.png",
+        "sha256": "8c67a2cb8f3db618b387a650521efdd7f9755edb906a58d42f25df97f30c006f",
+        "meanRGB": 125.51962280273438,
+        "stdRGB": 37.107398986816406
+      },
+      {
+        "file": "camera-0-03.png",
+        "sha256": "4b7b133fdc93baca6f4149eb51595e4b041b1f35f0f4c09a5ed6652d71c6fa0c",
+        "meanRGB": 125.50918579101562,
+        "stdRGB": 37.11522674560547
+      },
+      {
+        "file": "camera-0-04.png",
+        "sha256": "e39bad3c9eb5a25d7fd60896072fd85df5f2979d160567fbb79dab3389ab3823",
+        "meanRGB": 125.50225067138672,
+        "stdRGB": 37.121665954589844
+      },
+      {
+        "file": "camera-0-05.png",
+        "sha256": "b4602a1061ab1647913065b1873f58da70d2b9a9fe7dcdcb826dff924018a8f2",
+        "meanRGB": 125.4918441772461,
+        "stdRGB": 37.129722595214844
+      },
+      {
+        "file": "camera-0-06.png",
+        "sha256": "b36e8d7a4e0f648f8c772f402539849795b30717eb5ab21f43c426e17cb8fd44",
+        "meanRGB": 125.47981262207031,
+        "stdRGB": 37.141510009765625
+      },
+      {
+        "file": "camera-0-07.png",
+        "sha256": "eff7837c2c50e238a92270c13904f908aa1c098bad0aef80bf77fb7861335187",
+        "meanRGB": 125.46881866455078,
+        "stdRGB": 37.147335052490234
+      },
+      {
+        "file": "camera-0-08.png",
+        "sha256": "6e5661ff7ecfca053aa5c588c6f5f45266b98a1eef5740365bdb21097c6f0dd2",
+        "meanRGB": 125.45628356933594,
+        "stdRGB": 37.156959533691406
+      },
+      {
+        "file": "camera-0-09.png",
+        "sha256": "88869e33fe9f64ea22781cab7439d5f39a449a7d021ce3db457c75b8d7c1a41c",
+        "meanRGB": 125.44481658935547,
+        "stdRGB": 37.16640853881836
+      },
+      {
+        "file": "camera-0-10.png",
+        "sha256": "8380d02beb9839c46cdfdc8f9454f005015139931d49daba95be69e48dab8f8f",
+        "meanRGB": 125.43157196044922,
+        "stdRGB": 37.17686462402344
+      },
+      {
+        "file": "camera-0-11.png",
+        "sha256": "57dec7903e5678d0ddb6387ea4eb67a7d5b3e1679b0d8682d484f3ba56eb6e74",
+        "meanRGB": 125.42044067382812,
+        "stdRGB": 37.1845703125
+      },
+      {
+        "file": "camera-0-12.png",
+        "sha256": "ca3f884eb26eca42e328998b47aa28b1c1ec8389ff580d462047cfbe48748708",
+        "meanRGB": 125.40807342529297,
+        "stdRGB": 37.1933708190918
+      },
+      {
+        "file": "camera-0-13.png",
+        "sha256": "942415063e95d6493a7ff478ad90812f6583d2903d103a08a61d3e75b70fa097",
+        "meanRGB": 125.39793395996094,
+        "stdRGB": 37.200653076171875
+      },
+      {
+        "file": "camera-0-14.png",
+        "sha256": "15a1cd21d7969480a192fb91efc721e5f10132b82b9d05df85a00ba097c94875",
+        "meanRGB": 125.38421630859375,
+        "stdRGB": 37.2130126953125
+      },
+      {
+        "file": "camera-0-15.png",
+        "sha256": "25bf0df26ea6337b122935e9e8b39d48b3fcd59d3e20434f7e808fde25f61f05",
+        "meanRGB": 125.37224578857422,
+        "stdRGB": 37.223716735839844
+      },
+      {
+        "file": "camera-3-00.png",
+        "sha256": "38baa71ed40d209ffd7be6154426989e23fabe728e75fa74651c8659608187a5",
+        "meanRGB": 121.77483367919922,
+        "stdRGB": 46.40639877319336
+      },
+      {
+        "file": "camera-3-01.png",
+        "sha256": "1120c9d8041afd6588bad06adcda695c878563ada77e250cb8ac248f108306cb",
+        "meanRGB": 121.81240844726562,
+        "stdRGB": 46.38154220581055
+      },
+      {
+        "file": "camera-3-02.png",
+        "sha256": "a6b3a59c8ed248bf666e57054591b07a385b1802d1e68c396aea8daa193d2f33",
+        "meanRGB": 121.85880279541016,
+        "stdRGB": 46.35586929321289
+      },
+      {
+        "file": "camera-3-03.png",
+        "sha256": "1e031161333bdba32290954a5aac493b9e573bf4425547530c51bc4d56a118ef",
+        "meanRGB": 121.9031982421875,
+        "stdRGB": 46.327354431152344
+      },
+      {
+        "file": "camera-3-04.png",
+        "sha256": "680748ca596a232e0261a9b6ede48fbe8b53c6b639b71c52114937a4f4ad35d0",
+        "meanRGB": 121.93891906738281,
+        "stdRGB": 46.30763244628906
+      },
+      {
+        "file": "camera-3-05.png",
+        "sha256": "6a0efd414b0797885c351753ba248a4ce877af3d1bc21541ed2f097e320bb445",
+        "meanRGB": 121.97513580322266,
+        "stdRGB": 46.28097915649414
+      },
+      {
+        "file": "camera-3-06.png",
+        "sha256": "a59e3d9ecbca86dfe36e98fc85dec69ac346779a0ea488a8eb8041ae385226b5",
+        "meanRGB": 122.01416778564453,
+        "stdRGB": 46.25626754760742
+      },
+      {
+        "file": "camera-3-07.png",
+        "sha256": "d8afbce7282dd10ea4a77b11e7f8aa0912189542675eb56822ab7fffff54f38b",
+        "meanRGB": 122.04558563232422,
+        "stdRGB": 46.23666763305664
+      },
+      {
+        "file": "camera-3-08.png",
+        "sha256": "90201665f82662ddb9fe23fb3949c329e502663f799b9cb32d31cbbb7f4f530b",
+        "meanRGB": 122.09819030761719,
+        "stdRGB": 46.20100402832031
+      },
+      {
+        "file": "camera-3-09.png",
+        "sha256": "1733556798cc98e5c8f306b98f45dd5fdbf0498c85dc1d5051d295bebe562519",
+        "meanRGB": 122.13377380371094,
+        "stdRGB": 46.17584991455078
+      },
+      {
+        "file": "camera-3-10.png",
+        "sha256": "752738ac8af6ca1f0bbd1b1c0770c6633451f9b21af7ee0a027415974509d2d9",
+        "meanRGB": 122.15913391113281,
+        "stdRGB": 46.15632247924805
+      },
+      {
+        "file": "camera-3-11.png",
+        "sha256": "b592041792434c15462ff3ba94e64e119abcac5c7f76a52a5365bd690331fa74",
+        "meanRGB": 122.18120574951172,
+        "stdRGB": 46.1396369934082
+      },
+      {
+        "file": "camera-3-12.png",
+        "sha256": "0b96c0dc2618df302db81bb35a7b787e1202b759b8d715f95de65a92f8ed8ff0",
+        "meanRGB": 122.20296478271484,
+        "stdRGB": 46.12171173095703
+      },
+      {
+        "file": "camera-3-13.png",
+        "sha256": "523ed4637fa8c34ade4bba11aac184cdc6d168a75868f0c07682a8b785fd3c6f",
+        "meanRGB": 122.22298431396484,
+        "stdRGB": 46.10331344604492
+      },
+      {
+        "file": "camera-3-14.png",
+        "sha256": "032a096cfcd67bc445a9eaa1ef259d9b2143735de45ae9bf2d21845736855ada",
+        "meanRGB": 122.2288589477539,
+        "stdRGB": 46.08980941772461
+      },
+      {
+        "file": "camera-3-15.png",
+        "sha256": "474670363ced60e973c599e7baea1001b726f45635f80a85205d41b929f1c8e9",
+        "meanRGB": 122.248779296875,
+        "stdRGB": 46.07662582397461
+      },
+      {
+        "file": "hdr-close-01.0.png",
+        "sha256": "395af10474bfef96ead5091a79da2561808c922390a82f6ad183634033010f62",
+        "meanRGB": 53.11347579956055,
+        "stdRGB": 14.489715576171875
+      },
+      {
+        "file": "hdr-close-12.0.png",
+        "sha256": "42c4bd7acac27ec3061c996c8af1859ed8cadf5b2783c8e9e66aafe4b40896ae",
+        "meanRGB": 124.15776824951172,
+        "stdRGB": 37.55419158935547
+      },
+      {
+        "file": "hdr-close-18.5.png",
+        "sha256": "658d26e3d7cf202b1925f5e9c0f63130a2c14f01b83d43d55f38500039935f81",
+        "meanRGB": 74.66429901123047,
+        "stdRGB": 27.690914154052734
+      },
+      {
+        "file": "hdr-meadow-01.0.png",
+        "sha256": "c919a637265a8589bddd99c7725d74c8da49b3f5d9948b41fb2b4572100f7049",
+        "meanRGB": 51.324092864990234,
+        "stdRGB": 13.064972877502441
+      },
+      {
+        "file": "hdr-meadow-12.0.png",
+        "sha256": "95671ae3499b6bd1226e1f0f1627d124351e9d880a7424df1b797e4d206c03ea",
+        "meanRGB": 125.68655395507812,
+        "stdRGB": 37.08514404296875
+      },
+      {
+        "file": "hdr-meadow-18.5.png",
+        "sha256": "4bd961283b9212aacf534060e5a6aba2a393128b3facd9e728afa27591dbe046",
+        "meanRGB": 84.0164566040039,
+        "stdRGB": 34.571815490722656
+      },
+      {
+        "file": "hdr-oak-contact-01.0.png",
+        "sha256": "d6ed9f351bd3c004cf6fb0d582fd838728e988c2cf572d573a22a31db23bec01",
+        "meanRGB": 48.506980895996094,
+        "stdRGB": 15.531706809997559
+      },
+      {
+        "file": "hdr-oak-contact-12.0.png",
+        "sha256": "83f0b7e9200d93755ca88512e33c1d8cfcf94380cf17b9c76d7a712da1334449",
+        "meanRGB": 124.05184936523438,
+        "stdRGB": 46.15321731567383
+      },
+      {
+        "file": "hdr-oak-contact-18.5.png",
+        "sha256": "43fb799ca903ec5ea9886937e8261c6c7f59afa7a4458495991c9464f27bcc2b",
+        "meanRGB": 86.45539093017578,
+        "stdRGB": 47.382198333740234
+      },
+      {
+        "file": "hdr-strategy-01.0.png",
+        "sha256": "17bd9a7aba742756a5c001832b9a961eddb9eb3444fe6dc6089c3f5f07247d3f",
+        "meanRGB": 54.372066497802734,
+        "stdRGB": 11.075599670410156
+      },
+      {
+        "file": "hdr-strategy-12.0.png",
+        "sha256": "0cbc418fa89c972bcaab6ce1b5ea39792c4dab6d30b2e154de6daa3c1428f467",
+        "meanRGB": 129.51702880859375,
+        "stdRGB": 30.0470027923584
+      },
+      {
+        "file": "hdr-strategy-18.5.png",
+        "sha256": "069c0129bb89dbafb6ce78ed53f0341eb5298561585837ac730fb7dbfb1262a6",
+        "meanRGB": 86.91967010498047,
+        "stdRGB": 26.842166900634766
+      },
+      {
+        "file": "interaction-off.png",
+        "sha256": "cd9de57905012c467b93f55c42a7d72b8b15606893008191ff0bf615502d9840",
+        "meanRGB": 121.45307922363281,
+        "stdRGB": 37.77988052368164
+      },
+      {
+        "file": "interaction-on.png",
+        "sha256": "52d3983cf1a034d483d6cb4f14b89b01572d22610ec54023b62a06bbf1fac557",
+        "meanRGB": 121.4437026977539,
+        "stdRGB": 37.78153610229492
+      },
+      {
+        "file": "painted-road.png",
+        "sha256": "e4ea43135ec30953a9cd36c5b6c2bdfbfd765f8fa52abac2e8e8d4eb8bf24e7a",
+        "meanRGB": 122.56388092041016,
+        "stdRGB": 38.24274444580078
+      },
+      {
+        "file": "wind-00.png",
+        "sha256": "afe644e14e15fb700a34703538675ffe8059af0fa9224d8f356bb66096a836d0",
+        "meanRGB": 121.77110290527344,
+        "stdRGB": 46.405921936035156
+      },
+      {
+        "file": "wind-01.png",
+        "sha256": "e85583e1b65c786a552934834bb672102a565ba58f464ee816c5b76be32152d5",
+        "meanRGB": 121.77619171142578,
+        "stdRGB": 46.40299987792969
+      },
+      {
+        "file": "wind-02.png",
+        "sha256": "37b967ddb77088026a27cef7637b396e50fb967fb1348fd3b83205e50837545a",
+        "meanRGB": 121.7738265991211,
+        "stdRGB": 46.40251541137695
+      },
+      {
+        "file": "wind-03.png",
+        "sha256": "b2b4f8f2eb1ebd7f587d89898b765342862f18bb31ab642b79b4ed70aad0c4f5",
+        "meanRGB": 121.773681640625,
+        "stdRGB": 46.39902114868164
+      },
+      {
+        "file": "wind-04.png",
+        "sha256": "2b91dfddc31d330b2028b0f022d4cd943b9917e8692e4201ea6c49c0d739006c",
+        "meanRGB": 121.78656005859375,
+        "stdRGB": 46.399356842041016
+      },
+      {
+        "file": "wind-05.png",
+        "sha256": "032a53f57858946c0d3d59b74e5585ec17a34d889438eeb17f1ad7f234dcfd7c",
+        "meanRGB": 121.77718353271484,
+        "stdRGB": 46.40248489379883
+      },
+      {
+        "file": "wind-06.png",
+        "sha256": "b3c72a8c0047744d12589f5d40c69ae678bfb5ac96cf17871478922b76619d4e",
+        "meanRGB": 121.77583312988281,
+        "stdRGB": 46.40103530883789
+      },
+      {
+        "file": "wind-07.png",
+        "sha256": "ac581ee0c519505ea2e837839496a76f335087b89ae51ffb404d05d731994fd1",
+        "meanRGB": 121.7779312133789,
+        "stdRGB": 46.401588439941406
+      },
+      {
+        "file": "wind-08.png",
+        "sha256": "4485a601c54719fcc1fa0b9cf9fb312dad25871c15bac86657d2a7cc30e53bc2",
+        "meanRGB": 121.78002166748047,
+        "stdRGB": 46.39921188354492
+      },
+      {
+        "file": "wind-09.png",
+        "sha256": "7817f44621ae09ade9a99142ed84028d79d66b3d3e4eb81991cc8c1ef5110343",
+        "meanRGB": 121.78004455566406,
+        "stdRGB": 46.39866638183594
+      },
+      {
+        "file": "wind-10.png",
+        "sha256": "818c685b7ec9a877b16fc0e52b84fea83db9124fbcae2c52b73e98bbda0fc15a",
+        "meanRGB": 121.79057312011719,
+        "stdRGB": 46.39527893066406
+      },
+      {
+        "file": "wind-11.png",
+        "sha256": "d6c83adc86f563f4db9343abed4fb69577eb630b3d1eed8810038aab1757709e",
+        "meanRGB": 121.782470703125,
+        "stdRGB": 46.39704895019531
+      },
+      {
+        "file": "wind-12.png",
+        "sha256": "13cc9b8b3f516c3b828af8e82acafa1f69cf17adf3ed5f29603dd99709ff2d2c",
+        "meanRGB": 121.79287719726562,
+        "stdRGB": 46.392669677734375
+      },
+      {
+        "file": "wind-13.png",
+        "sha256": "37c7359ef68d19256d59ffb50adafabf7d387626eb7c660ce58d6087cbaf81bc",
+        "meanRGB": 121.78536987304688,
+        "stdRGB": 46.39212417602539
+      },
+      {
+        "file": "wind-14.png",
+        "sha256": "7cd15080f236eec4518245ae3129f148b4b79ec0df4240a05943143c8861dcd2",
+        "meanRGB": 121.78143310546875,
+        "stdRGB": 46.39694595336914
+      },
+      {
+        "file": "wind-15.png",
+        "sha256": "0aadaedcf44b128c9dcc4c27997f1b8241d7cff28f8bf3fc47d36dde7a15e43b",
+        "meanRGB": 121.78614044189453,
+        "stdRGB": 46.397918701171875
+      }
+    ],
+    "aoPairs": [
+      {
+        "view": "hdr-close-01.0.png",
+        "meanAbsByteDifference": 2.5388948917388916,
+        "changedPixelsPercent": 63.41010802469136,
+        "aoToHdrLumaP01": 0.757695157939312,
+        "aoToHdrLumaP50": 0.9764810719825736,
+        "darkestByteDelta": 29.0
+      },
+      {
+        "view": "hdr-close-12.0.png",
+        "meanAbsByteDifference": 2.685866594314575,
+        "changedPixelsPercent": 63.72284915123457,
+        "aoToHdrLumaP01": 0.8960223184007118,
+        "aoToHdrLumaP50": 0.9902197653924322,
+        "darkestByteDelta": 28.0
+      },
+      {
+        "view": "hdr-close-18.5.png",
+        "meanAbsByteDifference": 2.9518215656280518,
+        "changedPixelsPercent": 64.13614004629629,
+        "aoToHdrLumaP01": 0.7910675656766505,
+        "aoToHdrLumaP50": 0.9798351523137566,
+        "darkestByteDelta": 35.0
+      },
+      {
+        "view": "hdr-meadow-01.0.png",
+        "meanAbsByteDifference": 0.14522746205329895,
+        "changedPixelsPercent": 15.31471836419753,
+        "aoToHdrLumaP01": 0.9571609336493041,
+        "aoToHdrLumaP50": 1.0,
+        "darkestByteDelta": 9.0
+      },
+      {
+        "view": "hdr-meadow-12.0.png",
+        "meanAbsByteDifference": 0.15351611375808716,
+        "changedPixelsPercent": 15.71730324074074,
+        "aoToHdrLumaP01": 0.9816616090244273,
+        "aoToHdrLumaP50": 1.0,
+        "darkestByteDelta": 8.0
+      },
+      {
+        "view": "hdr-meadow-18.5.png",
+        "meanAbsByteDifference": 0.16918514668941498,
+        "changedPixelsPercent": 16.1884162808642,
+        "aoToHdrLumaP01": 0.9675927804659135,
+        "aoToHdrLumaP50": 1.0,
+        "darkestByteDelta": 11.0
+      },
+      {
+        "view": "hdr-oak-contact-01.0.png",
+        "meanAbsByteDifference": 2.1473209857940674,
+        "changedPixelsPercent": 53.921537422839506,
+        "aoToHdrLumaP01": 0.7936677200391118,
+        "aoToHdrLumaP50": 0.9855396640001174,
+        "darkestByteDelta": 24.0
+      },
+      {
+        "view": "hdr-oak-contact-12.0.png",
+        "meanAbsByteDifference": 2.286137104034424,
+        "changedPixelsPercent": 54.56462191358025,
+        "aoToHdrLumaP01": 0.9092189359871908,
+        "aoToHdrLumaP50": 0.9937827802909162,
+        "darkestByteDelta": 26.0
+      },
+      {
+        "view": "hdr-oak-contact-18.5.png",
+        "meanAbsByteDifference": 2.4906771183013916,
+        "changedPixelsPercent": 54.77985146604938,
+        "aoToHdrLumaP01": 0.7993590193296167,
+        "aoToHdrLumaP50": 0.9894132923770684,
+        "darkestByteDelta": 30.0
+      },
+      {
+        "view": "hdr-strategy-01.0.png",
+        "meanAbsByteDifference": 5.111882637720555e-05,
+        "changedPixelsPercent": 0.013020833333333334,
+        "aoToHdrLumaP01": 1.0,
+        "aoToHdrLumaP50": 1.0,
+        "darkestByteDelta": 2.0
+      },
+      {
+        "view": "hdr-strategy-12.0.png",
+        "meanAbsByteDifference": 5.095807500765659e-05,
+        "changedPixelsPercent": 0.013310185185185185,
+        "aoToHdrLumaP01": 1.0,
+        "aoToHdrLumaP50": 1.0,
+        "darkestByteDelta": 1.0
+      },
+      {
+        "view": "hdr-strategy-18.5.png",
+        "meanAbsByteDifference": 5.674511339748278e-05,
+        "changedPixelsPercent": 0.015335648148148147,
+        "aoToHdrLumaP01": 1.0,
+        "aoToHdrLumaP50": 1.0,
+        "darkestByteDelta": 2.0
+      }
+    ]
+  },
+  "Linear": {
+    "images": [
+      {
+        "file": "ao-close-01.0.png",
+        "sha256": "5f6fb7e35ccc8a22b215ee6d9028b1a309ee2f9d385cb330b7401f40a514ce70",
+        "meanRGB": 48.600189208984375,
+        "stdRGB": 14.050920486450195
+      },
+      {
+        "file": "ao-close-12.0.png",
+        "sha256": "aa7fdaa5a6f658e53eea299dd31d4f3627d4a3474d79280ed144e9f6ed9743ee",
+        "meanRGB": 94.37360382080078,
+        "stdRGB": 30.990488052368164
+      },
+      {
+        "file": "ao-close-18.5.png",
+        "sha256": "9f473c3e9f006bb12a1378e9aecc0982499910543f1f953080f4ccf1b0a2f2a1",
+        "meanRGB": 64.06600952148438,
+        "stdRGB": 24.230422973632812
+      },
+      {
+        "file": "ao-meadow-01.0.png",
+        "sha256": "99a3b22d58dd1a412614d9d18a10f0b0da024becc7542148f2db7af9316ff1a8",
+        "meanRGB": 48.419456481933594,
+        "stdRGB": 12.931049346923828
+      },
+      {
+        "file": "ao-meadow-12.0.png",
+        "sha256": "3ebbfc4084dc84b294ba24bdffd149e81e660de96150c201f549d56cf99fd5ac",
+        "meanRGB": 102.53472137451172,
+        "stdRGB": 37.5651969909668
+      },
+      {
+        "file": "ao-meadow-18.5.png",
+        "sha256": "183a0f77f2f3dae9884580e00d67bac910046e9ce6b2f53ee0190a6c7ec20df7",
+        "meanRGB": 77.84774017333984,
+        "stdRGB": 36.90125274658203
+      },
+      {
+        "file": "ao-oak-contact-01.0.png",
+        "sha256": "756974ed9061be82c99508cc62d99715f087ae12a0ed55a4d7dbf9abdc850cbf",
+        "meanRGB": 45.603729248046875,
+        "stdRGB": 15.834136009216309
+      },
+      {
+        "file": "ao-oak-contact-12.0.png",
+        "sha256": "4af7a1b9e902d1817b7cad487ffb5126701d69f95c53a71c0dc9f794fbeece96",
+        "meanRGB": 104.27051544189453,
+        "stdRGB": 49.06023025512695
+      },
+      {
+        "file": "ao-oak-contact-18.5.png",
+        "sha256": "1862fe040412b18ca8ca9ab882c11fd5765631f0ac2e6ebdabca2b98a38528a0",
+        "meanRGB": 79.89768981933594,
+        "stdRGB": 49.76861572265625
+      },
+      {
+        "file": "ao-roots-disabled.png",
+        "sha256": "6f1d59f3bcbd3a0d1a18f9c50dd47ae37b18ef08d890207be7847b7180c4dfe4",
+        "meanRGB": 94.47888946533203,
+        "stdRGB": 30.951213836669922
+      },
+      {
+        "file": "ao-strategy-01.0.png",
+        "sha256": "d0d951b3d68e9c92cd1f9458e22fbae15f60d41bd315ec5195249cf1ed1c6af7",
+        "meanRGB": 51.486778259277344,
+        "stdRGB": 11.548256874084473
+      },
+      {
+        "file": "ao-strategy-12.0.png",
+        "sha256": "9d76cb96ff5bc861bac04064a93ac3363f32d55159957b9055e88e4a6e7f8c60",
+        "meanRGB": 107.59654998779297,
+        "stdRGB": 30.760934829711914
+      },
+      {
+        "file": "ao-strategy-18.5.png",
+        "sha256": "6f7ad64b6c13a2123effbc74eb2dfce8b52081e402a2e3a5f00f00929183b9e4",
+        "meanRGB": 84.96288299560547,
+        "stdRGB": 31.388023376464844
+      },
+      {
+        "file": "camera-0-00.png",
+        "sha256": "005ad8429fb6b09c12572137d60e926e29c59ab5680f39a9c72729728c87843a",
+        "meanRGB": 102.53451538085938,
+        "stdRGB": 37.565277099609375
+      },
+      {
+        "file": "camera-0-01.png",
+        "sha256": "2c9a51812bf4346ced049a30e085d1a5e96509b10ccc86ecb6d9aaf02feb6e5f",
+        "meanRGB": 102.52702331542969,
+        "stdRGB": 37.56895065307617
+      },
+      {
+        "file": "camera-0-02.png",
+        "sha256": "88cc49725a646a7fb1761ef8c541f6393aa97dc5cb25f09da64d100a25860213",
+        "meanRGB": 102.52011108398438,
+        "stdRGB": 37.572181701660156
+      },
+      {
+        "file": "camera-0-03.png",
+        "sha256": "6d9efff9606f8ad265dc81bf099c437542f7966921c9e1477c73c6c3814e3623",
+        "meanRGB": 102.51065826416016,
+        "stdRGB": 37.57684326171875
+      },
+      {
+        "file": "camera-0-04.png",
+        "sha256": "8f3112a86c7604b9d26e605aef74e5306d57e547fe8978154ae37394185ef3c1",
+        "meanRGB": 102.50313568115234,
+        "stdRGB": 37.58021545410156
+      },
+      {
+        "file": "camera-0-05.png",
+        "sha256": "490e5cdcca9504052304663ea54f2b7f66b71d3346738dfe770d15d42c092d15",
+        "meanRGB": 102.49432373046875,
+        "stdRGB": 37.584693908691406
+      },
+      {
+        "file": "camera-0-06.png",
+        "sha256": "a2a4a80982fd82871f722f4f1751d22adf820dcfe3b5d038ad7000bb80157a2b",
+        "meanRGB": 102.48396301269531,
+        "stdRGB": 37.59138870239258
+      },
+      {
+        "file": "camera-0-07.png",
+        "sha256": "7a5d3ba492c08b86896e0983b5d9f3923aa3fb80be5112c984260a5ca3a84616",
+        "meanRGB": 102.47555541992188,
+        "stdRGB": 37.59434127807617
+      },
+      {
+        "file": "camera-0-08.png",
+        "sha256": "ee16b248d069c56f40c30e4f1f05bc63330130b4bf79a4feaa79d73275459b3d",
+        "meanRGB": 102.465576171875,
+        "stdRGB": 37.59967041015625
+      },
+      {
+        "file": "camera-0-09.png",
+        "sha256": "1b67d4fe7654490d123c3de628606113d59cc11d59f0825492e75622862dee5c",
+        "meanRGB": 102.4550552368164,
+        "stdRGB": 37.605712890625
+      },
+      {
+        "file": "camera-0-10.png",
+        "sha256": "0e891980ed1ffc417ba39775b69bb033f1f353a48be1804f597f10f5d4e0a201",
+        "meanRGB": 102.44452667236328,
+        "stdRGB": 37.6115837097168
+      },
+      {
+        "file": "camera-0-11.png",
+        "sha256": "2d4d7df0fdcf7d7222a45b44997f5739c0c23726ce79299dc71e1be06d2f322b",
+        "meanRGB": 102.43392181396484,
+        "stdRGB": 37.61656188964844
+      },
+      {
+        "file": "camera-0-12.png",
+        "sha256": "66ab0d03a407695d5b64a867b5643585a1e9eeba15c77978fab318d7e0af093c",
+        "meanRGB": 102.42462158203125,
+        "stdRGB": 37.62118911743164
+      },
+      {
+        "file": "camera-0-13.png",
+        "sha256": "012d360a7164d48c3d17c0c614c4e79d4a9a3abf3bd6a8e88b61b1ca5c127899",
+        "meanRGB": 102.4149169921875,
+        "stdRGB": 37.62508010864258
+      },
+      {
+        "file": "camera-0-14.png",
+        "sha256": "cfe07a3405ad155eca07575a78f0e5f3a4a9e28ea095faaa919c6f27391f66f6",
+        "meanRGB": 102.40251922607422,
+        "stdRGB": 37.63257598876953
+      },
+      {
+        "file": "camera-0-15.png",
+        "sha256": "fcd98296c5340501efbf835d93ecee95ae5e2b703e5bb0f3ee046d53a9ab8699",
+        "meanRGB": 102.39251708984375,
+        "stdRGB": 37.63845443725586
+      },
+      {
+        "file": "camera-3-00.png",
+        "sha256": "14b353a74ba957d6d6db4efaee8231474148a962e247dbe74bdda31994440c7c",
+        "meanRGB": 104.27140045166016,
+        "stdRGB": 49.05913162231445
+      },
+      {
+        "file": "camera-3-01.png",
+        "sha256": "fe4ae01df91a66354e1b16705996dc1f2ede017743ab1ff27025e686c7335e8c",
+        "meanRGB": 104.30525970458984,
+        "stdRGB": 49.04689407348633
+      },
+      {
+        "file": "camera-3-02.png",
+        "sha256": "b3d652cef88d670890780eeac55ed10ea7542f63ecae2c0de864cd37fdfa71e7",
+        "meanRGB": 104.33989715576172,
+        "stdRGB": 49.03523254394531
+      },
+      {
+        "file": "camera-3-03.png",
+        "sha256": "485d07bc0d2395271a8b3dd3cde0ee6f4e1e69591f4732696a456c5a9a85b4e8",
+        "meanRGB": 104.37336730957031,
+        "stdRGB": 49.02187728881836
+      },
+      {
+        "file": "camera-3-04.png",
+        "sha256": "21532990be413a84ff8ebc75ceabc21f5b9b056d601efe4648b269edffdf1db6",
+        "meanRGB": 104.40349578857422,
+        "stdRGB": 49.012046813964844
+      },
+      {
+        "file": "camera-3-05.png",
+        "sha256": "d90a7229f8cee25fad92abc8d6823e1d5028b0d479785adb51a420b4e2cbaf65",
+        "meanRGB": 104.43455505371094,
+        "stdRGB": 49.00099563598633
+      },
+      {
+        "file": "camera-3-06.png",
+        "sha256": "1851a4b2de3517ebd609a3b9633f97e75dd216557d9acd7350b99936eb4509d8",
+        "meanRGB": 104.46973419189453,
+        "stdRGB": 48.98668670654297
+      },
+      {
+        "file": "camera-3-07.png",
+        "sha256": "12c8f5ebd58783e12f0ba0447b0e1b726a287a1c9ebaccae4e1e64cdb6a06ec5",
+        "meanRGB": 104.49560546875,
+        "stdRGB": 48.97923278808594
+      },
+      {
+        "file": "camera-3-08.png",
+        "sha256": "9acceff75a5c973ea352b291e41836ed45b040bea154ba4b40d10b44d6fb1daf",
+        "meanRGB": 104.53167724609375,
+        "stdRGB": 48.96199035644531
+      },
+      {
+        "file": "camera-3-09.png",
+        "sha256": "71ec3c55542724028a7cfa81aca41561b1eb71504a10208fea2d01a913436cae",
+        "meanRGB": 104.55783081054688,
+        "stdRGB": 48.94758224487305
+      },
+      {
+        "file": "camera-3-10.png",
+        "sha256": "57cbd321d79be7508e64b8e8441e608c9f87042f9cc7d9da05335e574160f865",
+        "meanRGB": 104.57777404785156,
+        "stdRGB": 48.9361686706543
+      },
+      {
+        "file": "camera-3-11.png",
+        "sha256": "f1d423df617ad3ff59735cc4380af817ae2624e419b2735f2975fa9b8879f714",
+        "meanRGB": 104.59266662597656,
+        "stdRGB": 48.928009033203125
+      },
+      {
+        "file": "camera-3-12.png",
+        "sha256": "9a760b2373e464ce8bd0116b69565118f1ca6f39023fbcda7d8f2741ea75ca47",
+        "meanRGB": 104.61234283447266,
+        "stdRGB": 48.91731643676758
+      },
+      {
+        "file": "camera-3-13.png",
+        "sha256": "200b9956006f8ad7076f0a56342d44693dee813689fccda10595d6faad074e55",
+        "meanRGB": 104.62666320800781,
+        "stdRGB": 48.905723571777344
+      },
+      {
+        "file": "camera-3-14.png",
+        "sha256": "fbf4195455961ba08fba83b1787da5a6158e9e3338c7a40732d3b52ccea9e1bf",
+        "meanRGB": 104.6360092163086,
+        "stdRGB": 48.897064208984375
+      },
+      {
+        "file": "camera-3-15.png",
+        "sha256": "ea34305c591f4022f771a4c23e7ffb15ef34e2a8f54a516227412160b6be5d38",
+        "meanRGB": 104.64007568359375,
+        "stdRGB": 48.88911819458008
+      },
+      {
+        "file": "hdr-close-01.0.png",
+        "sha256": "0f991e4a9062f43c229c639aee92603f3c209d2fa41b70d9fcca796229b4b0b5",
+        "meanRGB": 49.8477897644043,
+        "stdRGB": 13.862747192382812
+      },
+      {
+        "file": "hdr-close-12.0.png",
+        "sha256": "853ded291ae233e08db77bcff406657514f2c2ea883a7fbfa03a987f60e9430e",
+        "meanRGB": 95.16490936279297,
+        "stdRGB": 30.886817932128906
+      },
+      {
+        "file": "hdr-close-18.5.png",
+        "sha256": "e054be67f3c407fc302a5815fa35a0110bcadaa04efbad1a1e34341aa5a8285c",
+        "meanRGB": 65.32743072509766,
+        "stdRGB": 23.97458839416504
+      },
+      {
+        "file": "hdr-meadow-01.0.png",
+        "sha256": "1b8d4a9bb1c65fcec6ace14eea237e9a3d20db5c8f18accc597bdf43f3e4f646",
+        "meanRGB": 48.48944091796875,
+        "stdRGB": 12.92979621887207
+      },
+      {
+        "file": "hdr-meadow-12.0.png",
+        "sha256": "15e36fea9b991afc7610dfeb791146bbead5bc1b0553dec18a0d73a892dcf7d1",
+        "meanRGB": 102.57940673828125,
+        "stdRGB": 37.55142593383789
+      },
+      {
+        "file": "hdr-meadow-18.5.png",
+        "sha256": "027c86c579a5857f88ac271df0d4a7da91e2503d7f825037ecf6129adc75da59",
+        "meanRGB": 77.91390991210938,
+        "stdRGB": 36.87732696533203
+      },
+      {
+        "file": "hdr-oak-contact-01.0.png",
+        "sha256": "12be1ecdea81028787d96bebd22583fe681fa5fe33f7703985dab1a620922870",
+        "meanRGB": 46.63015365600586,
+        "stdRGB": 15.86911392211914
+      },
+      {
+        "file": "hdr-oak-contact-12.0.png",
+        "sha256": "46b076e5c3671b9073321e7d7e2be5ddf93a787a4bbda1e3b23952d195ca6111",
+        "meanRGB": 104.94754028320312,
+        "stdRGB": 48.83778762817383
+      },
+      {
+        "file": "hdr-oak-contact-18.5.png",
+        "sha256": "cda9b142446608846f6506f6bdf89303b5de117b4991bd79f0ddeb243fe19a69",
+        "meanRGB": 80.97221374511719,
+        "stdRGB": 49.281368255615234
+      },
+      {
+        "file": "hdr-strategy-01.0.png",
+        "sha256": "4fe8f14bc2117327f988d2d6be8be42cb57502cf3a49da3d437f81c237bfd147",
+        "meanRGB": 51.48678970336914,
+        "stdRGB": 11.548249244689941
+      },
+      {
+        "file": "hdr-strategy-12.0.png",
+        "sha256": "48a4d315c92b321689c0f10a33f44d961ee856eb59e98e9f1421a01d9bda12cd",
+        "meanRGB": 107.59657287597656,
+        "stdRGB": 30.76093101501465
+      },
+      {
+        "file": "hdr-strategy-18.5.png",
+        "sha256": "f90cd151b69512aeef58690446496082af5b882aadf166c735f73eaf71a2fb8f",
+        "meanRGB": 84.96289825439453,
+        "stdRGB": 31.38800621032715
+      },
+      {
+        "file": "interaction-off.png",
+        "sha256": "4bae466c8852dadc12a808ce1fe1a078eea68241b6ab2d45d3e3016165fefc7c",
+        "meanRGB": 94.39749908447266,
+        "stdRGB": 31.028200149536133
+      },
+      {
+        "file": "interaction-on.png",
+        "sha256": "0c49c93def164761691f184b16a8d2e7f3dbfb321c1e68940930ae4104532096",
+        "meanRGB": 94.39645385742188,
+        "stdRGB": 31.02847671508789
+      },
+      {
+        "file": "painted-road.png",
+        "sha256": "0caa51f5d5fd129e544b72dca05dffd7a3c48ec5e00ce085bdc8e05808e35268",
+        "meanRGB": 95.23001861572266,
+        "stdRGB": 31.51091194152832
+      },
+      {
+        "file": "wind-00.png",
+        "sha256": "9ec8dd4bca81da36ec9e075f673d057679d00251d4f460b2b6620ef7533935f8",
+        "meanRGB": 104.2702865600586,
+        "stdRGB": 49.05877685546875
+      },
+      {
+        "file": "wind-01.png",
+        "sha256": "4ab4ccf1e073df33c954ba1612c901bf199585c1e317468dafff9c88614e9ebd",
+        "meanRGB": 104.27206420898438,
+        "stdRGB": 49.0589714050293
+      },
+      {
+        "file": "wind-02.png",
+        "sha256": "9bc08534dc15998e8414713967f69cfd8ecc24223a6c91cad686a4759ac3b296",
+        "meanRGB": 104.27361297607422,
+        "stdRGB": 49.05818557739258
+      },
+      {
+        "file": "wind-03.png",
+        "sha256": "3223e1e4f2cdafb502759a548d4a2b256aab8c301c162d5f74f90668f7fd2c46",
+        "meanRGB": 104.27306365966797,
+        "stdRGB": 49.05881118774414
+      },
+      {
+        "file": "wind-04.png",
+        "sha256": "25968ca31fbfa1333f41ed88fcaa7856bd59e8066a1e9b84473ad2cff0e1f640",
+        "meanRGB": 104.27618408203125,
+        "stdRGB": 49.05772018432617
+      },
+      {
+        "file": "wind-05.png",
+        "sha256": "243b30a4d207d570af1f439dcd150b2a3f13ba62c3ef4058672c74f0b32c4dc2",
+        "meanRGB": 104.27577209472656,
+        "stdRGB": 49.05891418457031
+      },
+      {
+        "file": "wind-06.png",
+        "sha256": "0d3486f6f55364d716a922085dd9ecd71c56e40fbb6084832e6bf629008778b0",
+        "meanRGB": 104.27769470214844,
+        "stdRGB": 49.05913543701172
+      },
+      {
+        "file": "wind-07.png",
+        "sha256": "615b50ae3564a6ab10aff748151caf888741171fa1bbf51937e9b62bb0c5ae74",
+        "meanRGB": 104.27770233154297,
+        "stdRGB": 49.05924987792969
+      },
+      {
+        "file": "wind-08.png",
+        "sha256": "0e0eae791973b93a7406715470464cf4f0b1a1edfe2d1100b2b50519ef8e183b",
+        "meanRGB": 104.28239440917969,
+        "stdRGB": 49.05725860595703
+      },
+      {
+        "file": "wind-09.png",
+        "sha256": "88686dfa0794d7da1b565c2cd86e09fe3429cbeff915de40b88b125700d15801",
+        "meanRGB": 104.28125762939453,
+        "stdRGB": 49.05708694458008
+      },
+      {
+        "file": "wind-10.png",
+        "sha256": "5ec5446796051df5878279d6c6e01334227b898f26e5f31ea9dc776870fdceef",
+        "meanRGB": 104.2858657836914,
+        "stdRGB": 49.05453872680664
+      },
+      {
+        "file": "wind-11.png",
+        "sha256": "c212d8596125ae7a722b74b3c2b9b19142f925001cf5cb03558a49e4b1f6f70d",
+        "meanRGB": 104.28443145751953,
+        "stdRGB": 49.055240631103516
+      },
+      {
+        "file": "wind-12.png",
+        "sha256": "512564e5784d222b46906bd2ec2612bd1dbdf53c62d394712b89f3b92fda23ad",
+        "meanRGB": 104.28939056396484,
+        "stdRGB": 49.05168151855469
+      },
+      {
+        "file": "wind-13.png",
+        "sha256": "09e33b39b2b900fdb4c20f4fa506d3c284d2781fd5775765f352f544d3c86767",
+        "meanRGB": 104.28599548339844,
+        "stdRGB": 49.05143356323242
+      },
+      {
+        "file": "wind-14.png",
+        "sha256": "f64c2762275bc0361205ded52077aa35eddf9a6436c582e5d03a7d7fa81dd9e4",
+        "meanRGB": 104.28307342529297,
+        "stdRGB": 49.05278396606445
+      },
+      {
+        "file": "wind-15.png",
+        "sha256": "1375ae25d6b232aec43ee39d256d39e08ff13659740d2b29f047f200615bf7bc",
+        "meanRGB": 104.28011322021484,
+        "stdRGB": 49.0546760559082
+      }
+    ],
+    "aoPairs": [
+      {
+        "view": "hdr-close-01.0.png",
+        "meanAbsByteDifference": 1.2476115226745605,
+        "changedPixelsPercent": 58.66251929012346,
+        "aoToHdrLumaP01": 0.8696424418837755,
+        "aoToHdrLumaP50": 0.9860865693162382,
+        "darkestByteDelta": 18.0
+      },
+      {
+        "view": "hdr-close-12.0.png",
+        "meanAbsByteDifference": 0.7911569476127625,
+        "changedPixelsPercent": 55.993200231481474,
+        "aoToHdrLumaP01": 0.9589300992587971,
+        "aoToHdrLumaP50": 0.9975077794384802,
+        "darkestByteDelta": 12.0
+      },
+      {
+        "view": "hdr-close-18.5.png",
+        "meanAbsByteDifference": 1.261621356010437,
+        "changedPixelsPercent": 59.04065393518518,
+        "aoToHdrLumaP01": 0.8942065186858724,
+        "aoToHdrLumaP50": 0.9894814248316028,
+        "darkestByteDelta": 19.0
+      },
+      {
+        "view": "hdr-meadow-01.0.png",
+        "meanAbsByteDifference": 0.06998264044523239,
+        "changedPixelsPercent": 10.586757330246915,
+        "aoToHdrLumaP01": 0.9781898629447101,
+        "aoToHdrLumaP50": 1.0,
+        "darkestByteDelta": 4.0
+      },
+      {
+        "view": "hdr-meadow-12.0.png",
+        "meanAbsByteDifference": 0.044663868844509125,
+        "changedPixelsPercent": 8.81568287037037,
+        "aoToHdrLumaP01": 0.9912407739236008,
+        "aoToHdrLumaP50": 1.0,
+        "darkestByteDelta": 4.0
+      },
+      {
+        "view": "hdr-meadow-18.5.png",
+        "meanAbsByteDifference": 0.06623810529708862,
+        "changedPixelsPercent": 10.665123456790123,
+        "aoToHdrLumaP01": 0.9850317875580399,
+        "aoToHdrLumaP50": 1.0,
+        "darkestByteDelta": 4.0
+      },
+      {
+        "view": "hdr-oak-contact-01.0.png",
+        "meanAbsByteDifference": 1.0268027782440186,
+        "changedPixelsPercent": 50.71368634259259,
+        "aoToHdrLumaP01": 0.8924192047828938,
+        "aoToHdrLumaP50": 0.9986254374040948,
+        "darkestByteDelta": 12.0
+      },
+      {
+        "view": "hdr-oak-contact-12.0.png",
+        "meanAbsByteDifference": 0.6787897348403931,
+        "changedPixelsPercent": 49.518422067901234,
+        "aoToHdrLumaP01": 0.9636569858155347,
+        "aoToHdrLumaP50": 1.0,
+        "darkestByteDelta": 11.0
+      },
+      {
+        "view": "hdr-oak-contact-18.5.png",
+        "meanAbsByteDifference": 1.0769292116165161,
+        "changedPixelsPercent": 51.63985339506173,
+        "aoToHdrLumaP01": 0.8940263020671377,
+        "aoToHdrLumaP50": 0.9981466697812199,
+        "darkestByteDelta": 15.0
+      },
+      {
+        "view": "hdr-strategy-01.0.png",
+        "meanAbsByteDifference": 1.5592850104440004e-05,
+        "changedPixelsPercent": 0.0038580246913580245,
+        "aoToHdrLumaP01": 1.0,
+        "aoToHdrLumaP50": 1.0,
+        "darkestByteDelta": 2.0
+      },
+      {
+        "view": "hdr-strategy-12.0.png",
+        "meanAbsByteDifference": 9.805812624108512e-06,
+        "changedPixelsPercent": 0.0028452932098765433,
+        "aoToHdrLumaP01": 1.0,
+        "aoToHdrLumaP50": 1.0,
+        "darkestByteDelta": 1.0
+      },
+      {
+        "view": "hdr-strategy-18.5.png",
+        "meanAbsByteDifference": 1.47890950756846e-05,
+        "changedPixelsPercent": 0.0037615740740740743,
+        "aoToHdrLumaP01": 1.0,
+        "aoToHdrLumaP50": 1.0,
+        "darkestByteDelta": 2.0
+      }
+    ]
+  },
+  "validation": {
+    "status": "PASS",
+    "failures": [],
+    "expectedPerSpace": 76,
+    "notes": "AO ratios are diagnostic, not a proof of no halos; manual image/motion review remains required. Captures are not timing samples."
+  }
+}

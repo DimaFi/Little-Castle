@@ -1,0 +1,377 @@
+{
+  "createdUTC": "2026-10-25T23:11:16.419029+00:00",
+  "files": [
+    {
+      "path": "docs/integration-packages/lighting-meadow-20261025/payload/Assets/_Game/Scripts/Research/InnerverseGrassStudy.cs",
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\Assets\\_Game\\Scripts\\Research\\InnerverseGrassStudy.cs",
+      "sha256": "29079d6f437c5a32550b22575255bdebb03d933d74fc79aa536fea3e7c46c75c",
+      "bytes": 3256
+    },
+    {
+      "path": "docs/integration-packages/lighting-meadow-20261025/payload/Assets/_Game/Scripts/World/Rendering/ChunkTerrainVertexMasks.cs",
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\Assets\\_Game\\Scripts\\World\\Rendering\\ChunkTerrainVertexMasks.cs",
+      "sha256": "f1bb94f0f797bc064d6618b67f4cd926914929a7f054176b2c40ef700c6d379b",
+      "bytes": 8083
+    },
+    {
+      "path": "docs/integration-packages/lighting-meadow-20261025/payload/Assets/_Game/Scripts/World/Rendering/DayNightLightingController.cs",
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\Assets\\_Game\\Scripts\\World\\Rendering\\DayNightLightingController.cs",
+      "sha256": "d99a6fa7adbf31d0e5978a072bc70f7ab31610df20740f4b1df178503728d6d4",
+      "bytes": 22440
+    },
+    {
+      "path": "docs/integration-packages/lighting-meadow-20261025/payload/Assets/_Game/Scripts/World/Rendering/LightingPaletteProfile.cs",
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\Assets\\_Game\\Scripts\\World\\Rendering\\LightingPaletteProfile.cs",
+      "sha256": "ebcded17fcfc75b1db03a7929f0964ae77a40bff84552f8f89b6b1078da4a989",
+      "bytes": 1548
+    },
+    {
+      "path": "docs/integration-packages/lighting-meadow-20261025/payload/Assets/_Game/Scripts/World/Rendering/StylizedLightingGlobals.cs",
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\Assets\\_Game\\Scripts\\World\\Rendering\\StylizedLightingGlobals.cs",
+      "sha256": "36ba268fc742e7d04bb6a2324b0c47d5f2dc6e1eebd8b4a92bae01396222b62f",
+      "bytes": 12207
+    },
+    {
+      "path": "docs/integration-packages/lighting-meadow-20261025/payload/Assets/_Game/Shaders/Foliage/LC_Grass.shader",
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\Assets\\_Game\\Shaders\\Foliage\\LC_Grass.shader",
+      "sha256": "217b2802d3a4d17a1a72701bf77b4f434f08640ea1ab2181b29fabdaaafcbd9e",
+      "bytes": 5742
+    },
+    {
+      "path": "docs/integration-packages/lighting-meadow-20261025/payload/Assets/_Game/Shaders/Foliage/LC_GrassURP.hlsl",
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\Assets\\_Game\\Shaders\\Foliage\\LC_GrassURP.hlsl",
+      "sha256": "a5e4b56ad2dfd9f340b20e6f47875e3d7e0e559020431ccb45ee38def2b1dd77",
+      "bytes": 15382
+    },
+    {
+      "path": "docs/integration-packages/lighting-meadow-20261025/payload/Assets/_Game/Shaders/Terrain/LC_Terrain.shader",
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\Assets\\_Game\\Shaders\\Terrain\\LC_Terrain.shader",
+      "sha256": "1503dee52ddc12c70cbb0fd1d41610e4924a308c192c3bac29dfc13275e8da49",
+      "bytes": 23906
+    },
+    {
+      "path": "docs/integration-packages/lighting-meadow-20261025/payload/Assets/_Game/Editor/LightingMeadowBuild.cs",
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\Assets\\_Game\\Editor\\LightingMeadowBuild.cs",
+      "sha256": "9fcc8156951627ed459247abc4a244702ba46eb23b4b943aba9937af15f94552",
+      "bytes": 11811
+    },
+    {
+      "path": "docs/integration-packages/lighting-meadow-20261025/payload/Assets/_Game/Editor/LightingMeadowBuild.cs.meta",
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\Assets\\_Game\\Editor\\LightingMeadowBuild.cs.meta",
+      "sha256": "8673b7c2bf109f652381b65fdb596f36d45cb478573be86e4b9da46a41259546",
+      "bytes": 59
+    },
+    {
+      "path": "docs/integration-packages/lighting-meadow-20261025/payload/Assets/_Game/Editor/LightingMeadowIntegration.cs",
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\Assets\\_Game\\Editor\\LightingMeadowIntegration.cs",
+      "sha256": "325d220276b8e24009582fea7d14660b638b890127b18177af35842861ff55ce",
+      "bytes": 4253
+    },
+    {
+      "path": "docs/integration-packages/lighting-meadow-20261025/payload/Assets/_Game/Editor/LightingMeadowIntegration.cs.meta",
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\Assets\\_Game\\Editor\\LightingMeadowIntegration.cs.meta",
+      "sha256": "124ba1da35722745d0754eeea74786931452c020ea40080384b55cafd1741cdf",
+      "bytes": 59
+    },
+    {
+      "path": "docs/integration-packages/lighting-meadow-20261025/payload/Assets/_Game/Scripts/Research/LightingMeadowReview.cs",
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\Assets\\_Game\\Scripts\\Research\\LightingMeadowReview.cs",
+      "sha256": "418149c68a80054ebc73097ceed79472d1a67c08b31865ed0c490d8e6704ac45",
+      "bytes": 13740
+    },
+    {
+      "path": "docs/integration-packages/lighting-meadow-20261025/payload/Assets/_Game/Scripts/Research/LightingMeadowReview.cs.meta",
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\Assets\\_Game\\Scripts\\Research\\LightingMeadowReview.cs.meta",
+      "sha256": "c2cbcb5842404747ca29fc56814e7a8a60263f6ce80366560f31f47ad04cb4e4",
+      "bytes": 59
+    },
+    {
+      "path": "docs/integration-packages/lighting-meadow-20261025/payload/Assets/_Game/Tests/Editor/LightingMeadowPaletteTests.cs",
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\Assets\\_Game\\Tests\\Editor\\LightingMeadowPaletteTests.cs",
+      "sha256": "e2b09803905e1032baec86b0c9096b0c7140294e0aea8a7039d0b656166fa2cc",
+      "bytes": 2702
+    },
+    {
+      "path": "docs/integration-packages/lighting-meadow-20261025/payload/Assets/_Game/Tests/Editor/LightingMeadowPaletteTests.cs.meta",
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\Assets\\_Game\\Tests\\Editor\\LightingMeadowPaletteTests.cs.meta",
+      "sha256": "d276cc0d3071f8cd164c360d50a6d80ad1d6ffecfbf778b4f38b87d97829f231",
+      "bytes": 59
+    },
+    {
+      "path": "docs/integration-packages/lighting-meadow-20261025/payload/Assets/_Game/Scenes/LightingMeadow_20261025.unity",
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\Assets\\_Game\\Scenes\\LightingMeadow_20261025.unity",
+      "sha256": "830f362f92289c4dfee88fde4c406a9addd1d61b7af3d9ae72baa7660ec0f1a7",
+      "bytes": 78722
+    },
+    {
+      "path": "docs/integration-packages/lighting-meadow-20261025/payload/Assets/_Game/Scenes/LightingMeadow_20261025.unity.meta",
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\Assets\\_Game\\Scenes\\LightingMeadow_20261025.unity.meta",
+      "sha256": "0253de482f6a1dfc769089affb904b5618f91c25543c16d6bbfd1a400cf4a44f",
+      "bytes": 155
+    },
+    {
+      "path": "docs/integration-packages/lighting-meadow-20261025/payload/Assets/_Game/Shaders/Surface/LC_SurfacePaint.hlsl",
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\Assets\\_Game\\Shaders\\Surface\\LC_SurfacePaint.hlsl",
+      "sha256": "089fff9772179a8523faf9a469760a1eee120809061788fd999181217941232c",
+      "bytes": 622
+    },
+    {
+      "path": "docs/integration-packages/lighting-meadow-20261025/payload/Assets/_Game/Shaders/Surface/LC_SurfacePaint.hlsl.meta",
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\Assets\\_Game\\Shaders\\Surface\\LC_SurfacePaint.hlsl.meta",
+      "sha256": "4a4db382c286d8f618533b287d0089d8556bc63e1973cd43463a07dce2cd46f2",
+      "bytes": 161
+    },
+    {
+      "path": "docs/integration-packages/lighting-meadow-20261025/payload/Assets/_Game/Settings/Rendering/LightingMeadow/Accents.mat",
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\Assets\\_Game\\Settings\\Rendering\\LightingMeadow\\Accents.mat",
+      "sha256": "5c622894ccda0cd1fde63359bd9ea9fbe5a0e81806940870d0c947fb6efc0a81",
+      "bytes": 2360
+    },
+    {
+      "path": "docs/integration-packages/lighting-meadow-20261025/payload/Assets/_Game/Settings/Rendering/LightingMeadow/Accents.mat.meta",
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\Assets\\_Game\\Settings\\Rendering\\LightingMeadow\\Accents.mat.meta",
+      "sha256": "bff432aa07d5ec16f42f28fa91c6185aee2e1d3efc1bd7aaf636ec22617798be",
+      "bytes": 188
+    },
+    {
+      "path": "docs/integration-packages/lighting-meadow-20261025/payload/Assets/_Game/Settings/Rendering/LightingMeadow/AO.asset",
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\Assets\\_Game\\Settings\\Rendering\\LightingMeadow\\AO.asset",
+      "sha256": "6f8576d803d5641b39ab2744cc77e435796c6a29a2e079d92117c54e74b6007c",
+      "bytes": 4764
+    },
+    {
+      "path": "docs/integration-packages/lighting-meadow-20261025/payload/Assets/_Game/Settings/Rendering/LightingMeadow/AO.asset.meta",
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\Assets\\_Game\\Settings\\Rendering\\LightingMeadow\\AO.asset.meta",
+      "sha256": "7428db1579bd11c927ddec364b7e628fd193739f44e63dacd94e94ce5b53ce47",
+      "bytes": 189
+    },
+    {
+      "path": "docs/integration-packages/lighting-meadow-20261025/payload/Assets/_Game/Settings/Rendering/LightingMeadow/AO_Renderer.asset",
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\Assets\\_Game\\Settings\\Rendering\\LightingMeadow\\AO_Renderer.asset",
+      "sha256": "ade4511926281ceaf0cd9c754e43f3a07c6207c35ee36006d2fa202050da8666",
+      "bytes": 3189
+    },
+    {
+      "path": "docs/integration-packages/lighting-meadow-20261025/payload/Assets/_Game/Settings/Rendering/LightingMeadow/AO_Renderer.asset.meta",
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\Assets\\_Game\\Settings\\Rendering\\LightingMeadow\\AO_Renderer.asset.meta",
+      "sha256": "54e03a8ea3c8da1687322065e0e4ba6c34748c7c0ac5e10e9ea82a7142ad0a70",
+      "bytes": 189
+    },
+    {
+      "path": "docs/integration-packages/lighting-meadow-20261025/payload/Assets/_Game/Settings/Rendering/LightingMeadow/Blades.mat",
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\Assets\\_Game\\Settings\\Rendering\\LightingMeadow\\Blades.mat",
+      "sha256": "d82e82521c3f40c2590e8f6002135bb0b00382ac28a7214eee3c807bee481d0c",
+      "bytes": 2330
+    },
+    {
+      "path": "docs/integration-packages/lighting-meadow-20261025/payload/Assets/_Game/Settings/Rendering/LightingMeadow/Blades.mat.meta",
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\Assets\\_Game\\Settings\\Rendering\\LightingMeadow\\Blades.mat.meta",
+      "sha256": "d527a5cbefd5786b5b5194380c2790146e30099669236963eea5c9bbc96266a3",
+      "bytes": 188
+    },
+    {
+      "path": "docs/integration-packages/lighting-meadow-20261025/payload/Assets/_Game/Settings/Rendering/LightingMeadow/Ground.mat",
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\Assets\\_Game\\Settings\\Rendering\\LightingMeadow\\Ground.mat",
+      "sha256": "a936b8c596e7fd8e251d0b60c79433df908f71a6c203a74f48527c4636b385ce",
+      "bytes": 4479
+    },
+    {
+      "path": "docs/integration-packages/lighting-meadow-20261025/payload/Assets/_Game/Settings/Rendering/LightingMeadow/Ground.mat.meta",
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\Assets\\_Game\\Settings\\Rendering\\LightingMeadow\\Ground.mat.meta",
+      "sha256": "54b62da4f81ffc0156b6236a26b929fe04db0df139ec552cc521af5a4e1832b4",
+      "bytes": 188
+    },
+    {
+      "path": "docs/integration-packages/lighting-meadow-20261025/payload/Assets/_Game/Settings/Rendering/LightingMeadow/HDR.asset",
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\Assets\\_Game\\Settings\\Rendering\\LightingMeadow\\HDR.asset",
+      "sha256": "0d13c828461e1b20c75aff7ef3f770bd31ffd08c49b9f58b38e162fa1d2f993e",
+      "bytes": 4765
+    },
+    {
+      "path": "docs/integration-packages/lighting-meadow-20261025/payload/Assets/_Game/Settings/Rendering/LightingMeadow/HDR.asset.meta",
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\Assets\\_Game\\Settings\\Rendering\\LightingMeadow\\HDR.asset.meta",
+      "sha256": "0c6fd4b39e592b259786df99c917dbc08b617442be90e109b7b0c56380b65a52",
+      "bytes": 189
+    },
+    {
+      "path": "docs/integration-packages/lighting-meadow-20261025/payload/Assets/_Game/Settings/Rendering/LightingMeadow/HDR_Renderer.asset",
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\Assets\\_Game\\Settings\\Rendering\\LightingMeadow\\HDR_Renderer.asset",
+      "sha256": "03d4a3b8b430753dd6a865b3222dd3fac71440eaeee34df7882dff523ea4fb21",
+      "bytes": 3159
+    },
+    {
+      "path": "docs/integration-packages/lighting-meadow-20261025/payload/Assets/_Game/Settings/Rendering/LightingMeadow/HDR_Renderer.asset.meta",
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\Assets\\_Game\\Settings\\Rendering\\LightingMeadow\\HDR_Renderer.asset.meta",
+      "sha256": "128c997531b92b6cb959175109c5f614669d92119b01d5f6ff31d98a4fdbb276",
+      "bytes": 189
+    },
+    {
+      "path": "docs/integration-packages/lighting-meadow-20261025/payload/Assets/_Game/Settings/Rendering/LightingMeadow/MeadowPalette.asset",
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\Assets\\_Game\\Settings\\Rendering\\LightingMeadow\\MeadowPalette.asset",
+      "sha256": "f5d367d4de2c0adcb6b4efa834f6768e56b716c9eba9861d2bc14dd3d9241253",
+      "bytes": 992
+    },
+    {
+      "path": "docs/integration-packages/lighting-meadow-20261025/payload/Assets/_Game/Settings/Rendering/LightingMeadow/MeadowPalette.asset.meta",
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\Assets\\_Game\\Settings\\Rendering\\LightingMeadow\\MeadowPalette.asset.meta",
+      "sha256": "4f300105b25de3f5284f5f07bb2273b20a17b265998c80b0d3872a98b0025477",
+      "bytes": 189
+    },
+    {
+      "path": "docs/integration-packages/lighting-meadow-20261025/payload/Assets/_Game/Settings/Rendering/LightingMeadow/Neutral.asset",
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\Assets\\_Game\\Settings\\Rendering\\LightingMeadow\\Neutral.asset",
+      "sha256": "13d01d87666a8b21e4f18203bd5990fd0a9ccd74c164a12d8391f17be904952c",
+      "bytes": 1488
+    },
+    {
+      "path": "docs/integration-packages/lighting-meadow-20261025/payload/Assets/_Game/Settings/Rendering/LightingMeadow/Neutral.asset.meta",
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\Assets\\_Game\\Settings\\Rendering\\LightingMeadow\\Neutral.asset.meta",
+      "sha256": "ea65fa7a4904346d4f6fff1f2330a4dc4a0761da05f1a67e731fa44a93054b0a",
+      "bytes": 189
+    },
+    {
+      "path": "docs/integration-packages/lighting-meadow-20261025/payload/Assets/_Game/Settings/Rendering/LightingMeadow/Sky.mat",
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\Assets\\_Game\\Settings\\Rendering\\LightingMeadow\\Sky.mat",
+      "sha256": "b5accd42cbaf96154843264f8ea3e02c80e2dbadba27cf20244d0235d2e6ec3d",
+      "bytes": 1538
+    },
+    {
+      "path": "docs/integration-packages/lighting-meadow-20261025/payload/Assets/_Game/Settings/Rendering/LightingMeadow/Sky.mat.meta",
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\Assets\\_Game\\Settings\\Rendering\\LightingMeadow\\Sky.mat.meta",
+      "sha256": "0f872f419b7a754768d7609f321d0f77bd481c39cbb17c816d553275b0ff3089",
+      "bytes": 188
+    },
+    {
+      "path": "docs/integration-packages/lighting-meadow-20261025/payload/Assets/_Game/Settings/Rendering/LightingMeadow.meta",
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\Assets\\_Game\\Settings\\Rendering\\LightingMeadow.meta",
+      "sha256": "97942bbda3dc8b7f4773473f3b008b30981c4329d1326696b9da14d907ad5ff4",
+      "bytes": 172
+    },
+    {
+      "path": "docs/integration-packages/lighting-meadow-20261025/meadow-source-manifest.json",
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\docs\\lighting-integration\\meadow-source-manifest.json",
+      "sha256": "d70ef3e9b315cbda1f58a736c4a72838924ae7053d8650c7be23958c3cd82049",
+      "bytes": 59782
+    },
+    {
+      "path": "docs/integration-packages/lighting-meadow-20261025/shader-merge-manifest.json",
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\docs\\lighting-integration\\shader-merge-manifest.json",
+      "sha256": "ce5f03037b1e27bb1150a3da495caa291b8607bd5226788f40a054398e37b4a9",
+      "bytes": 2660
+    },
+    {
+      "path": "docs/integration-packages/lighting-meadow-20261025/integration-audit.json",
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\docs\\lighting-integration\\integration-audit.json",
+      "sha256": "f05f93d3f6cb63b4590fd06a713042070e96772cbebe2e6e0aa7f03567e6e67b",
+      "bytes": 61470
+    },
+    {
+      "path": "docs/integration-packages/lighting-meadow-20261025/main-to-integration.patch",
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\docs\\lighting-integration\\main-to-integration.patch",
+      "sha256": "4e1266c66ccc8dd5a2a13a9a2606b1a8c9d3934a52f665c7561ee1bef0e21f4e",
+      "bytes": 24408
+    },
+    {
+      "path": "docs/integration-packages/lighting-meadow-20261025/local-cache-invalidation-ru.md",
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\docs\\lighting-integration\\local-cache-invalidation-ru.md",
+      "sha256": "66be2cc059fc1853b0422bf64197156c249d36bbbf5df2f9a933a9810885e8fc",
+      "bytes": 6306
+    },
+    {
+      "path": "docs/integration-packages/lighting-meadow-20261025/tiny-glade-source-research-20261026-ru.md",
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\docs\\lighting-integration\\tiny-glade-source-research-20261026-ru.md",
+      "sha256": "af2741c5ea465ea5f8ccbfa97f47901a3e4ddbf24b59465b7a2ec09a3055a075",
+      "bytes": 9983
+    },
+    {
+      "path": "docs/integration-packages/lighting-meadow-20261025/tools/audit_integration.py",
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\Tools\\LightingStudy\\audit_integration.py",
+      "sha256": "1ea8d21ad3d89568ec4cc859972cf303ce863f463337f46b5e81091680c30296",
+      "bytes": 2727
+    },
+    {
+      "path": "docs/integration-packages/lighting-meadow-20261025/tools/merge_meadow_shaders.py",
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\Tools\\LightingStudy\\merge_meadow_shaders.py",
+      "sha256": "99b5061c4d3ac6513eafc3200e56ce844eaa52667e639a813e5ccd4d969cb89b",
+      "bytes": 5245
+    },
+    {
+      "path": "docs/integration-packages/lighting-meadow-20261025/tools/prepare_github_checkpoint.py",
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\Tools\\LightingStudy\\prepare_github_checkpoint.py",
+      "sha256": "8b99e58026330cfb9686dccf3f5ebabd830008aa6f138f8d8c72468fdef7bed1",
+      "bytes": 6184
+    },
+    {
+      "path": "docs/integration-packages/lighting-meadow-20261025/tools/run_meadow_measurements.ps1",
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\Tools\\LightingStudy\\run_meadow_measurements.ps1",
+      "sha256": "ad6adbf559a71cf3bb3a2c48622c6e75957f9e42fe88db479eb1c17ed8e80321",
+      "bytes": 2021
+    },
+    {
+      "path": "docs/integration-packages/lighting-meadow-20261025/tools/snapshot_meadow.py",
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\Tools\\LightingStudy\\snapshot_meadow.py",
+      "sha256": "88b1f3607d5d6852c7f877ebe0baab44c0fef5d55f6e7aae1ea560f271e89676",
+      "bytes": 3999
+    },
+    {
+      "path": "docs/integration-packages/lighting-meadow-20261025/tools/verify_evidence.py",
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\Tools\\LightingStudy\\verify_evidence.py",
+      "sha256": "7fe441f35d80f584a0db861d3fa759ad16ce7056368ac79585a5f070d15a1286",
+      "bytes": 4083
+    },
+    {
+      "path": "docs/integration-packages/lighting-meadow-20261025/tools/verify_meadow_evidence.py",
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\Tools\\LightingStudy\\verify_meadow_evidence.py",
+      "sha256": "db3eb8156eb7ffe7a3195d115adf58dd6d8d767d916e5e744225884d704804da",
+      "bytes": 3812
+    },
+    {
+      "path": "docs/integration-packages/lighting-meadow-20261025/evidence/performance-summary.json",
+      "source": "E:\\Games_Develop\\Research\\LightingMeadow_20261025\\performance-summary.json",
+      "sha256": "625c3c70b0c3b9785c56f3ecd42892a1e8f2a3f20a60a65c71ef342353ebc666",
+      "bytes": 6670
+    },
+    {
+      "path": "docs/integration-packages/lighting-meadow-20261025/evidence/capture-validation.json",
+      "source": "E:\\Games_Develop\\Research\\LightingMeadow_20261025\\capture-validation.json",
+      "sha256": "4a7cfa761367cc457d1bbfa425bc44dfab908fd3300a0fbf3a29747505640a95",
+      "bytes": 40609
+    },
+    {
+      "path": "docs/integration-packages/lighting-meadow-20261025/evidence/preflight.txt",
+      "source": "E:\\Games_Develop\\Research\\LightingMeadow_20261025\\preflight.txt",
+      "sha256": "cf6a57beb943217c9d05ef65510ddfb6eb68cdffcc28876cb36e9af15c1c182c",
+      "bytes": 15262
+    },
+    {
+      "path": "docs/integration-packages/lighting-meadow-20261025/evidence/measurement-environment.json",
+      "source": "E:\\Games_Develop\\Research\\LightingMeadow_20261025\\measurement-environment.json",
+      "sha256": "d995737fb18e8be7941cedb3e10b59e1882df5939b440d56c7013b285d4c69c5",
+      "bytes": 510
+    },
+    {
+      "path": "docs/integration-packages/lighting-meadow-20261025/evidence/test-summary.json",
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\publication\\test-summary.json",
+      "sha256": "161e4e419e0799fccba2ccea647eb5db4310477497235ed21aafb138346a4a8b",
+      "bytes": 665
+    },
+    {
+      "path": "docs/integration-packages/lighting-meadow-20261025/baseline-requirements.json",
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\publication\\baseline-requirements.json",
+      "sha256": "c4e1db019b2505eb706528d9c310cb4ef4586daae040bd035b95950deb102a44",
+      "bytes": 2478
+    },
+    {
+      "path": "docs/handoffs/lighting-to-map-authoring-20261025-ru.md",
+      "source": "E:\\Games_Develop\\Little-Castle\\docs\\handoffs\\lighting-to-map-authoring-20261025-ru.md",
+      "sha256": "915dd3856a105f10ee10867bd42fec9824ebcd0c18a7740fefdc49924f70e834",
+      "bytes": 18105
+    },
+    {
+      "path": "docs/integration-packages/lighting-meadow-20261025/README.md",
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\publication\\README.md",
+      "sha256": "3097c209b2c48bb4bb25e8d5def5e669815c565542d4bf1234b6949dad069cce",
+      "bytes": 1751
+    }
+  ]
+}

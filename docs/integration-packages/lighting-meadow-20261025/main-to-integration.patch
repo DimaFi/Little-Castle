@@ -1,0 +1,550 @@
+--- MAIN/Assets/_Game/Scripts/Research/InnerverseGrassStudy.cs
++++ INTEGRATION/Assets/_Game/Scripts/Research/InnerverseGrassStudy.cs
+@@ -12,6 +12,8 @@
+         public Mesh[] lodMeshes;
+         public Material grassMaterial;
+         public Matrix4x4[] authoredMatrices;
++        [Min(1)] public float maximumDistance = 95;
++        public bool receiveGroundShadows;
+         public int lastVisibleClumps;
+         public int lastSubmittedTriangles;
+         private struct Instance { public Matrix4x4 objectToWorld; }
+@@ -45,12 +47,12 @@
+             {
+                 Vector3 position = matrix.GetColumn(3);
+                 float distance = Vector3.Distance(eye, position);
+-                if (distance > 95) continue;
++                if (distance > maximumDistance) continue;
+                 int lod = distance < 18 ? 0 : distance < 35 ? 1 : distance < 60 ? 2 : 3;
+                 groups[lod].Add(new Instance { objectToWorld = matrix });
+             }
+             var parameters = new RenderParams(grassMaterial) { camera = camera,
+-                shadowCastingMode = ShadowCastingMode.Off, receiveShadows = false,
++                shadowCastingMode = ShadowCastingMode.Off, receiveShadows = receiveGroundShadows,
+                 lightProbeUsage = LightProbeUsage.Off, layer = gameObject.layer,
+                 worldBounds = new Bounds(Vector3.zero, Vector3.one * 500) };
+             for (int lod = 0; lod < 4; lod++)
+--- MAIN/Assets/_Game/Scripts/World/Rendering/ChunkTerrainVertexMasks.cs
++++ INTEGRATION/Assets/_Game/Scripts/World/Rendering/ChunkTerrainVertexMasks.cs
+@@ -176,7 +176,7 @@
+                    Mathf.Min(a.y, b.y) - padding <= maxZ;
+         }
+ 
+-        private static float DistanceToSegment(
++        public static float DistanceToSegment(
+             Vector2 point, Vector2 a, Vector2 b, out float t)
+         {
+             Vector2 ab = b - a;
+@@ -187,7 +187,7 @@
+             return (point - (a + ab * t)).magnitude;
+         }
+ 
+-        private static float SoftCorridor(
++        public static float SoftCorridor(
+             float distance, float innerRadius, float falloff)
+         {
+             if (distance <= innerRadius)
+--- MAIN/Assets/_Game/Scripts/World/Rendering/DayNightLightingController.cs
++++ INTEGRATION/Assets/_Game/Scripts/World/Rendering/DayNightLightingController.cs
+@@ -408,6 +408,11 @@
+                     0f,
+                     1f,
+                     daylight);
++            if (palette != null)
++            {
++                float elevation = Mathf.Asin(Mathf.Clamp(-sun.transform.forward.y, -1, 1)) * Mathf.Rad2Deg;
++                highSun = palette.SunColorBlend(daylight, elevation);
++            }
+ 
+             sun.color =
+                 Color.Lerp(
+--- MAIN/Assets/_Game/Scripts/World/Rendering/LightingPaletteProfile.cs
++++ INTEGRATION/Assets/_Game/Scripts/World/Rendering/LightingPaletteProfile.cs
+@@ -10,6 +10,16 @@
+         [Min(0)] public float moonIntensity = .2f;
+         public Color sunDay = new Color(1, .96f, .86f);
+         public Color sunHorizon = new Color(1, .60f, .34f);
++        public bool sunColorFromElevation;
++        [Range(0, 80)] public float horizonColorElevation = 5;
++        [Range(1, 90)] public float dayColorElevation = 32;
++        public float SunColorBlend(float daylight, float elevationDegrees)
++        {
++            return sunColorFromElevation
++                ? Mathf.SmoothStep(0, 1, Mathf.InverseLerp(horizonColorElevation,
++                    Mathf.Max(horizonColorElevation + .1f, dayColorElevation), elevationDegrees))
++                : Mathf.SmoothStep(0, 1, daylight);
++        }
+         public Color moon = new Color(.58f, .68f, 1);
+         public Color daySky = new Color(.52f, .60f, .72f);
+         public Color dayEquator = new Color(.44f, .50f, .58f);
+--- MAIN/Assets/_Game/Scripts/World/Rendering/StylizedLightingGlobals.cs
++++ INTEGRATION/Assets/_Game/Scripts/World/Rendering/StylizedLightingGlobals.cs
+@@ -120,6 +120,13 @@
+         private float windSpeed = 1f;
+ 
+         public float Daylight { get; private set; }
++        public void SetWindPresentation(Vector2 direction, float strength, float speed)
++        {
++            windDirection = direction;
++            windStrength = Mathf.Clamp(strength, 0, 2);
++            windSpeed = Mathf.Max(0, speed);
++            ApplyGlobals();
++        }
+         public float Twilight { get; private set; }
+         public float NightAmount { get; private set; }
+ 
+--- MAIN/Assets/_Game/Shaders/Foliage/LC_Grass.shader
++++ INTEGRATION/Assets/_Game/Shaders/Foliage/LC_Grass.shader
+@@ -10,8 +10,22 @@
+         _TipColor ("Tip Color", Color) = (0.62,0.82,0.34,1)
+         _Cutoff ("Alpha Cutoff", Range(0,1)) = 0.42
+         _UseRootAnchor ("UV1 Root Anchor Fade", Range(0,1)) = 0
++        _UseObjectAnchorFade ("Whole Clump Origin Fade (No UV1)", Range(0,1)) = 0
+         _FadeStart ("Geometry Fade Start (m)", Float) = 40
+         _FadeEnd ("Geometry Fade End (m)", Float) = 70
++        [Toggle(_LC_MEADOW)] _MeadowMode ("Meadow: Coherent Wind and Density", Float) = 0
++        _DensityNear ("Meadow Full Density Distance", Float) = 16
++        _DensityFar ("Meadow Minimum Density Distance", Float) = 90
++        _DensityFloor ("Meadow Distant Density", Range(0,1)) = .12
++        _MeadowSoftness ("Distant Meadow Contrast Reduction", Range(0,1)) = 0
++        _MeadowSoftStart ("Meadow Softening Start (m)", Float) = 14
++        _MeadowSoftEnd ("Meadow Softening End (m)", Float) = 65
++        _MeadowRootOcclusion ("Meadow Root Ambient Occlusion", Range(0,.6)) = 0
++        _InteractionStrength ("Local Interaction Strength", Range(0,1)) = 0
++        _InteractionDistance ("Local Interaction Distance", Float) = 28
++        [Toggle(_LC_SURFACE_PAINT)] _UseSurfacePaint ("Authored / Player Road Mask", Float) = 0
++        _SurfacePaint ("Derived Road Coverage", 2D) = "black" {}
++        _SurfacePaintBounds ("Road Mask Origin XZ / Inverse Size", Vector) = (0,0,.01,.01)
+ 
+         _ColorVariation ("Per Clump Variation", Range(0,0.3)) = 0.08
+         _MeadowPaletteStrength ("Shared Meadow Palette", Range(0,1)) = 0
+@@ -56,6 +70,8 @@
+             #pragma fragment frag
+             #pragma multi_compile_fragment _ _SCREEN_SPACE_OCCLUSION
+             #pragma multi_compile_instancing
++            #pragma shader_feature_local _ _LC_MEADOW
++            #pragma shader_feature_local _ _LC_SURFACE_PAINT
+             #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Fog.hlsl"
+             #pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
+             #pragma multi_compile_fragment _ _SHADOWS_SOFT
+@@ -75,6 +91,8 @@
+             #pragma vertex vertShadow
+             #pragma fragment fragDepth
+             #pragma multi_compile_instancing
++            #pragma shader_feature_local _ _LC_MEADOW
++            #pragma shader_feature_local _ _LC_SURFACE_PAINT
+             #pragma multi_compile_vertex _ _CASTING_PUNCTUAL_LIGHT_SHADOW
+             ENDHLSL
+         }
+@@ -90,6 +108,8 @@
+             #pragma vertex vert
+             #pragma fragment fragDepth
+             #pragma multi_compile_instancing
++            #pragma shader_feature_local _ _LC_MEADOW
++            #pragma shader_feature_local _ _LC_SURFACE_PAINT
+             ENDHLSL
+         }
+ 
+@@ -104,6 +124,8 @@
+             #pragma vertex vert
+             #pragma fragment fragDepthNormals
+             #pragma multi_compile_instancing
++            #pragma shader_feature_local _ _LC_MEADOW
++            #pragma shader_feature_local _ _LC_SURFACE_PAINT
+             #pragma multi_compile_fragment _ _GBUFFER_NORMALS_OCT
+             ENDHLSL
+         }
+--- MAIN/Assets/_Game/Shaders/Foliage/LC_GrassURP.hlsl
++++ INTEGRATION/Assets/_Game/Shaders/Foliage/LC_GrassURP.hlsl
+@@ -3,6 +3,7 @@
+ 
+ #include "LC_VegetationURPCommon.hlsl"
+ #include "../Surface/LC_GroundPalette.cginc"
++#include "../Surface/LC_SurfacePaint.hlsl"
+ 
+ // Identical material layout in every pass (SRP Batcher).
+ CBUFFER_START(UnityPerMaterial)
+@@ -13,7 +14,13 @@
+     half4 _TipColor;
+     half _Cutoff;
+     half _UseRootAnchor;
++    half _UseObjectAnchorFade;
+     float _FadeStart, _FadeEnd;
++    float _MeadowMode, _DensityNear, _DensityFar, _DensityFloor;
++    float _MeadowSoftness, _MeadowSoftStart, _MeadowSoftEnd;
++    float _MeadowRootOcclusion;
++    float _InteractionStrength, _InteractionDistance;
++    float4 _SurfacePaintBounds;
+     half _ColorVariation;
+     half _MeadowPaletteStrength;
+     half4 _DryColor;
+@@ -35,12 +42,17 @@
+ TEXTURE2D(_MainTex); SAMPLER(sampler_MainTex);
+ TEXTURE2D(_OpacityMap); SAMPLER(sampler_OpacityMap);
+ 
++// Presentation-only: one active interaction manager, at most four nearby sources.
++float4 _LC_GrassInteractors[4]; // world XYZ, radius
++float4 _LC_GrassInteractorBend; // one strength per source
++int _LC_GrassInteractorCount;
++
+ struct appdata
+ {
+     float4 vertex : POSITION;
+     float3 normal : NORMAL;
+     float2 uv : TEXCOORD0;
+-    float3 rootAnchor : TEXCOORD1;
++    float4 rootAnchor : TEXCOORD1; // XYZ root, W stable blade density rank (meadow only)
+     UNITY_VERTEX_INPUT_INSTANCE_ID
+ };
+ 
+@@ -50,18 +62,22 @@
+     float2 uv : TEXCOORD0;
+     float3 worldPosition : TEXCOORD1;
+     half3 worldNormal : TEXCOORD2;
+-    half bladeHeight : TEXCOORD3;
++    half3 bladeData : TEXCOORD3; // X=root-to-tip, YZ=authored ground normal XZ
+     half variation : TEXCOORD4;
+     half meadowPatch : TEXCOORD5;
+-    half fogCoord : TEXCOORD6;
++    half2 fogCoord : TEXCOORD6; // X=fog, Y=meadow distance softening
+     UNITY_VERTEX_INPUT_INSTANCE_ID
+     UNITY_VERTEX_OUTPUT_STEREO
+ };
+ 
+ float3 ApplyGrassWind(
+     float3 objectVertex,
+-    float bladeHeight)
+-{
++    float bladeHeight,
++    float distanceSoftening)
++{
++    float3 result = objectVertex;
++    [branch] if (_LC_Wind.z > .00001)
++    {
+     float3 objectOrigin =
+         TransformObjectToWorld(float3(0, 0, 0));
+ 
+@@ -71,6 +87,10 @@
+     float seed =
+         HashObject(
+             objectOrigin);
++#if defined(_LC_MEADOW)
++    // Large gusts remain coherent across instances and patch boundaries.
++    seed *= .06;
++#endif
+ 
+     float phase =
+         dot(
+@@ -127,6 +147,8 @@
+         _LC_Wind.z *
+         _WindAmplitude *
+         tipWeight;
++    // Keep the broad wave; suppress distant sub-pixel lateral movement.
++    sway *= 1-distanceSoftening*.35;
+ 
+     float microPhase =
+         dot(
+@@ -149,6 +171,7 @@
+         _LC_Wind.z *
+         tipWeight *
+         tipWeight;
++    micro *= 1-distanceSoftening;
+ 
+     float2 perpendicular =
+         float2(
+@@ -173,19 +196,67 @@
+         0.08 *
+         tipWeight;
+ 
+-    return
+-        objectVertex +
+-        TransformWorldToObjectDir(worldOffset, false);
++    result += TransformWorldToObjectDir(worldOffset, false);
++    }
++    return result;
+ }
+ 
+ // This complete deformation is shared by forward, shadow and depth passes.
+ // UV0.y remains the authored root-to-tip mask; UV1 is optional root-anchor data.
+ float3 LCDeformVertex(appdata v)
+ {
+-    float3 rootWorld = TransformObjectToWorld(v.rootAnchor);
+-    float fade = 1 - _UseRootAnchor * smoothstep(_FadeStart,
+-        max(_FadeStart + .01, _FadeEnd), distance(rootWorld, GetCameraPositionWS()));
+-    return ApplyGrassWind(lerp(v.rootAnchor, v.vertex.xyz, fade), saturate(v.uv.y) * fade);
++    float3 rootWorld = TransformObjectToWorld(lerp(float3(0,0,0),v.rootAnchor.xyz,_UseRootAnchor));
++    float cameraDistance = distance(rootWorld, GetCameraPositionWS());
++    float distanceSoftening=0;
++    float fade = 1 - max(_UseRootAnchor,_UseObjectAnchorFade) * smoothstep(_FadeStart,
++        max(_FadeStart + .01, _FadeEnd), cameraDistance);
++#if defined(_LC_MEADOW)
++    distanceSoftening=_MeadowSoftness*smoothstep(_MeadowSoftStart,max(_MeadowSoftStart+.01,_MeadowSoftEnd),cameraDistance);
++    float density = lerp(1, _DensityFloor, smoothstep(_DensityNear, max(_DensityNear+.01,_DensityFar), cameraDistance));
++    fade *= smoothstep(v.rootAnchor.w-.045, v.rootAnchor.w+.045, density);
++#endif
++#if defined(_LC_SURFACE_PAINT)
++    float2 coverage=LCSurfaceCoverage(rootWorld,_SurfacePaintBounds);
++    fade *= smoothstep(0,.95,coverage.g)*(1-smoothstep(.10,.8,coverage.r));
++#endif
++    float weight = saturate(v.uv.y)*fade;
++    float3 anchor=lerp(v.rootAnchor.xyz,float3(0,0,0),_UseObjectAnchorFade);
++    float3 position = ApplyGrassWind(lerp(anchor, v.vertex.xyz, fade), weight, distanceSoftening);
++#if defined(_LC_MEADOW)
++    [branch] if (_LC_GrassInteractorCount > 0 && _InteractionStrength > 0 && cameraDistance < _InteractionDistance && weight > 0)
++    {
++        float3 offset = 0;
++        [loop] for(int n=0;n<min(_LC_GrassInteractorCount,4);n++)
++        {
++            float4 source = _LC_GrassInteractors[n];
++            float2 delta = rootWorld.xz-source.xz;
++            float radius = max(.01,source.w);
++            float horizontal = length(delta);
++            float influence = 1-smoothstep(0,radius,horizontal);
++            influence *= saturate(1-abs(rootWorld.y-source.y)/max(.3,radius));
++            influence *= _LC_GrassInteractorBend[n] * weight * weight * _InteractionStrength;
++            influence *= 1-smoothstep(_InteractionDistance*.8,_InteractionDistance,cameraDistance);
++            offset.xz += delta/max(.08,horizontal) * influence * .42;
++            offset.y -= influence*.22;
++        }
++        // Bound total displacement so four overlapping units cannot tear the grass.
++        offset *= min(1,.6/max(.001,length(offset)));
++        // Short meadow blades must not receive a full metre-scale unit bend.
++        float reach=length(TransformObjectToWorldDir(v.vertex.xyz-v.rootAnchor.xyz,false));
++        offset *= min(1,reach/.5);
++        position += TransformWorldToObjectDir(offset,false);
++    }
++    [branch] if (_LC_Wind.z>.00001 || _LC_GrassInteractorCount>0)
++    {
++        float3 originalWS=TransformObjectToWorldDir(v.vertex.xyz-v.rootAnchor.xyz,false)*fade;
++        float3 deformedWS=TransformObjectToWorldDir(position-v.rootAnchor.xyz,false);
++        float limitSquared=dot(originalWS,originalWS),deformedSquared=dot(deformedWS,deformedWS);
++        // A bend can shorten a blade's reach; it cannot stretch it past the authored length.
++        float ratio=min(1,sqrt(limitSquared/max(1e-8,deformedSquared)));
++        position=v.rootAnchor.xyz+(position-v.rootAnchor.xyz)*ratio;
++    }
++#endif
++    return position;
+ }
+ 
+ v2f vert(appdata v)
+@@ -198,12 +269,16 @@
+     o.pos = TransformWorldToHClip(o.worldPosition);
+     o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+     o.worldNormal = TransformObjectToWorldNormal(v.normal);
+-    o.bladeHeight = saturate(v.uv.y);
+-    float3 rootWorld = TransformObjectToWorld(v.rootAnchor);
++    half3 groundNormal=TransformObjectToWorldNormal(float3(0,1,0));
++    o.bladeData = half3(saturate(v.uv.y),groundNormal.x,groundNormal.z);
++    float3 rootWorld = TransformObjectToWorld(v.rootAnchor.xyz);
+     float3 objectOrigin = TransformObjectToWorld(float3(0, 0, 0));
+     o.variation = HashObject(lerp(objectOrigin, rootWorld, _UseRootAnchor));
+-    o.meadowPatch = LCMeadowPatch(rootWorld.xz) * _MeadowPaletteStrength;
+-    o.fogCoord = ComputeFogFactor(o.pos.z);
++    o.meadowPatch = LCMeadowPatch(lerp(objectOrigin,rootWorld,_UseRootAnchor).xz) * _MeadowPaletteStrength;
++    o.fogCoord.x = ComputeFogFactor(o.pos.z);
++#if defined(_LC_MEADOW)
++    o.fogCoord.y = _MeadowSoftness*smoothstep(_MeadowSoftStart,max(_MeadowSoftStart+.01,_MeadowSoftEnd),distance(rootWorld,GetCameraPositionWS()));
++#endif
+     return o;
+ }
+ 
+@@ -217,8 +292,16 @@
+ 
+ half3 EvaluateNormal(v2f i, half faceSign)
+ {
++#if defined(_LC_MEADOW)
++    // Native meadow normals share the upward hemisphere on both sides of a blade.
++    // The instance up-axis is the authored terrain slope, not always world up.
++    half2 slope=i.bladeData.yz;
++    half3 ground=normalize(half3(slope.x,sqrt(saturate(1-dot(slope,slope))),slope.y));
++    return normalize(lerp(normalize(i.worldNormal),ground,lerp(_UpNormalBias,.98h,i.fogCoord.y)));
++#else
+     half3 normal = normalize(i.worldNormal * faceSign);
+-    return normalize(lerp(normal, half3(0, 1, 0), _UpNormalBias));
++    return normalize(lerp(normal, half3(0, 1, 0), lerp(_UpNormalBias,.98h,i.fogCoord.y)));
++#endif
+ }
+ 
+ 
+@@ -229,9 +312,11 @@
+ 
+ void LCVegetationClip(float2 uv)
+ {
++#if !defined(_LC_MEADOW)
+     half alpha = LCVegetationAlpha(SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, uv).a,
+         SAMPLE_TEXTURE2D(_OpacityMap, sampler_OpacityMap, uv).r);
+     clip(alpha - _Cutoff);
++#endif
+ }
+ 
+ half4 frag(
+@@ -241,6 +326,10 @@
+     UNITY_SETUP_INSTANCE_ID(i);
+     UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
+ 
++    // Meadow geometry supplies the silhouette: avoid two texture reads and alpha overdraw.
++#if defined(_LC_MEADOW)
++    half4 alphaSample = half4(1,1,1,1);
++#else
+     half4 alphaSample =
+         SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.uv);
+ 
+@@ -252,12 +341,13 @@
+     clip(
+         alpha -
+         _Cutoff);
++#endif
+ 
+     half rootToTip =
+         smoothstep(
+             0.0h,
+             1.0h,
+-            i.bladeHeight);
++            i.bladeData.x);
+ 
+     half3 gradient =
+         lerp(
+@@ -276,12 +366,14 @@
+                 0.58h,
+                 1.0h,
+                 rootToTip));
++    gradient=lerp(gradient,_Color.rgb,i.fogCoord.y*.88h);
+ 
+     half variation =
+         lerp(
+             1.0h - _ColorVariation,
+             1.0h + _ColorVariation,
+             i.variation);
++    variation=lerp(variation,1,i.fogCoord.y*.8h);
+ 
+     half3 albedo =
+         gradient *
+@@ -340,10 +432,14 @@
+             _LC_ShadowTint.rgb,
+             _ShadowTintStrength);
+ 
++    half materialOcclusion = 1.0h;
++#if defined(_LC_MEADOW)
++    materialOcclusion = 1-_MeadowRootOcclusion*(1-smoothstep(0,.65h,i.bladeData.x));
++#endif
+     half3 ambient =
+         EvaluateHemisphereAmbient(
+             normal) *
+-        LCIndirectOcclusion(i.pos, 1.0h) *
++        LCIndirectOcclusion(i.pos, materialOcclusion) *
+         _AmbientStrength *
+         lerp(
+             shadowTint,
+@@ -355,6 +451,7 @@
+         sunDiffuse +
+         _LC_MoonColor.rgb *
+         moonDiffuse;
++// Material root AO and screen AO were combined once above (minimum).
+ 
+     half backlight =
+         pow(
+@@ -395,7 +492,7 @@
+             finalColor,
+             1.0);
+ 
+-    result.rgb = MixFog(result.rgb, InitializeInputDataFog(float4(i.worldPosition, 1), i.fogCoord));
++    result.rgb = MixFog(result.rgb, InitializeInputDataFog(float4(i.worldPosition, 1), i.fogCoord.x));
+ 
+     return result;
+ }
+--- MAIN/Assets/_Game/Shaders/Terrain/LC_Terrain.shader
++++ INTEGRATION/Assets/_Game/Shaders/Terrain/LC_Terrain.shader
+@@ -25,6 +25,10 @@
+         _DirtAO ("Path Ambient Occlusion", 2D) = "white" {}
+         _GrassHeight ("Meadow Edge Height", 2D) = "gray" {}
+         _SurfaceDetailStrength ("Surface Normal Strength", Range(0,1)) = 0
++        _GrassNormalScale ("Meadow Normal Multiplier", Range(0,1)) = .45
++        _SurfaceAOStrength ("Surface AO Multiplier", Range(0,1)) = .35
++        _DetailFadeStart ("Surface Detail Fade Start", Float) = 28
++        _DetailFadeEnd ("Surface Detail Fade End", Float) = 65
+         _LightResponse ("Continuous Diffuse", Range(0,1)) = 0
+         _ContactShadeStrength ("Vertex B Contact Shade", Range(0,0.5)) = 0
+ 
+@@ -36,6 +40,9 @@
+         _DirtHeightEnd ("Lowland Dirt End", Float) = 2
+ 
+         _UseVertexMasks ("Use Vertex Masks", Range(0,1)) = 0
++        [Toggle(_LC_SURFACE_PAINT)] _UseSurfacePaint ("Authored / Player Road Mask", Float) = 0
++        _SurfacePaint ("Derived Road Coverage", 2D) = "black" {}
++        _SurfacePaintBounds ("Road Mask Origin XZ / Inverse Size", Vector) = (0,0,.01,.01)
+         _PathMaskStrength ("Vertex R Path Strength", Range(0,1)) = 1
+         _PathEdgeSharpness ("Path Edge Sharpness", Range(0,1)) = 0
+         _WetnessStrength ("Vertex G Wetness Strength", Range(0,1)) = 0.35
+@@ -74,6 +81,7 @@
+         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
+         #include "../Surface/LC_LightingCommon.hlsl"
+         #include "../Surface/LC_GroundPalette.cginc"
++        #include "../Surface/LC_SurfacePaint.hlsl"
+ 
+         TEXTURE2D(_GrassTex); SAMPLER(sampler_GrassTex);
+         TEXTURE2D(_DirtTex); SAMPLER(sampler_DirtTex);
+@@ -99,6 +107,10 @@
+             float _DirtDetail;
+             float4 _SoilColor;
+             float _SurfaceDetailStrength;
++            float _GrassNormalScale;
++            float _SurfaceAOStrength;
++            float _DetailFadeStart;
++            float _DetailFadeEnd;
+             float _LightResponse;
+             float _ContactShadeStrength;
+             float _RockSlopeStart;
+@@ -107,6 +119,7 @@
+             float _DirtHeightStart;
+             float _DirtHeightEnd;
+             float _UseVertexMasks;
++            float4 _SurfacePaintBounds;
+             float _PathMaskStrength;
+             float _PathEdgeSharpness;
+             float _WetnessStrength;
+@@ -284,7 +297,7 @@
+ 
+             // Keep the authored palette stable instead of multiplying it dark.
+             // Normal/AO maps share these UVs; no extra meshes or decals.
+-            half nearDetail=1-smoothstep(28,65,distance(i.worldPosition,_WorldSpaceCameraPos));
++            half nearDetail=1-smoothstep(_DetailFadeStart,max(_DetailFadeStart+.01,_DetailFadeEnd),distance(i.worldPosition,_WorldSpaceCameraPos));
+             half surfaceDetail=_SurfaceDetailStrength*(1-_LC_LowTerrainDetail)*nearDetail;
+             half snowWeight = 0;
+             half3 snowAlbedo = _SnowColor.rgb;
+@@ -343,6 +356,10 @@
+                         _PathMaskStrength),
+                     _UseVertexMasks);
+ 
++#if defined(_LC_SURFACE_PAINT)
++            float2 paintUV=(i.worldPosition.xz-_SurfacePaintBounds.xy)*_SurfacePaintBounds.zw;
++            if(all(paintUV>=0)&&all(paintUV<=1))pathMask=LCSurfaceRoad(i.worldPosition,_SurfacePaintBounds);
++#endif
+             pathMask = lerp(pathMask, smoothstep(.18h,.82h,pathMask), _PathEdgeSharpness);
+             [branch] if(_GroundPalette>.001h) {
+                 half edgeDetail=LCGroundNoise(i.worldPosition.xz*4.7)-.5h;
+@@ -394,7 +411,7 @@
+                 half3 grassN=UnpackNormal(SAMPLE_TEXTURE2D(_GrassNormal, sampler_GrassNormal, worldUv));
+                 half3 dirtN=UnpackNormal(SAMPLE_TEXTURE2D(_DirtNormal, sampler_DirtNormal, worldUv));
+                 half3 detailN=normalize(lerp(grassN,dirtN,dirtWeight));
+-                detailN.xy*=surfaceDetail*lerp(.45h,1,dirtWeight);
++                detailN.xy*=surfaceDetail*lerp(_GrassNormalScale,1,dirtWeight);
+                 detailN.z=sqrt(saturate(1-dot(detailN.xy,detailN.xy)));
+                 // Project world X onto the surface; use Z on near vertical X faces.
+                 half3 tangentAxis = abs(normal.x) > .99h ? half3(0,0,1) : half3(1,0,0);
+@@ -402,7 +419,7 @@
+                 half3 bitangent=cross(tangent,normal);
+                 normal=normalize(tangent*detailN.x+bitangent*detailN.y+normal*detailN.z);
+                 half ao=lerp(SAMPLE_TEXTURE2D(_GrassAO, sampler_GrassAO, worldUv).r,SAMPLE_TEXTURE2D(_DirtAO, sampler_DirtAO, worldUv).r,dirtWeight);
+-                microAO=lerp(1,ao,surfaceDetail*.35h);
++                microAO=lerp(1,ao,surfaceDetail*_SurfaceAOStrength);
+             }
+ 
+             half3 albedo =
+@@ -567,6 +584,7 @@
+             #pragma target 3.0
+             #pragma vertex vert
+             #pragma fragment frag
++            #pragma shader_feature_local _ _LC_SURFACE_PAINT
+             #pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
+             #pragma multi_compile_fragment _ _SHADOWS_SOFT _SHADOWS_SOFT_LOW _SHADOWS_SOFT_MEDIUM _SHADOWS_SOFT_HIGH
+             #pragma multi_compile_fragment _ _SCREEN_SPACE_OCCLUSION
