@@ -1,0 +1,309 @@
+--- GI_100c174/Assets/_Game/Scripts/Research/SpatialIndirectTrace.cs
++++ STAGE1/Assets/_Game/Scripts/Research/SpatialIndirectTrace.cs
+@@ -14,10 +14,12 @@
+             public readonly Bounds bounds;
+             public readonly Vector3 min,max;
+             public readonly Vector3 albedo;
+-            public Proxy(Bounds bounds, Vector3 linearAlbedo)
++            public readonly int stableId;
++            public Proxy(Bounds bounds, Vector3 linearAlbedo,int stableId=-1)
+             {
+                 this.bounds = bounds;
+                 min=bounds.min;max=bounds.max;
++                this.stableId=stableId;
+                 albedo = new Vector3(Mathf.Clamp01(linearAlbedo.x), Mathf.Clamp01(linearAlbedo.y), Mathf.Clamp01(linearAlbedo.z));
+             }
+         }
+@@ -50,7 +52,11 @@
+         readonly Proxy[] geometry;
+         readonly Vector3[] directions;
+         readonly Vector3[] inverseDirections;
+-        readonly Dictionary<SurfaceKey,Vector3> skyTransport=new Dictionary<SurfaceKey,Vector3>(4096);
++        public SpatialIndirectProfile Profile {get;set;}
++        public int RayCount=>directions.Length;
++        public Vector3 Direction(int index)=>directions[index];
++        public Vector3 InverseDirection(int index)=>inverseDirections[index];
++        readonly Dictionary<SurfaceKey,Vector3> skyTransport;
+         float skyTransportDistance=-1;
+         readonly struct SurfaceKey : IEquatable<SurfaceKey>
+         {
+@@ -64,13 +70,17 @@
+         // Two bounded rays plus the half-metre surface-cell footprint and ray bias.
+         // The extra footprint matters when a changed blocker is near a cached cell edge.
+         public static float InfluenceRadius(float rayDistance)=>2*rayDistance+.52f;
++        // Cache identity must not inherit Vector3/Bounds operator tolerance.
++        public static bool SameGeometryBounds(Bounds a,Bounds b)=>a.center.Equals(b.center)&&a.extents.Equals(b.extents);
+         public int ProxyCount=>geometry.Length;
+         public Proxy GetProxy(int index)=>geometry[index];
+-        public SpatialIndirectTrace(Proxy[] source,int rayCount=128)
++        public int StableId(int index)=>geometry[index].stableId<0?index:geometry[index].stableId;
++        public SpatialIndirectTrace(Proxy[] source,int rayCount=128,bool reserveReferenceSky=true)
+         {
+             if(source==null||source.Length>8)throw new ArgumentException("Prototype supports up to eight simplified proxy boxes.");
+             if(rayCount<16||rayCount>2048)throw new ArgumentOutOfRangeException(nameof(rayCount));
+             geometry=(Proxy[])source.Clone();directions=new Vector3[rayCount];inverseDirections=new Vector3[rayCount];
++            skyTransport=new Dictionary<SurfaceKey,Vector3>(reserveReferenceSky?4096:0);
+             for(int i=0;i<rayCount;i++)
+             {
+                 float y=1-2*(i+.5f)/rayCount,r=Mathf.Sqrt(Mathf.Max(0,1-y*y));
+@@ -98,12 +108,39 @@
+         }
+         public bool Trace(Vector3 origin,Vector3 direction,float distance,out Hit hit,int ignore=-1)
+             =>TraceInverse(origin,direction,Inverse(direction),distance,out hit,ignore);
++        // Conservative finite-range broad phase. This only removes impossible hits.
++        public int CandidateMask(Vector3 p,float radius)
++        {
++            // Float-normalised directions can be a few ULPs longer than one.
++            // Keep the broad phase conservative at the exact finite-ray boundary.
++            int mask=0;float safeRadius=radius+Mathf.Max(.0001f,Mathf.Abs(radius)*.000002f),r2=safeRadius*safeRadius;
++            for(int i=0;i<geometry.Length;i++)
++            {
++                var g=geometry[i];float x=Mathf.Max(g.min.x-p.x,Mathf.Max(0,p.x-g.max.x)),y=Mathf.Max(g.min.y-p.y,Mathf.Max(0,p.y-g.max.y)),z=Mathf.Max(g.min.z-p.z,Mathf.Max(0,p.z-g.max.z));
++                if(x*x+y*y+z*z<=r2)mask|=1<<i;
++            }
++            return mask;
++        }
++        public bool TraceCandidates(Vector3 origin,Vector3 direction,Vector3 inverse,float distance,int mask,out Hit hit,int ignore=-1)
++        {
++            hit=default;bool found=false;float best=distance;
++            for(int i=0;i<geometry.Length;i++)
++            {
++                if((mask&(1<<i))==0||i==ignore)continue;
++                if(Profile!=null&&Profile.enabled)Profile.boxTests++;
++                if(!Slab(origin,inverse,geometry[i].min,geometry[i].max,best,out float t,out var n))continue;
++                best=t;hit=new Hit(i,t,origin+direction*t,n);found=true;
++            }
++            return found;
++        }
++        public static Vector3 InverseRay(Vector3 d)=>Inverse(d);
+         bool TraceInverse(Vector3 origin,Vector3 direction,Vector3 inverse,float distance,out Hit hit,int ignore=-1)
+         {
+             bool found=false;hit=default;float best=distance;
+             for(int i=0;i<geometry.Length;i++)
+             {
+                 if(i==ignore)continue;
++                if(Profile!=null&&Profile.enabled)Profile.boxTests++;
+                 if(!Slab(origin,inverse,geometry[i].min,geometry[i].max,best,out float t,out var n))continue;
+                 best=t;hit=new Hit(i,t,origin+direction*t,n);found=true;
+             }
+@@ -124,8 +161,12 @@
+             for(int ray=0;ray<directions.Length;ray++)
+             {
+                 var direction=directions[ray];
++                bool profile=Profile!=null&&Profile.enabled;
++                long stamp=profile?SpatialIndirectProfile.Stamp():0;
+                 Vector3 incoming;
+-                if(TraceInverse(position,direction,inverseDirections[ray],maximumDistance,out var hit))
++                bool found=TraceInverse(position,direction,inverseDirections[ray],maximumDistance,out var hit);
++                if(profile){Profile.primaryRays++;Profile.primaryTicks+=SpatialIndirectProfile.Stamp()-stamp;}
++                if(found)
+                 {
+                     incoming=Vector3.zero;
+                     if(bounce)
+@@ -133,14 +174,20 @@
+                         var origin=hit.position+hit.normal*.01f;
+                         float sun=Mathf.Max(0,Vector3.Dot(hit.normal,light.sunDirection));
+                         float moon=Mathf.Max(0,Vector3.Dot(hit.normal,light.moonDirection));
++                        if(profile)stamp=SpatialIndirectProfile.Stamp();
++                        if(profile){if(sun>0)Profile.shadowRays++;if(moon>0)Profile.shadowRays++;}
+                         if(sun>0&&TraceInverse(origin,light.sunDirection,inverseSun,maximumDistance,out _,hit.index))sun=0;
+                         if(moon>0&&TraceInverse(origin,light.moonDirection,inverseMoon,maximumDistance,out _,hit.index))moon=0;
++                        if(profile){Profile.shadowTicks+=SpatialIndirectProfile.Stamp()-stamp;stamp=SpatialIndirectProfile.Stamp();}
+                         var sky=SkyTransport(hit,maximumDistance);
++                        if(profile)Profile.skyTicks+=SpatialIndirectProfile.Stamp()-stamp;
+                         incoming=Vector3.Scale(geometry[hit.index].albedo,light.sunColor*sun+light.moonColor*moon+light.sky*sky.x+light.equator*sky.y+light.ground*sky.z);
+                     }
+                 }
+                 else incoming=light.Environment(direction);
++                if(profile)stamp=SpatialIndirectProfile.Stamp();
+                 sum+=incoming;x+=incoming*direction.x;y+=incoming*direction.y;z+=incoming*direction.z;
++                if(profile)Profile.projectionTicks+=SpatialIndirectProfile.Stamp()-stamp;
+             }
+             float inv=1f/directions.Length;
+             return new Probe{c0=new Vector4(sum.x*inv,sum.y*inv,sum.z*inv,1),cx=V4(x*(2*inv)),cy=V4(y*(2*inv)),cz=V4(z*(2*inv))};
+@@ -149,7 +196,8 @@
+         {
+             int axis=Mathf.Abs(hit.normal.x)>.5f?0:Mathf.Abs(hit.normal.y)>.5f?1:2;
+             var key=new SurfaceKey(hit.index,axis*2+(hit.normal[axis]>0?1:0),hit.position);
+-            if(skyTransport.TryGetValue(key,out var value))return value;
++            if(skyTransport.TryGetValue(key,out var value)){if(Profile!=null&&Profile.enabled)Profile.skyHits++;return value;}
++            if(Profile!=null&&Profile.enabled)Profile.skyMisses++;
+             // Geometry-only half-metre surface cache. Light colours/intensity are injected
+             // later, so a time-of-day change does not invalidate this transport cache.
+             var p=new Vector3((key.x+.5f)*.5f,(key.y+.5f)*.5f,(key.z+.5f)*.5f);
+@@ -158,6 +206,7 @@
+             const int samples=12;
+             for(int i=0;i<samples;i++)
+             {
++                if(Profile!=null&&Profile.enabled)Profile.skyRays++;
+                 float r=Mathf.Sqrt((i+.5f)/samples),angle=i*2.39996322972865332f;
+                 var d=tangent*(r*Mathf.Cos(angle))+bitangent*(r*Mathf.Sin(angle))+hit.normal*Mathf.Sqrt(1-r*r);
+                 if(Trace(p,d,maximumDistance,out _,hit.index))continue;
+--- GI_100c174/Assets/_Game/Scripts/Research/SpatialIndirectVolume.cs
++++ STAGE1/Assets/_Game/Scripts/Research/SpatialIndirectVolume.cs
+@@ -23,7 +23,23 @@
+         public Vector3Int gridSize=new Vector3Int(49,9,49);
+         public float spacing=1,rayDistance=6,workBudgetMs=2;
+         public int raysPerProbe=128,maximumProbesPerFrame=256;
++        public int maximumCachedProbesPerFrame=8192;
+         public bool applyIndirect=true,visibilityGuard=true,bounce=true;
++        public bool UseTransport {get;private set;}
++        public SpatialIndirectTransport Transport {get;private set;}
++        public SpatialIndirectProfile Profile {get;private set;}
++        public long TotalSolverAllocatedBytes {get;private set;}
++        public bool AllocationCounterSupported {get;private set;}
++        public long AllocationCalibrationBytes {get;private set;}
++        public bool AllocationRecorderSupported=>allocationCounter!=null&&allocationCounter.Supported;
++        public long TotalSolverAllocationCalls {get;private set;}
++        public long SetupAllocationCalls {get;private set;}
++        public long LastCommandAllocationCalls {get;private set;}
++        SpatialIndirectAllocationCounter allocationCounter;
++        public double LastCommitMs {get;private set;}
++        public long LastCommitAllocatedBytes {get;private set;}
++        public int SurfaceEntries=>UseTransport?Transport.SurfaceEntries:Snapshot.SkyTransportEntries;
++        public int EffectiveProbeLimit=>UseTransport?maximumCachedProbesPerFrame:maximumProbesPerFrame;
+         public SpatialIndirectCache Cache {get;private set;}
+         public SpatialIndirectTrace Snapshot {get;private set;}
+         public int LastProcessed {get;private set;}
+@@ -49,24 +65,37 @@
+             if(owner||Shader.IsKeywordEnabled(Keyword))throw new InvalidOperationException("Only one research indirect field may own the view.");
+             if(SystemInfo.graphicsShaderLevel<45)throw new NotSupportedException("Spatial indirect experiment requires shader model 4.5; baseline remains available.");
+             owner=this;
++            var args=Environment.GetCommandLineArgs();UseTransport=Array.IndexOf(args,"-giReference")<0;
++            Profile=new SpatialIndirectProfile{enabled=Array.IndexOf(args,"-giProfile")>=0};
++            long calibration=GC.GetAllocatedBytesForCurrentThread();GC.KeepAlive(new byte[4096]);AllocationCalibrationBytes=GC.GetAllocatedBytesForCurrentThread()-calibration;AllocationCounterSupported=AllocationCalibrationBytes>=4096;
++            allocationCounter=new SpatialIndirectAllocationCounter(Array.IndexOf(args,"-giAlloc")>=0);allocationCounter.Begin();
++            if(UseTransport)changed.Capacity=maximumCachedProbesPerFrame;
+             Cache=new SpatialIndirectCache(origin,gridSize,spacing);
+             buffer=new ComputeBuffer(Cache.ProbeCount,64,ComputeBufferType.Structured);buffer.SetData(Cache.Data);
+             Shader.SetGlobalBuffer("_LC_IndirectProbes",buffer);
+             Shader.SetGlobalVector("_LC_IndirectOrigin",origin);
+             Shader.SetGlobalVector("_LC_IndirectSize",new Vector4(gridSize.x,gridSize.y,gridSize.z,0));
+-            SnapshotGeometry();RefreshLighting();Cache.InvalidateAll();Shader.EnableKeyword(Keyword);BindParameters();
++            SnapshotGeometry();if(UseTransport)Transport=new SpatialIndirectTransport(Cache,Snapshot);
++            SetupAllocationCalls=allocationCounter.End();
++            RefreshLighting();Cache.InvalidateAll();Shader.EnableKeyword(Keyword);BindParameters();
+         }
+         public void RefreshLighting()
+         {
++            allocationCounter?.Begin();
++            long start=SpatialIndirectProfile.Stamp(),allocated=GC.GetAllocatedBytesForCurrentThread();
+             globals.ApplyGlobals();
+             lighting=new SpatialIndirectTrace.Lighting(RGB(globals.CurrentAmbientSkyColor),RGB(globals.CurrentAmbientEquatorColor),RGB(globals.CurrentAmbientGroundColor),globals.SunDirection,RGB(globals.CurrentSunColor),globals.MoonDirection,RGB(globals.CurrentMoonColor));
++            Transport?.ResetInvalidationMetrics();Transport?.SetLighting(lighting,rayDistance);
+             if(Cache!=null){Cache.InvalidateAll();LastInvalidated=Cache.ProbeCount;}
++            LastCommitMs=SpatialIndirectProfile.Ms(SpatialIndirectProfile.Stamp()-start);LastCommitAllocatedBytes=GC.GetAllocatedBytesForCurrentThread()-allocated;
++            LastCommandAllocationCalls=allocationCounter?.End()??-1;
+         }
+         void SnapshotGeometry()
+         {
+             var list=new List<SpatialIndirectTrace.Proxy>(proxies.Length);
+-            foreach(var p in proxies)if(p.active)list.Add(new SpatialIndirectTrace.Proxy(p.bounds,RGB(StylizedLightingGlobals.ToWorkingColor(p.albedo))));
+-            Snapshot=new SpatialIndirectTrace(list.ToArray(),raysPerProbe);
++            for(int i=0;i<proxies.Length;i++){var p=proxies[i];if(p.active)list.Add(new SpatialIndirectTrace.Proxy(p.bounds,RGB(StylizedLightingGlobals.ToWorkingColor(p.albedo)),i));}
++            Snapshot=new SpatialIndirectTrace(list.ToArray(),raysPerProbe,!UseTransport){Profile=Profile};
++            Transport?.Bind(Snapshot);
+             Array.Clear(mins,0,mins.Length);Array.Clear(maxs,0,maxs.Length);
+             for(int i=0;i<Snapshot.ProxyCount;i++){mins[i]=Snapshot.GetProxy(i).bounds.min;maxs[i]=Snapshot.GetProxy(i).bounds.max;}
+             Shader.SetGlobalVectorArray("_LC_IndirectBoxMin",mins);Shader.SetGlobalVectorArray("_LC_IndirectBoxMax",maxs);Shader.SetGlobalInt("_LC_IndirectBoxCount",Snapshot.ProxyCount);
+@@ -75,29 +104,37 @@
+         public void CommitProxy(int index,bool active,Bounds bounds,Color albedo,bool preview=false)
+         {
+             if(preview){LastInvalidated=0;return;}
+-            var p=proxies[index];var old=p.bounds;p.active=active;p.bounds=bounds;p.albedo=albedo;
++            allocationCounter.Begin();
++            long start=SpatialIndirectProfile.Stamp(),allocated=GC.GetAllocatedBytesForCurrentThread();
++            var p=proxies[index];var old=p.bounds;bool geometryChanged=p.active!=active||!SpatialIndirectTrace.SameGeometryBounds(old,bounds);p.active=active;p.bounds=bounds;p.albedo=albedo;
+             if(p.visual)p.visual.enabled=active;
+             SnapshotGeometry();int before=Cache.PendingCount;
++            if(geometryChanged)Transport?.InvalidateGeometry(old,bounds,index);
+             // A changed occluder can affect a probe ray AND the sun visibility at its
+             // bounce hit, including the quantised surface-cache footprint.
+             float halo=SpatialIndirectTrace.InfluenceRadius(rayDistance);
+             Cache.Invalidate(old,halo);
+-            if(old!=bounds)Cache.Invalidate(bounds,halo);
++            if(!SpatialIndirectTrace.SameGeometryBounds(old,bounds))Cache.Invalidate(bounds,halo);
+             LastInvalidated=Cache.PendingCount-before;
++            LastCommitMs=SpatialIndirectProfile.Ms(SpatialIndirectProfile.Stamp()-start);LastCommitAllocatedBytes=GC.GetAllocatedBytesForCurrentThread()-allocated;
++            LastCommandAllocationCalls=allocationCounter.End();
+         }
+         void BindParameters()=>Shader.SetGlobalVector("_LC_IndirectParameters",new Vector4(applyIndirect?1:0,spacing,.08f,visibilityGuard?1:0));
+         void Update()
+         {
+             BindParameters();LastProcessed=LastUploadedBytes=0;LastSolveMs=LastUploadMs=0;changed.Clear();
+             if(Cache.PendingCount==0)return;
+-            var snapshot=Snapshot;var light=lighting;timer.Restart();
+-            while(LastProcessed<maximumProbesPerFrame&&Cache.TryBegin(out var work))
++            var snapshot=Snapshot;var light=lighting;long allocated=GC.GetAllocatedBytesForCurrentThread();allocationCounter.Begin();timer.Restart();
++            while(LastProcessed<EffectiveProbeLimit&&Cache.TryBegin(out var work))
+             {
+-                var result=snapshot.Solve(Cache.Position(work.index),light,rayDistance,bounce);
++                var position=Cache.Position(work.index);
++                var result=UseTransport?Transport.Solve(work.index,position,bounce):snapshot.Solve(position,light,rayDistance,bounce);
+                 if(Cache.Commit(work,result)){changed.Add(work.index);LastProcessed++;TotalSolved++;}
+                 if(timer.Elapsed.TotalMilliseconds>=workBudgetMs)break;
+             }
+             LastSolveMs=timer.Elapsed.TotalMilliseconds;TotalSolveMs+=LastSolveMs;timer.Restart();
++            TotalSolverAllocatedBytes+=GC.GetAllocatedBytesForCurrentThread()-allocated;
++            if(AllocationRecorderSupported)TotalSolverAllocationCalls+=allocationCounter.End();
+             changed.Sort();
+             for(int at=0;at<changed.Count;)
+             {
+--- GI_100c174/Assets/_Game/Scripts/Research/SpatialIndirectStudyReview.cs
++++ STAGE1/Assets/_Game/Scripts/Research/SpatialIndirectStudyReview.cs
+@@ -114,6 +114,9 @@
+         IEnumerator WaitCache(string reason)
+         {
+             int pending=field.Cache.PendingCount,startSolved=field.TotalSolved;double solve=field.TotalSolveMs,upload=field.TotalUploadMs;long bytes=field.TotalUploadBytes;float start=Time.realtimeSinceStartup;double max=0,maxUpload=0,maxTotal=0;int frames=0,maxProbes=0,maxBytes=0;
++            long allocations=field.TotalSolverAllocatedBytes,geometry=field.Transport?.GeometryBuilds??0,injection=field.Transport?.Injections??0,reweight=field.Transport?.DirectReweights??0;
++            int gc0=GC.CollectionCount(0),gc1=GC.CollectionCount(1),gc2=GC.CollectionCount(2);
++            long replay=field.Transport?.EnvironmentReplays??0,allocationCalls=field.TotalSolverAllocationCalls;
+             while(!field.Ready)
+             {
+                 max=Math.Max(max,field.LastSolveMs);maxUpload=Math.Max(maxUpload,field.LastUploadMs);maxTotal=Math.Max(maxTotal,field.LastSolveMs+field.LastUploadMs);maxProbes=Math.Max(maxProbes,field.LastProcessed);maxBytes=Math.Max(maxBytes,field.LastUploadedBytes);frames++;
+@@ -121,8 +124,16 @@
+                 yield return null;
+             }
+             max=Math.Max(max,field.LastSolveMs);maxUpload=Math.Max(maxUpload,field.LastUploadMs);maxTotal=Math.Max(maxTotal,field.LastSolveMs+field.LastUploadMs);maxProbes=Math.Max(maxProbes,field.LastProcessed);maxBytes=Math.Max(maxBytes,field.LastUploadedBytes);
+-            updates.Add(new UpdateReport{reason=reason,queued=pending,solved=field.TotalSolved-startSolved,totalProbes=field.Cache.ProbeCount,frames=frames,wallMs=(Time.realtimeSinceStartup-start)*1000,solveMs=field.TotalSolveMs-solve,uploadMs=field.TotalUploadMs-upload,maxSolveFrameMs=max,maxUploadFrameMs=maxUpload,maxTotalUpdateFrameMs=maxTotal,maxProbesFrame=maxProbes,maxUploadFrameBytes=maxBytes,uploadedBytes=field.TotalUploadBytes-bytes,bufferBytes=field.BufferBytes,skyTransportEntries=field.Snapshot.SkyTransportEntries});
++            updates.Add(new UpdateReport{reason=reason,queued=pending,solved=field.TotalSolved-startSolved,totalProbes=field.Cache.ProbeCount,frames=frames,wallMs=(Time.realtimeSinceStartup-start)*1000,solveMs=field.TotalSolveMs-solve,uploadMs=field.TotalUploadMs-upload,maxSolveFrameMs=max,maxUploadFrameMs=maxUpload,maxTotalUpdateFrameMs=maxTotal,maxProbesFrame=maxProbes,maxUploadFrameBytes=maxBytes,uploadedBytes=field.TotalUploadBytes-bytes,bufferBytes=field.BufferBytes,skyTransportEntries=field.SurfaceEntries,mode=field.UseTransport?"cached-transport":"reference",solveBudgetMs=field.workBudgetMs,probeLimit=field.EffectiveProbeLimit,solverAllocatedBytes=field.TotalSolverAllocatedBytes-allocations,commitMs=reason=="initial-field"?0:field.LastCommitMs,commitAllocatedBytes=reason=="initial-field"?0:field.LastCommitAllocatedBytes,geometryBuilds=(field.Transport?.GeometryBuilds??0)-geometry,injections=(field.Transport?.Injections??0)-injection,directReweights=(field.Transport?.DirectReweights??0)-reweight,transportPayloadBytes=field.Transport?.PayloadBytes??0,activeHitLinks=field.Transport?.ActiveHitLinks??0,allocatedLinkSlots=field.Transport?.AllocatedLinkSlots??0,allocatedBlockSlots=field.Transport?.AllocatedBlockSlots??0,prunedSurfaceCells=field.Transport?.LastPrunedSurfaceCells??0,managedUsedBytes=UnityEngine.Profiling.Profiler.GetMonoUsedSizeLong(),gc0=GC.CollectionCount(0)-gc0,gc1=GC.CollectionCount(1)-gc1,gc2=GC.CollectionCount(2)-gc2});
+             Debug.Log("LC_GI_UPDATE "+reason+" solved="+(field.TotalSolved-startSolved)+" wallMs="+((Time.realtimeSinceStartup-start)*1000).ToString("F1")+" cpuMs="+(field.TotalSolveMs-solve).ToString("F1"));
++            var latest=updates[updates.Count-1];latest.environmentReplays=(field.Transport?.EnvironmentReplays??0)-replay;latest.allocationCounterSupported=field.AllocationCounterSupported;latest.allocationCalibrationBytes=field.AllocationCalibrationBytes;
++            if(!field.AllocationCounterSupported){latest.solverAllocatedBytes=-1;latest.commitAllocatedBytes=-1;}
++            latest.allocationRecorderSupported=field.AllocationRecorderSupported;latest.solverAllocationCalls=field.AllocationRecorderSupported?field.TotalSolverAllocationCalls-allocationCalls:-1;latest.commandAllocationCalls=field.AllocationRecorderSupported?field.LastCommandAllocationCalls:-1;latest.setupAllocationCalls=field.SetupAllocationCalls;
++            if(Array.IndexOf(Environment.GetCommandLineArgs(),"-giDump")>=0)
++            {
++                using(var writer=new BinaryWriter(File.Create(output+"/"+reason+"-probes.bin")))
++                foreach(var p in field.Cache.Data){Write(writer,p.c0);Write(writer,p.cx);Write(writer,p.cy);Write(writer,p.cz);}
++            }
+         }
+         IEnumerator Measure(bool indirect)
+         {
+@@ -140,7 +151,8 @@
+             stamp=now;
+         }
+         IEnumerator Capture(string name)
+-        {for(int attempt=0;attempt<4;attempt++){if(CaptureAttempt(name))yield break;yield return null;}throw new Exception("Empty screenshot: "+name);}
++        {if(Array.IndexOf(Environment.GetCommandLineArgs(),"-giNoCapture")>=0)yield break;for(int attempt=0;attempt<4;attempt++){if(CaptureAttempt(name))yield break;yield return null;}throw new Exception("Empty screenshot: "+name);}
++        static void Write(BinaryWriter writer,Vector4 v){writer.Write(v.x);writer.Write(v.y);writer.Write(v.z);writer.Write(v.w);}
+         bool CaptureAttempt(string name)
+         {
+             int width=1920,height=1080;var descriptor=new RenderTextureDescriptor(width,height,RenderTextureFormat.ARGB32,24){msaaSamples=4,sRGB=true};descriptor.msaaSamples=SystemInfo.GetRenderTextureSupportedMSAASampleCount(descriptor);
+@@ -155,7 +167,16 @@
+         }
+         [Serializable] public sealed class CaptureMetadata{public string view;public float hour,rayDistance;public bool indirect,visibilityGuard,ready;public int probeCount,rayCount,proxyCount,bufferBytes;public Vector3 cameraPosition;}
+         [Serializable] public sealed class TransportChecks{public bool reflectorVisible;public Vector3 red,grey,covered,uncovered,undo,guardOff,guardOn,otherWallSide;public int localReflectorProbes,localRoofProbes,totalProbes;}
+-        [Serializable] public sealed class UpdateReport{public string reason;public int queued,solved,totalProbes,frames,maxProbesFrame,maxUploadFrameBytes,bufferBytes,skyTransportEntries;public long uploadedBytes;public double wallMs,solveMs,uploadMs,maxSolveFrameMs,maxUploadFrameMs,maxTotalUpdateFrameMs;}
++        [Serializable] public sealed class UpdateReport
++        {
++            public string reason,mode;
++            public int queued,solved,totalProbes,frames,maxProbesFrame,maxUploadFrameBytes,bufferBytes,skyTransportEntries,probeLimit,prunedSurfaceCells,gc0,gc1,gc2;
++            public long uploadedBytes,solverAllocatedBytes,commitAllocatedBytes,geometryBuilds,injections,directReweights,environmentReplays,transportPayloadBytes,activeHitLinks,allocatedLinkSlots,allocatedBlockSlots,managedUsedBytes;
++            public long allocationCalibrationBytes,solverAllocationCalls,commandAllocationCalls,setupAllocationCalls;
++            public bool allocationCounterSupported,allocationRecorderSupported;
++            public double wallMs,solveMs,uploadMs,maxSolveFrameMs,maxUploadFrameMs,maxTotalUpdateFrameMs,commitMs;
++            public float solveBudgetMs;
++        }
+         [Serializable] public sealed class UpdateReports{public UpdateReport[] reports;}
+         [Serializable] public sealed class BenchmarkReport{public bool indirect,development,timingAvailable;public string device,processor,unity,colorSpace,api;public int width,height;public long allocatedBytes;public UrpPreviewQuality.Snapshot pipeline;public LightingBenchmarkController.Distribution frame,gpu,cpu;}
+         [Serializable] public sealed class BenchmarkReports{public BenchmarkReport[] reports;}

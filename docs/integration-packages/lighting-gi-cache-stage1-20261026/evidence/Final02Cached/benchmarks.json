@@ -1,0 +1,94 @@
+{
+    "reports": [
+        {
+            "indirect": false,
+            "development": false,
+            "timingAvailable": true,
+            "device": "NVIDIA GeForce RTX 4070 Ti SUPER",
+            "processor": "12th Gen Intel(R) Core(TM) i7-12700F",
+            "unity": "6000.5.5f1",
+            "colorSpace": "Linear",
+            "api": "Direct3D12",
+            "width": 1920,
+            "height": 1080,
+            "allocatedBytes": 149058789,
+            "pipeline": {
+                "pipeline": "AO",
+                "additionalLightsMode": "PerPixel",
+                "msaaSamples": 4,
+                "mainLightShadowResolution": 2048,
+                "shadowCascades": 2,
+                "additionalLightsPerObject": 2,
+                "shadowDistance": 90.0,
+                "softShadows": true,
+                "additionalLightShadows": false
+            },
+            "frame": {
+                "samples": 600,
+                "meanMs": 1.2492141723632813,
+                "medianMs": 1.1866999864578248,
+                "p95Ms": 2.2488999366760256,
+                "p99Ms": 3.0
+            },
+            "gpu": {
+                "samples": 500,
+                "meanMs": 0.8253593444824219,
+                "medianMs": 0.8212479948997498,
+                "p95Ms": 0.8581119775772095,
+                "p99Ms": 0.8837119936943054
+            },
+            "cpu": {
+                "samples": 600,
+                "meanMs": 1.2456011772155762,
+                "medianMs": 1.1985000371932984,
+                "p95Ms": 2.2105000019073488,
+                "p99Ms": 2.9217000007629396
+            }
+        },
+        {
+            "indirect": true,
+            "development": false,
+            "timingAvailable": true,
+            "device": "NVIDIA GeForce RTX 4070 Ti SUPER",
+            "processor": "12th Gen Intel(R) Core(TM) i7-12700F",
+            "unity": "6000.5.5f1",
+            "colorSpace": "Linear",
+            "api": "Direct3D12",
+            "width": 1920,
+            "height": 1080,
+            "allocatedBytes": 149063781,
+            "pipeline": {
+                "pipeline": "AO",
+                "additionalLightsMode": "PerPixel",
+                "msaaSamples": 4,
+                "mainLightShadowResolution": 2048,
+                "shadowCascades": 2,
+                "additionalLightsPerObject": 2,
+                "shadowDistance": 90.0,
+                "softShadows": true,
+                "additionalLightShadows": false
+            },
+            "frame": {
+                "samples": 600,
+                "meanMs": 1.406564474105835,
+                "medianMs": 1.2723000049591065,
+                "p95Ms": 2.274899959564209,
+                "p99Ms": 2.5239999294281008
+            },
+            "gpu": {
+                "samples": 516,
+                "meanMs": 1.1631410121917725,
+                "medianMs": 1.1550719738006592,
+                "p95Ms": 1.1970560550689698,
+                "p99Ms": 1.4213119745254517
+            },
+            "cpu": {
+                "samples": 600,
+                "meanMs": 1.404551386833191,
+                "medianMs": 1.2610000371932984,
+                "p95Ms": 2.2051000595092775,
+                "p99Ms": 2.5388998985290529
+            }
+        }
+    ]
+}

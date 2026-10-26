@@ -1,0 +1,24 @@
+{
+    "plainEditorMs": 1769.5805,
+    "instrumentedEditorMs": 2016.6945,
+    "primaryMs": 1248.4918,
+    "shadowMs": 182.6799,
+    "skyMs": 148.8818,
+    "projectionMs": 155.0584,
+    "counters": {
+        "enabled": true,
+        "primaryRays": 2451200,
+        "shadowRays": 441417,
+        "skyRays": 171792,
+        "boxTests": 17773245,
+        "skyHits": 427101,
+        "skyMisses": 14316,
+        "geometryBuilds": 0,
+        "injections": 0,
+        "directReweights": 0,
+        "primaryTicks": 12484918,
+        "shadowTicks": 1826799,
+        "skyTicks": 1488818,
+        "projectionTicks": 1550584
+    }
+}

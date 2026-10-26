@@ -1,0 +1,37 @@
+[
+  {
+    "pid": 17376,
+    "commandLine": "\"E:\\Games_Develop\\Research\\SpatialIndirectStage1_20261026\\Player\\SpatialIndirectStudy.exe\" -giStudy -giDump -giOutput E:\\Games_Develop\\Research\\SpatialIndirectStage1_20261026\\Final03Cached -screen-width 1920 -screen-height 1080 -screen-fullscreen 0 -logFile E:\\Games_Develop\\Research\\SpatialIndirectStage1_20261026\\Final03Cached.log -giNoCapture",
+    "peakWorkingSetBytes": 695783424,
+    "peakPrivateBytes": 1057820672,
+    "samples": 68
+  },
+  {
+    "pid": 5760,
+    "commandLine": "\"E:\\Games_Develop\\Research\\SpatialIndirectStage1_20261026\\Player\\SpatialIndirectStudy.exe\" -giStudy -giDump -giOutput E:\\Games_Develop\\Research\\SpatialIndirectStage1_20261026\\Final02Reference -screen-width 1920 -screen-height 1080 -screen-fullscreen 0 -logFile E:\\Games_Develop\\Research\\SpatialIndirectStage1_20261026\\Final02Reference.log -giReference -giNoCapture",
+    "peakWorkingSetBytes": 691306496,
+    "peakPrivateBytes": 1052454912,
+    "samples": 318
+  },
+  {
+    "pid": 25328,
+    "commandLine": "\"E:\\Games_Develop\\Research\\SpatialIndirectStage1_20261026\\Player\\SpatialIndirectStudy.exe\" -giStudy -giDump -giOutput E:\\Games_Develop\\Research\\SpatialIndirectStage1_20261026\\Final02Cached -screen-width 1920 -screen-height 1080 -screen-fullscreen 0 -logFile E:\\Games_Develop\\Research\\SpatialIndirectStage1_20261026\\Final02Cached.log -giNoCapture",
+    "peakWorkingSetBytes": 668151808,
+    "peakPrivateBytes": 1063796736,
+    "samples": 68
+  },
+  {
+    "pid": 17404,
+    "commandLine": "\"E:\\Games_Develop\\Research\\SpatialIndirectStage1_20261026\\Player\\SpatialIndirectStudy.exe\" -giStudy -giDump -giOutput E:\\Games_Develop\\Research\\SpatialIndirectStage1_20261026\\Final03Reference -screen-width 1920 -screen-height 1080 -screen-fullscreen 0 -logFile E:\\Games_Develop\\Research\\SpatialIndirectStage1_20261026\\Final03Reference.log -giReference -giNoCapture",
+    "peakWorkingSetBytes": 653545472,
+    "peakPrivateBytes": 1040482304,
+    "samples": 325
+  },
+  {
+    "pid": 13272,
+    "commandLine": "\"E:\\Games_Develop\\Research\\SpatialIndirectStage1_20261026\\Player\\SpatialIndirectStudy.exe\" -giStudy -giDump -giOutput E:\\Games_Develop\\Research\\SpatialIndirectStage1_20261026\\Final01Cached -screen-width 1920 -screen-height 1080 -screen-fullscreen 0 -logFile E:\\Games_Develop\\Research\\SpatialIndirectStage1_20261026\\Final01Cached.log",
+    "peakWorkingSetBytes": 755826688,
+    "peakPrivateBytes": 1540255744,
+    "samples": 38
+  }
+]

@@ -1,0 +1,496 @@
+{
+  "pass_": true,
+  "pairedRuns": 3,
+  "fullFieldComparisons": 24,
+  "probesPerField": 21609,
+  "maxCoefficientError": 5.066394805908203e-07,
+  "imageComparisons": 27,
+  "maxImageMeanByteError": 0.26745064943415636,
+  "updates": [
+    {
+      "reason": "initial-field",
+      "probes": 21609,
+      "referenceCPUms": {
+        "median": 1718.248000000001,
+        "minimum": 1711.4325000000022,
+        "maximum": 1720.1399000000008
+      },
+      "cachedCPUms": {
+        "median": 543.9458999999999,
+        "minimum": 536.3409999999999,
+        "maximum": 544.7372999999999
+      },
+      "referenceWallMs": {
+        "median": 14182.515144348145,
+        "minimum": 14119.242191314697,
+        "maximum": 14186.004400253296
+      },
+      "cachedWallMs": {
+        "median": 4638.866901397705,
+        "minimum": 4587.756395339966,
+        "maximum": 4639.260292053223
+      },
+      "cachedCommitMs": {
+        "median": 0.0,
+        "minimum": 0.0,
+        "maximum": 0.0
+      },
+      "cachedMaxUpdateMs": 2.8924,
+      "geometryBuilds": 21609,
+      "environmentReplays": 0
+    },
+    {
+      "reason": "offscreen-reflector-grey",
+      "probes": 8019,
+      "referenceCPUms": {
+        "median": 654.4768000000045,
+        "minimum": 651.3825999999997,
+        "maximum": 660.0818000000017
+      },
+      "cachedCPUms": {
+        "median": 2.136799999999994,
+        "minimum": 2.081099999999992,
+        "maximum": 2.20799999999997
+      },
+      "referenceWallMs": {
+        "median": 5331.747055053711,
+        "minimum": 5315.252304077148,
+        "maximum": 5381.9122314453125
+      },
+      "cachedWallMs": {
+        "median": 30.74169158935547,
+        "minimum": 30.70211410522461,
+        "maximum": 30.92670440673828
+      },
+      "cachedCommitMs": {
+        "median": 0.5493,
+        "minimum": 0.5281,
+        "maximum": 0.5765
+      },
+      "cachedMaxUpdateMs": 2.4422,
+      "geometryBuilds": 0,
+      "environmentReplays": 0
+    },
+    {
+      "reason": "offscreen-reflector-restored",
+      "probes": 8019,
+      "referenceCPUms": {
+        "median": 668.0921000000003,
+        "minimum": 659.3391000000006,
+        "maximum": 675.1279999999979
+      },
+      "cachedCPUms": {
+        "median": 2.0955000000000155,
+        "minimum": 2.081800000000044,
+        "maximum": 2.1584000000000287
+      },
+      "referenceWallMs": {
+        "median": 5419.675827026367,
+        "minimum": 5383.661270141602,
+        "maximum": 5500.984191894531
+      },
+      "cachedWallMs": {
+        "median": 33.336639404296875,
+        "minimum": 33.30516815185547,
+        "maximum": 33.41102600097656
+      },
+      "cachedCommitMs": {
+        "median": 0.0824,
+        "minimum": 0.0793,
+        "maximum": 0.1039
+      },
+      "cachedMaxUpdateMs": 2.4629,
+      "geometryBuilds": 0,
+      "environmentReplays": 0
+    },
+    {
+      "reason": "roof-removal",
+      "probes": 9801,
+      "referenceCPUms": {
+        "median": 687.2872000000016,
+        "minimum": 686.186999999999,
+        "maximum": 687.8200000000011
+      },
+      "cachedCPUms": {
+        "median": 183.4585000000003,
+        "minimum": 182.0736000000004,
+        "maximum": 184.1099999999999
+      },
+      "referenceWallMs": {
+        "median": 5617.496490478516,
+        "minimum": 5602.55241394043,
+        "maximum": 5633.785247802734
+      },
+      "cachedWallMs": {
+        "median": 1515.1681900024414,
+        "minimum": 1499.1655349731445,
+        "maximum": 1516.0465240478516
+      },
+      "cachedCommitMs": {
+        "median": 2.6773,
+        "minimum": 2.5618,
+        "maximum": 2.7549
+      },
+      "cachedMaxUpdateMs": 2.1778,
+      "geometryBuilds": 2977,
+      "environmentReplays": 6012
+    },
+    {
+      "reason": "roof-undo",
+      "probes": 9801,
+      "referenceCPUms": {
+        "median": 808.4608999999955,
+        "minimum": 796.023100000004,
+        "maximum": 814.2860000000042
+      },
+      "cachedCPUms": {
+        "median": 237.3091000000004,
+        "minimum": 236.34589999999957,
+        "maximum": 240.85370000000012
+      },
+      "referenceWallMs": {
+        "median": 6584.815979003906,
+        "minimum": 6469.203948974609,
+        "maximum": 6634.540557861328
+      },
+      "cachedWallMs": {
+        "median": 1950.1800537109375,
+        "minimum": 1936.4261627197266,
+        "maximum": 1983.5577011108398
+      },
+      "cachedCommitMs": {
+        "median": 1.1311,
+        "minimum": 1.1089,
+        "maximum": 1.1814
+      },
+      "cachedMaxUpdateMs": 2.2287,
+      "geometryBuilds": 2977,
+      "environmentReplays": 6012
+    },
+    {
+      "reason": "sunset-light-refresh",
+      "probes": 21609,
+      "referenceCPUms": {
+        "median": 1640.7969000000166,
+        "minimum": 1638.5283000000181,
+        "maximum": 1734.4304999999977
+      },
+      "cachedCPUms": {
+        "median": 82.55399999999975,
+        "minimum": 81.77610000000072,
+        "maximum": 84.92600000000027
+      },
+      "referenceWallMs": {
+        "median": 13385.173797607422,
+        "minimum": 13368.152618408203,
+        "maximum": 14151.52359008789
+      },
+      "cachedWallMs": {
+        "median": 700.1819610595703,
+        "minimum": 684.6208572387695,
+        "maximum": 717.0143127441406
+      },
+      "cachedCommitMs": {
+        "median": 0.0894,
+        "minimum": 0.0819,
+        "maximum": 0.094
+      },
+      "cachedMaxUpdateMs": 2.2151,
+      "geometryBuilds": 0,
+      "environmentReplays": 0
+    },
+    {
+      "reason": "night-light-refresh",
+      "probes": 21609,
+      "referenceCPUms": {
+        "median": 1584.5153000000137,
+        "minimum": 1575.1850000000077,
+        "maximum": 1598.4350000000059
+      },
+      "cachedCPUms": {
+        "median": 77.51720000000023,
+        "minimum": 77.2189999999996,
+        "maximum": 78.7656999999997
+      },
+      "referenceWallMs": {
+        "median": 12950.641632080078,
+        "minimum": 12869.102478027344,
+        "maximum": 13068.14956665039
+      },
+      "cachedWallMs": {
+        "median": 651.1268615722656,
+        "minimum": 650.7987976074219,
+        "maximum": 667.0331954956055
+      },
+      "cachedCommitMs": {
+        "median": 0.0853,
+        "minimum": 0.0841,
+        "maximum": 0.0936
+      },
+      "cachedMaxUpdateMs": 2.2357,
+      "geometryBuilds": 0,
+      "environmentReplays": 0
+    },
+    {
+      "reason": "day-light-refresh",
+      "probes": 21609,
+      "referenceCPUms": {
+        "median": 1607.3844000000008,
+        "minimum": 1588.9300999999832,
+        "maximum": 1671.8700999999883
+      },
+      "cachedCPUms": {
+        "median": 79.94549999999958,
+        "minimum": 79.80279999999857,
+        "maximum": 81.13169999999991
+      },
+      "referenceWallMs": {
+        "median": 13410.186767578125,
+        "minimum": 12951.96533203125,
+        "maximum": 13650.680541992188
+      },
+      "cachedWallMs": {
+        "median": 668.1089401245117,
+        "minimum": 668.025016784668,
+        "maximum": 684.0543746948242
+      },
+      "cachedCommitMs": {
+        "median": 0.0879,
+        "minimum": 0.0842,
+        "maximum": 0.0939
+      },
+      "cachedMaxUpdateMs": 2.2126,
+      "geometryBuilds": 0,
+      "environmentReplays": 0
+    }
+  ],
+  "steady": [
+    {
+      "mode": "Reference",
+      "indirect": false,
+      "gpuMeanMs": {
+        "median": 0.8317552208900452,
+        "minimum": 0.8290686011314392,
+        "maximum": 0.8477779030799866
+      },
+      "gpuSamples": 1529,
+      "frameMedianMs": {
+        "median": 1.1984000205993652,
+        "minimum": 1.183500051498413,
+        "maximum": 1.2340999841690063
+      },
+      "frameP95Ms": {
+        "median": 1.943600058555603,
+        "minimum": 1.9222999811172485,
+        "maximum": 2.1328001022338867
+      },
+      "frameP99Ms": {
+        "median": 2.7149999141693115,
+        "minimum": 2.4567999839782715,
+        "maximum": 2.841200113296509
+      }
+    },
+    {
+      "mode": "Reference",
+      "indirect": true,
+      "gpuMeanMs": {
+        "median": 1.172353744506836,
+        "minimum": 1.157927393913269,
+        "maximum": 1.2025225162506104
+      },
+      "gpuSamples": 1584,
+      "frameMedianMs": {
+        "median": 1.291200041770935,
+        "minimum": 1.2861000299453735,
+        "maximum": 1.3077000379562378
+      },
+      "frameP95Ms": {
+        "median": 2.268899917602539,
+        "minimum": 2.185800075531006,
+        "maximum": 2.2992000579833984
+      },
+      "frameP99Ms": {
+        "median": 2.5764000415802,
+        "minimum": 2.339200019836426,
+        "maximum": 2.8308000564575195
+      }
+    },
+    {
+      "mode": "Cached",
+      "indirect": false,
+      "gpuMeanMs": {
+        "median": 0.8346141576766968,
+        "minimum": 0.8253593444824219,
+        "maximum": 0.8499058485031128
+      },
+      "gpuSamples": 1539,
+      "frameMedianMs": {
+        "median": 1.187399983406067,
+        "minimum": 1.1866999864578247,
+        "maximum": 1.2015999555587769
+      },
+      "frameP95Ms": {
+        "median": 2.026599884033203,
+        "minimum": 1.9565000534057617,
+        "maximum": 2.2488999366760254
+      },
+      "frameP99Ms": {
+        "median": 2.893199920654297,
+        "minimum": 2.471299886703491,
+        "maximum": 3.0
+      }
+    },
+    {
+      "mode": "Cached",
+      "indirect": true,
+      "gpuMeanMs": {
+        "median": 1.1653707027435303,
+        "minimum": 1.1631410121917725,
+        "maximum": 1.2002214193344116
+      },
+      "gpuSamples": 1595,
+      "frameMedianMs": {
+        "median": 1.2822999954223633,
+        "minimum": 1.2723000049591064,
+        "maximum": 1.3193999528884888
+      },
+      "frameP95Ms": {
+        "median": 2.2369000911712646,
+        "minimum": 2.2018001079559326,
+        "maximum": 2.274899959564209
+      },
+      "frameP99Ms": {
+        "median": 2.5239999294281006,
+        "minimum": 2.384200096130371,
+        "maximum": 2.6064000129699707
+      }
+    }
+  ],
+  "tests": [
+    {
+      "path": "editmode-final.xml",
+      "result": "Passed",
+      "total": "193",
+      "passed": "193",
+      "failed": "0",
+      "skipped": "0"
+    },
+    {
+      "path": "playmode-final.xml",
+      "result": "Passed",
+      "total": "6",
+      "passed": "6",
+      "failed": "0",
+      "skipped": "0"
+    }
+  ],
+  "maximumCachedPayloadBytes": 8786312,
+  "releaseAllocationCounterSupported": false,
+  "allocationDiagnostic": [
+    {
+      "reason": "initial-field",
+      "recorderSupported": true,
+      "solverAllocationCalls": 29654,
+      "commandAllocationCalls": 0,
+      "setupAllocationCalls": 21689
+    },
+    {
+      "reason": "offscreen-reflector-grey",
+      "recorderSupported": true,
+      "solverAllocationCalls": 0,
+      "commandAllocationCalls": 8,
+      "setupAllocationCalls": 21689
+    },
+    {
+      "reason": "offscreen-reflector-restored",
+      "recorderSupported": true,
+      "solverAllocationCalls": 0,
+      "commandAllocationCalls": 8,
+      "setupAllocationCalls": 21689
+    },
+    {
+      "reason": "roof-removal",
+      "recorderSupported": true,
+      "solverAllocationCalls": 270,
+      "commandAllocationCalls": 10,
+      "setupAllocationCalls": 21689
+    },
+    {
+      "reason": "roof-undo",
+      "recorderSupported": true,
+      "solverAllocationCalls": 0,
+      "commandAllocationCalls": 8,
+      "setupAllocationCalls": 21689
+    },
+    {
+      "reason": "sunset-light-refresh",
+      "recorderSupported": true,
+      "solverAllocationCalls": 0,
+      "commandAllocationCalls": 0,
+      "setupAllocationCalls": 21689
+    },
+    {
+      "reason": "night-light-refresh",
+      "recorderSupported": true,
+      "solverAllocationCalls": 0,
+      "commandAllocationCalls": 0,
+      "setupAllocationCalls": 21689
+    },
+    {
+      "reason": "day-light-refresh",
+      "recorderSupported": true,
+      "solverAllocationCalls": 0,
+      "commandAllocationCalls": 0,
+      "setupAllocationCalls": 21689
+    }
+  ],
+  "managedHeapPhaseBoundaries": {
+    "Reference": {
+      "median": 11440128.0,
+      "minimum": 10563584,
+      "maximum": 11886592
+    },
+    "Cached": {
+      "median": 23957504.0,
+      "minimum": 22945792,
+      "maximum": 24846336
+    }
+  },
+  "osMemorySamples": [
+    {
+      "pid": 17376,
+      "commandLine": "\"E:\\Games_Develop\\Research\\SpatialIndirectStage1_20261026\\Player\\SpatialIndirectStudy.exe\" -giStudy -giDump -giOutput E:\\Games_Develop\\Research\\SpatialIndirectStage1_20261026\\Final03Cached -screen-width 1920 -screen-height 1080 -screen-fullscreen 0 -logFile E:\\Games_Develop\\Research\\SpatialIndirectStage1_20261026\\Final03Cached.log -giNoCapture",
+      "peakWorkingSetBytes": 695783424,
+      "peakPrivateBytes": 1057820672,
+      "samples": 68
+    },
+    {
+      "pid": 5760,
+      "commandLine": "\"E:\\Games_Develop\\Research\\SpatialIndirectStage1_20261026\\Player\\SpatialIndirectStudy.exe\" -giStudy -giDump -giOutput E:\\Games_Develop\\Research\\SpatialIndirectStage1_20261026\\Final02Reference -screen-width 1920 -screen-height 1080 -screen-fullscreen 0 -logFile E:\\Games_Develop\\Research\\SpatialIndirectStage1_20261026\\Final02Reference.log -giReference -giNoCapture",
+      "peakWorkingSetBytes": 691306496,
+      "peakPrivateBytes": 1052454912,
+      "samples": 318
+    },
+    {
+      "pid": 25328,
+      "commandLine": "\"E:\\Games_Develop\\Research\\SpatialIndirectStage1_20261026\\Player\\SpatialIndirectStudy.exe\" -giStudy -giDump -giOutput E:\\Games_Develop\\Research\\SpatialIndirectStage1_20261026\\Final02Cached -screen-width 1920 -screen-height 1080 -screen-fullscreen 0 -logFile E:\\Games_Develop\\Research\\SpatialIndirectStage1_20261026\\Final02Cached.log -giNoCapture",
+      "peakWorkingSetBytes": 668151808,
+      "peakPrivateBytes": 1063796736,
+      "samples": 68
+    },
+    {
+      "pid": 17404,
+      "commandLine": "\"E:\\Games_Develop\\Research\\SpatialIndirectStage1_20261026\\Player\\SpatialIndirectStudy.exe\" -giStudy -giDump -giOutput E:\\Games_Develop\\Research\\SpatialIndirectStage1_20261026\\Final03Reference -screen-width 1920 -screen-height 1080 -screen-fullscreen 0 -logFile E:\\Games_Develop\\Research\\SpatialIndirectStage1_20261026\\Final03Reference.log -giReference -giNoCapture",
+      "peakWorkingSetBytes": 653545472,
+      "peakPrivateBytes": 1040482304,
+      "samples": 325
+    },
+    {
+      "pid": 13272,
+      "commandLine": "\"E:\\Games_Develop\\Research\\SpatialIndirectStage1_20261026\\Player\\SpatialIndirectStudy.exe\" -giStudy -giDump -giOutput E:\\Games_Develop\\Research\\SpatialIndirectStage1_20261026\\Final01Cached -screen-width 1920 -screen-height 1080 -screen-fullscreen 0 -logFile E:\\Games_Develop\\Research\\SpatialIndirectStage1_20261026\\Final01Cached.log",
+      "peakWorkingSetBytes": 755826688,
+      "peakPrivateBytes": 1540255744,
+      "samples": 38
+    }
+  ]
+}

@@ -1,0 +1,110 @@
+{
+  "parentCommit": "100c1745924493d2d8be0f29b5541c695273ed6e",
+  "inputBaselineManifestSHA256": "bfcd886050583bef1b4dcedfd9cad99441e721dfe4e792bcc467f85418cc7a95",
+  "modified": [
+    {
+      "path": "Assets/_Game/Scripts/Research/SpatialIndirectTrace.cs",
+      "beforeSHA256": "90a2d8f49e78f17313c0a0548c90ffc0c5d664c540e6bcae7ef3f252e31d8e31",
+      "sha256": "614d514bce3e31438ee41911b079f1f8b7690b91ba8af0e308a264567c9c7597",
+      "bytes": 13832
+    },
+    {
+      "path": "Assets/_Game/Scripts/Research/SpatialIndirectVolume.cs",
+      "beforeSHA256": "0ed3a8303268b008dca101fe6fed036c5e4815459e4e83456db75d9e54a897fe",
+      "sha256": "c5c9e4a1fe7e6043467054e5087a265f313a5c6606f548981eb37738287b70ff",
+      "bytes": 11830
+    },
+    {
+      "path": "Assets/_Game/Scripts/Research/SpatialIndirectStudyReview.cs",
+      "beforeSHA256": "1941d5a083ecf8c0d7e2d17d695acd71653ed916092254647366d3f2c2c9f4db",
+      "sha256": "c1bc2583c6eff237d07ae7390169d1be0937589100644aa02e74d3a8d159f6c7",
+      "bytes": 20631
+    }
+  ],
+  "newAssets": [
+    {
+      "path": "Assets/_Game/Scripts/Research/SpatialIndirectProfile.cs",
+      "sha256": "89241b099ce6e0835c0694f17019a3ccc00834094d41bfb61b3b76cd8fcf6d67",
+      "bytes": 911
+    },
+    {
+      "path": "Assets/_Game/Scripts/Research/SpatialIndirectProfile.cs.meta",
+      "sha256": "9c10757faf460137d3690edeb6297633a570fb800a0143de132f945581f0e315",
+      "bytes": 59
+    },
+    {
+      "path": "Assets/_Game/Scripts/Research/SpatialIndirectTransport.cs",
+      "sha256": "49fa5b253b00262a7291752e730652e34f8753b00f42c7be84a5f4ba44acbfa6",
+      "bytes": 15571
+    },
+    {
+      "path": "Assets/_Game/Scripts/Research/SpatialIndirectTransport.cs.meta",
+      "sha256": "6f1b40124ea3fb1f42ba916558abcf006c8e1722aebad639658225562c03c41e",
+      "bytes": 59
+    },
+    {
+      "path": "Assets/_Game/Scripts/Research/SpatialIndirectAllocationCounter.cs",
+      "sha256": "6dc2c289fc63941f53aa53b2a7803ededb2c0df83e961193fccdcbea93a51425",
+      "bytes": 850
+    },
+    {
+      "path": "Assets/_Game/Scripts/Research/SpatialIndirectAllocationCounter.cs.meta",
+      "sha256": "1c4c1b36c9fcf64ca2c0b3502e559959008b49785b1bf6bd89eff88800883a0d",
+      "bytes": 59
+    },
+    {
+      "path": "Assets/_Game/Editor/SpatialIndirectStage1Build.cs",
+      "sha256": "803133c56941f08b7c12cc974e894f7c23068252e09011a25d4eed4894b2e439",
+      "bytes": 7608
+    },
+    {
+      "path": "Assets/_Game/Editor/SpatialIndirectStage1Build.cs.meta",
+      "sha256": "fb85b42619c7a81da4930f58d0f212d5a5f749dd6e4b36f1d60f18b672fead22",
+      "bytes": 59
+    },
+    {
+      "path": "Assets/_Game/Tests/Editor/SpatialIndirectTransportTests.cs",
+      "sha256": "2b3c61eadce6be346852def68a10d971328b39b565a864a013a330a7f25745d4",
+      "bytes": 8376
+    },
+    {
+      "path": "Assets/_Game/Tests/Editor/SpatialIndirectTransportTests.cs.meta",
+      "sha256": "5644910664d57a4ed37fd9e87b4a374b726ab9f3e7c1e70f349a44556e783244",
+      "bytes": 59
+    }
+  ],
+  "unchangedInputs": [
+    {
+      "path": "Assets/_Game/Scripts/Research/SpatialIndirectCache.cs",
+      "sha256": "ad759e91908fe245f80f881f5e5e5c62e5d27c26d5f705fbba1b8ef88a6fe4a2"
+    },
+    {
+      "path": "Assets/_Game/Editor/SpatialIndirectStudyBuild.cs",
+      "sha256": "79b59288581f06a458bbcbd62a843eedba10e9a850be7fe4a23f86da77fb979e"
+    },
+    {
+      "path": "Assets/_Game/Tests/Editor/SpatialIndirectTests.cs",
+      "sha256": "9ae6bad3bcb67335742562fb6e434262f9c194f8364b0ffbffb57ee8ae6fc695"
+    },
+    {
+      "path": "Assets/_Game/Scenes/SpatialIndirectStudy_20261026.unity",
+      "sha256": "f91f2cc9cb6e010b857499cd41918502e0e6a265e934af69cc85ee957865cea4"
+    },
+    {
+      "path": "Assets/_Game/Shaders/Surface/LC_SpatialIndirect.hlsl",
+      "sha256": "b6d6d5845590b0d81c992fdd11f7d375ea6a328a0dd417453b7b25792b7e9b50"
+    },
+    {
+      "path": "ProjectSettings/GraphicsSettings.asset",
+      "sha256": "de7e2162963a8ae4aee3467e6043f925960cf4ee4b23ab2f1ec1efa405388aad"
+    },
+    {
+      "path": "ProjectSettings/QualitySettings.asset",
+      "sha256": "bf2a90b2ec073be90df8b606b12894e84b13b7133863b9f040331cb6150d969f"
+    },
+    {
+      "path": "ProjectSettings/ProjectSettings.asset",
+      "sha256": "917e5fd654d712d1242fed4dc2ad7a31f202e691bb9183ce5d6ff82169dce661"
+    }
+  ]
+}

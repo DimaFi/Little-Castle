@@ -1,0 +1,319 @@
+{
+  "pass_": true,
+  "reference": "Final01Reference",
+  "cached": "Final01Cached",
+  "coefficientTolerance": 1e-05,
+  "fields": [
+    {
+      "path": "day-light-refresh-probes.bin",
+      "probes": 21609,
+      "maxAbsoluteCoefficientError": 4.470348358154297e-07,
+      "rms": 6.875056372820817e-08,
+      "pass_": true
+    },
+    {
+      "path": "initial-field-probes.bin",
+      "probes": 21609,
+      "maxAbsoluteCoefficientError": 4.470348358154297e-07,
+      "rms": 6.875056372820817e-08,
+      "pass_": true
+    },
+    {
+      "path": "night-light-refresh-probes.bin",
+      "probes": 21609,
+      "maxAbsoluteCoefficientError": 3.5762786865234375e-07,
+      "rms": 2.8597219441096627e-08,
+      "pass_": true
+    },
+    {
+      "path": "offscreen-reflector-grey-probes.bin",
+      "probes": 21609,
+      "maxAbsoluteCoefficientError": 4.470348358154297e-07,
+      "rms": 6.890837806754785e-08,
+      "pass_": true
+    },
+    {
+      "path": "offscreen-reflector-restored-probes.bin",
+      "probes": 21609,
+      "maxAbsoluteCoefficientError": 4.470348358154297e-07,
+      "rms": 6.875056372820817e-08,
+      "pass_": true
+    },
+    {
+      "path": "roof-removal-probes.bin",
+      "probes": 21609,
+      "maxAbsoluteCoefficientError": 4.023313522338867e-07,
+      "rms": 6.88739455415099e-08,
+      "pass_": true
+    },
+    {
+      "path": "roof-undo-probes.bin",
+      "probes": 21609,
+      "maxAbsoluteCoefficientError": 4.470348358154297e-07,
+      "rms": 6.875056372820817e-08,
+      "pass_": true
+    },
+    {
+      "path": "sunset-light-refresh-probes.bin",
+      "probes": 21609,
+      "maxAbsoluteCoefficientError": 5.066394805908203e-07,
+      "rms": 6.98366476763748e-08,
+      "pass_": true
+    }
+  ],
+  "images": [
+    {
+      "path": "camera-00.png",
+      "meanAbsoluteByteError": 0.17004758230452674,
+      "maxByteError": 20,
+      "valid": true
+    },
+    {
+      "path": "camera-01.png",
+      "meanAbsoluteByteError": 0.17103378986625514,
+      "maxByteError": 23,
+      "valid": true
+    },
+    {
+      "path": "camera-02.png",
+      "meanAbsoluteByteError": 0.16656475051440328,
+      "maxByteError": 19,
+      "valid": true
+    },
+    {
+      "path": "camera-03.png",
+      "meanAbsoluteByteError": 0.16648389274691358,
+      "maxByteError": 17,
+      "valid": true
+    },
+    {
+      "path": "camera-04.png",
+      "meanAbsoluteByteError": 0.16425298996913582,
+      "maxByteError": 18,
+      "valid": true
+    },
+    {
+      "path": "camera-05.png",
+      "meanAbsoluteByteError": 0.1628319508744856,
+      "maxByteError": 20,
+      "valid": true
+    },
+    {
+      "path": "camera-06.png",
+      "meanAbsoluteByteError": 0.15816325874485596,
+      "maxByteError": 18,
+      "valid": true
+    },
+    {
+      "path": "camera-07.png",
+      "meanAbsoluteByteError": 0.1567992862654321,
+      "maxByteError": 15,
+      "valid": true
+    },
+    {
+      "path": "camera-08.png",
+      "meanAbsoluteByteError": 0.15394643775720165,
+      "maxByteError": 18,
+      "valid": true
+    },
+    {
+      "path": "camera-09.png",
+      "meanAbsoluteByteError": 0.15234583976337449,
+      "maxByteError": 19,
+      "valid": true
+    },
+    {
+      "path": "camera-10.png",
+      "meanAbsoluteByteError": 0.1492849794238683,
+      "maxByteError": 26,
+      "valid": true
+    },
+    {
+      "path": "camera-11.png",
+      "meanAbsoluteByteError": 0.1468868955761317,
+      "maxByteError": 20,
+      "valid": true
+    },
+    {
+      "path": "gi-overview-day.png",
+      "meanAbsoluteByteError": 0.11768213091563787,
+      "maxByteError": 5,
+      "valid": true
+    },
+    {
+      "path": "gi-overview-night.png",
+      "meanAbsoluteByteError": 0.19020656507201647,
+      "maxByteError": 7,
+      "valid": true
+    },
+    {
+      "path": "gi-overview-sunset.png",
+      "meanAbsoluteByteError": 0.21457690329218107,
+      "maxByteError": 9,
+      "valid": true
+    },
+    {
+      "path": "gi-thin-wall-day.png",
+      "meanAbsoluteByteError": 0.12734230324074075,
+      "maxByteError": 15,
+      "valid": true
+    },
+    {
+      "path": "gi-thin-wall-guard-off.png",
+      "meanAbsoluteByteError": 0.1241259966563786,
+      "maxByteError": 6,
+      "valid": true
+    },
+    {
+      "path": "gi-thin-wall-guard-on.png",
+      "meanAbsoluteByteError": 0.1313134966563786,
+      "maxByteError": 8,
+      "valid": true
+    },
+    {
+      "path": "gi-under-roof-day.png",
+      "meanAbsoluteByteError": 0.1673485725308642,
+      "maxByteError": 17,
+      "valid": true
+    },
+    {
+      "path": "gi-under-roof-night.png",
+      "meanAbsoluteByteError": 0.13904417438271605,
+      "maxByteError": 12,
+      "valid": true
+    },
+    {
+      "path": "gi-under-roof-offscreen-grey.png",
+      "meanAbsoluteByteError": 0.16805089377572016,
+      "maxByteError": 17,
+      "valid": true
+    },
+    {
+      "path": "gi-under-roof-offscreen-red.png",
+      "meanAbsoluteByteError": 0.16922582304526748,
+      "maxByteError": 17,
+      "valid": true
+    },
+    {
+      "path": "gi-under-roof-removed.png",
+      "meanAbsoluteByteError": 0.2607545653292181,
+      "maxByteError": 25,
+      "valid": true
+    },
+    {
+      "path": "gi-under-roof-sunset.png",
+      "meanAbsoluteByteError": 0.22410783179012345,
+      "maxByteError": 23,
+      "valid": true
+    },
+    {
+      "path": "legacy-overview-day.png",
+      "meanAbsoluteByteError": 0.13961998456790123,
+      "maxByteError": 7,
+      "valid": true
+    },
+    {
+      "path": "legacy-thin-wall-day.png",
+      "meanAbsoluteByteError": 0.15430073302469136,
+      "maxByteError": 10,
+      "valid": true
+    },
+    {
+      "path": "legacy-under-roof-day.png",
+      "meanAbsoluteByteError": 0.26745064943415636,
+      "maxByteError": 29,
+      "valid": true
+    }
+  ],
+  "updates": [
+    {
+      "reason": "initial-field",
+      "probes": 21609,
+      "referenceCPUms": 1720.1399000000008,
+      "cachedCPUms": 536.3409999999999,
+      "cpuSpeedup": 3.2071758452178765,
+      "referenceWallMs": 14186.004400253296,
+      "cachedWallMs": 4587.756395339966,
+      "cachedGeometryBuilds": 21609,
+      "cachedPayloadBytes": 8700240
+    },
+    {
+      "reason": "offscreen-reflector-grey",
+      "probes": 8019,
+      "referenceCPUms": 651.3825999999997,
+      "cachedCPUms": 2.081099999999992,
+      "cpuSpeedup": 312.99918312431026,
+      "referenceWallMs": 5315.252304077148,
+      "cachedWallMs": 30.74169158935547,
+      "cachedGeometryBuilds": 0,
+      "cachedPayloadBytes": 8700240
+    },
+    {
+      "reason": "offscreen-reflector-restored",
+      "probes": 8019,
+      "referenceCPUms": 668.0921000000003,
+      "cachedCPUms": 2.1584000000000287,
+      "cpuSpeedup": 309.5311805040731,
+      "referenceWallMs": 5419.675827026367,
+      "cachedWallMs": 33.41102600097656,
+      "cachedGeometryBuilds": 0,
+      "cachedPayloadBytes": 8700240
+    },
+    {
+      "reason": "roof-removal",
+      "probes": 9801,
+      "referenceCPUms": 687.2872000000016,
+      "cachedCPUms": 184.1099999999999,
+      "cpuSpeedup": 3.733024822117223,
+      "referenceWallMs": 5602.55241394043,
+      "cachedWallMs": 1516.0465240478516,
+      "cachedGeometryBuilds": 2977,
+      "cachedPayloadBytes": 8757888
+    },
+    {
+      "reason": "roof-undo",
+      "probes": 9801,
+      "referenceCPUms": 796.023100000004,
+      "cachedCPUms": 236.34589999999957,
+      "cpuSpeedup": 3.3680427712095087,
+      "referenceWallMs": 6469.203948974609,
+      "cachedWallMs": 1936.4261627197266,
+      "cachedGeometryBuilds": 2977,
+      "cachedPayloadBytes": 8786312
+    },
+    {
+      "reason": "sunset-light-refresh",
+      "probes": 21609,
+      "referenceCPUms": 1638.5283000000181,
+      "cachedCPUms": 82.55399999999975,
+      "cpuSpeedup": 19.847957700414554,
+      "referenceWallMs": 13368.152618408203,
+      "cachedWallMs": 700.1819610595703,
+      "cachedGeometryBuilds": 0,
+      "cachedPayloadBytes": 8786312
+    },
+    {
+      "reason": "night-light-refresh",
+      "probes": 21609,
+      "referenceCPUms": 1575.1850000000077,
+      "cachedCPUms": 78.7656999999997,
+      "cpuSpeedup": 19.99836223127597,
+      "referenceWallMs": 12869.102478027344,
+      "cachedWallMs": 667.0331954956055,
+      "cachedGeometryBuilds": 0,
+      "cachedPayloadBytes": 8786312
+    },
+    {
+      "reason": "day-light-refresh",
+      "probes": 21609,
+      "referenceCPUms": 1588.9300999999832,
+      "cachedCPUms": 81.13169999999991,
+      "cpuSpeedup": 19.58457791467435,
+      "referenceWallMs": 12951.96533203125,
+      "cachedWallMs": 684.0543746948242,
+      "cachedGeometryBuilds": 0,
+      "cachedPayloadBytes": 8786312
+    }
+  ],
+  "failures": []
+}

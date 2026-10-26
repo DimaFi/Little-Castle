@@ -325,3 +325,55 @@ SSAO/rootAO, устойчивые тени и читаемая ночь;5) пл�
 Точная связь исходного ZIP и Git-путей — `publication-manifest.json` у нового пакета.
 Проверка опубликованного commit/tree и каждого blob сохраняется локально в
 `publication-spatial-gi/publication-receipt.json` после успешной загрузки.
+
+## Этап1: ускорение кеша GI — 26.10.2026
+
+Родитель — опубликованный100c1745924493d2d8be0f29b5541c695273ed6e.
+Разделены geometry transport и lighting injection, сохраняются точные primary
+hit links и L1-веса. Colour/light edits не повторяют поиск primary. Geometry
+commit сохраняет незатронутый surface cache; primary rebuild вR, secondary replay
+в оставшейся2R+0.52m области. Stable IDs переживают compaction массива proxy.
+Добавлены exact geometry bounds identity и conservative margin от float roundoff.
+
+Финальная версия:193/193 Edit Mode,6/6 Play Mode;3 Release пары с чередованием
+порядка.24 полных поля по21609 проб, max coefficient error5.0664e-07
+при tolerance1e-5;27 настоящих image pairs, max MAE0.267/255
+с обычным SSAO noise. Все успешные Players exit0, runtime-errors пусты.
+Первый парный прогон содержит54 PNG, остальные2 пары без PNG с полными CPU dumps.
+
+Median convergence: initial: 14.183→4.639s; albedo: 5.332→0.031s; roof removal: 5.617→1.515s; Undo: 6.585→1.950s; sunset: 13.385→0.700s; night: 12.951→0.651s; day: 13.410→0.668s.
+RTX4070 Ti SUPER/i7-12700F,1920×1080,D3D12,Linear/HDR/MSAA4/SSAO, тот же fixture.
+Solve budget2ms, safety cap cached8192/reference256; commit/upload отдельно.
+Steady120warmup+600 обычных кадров на каждый режим, без PNG/dumps в измерениях.
+Это маленький стенд; точные min/max, CPU, GPU samples/frame percentiles в summary.
+
+Transport payload8786312bytes (~8.38MiB) плюс overhead;
+GPU buffer прежний1382976bytes. Release bytes-counter не прошёл positive4096-byte
+control и помечен unsupported/-1. Отдельный Development Recorder GC.Alloc main
+thread откалиброван: warm colour/time/Undo solver0 calls, cold fill/roof removal
+и proxy command выделяют память. Setup/cold/command counts, managed heap phase
+boundaries и OS peak working set записаны отдельно. Это не zero-GC всей игры;
+VRAM peak отдельно не измерен. Скрытый Development без camera frames исключён,
+остановлен только собственный PID; AllocationFinal в видимом окне PASS.
+
+Изменены3 research runtime-файла Trace/Volume/StudyReview. Добавлены5 source с
+meta: Profile, Transport, AllocationCounter, Stage1Build, TransportTests. Shared7
+shaders, Scene/private materials, старый builder/cache queue и3 ProjectSettings
+сохранены; MAIN Assets/Packages/Settings не менялись. Рабочая копия карты не
+редактировалась. GUID новых файлов проверены без collisions.
+Before snapshot11 файлов: docs/lighting-integration/stage1-baseline-100c174/.
+Точные SHA/current и проверки: stage1-manifest.json/stage1-audit.json;
+delta: gi-100c174-to-stage1.patch в том же каталоге lighting-копии.
+
+Отчёт: docs/reports/lighting-gi-cache-stage1-20261026-ru.md.
+Артефакты: E:/Games_Develop/Research/SpatialIndirectStage1_20261026:
+stage1-summary.json, Final01..03*, AllocationFinal, JSON/XML/bin/PNG/Players.
+Source/evidence packet: docs/integration-packages/lighting-gi-cache-stage1-20261026/,
+ветка codex/lighting-gi-cache-stage1-2026-10-26. Крупные local-only артефакты и
+compiled Players индексированы SHA256; их бинарники не публикуются автоматически.
+План следующих этапов обновлён фактическим результатом.
+
+Геометрические~1.5–2s и initial~4.6s ещё не соответствуют0.5s цели. Следующий
+проход1Б: primary/shadow kernels и приоритет видимых проб; затем плавные версии,
+непрерывные сутки и snapshot нового рельефа/объектов. Fixed grid/L1/flat AABB,
+canopy/emitters/production activation остаются открытыми. Редактор не блокируется.

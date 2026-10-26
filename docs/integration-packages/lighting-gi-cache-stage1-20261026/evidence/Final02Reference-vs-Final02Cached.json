@@ -1,0 +1,156 @@
+{
+  "pass_": true,
+  "reference": "Final02Reference",
+  "cached": "Final02Cached",
+  "coefficientTolerance": 1e-05,
+  "fields": [
+    {
+      "path": "day-light-refresh-probes.bin",
+      "probes": 21609,
+      "maxAbsoluteCoefficientError": 4.470348358154297e-07,
+      "rms": 6.875056372820817e-08,
+      "pass_": true
+    },
+    {
+      "path": "initial-field-probes.bin",
+      "probes": 21609,
+      "maxAbsoluteCoefficientError": 4.470348358154297e-07,
+      "rms": 6.875056372820817e-08,
+      "pass_": true
+    },
+    {
+      "path": "night-light-refresh-probes.bin",
+      "probes": 21609,
+      "maxAbsoluteCoefficientError": 3.5762786865234375e-07,
+      "rms": 2.8597219441096627e-08,
+      "pass_": true
+    },
+    {
+      "path": "offscreen-reflector-grey-probes.bin",
+      "probes": 21609,
+      "maxAbsoluteCoefficientError": 4.470348358154297e-07,
+      "rms": 6.890837806754785e-08,
+      "pass_": true
+    },
+    {
+      "path": "offscreen-reflector-restored-probes.bin",
+      "probes": 21609,
+      "maxAbsoluteCoefficientError": 4.470348358154297e-07,
+      "rms": 6.875056372820817e-08,
+      "pass_": true
+    },
+    {
+      "path": "roof-removal-probes.bin",
+      "probes": 21609,
+      "maxAbsoluteCoefficientError": 4.023313522338867e-07,
+      "rms": 6.88739455415099e-08,
+      "pass_": true
+    },
+    {
+      "path": "roof-undo-probes.bin",
+      "probes": 21609,
+      "maxAbsoluteCoefficientError": 4.470348358154297e-07,
+      "rms": 6.875056372820817e-08,
+      "pass_": true
+    },
+    {
+      "path": "sunset-light-refresh-probes.bin",
+      "probes": 21609,
+      "maxAbsoluteCoefficientError": 5.066394805908203e-07,
+      "rms": 6.98366476763748e-08,
+      "pass_": true
+    }
+  ],
+  "images": [],
+  "updates": [
+    {
+      "reason": "initial-field",
+      "probes": 21609,
+      "referenceCPUms": 1718.248000000001,
+      "cachedCPUms": 544.7372999999999,
+      "cpuSpeedup": 3.1542690394067034,
+      "referenceWallMs": 14182.515144348145,
+      "cachedWallMs": 4639.260292053223,
+      "cachedGeometryBuilds": 21609,
+      "cachedPayloadBytes": 8700240
+    },
+    {
+      "reason": "offscreen-reflector-grey",
+      "probes": 8019,
+      "referenceCPUms": 660.0818000000017,
+      "cachedCPUms": 2.20799999999997,
+      "cpuSpeedup": 298.950090579715,
+      "referenceWallMs": 5381.9122314453125,
+      "cachedWallMs": 30.92670440673828,
+      "cachedGeometryBuilds": 0,
+      "cachedPayloadBytes": 8700240
+    },
+    {
+      "reason": "offscreen-reflector-restored",
+      "probes": 8019,
+      "referenceCPUms": 675.1279999999979,
+      "cachedCPUms": 2.0955000000000155,
+      "cpuSpeedup": 322.1799093295122,
+      "referenceWallMs": 5500.984191894531,
+      "cachedWallMs": 33.336639404296875,
+      "cachedGeometryBuilds": 0,
+      "cachedPayloadBytes": 8700240
+    },
+    {
+      "reason": "roof-removal",
+      "probes": 9801,
+      "referenceCPUms": 687.8200000000011,
+      "cachedCPUms": 182.0736000000004,
+      "cpuSpeedup": 3.7777030827094076,
+      "referenceWallMs": 5633.785247802734,
+      "cachedWallMs": 1499.1655349731445,
+      "cachedGeometryBuilds": 2977,
+      "cachedPayloadBytes": 8757888
+    },
+    {
+      "reason": "roof-undo",
+      "probes": 9801,
+      "referenceCPUms": 808.4608999999955,
+      "cachedCPUms": 240.85370000000012,
+      "cpuSpeedup": 3.3566472094885613,
+      "referenceWallMs": 6584.815979003906,
+      "cachedWallMs": 1983.5577011108398,
+      "cachedGeometryBuilds": 2977,
+      "cachedPayloadBytes": 8786312
+    },
+    {
+      "reason": "sunset-light-refresh",
+      "probes": 21609,
+      "referenceCPUms": 1640.7969000000166,
+      "cachedCPUms": 84.92600000000027,
+      "cpuSpeedup": 19.320312978357762,
+      "referenceWallMs": 13385.173797607422,
+      "cachedWallMs": 717.0143127441406,
+      "cachedGeometryBuilds": 0,
+      "cachedPayloadBytes": 8786312
+    },
+    {
+      "reason": "night-light-refresh",
+      "probes": 21609,
+      "referenceCPUms": 1584.5153000000137,
+      "cachedCPUms": 77.51720000000023,
+      "cpuSpeedup": 20.44082216591942,
+      "referenceWallMs": 12950.641632080078,
+      "cachedWallMs": 651.1268615722656,
+      "cachedGeometryBuilds": 0,
+      "cachedPayloadBytes": 8786312
+    },
+    {
+      "reason": "day-light-refresh",
+      "probes": 21609,
+      "referenceCPUms": 1607.3844000000008,
+      "cachedCPUms": 79.94549999999958,
+      "cpuSpeedup": 20.10600221400841,
+      "referenceWallMs": 13410.186767578125,
+      "cachedWallMs": 668.1089401245117,
+      "cachedGeometryBuilds": 0,
+      "cachedPayloadBytes": 8786312
+    }
+  ],
+  "failures": []
+}

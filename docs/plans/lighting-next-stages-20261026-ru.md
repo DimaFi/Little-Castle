@@ -7,6 +7,24 @@
 в духе Tiny Glade, с измеримой стоимостью. Ближайший этап — ускорение кеша на
 сохранённом стенде. После него — устойчивое обновление и новый рельеф/объекты.
 
+## Обновление после первого прохода этапа1 — 26.10.2026
+
+Реализован и проверен кеш geometry transport / lighting injection:193 Edit Mode,
+6 Play Mode,3 финальные Release пары,24 полных поля, max coefficient error
+5.0664e-07. Median convergence: initial: 14.183→4.639s; albedo: 5.332→0.031s; roof removal: 5.617→1.515s; Undo: 6.585→1.950s; sunset: 13.385→0.700s; night: 12.951→0.651s; day: 13.410→0.668s.
+Solve budget2ms сохранён; transport payload~8.38MiB плюс overhead.
+Warm solver не аллоцирует по отдельной Development GC.Alloc диагностике с positive
+control; cold fill/часть geometry rebuild и proxy commands выделяют память.
+Добавлены регрессии микроперемещения Bounds и float roundoff у конца луча.
+
+Отчёт: `docs/reports/lighting-gi-cache-stage1-20261026-ru.md`.
+Source/evidence: `docs/integration-packages/lighting-gi-cache-stage1-20261026/`.
+Общие shaders/палитра/сцена не подменяли performance comparison.
+Геометрическая цель0.5s ещё не достигнута, малый geometry case отдельно не выделен.
+Следующий проход1Б: оставшиеся primary/shadow kernels, более точные dependencies,
+приоритет видимой области; затем этап2 с согласованными версиями и плавными сутками.
+Fixed flat-AABB поле остаётся экспериментом, production activation/миграции нет.
+
 ## Зафиксированная база
 
 - Meadow lighting baseline опубликован в `9e8c126abd2bf34a15df3bcbf01f7285cfe90843`.
