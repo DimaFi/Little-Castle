@@ -25,6 +25,11 @@ namespace LittleCastle.World.Environment
         [Min(0f)] [SerializeField] private float meltingPerSecond = 0.001f;
         [Range(0.05f, 2f)] [SerializeField] private float simulationInterval = 0.25f;
 
+        [Header("Map authoring (Unity Scene View)")]
+        [Tooltip("Optional authoring palette; assign more theme profiles without coding.")]
+        [SerializeField] private BiomeThemeProfile[] availableThemes;
+        [HideInInspector] [SerializeField] private string authoredStateJson;
+
         private BiomeInfluenceField themes;
         private SnowAccumulationField snow;
         private float accumulatedTime;
@@ -39,6 +44,7 @@ namespace LittleCastle.World.Environment
             get { EnsureInitialized(); return snow; }
         }
 
+        public BiomeThemeProfile[] AvailableThemes => availableThemes;
         public int WinterThemeId => winterThemeId;
         public float SnowfallIntensity => snowfallIntensity;
         public Rect SimulationBounds => new Rect(simulationOrigin, simulationSize);
@@ -54,6 +60,14 @@ namespace LittleCastle.World.Environment
             snow = new SnowAccumulationField(themes.CellSize, themes.TileResolution);
             themes.Changed += OnFieldChanged;
             snow.Changed += OnFieldChanged;
+            if (!string.IsNullOrEmpty(authoredStateJson))
+            {
+                try { ImportJson(authoredStateJson); }
+                catch (Exception ex)
+                {
+                    Debug.LogWarning("Unable to load authored biome map: " + ex.Message, this);
+                }
+            }
         }
 
         private void OnFieldChanged(Rect dirtyBounds) => Changed?.Invoke(dirtyBounds);
@@ -63,6 +77,43 @@ namespace LittleCastle.World.Environment
             // Game commands and developer brushes can share this entry point.
             return Themes.Paint(new Vector2(worldPoint.x, worldPoint.z),
                 radius, themeId, opacity);
+        }
+
+        // Same runtime API for developer painting at ANY zoom.
+        public bool PaintTheme(Vector3 worldPoint, float radius, int themeId,
+            float opacity, float hardness)
+        {
+            return Themes.Paint(new Vector2(worldPoint.x, worldPoint.z),
+                radius, themeId, opacity, hardness);
+        }
+
+        public bool SmoothTheme(Vector3 worldPoint, float radius, int themeId,
+            float opacity, float hardness)
+        {
+            return Themes.Smooth(new Vector2(worldPoint.x, worldPoint.z),
+                radius, themeId, opacity, hardness);
+        }
+
+        /// <summary>Persistent source for Unity scene/prefab authoring (editor-only caller).</summary>
+        public void SaveAuthoringState()
+        {
+            authoredStateJson = ExportJson();
+        }
+
+        /// <summary>Rebuild fields after Unity Undo/Redo changes serialized snapshot.</summary>
+        public void ReloadAuthoringState()
+        {
+            if (string.IsNullOrEmpty(authoredStateJson))
+            {
+                if (themes != null) themes.Changed -= OnFieldChanged;
+                if (snow != null) snow.Changed -= OnFieldChanged;
+                themes = null;
+                snow = null;
+                EnsureInitialized();
+                Changed?.Invoke(SimulationBounds);
+                return;
+            }
+            ImportJson(authoredStateJson);
         }
 
         public void SetSnowfall(float intensity) =>
