@@ -40,6 +40,7 @@ namespace LittleCastle.World.Environment
         }
 
         public int WinterThemeId => winterThemeId;
+        public float SnowfallIntensity => snowfallIntensity;
         public Rect SimulationBounds => new Rect(simulationOrigin, simulationSize);
         public event Action<Rect> Changed;
 
