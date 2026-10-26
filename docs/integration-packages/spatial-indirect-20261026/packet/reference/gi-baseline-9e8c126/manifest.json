@@ -1,0 +1,42 @@
+[
+  {
+    "path": "Assets/_Game/Shaders/Surface/LC_LightingCommon.hlsl",
+    "sha256": "78fff9e989422c3202030845171d085d0a77aa031e8b2f8bc4bfbec341a459d3"
+  },
+  {
+    "path": "Assets/_Game/Shaders/Surface/LC_StylizedLit.shader",
+    "sha256": "f2b325f394fba86470744cabacbf43e2a67d446b6ac6432f44d698f5a4e7b48c"
+  },
+  {
+    "path": "Assets/_Game/Shaders/Terrain/LC_Terrain.shader",
+    "sha256": "1503dee52ddc12c70cbb0fd1d41610e4924a308c192c3bac29dfc13275e8da49"
+  },
+  {
+    "path": "Assets/_Game/Shaders/Foliage/LC_Foliage.shader",
+    "sha256": "128a7ec5026c6252b53bebc4725aa347c4d6fd758dd5c7c7d914af6c3d4819ab"
+  },
+  {
+    "path": "Assets/_Game/Shaders/Foliage/LC_FoliageURP.hlsl",
+    "sha256": "55fdbd4bec3ddd36dc83511d8ac1df53264b0bc460c083210580fa3a421ddeab"
+  },
+  {
+    "path": "Assets/_Game/Shaders/Foliage/LC_Grass.shader",
+    "sha256": "217b2802d3a4d17a1a72701bf77b4f434f08640ea1ab2181b29fabdaaafcbd9e"
+  },
+  {
+    "path": "Assets/_Game/Shaders/Foliage/LC_GrassURP.hlsl",
+    "sha256": "a5e4b56ad2dfd9f340b20e6f47875e3d7e0e559020431ccb45ee38def2b1dd77"
+  },
+  {
+    "path": "ProjectSettings/GraphicsSettings.asset",
+    "sha256": "de7e2162963a8ae4aee3467e6043f925960cf4ee4b23ab2f1ec1efa405388aad"
+  },
+  {
+    "path": "ProjectSettings/QualitySettings.asset",
+    "sha256": "bf2a90b2ec073be90df8b606b12894e84b13b7133863b9f040331cb6150d969f"
+  },
+  {
+    "path": "ProjectSettings/ProjectSettings.asset",
+    "sha256": "917e5fd654d712d1242fed4dc2ad7a31f202e691bb9183ce5d6ff82169dce661"
+  }
+]

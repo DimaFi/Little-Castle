@@ -1,0 +1,251 @@
+{
+  "parentCommit": "9e8c126abd2bf34a15df3bcbf01f7285cfe90843",
+  "frozenBaselineManifestSHA256": "4fc4e7ca9a57284572ac3c2d56df3e86983e6b70b26e69fc76931060f249069e",
+  "meadowSourceManifestSHA256": "d70ef3e9b315cbda1f58a736c4a72838924ae7053d8650c7be23958c3cd82049",
+  "modifiedShaders": [
+    {
+      "path": "Assets/_Game/Shaders/Surface/LC_LightingCommon.hlsl",
+      "beforeSHA256": "78fff9e989422c3202030845171d085d0a77aa031e8b2f8bc4bfbec341a459d3",
+      "sha256": "d47e5f6292bf012fd25d37aaf2f0926210e26bee638d9a26d4cb5e93b358ef64",
+      "bytes": 768
+    },
+    {
+      "path": "Assets/_Game/Shaders/Surface/LC_StylizedLit.shader",
+      "beforeSHA256": "f2b325f394fba86470744cabacbf43e2a67d446b6ac6432f44d698f5a4e7b48c",
+      "sha256": "e73d877e4822bae3d7b3471979ea154f765582f9a5b2e0f6f3a06b55ea0e849f",
+      "bytes": 19027
+    },
+    {
+      "path": "Assets/_Game/Shaders/Terrain/LC_Terrain.shader",
+      "beforeSHA256": "1503dee52ddc12c70cbb0fd1d41610e4924a308c192c3bac29dfc13275e8da49",
+      "sha256": "637d643296e1a12e0fc747f50909630bca3643efaca9292e43fecfcaf722c81e",
+      "bytes": 24048
+    },
+    {
+      "path": "Assets/_Game/Shaders/Foliage/LC_Foliage.shader",
+      "beforeSHA256": "128a7ec5026c6252b53bebc4725aa347c4d6fd758dd5c7c7d914af6c3d4819ab",
+      "sha256": "2fd8044f9e34d5f44c28aa7bf1b3eeffc9dd8d6f681ca9140af63608d0606510",
+      "bytes": 4708
+    },
+    {
+      "path": "Assets/_Game/Shaders/Foliage/LC_FoliageURP.hlsl",
+      "beforeSHA256": "55fdbd4bec3ddd36dc83511d8ac1df53264b0bc460c083210580fa3a421ddeab",
+      "sha256": "b59f70a517a489ca9bb66493938cd2a0b3a0ac77787070a42375fea656717bfe",
+      "bytes": 11587
+    },
+    {
+      "path": "Assets/_Game/Shaders/Foliage/LC_Grass.shader",
+      "beforeSHA256": "217b2802d3a4d17a1a72701bf77b4f434f08640ea1ab2181b29fabdaaafcbd9e",
+      "sha256": "fbb486e3d88ea9af85850e93d9cdb4b04d1e1f9a29c1d15175e06b904047c62d",
+      "bytes": 5862
+    },
+    {
+      "path": "Assets/_Game/Shaders/Foliage/LC_GrassURP.hlsl",
+      "beforeSHA256": "a5e4b56ad2dfd9f340b20e6f47875e3d7e0e559020431ccb45ee38def2b1dd77",
+      "sha256": "024599bd09c386f805e98c0abe5edd6dfdb8c992e217ec7b96e0fdeba7008dfb",
+      "bytes": 15412
+    }
+  ],
+  "newAssets": [
+    {
+      "path": "Assets/_Game/Editor/SpatialIndirectStudyBuild.cs",
+      "sha256": "79b59288581f06a458bbcbd62a843eedba10e9a850be7fe4a23f86da77fb979e",
+      "bytes": 9147
+    },
+    {
+      "path": "Assets/_Game/Editor/SpatialIndirectStudyBuild.cs.meta",
+      "sha256": "1a85795f76b778b6924b024f00ef55a2e2e9ea88120f87e60368a5ccd801633a",
+      "bytes": 59
+    },
+    {
+      "path": "Assets/_Game/Scenes/SpatialIndirectStudy_20261026.unity",
+      "sha256": "f91f2cc9cb6e010b857499cd41918502e0e6a265e934af69cc85ee957865cea4",
+      "bytes": 106308
+    },
+    {
+      "path": "Assets/_Game/Scenes/SpatialIndirectStudy_20261026.unity.meta",
+      "sha256": "c0a5a39e498ed33458a9f5fc4518daa46dd51c9105a05dbccdf551c5ae1492e1",
+      "bytes": 155
+    },
+    {
+      "path": "Assets/_Game/Scripts/Research/SpatialIndirectCache.cs",
+      "sha256": "ad759e91908fe245f80f881f5e5e5c62e5d27c26d5f705fbba1b8ef88a6fe4a2",
+      "bytes": 3254
+    },
+    {
+      "path": "Assets/_Game/Scripts/Research/SpatialIndirectCache.cs.meta",
+      "sha256": "4606a73359a5cbd8c9573b976c026068faf900a6f392496c30033805e4c81118",
+      "bytes": 59
+    },
+    {
+      "path": "Assets/_Game/Scripts/Research/SpatialIndirectStudyReview.cs",
+      "sha256": "1941d5a083ecf8c0d7e2d17d695acd71653ed916092254647366d3f2c2c9f4db",
+      "bytes": 17474
+    },
+    {
+      "path": "Assets/_Game/Scripts/Research/SpatialIndirectStudyReview.cs.meta",
+      "sha256": "ad602d8eba709a5c0c4b8f2068a9810269ed0541e491bf8bd94da0ac4686ee50",
+      "bytes": 59
+    },
+    {
+      "path": "Assets/_Game/Scripts/Research/SpatialIndirectTrace.cs",
+      "sha256": "90a2d8f49e78f17313c0a0548c90ffc0c5d664c540e6bcae7ef3f252e31d8e31",
+      "bytes": 10551
+    },
+    {
+      "path": "Assets/_Game/Scripts/Research/SpatialIndirectTrace.cs.meta",
+      "sha256": "e4e0992b810550f2db3499c2e2dded476dbff95d52b0c72f8e944820abd397e5",
+      "bytes": 59
+    },
+    {
+      "path": "Assets/_Game/Scripts/Research/SpatialIndirectVolume.cs",
+      "sha256": "0ed3a8303268b008dca101fe6fed036c5e4815459e4e83456db75d9e54a897fe",
+      "bytes": 8420
+    },
+    {
+      "path": "Assets/_Game/Scripts/Research/SpatialIndirectVolume.cs.meta",
+      "sha256": "f8811537be87961387cf800479ba54fea6a1ea0b47d9fd4d0634510f4b7777d2",
+      "bytes": 59
+    },
+    {
+      "path": "Assets/_Game/Settings/Rendering/SpatialIndirectStudy.meta",
+      "sha256": "1d32bccca0c7003e9e06d55123637ca7ecdac64676434f334aec920644385081",
+      "bytes": 172
+    },
+    {
+      "path": "Assets/_Game/Settings/Rendering/SpatialIndirectStudy/Grey reflector.mat",
+      "sha256": "fea88fd918b5e5e775ace54a4ed6a5e11622b3655124ccd007b1bcad65e24a97",
+      "bytes": 1949
+    },
+    {
+      "path": "Assets/_Game/Settings/Rendering/SpatialIndirectStudy/Grey reflector.mat.meta",
+      "sha256": "fb5fc33d3ad6ddf68ae2456cf3a8cfb2093fa14167a35596c6d4f18503700395",
+      "bytes": 188
+    },
+    {
+      "path": "Assets/_Game/Settings/Rendering/SpatialIndirectStudy/Neutral matte.mat",
+      "sha256": "6ce6f05811b2971858c64583ee2bcefde1b061faa864d943d93eb55c3cd6d59a",
+      "bytes": 1947
+    },
+    {
+      "path": "Assets/_Game/Settings/Rendering/SpatialIndirectStudy/Neutral matte.mat.meta",
+      "sha256": "be93b544f2b6f11ddd6b44833fde6a2e60b52c3e4e114f0a1131053b6863a1c2",
+      "bytes": 188
+    },
+    {
+      "path": "Assets/_Game/Settings/Rendering/SpatialIndirectStudy/Offscreen reflector.mat",
+      "sha256": "449902e68711c56c14601a6b46a270f50db4d9923a76c20d648df1cb60ef9b25",
+      "bytes": 1954
+    },
+    {
+      "path": "Assets/_Game/Settings/Rendering/SpatialIndirectStudy/Offscreen reflector.mat.meta",
+      "sha256": "8b831f02a4ef49de08a55f8e6990ef5eda910cb8f79a3ad424a0af036761e90a",
+      "bytes": 188
+    },
+    {
+      "path": "Assets/_Game/Settings/Rendering/SpatialIndirectStudy/Roof matte.mat",
+      "sha256": "0c5615cc2d594e665b0e91f5e1b603a3e7e79891018bd2a1f37ab3c1ee9cfae3",
+      "bytes": 1945
+    },
+    {
+      "path": "Assets/_Game/Settings/Rendering/SpatialIndirectStudy/Roof matte.mat.meta",
+      "sha256": "b504a22ede405300043f9414300210f26db46b4df4c224124a07bd990c5136fb",
+      "bytes": 188
+    },
+    {
+      "path": "Assets/_Game/Shaders/Surface/LC_SpatialIndirect.hlsl",
+      "sha256": "b6d6d5845590b0d81c992fdd11f7d375ea6a328a0dd417453b7b25792b7e9b50",
+      "bytes": 3639
+    },
+    {
+      "path": "Assets/_Game/Shaders/Surface/LC_SpatialIndirect.hlsl.meta",
+      "sha256": "1035534ceeaa45c76130e4d99e82aac635010bf1f386dc853ceb5f86b74b536b",
+      "bytes": 161
+    },
+    {
+      "path": "Assets/_Game/Tests/Editor/SpatialIndirectTests.cs",
+      "sha256": "9ae6bad3bcb67335742562fb6e434262f9c194f8364b0ffbffb57ee8ae6fc695",
+      "bytes": 7700
+    },
+    {
+      "path": "Assets/_Game/Tests/Editor/SpatialIndirectTests.cs.meta",
+      "sha256": "88dfbead4814b10afdd9e3877d7276eb6dbe58c8cfde045ccfdeee58c3a72177",
+      "bytes": 59
+    }
+  ],
+  "newGUIDs": {
+    "Assets/_Game/Editor/SpatialIndirectStudyBuild.cs.meta": "ce4b0f3e6f17abb4bb3dce297743624e",
+    "Assets/_Game/Scenes/SpatialIndirectStudy_20261026.unity.meta": "004b17d567f89be46a1ec246117034f7",
+    "Assets/_Game/Scripts/Research/SpatialIndirectCache.cs.meta": "34766c32fe097cb4c8c7574b2bea98c1",
+    "Assets/_Game/Scripts/Research/SpatialIndirectStudyReview.cs.meta": "de0b58a330ae0cc4f9ba4219a07901d6",
+    "Assets/_Game/Scripts/Research/SpatialIndirectTrace.cs.meta": "7cc1196023f31cf42932abb82a2a1ff6",
+    "Assets/_Game/Scripts/Research/SpatialIndirectVolume.cs.meta": "b3641c72dd3e41a4a8e40c34c4982c00",
+    "Assets/_Game/Settings/Rendering/SpatialIndirectStudy.meta": "fa6f653344715604db741ac1709f7051",
+    "Assets/_Game/Settings/Rendering/SpatialIndirectStudy/Grey reflector.mat.meta": "ea78d0e60fd805940b63add3e9dd98ae",
+    "Assets/_Game/Settings/Rendering/SpatialIndirectStudy/Neutral matte.mat.meta": "9efded52578f55940b0414c9b03ec70a",
+    "Assets/_Game/Settings/Rendering/SpatialIndirectStudy/Offscreen reflector.mat.meta": "3bfa212ee33847a43afdbcbedfaaeb62",
+    "Assets/_Game/Settings/Rendering/SpatialIndirectStudy/Roof matte.mat.meta": "2901818e77b8ce14e920fffe33701987",
+    "Assets/_Game/Shaders/Surface/LC_SpatialIndirect.hlsl.meta": "ace0fd73fba07554fb5b9cb4b50884a9",
+    "Assets/_Game/Tests/Editor/SpatialIndirectTests.cs.meta": "e8458c5aea3842b4ba02576650992866"
+  },
+  "currentMapContractReadOnly": [
+    {
+      "path": "Assets/_Game/Scripts/World/Runtime/MapEditSession.cs",
+      "sha256": "3c92ecc99d624a6fcee3c9dc1c027269229520f54d80d1378f9fa0c0a8334417"
+    },
+    {
+      "path": "Assets/_Game/Scripts/World/Runtime/MapEditSession.Heights.cs",
+      "sha256": "5e831137bc77bc96865f51cf76a13f32dbc1cd6ec504c6ea0c2e13c050a5c846"
+    },
+    {
+      "path": "Assets/_Game/Scripts/World/Runtime/MapEditSession.Trees.cs",
+      "sha256": "3412f682104edd7073f02b852bac7e7da200e2a807641bd47d1413289c00f91a"
+    },
+    {
+      "path": "docs/handoffs/map-authoring-coordination-20261025-ru.md",
+      "sha256": "c6dc169a15ecfb75598c816742910ece735f9d358a8a6e5fa71a3e1838cae390"
+    }
+  ],
+  "currentMapSharedShadersReadOnly": [
+    {
+      "path": "Assets/_Game/Shaders/Foliage/LC_Grass.shader",
+      "snapshotSHA256": "4b2e67a71c8acf739837243498c61b99158282b047d25404b612c0b93c001f18",
+      "currentSHA256": "4b2e67a71c8acf739837243498c61b99158282b047d25404b612c0b93c001f18"
+    },
+    {
+      "path": "Assets/_Game/Shaders/Foliage/LC_GrassURP.hlsl",
+      "snapshotSHA256": "cfce98bfeca4d10f1e29c2695d9f495ea275801a336f0d4260ffed462ea48830",
+      "currentSHA256": "cfce98bfeca4d10f1e29c2695d9f495ea275801a336f0d4260ffed462ea48830"
+    },
+    {
+      "path": "Assets/_Game/Shaders/Foliage/LC_VegetationURPCommon.hlsl",
+      "snapshotSHA256": "bcc6f9c93445df49955fbc3ef8c5d4d9ce6907ab663b50bfb76834cde1b8e2cb",
+      "currentSHA256": "bcc6f9c93445df49955fbc3ef8c5d4d9ce6907ab663b50bfb76834cde1b8e2cb"
+    },
+    {
+      "path": "Assets/_Game/Shaders/Foliage/LC_Foliage.shader",
+      "snapshotSHA256": "cb03a4cc8501ddcf435a39756786757693019cef6223f8461ed462cac49bfb06",
+      "currentSHA256": "cb03a4cc8501ddcf435a39756786757693019cef6223f8461ed462cac49bfb06"
+    },
+    {
+      "path": "Assets/_Game/Shaders/Foliage/LC_FoliageURP.hlsl",
+      "snapshotSHA256": "037aa9ed5b8bf6e2caba34908cacd10d93fd4740f1796a3b9981e6d1563110c6",
+      "currentSHA256": "037aa9ed5b8bf6e2caba34908cacd10d93fd4740f1796a3b9981e6d1563110c6"
+    },
+    {
+      "path": "Assets/_Game/Shaders/Surface/LC_StylizedLit.shader",
+      "snapshotSHA256": "426d0b2c524963986603d7d6c78bc07f8c53aed734e3182b67c94fcf51085966",
+      "currentSHA256": "426d0b2c524963986603d7d6c78bc07f8c53aed734e3182b67c94fcf51085966"
+    },
+    {
+      "path": "Assets/_Game/Shaders/Surface/LC_SurfacePaint.hlsl",
+      "snapshotSHA256": "089fff9772179a8523faf9a469760a1eee120809061788fd999181217941232c",
+      "currentSHA256": "089fff9772179a8523faf9a469760a1eee120809061788fd999181217941232c"
+    },
+    {
+      "path": "Assets/_Game/Shaders/Terrain/LC_Terrain.shader",
+      "snapshotSHA256": "4cd99651179380406061e5a4048709d5757e6caa228100700ed1499a54837b11",
+      "currentSHA256": "4cd99651179380406061e5a4048709d5757e6caa228100700ed1499a54837b11"
+    }
+  ]
+}

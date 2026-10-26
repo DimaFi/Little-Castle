@@ -1,0 +1,98 @@
+--- MEADOW_BASELINE/Assets/_Game/Shaders/Surface/LC_LightingCommon.hlsl
++++ SPATIAL_INDIRECT/Assets/_Game/Shaders/Surface/LC_LightingCommon.hlsl
+@@ -2,6 +2,7 @@
+ #define LC_LIGHTING_COMMON_INCLUDED
+ 
+ #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/AmbientOcclusion.hlsl"
++#include "LC_SpatialIndirect.hlsl"
+ 
+ // Screen AO describes missing indirect light. Do not multiply emission, fog,
+ // direct sunlight or the final composited colour. Use the stronger occlusion
+--- MEADOW_BASELINE/Assets/_Game/Shaders/Surface/LC_StylizedLit.shader
++++ SPATIAL_INDIRECT/Assets/_Game/Shaders/Surface/LC_StylizedLit.shader
+@@ -116,6 +116,8 @@
+             #pragma multi_compile_fragment _ _SHADOWS_SOFT _SHADOWS_SOFT_LOW _SHADOWS_SOFT_MEDIUM _SHADOWS_SOFT_HIGH
+             #pragma multi_compile_fragment _ _LIGHT_COOKIES
+             #pragma multi_compile_fragment _ _SCREEN_SPACE_OCCLUSION
++            #pragma multi_compile_fragment _ _LC_SPATIAL_INDIRECT
++            #pragma target 4.5 _LC_SPATIAL_INDIRECT
+             #pragma multi_compile _ _CLUSTER_LIGHT_LOOP
+             #pragma multi_compile_instancing
+             #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Fog.hlsl"
+@@ -245,7 +247,7 @@
+                 half directPresence = saturate(sunDiffuse + moonDiffuse * 0.45h);
+                 half3 shadowTint = lerp(half3(1, 1, 1), _LC_ShadowTint.rgb, _ShadowTintStrength);
+                 half3 ambientTint = lerp(shadowTint, half3(1, 1, 1), directPresence);
+-                half3 ambient = LCEvaluateAmbient(normal) * _AmbientStrength * ambientTint
++                half3 ambient = LCSpatialIndirect(input.positionWS, normal, LCEvaluateAmbient(normal)) * _AmbientStrength * ambientTint
+                     * LCIndirectOcclusion(input.positionCS, occlusion);
+                 half directOcclusion = lerp(occlusion, 1.0h, 0.72h);
+                 half3 lighting = ambient + (_LC_SunColor.rgb * sunDiffuse
+--- MEADOW_BASELINE/Assets/_Game/Shaders/Terrain/LC_Terrain.shader
++++ SPATIAL_INDIRECT/Assets/_Game/Shaders/Terrain/LC_Terrain.shader
+@@ -496,8 +496,7 @@
+                     _ShadowTintStrength);
+ 
+             half3 ambient =
+-                EvaluateHemisphereAmbient(
+-                    normal) *
++                LCSpatialIndirect(i.worldPosition, normal, EvaluateHemisphereAmbient(normal)) *
+                 LCIndirectOcclusion(i.pos, microAO) *
+                 _AmbientStrength *
+                 lerp(
+@@ -588,6 +587,8 @@
+             #pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
+             #pragma multi_compile_fragment _ _SHADOWS_SOFT _SHADOWS_SOFT_LOW _SHADOWS_SOFT_MEDIUM _SHADOWS_SOFT_HIGH
+             #pragma multi_compile_fragment _ _SCREEN_SPACE_OCCLUSION
++            #pragma multi_compile_fragment _ _LC_SPATIAL_INDIRECT
++            #pragma target 4.5 _LC_SPATIAL_INDIRECT
+             #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Fog.hlsl"
+             #pragma multi_compile_instancing
+             ENDHLSL
+--- MEADOW_BASELINE/Assets/_Game/Shaders/Foliage/LC_Foliage.shader
++++ SPATIAL_INDIRECT/Assets/_Game/Shaders/Foliage/LC_Foliage.shader
+@@ -63,6 +63,8 @@
+             #pragma vertex vert
+             #pragma fragment frag
+             #pragma multi_compile_fragment _ _SCREEN_SPACE_OCCLUSION
++            #pragma multi_compile_fragment _ _LC_SPATIAL_INDIRECT
++            #pragma target 4.5 _LC_SPATIAL_INDIRECT
+             #pragma multi_compile_instancing
+             #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Fog.hlsl"
+             #pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
+--- MEADOW_BASELINE/Assets/_Game/Shaders/Foliage/LC_FoliageURP.hlsl
++++ SPATIAL_INDIRECT/Assets/_Game/Shaders/Foliage/LC_FoliageURP.hlsl
+@@ -366,9 +366,7 @@
+             ambientNormal.y);
+ 
+     half3 ambient =
+-        EvaluateHemisphereAmbient(
+-            normalize(
+-                ambientNormal)) *
++        LCSpatialIndirect(i.worldPosition, normalize(ambientNormal), EvaluateHemisphereAmbient(normalize(ambientNormal))) *
+         _AmbientStrength *
+         lerp(
+             shadowTint,
+--- MEADOW_BASELINE/Assets/_Game/Shaders/Foliage/LC_Grass.shader
++++ SPATIAL_INDIRECT/Assets/_Game/Shaders/Foliage/LC_Grass.shader
+@@ -69,6 +69,8 @@
+             #pragma vertex vert
+             #pragma fragment frag
+             #pragma multi_compile_fragment _ _SCREEN_SPACE_OCCLUSION
++            #pragma multi_compile_fragment _ _LC_SPATIAL_INDIRECT
++            #pragma target 4.5 _LC_SPATIAL_INDIRECT
+             #pragma multi_compile_instancing
+             #pragma shader_feature_local _ _LC_MEADOW
+             #pragma shader_feature_local _ _LC_SURFACE_PAINT
+--- MEADOW_BASELINE/Assets/_Game/Shaders/Foliage/LC_GrassURP.hlsl
++++ SPATIAL_INDIRECT/Assets/_Game/Shaders/Foliage/LC_GrassURP.hlsl
+@@ -437,8 +437,7 @@
+     materialOcclusion = 1-_MeadowRootOcclusion*(1-smoothstep(0,.65h,i.bladeData.x));
+ #endif
+     half3 ambient =
+-        EvaluateHemisphereAmbient(
+-            normal) *
++        LCSpatialIndirect(i.worldPosition, normal, EvaluateHemisphereAmbient(normal)) *
+         LCIndirectOcclusion(i.pos, materialOcclusion) *
+         _AmbientStrength *
+         lerp(

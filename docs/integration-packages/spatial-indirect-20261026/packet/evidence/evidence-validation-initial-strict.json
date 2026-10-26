@@ -1,0 +1,789 @@
+{
+  "pass_": false,
+  "run": "Final",
+  "prototypeImages": [
+    {
+      "path": "camera-00.png",
+      "sha256": "7bd0ca64177d4afe3c0ef39132beeca93f828cd2f82ff779f4e7b3dd883cfd51",
+      "std": 37.808983237191555,
+      "pass_": true
+    },
+    {
+      "path": "camera-01.png",
+      "sha256": "ad7f6a8fbb6df9a73fd806a8048cbc959d5a06fdff143d6327d8cb95394ff254",
+      "std": 37.78514672062676,
+      "pass_": true
+    },
+    {
+      "path": "camera-02.png",
+      "sha256": "8b37c99e26405a546c0453b69d7d3a146d59e3124abee398e3924a6bdafa26e8",
+      "std": 37.69030953852242,
+      "pass_": true
+    },
+    {
+      "path": "camera-03.png",
+      "sha256": "ccf5605e8a03536ca9a276946208c61ce5ab593ec8236c95195cdb400ea55ba6",
+      "std": 37.62721763305775,
+      "pass_": true
+    },
+    {
+      "path": "camera-04.png",
+      "sha256": "7c01df93b5dff00ed3ac2d0290c340cf1b3eb7da04b4ba0f66cd9eb3dc9cedde",
+      "std": 37.63058347809737,
+      "pass_": true
+    },
+    {
+      "path": "camera-05.png",
+      "sha256": "e0761993308a95dcd2e21aa0d6eff21b907fb13af70d2ac64670960c1ade846f",
+      "std": 37.624439959841325,
+      "pass_": true
+    },
+    {
+      "path": "camera-06.png",
+      "sha256": "e8e08eaf911eaae1e313d9b345d88bef6adf0c4b2861cb50b0d51fa2dd9c295c",
+      "std": 37.59604670399942,
+      "pass_": true
+    },
+    {
+      "path": "camera-07.png",
+      "sha256": "0d902d98fd656add3c047020a326ba5c0cdc535e44e8b74170266c3b476b142b",
+      "std": 37.552643629204084,
+      "pass_": true
+    },
+    {
+      "path": "camera-08.png",
+      "sha256": "013cc60658492effeda2bb20d9282821c4ebd57fb5bada9b10577b4c429aae9e",
+      "std": 37.529988501581215,
+      "pass_": true
+    },
+    {
+      "path": "camera-09.png",
+      "sha256": "5886315e1c9e73c0c4f45ed6d2d2f91b69097090ac2df8a4fd11ce678f910c0b",
+      "std": 37.5063406748933,
+      "pass_": true
+    },
+    {
+      "path": "camera-10.png",
+      "sha256": "6f6bc5905597fd0a0e8a3c95b4c1d42ee3adffcd33dbe93a8f0aa41526072da7",
+      "std": 37.45294759607414,
+      "pass_": true
+    },
+    {
+      "path": "camera-11.png",
+      "sha256": "342fcb9be4bc526bcc5ba8e1016e4b262d00e358bea942696d19a507ef9b8ff0",
+      "std": 37.374314905933566,
+      "pass_": true
+    },
+    {
+      "path": "gi-overview-day.png",
+      "sha256": "af8728b6c54b7df554d43f84a1e0ea5165f407ca4a5ec221e734bbd772f7a16c",
+      "std": 44.29042653139023,
+      "pass_": true
+    },
+    {
+      "path": "gi-overview-night.png",
+      "sha256": "e96b7b914da506ef82ba953acba7827cf023389d5f89ead0809a721c4484c1f3",
+      "std": 18.88965600114181,
+      "pass_": true
+    },
+    {
+      "path": "gi-overview-sunset.png",
+      "sha256": "61373daba32ec2fea520fff59cfd43582ecd40a29720b95c9a582aed254655c3",
+      "std": 41.17196639922165,
+      "pass_": true
+    },
+    {
+      "path": "gi-thin-wall-day.png",
+      "sha256": "a0f043fba64a90f2cddf2e0c97e4a19ee6836223278ccc2fd971b83fe16825d6",
+      "std": 31.318720735652104,
+      "pass_": true
+    },
+    {
+      "path": "gi-thin-wall-guard-off.png",
+      "sha256": "0a3786f0e7d1409e1aef9bec399edb09352b4c9ac8c94838e7882665b77645dd",
+      "std": 29.45290456425645,
+      "pass_": true
+    },
+    {
+      "path": "gi-thin-wall-guard-on.png",
+      "sha256": "775949a166418ea6cf35eaa01dc7ad0d8d6c395f51a67c3196a7abd3cb0b6980",
+      "std": 31.32066456825109,
+      "pass_": true
+    },
+    {
+      "path": "gi-under-roof-day.png",
+      "sha256": "e5fd8fca53609cf2045d9f1591193e092b828afa611d9ff17d48cd6a529dfa2b",
+      "std": 37.80485382416391,
+      "pass_": true
+    },
+    {
+      "path": "gi-under-roof-night.png",
+      "sha256": "d07c63d2e7e20f42f7f1177cc6a02e2954740682a94d4ab702102dc265fbeb99",
+      "std": 24.790255565776118,
+      "pass_": true
+    },
+    {
+      "path": "gi-under-roof-offscreen-grey.png",
+      "sha256": "8b5b34b5537b42e0892caa0ba0268066883896f4e8b45e2e6b39cdbb298412d0",
+      "std": 37.81490548554555,
+      "pass_": true
+    },
+    {
+      "path": "gi-under-roof-offscreen-red.png",
+      "sha256": "96ebb7dffe02bf4d7df885b9832dca3b6d64c35af7409da98c3f314fc9f53b12",
+      "std": 37.80950243494429,
+      "pass_": true
+    },
+    {
+      "path": "gi-under-roof-removed.png",
+      "sha256": "a6549e21a463dea65b6eed7f3f783bfb73e67c2f5e674231dc9850fe13b1acdd",
+      "std": 44.39169983028146,
+      "pass_": true
+    },
+    {
+      "path": "gi-under-roof-sunset.png",
+      "sha256": "349e9639e64b928d9453a727751685c09da5a1804307e12b1b140195fa367692",
+      "std": 34.48446487010493,
+      "pass_": true
+    },
+    {
+      "path": "legacy-overview-day.png",
+      "sha256": "f81728ab2ddd750dd5e966b0c75616201b02d632713eb1f91158608866be11b8",
+      "std": 43.41704827919906,
+      "pass_": true
+    },
+    {
+      "path": "legacy-thin-wall-day.png",
+      "sha256": "c5a62d4c8d76eefaedfd0a72666d540235127974231af104a214fcd4eeaa0551",
+      "std": 30.60561069762295,
+      "pass_": true
+    },
+    {
+      "path": "legacy-under-roof-day.png",
+      "sha256": "320afa9fc6a0cbea919ba8ababbf5c8100f625e6e8ae8296359c7f9f169b65e3",
+      "std": 41.52083218648258,
+      "pass_": true
+    }
+  ],
+  "baselineRegression": [
+    {
+      "path": "ao-close-01.0.png",
+      "identical": false,
+      "meanAbsoluteByteError": 0.3151610725308642,
+      "maxByteError": 9,
+      "changedPixels": 845361
+    },
+    {
+      "path": "ao-close-12.0.png",
+      "identical": false,
+      "meanAbsoluteByteError": 0.2014229681069959,
+      "maxByteError": 5,
+      "changedPixels": 719063
+    },
+    {
+      "path": "ao-close-18.5.png",
+      "identical": false,
+      "meanAbsoluteByteError": 0.3301003086419753,
+      "maxByteError": 9,
+      "changedPixels": 873592
+    },
+    {
+      "path": "ao-meadow-01.0.png",
+      "identical": false,
+      "meanAbsoluteByteError": 0.03991367669753086,
+      "maxByteError": 3,
+      "changedPixels": 155319
+    },
+    {
+      "path": "ao-meadow-12.0.png",
+      "identical": false,
+      "meanAbsoluteByteError": 0.025912905092592593,
+      "maxByteError": 2,
+      "changedPixels": 125207
+    },
+    {
+      "path": "ao-meadow-18.5.png",
+      "identical": false,
+      "meanAbsoluteByteError": 0.03825344007201646,
+      "maxByteError": 3,
+      "changedPixels": 158652
+    },
+    {
+      "path": "ao-oak-contact-01.0.png",
+      "identical": false,
+      "meanAbsoluteByteError": 0.279585262345679,
+      "maxByteError": 8,
+      "changedPixels": 737441
+    },
+    {
+      "path": "ao-oak-contact-12.0.png",
+      "identical": false,
+      "meanAbsoluteByteError": 0.18272167566872427,
+      "maxByteError": 6,
+      "changedPixels": 633291
+    },
+    {
+      "path": "ao-oak-contact-18.5.png",
+      "identical": false,
+      "meanAbsoluteByteError": 0.2922130594135802,
+      "maxByteError": 9,
+      "changedPixels": 759385
+    },
+    {
+      "path": "ao-roots-disabled.png",
+      "identical": false,
+      "meanAbsoluteByteError": 0.22803642618312758,
+      "maxByteError": 5,
+      "changedPixels": 810376
+    },
+    {
+      "path": "ao-strategy-01.0.png",
+      "identical": false,
+      "meanAbsoluteByteError": 2.36304012345679e-05,
+      "maxByteError": 2,
+      "changedPixels": 128
+    },
+    {
+      "path": "ao-strategy-12.0.png",
+      "identical": false,
+      "meanAbsoluteByteError": 1.4949845679012346e-05,
+      "maxByteError": 1,
+      "changedPixels": 89
+    },
+    {
+      "path": "ao-strategy-18.5.png",
+      "identical": false,
+      "meanAbsoluteByteError": 2.4594907407407408e-05,
+      "maxByteError": 2,
+      "changedPixels": 130
+    },
+    {
+      "path": "camera-0-00.png",
+      "identical": false,
+      "meanAbsoluteByteError": 0.025633519804526748,
+      "maxByteError": 2,
+      "changedPixels": 124172
+    },
+    {
+      "path": "camera-0-01.png",
+      "identical": false,
+      "meanAbsoluteByteError": 0.026006944444444444,
+      "maxByteError": 3,
+      "changedPixels": 125782
+    },
+    {
+      "path": "camera-0-02.png",
+      "identical": false,
+      "meanAbsoluteByteError": 0.025393840020576132,
+      "maxByteError": 3,
+      "changedPixels": 123396
+    },
+    {
+      "path": "camera-0-03.png",
+      "identical": false,
+      "meanAbsoluteByteError": 0.02589699074074074,
+      "maxByteError": 2,
+      "changedPixels": 125588
+    },
+    {
+      "path": "camera-0-04.png",
+      "identical": false,
+      "meanAbsoluteByteError": 0.025779963991769548,
+      "maxByteError": 2,
+      "changedPixels": 124838
+    },
+    {
+      "path": "camera-0-05.png",
+      "identical": false,
+      "meanAbsoluteByteError": 0.02596530992798354,
+      "maxByteError": 2,
+      "changedPixels": 125523
+    },
+    {
+      "path": "camera-0-06.png",
+      "identical": false,
+      "meanAbsoluteByteError": 0.025910011574074073,
+      "maxByteError": 2,
+      "changedPixels": 125127
+    },
+    {
+      "path": "camera-0-07.png",
+      "identical": false,
+      "meanAbsoluteByteError": 0.025705536265432097,
+      "maxByteError": 2,
+      "changedPixels": 124480
+    },
+    {
+      "path": "camera-0-08.png",
+      "identical": false,
+      "meanAbsoluteByteError": 0.025845550411522634,
+      "maxByteError": 3,
+      "changedPixels": 125305
+    },
+    {
+      "path": "camera-0-09.png",
+      "identical": false,
+      "meanAbsoluteByteError": 0.025769354423868313,
+      "maxByteError": 3,
+      "changedPixels": 124672
+    },
+    {
+      "path": "camera-0-10.png",
+      "identical": false,
+      "meanAbsoluteByteError": 0.025921424897119343,
+      "maxByteError": 2,
+      "changedPixels": 125642
+    },
+    {
+      "path": "camera-0-11.png",
+      "identical": false,
+      "meanAbsoluteByteError": 0.026036522633744855,
+      "maxByteError": 2,
+      "changedPixels": 125738
+    },
+    {
+      "path": "camera-0-12.png",
+      "identical": false,
+      "meanAbsoluteByteError": 0.025844907407407407,
+      "maxByteError": 3,
+      "changedPixels": 125034
+    },
+    {
+      "path": "camera-0-13.png",
+      "identical": false,
+      "meanAbsoluteByteError": 0.02597334747942387,
+      "maxByteError": 2,
+      "changedPixels": 125604
+    },
+    {
+      "path": "camera-0-14.png",
+      "identical": false,
+      "meanAbsoluteByteError": 0.025839924125514405,
+      "maxByteError": 2,
+      "changedPixels": 125065
+    },
+    {
+      "path": "camera-0-15.png",
+      "identical": false,
+      "meanAbsoluteByteError": 0.026079443158436213,
+      "maxByteError": 2,
+      "changedPixels": 126178
+    },
+    {
+      "path": "camera-3-00.png",
+      "identical": false,
+      "meanAbsoluteByteError": 0.18159127443415637,
+      "maxByteError": 6,
+      "changedPixels": 630047
+    },
+    {
+      "path": "camera-3-01.png",
+      "identical": false,
+      "meanAbsoluteByteError": 0.1819534465020576,
+      "maxByteError": 7,
+      "changedPixels": 630918
+    },
+    {
+      "path": "camera-3-02.png",
+      "identical": false,
+      "meanAbsoluteByteError": 0.18339634773662553,
+      "maxByteError": 6,
+      "changedPixels": 632785
+    },
+    {
+      "path": "camera-3-03.png",
+      "identical": false,
+      "meanAbsoluteByteError": 0.18285059799382716,
+      "maxByteError": 6,
+      "changedPixels": 633690
+    },
+    {
+      "path": "camera-3-04.png",
+      "identical": false,
+      "meanAbsoluteByteError": 0.18247990612139917,
+      "maxByteError": 6,
+      "changedPixels": 632148
+    },
+    {
+      "path": "camera-3-05.png",
+      "identical": false,
+      "meanAbsoluteByteError": 0.18200874485596708,
+      "maxByteError": 7,
+      "changedPixels": 631672
+    },
+    {
+      "path": "camera-3-06.png",
+      "identical": false,
+      "meanAbsoluteByteError": 0.18289335776748972,
+      "maxByteError": 7,
+      "changedPixels": 633368
+    },
+    {
+      "path": "camera-3-07.png",
+      "identical": false,
+      "meanAbsoluteByteError": 0.18218621399176954,
+      "maxByteError": 6,
+      "changedPixels": 632332
+    },
+    {
+      "path": "camera-3-08.png",
+      "identical": false,
+      "meanAbsoluteByteError": 0.1824371463477366,
+      "maxByteError": 6,
+      "changedPixels": 632649
+    },
+    {
+      "path": "camera-3-09.png",
+      "identical": false,
+      "meanAbsoluteByteError": 0.18247492283950617,
+      "maxByteError": 5,
+      "changedPixels": 632279
+    },
+    {
+      "path": "camera-3-10.png",
+      "identical": false,
+      "meanAbsoluteByteError": 0.1817184284979424,
+      "maxByteError": 5,
+      "changedPixels": 631479
+    },
+    {
+      "path": "camera-3-11.png",
+      "identical": false,
+      "meanAbsoluteByteError": 0.1818455825617284,
+      "maxByteError": 7,
+      "changedPixels": 632437
+    },
+    {
+      "path": "camera-3-12.png",
+      "identical": false,
+      "meanAbsoluteByteError": 0.18204459233539094,
+      "maxByteError": 5,
+      "changedPixels": 632112
+    },
+    {
+      "path": "camera-3-13.png",
+      "identical": false,
+      "meanAbsoluteByteError": 0.18254967206790124,
+      "maxByteError": 5,
+      "changedPixels": 633676
+    },
+    {
+      "path": "camera-3-14.png",
+      "identical": false,
+      "meanAbsoluteByteError": 0.18172887731481482,
+      "maxByteError": 6,
+      "changedPixels": 631024
+    },
+    {
+      "path": "camera-3-15.png",
+      "identical": false,
+      "meanAbsoluteByteError": 0.18165686085390947,
+      "maxByteError": 5,
+      "changedPixels": 631884
+    },
+    {
+      "path": "hdr-close-01.0.png",
+      "identical": true,
+      "meanAbsoluteByteError": 0.0,
+      "maxByteError": 0,
+      "changedPixels": 0
+    },
+    {
+      "path": "hdr-close-12.0.png",
+      "identical": true,
+      "meanAbsoluteByteError": 0.0,
+      "maxByteError": 0,
+      "changedPixels": 0
+    },
+    {
+      "path": "hdr-close-18.5.png",
+      "identical": true,
+      "meanAbsoluteByteError": 0.0,
+      "maxByteError": 0,
+      "changedPixels": 0
+    },
+    {
+      "path": "hdr-meadow-01.0.png",
+      "identical": true,
+      "meanAbsoluteByteError": 0.0,
+      "maxByteError": 0,
+      "changedPixels": 0
+    },
+    {
+      "path": "hdr-meadow-12.0.png",
+      "identical": true,
+      "meanAbsoluteByteError": 0.0,
+      "maxByteError": 0,
+      "changedPixels": 0
+    },
+    {
+      "path": "hdr-meadow-18.5.png",
+      "identical": true,
+      "meanAbsoluteByteError": 0.0,
+      "maxByteError": 0,
+      "changedPixels": 0
+    },
+    {
+      "path": "hdr-oak-contact-01.0.png",
+      "identical": false,
+      "meanAbsoluteByteError": 3.215020576131687e-06,
+      "maxByteError": 1,
+      "changedPixels": 20
+    },
+    {
+      "path": "hdr-oak-contact-12.0.png",
+      "identical": false,
+      "meanAbsoluteByteError": 1.961162551440329e-05,
+      "maxByteError": 1,
+      "changedPixels": 114
+    },
+    {
+      "path": "hdr-oak-contact-18.5.png",
+      "identical": false,
+      "meanAbsoluteByteError": 2.105838477366255e-05,
+      "maxByteError": 1,
+      "changedPixels": 131
+    },
+    {
+      "path": "hdr-strategy-01.0.png",
+      "identical": true,
+      "meanAbsoluteByteError": 0.0,
+      "maxByteError": 0,
+      "changedPixels": 0
+    },
+    {
+      "path": "hdr-strategy-12.0.png",
+      "identical": true,
+      "meanAbsoluteByteError": 0.0,
+      "maxByteError": 0,
+      "changedPixels": 0
+    },
+    {
+      "path": "hdr-strategy-18.5.png",
+      "identical": true,
+      "meanAbsoluteByteError": 0.0,
+      "maxByteError": 0,
+      "changedPixels": 0
+    },
+    {
+      "path": "interaction-off.png",
+      "identical": false,
+      "meanAbsoluteByteError": 0.20040155606995885,
+      "maxByteError": 5,
+      "changedPixels": 714274
+    },
+    {
+      "path": "interaction-on.png",
+      "identical": false,
+      "meanAbsoluteByteError": 0.20090518904320986,
+      "maxByteError": 5,
+      "changedPixels": 716084
+    },
+    {
+      "path": "painted-road.png",
+      "identical": false,
+      "meanAbsoluteByteError": 0.19434783307613168,
+      "maxByteError": 6,
+      "changedPixels": 692610
+    },
+    {
+      "path": "wind-00.png",
+      "identical": false,
+      "meanAbsoluteByteError": 0.18329378858024692,
+      "maxByteError": 6,
+      "changedPixels": 633481
+    },
+    {
+      "path": "wind-01.png",
+      "identical": false,
+      "meanAbsoluteByteError": 0.18330954218106996,
+      "maxByteError": 7,
+      "changedPixels": 634019
+    },
+    {
+      "path": "wind-02.png",
+      "identical": false,
+      "meanAbsoluteByteError": 0.18427276234567902,
+      "maxByteError": 6,
+      "changedPixels": 635416
+    },
+    {
+      "path": "wind-03.png",
+      "identical": false,
+      "meanAbsoluteByteError": 0.18297309027777778,
+      "maxByteError": 7,
+      "changedPixels": 634299
+    },
+    {
+      "path": "wind-04.png",
+      "identical": false,
+      "meanAbsoluteByteError": 0.18280478395061728,
+      "maxByteError": 5,
+      "changedPixels": 632969
+    },
+    {
+      "path": "wind-05.png",
+      "identical": false,
+      "meanAbsoluteByteError": 0.18205905992798355,
+      "maxByteError": 6,
+      "changedPixels": 630293
+    },
+    {
+      "path": "wind-06.png",
+      "identical": false,
+      "meanAbsoluteByteError": 0.18228925540123456,
+      "maxByteError": 6,
+      "changedPixels": 630708
+    },
+    {
+      "path": "wind-07.png",
+      "identical": false,
+      "meanAbsoluteByteError": 0.18270093878600824,
+      "maxByteError": 6,
+      "changedPixels": 631601
+    },
+    {
+      "path": "wind-08.png",
+      "identical": false,
+      "meanAbsoluteByteError": 0.18268213091563787,
+      "maxByteError": 6,
+      "changedPixels": 632737
+    },
+    {
+      "path": "wind-09.png",
+      "identical": false,
+      "meanAbsoluteByteError": 0.18200874485596708,
+      "maxByteError": 6,
+      "changedPixels": 631091
+    },
+    {
+      "path": "wind-10.png",
+      "identical": false,
+      "meanAbsoluteByteError": 0.18202674897119342,
+      "maxByteError": 9,
+      "changedPixels": 632406
+    },
+    {
+      "path": "wind-11.png",
+      "identical": false,
+      "meanAbsoluteByteError": 0.1825464570473251,
+      "maxByteError": 6,
+      "changedPixels": 632834
+    },
+    {
+      "path": "wind-12.png",
+      "identical": false,
+      "meanAbsoluteByteError": 0.18261413323045267,
+      "maxByteError": 6,
+      "changedPixels": 632139
+    },
+    {
+      "path": "wind-13.png",
+      "identical": false,
+      "meanAbsoluteByteError": 0.1832349537037037,
+      "maxByteError": 5,
+      "changedPixels": 634320
+    },
+    {
+      "path": "wind-14.png",
+      "identical": false,
+      "meanAbsoluteByteError": 0.18326838991769548,
+      "maxByteError": 6,
+      "changedPixels": 633971
+    },
+    {
+      "path": "wind-15.png",
+      "identical": false,
+      "meanAbsoluteByteError": 0.18350228266460905,
+      "maxByteError": 6,
+      "changedPixels": 634010
+    }
+  ],
+  "tests": [
+    {
+      "path": "editmode-final.xml",
+      "result": "Passed",
+      "total": "186",
+      "passed": "186",
+      "failed": "0",
+      "skipped": "0"
+    },
+    {
+      "path": "playmode-final.xml",
+      "result": "Passed",
+      "total": "6",
+      "passed": "6",
+      "failed": "0",
+      "skipped": "0"
+    }
+  ],
+  "failures": [
+    "Baseline differs: ao-close-01.0.png",
+    "Baseline differs: ao-close-12.0.png",
+    "Baseline differs: ao-close-18.5.png",
+    "Baseline differs: ao-meadow-01.0.png",
+    "Baseline differs: ao-meadow-12.0.png",
+    "Baseline differs: ao-meadow-18.5.png",
+    "Baseline differs: ao-oak-contact-01.0.png",
+    "Baseline differs: ao-oak-contact-12.0.png",
+    "Baseline differs: ao-oak-contact-18.5.png",
+    "Baseline differs: ao-roots-disabled.png",
+    "Baseline differs: ao-strategy-01.0.png",
+    "Baseline differs: ao-strategy-12.0.png",
+    "Baseline differs: ao-strategy-18.5.png",
+    "Baseline differs: camera-0-00.png",
+    "Baseline differs: camera-0-01.png",
+    "Baseline differs: camera-0-02.png",
+    "Baseline differs: camera-0-03.png",
+    "Baseline differs: camera-0-04.png",
+    "Baseline differs: camera-0-05.png",
+    "Baseline differs: camera-0-06.png",
+    "Baseline differs: camera-0-07.png",
+    "Baseline differs: camera-0-08.png",
+    "Baseline differs: camera-0-09.png",
+    "Baseline differs: camera-0-10.png",
+    "Baseline differs: camera-0-11.png",
+    "Baseline differs: camera-0-12.png",
+    "Baseline differs: camera-0-13.png",
+    "Baseline differs: camera-0-14.png",
+    "Baseline differs: camera-0-15.png",
+    "Baseline differs: camera-3-00.png",
+    "Baseline differs: camera-3-01.png",
+    "Baseline differs: camera-3-02.png",
+    "Baseline differs: camera-3-03.png",
+    "Baseline differs: camera-3-04.png",
+    "Baseline differs: camera-3-05.png",
+    "Baseline differs: camera-3-06.png",
+    "Baseline differs: camera-3-07.png",
+    "Baseline differs: camera-3-08.png",
+    "Baseline differs: camera-3-09.png",
+    "Baseline differs: camera-3-10.png",
+    "Baseline differs: camera-3-11.png",
+    "Baseline differs: camera-3-12.png",
+    "Baseline differs: camera-3-13.png",
+    "Baseline differs: camera-3-14.png",
+    "Baseline differs: camera-3-15.png",
+    "Baseline differs: hdr-oak-contact-01.0.png",
+    "Baseline differs: hdr-oak-contact-12.0.png",
+    "Baseline differs: hdr-oak-contact-18.5.png",
+    "Baseline differs: interaction-off.png",
+    "Baseline differs: interaction-on.png",
+    "Baseline differs: painted-road.png",
+    "Baseline differs: wind-00.png",
+    "Baseline differs: wind-01.png",
+    "Baseline differs: wind-02.png",
+    "Baseline differs: wind-03.png",
+    "Baseline differs: wind-04.png",
+    "Baseline differs: wind-05.png",
+    "Baseline differs: wind-06.png",
+    "Baseline differs: wind-07.png",
+    "Baseline differs: wind-08.png",
+    "Baseline differs: wind-09.png",
+    "Baseline differs: wind-10.png",
+    "Baseline differs: wind-11.png",
+    "Baseline differs: wind-12.png",
+    "Baseline differs: wind-13.png",
+    "Baseline differs: wind-14.png",
+    "Baseline differs: wind-15.png"
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "frozenBaselineFailures": [],
+  "integrationProjectSettingsDrift": [],
+  "protectedShaderFunctionOrPassDrift": [],
+  "mainAssetsPackagesSettingsDrift": [],
+  "meadowSnapshotSourceDrift": [
+    {
+      "path": "Assets/_Game/Scripts/Research/InnerverseGrassStudy.cs",
+      "snapshotSHA256": "29079d6f437c5a32550b22575255bdebb03d933d74fc79aa536fea3e7c46c75c",
+      "currentSHA256": "6ccae2d53c11a5ef4411156d1ba0bfde4b52f9624967dfaf408787b4efde0ba2"
+    },
+    {
+      "path": "Assets/_Game/Scripts/Research/MeadowPreview.cs",
+      "snapshotSHA256": "98dd3aad14f4adb95abbdde40679627ab68ab53f3084d3fed1e013406b76d431",
+      "currentSHA256": "7538fe1154e17eaf0b998487b5026043f45320632c5d6390659f6a80e8ecaeca"
+    },
+    {
+      "path": "Assets/_Game/Scripts/Research/MeadowSurfacePainter.cs",
+      "snapshotSHA256": "0144de48c6d3f2e37b1f5a4f1ef52ecbe0772fc0111bebba55c09ce4f9c58c55",
+      "currentSHA256": "6befefcd4a891f538292eb35579850ae6de7331a4ed22c65d98265aff6d9fca3"
+    },
+    {
+      "path": "Assets/_Game/Scripts/World/Rendering/MeadowGrassRenderer.cs",
+      "snapshotSHA256": "06ad03cbe575c31fb9fd1b7a56eeaee5d682fbf3e9641dbafec8c2583122e4f5",
+      "currentSHA256": "ae1725413083c058ef6b26f34c5bbc03153ff99bc2aaa84b385b94f6ac223909"
+    },
+    {
+      "path": "Assets/_Game/Scripts/World/Rendering/MeadowScatterRenderer.cs",
+      "snapshotSHA256": "dc3330e0662b3a5bd350e230a3bb1f405833992501c66fda51892f2695b550da",
+      "currentSHA256": "18a3b68ecd7e671aa2ad7db8374c7c95f283fab2799dde8b017e2961e9b70574"
+    },
+    {
+      "path": "Assets/_Game/Scripts/World/Rendering/SurfacePaintData.cs",
+      "snapshotSHA256": "4618ee244a1c9d3cebfd164f32d0a469a22e9b1c97c27befc8050bcc819e3130",
+      "currentSHA256": "b8130f7bc97ea5ffe213a6ea4dbca3c10ee8a7af6d16c3c2ef48930d214e0dd0"
+    }
+  ],
+  "meadowSnapshotIntegrityFailures": [],
+  "newGUIDCollisionFailures": {},
+  "pass": true
+}

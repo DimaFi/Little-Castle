@@ -1,0 +1,50 @@
+[
+  {
+    "path": "Assets/_Game/Shaders/Foliage/LC_Grass.shader",
+    "sourceSHA256": "4b2e67a71c8acf739837243498c61b99158282b047d25404b612c0b93c001f18",
+    "mainSHA256": "d88c1469014459cf711f02827333f56511cea4d01dbbbc620c58ed5afd10650e",
+    "mergedSHA256": "217b2802d3a4d17a1a72701bf77b4f434f08640ea1ab2181b29fabdaaafcbd9e"
+  },
+  {
+    "path": "Assets/_Game/Shaders/Foliage/LC_GrassURP.hlsl",
+    "sourceSHA256": "cfce98bfeca4d10f1e29c2695d9f495ea275801a336f0d4260ffed462ea48830",
+    "mainSHA256": "cc9de48eba8eccbfb874f34e98a2dc2f2c77978843c4966a7c43c2c74424d57b",
+    "mergedSHA256": "a5e4b56ad2dfd9f340b20e6f47875e3d7e0e559020431ccb45ee38def2b1dd77"
+  },
+  {
+    "path": "Assets/_Game/Shaders/Foliage/LC_VegetationURPCommon.hlsl",
+    "sourceSHA256": "bcc6f9c93445df49955fbc3ef8c5d4d9ce6907ab663b50bfb76834cde1b8e2cb",
+    "mainSHA256": "0b143e9ecb71d4f80b9999884a7ff2185e88c2e077a930842e171480c8ac931e",
+    "mergedSHA256": "0b143e9ecb71d4f80b9999884a7ff2185e88c2e077a930842e171480c8ac931e"
+  },
+  {
+    "path": "Assets/_Game/Shaders/Foliage/LC_Foliage.shader",
+    "sourceSHA256": "cb03a4cc8501ddcf435a39756786757693019cef6223f8461ed462cac49bfb06",
+    "mainSHA256": "128a7ec5026c6252b53bebc4725aa347c4d6fd758dd5c7c7d914af6c3d4819ab",
+    "mergedSHA256": "128a7ec5026c6252b53bebc4725aa347c4d6fd758dd5c7c7d914af6c3d4819ab"
+  },
+  {
+    "path": "Assets/_Game/Shaders/Foliage/LC_FoliageURP.hlsl",
+    "sourceSHA256": "037aa9ed5b8bf6e2caba34908cacd10d93fd4740f1796a3b9981e6d1563110c6",
+    "mainSHA256": "55fdbd4bec3ddd36dc83511d8ac1df53264b0bc460c083210580fa3a421ddeab",
+    "mergedSHA256": "55fdbd4bec3ddd36dc83511d8ac1df53264b0bc460c083210580fa3a421ddeab"
+  },
+  {
+    "path": "Assets/_Game/Shaders/Surface/LC_StylizedLit.shader",
+    "sourceSHA256": "426d0b2c524963986603d7d6c78bc07f8c53aed734e3182b67c94fcf51085966",
+    "mainSHA256": "f2b325f394fba86470744cabacbf43e2a67d446b6ac6432f44d698f5a4e7b48c",
+    "mergedSHA256": "f2b325f394fba86470744cabacbf43e2a67d446b6ac6432f44d698f5a4e7b48c"
+  },
+  {
+    "path": "Assets/_Game/Shaders/Surface/LC_SurfacePaint.hlsl",
+    "sourceSHA256": "089fff9772179a8523faf9a469760a1eee120809061788fd999181217941232c",
+    "mainSHA256": null,
+    "mergedSHA256": "089fff9772179a8523faf9a469760a1eee120809061788fd999181217941232c"
+  },
+  {
+    "path": "Assets/_Game/Shaders/Terrain/LC_Terrain.shader",
+    "sourceSHA256": "4cd99651179380406061e5a4048709d5757e6caa228100700ed1499a54837b11",
+    "mainSHA256": "27ae34322162d3efcd7a1d6f5748bf831056b0d004cd5f0e1d72c24ddf9b5e77",
+    "mergedSHA256": "1503dee52ddc12c70cbb0fd1d41610e4924a308c192c3bac29dfc13275e8da49"
+  }
+]

@@ -198,3 +198,130 @@ kind=Surface|Decoration, preview=true во время мазка. Будущий
 интеграционный пакет на ветке `codex/lighting-meadow-baseline-2026-10-26`.
 Пакет не переключает основной проект. Локальная база URP и сторонние бинарные
 ассеты не публикуются автоматически; их точные зависимости записаны хешами.
+
+## Продолжение 26.10: опубликован baseline, реализован ограниченный spatial GI
+
+Baseline-пакет опубликован и побайтно проверен:63/63 Git blobs,
+[`9e8c126abd2bf34a15df3bcbf01f7285cfe90843`](https://github.com/DimaFi/Little-Castle/commit/9e8c126abd2bf34a15df3bcbf01f7285cfe90843),
+ветка `codex/lighting-meadow-baseline-2026-10-26`. Это отдельный интеграционный
+пакет; основная игровая ветка/настройки не переключены. Следующие GI-изменения
+локальны и не входят в этот опубликованный commit.
+
+В lighting-копии создана отдельная `SpatialIndirectStudy_20261026.unity` на основе
+Meadow-стенда с native grass, дорожкой и Oak A/B/C/D. Пространственное поле
+49×9×49 проб, шаг1m,128 лучей/пробу, длина6m,6 упрощённых AABB. Перекрытие неба
+и один diffuse bounce от солнца/луны/окружения; геометрический sky transport
+кешируется по surface cell0.5m. Собственная C#/HLSL реализация; внешний код
+Tiny Glade/kajiya не копировался. Полного renderer Tiny Glade в проверенных
+публичных источниках не найдено, художественное совпадение не заявляется.
+
+Изменены по функциям7 существующих shader/include файлов: common, solid,
+terrain и grass/foliage пары. Новый include `LC_SpatialIndirect.hlsl` заменяет
+только hemisphere ambient до прежнего AO/tint. Target4.5 требуется лишь
+`_LC_SPATIAL_INDIRECT` варианту. GI-off использует исходное выражение ambient
+без промежуточного half3 преобразования. Depth/Shadow/Normals passes, alpha,
+wind, interaction, instancing, материал CBUFFER и маски сохранены. Новый код:
+SpatialIndirectTrace/Cache/Volume/StudyReview, editor builder,8 GI Edit-тестов,
+отдельная сцена и четыре диагностических материала; с meta25 новых ассет-файлов.
+
+**186/186 Edit Mode,6/6 Play Mode**, финальная сборка0 ошибок/0 предупреждений.
+27 реальных PNG в `Research/SpatialIndirect_20261026/FinalPrecision`: день,
+закат, ночь, исходный ambient/GI, отражатель вне frustum, крыша/снос/Undo,
+тонкая стенка с guard и без,12 кадров движения камеры. Runtime-errors пуст.
+Удаление крыши повышает sample RGB с(0.0322,0.0401,0.0501) до
+(0.1713,0.2185,0.3045); Undo воспроизводит прежнее поле. Отражатель вне кадра
+меняет красный канал стены0.1001→0.1144. Камера не меняет мировые коэффициенты.
+Visibility guard исключает query-to-probe сегменты через стену, но не доказывает
+отсутствия всех light leaks/тёмных ячеек на сложных моделях.
+
+Старая Meadow-сцена также запущена в новом Player с GI keyword off:76 PNG и
+road/Undo/native instancing/LOD assertions прошли. Для контроля отдельно
+повторён старый неизменённый Linear Player.9 HDR PNG совпали точно;3 близких
+вида дубов отличаются максимум1/255 на17/85/98 пикселях — меньше разброса
+повтора старого Player. В64 AO кадрах ошибка сопоставима с URP blue-noise
+повтором, до~0.33/255 средней ошибки. JSON содержит сырые ошибки и критерии;
+это не76 точных совпадений. Начальные strict-fail отчёты сохранены, подробности
+и ограничения проверки указаны в новом GI-отчёте.
+
+Финальный парный benchmark: Release, Linear/HDR/Neutral, D3D12,1920×1080,
+RTX4070 Ti SUPER/i7-12700F, SSAO, MSAA4,2048 shadowmap/2cascades/90m.
+120 warmup+600 обычных кадров на режим, VSync/FPS limit off; PNG/readback и
+пересчёта кеша в замере нет. GPU mean0.840ms off (502 samples),1.184ms on
+(557 samples), разница~0.344ms. Frame median/p95/p99:1.187/2.824/3.205ms off,
+1.350/2.210/2.940ms on. Это маленький стенд и один парный прогон; выбросы
+CPU/p95 не приписывать эффекту GI, не обещать FPS большой карты.
+
+Цена обновления отдельно: initial21609 проб —1815.6ms solve+15.0ms upload,
+14.95s до сходимости. Reflector commit8019 проб —691.3+5.6ms,5.64s;
+снос крыши9801 проб —709.1+5.9ms,5.79s; Undo6.87s. GPU buffer1382976bytes,
+локальные uploads513216/627264bytes, не полный буфер. Бюджет solve2ms
+кооперативный, максимум solve+upload одного кадра в этом прогоне2.962ms.
+После commit инвалидируются старые/новые bounds с halo=2R+0.52m; preview
+игнорируется, очередь dedup, stale revision отбрасывается. Сравнение локального
+обновления с полным пересчётом проверяется тестом. Нет production map adapter,
+moving volume, ускоряющей структуры, плавного смешивания версий или автоматической
+injection при непрерывном ходе суток. Сходимость в секунды не годится для
+включения по умолчанию; snapshot surface dictionary пока заменяется целиком,
+хотя irradiance/GPU пересчитываются локально. При смене света sky transport
+переиспользуется, но обновляется всё активное bounded поле.
+
+Повторно прочитаны свежие передача и MapEditSession в URP-копии. Там уже есть
+`Surface|Decoration|Height|Objects` и Save v4; старое описание Surface|Decoration
+выше относится к прежнему снимку. Событие по-прежнему содержит XZ Rect/preview,
+но не transaction revision. Контракт обновлён в `local-cache-invalidation-ru.md`.
+Файлы нового редактора не переносились, его приложения/данные не управлялись.
+Плоский GI ground proxy ещё не соответствует его новому редактируемому рельефу;
+совместная проверка на hills/pits и новых object records остаётся следующим
+интеграционным этапом. Задерживать разработку редактора ожиданием GI не требуется.
+
+Точные исходные/current SHA256 и список изменений:
+
+- `E:/Games_Develop/Little-Castle_LightingIntegration_20261025/docs/lighting-integration/spatial-indirect-manifest.json`.
+- Исходный Meadow manifest SHA256: `d70ef3e9b315cbda1f58a736c4a72838924ae7053d8650c7be23958c3cd82049`.
+- Frozen pre-GI manifest SHA256: `4fc4e7ca9a57284572ac3c2d56df3e86983e6b70b26e69fc76931060f249069e`.
+- `spatial-indirect-audit.json`: frozen/settings/MAIN Assets Packages Settings drift,
+  protected passes/functions, snapshot integrity и новые GUID collisions — пусто.
+  Шесть старых map source-файлов изменены другим чатом; их snapshot не применять
+  поверх редактора. Актуальные map contract/shared shader SHA сохранены read-only.
+- Shader delta: `docs/lighting-integration/meadow-baseline-to-spatial-indirect.patch`.
+- Отчёт: `docs/reports/spatial-indirect-prototype-20261026-ru.md` и экспериментальное
+  `docs/decisions/ADR-lighting-spatial-indirect-experiment-20261026-ru.md` в lighting-копии.
+- Локальный пакет: `E:/Games_Develop/Research/SpatialIndirect_20261026/spatial-indirect-integration-20261026.zip`;
+  manifest файлов, receipt Player/source и полные evidence рядом. Пакет — локальный
+  delta к9e8c126, не автоматический перенос в MAIN/редактор и не новая публикация.
+
+Следующий измеримый шаг — ускорить и разделить geometry transport/injection,
+добавить приоритет видимых проб и плавную публикацию; затем согласованно
+проверить world-space geometry snapshot нового рельефа/объектов. Производственный
+GI этим экспериментом не принят. Мягкий общий Meadow baseline остаётся доступен.
+
+## Публикация GI и следующий план — 26.10.2026
+
+По запросу пользователя GI-пакет этого прохода публикуется отдельно от прежнего
+baseline: ветка `codex/lighting-spatial-gi-2026-10-26`, родитель9e8c126.
+Каталог GitHub: `docs/integration-packages/spatial-indirect-20261026/packet/`.
+Это все82 файла замороженного локального пакета, включая код/шейдеры/GUID,
+диагностическую сцену, материалы, патч, source manifests, XML тестов, измерения,
+контрольные fail/pass evidence и3 сравнения настоящих Player кадров. Исходный ZIP
+SHA256: `b19f88a43334f97d92a42029ff1d5c9b5ab824268b86ef3edc3f65b577d18980`.
+Сторонние бинарные модели/текстуры и Unity Player остаются локальными; точные
+зависимости и Player hashes включены. Frozen README сохраняет статус снимка на
+момент упаковки; текущая публикация описана внешним README и publication manifest.
+
+План следующих этапов: `docs/plans/lighting-next-stages-20261026-ru.md` в lighting
+копии и в GitHub. Порядок:1) профиль/ускорение geometry transport и lighting injection;
+2) приоритет видимых проб, согласованные версии и плавные сутки;3) актуальные
+рельеф/объекты через committed snapshots;4) художественный проход Tiny Glade,
+SSAO/rootAO, устойчивые тени и читаемая ночь;5) плотное поселение/память/более
+слабое железо и отдельное решение об активации. Целевые latency-пороги в плане
+помечены как исследовательские, не достигнутые результаты.
+
+Начать следующую реализацию с этапа1 на той же сцене: сохранить качество reference,
+показать before/after для прежних8019/9801-пробных правок, измерить GC/память и
+не скрывать ускорение увеличением CPU-бюджета. Новый редактор продолжает работать
+независимо. Общие shaders переносить по функциям; production настройки/каталоги
+и рабочую URP-копию автоматически не менять.
+
+Точная связь исходного ZIP и Git-путей — `publication-manifest.json` у нового пакета.
+Проверка опубликованного commit/tree и каждого blob сохраняется локально в
+`publication-spatial-gi/publication-receipt.json` после успешной загрузки.

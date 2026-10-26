@@ -1,0 +1,618 @@
+{
+  "repository": "DimaFi/Little-Castle",
+  "branch": "codex/lighting-spatial-gi-2026-10-26",
+  "parentCommit": "9e8c126abd2bf34a15df3bcbf01f7285cfe90843",
+  "archiveSHA256": "b19f88a43334f97d92a42029ff1d5c9b5ab824268b86ef3edc3f65b577d18980",
+  "originalPacketFiles": 82,
+  "files": [
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/Tools/LightingStudy/audit_spatial_indirect.py",
+      "sha256": "420000fd85bbfcde9c7ea91d17da625dc4edd7bf0e8b7a718c44b4f6cb25bdbd",
+      "gitBlobSHA": "a97da87ae85259f79f8c40a34e7bf192f728f53b",
+      "bytes": 6553,
+      "source": "frozen-zip:Tools/LightingStudy/audit_spatial_indirect.py"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/Tools/LightingStudy/prepare_spatial_indirect_packet.py",
+      "sha256": "4e77cc18cbbfd0bcd12018642c81a831f7994d12c2f6ae786c5b247a93fa852b",
+      "gitBlobSHA": "9e5a88e79ac766b6beb8c5017bfa78d46cf40d35",
+      "bytes": 6363,
+      "source": "frozen-zip:Tools/LightingStudy/prepare_spatial_indirect_packet.py"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/Tools/LightingStudy/present_spatial_indirect.py",
+      "sha256": "d3ec2c779a2467b988af327cf8497fe59e9ac85848828616c08af34b6c714d9c",
+      "gitBlobSHA": "6222fca312169c104ee24d59ae7f3e4f20a0bbb4",
+      "bytes": 7875,
+      "source": "frozen-zip:Tools/LightingStudy/present_spatial_indirect.py"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/Tools/LightingStudy/verify_spatial_indirect_evidence.py",
+      "sha256": "bbf71b0507877bfcd5278205e2d0eb0b65ef4c659b29939869e548d75efe8d3e",
+      "gitBlobSHA": "e91a1b9ae21df8d035e14b9ad4ffb50b0e33701e",
+      "bytes": 4988,
+      "source": "frozen-zip:Tools/LightingStudy/verify_spatial_indirect_evidence.py"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/docs/decisions/ADR-lighting-spatial-indirect-experiment-20261026-ru.md",
+      "sha256": "bdaaf3a2297aa74acc187c3a25e6fbd1145f74f32047abcbbbf521cf87d30038",
+      "gitBlobSHA": "d1c4b1cd275adc823c42c2b4cf52f0a972f1ccb3",
+      "bytes": 4783,
+      "source": "frozen-zip:docs/decisions/ADR-lighting-spatial-indirect-experiment-20261026-ru.md"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/docs/lighting-integration/local-cache-invalidation-ru.md",
+      "sha256": "e248cb11b54b183e9dd823d1fe8eb4893898de77d372b45648bf52fb1c1c8d90",
+      "gitBlobSHA": "9f6e6fdf94942d334003ecc6b7ba0f54ad982185",
+      "bytes": 7564,
+      "source": "frozen-zip:docs/lighting-integration/local-cache-invalidation-ru.md"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/docs/lighting-integration/meadow-baseline-to-spatial-indirect.patch",
+      "sha256": "eab1700b55352a182ce4f28e3f2eb0c6e0b9dea33203cb5c04199b6e682ec4d5",
+      "gitBlobSHA": "1bbe175d35502ba27ede51d6a921099b80be6a02",
+      "bytes": 5453,
+      "source": "frozen-zip:docs/lighting-integration/meadow-baseline-to-spatial-indirect.patch"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/docs/lighting-integration/spatial-indirect-audit.json",
+      "sha256": "ad0d52c06414cde659b8f50fa7e23dec9a24ad03052c9c81de92deb9ff201531",
+      "gitBlobSHA": "60f20f045853b2611130c2625bfb495568880385",
+      "bytes": 1934,
+      "source": "frozen-zip:docs/lighting-integration/spatial-indirect-audit.json"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/docs/lighting-integration/spatial-indirect-manifest.json",
+      "sha256": "589ac5fb22b5859e03187490f14158ac3ee4d373b4332224a8ff5ce3eae4368a",
+      "gitBlobSHA": "dc5d75a58b84a729bbf1f5a8c5a31842b88fadd7",
+      "bytes": 11627,
+      "source": "frozen-zip:docs/lighting-integration/spatial-indirect-manifest.json"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/docs/reports/spatial-indirect-prototype-20261026-ru.md",
+      "sha256": "df388408085da56116ee003f92921d72fc7843c2f4e6092247cb8b35cddd4082",
+      "gitBlobSHA": "242885adcb0ef82a7ba110bf8698697e1ef86d1d",
+      "bytes": 22933,
+      "source": "frozen-zip:docs/reports/spatial-indirect-prototype-20261026-ru.md"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/evidence/FinalPrecision/benchmarks.json",
+      "sha256": "433d4743af2d7e0253a6fa048c041fae5e53ac3b850e32a54b157e5e44f82ac4",
+      "gitBlobSHA": "4b89c8a36d7e6d897db5e8270feb0c1f0db5df45",
+      "bytes": 3259,
+      "source": "frozen-zip:evidence/FinalPrecision/benchmarks.json"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/evidence/FinalPrecision/result.txt",
+      "sha256": "277c8da2d0f34fed7d13af36f0cf51f6304e4bf7ff2818f5fceb4aebe400c122",
+      "gitBlobSHA": "815c3920bd380ce595b0ba04e3dc8efb089e55b4",
+      "bytes": 191,
+      "source": "frozen-zip:evidence/FinalPrecision/result.txt"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/evidence/FinalPrecision/runtime-errors.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gitBlobSHA": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "bytes": 0,
+      "source": "frozen-zip:evidence/FinalPrecision/runtime-errors.txt"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/evidence/FinalPrecision/transport-checks.json",
+      "sha256": "6c4dd53324645a8b8d7c17c8337368e3289c2e590cf988368b0abd3bf9631ff8",
+      "gitBlobSHA": "422288f006d77e590194ceaa0808f34de037e1f5",
+      "bytes": 1119,
+      "source": "frozen-zip:evidence/FinalPrecision/transport-checks.json"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/evidence/FinalPrecision/updates.json",
+      "sha256": "34e915d99cc1a41f3cd9efe3f76fd20bc8a51e025b67675a6b22cabbe1f071af",
+      "gitBlobSHA": "37bdfe01986a3e2557e6222b2bd8a82ab643f751",
+      "bytes": 5150,
+      "source": "frozen-zip:evidence/FinalPrecision/updates.json"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/evidence/build-warnings.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gitBlobSHA": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "bytes": 0,
+      "source": "frozen-zip:evidence/build-warnings.txt"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/evidence/build.txt",
+      "sha256": "830f51396a4dbf7dc19203e1f70bf29b27b16efe81ef35c1fdb2a29f42de7e76",
+      "gitBlobSHA": "74944094b7b08e2c8ab31adb527f0bfa1fb4d4ce",
+      "bytes": 98,
+      "source": "frozen-zip:evidence/build.txt"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/evidence/editmode-final.xml",
+      "sha256": "a3d8b36cac89e41975105c4762ac35f979a8710400664a7922313050622cf2f7",
+      "gitBlobSHA": "467f78fa7ea09cf01e3206bbb7d8bf1e5efb29b5",
+      "bytes": 157389,
+      "source": "frozen-zip:evidence/editmode-final.xml"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/evidence/evidence-validation-HDR-strict.json",
+      "sha256": "bcfcd2aa168748c9188eb8f552c683ecc8929ba938a773e17250114d522fb710",
+      "gitBlobSHA": "4cf56ba99724df85a307f7aa5ed9b9846b50e547",
+      "bytes": 36460,
+      "source": "frozen-zip:evidence/evidence-validation-HDR-strict.json"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/evidence/evidence-validation-initial-strict.json",
+      "sha256": "e55de07285f40218647f3575f13082ac655c4689630642d80e094f695bc70b6b",
+      "gitBlobSHA": "ba93b6e683b1d217af7f7dc4e02b02ef3333b2f0",
+      "bytes": 22521,
+      "source": "frozen-zip:evidence/evidence-validation-initial-strict.json"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/evidence/evidence-validation.json",
+      "sha256": "94a44732b64389c4bf7db190fc9d3757573d3fed3778202e7bbf8a7b81c3bbb2",
+      "gitBlobSHA": "26f1461f2d08b0d3ae15885ab8a88ab50e4d6a9b",
+      "bytes": 39544,
+      "source": "frozen-zip:evidence/evidence-validation.json"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/evidence/player-source-receipt.json",
+      "sha256": "31681a7ae2c71ad8a9fd59fd4fa43685703a1c40c48ebf657cdca083305a5e7b",
+      "gitBlobSHA": "f56cd5544b9a8ae82ed9ebc32884391ce23b8bf5",
+      "bytes": 37950,
+      "source": "frozen-zip:evidence/player-source-receipt.json"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/evidence/playmode-final.xml",
+      "sha256": "23a55fe859f9444e0c4d4853402858c09669f4a32317b57183e168eaa57ad185",
+      "gitBlobSHA": "e566b353907603eeb34825b225c1a693e9aaecbb",
+      "bytes": 9819,
+      "source": "frozen-zip:evidence/playmode-final.xml"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/evidence/spatial-indirect-comparison.png",
+      "sha256": "46b55b3350a80a5c5eb013af9cd71d5f499e5ed468ae00a539f55162635be358",
+      "gitBlobSHA": "7e14a8d5ea20127b6a1d6af8a51c6c985f38dde4",
+      "bytes": 1803673,
+      "source": "frozen-zip:evidence/spatial-indirect-comparison.png"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/evidence/spatial-indirect-time-of-day.png",
+      "sha256": "b8b8bdddf803e29fde1c92c0e2888424e96769cac7ea91d3693810c9658ac117",
+      "gitBlobSHA": "c6acc92da6bf843d1e06662c6024a63235694021",
+      "bytes": 835583,
+      "source": "frozen-zip:evidence/spatial-indirect-time-of-day.png"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/evidence/spatial-indirect-transport.png",
+      "sha256": "72b92fbef78158b370a4a1b98c268b24f46eaec2549a622818f3f3f07fec87a2",
+      "gitBlobSHA": "ada41054af59ae307525477780a11e6a2d5987fc",
+      "bytes": 1313991,
+      "source": "frozen-zip:evidence/spatial-indirect-transport.png"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/payload/Assets/_Game/Editor/SpatialIndirectStudyBuild.cs",
+      "sha256": "79b59288581f06a458bbcbd62a843eedba10e9a850be7fe4a23f86da77fb979e",
+      "gitBlobSHA": "50612e47d55e6335cd1ad1de2bfecb86d372b142",
+      "bytes": 9147,
+      "source": "frozen-zip:payload/Assets/_Game/Editor/SpatialIndirectStudyBuild.cs"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/payload/Assets/_Game/Editor/SpatialIndirectStudyBuild.cs.meta",
+      "sha256": "1a85795f76b778b6924b024f00ef55a2e2e9ea88120f87e60368a5ccd801633a",
+      "gitBlobSHA": "18c56b1388ad8e846315a8df7931c96aae0e6787",
+      "bytes": 59,
+      "source": "frozen-zip:payload/Assets/_Game/Editor/SpatialIndirectStudyBuild.cs.meta"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/payload/Assets/_Game/Scenes/SpatialIndirectStudy_20261026.unity",
+      "sha256": "f91f2cc9cb6e010b857499cd41918502e0e6a265e934af69cc85ee957865cea4",
+      "gitBlobSHA": "0b87735b7ca78d836c3173b5eb7572abe557f733",
+      "bytes": 106308,
+      "source": "frozen-zip:payload/Assets/_Game/Scenes/SpatialIndirectStudy_20261026.unity"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/payload/Assets/_Game/Scenes/SpatialIndirectStudy_20261026.unity.meta",
+      "sha256": "c0a5a39e498ed33458a9f5fc4518daa46dd51c9105a05dbccdf551c5ae1492e1",
+      "gitBlobSHA": "a11e3ab9acd8eae5480ed5f31e24de1db0273fae",
+      "bytes": 155,
+      "source": "frozen-zip:payload/Assets/_Game/Scenes/SpatialIndirectStudy_20261026.unity.meta"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/payload/Assets/_Game/Scripts/Research/SpatialIndirectCache.cs",
+      "sha256": "ad759e91908fe245f80f881f5e5e5c62e5d27c26d5f705fbba1b8ef88a6fe4a2",
+      "gitBlobSHA": "22b98154c4c7dfd8e5d303c9b06f9351a8c66d1e",
+      "bytes": 3254,
+      "source": "frozen-zip:payload/Assets/_Game/Scripts/Research/SpatialIndirectCache.cs"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/payload/Assets/_Game/Scripts/Research/SpatialIndirectCache.cs.meta",
+      "sha256": "4606a73359a5cbd8c9573b976c026068faf900a6f392496c30033805e4c81118",
+      "gitBlobSHA": "3f31534c652e559879bbbcb550217309361ad0c4",
+      "bytes": 59,
+      "source": "frozen-zip:payload/Assets/_Game/Scripts/Research/SpatialIndirectCache.cs.meta"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/payload/Assets/_Game/Scripts/Research/SpatialIndirectStudyReview.cs",
+      "sha256": "1941d5a083ecf8c0d7e2d17d695acd71653ed916092254647366d3f2c2c9f4db",
+      "gitBlobSHA": "692cb8e40325c29893a5f8213fd1384a026b7dce",
+      "bytes": 17474,
+      "source": "frozen-zip:payload/Assets/_Game/Scripts/Research/SpatialIndirectStudyReview.cs"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/payload/Assets/_Game/Scripts/Research/SpatialIndirectStudyReview.cs.meta",
+      "sha256": "ad602d8eba709a5c0c4b8f2068a9810269ed0541e491bf8bd94da0ac4686ee50",
+      "gitBlobSHA": "76efb63f3e4e04bae9550df3885c2ff48b14bce4",
+      "bytes": 59,
+      "source": "frozen-zip:payload/Assets/_Game/Scripts/Research/SpatialIndirectStudyReview.cs.meta"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/payload/Assets/_Game/Scripts/Research/SpatialIndirectTrace.cs",
+      "sha256": "90a2d8f49e78f17313c0a0548c90ffc0c5d664c540e6bcae7ef3f252e31d8e31",
+      "gitBlobSHA": "51331234a246c5502395ca674706b9948731659b",
+      "bytes": 10551,
+      "source": "frozen-zip:payload/Assets/_Game/Scripts/Research/SpatialIndirectTrace.cs"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/payload/Assets/_Game/Scripts/Research/SpatialIndirectTrace.cs.meta",
+      "sha256": "e4e0992b810550f2db3499c2e2dded476dbff95d52b0c72f8e944820abd397e5",
+      "gitBlobSHA": "c0277c6f75349e5bbdf25f027aa187cfd80fffa9",
+      "bytes": 59,
+      "source": "frozen-zip:payload/Assets/_Game/Scripts/Research/SpatialIndirectTrace.cs.meta"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/payload/Assets/_Game/Scripts/Research/SpatialIndirectVolume.cs",
+      "sha256": "0ed3a8303268b008dca101fe6fed036c5e4815459e4e83456db75d9e54a897fe",
+      "gitBlobSHA": "72fbe0952ce2193f706b67fa923d3d89b6bf4634",
+      "bytes": 8420,
+      "source": "frozen-zip:payload/Assets/_Game/Scripts/Research/SpatialIndirectVolume.cs"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/payload/Assets/_Game/Scripts/Research/SpatialIndirectVolume.cs.meta",
+      "sha256": "f8811537be87961387cf800479ba54fea6a1ea0b47d9fd4d0634510f4b7777d2",
+      "gitBlobSHA": "cf9e575845c125a0c0ef697ab6439627fbc876c5",
+      "bytes": 59,
+      "source": "frozen-zip:payload/Assets/_Game/Scripts/Research/SpatialIndirectVolume.cs.meta"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/payload/Assets/_Game/Settings/Rendering/SpatialIndirectStudy.meta",
+      "sha256": "1d32bccca0c7003e9e06d55123637ca7ecdac64676434f334aec920644385081",
+      "gitBlobSHA": "c99c00c816539b019b5708940e96c2efbf13bb3a",
+      "bytes": 172,
+      "source": "frozen-zip:payload/Assets/_Game/Settings/Rendering/SpatialIndirectStudy.meta"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/payload/Assets/_Game/Settings/Rendering/SpatialIndirectStudy/Grey reflector.mat",
+      "sha256": "fea88fd918b5e5e775ace54a4ed6a5e11622b3655124ccd007b1bcad65e24a97",
+      "gitBlobSHA": "7d3d0ccfc3bc66280178c30cfa14a5c656e427de",
+      "bytes": 1949,
+      "source": "frozen-zip:payload/Assets/_Game/Settings/Rendering/SpatialIndirectStudy/Grey reflector.mat"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/payload/Assets/_Game/Settings/Rendering/SpatialIndirectStudy/Grey reflector.mat.meta",
+      "sha256": "fb5fc33d3ad6ddf68ae2456cf3a8cfb2093fa14167a35596c6d4f18503700395",
+      "gitBlobSHA": "9c2c384dfc486d047e44a72aa27ed2e465b0b818",
+      "bytes": 188,
+      "source": "frozen-zip:payload/Assets/_Game/Settings/Rendering/SpatialIndirectStudy/Grey reflector.mat.meta"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/payload/Assets/_Game/Settings/Rendering/SpatialIndirectStudy/Neutral matte.mat",
+      "sha256": "6ce6f05811b2971858c64583ee2bcefde1b061faa864d943d93eb55c3cd6d59a",
+      "gitBlobSHA": "64cee2064a2834421cf0a286b6ef62db9b29d479",
+      "bytes": 1947,
+      "source": "frozen-zip:payload/Assets/_Game/Settings/Rendering/SpatialIndirectStudy/Neutral matte.mat"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/payload/Assets/_Game/Settings/Rendering/SpatialIndirectStudy/Neutral matte.mat.meta",
+      "sha256": "be93b544f2b6f11ddd6b44833fde6a2e60b52c3e4e114f0a1131053b6863a1c2",
+      "gitBlobSHA": "b34f0709a38546aadd0b41061c66251330127d36",
+      "bytes": 188,
+      "source": "frozen-zip:payload/Assets/_Game/Settings/Rendering/SpatialIndirectStudy/Neutral matte.mat.meta"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/payload/Assets/_Game/Settings/Rendering/SpatialIndirectStudy/Offscreen reflector.mat",
+      "sha256": "449902e68711c56c14601a6b46a270f50db4d9923a76c20d648df1cb60ef9b25",
+      "gitBlobSHA": "beb7ba4859c635ad0622aa28c771b8291714f951",
+      "bytes": 1954,
+      "source": "frozen-zip:payload/Assets/_Game/Settings/Rendering/SpatialIndirectStudy/Offscreen reflector.mat"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/payload/Assets/_Game/Settings/Rendering/SpatialIndirectStudy/Offscreen reflector.mat.meta",
+      "sha256": "8b831f02a4ef49de08a55f8e6990ef5eda910cb8f79a3ad424a0af036761e90a",
+      "gitBlobSHA": "7da67a73a6e682b1d80a281eab8a75af3688964c",
+      "bytes": 188,
+      "source": "frozen-zip:payload/Assets/_Game/Settings/Rendering/SpatialIndirectStudy/Offscreen reflector.mat.meta"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/payload/Assets/_Game/Settings/Rendering/SpatialIndirectStudy/Roof matte.mat",
+      "sha256": "0c5615cc2d594e665b0e91f5e1b603a3e7e79891018bd2a1f37ab3c1ee9cfae3",
+      "gitBlobSHA": "0a87e97c40e68810cdb7d698949af136691dbc75",
+      "bytes": 1945,
+      "source": "frozen-zip:payload/Assets/_Game/Settings/Rendering/SpatialIndirectStudy/Roof matte.mat"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/payload/Assets/_Game/Settings/Rendering/SpatialIndirectStudy/Roof matte.mat.meta",
+      "sha256": "b504a22ede405300043f9414300210f26db46b4df4c224124a07bd990c5136fb",
+      "gitBlobSHA": "16f0a2a73eef981907babb9e91c8c58480087758",
+      "bytes": 188,
+      "source": "frozen-zip:payload/Assets/_Game/Settings/Rendering/SpatialIndirectStudy/Roof matte.mat.meta"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/payload/Assets/_Game/Shaders/Foliage/LC_Foliage.shader",
+      "sha256": "2fd8044f9e34d5f44c28aa7bf1b3eeffc9dd8d6f681ca9140af63608d0606510",
+      "gitBlobSHA": "847bbdee7c39a54c507b73dc74df8467d0b66450",
+      "bytes": 4708,
+      "source": "frozen-zip:payload/Assets/_Game/Shaders/Foliage/LC_Foliage.shader"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/payload/Assets/_Game/Shaders/Foliage/LC_Foliage.shader.meta",
+      "sha256": "0e381172d3a3bae9e3e18770d340bd489de897166c06dd1e1f7c736c8ce8c175",
+      "gitBlobSHA": "6eae8895939e179738f3a24ee436770b7f0836ec",
+      "bytes": 213,
+      "source": "frozen-zip:payload/Assets/_Game/Shaders/Foliage/LC_Foliage.shader.meta"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/payload/Assets/_Game/Shaders/Foliage/LC_FoliageURP.hlsl",
+      "sha256": "b59f70a517a489ca9bb66493938cd2a0b3a0ac77787070a42375fea656717bfe",
+      "gitBlobSHA": "65f1d5e399c1178321e394929436a845113ea566",
+      "bytes": 11587,
+      "source": "frozen-zip:payload/Assets/_Game/Shaders/Foliage/LC_FoliageURP.hlsl"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/payload/Assets/_Game/Shaders/Foliage/LC_FoliageURP.hlsl.meta",
+      "sha256": "731eadfb9b1f416b43a5bea8eb680f34592c10f8165978274edacdffe481e85d",
+      "gitBlobSHA": "b39e4c1d9dbf752e20e69085b0b92cb486bd057b",
+      "bytes": 165,
+      "source": "frozen-zip:payload/Assets/_Game/Shaders/Foliage/LC_FoliageURP.hlsl.meta"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/payload/Assets/_Game/Shaders/Foliage/LC_Grass.shader",
+      "sha256": "fbb486e3d88ea9af85850e93d9cdb4b04d1e1f9a29c1d15175e06b904047c62d",
+      "gitBlobSHA": "abef74414c5a1086c851baf8d0d1393def85bfe1",
+      "bytes": 5862,
+      "source": "frozen-zip:payload/Assets/_Game/Shaders/Foliage/LC_Grass.shader"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/payload/Assets/_Game/Shaders/Foliage/LC_Grass.shader.meta",
+      "sha256": "b45433ab961301c2646caa8f5b48280ee48aec804cae7c86606650482d31c9af",
+      "gitBlobSHA": "e4ca9860c8cf4b01518884a5706ffa4520e483e3",
+      "bytes": 213,
+      "source": "frozen-zip:payload/Assets/_Game/Shaders/Foliage/LC_Grass.shader.meta"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/payload/Assets/_Game/Shaders/Foliage/LC_GrassURP.hlsl",
+      "sha256": "024599bd09c386f805e98c0abe5edd6dfdb8c992e217ec7b96e0fdeba7008dfb",
+      "gitBlobSHA": "e64922567906bba46c8f804e8b0a429ced309e29",
+      "bytes": 15412,
+      "source": "frozen-zip:payload/Assets/_Game/Shaders/Foliage/LC_GrassURP.hlsl"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/payload/Assets/_Game/Shaders/Foliage/LC_GrassURP.hlsl.meta",
+      "sha256": "dd9dad68f165deaa4197a6ea431b566c0e903ca768b3c630799ba271f33fc801",
+      "gitBlobSHA": "9a6f6578f99680630cb9773020a395a074a95ea7",
+      "bytes": 165,
+      "source": "frozen-zip:payload/Assets/_Game/Shaders/Foliage/LC_GrassURP.hlsl.meta"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/payload/Assets/_Game/Shaders/Surface/LC_LightingCommon.hlsl",
+      "sha256": "d47e5f6292bf012fd25d37aaf2f0926210e26bee638d9a26d4cb5e93b358ef64",
+      "gitBlobSHA": "b06bb341905031225a7be4f2944f01f9c5c92910",
+      "bytes": 768,
+      "source": "frozen-zip:payload/Assets/_Game/Shaders/Surface/LC_LightingCommon.hlsl"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/payload/Assets/_Game/Shaders/Surface/LC_LightingCommon.hlsl.meta",
+      "sha256": "6d4bc23105a3aaa047dac2f09e7334d86031502a205d1cbd8f56af095d943b64",
+      "gitBlobSHA": "169b35f13f9b437a586e0d93afb0f34f6b157a8a",
+      "bytes": 161,
+      "source": "frozen-zip:payload/Assets/_Game/Shaders/Surface/LC_LightingCommon.hlsl.meta"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/payload/Assets/_Game/Shaders/Surface/LC_SpatialIndirect.hlsl",
+      "sha256": "b6d6d5845590b0d81c992fdd11f7d375ea6a328a0dd417453b7b25792b7e9b50",
+      "gitBlobSHA": "546e3fb16eb7768bf8f1337859d7505893bd6081",
+      "bytes": 3639,
+      "source": "frozen-zip:payload/Assets/_Game/Shaders/Surface/LC_SpatialIndirect.hlsl"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/payload/Assets/_Game/Shaders/Surface/LC_SpatialIndirect.hlsl.meta",
+      "sha256": "1035534ceeaa45c76130e4d99e82aac635010bf1f386dc853ceb5f86b74b536b",
+      "gitBlobSHA": "df6be77f453bfd7f03c5c94087f0af3aceb21aa7",
+      "bytes": 161,
+      "source": "frozen-zip:payload/Assets/_Game/Shaders/Surface/LC_SpatialIndirect.hlsl.meta"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/payload/Assets/_Game/Shaders/Surface/LC_StylizedLit.shader",
+      "sha256": "e73d877e4822bae3d7b3471979ea154f765582f9a5b2e0f6f3a06b55ea0e849f",
+      "gitBlobSHA": "61a741743922bafadc876a2bc75cdd001a226626",
+      "bytes": 19027,
+      "source": "frozen-zip:payload/Assets/_Game/Shaders/Surface/LC_StylizedLit.shader"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/payload/Assets/_Game/Shaders/Surface/LC_StylizedLit.shader.meta",
+      "sha256": "035b55ff93046e25a6eb72dea890f677aed66e032dbd01ff56fbdd3947bbf30e",
+      "gitBlobSHA": "398fea49e73ede15a0804540de0674bbfc58cdfe",
+      "bytes": 213,
+      "source": "frozen-zip:payload/Assets/_Game/Shaders/Surface/LC_StylizedLit.shader.meta"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/payload/Assets/_Game/Shaders/Terrain/LC_Terrain.shader",
+      "sha256": "637d643296e1a12e0fc747f50909630bca3643efaca9292e43fecfcaf722c81e",
+      "gitBlobSHA": "6658ed4553c905d78d68dcfbb91066e2e4c99986",
+      "bytes": 24048,
+      "source": "frozen-zip:payload/Assets/_Game/Shaders/Terrain/LC_Terrain.shader"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/payload/Assets/_Game/Shaders/Terrain/LC_Terrain.shader.meta",
+      "sha256": "5c5a683f4a89c73eff52466cc8994e23d5979c716b3c51ca04b34208cfd1f67d",
+      "gitBlobSHA": "7a52f3018e273a38889222e40f9612ac1adb00bb",
+      "bytes": 213,
+      "source": "frozen-zip:payload/Assets/_Game/Shaders/Terrain/LC_Terrain.shader.meta"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/payload/Assets/_Game/Tests/Editor/SpatialIndirectTests.cs",
+      "sha256": "9ae6bad3bcb67335742562fb6e434262f9c194f8364b0ffbffb57ee8ae6fc695",
+      "gitBlobSHA": "9859a46765a7a389dd2fb1a5e7648fb55855ca2b",
+      "bytes": 7700,
+      "source": "frozen-zip:payload/Assets/_Game/Tests/Editor/SpatialIndirectTests.cs"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/payload/Assets/_Game/Tests/Editor/SpatialIndirectTests.cs.meta",
+      "sha256": "88dfbead4814b10afdd9e3877d7276eb6dbe58c8cfde045ccfdeee58c3a72177",
+      "gitBlobSHA": "a55d4e1bb09a0e8848ec3b5844bde8ece04a18d7",
+      "bytes": 59,
+      "source": "frozen-zip:payload/Assets/_Game/Tests/Editor/SpatialIndirectTests.cs.meta"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/reference/gi-baseline-9e8c126/Assets/_Game/Shaders/Foliage/LC_Foliage.shader",
+      "sha256": "128a7ec5026c6252b53bebc4725aa347c4d6fd758dd5c7c7d914af6c3d4819ab",
+      "gitBlobSHA": "287e2d7eba987ef109b056747ff114c344ebcc1f",
+      "bytes": 4588,
+      "source": "frozen-zip:reference/gi-baseline-9e8c126/Assets/_Game/Shaders/Foliage/LC_Foliage.shader"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/reference/gi-baseline-9e8c126/Assets/_Game/Shaders/Foliage/LC_FoliageURP.hlsl",
+      "sha256": "55fdbd4bec3ddd36dc83511d8ac1df53264b0bc460c083210580fa3a421ddeab",
+      "gitBlobSHA": "15c9e87f1b9b54e77238e48a72d4c1b23677519c",
+      "bytes": 11557,
+      "source": "frozen-zip:reference/gi-baseline-9e8c126/Assets/_Game/Shaders/Foliage/LC_FoliageURP.hlsl"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/reference/gi-baseline-9e8c126/Assets/_Game/Shaders/Foliage/LC_Grass.shader",
+      "sha256": "217b2802d3a4d17a1a72701bf77b4f434f08640ea1ab2181b29fabdaaafcbd9e",
+      "gitBlobSHA": "4b91f687a316896a46f6d05c1f311b9eca592af0",
+      "bytes": 5742,
+      "source": "frozen-zip:reference/gi-baseline-9e8c126/Assets/_Game/Shaders/Foliage/LC_Grass.shader"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/reference/gi-baseline-9e8c126/Assets/_Game/Shaders/Foliage/LC_GrassURP.hlsl",
+      "sha256": "a5e4b56ad2dfd9f340b20e6f47875e3d7e0e559020431ccb45ee38def2b1dd77",
+      "gitBlobSHA": "e5238bd2cc75d142b92fa9b06f93b769ff8c97ce",
+      "bytes": 15382,
+      "source": "frozen-zip:reference/gi-baseline-9e8c126/Assets/_Game/Shaders/Foliage/LC_GrassURP.hlsl"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/reference/gi-baseline-9e8c126/Assets/_Game/Shaders/Surface/LC_LightingCommon.hlsl",
+      "sha256": "78fff9e989422c3202030845171d085d0a77aa031e8b2f8bc4bfbec341a459d3",
+      "gitBlobSHA": "81cd51d965d45caea253802c2aa2418a5bd3ac80",
+      "bytes": 733,
+      "source": "frozen-zip:reference/gi-baseline-9e8c126/Assets/_Game/Shaders/Surface/LC_LightingCommon.hlsl"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/reference/gi-baseline-9e8c126/Assets/_Game/Shaders/Surface/LC_StylizedLit.shader",
+      "sha256": "f2b325f394fba86470744cabacbf43e2a67d446b6ac6432f44d698f5a4e7b48c",
+      "gitBlobSHA": "22afc0966d197587fe207aa1e229fc070fb0b9de",
+      "bytes": 18862,
+      "source": "frozen-zip:reference/gi-baseline-9e8c126/Assets/_Game/Shaders/Surface/LC_StylizedLit.shader"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/reference/gi-baseline-9e8c126/Assets/_Game/Shaders/Terrain/LC_Terrain.shader",
+      "sha256": "1503dee52ddc12c70cbb0fd1d41610e4924a308c192c3bac29dfc13275e8da49",
+      "gitBlobSHA": "52bed72d8b6f73fa9a322a7f9d02b4eea6dabefb",
+      "bytes": 23906,
+      "source": "frozen-zip:reference/gi-baseline-9e8c126/Assets/_Game/Shaders/Terrain/LC_Terrain.shader"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/reference/gi-baseline-9e8c126/ProjectSettings/GraphicsSettings.asset",
+      "sha256": "de7e2162963a8ae4aee3467e6043f925960cf4ee4b23ab2f1ec1efa405388aad",
+      "gitBlobSHA": "5e11a656cc4bb2bdb4c33a02018bdfc6ebf0becf",
+      "bytes": 2957,
+      "source": "frozen-zip:reference/gi-baseline-9e8c126/ProjectSettings/GraphicsSettings.asset"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/reference/gi-baseline-9e8c126/ProjectSettings/ProjectSettings.asset",
+      "sha256": "917e5fd654d712d1242fed4dc2ad7a31f202e691bb9183ce5d6ff82169dce661",
+      "gitBlobSHA": "fb5265b945a839f287e3682109fd3b70973a117e",
+      "bytes": 20613,
+      "source": "frozen-zip:reference/gi-baseline-9e8c126/ProjectSettings/ProjectSettings.asset"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/reference/gi-baseline-9e8c126/ProjectSettings/QualitySettings.asset",
+      "sha256": "bf2a90b2ec073be90df8b606b12894e84b13b7133863b9f040331cb6150d969f",
+      "gitBlobSHA": "3beeed069594a338a95f2272d65d36d5260acc81",
+      "bytes": 10138,
+      "source": "frozen-zip:reference/gi-baseline-9e8c126/ProjectSettings/QualitySettings.asset"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/reference/gi-baseline-9e8c126/manifest.json",
+      "sha256": "4fc4e7ca9a57284572ac3c2d56df3e86983e6b70b26e69fc76931060f249069e",
+      "gitBlobSHA": "3f1d820be7887cb519be50bf617b623e28808cbd",
+      "bytes": 1544,
+      "source": "frozen-zip:reference/gi-baseline-9e8c126/manifest.json"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/reference/lighting-to-map-authoring-20261025-ru.md",
+      "sha256": "511eafa534c4fda0288a0d0d791145a920fbd39dd04cd722eb2e2c77da38acbf",
+      "gitBlobSHA": "720935f6b42ded2d2f32eb1b2beb76fb1922471b",
+      "bytes": 27606,
+      "source": "frozen-zip:reference/lighting-to-map-authoring-20261025-ru.md"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/reference/meadow-source-manifest.json",
+      "sha256": "d70ef3e9b315cbda1f58a736c4a72838924ae7053d8650c7be23958c3cd82049",
+      "gitBlobSHA": "e655a234dbdf397aad79d6a639951cde8f93d645",
+      "bytes": 59782,
+      "source": "frozen-zip:reference/meadow-source-manifest.json"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/reference/publication-receipt.json",
+      "sha256": "a1c77f0e551a32f1d0cfe49ac597dfb9836782f92b9a9d69b3c330ee6f561cb8",
+      "gitBlobSHA": "4bdc7dcd3dd6bf47b66421a4586e7cdc1f51721d",
+      "bytes": 408,
+      "source": "frozen-zip:reference/publication-receipt.json"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/reference/shader-merge-manifest.json",
+      "sha256": "ce5f03037b1e27bb1150a3da495caa291b8607bd5226788f40a054398e37b4a9",
+      "gitBlobSHA": "fd425a744b58ab03be10c1b33a6fd864be4d0669",
+      "bytes": 2660,
+      "source": "frozen-zip:reference/shader-merge-manifest.json"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/README-ru.md",
+      "sha256": "703e2cd6c5fcabcef6a04f372dd26d10f1d1e9d286f8d9f10b54071b11910637",
+      "gitBlobSHA": "0c115040c0fd8b4e735a40060d32d71ca43ffe52",
+      "bytes": 2187,
+      "source": "frozen-zip:README-ru.md"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/packet/local-packet-manifest.json",
+      "sha256": "8fd452f1c04370b5bf075cb711a33422a8e572e95a28abf708d2ffda2a5e2598",
+      "gitBlobSHA": "3b02aabb7e3e0e1522ed282c6e7cb3262325e0cc",
+      "bytes": 15006,
+      "source": "frozen-zip:local-packet-manifest.json"
+    },
+    {
+      "path": "docs/plans/lighting-next-stages-20261026-ru.md",
+      "sha256": "c5e284abd2914343c9397f0665d75fb57b1946afd47f33e38dc82e8920c20a82",
+      "gitBlobSHA": "3750530c598c3de1c1cdb6c63379081e8ffdbe11",
+      "bytes": 20808,
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\docs\\plans\\lighting-next-stages-20261026-ru.md"
+    },
+    {
+      "path": "docs/handoffs/lighting-to-map-authoring-20261025-ru.md",
+      "sha256": "d39371c3fcdf45801ee62f8362bc0e4d4222b6e4c38071cf8cfb4fb16132e546",
+      "gitBlobSHA": "b9304e263f5536228cb642566eae35d3fd84eae8",
+      "bytes": 30690,
+      "source": "E:\\Games_Develop\\Little-Castle\\docs\\handoffs\\lighting-to-map-authoring-20261025-ru.md"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/tools/prepare_gi_publication.py",
+      "sha256": "fccdb0d1ceb34253e01268255637eafb790910161d37234686a794b38210430b",
+      "gitBlobSHA": "2ea6817a791781db851f0a976c497265ef80f5c2",
+      "bytes": 7630,
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\Tools\\LightingStudy\\prepare_gi_publication.py"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/README.md",
+      "sha256": "e572640f00f751a124805683263ef11900fa80479479f505e9a0a2b4c1d51266",
+      "gitBlobSHA": "045adf625db07ec3976d31a4e3a08cca60968f5c",
+      "bytes": 2970,
+      "source": "generated-publication-readme"
+    },
+    {
+      "path": "docs/integration-packages/spatial-indirect-20261026/source-archive-receipt.json",
+      "sha256": "ee2f10c66650b365f7fe171a077035f7e68b29b0c5c7a3c6cc6e06f793342fd4",
+      "gitBlobSHA": "1dfe087747f9a63511ab4d7590b2bc09b0a8e881",
+      "bytes": 339,
+      "source": "frozen-archive-provenance"
+    }
+  ]
+}

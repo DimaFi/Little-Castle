@@ -1,0 +1,1484 @@
+{
+  "capturedUTC": "2026-10-25T19:19:05.911036+00:00",
+  "source": "E:\\Games_Develop\\Little-Castle_URP_20261024",
+  "base": "E:\\Games_Develop\\Little-Castle",
+  "destination": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025",
+  "files": [
+    {
+      "path": "Assets/InnerverseInteractive/Ultimate Nature – Starter/Environment/Shared/Palettes/Textures/UNS_Color_Palette.png",
+      "sha256": "1c0cd97c3fdfd513686fe0e6d0d5bc7b3619f59a3c753af77f27304bf3cbbfbe",
+      "bytes": 54104,
+      "action": "identical"
+    },
+    {
+      "path": "Assets/InnerverseInteractive/Ultimate Nature – Starter/Environment/Shared/Palettes/Textures/UNS_Color_Palette.png.meta",
+      "sha256": "57ab156e289cb22e7848e4a04aab7c7eb0043dc1914813083f6824f52651b89d",
+      "bytes": 3228,
+      "action": "identical"
+    },
+    {
+      "path": "Assets/InnerverseInteractive/Ultimate Nature – Starter/Environment/Vegetation/Flowers/Textures/UNS_Flower.png",
+      "sha256": "c885baaad459a59d8e531108443c8f5fb8348fd9238418391ea1bb9ec9d5e47d",
+      "bytes": 59985,
+      "action": "identical"
+    },
+    {
+      "path": "Assets/InnerverseInteractive/Ultimate Nature – Starter/Environment/Vegetation/Flowers/Textures/UNS_Flower.png.meta",
+      "sha256": "e4e1e073c1498e80140992967aeb8468d70bbc70d48a31ddd3af3a98ceec0a25",
+      "bytes": 3579,
+      "action": "identical"
+    },
+    {
+      "path": "Assets/InnerverseInteractive/Ultimate Nature – Starter/Environment/Vegetation/Flowers/Textures/UNS_Flower_Leaf.png",
+      "sha256": "3823a8ea197fac521c6ba04bc6ebe199913ac3da820f058fd9f4dcea9995f2be",
+      "bytes": 2358,
+      "action": "identical"
+    },
+    {
+      "path": "Assets/InnerverseInteractive/Ultimate Nature – Starter/Environment/Vegetation/Flowers/Textures/UNS_Flower_Leaf.png.meta",
+      "sha256": "836c37b32933ea1a3abaf814ac1445242e52f72cb82d6dc0a35ad973ccd71dab",
+      "bytes": 3584,
+      "action": "identical"
+    },
+    {
+      "path": "Assets/InnerverseInteractive/Ultimate Nature – Starter/Environment/Vegetation/Grass/Models/UNS_Grass.fbx",
+      "sha256": "5ec6985d4ba72a2927dad7157aa4737124a9d8ebae8f0202394e38104da6bd7a",
+      "bytes": 64396,
+      "action": "identical"
+    },
+    {
+      "path": "Assets/InnerverseInteractive/Ultimate Nature – Starter/Environment/Vegetation/Grass/Models/UNS_Grass.fbx.meta",
+      "sha256": "f380a18dc8453cda8759b553d69b8052d7b33dd3b1341e952bcd5c9355727a1f",
+      "bytes": 3309,
+      "action": "identical"
+    },
+    {
+      "path": "Assets/InnerverseInteractive/Ultimate Nature – Starter/Environment/Vegetation/Grass/Textures/UNS_Grass.png",
+      "sha256": "051ad4fd4efa476ef74259200028267cbbb996f5a37444e10c0d07e141b2ce7e",
+      "bytes": 51435,
+      "action": "identical"
+    },
+    {
+      "path": "Assets/InnerverseInteractive/Ultimate Nature – Starter/Environment/Vegetation/Grass/Textures/UNS_Grass.png.meta",
+      "sha256": "138e3cfa3b3cb2f6566ce2fe8ad4ac711fe5133603e0a74d80329b6b515b505d",
+      "bytes": 3637,
+      "action": "identical"
+    },
+    {
+      "path": "Assets/InnerverseInteractive/Ultimate Nature – Starter/Settings/UNS_URP_Default_Volume_Profile.asset",
+      "sha256": "e1ab34cb24ed25704721aadba4eac372f7fc513896e5b62fd20e0e14cb007db2",
+      "bytes": 20486,
+      "action": "identical"
+    },
+    {
+      "path": "Assets/InnerverseInteractive/Ultimate Nature – Starter/Settings/UNS_URP_Default_Volume_Profile.asset.meta",
+      "sha256": "67e7da53278e55e8f9196ae97b40f3d806dfd058feff0b4254b370b699a57dc7",
+      "bytes": 457,
+      "action": "identical"
+    },
+    {
+      "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Textures/T_Oak_Kit_Palette.png",
+      "sha256": "323e3e1435741a35e7957e16134f969b214e3b89b747000bde9ebb050e873e2e",
+      "bytes": 435,
+      "action": "identical"
+    },
+    {
+      "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Textures/T_Oak_Kit_Palette.png.meta",
+      "sha256": "c40bfb0be7a11f039f296e6457b6cf96cf125e5edccdbd447a0a1d4edc550618",
+      "bytes": 3007,
+      "action": "identical"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/FlowerKit/FlowerCluster_A.mat",
+      "sha256": "270d5299c0a23409d63e86f9ed92d4faf77d8f9c1f2af69d0cf7cceab04c588e",
+      "bytes": 2002,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/FlowerKit/FlowerCluster_A.mat.meta",
+      "sha256": "61db03f68c1950692bb7a695b42fc7e4d9749358348d7cb28be6adbd01cc2b88",
+      "bytes": 188,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/FlowerKit/FlowerCluster_A_LOD0.asset",
+      "sha256": "4e74011b0f186786fdb2dc71c703ddaf3cef4d27cba9018e93cf175c42496e4c",
+      "bytes": 50628,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/FlowerKit/FlowerCluster_A_LOD0.asset.meta",
+      "sha256": "97beaa933ba12e7662b4f207c536212e73615d2839c0ffb88ecc3af0c0b395c9",
+      "bytes": 188,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/FlowerKit/FlowerCluster_A_LOD1.asset",
+      "sha256": "f6c0c39143a4732dfcb79db6cc0be8f18146684d1b84922eb9f35d378a8ce483",
+      "bytes": 37818,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/FlowerKit/FlowerCluster_A_LOD1.asset.meta",
+      "sha256": "ca56f7c0c4c3d12b810b656d813953313e793421f7cb2ef83892a90d667449c1",
+      "bytes": 188,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/FlowerKit/FlowerCluster_A_LOD2.asset",
+      "sha256": "8f403b6fd414cac69397127aa9aef91f12ef7b80f2d442e2add888a9d365a975",
+      "bytes": 23150,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/FlowerKit/FlowerCluster_A_LOD2.asset.meta",
+      "sha256": "dce622552e299291861a535f7bb9768e5aab752ee89d973fe8b11c0a26f2b80f",
+      "bytes": 188,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/FlowerKit/FlowerCluster_B.mat",
+      "sha256": "fafd5bffe2da8321120b461b3164ae5f636266c30919ac0d2cf1dec60a86b7d2",
+      "bytes": 2002,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/FlowerKit/FlowerCluster_B.mat.meta",
+      "sha256": "cc2ba19c066ec377c419f70061d065d37a510221aaa755b4dae203a987871731",
+      "bytes": 188,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/FlowerKit/FlowerCluster_B_LOD0.asset",
+      "sha256": "bdcf9436fda9977e4b400e8b36eb7aac842a47d9930da0bc80b6539cd46a83ab",
+      "bytes": 108226,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/FlowerKit/FlowerCluster_B_LOD0.asset.meta",
+      "sha256": "9e137dd26ed182fe259b08bf542a4f31ac07157828f2c686e9a052948f460a23",
+      "bytes": 188,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/FlowerKit/FlowerCluster_B_LOD1.asset",
+      "sha256": "b1351b69497116891b93bc1fcb86ec075037dad7601e0811ed9c188193845e5a",
+      "bytes": 77754,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/FlowerKit/FlowerCluster_B_LOD1.asset.meta",
+      "sha256": "e03ba5fc40c769950561302f6e210b8e25ae6b7716ee6b1d9b30dc91d483874e",
+      "bytes": 188,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/FlowerKit/FlowerCluster_B_LOD2.asset",
+      "sha256": "6835b4469a81bfeb546c5e97e8bfe731f97176238c794aef8cb39d122d74b2d9",
+      "bytes": 47897,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/FlowerKit/FlowerCluster_B_LOD2.asset.meta",
+      "sha256": "003d9ee644de997b0464dc7d0a6dcfd27f49c607d9776df8a06da3465c751ad6",
+      "bytes": 188,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Interaction_Proxy.mat",
+      "sha256": "bc19d5330e64ac41d05e73c03ea2fda213abffd68ef1b6834c65f34caa3eb841",
+      "bytes": 1958,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Interaction_Proxy.mat.meta",
+      "sha256": "854d84e4d378caad232135276b4da198d9d07b169ab4f52f3f19258437db3ff3",
+      "bytes": 188,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Meadow_AuthoredMask.asset",
+      "sha256": "b053af9e8da1e970efa3fc298a2d872a8d9ba815d963d94f6088c0a5786bb579",
+      "bytes": 1049617,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Meadow_AuthoredMask.asset.meta",
+      "sha256": "5d3c079e567b97ec884f7acf6cf335977e56beab55ff3f0f315ecc57da686844",
+      "bytes": 188,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Meadow_AuthoredSurface.asset",
+      "sha256": "7da204ce9b04c74a1409d16883c731f0e6b6645872c2479cddd915e4c8e5ca9f",
+      "bytes": 3729,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Meadow_AuthoredSurface.asset.meta",
+      "sha256": "1ab38139421ef18f115446ec497a2e3ea7d13bb675c883231c99691bb750943f",
+      "bytes": 189,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Meadow_Blades.mat",
+      "sha256": "090178925ed66f7cbd61596f7adcacb2688d54f4d1707a2031ac9636594f8ed6",
+      "bytes": 2336,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Meadow_Blades.mat.meta",
+      "sha256": "53d0ad54b9189a885cdfa4623db67d59bbcf1603c4585fdfd357f707168ecd11",
+      "bytes": 188,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Meadow_Blades_LOD0.asset",
+      "sha256": "5158756b83e59fbd3ce09e784432588f4246a9ea1f2c9219c646f074cdd66c25",
+      "bytes": 28290,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Meadow_Blades_LOD0.asset.meta",
+      "sha256": "5702229bffd299356b264413b02acb64f34cc4c144b01cccddce89869cdd3b75",
+      "bytes": 188,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Meadow_Blades_LOD1.asset",
+      "sha256": "8fe509e5ac62d98953d7109fceb478c25a8afd68f848c22582986309ce1737bf",
+      "bytes": 17921,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Meadow_Blades_LOD1.asset.meta",
+      "sha256": "abc9118508f136959f2e429d5b0ad1c523d719ad2658029d8b52e7ecac4e5486",
+      "bytes": 188,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Meadow_Blades_LOD2.asset",
+      "sha256": "5ed586f94568b104b0d2513292eb7b76272ce43ceec405dcffe8a67ac544275e",
+      "bytes": 9518,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Meadow_Blades_LOD2.asset.meta",
+      "sha256": "fdae141a3a125a2c9aefe2669abca104dde2bc5c5d24c46f309de65cf268021b",
+      "bytes": 188,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Meadow_Blades_LOD3.asset",
+      "sha256": "a63b0779bc049c7537375468387853425cc81a84ee17d9979a3ba856b64142c1",
+      "bytes": 5914,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Meadow_Blades_LOD3.asset.meta",
+      "sha256": "84979bcab63fe453bae2a0e4f4ecb823406f2470f35a73f274ab9a78c8564bef",
+      "bytes": 188,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Meadow_BrushPreview.mat",
+      "sha256": "22aabf0f49680e8e9c4ff95b670c88dbafefa758e157a09640be1c6888ac85ca",
+      "bytes": 1856,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Meadow_BrushPreview.mat.meta",
+      "sha256": "9cf00627b7cf4a98fa24def4a35f62c2fcdd920246ee10759f042114737a55f0",
+      "bytes": 188,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Meadow_ExistingGrass.mat",
+      "sha256": "150e9c9be06d2a9da7df1b9ddde45fe0c466ad47f414f7dcbf13fd682405d107",
+      "bytes": 2373,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Meadow_ExistingGrass.mat.meta",
+      "sha256": "ae40cf420f1eabe9e830a3325e9f9a860789c805d58a9738bbd87569dd8d5b12",
+      "bytes": 188,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Meadow_Grade.asset",
+      "sha256": "1f5734fa8ad2537170158dd2e29d98f0a59c94934831535c3070fca12898158c",
+      "bytes": 21356,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Meadow_Grade.asset.meta",
+      "sha256": "de8de264f1a0acbd50ef6f480420e70bea752f897019df55d15edc606fc8ca36",
+      "bytes": 189,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Meadow_Ground.asset",
+      "sha256": "721fc48bebf0c23f04928c9c0f9a1ae9acba7ffa23673f416b644cc64230cd7d",
+      "bytes": 5348832,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Meadow_Ground.asset.meta",
+      "sha256": "70d3684fd2d2c9446da0964522f542d912e8de1677bd3cf2d8eebe67f36d2719",
+      "bytes": 188,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Meadow_Ground.mat",
+      "sha256": "193bcc49cd8016cec8b277cb5f302f98b5d64bfd6820f43e7a48261045583913",
+      "bytes": 4486,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Meadow_Ground.mat.meta",
+      "sha256": "3bc49eea3197b20d26246aaa1bfed9a6b537d22ec2fcf8cecf57342b1a0755d8",
+      "bytes": 188,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Meadow_InstanceData.asset",
+      "sha256": "2d4be2ac7bfafe240735240cd017f0587149b1414621f0203c39381c1a4e4fa4",
+      "bytes": 6048082,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Meadow_InstanceData.asset.meta",
+      "sha256": "dd3df83f800b373f4b978515d3a5b8ee289c81073d8141ddd4e155690f6f7093",
+      "bytes": 189,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Meadow_ScatterLibrary.asset",
+      "sha256": "be000ee76044324d27d92bdb0aac9ffe8b480ae84200b27714449203dee270e4",
+      "bytes": 8767,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Meadow_ScatterLibrary.asset.meta",
+      "sha256": "7910a5a64a25f1a5827ff1d6034093270a3ad0b182774886f1b1e665710e1207",
+      "bytes": 189,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Meadow_URP.asset",
+      "sha256": "8cbba5b33445c84226ec0b31c3a10a96a00d3fa16a171051cadc54b515e91d27",
+      "bytes": 4772,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Meadow_URP.asset.meta",
+      "sha256": "4972a2d714058e0b90f694e1a25002f138dcccb1b5f33c885b66c4e04651b3a8",
+      "bytes": 189,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Pass03_BaselineGrass.asset",
+      "sha256": "d2438ed4e32aaa79787bd104989a1d77758c310e8fab03677dc87af7a3277ea9",
+      "bytes": 6048083,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Pass03_BaselineGrass.asset.meta",
+      "sha256": "65f794571ff5a735c38274a3495cbf0efddf4a54d01651760df144a6388fa5e3",
+      "bytes": 189,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Pass03_Before_LOD0.asset",
+      "sha256": "30a15dc3de774a4b21be578dfaa32061004e28c5f5d2aa42e5e920b9c608bbd4",
+      "bytes": 28290,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Pass03_Before_LOD0.asset.meta",
+      "sha256": "857540ec79e29bc3c5ed25e0bf8217e4ecac651b270e32e9b7a392d8c0cb2ae5",
+      "bytes": 188,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Pass03_Before_LOD1.asset",
+      "sha256": "bb72efb96988ac46cadf5bf43c25cc5f0d6c508aa587688ad96a974cb134bb82",
+      "bytes": 17921,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Pass03_Before_LOD1.asset.meta",
+      "sha256": "5e4b42137cbf2b4b54d1a3b92114862b5387a78294c236191005b51c15397625",
+      "bytes": 188,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Pass03_Before_LOD2.asset",
+      "sha256": "5b7337fa8db4d39e4a6c2e2961b2d5e860becfa11790efd3f365ae87eb2b1cf9",
+      "bytes": 9517,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Pass03_Before_LOD2.asset.meta",
+      "sha256": "749d00c294c7c4dd5b8fd3b0d71e80e03964df64b2c2a82984381362dda87ae3",
+      "bytes": 188,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Pass03_Before_LOD3.asset",
+      "sha256": "a80b15f93cbe9e426810630ce4bd4ea71591fd212ce7a43eba402eb4ca288d54",
+      "bytes": 5912,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Pass03_Before_LOD3.asset.meta",
+      "sha256": "47c0804020cca33a7d83baf0e72290ca2c9683593632b7fb8d80f41591bc5035",
+      "bytes": 188,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Scatter/Scatter_UNS_Color_Palette.mat",
+      "sha256": "5ccc4eecf12cb9d537a8305bbae9d584af57109df74535cc1cd64c83d60e5907",
+      "bytes": 2012,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Scatter/Scatter_UNS_Color_Palette.mat.meta",
+      "sha256": "ee13c97850cfcba73940d92ca7351e2317920e2c5628b4047a8c7a1d32a3539d",
+      "bytes": 188,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Scatter/Scatter_UNS_Flower.mat",
+      "sha256": "44eaf83da47b9b89058b4150b1ef57aa71e437c539a836660e9f3a693f048483",
+      "bytes": 2060,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Scatter/Scatter_UNS_Flower.mat.meta",
+      "sha256": "8aa0db79400710c714679d02ec7ebed53d039038e026ee8e839dda6d8dc00878",
+      "bytes": 188,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Scatter/Scatter_UNS_Flower_Leaf.mat",
+      "sha256": "d790440cc4f1f824a83dbdb3685938a2f2a984d44b0ba0a4df351bb3a85e7c2b",
+      "bytes": 2065,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Scatter/Scatter_UNS_Flower_Leaf.mat.meta",
+      "sha256": "2c0f6ec7bc889c8b889123516cf7b54ded40104189749ba53829a04c119b579d",
+      "bytes": 188,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Scatter/UNS_Branch_LOD0.asset",
+      "sha256": "10805ae2f181301f157107fc808e5a035689d0a1697f978c01f491155557cdcb",
+      "bytes": 39518,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Scatter/UNS_Branch_LOD0.asset.meta",
+      "sha256": "9277a580b8dc9d39eda0ff164a43261b2d34f2b06769178dd98e6b301a00701c",
+      "bytes": 188,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Scatter/UNS_Branch_LOD1.asset",
+      "sha256": "47a2ab3ca8aef836d9a9c231ce243bcfa0f5a3c4a1b8ef29cb8b894b26f6515b",
+      "bytes": 26113,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Scatter/UNS_Branch_LOD1.asset.meta",
+      "sha256": "a756aad6383dd70c8b11293ec23545b872030c052ea9cef5a0512b84235cd934",
+      "bytes": 188,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Scatter/UNS_Branch_LOD2.asset",
+      "sha256": "5b0d32c69b45015efdcc29de082b3009fd954eefc17fd97bf8825dd73dd920fb",
+      "bytes": 13426,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Scatter/UNS_Branch_LOD2.asset.meta",
+      "sha256": "3e4ac3e1e5587b6aecd557f1d82e0f531f921e3029408f4643a21d569ff85d85",
+      "bytes": 188,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Scatter/UNS_Branch_LOD3.asset",
+      "sha256": "6877352689feb891481fa09c5ca02dbdf6062a62957d8b69f1d4d8633229dfcd",
+      "bytes": 11526,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Scatter/UNS_Branch_LOD3.asset.meta",
+      "sha256": "8b95f0bd67f10d29e40d41cddf395ad05a2dfb2cd8f20210215a0e8b9dffbeb0",
+      "bytes": 188,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Scatter/UNS_Flower_LOD0.asset",
+      "sha256": "2f6b609cba919590aa3daddcbf66b899a55d88f23f87180c9653d6d35b77e326",
+      "bytes": 19890,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Scatter/UNS_Flower_LOD0.asset.meta",
+      "sha256": "06422e7c9f1963be22220678e0696ee36e575674c1a58cd734dd8d680e5c88c4",
+      "bytes": 188,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Scatter/UNS_Flower_LOD1.asset",
+      "sha256": "76168904f244d0444d4f5e3b4e48d0ba4d27d8fa2ae6171af40d610a6062c819",
+      "bytes": 13780,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Scatter/UNS_Flower_LOD1.asset.meta",
+      "sha256": "bf041180f8ce44b018fec596991060810bdc80b3bf958ebddb6701a4fbab9e4e",
+      "bytes": 188,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Scatter/UNS_Flower_LOD2.asset",
+      "sha256": "096a9e0f5fcc1a13448e020dca621d2dd9caf333d954737c4f1222f8887a52a8",
+      "bytes": 13900,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Scatter/UNS_Flower_LOD2.asset.meta",
+      "sha256": "c0a77774c6650128df40689690369c21c2816cd8584f88bf7271bd746229e200",
+      "bytes": 188,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Scatter/UNS_Flower_LOD3.asset",
+      "sha256": "595ecef4c98bdc9af39d82f2a03071c79fdd8870a8083691d4f8af87e0f50418",
+      "bytes": 11511,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Scatter/UNS_Flower_LOD3.asset.meta",
+      "sha256": "6a12b46981b8ef04b930ba8a3443db74b67b550448f68b68dd761633db0c8e2c",
+      "bytes": 188,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Scatter/UNS_Mushroom_Patch_LOD0.asset",
+      "sha256": "26f26b9aa34c7cbefcbd0a5d13998456fe3e7c57ac241a51475eabc23be3e8b7",
+      "bytes": 53399,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Scatter/UNS_Mushroom_Patch_LOD0.asset.meta",
+      "sha256": "999c32fe0f75ab703b27175ecaf080d1412eff643c10ba492cd64991474c8fd6",
+      "bytes": 188,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Scatter/UNS_Mushroom_Patch_LOD1.asset",
+      "sha256": "c76322cee1ab2a27559635da6d9a4452f0a62022a69f75107dd398d5e52e6c14",
+      "bytes": 36823,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Scatter/UNS_Mushroom_Patch_LOD1.asset.meta",
+      "sha256": "065b77bf58b464c7f68fd6eb933febe1ba7485654eea54b6451458eb9d85a7e0",
+      "bytes": 188,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Scatter/UNS_Mushroom_Patch_LOD2.asset",
+      "sha256": "c7acf7cf3fa934f8f9a224de49bde5750cb1c08632583f481a172ef05cdc309e",
+      "bytes": 25149,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Scatter/UNS_Mushroom_Patch_LOD2.asset.meta",
+      "sha256": "8077dbff0dbef63687bd4ef7461ddd0a7f52334d7bc5ee6bd9cd7abd135c4cee",
+      "bytes": 188,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Scatter/UNS_Mushroom_Patch_LOD3.asset",
+      "sha256": "425d29aed2967c86d32fb2f2079a699cc97f7b261de503e8d639c886929fcec5",
+      "bytes": 18558,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Scatter/UNS_Mushroom_Patch_LOD3.asset.meta",
+      "sha256": "d53c27d3f497351ad92b173bface7df81eef394b17cc328e49c5733c9d9aa83b",
+      "bytes": 188,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Scatter/UNS_Tiny_Rock_01_LOD0.asset",
+      "sha256": "f11c87c2f4bb45600502dfbdb87a422aa9122669831198f21b777a5c85630efc",
+      "bytes": 27015,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Scatter/UNS_Tiny_Rock_01_LOD0.asset.meta",
+      "sha256": "9accde41a47011521cf29e1d40bd389c3bf8802aa914507463d05b2b62d97b59",
+      "bytes": 188,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Scatter/UNS_Tiny_Rock_01_LOD1.asset",
+      "sha256": "f0bf11de8f554e16b1a36a6798fd2ef3261a832aa128fbaa905732196310a969",
+      "bytes": 17153,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Scatter/UNS_Tiny_Rock_01_LOD1.asset.meta",
+      "sha256": "94c0ba2c9164fc075779521600cab69d63e5c0e43e16dacc4155b1cb9e07f584",
+      "bytes": 188,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Scatter/UNS_Tiny_Rock_01_LOD2.asset",
+      "sha256": "34731a529959db4c0ceec0dc37ec7b3f60ab6d870ad9c2a7091d7fec57f31f0e",
+      "bytes": 11895,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Scatter/UNS_Tiny_Rock_01_LOD2.asset.meta",
+      "sha256": "2b96e4267681454ceabb81a8b5822bacee70424f73eaae91a301a44f2cc3f9a9",
+      "bytes": 188,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Scatter/UNS_Tiny_Rock_01_LOD3.asset",
+      "sha256": "b8cf056d6de67d0b40939c2811424c9c896a644a40c36aa137a95dcff5403fb6",
+      "bytes": 8680,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Scatter/UNS_Tiny_Rock_01_LOD3.asset.meta",
+      "sha256": "19b7fcd89d559920231ee1eadacd051e4a2dbc16a9fd7940e0137d3c41139069",
+      "bytes": 188,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Scatter/UNS_Tiny_Rock_02_LOD0.asset",
+      "sha256": "74e67488a966dabd010ac1190f26f57428ac6e68a7b974f7749334224f8ef4e5",
+      "bytes": 28600,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Scatter/UNS_Tiny_Rock_02_LOD0.asset.meta",
+      "sha256": "d9bb0d770ac1cc96fc6dcc62cbc51d0521a7b7c8da35751d9f807e667ac21992",
+      "bytes": 188,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Scatter/UNS_Tiny_Rock_02_LOD1.asset",
+      "sha256": "2899bd6100805c58e41c05c76cfa6b652e3a3c3bfd4bf54e4ee312e7e0772db4",
+      "bytes": 17466,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Scatter/UNS_Tiny_Rock_02_LOD1.asset.meta",
+      "sha256": "70173c2b7f18b3fe3009457121d98d30bc42c27c45b273d47d2996948f548757",
+      "bytes": 188,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Scatter/UNS_Tiny_Rock_02_LOD2.asset",
+      "sha256": "f8d85d03ed1c2609f5c8bb8b49183facd2244d288facb6e19efe3fc8dc5d24af",
+      "bytes": 11513,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Scatter/UNS_Tiny_Rock_02_LOD2.asset.meta",
+      "sha256": "5362b63a8e217a1019a1ca02c742b98664d1465f85c6ce26ed68304d3acd8e51",
+      "bytes": 188,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Scatter/UNS_Tiny_Rock_02_LOD3.asset",
+      "sha256": "e9710fcf3983d31ea0c7089bc93386418b87c1d086bd26fa1ca5e765823c84fc",
+      "bytes": 7908,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Scatter/UNS_Tiny_Rock_02_LOD3.asset.meta",
+      "sha256": "c4e7ecbb7cca4b152e60c6a4baf09fe51f97c4dde51ec48851dddf11a438a37a",
+      "bytes": 188,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/OakKit/SM_Tree_Oak_A.fbx",
+      "sha256": "a2a9ec3fcfa73a15e6290a70895e9b87bc1e4c83cd34927f972511f5903396ca",
+      "bytes": 522300,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/OakKit/SM_Tree_Oak_A.fbx.meta",
+      "sha256": "ac7c319b4a314b0e7c9b57fb3832cfb53d5d2ae92026e5594f2ade532ecfa25e",
+      "bytes": 2993,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/OakKit/SM_Tree_Oak_A_LOD1.fbx",
+      "sha256": "5771945580230fa2c01388402eea760d66f2f17e482203991a66883d4e1b8e61",
+      "bytes": 316268,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/OakKit/SM_Tree_Oak_A_LOD1.fbx.meta",
+      "sha256": "f83b463479c523a6a7e0cbe00371cd52e9820de4af9e02e49e67922e126e7545",
+      "bytes": 2993,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/OakKit/SM_Tree_Oak_A_LOD2.fbx",
+      "sha256": "8a955a6fb28ce7aef7b2f37fb247010697dadf92ce5e4e4a6e8ab156b5d2f3fd",
+      "bytes": 174332,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/OakKit/SM_Tree_Oak_A_LOD2.fbx.meta",
+      "sha256": "331ea4e015b14db5af990ad5cec9b0c49fe282c1420e8c8d8a06244c859b3c6a",
+      "bytes": 2993,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/OakKit/SM_Tree_Oak_B.fbx",
+      "sha256": "ae0a9da88291f2c5b37c1c9a5c2b019e18597a736de0cc83822c51388cf0e599",
+      "bytes": 528316,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/OakKit/SM_Tree_Oak_B.fbx.meta",
+      "sha256": "f4d9325e933d265291b7836ee61e2d76b2361d4210e55f3d1132044748830b0d",
+      "bytes": 2993,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/OakKit/SM_Tree_Oak_B_LOD1.fbx",
+      "sha256": "776fb41993b7a7af3f67f159a5f663698a1f47b8ce78cbcb165bfa9c19aa3dd2",
+      "bytes": 319788,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/OakKit/SM_Tree_Oak_B_LOD1.fbx.meta",
+      "sha256": "ce755f5b32d305414e1887219fc9b37ed77e205f4a03a54e42e10f4ac5c88b97",
+      "bytes": 2993,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/OakKit/SM_Tree_Oak_B_LOD2.fbx",
+      "sha256": "13757aed6595f4c7e88a893fe16576341c45946b64a54cc4612e6da26aa3f5cc",
+      "bytes": 183276,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/OakKit/SM_Tree_Oak_B_LOD2.fbx.meta",
+      "sha256": "f9508fb6e9e11a506bdd570aa8e053edb9b2c754bbd0a114fe29f2c898be6bdc",
+      "bytes": 2993,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/OakKit/SM_Tree_Oak_C.fbx",
+      "sha256": "0f9920558c2c1a2b069d9cfee5f9ebc64ebc7956d08ca41f05147ed6fa8b57a3",
+      "bytes": 527932,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/OakKit/SM_Tree_Oak_C.fbx.meta",
+      "sha256": "78ab66580bf20440b69a5d699aa6bed511ca2b90c51b04959d94d8953c912cc3",
+      "bytes": 2993,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/OakKit/SM_Tree_Oak_C_LOD1.fbx",
+      "sha256": "1513681404a0d775b3a1b47d0bf80cb79d30c819232189adbb1a587369a52fb1",
+      "bytes": 319452,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/OakKit/SM_Tree_Oak_C_LOD1.fbx.meta",
+      "sha256": "bffa78d3570254bfd210168f55e2ab0a093c2d544f7a55f3f1972ad30fe3a846",
+      "bytes": 2993,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/OakKit/SM_Tree_Oak_C_LOD2.fbx",
+      "sha256": "bf2b8aea848c0b5c01059d94440206191d76ac9dedb922591429e61a3e10b1e8",
+      "bytes": 183068,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/OakKit/SM_Tree_Oak_C_LOD2.fbx.meta",
+      "sha256": "9d30724a60e5cffd0d645a5931aff61ff102ad7c49fa4151fb776631a9bb66b2",
+      "bytes": 2993,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/OakKit/SM_Tree_Oak_D.fbx",
+      "sha256": "81c11125469599d6881d8a15b62d6dc0deedc3f53b90528835b863fc6abadc47",
+      "bytes": 528508,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/OakKit/SM_Tree_Oak_D.fbx.meta",
+      "sha256": "18c18832cf1007382f6711d7333099865b3a3094c22c1fb6b9b38695d50b123a",
+      "bytes": 2993,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/OakKit/SM_Tree_Oak_D_LOD1.fbx",
+      "sha256": "112ef54167df058b29530d729c9a801b1a65512a543f43e2d4dddc03a1e7a067",
+      "bytes": 319676,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/OakKit/SM_Tree_Oak_D_LOD1.fbx.meta",
+      "sha256": "c4686f42488bb8e3fe0fedb2de3d9df65920638d56035c46256ece0c15b09955",
+      "bytes": 2993,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/OakKit/SM_Tree_Oak_D_LOD2.fbx",
+      "sha256": "5f6b3812db370a30b32bdb49bb6d17fc1ca91ae6580ddd7d517e2b0ddefb3939",
+      "bytes": 183244,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/OakKit/SM_Tree_Oak_D_LOD2.fbx.meta",
+      "sha256": "9992adbb0fd667eabab2ecb059fdacfe96d05dd6d76f18fb1423ae1524ccfe40",
+      "bytes": 2993,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/OakKit/Textures/T_Foliage_AO.png",
+      "sha256": "7da622f1a1d1db12440e9283217d38227d035b1ed173580d29df1d076d43fa5d",
+      "bytes": 1810088,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/OakKit/Textures/T_Foliage_AO.png.meta",
+      "sha256": "64dc788a7569063b1d5047396079d7ffc489e889db995ec2d557c866ece85d66",
+      "bytes": 3007,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/OakKit/Textures/T_Foliage_BaseColor.png",
+      "sha256": "204b80e1779330ae290a94d3a8c9e50923aa84683238fcff28848a8faf9ebfb9",
+      "bytes": 1867186,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/OakKit/Textures/T_Foliage_BaseColor.png.meta",
+      "sha256": "164c30684d73ead43becaaec710c6a64b3eb61c85f7ae917253d84946fcd971a",
+      "bytes": 3007,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/OakKit/Textures/T_Foliage_Normal.png",
+      "sha256": "074480daf1a9a74bbc5ea47d504102b0b46c91deaa7f4f811ae4312ef738ebca",
+      "bytes": 2221894,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/OakKit/Textures/T_Foliage_Normal.png.meta",
+      "sha256": "ca471e623f99b27eaf77fb06fc7d6fbadce71b803dc460f5e6fb841dd556efc2",
+      "bytes": 3007,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/OakKit/Textures/T_Foliage_Opacity.png",
+      "sha256": "9f8a1c8f2ba03ffb6d29e053eb2237890728ceb4139455bbfcc551ec91a78c6b",
+      "bytes": 1006023,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/OakKit/Textures/T_Foliage_Opacity.png.meta",
+      "sha256": "1153a90201a0084345dce6505fbf0c4f168aa1e7fec9d334d3d1729b67b94829",
+      "bytes": 3007,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/OakKit/Textures/T_Oak_Bark_A_BaseColor.png",
+      "sha256": "de5becfcc09d71297ffbe60f80e995bf803a51551b387a9846d74e85219d5f20",
+      "bytes": 81073,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/OakKit/Textures/T_Oak_Bark_A_BaseColor.png.meta",
+      "sha256": "d10a2a2b5ff2150972540fffd8eaba4b0ecc25b153f35e5713b07ece77f75060",
+      "bytes": 3007,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/OakKit/Textures/T_Oak_Bark_A_Normal.png",
+      "sha256": "dd9ac2a8df14e927d27347264da70733f48b519fe23bc1b8a50804714078af52",
+      "bytes": 68948,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/OakKit/Textures/T_Oak_Bark_A_Normal.png.meta",
+      "sha256": "4e62b00ed6d6d5ed91fef2280e72458ec029a3e07633dcfda59b929ab0da2088",
+      "bytes": 3007,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/Oak_A_Study.prefab",
+      "sha256": "1615e8359d7d1a2791d1c83a8e7bf63115d0b7e1142f515792316a8900dac077",
+      "bytes": 12141,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/Oak_A_Study.prefab.meta",
+      "sha256": "64c2b91739d8fe8c41988a3ad491bfc2c3966c4ce83c694d96b8f5302ecd9ea6",
+      "bytes": 154,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/Oak_B_Study.prefab",
+      "sha256": "2a69d9027e207b53ba8da88f7b0469a8ebea96aabbedfd1b1faa3664d8e23891",
+      "bytes": 12139,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/Oak_B_Study.prefab.meta",
+      "sha256": "cbb65fbeb2fcdb5d1fa67aa37addc92f54f95b2a31ff683bceb18f3d5cbcaa33",
+      "bytes": 154,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/Oak_Bark.mat",
+      "sha256": "02700fd5c2267736bd510576f3b63f87f08501a648c34f74e46fcb028e51d74f",
+      "bytes": 2062,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/Oak_Bark.mat.meta",
+      "sha256": "a5c53674dcab6c29104702453ab416ecd4c0af84795dd6dbdcac5d3c20e16b72",
+      "bytes": 188,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/Oak_C_Study.prefab",
+      "sha256": "63fc5c003dc60a7e0dea7573b166044dabc2ccb6e444b072a3ec1247d5733166",
+      "bytes": 12142,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/Oak_C_Study.prefab.meta",
+      "sha256": "9c8dcdb336b52404a1a1482e21e4d9405d826beeb44fa382763db01c61ac1a47",
+      "bytes": 154,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/Oak_D_Study.prefab",
+      "sha256": "9d0b4641cae41f4c777cfb66b5febd323efeecccf39dc353ad87b005418fb426",
+      "bytes": 12134,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/Oak_D_Study.prefab.meta",
+      "sha256": "1c84aa66c616e033b691bf358d011f829bf79e4e9754373b23266c9181b7a027",
+      "bytes": 154,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/Oak_Leaves.mat",
+      "sha256": "f62225f95584419e488dd0ca02d5560e72b736d15c895ae5fbcf5c8686f33c4c",
+      "bytes": 2229,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/Oak_Leaves.mat.meta",
+      "sha256": "233f234fc78b79202e97d111cc1925b5bb1c79e9a2d0cab258b3ab202f5aa49c",
+      "bytes": 188,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/Textures/Ground_ao.png",
+      "sha256": "e64bce42c49bad4dddd4a0457414236c166dcbef5444b2b035e745e95550a6d0",
+      "bytes": 656265,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/Textures/Ground_ao.png.meta",
+      "sha256": "273ed9de4a711c5154e76771d6223b30f7260d2a3628d00de946359e1523673c",
+      "bytes": 3007,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/Textures/Ground_diffuseOriginal.png",
+      "sha256": "4956f9e7f2ef112f8a626033fcde7c370af2b5a31087783b7bdc5c490eebeef2",
+      "bytes": 1553884,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/Textures/Ground_diffuseOriginal.png.meta",
+      "sha256": "e57c9988b5b332e6caee7d7e1439438264054c22ec1238d2b5e54ad1b89cc545",
+      "bytes": 3007,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/Textures/Ground_height.png",
+      "sha256": "e0bd9a98e464b8605fc3954634b7de08d1ae4b0e929b52f8a8f140e9573612bd",
+      "bytes": 284328,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/Textures/Ground_height.png.meta",
+      "sha256": "f2805fb3ec51f9a4342a12ab14ec75ae59ce75b2f01a5832dbd1c255f1dc478a",
+      "bytes": 3007,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/Textures/Ground_normal.png",
+      "sha256": "e1e353bf05b7f39e7fbe9f4cf819614404d22de129263be5d0590d2c4b328106",
+      "bytes": 1052478,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/Textures/Ground_normal.png.meta",
+      "sha256": "b708f2e49af858ea2afb6646cd406810f2d24649b5e12ddced6bf4423fd0ecc0",
+      "bytes": 3007,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/Textures/Path_ao.png",
+      "sha256": "1c15fae360123838463de0523ccee4e8fdcc9c25c196c79ad6208f549b6210ae",
+      "bytes": 635475,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/Textures/Path_ao.png.meta",
+      "sha256": "a2ae8a468c9196a93fecc810ed3e00bac0ef73d8717efd4eeec6505007e74762",
+      "bytes": 3007,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/Textures/Path_diffuseOriginal.png",
+      "sha256": "6548709998148e0beafed789f1761738cf1459085f62b1ebdfc68058c7daf898",
+      "bytes": 1688971,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/Textures/Path_diffuseOriginal.png.meta",
+      "sha256": "8101d74e688353ab5c19a893288883730e0cf7d033b9f7b0e0c0feca8eeb3903",
+      "bytes": 3007,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/Textures/Path_normal.png",
+      "sha256": "4dc34287cab6f805426bf74f77b79b8defe035d4808d3e70cf60220de3add8c3",
+      "bytes": 1164477,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/Textures/Path_normal.png.meta",
+      "sha256": "c562b49a00d2a0817ad5966543dae2532feb6cb572b3329a5dab8f6a1b0b1bad",
+      "bytes": 3007,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/Textures/Rock_BaseColor.png",
+      "sha256": "aa9166741ba3bca8019c55ee1b2bcd7882c6368d10863abf3aba5dbabc6e4c8f",
+      "bytes": 1732796,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/Textures/Rock_BaseColor.png.meta",
+      "sha256": "aa93b55cc5a040bb0243920218c522e47fbbb6576d350f7d877a975fdd2622e5",
+      "bytes": 3007,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/Textures/Snow_ao.png",
+      "sha256": "492523cd595d37ecfde41d5eae89dd859724305931e0880a75f7bba95f5b835f",
+      "bytes": 518188,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/Textures/Snow_ao.png.meta",
+      "sha256": "3661285532bc6fcdeb0f2c50171ff9d2c18eeafc3fd178861e2f07406c9c0a37",
+      "bytes": 3007,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/Textures/Snow_diffuseOriginal.png",
+      "sha256": "260263b65f898e6e09f54a964a5d0f175123258552d240b0b3bc04bdf81b9790",
+      "bytes": 1577205,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/Textures/Snow_diffuseOriginal.png.meta",
+      "sha256": "88479a38957dd8923e173c5ad993a33ed6d8abc7ece3eb28aa3af0a46c73996c",
+      "bytes": 3007,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/Textures/Snow_normal.png",
+      "sha256": "529e8658493eceb2eeceefd2e0d210748ab9608853f3459654b7f16e53455ba0",
+      "bytes": 833248,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/Textures/Snow_normal.png.meta",
+      "sha256": "0dca490376759e18d0747c799b67bb1b0a30025b3f48ac06e3222afa5340fe6e",
+      "bytes": 3007,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/Valley_SnowCoverage.asset",
+      "sha256": "721db02bf6c09f3460b2cb5b0a708d40f5fef32c5c01a6eae7164bffa7a0350d",
+      "bytes": 700092,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/Valley_SnowCoverage.asset.meta",
+      "sha256": "a64d1e3f0106bc5da40819bbfe6b89e173d5313eca065b9b4ca1e9e0deaed6d3",
+      "bytes": 188,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Materials/StylizedDayNightSky.mat",
+      "sha256": "6b0fe0dc5408faea224137f4f027315a16d8f27c443080ccd2950061fbf85925",
+      "bytes": 1556,
+      "action": "identical"
+    },
+    {
+      "path": "Assets/_Game/Materials/StylizedDayNightSky.mat.meta",
+      "sha256": "d52f8135b8ee0e86aa5f3b943e963a8e3d0dc8b752a307b92cb031cacaa47bd9",
+      "bytes": 196,
+      "action": "identical"
+    },
+    {
+      "path": "Assets/_Game/Scenes/Meadow_20261025.unity",
+      "sha256": "2e7dbd24e9f64bb3d6c57bc48ab4717bd303ca944c9b398685f603c4c37b2884",
+      "bytes": 71675,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Scenes/Meadow_20261025.unity.meta",
+      "sha256": "ab0bc7f8efb488daabf5c93ee4e3ec06467abb01213618b7b1edace9f19d3167",
+      "bytes": 155,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Scripts/Camera/StrategyCameraController.cs",
+      "sha256": "9d8128206b32cbca646a232eba983d02cbb34b004f9dd95af29752518d20d504",
+      "bytes": 11848,
+      "action": "identical"
+    },
+    {
+      "path": "Assets/_Game/Scripts/Camera/StrategyCameraController.cs.meta",
+      "sha256": "97fb11e17231f6880693ad9884a0210dbd7e11acd5d6e3c19b99020538aa925c",
+      "bytes": 62,
+      "action": "identical"
+    },
+    {
+      "path": "Assets/_Game/Scripts/Research/InnerverseGrassStudy.cs",
+      "sha256": "29079d6f437c5a32550b22575255bdebb03d933d74fc79aa536fea3e7c46c75c",
+      "bytes": 3256,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Scripts/Research/InnerverseGrassStudy.cs.meta",
+      "sha256": "33c19983667cac74770c73da8f9c5f12d27f61258b1c1e32893a35e4bcebf847",
+      "bytes": 59,
+      "action": "identical"
+    },
+    {
+      "path": "Assets/_Game/Scripts/Research/MeadowPreview.cs",
+      "sha256": "98dd3aad14f4adb95abbdde40679627ab68ab53f3084d3fed1e013406b76d431",
+      "bytes": 22151,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Scripts/Research/MeadowPreview.cs.meta",
+      "sha256": "4d30dff30b7fc589465515f7d937eb9a77845dfa53cc975c904a8c0e7d496369",
+      "bytes": 59,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Scripts/Research/MeadowSurfacePainter.cs",
+      "sha256": "0144de48c6d3f2e37b1f5a4f1ef52ecbe0772fc0111bebba55c09ce4f9c58c55",
+      "bytes": 9810,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Scripts/Research/MeadowSurfacePainter.cs.meta",
+      "sha256": "9df72563fc0cd56b5debf22e194ab1a4585ac740a3b4f5ef726979421e2feeb3",
+      "bytes": 59,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Scripts/World/Rendering/GrassInteractionManager.cs",
+      "sha256": "4ec63b9d58568ec1e9fb86de3f2d9a01289b510485898118a539a77e17cdd6c6",
+      "bytes": 3436,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Scripts/World/Rendering/GrassInteractionManager.cs.meta",
+      "sha256": "7b0031e8ce5025d61d3140fc09398ec58ee385dbf2f3ae3a899bdaad57d1f626",
+      "bytes": 59,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Scripts/World/Rendering/GrassInteractionSource.cs",
+      "sha256": "1cdf29445daf998feaa91189ad7724cf9a40198461e02c21ddb4f5bf0372f228",
+      "bytes": 631,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Scripts/World/Rendering/GrassInteractionSource.cs.meta",
+      "sha256": "24d1e6e66d1e58effd1d6fbd3c4b70c20d76be096bf20ce6fbbde7dcc6134907",
+      "bytes": 59,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Scripts/World/Rendering/MeadowGrassData.cs",
+      "sha256": "4de259fd865c147db8a6f044a7d5857e2be368aac36b271af3a6fb68c4d36f64",
+      "bytes": 491,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Scripts/World/Rendering/MeadowGrassData.cs.meta",
+      "sha256": "5994367b810cc2f357bf01d3a560b07a85ad3d93ce43162b40fbc5f981ac2298",
+      "bytes": 59,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Scripts/World/Rendering/MeadowGrassRenderer.cs",
+      "sha256": "06ad03cbe575c31fb9fd1b7a56eeaee5d682fbf3e9641dbafec8c2583122e4f5",
+      "bytes": 3436,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Scripts/World/Rendering/MeadowGrassRenderer.cs.meta",
+      "sha256": "1fd78dbf0d2a5d95140bf07319fd5d89c0039393f3b70a85bd41c73daf57bbdb",
+      "bytes": 59,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Scripts/World/Rendering/MeadowScatterLibrary.cs",
+      "sha256": "e5b51d5da003df265adb86c82f64bd2776155b7918372ee4a9223bcbb24aa650",
+      "bytes": 997,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Scripts/World/Rendering/MeadowScatterLibrary.cs.meta",
+      "sha256": "bf3a80cf4ba4cb00cedaacca656ca8e4d742f9ae6d85bad11a456691fa67ea9c",
+      "bytes": 59,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Scripts/World/Rendering/MeadowScatterRenderer.cs",
+      "sha256": "dc3330e0662b3a5bd350e230a3bb1f405833992501c66fda51892f2695b550da",
+      "bytes": 19907,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Scripts/World/Rendering/MeadowScatterRenderer.cs.meta",
+      "sha256": "88e31324ccbfc1296223944b41ff926964d893ac01da69280f5398bbb7d8ec0d",
+      "bytes": 59,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Scripts/World/Rendering/StylizedLightingGlobals.cs",
+      "sha256": "97cc50bb324c84ce92e326b4d4f5c01c40fb7b12ae7ef5234ac3813ba5c4fb72",
+      "bytes": 11699,
+      "action": "keep-main-linear-plus-meadow-wind-api"
+    },
+    {
+      "path": "Assets/_Game/Scripts/World/Rendering/StylizedLightingGlobals.cs.meta",
+      "sha256": "805d14fd781549ae5623adc9d2d312e2626e55e86afa1cd7617ee89e71dfd524",
+      "bytes": 62,
+      "action": "identical"
+    },
+    {
+      "path": "Assets/_Game/Scripts/World/Rendering/SurfacePaintData.cs",
+      "sha256": "4618ee244a1c9d3cebfd164f32d0a469a22e9b1c97c27befc8050bcc819e3130",
+      "bytes": 1615,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Scripts/World/Rendering/SurfacePaintData.cs.meta",
+      "sha256": "22296167a1960e2678c023963191ccc54ec2092c9c30a02bf643c34548751fc9",
+      "bytes": 59,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Scripts/World/Rendering/TerrainStarterSoftSceneRendererFeature.cs",
+      "sha256": "9e6119585c42d265bbfc2e03c8198f056e516c36f21230a800c4b4564cf82313",
+      "bytes": 11801,
+      "action": "identical"
+    },
+    {
+      "path": "Assets/_Game/Scripts/World/Rendering/TerrainStarterSoftSceneRendererFeature.cs.meta",
+      "sha256": "8e978ddee857b2eb3ad54ca6cd634d14f6be15e4ebe70a2bd0e017568dd613de",
+      "bytes": 60,
+      "action": "identical"
+    },
+    {
+      "path": "Assets/_Game/Settings/Rendering/URP/LittleCastle_URP_Renderer.asset",
+      "sha256": "bddb1df71aac5829f85ae2c35e2f2a952795d5a6b047f479cab9c34472fd49f0",
+      "bytes": 3116,
+      "action": "identical"
+    },
+    {
+      "path": "Assets/_Game/Settings/Rendering/URP/LittleCastle_URP_Renderer.asset.meta",
+      "sha256": "9c92d55da3cdde1d10f5a9b758d9894446cd65777ddf07b040ed22d6bfedd687",
+      "bytes": 189,
+      "action": "identical"
+    },
+    {
+      "path": "Assets/_Game/Shaders/Foliage/LC_Foliage.shader",
+      "sha256": "cb03a4cc8501ddcf435a39756786757693019cef6223f8461ed462cac49bfb06",
+      "bytes": 4518,
+      "action": "merge-required"
+    },
+    {
+      "path": "Assets/_Game/Shaders/Foliage/LC_Foliage.shader.meta",
+      "sha256": "0e381172d3a3bae9e3e18770d340bd489de897166c06dd1e1f7c736c8ce8c175",
+      "bytes": 213,
+      "action": "identical"
+    },
+    {
+      "path": "Assets/_Game/Shaders/Foliage/LC_Grass.shader",
+      "sha256": "4b2e67a71c8acf739837243498c61b99158282b047d25404b612c0b93c001f18",
+      "bytes": 5672,
+      "action": "merge-required"
+    },
+    {
+      "path": "Assets/_Game/Shaders/Foliage/LC_Grass.shader.meta",
+      "sha256": "b45433ab961301c2646caa8f5b48280ee48aec804cae7c86606650482d31c9af",
+      "bytes": 213,
+      "action": "identical"
+    },
+    {
+      "path": "Assets/_Game/Shaders/Sky/StylizedDayNightSky.shader",
+      "sha256": "493fa5eb0732009b0c53ccc8219d9c022e8e5c375750ab5c77925e44d2798ab8",
+      "bytes": 10803,
+      "action": "identical"
+    },
+    {
+      "path": "Assets/_Game/Shaders/Sky/StylizedDayNightSky.shader.meta",
+      "sha256": "9abdf864ec8e8ad0ba270f56ef8d4b2a341e15747be2d66266eba80f330a8e18",
+      "bytes": 213,
+      "action": "identical"
+    },
+    {
+      "path": "Assets/_Game/Shaders/Surface/LC_StylizedLit.shader",
+      "sha256": "426d0b2c524963986603d7d6c78bc07f8c53aed734e3182b67c94fcf51085966",
+      "bytes": 18689,
+      "action": "merge-required"
+    },
+    {
+      "path": "Assets/_Game/Shaders/Surface/LC_StylizedLit.shader.meta",
+      "sha256": "035b55ff93046e25a6eb72dea890f677aed66e032dbd01ff56fbdd3947bbf30e",
+      "bytes": 213,
+      "action": "identical"
+    },
+    {
+      "path": "Assets/_Game/Shaders/Surface/LC_SurfacePaint.hlsl",
+      "sha256": "089fff9772179a8523faf9a469760a1eee120809061788fd999181217941232c",
+      "bytes": 622,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Shaders/Surface/LC_SurfacePaint.hlsl.meta",
+      "sha256": "4a4db382c286d8f618533b287d0089d8556bc63e1973cd43463a07dce2cd46f2",
+      "bytes": 161,
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Shaders/Terrain/LC_Terrain.shader",
+      "sha256": "4cd99651179380406061e5a4048709d5757e6caa228100700ed1499a54837b11",
+      "bytes": 25633,
+      "action": "merge-required"
+    },
+    {
+      "path": "Assets/_Game/Shaders/Terrain/LC_Terrain.shader.meta",
+      "sha256": "5c5a683f4a89c73eff52466cc8994e23d5979c716b3c51ca04b34208cfd1f67d",
+      "bytes": 213,
+      "action": "identical"
+    }
+  ],
+  "collisions": [
+    {
+      "path": "Assets/_Game/Scripts/Research/InnerverseGrassStudy.cs",
+      "mainSHA256": "3d977a0b5511c758901862e7ce1685e4d320ffe58c8a35209679d14c615f6e47",
+      "meadowSHA256": "29079d6f437c5a32550b22575255bdebb03d933d74fc79aa536fea3e7c46c75c",
+      "action": "snapshot"
+    },
+    {
+      "path": "Assets/_Game/Shaders/Terrain/LC_Terrain.shader",
+      "mainSHA256": "27ae34322162d3efcd7a1d6f5748bf831056b0d004cd5f0e1d72c24ddf9b5e77",
+      "meadowSHA256": "4cd99651179380406061e5a4048709d5757e6caa228100700ed1499a54837b11",
+      "action": "merge-required"
+    },
+    {
+      "path": "Assets/_Game/Shaders/Foliage/LC_Grass.shader",
+      "mainSHA256": "d88c1469014459cf711f02827333f56511cea4d01dbbbc620c58ed5afd10650e",
+      "meadowSHA256": "4b2e67a71c8acf739837243498c61b99158282b047d25404b612c0b93c001f18",
+      "action": "merge-required"
+    },
+    {
+      "path": "Assets/_Game/Shaders/Foliage/LC_Foliage.shader",
+      "mainSHA256": "128a7ec5026c6252b53bebc4725aa347c4d6fd758dd5c7c7d914af6c3d4819ab",
+      "meadowSHA256": "cb03a4cc8501ddcf435a39756786757693019cef6223f8461ed462cac49bfb06",
+      "action": "merge-required"
+    },
+    {
+      "path": "Assets/_Game/Shaders/Surface/LC_StylizedLit.shader",
+      "mainSHA256": "f2b325f394fba86470744cabacbf43e2a67d446b6ac6432f44d698f5a4e7b48c",
+      "meadowSHA256": "426d0b2c524963986603d7d6c78bc07f8c53aed734e3182b67c94fcf51085966",
+      "action": "merge-required"
+    },
+    {
+      "path": "Assets/_Game/Scripts/World/Rendering/StylizedLightingGlobals.cs",
+      "mainSHA256": "3fbc66c431d55c2f5c53821d366714cd65b79afa0b76d3b54d94db945a400afd",
+      "meadowSHA256": "97cc50bb324c84ce92e326b4d4f5c01c40fb7b12ae7ef5234ac3813ba5c4fb72",
+      "action": "snapshot"
+    }
+  ],
+  "externalPackageGUIDs": [
+    "06437c1ff663d574d9447842ba0a72e4",
+    "0b2db86121404754db890f4c8dfe81b2",
+    "172515602e62fb746b5d573b38a5fe58",
+    "221518ef91623a7438a71fef23660601",
+    "29fa0085f50d5e54f8144f766051a691",
+    "3eb4b772797da9440885e8bd939e9560",
+    "53626a513ea68ce47b59dc1299fe3959",
+    "5485954d14dfb9a4c8ead8edb0ded5b1",
+    "558a8e2b6826cf840aae193990ba9f2e",
+    "573620ae32aec764abd4d728906d2587",
+    "650dd9526735d5b46b79224bc6e94025",
+    "66f335fb1ffd8684294ad653bf1c7564",
+    "6bd486065ce11414fa40e631affc4900",
+    "70afe9e12c7a7ed47911bb608a23a8ff",
+    "81180773991d8724ab7f2d216912b564",
+    "899c54efeace73346a0a16faa3afe726",
+    "97c23e3b12dc18c42a140437e53d3951",
+    "a79441f348de89743a2939f4d699eac1",
+    "bf2edee5c58d82540a51f03df9d42094",
+    "c01700fd266d6914ababb731e09af2eb",
+    "c5e1dc532bcb41949b58bc4f2abfbb7e",
+    "ccf1aba9553839d41ae37dd52e9ebcce",
+    "cdfbdbb87d3286943a057f7791b43141",
+    "cf852408f2e174538bcd9b7fda1c5ae7",
+    "d0353a89b1f911e48b9e16bdc9f2e058",
+    "d7fd9488000d3734a9e00ee676215985",
+    "de640fe3d0db1804a85f9fc8f5cadab6",
+    "e021b4c809a781e468c2988c016ebbea",
+    "e3d24661c1e055f45a7560c033dbb837",
+    "f62c9c65cf3354c93be831c8bc075510",
+    "f9ee4ed84c1d10c49aabb9b210b0fc44",
+    "fb60a22f311433c4c962b888d1393f88"
+  ]
+}

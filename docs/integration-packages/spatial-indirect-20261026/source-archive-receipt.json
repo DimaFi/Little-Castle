@@ -1,0 +1,8 @@
+{
+  "parentCommit": "9e8c126abd2bf34a15df3bcbf01f7285cfe90843",
+  "originalArchiveSHA256": "b19f88a43334f97d92a42029ff1d5c9b5ab824268b86ef3edc3f65b577d18980",
+  "originalFiles": 82,
+  "layout": "all 82 original ZIP entries preserved under packet/",
+  "branch": "codex/lighting-spatial-gi-2026-10-26",
+  "validationRun": "FinalPrecision"
+}
