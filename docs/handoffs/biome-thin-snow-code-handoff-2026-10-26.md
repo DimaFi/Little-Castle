@@ -30,6 +30,10 @@ Runtime MonoBehaviour entrypoint for editor or future gameplay code:
 
 Translates local snow (R) + winter biome influence (G) into a **bounded single RGBA32 Texture2D** with configured bounds; sets `_LC_SnowField` and `_LC_SnowFieldRect` global shader parameters. Refreshes at most every configurable interval after dirty events; uses world-space sampling so a wall/road with several pieces can have a blended boundary without switching physical prefabs. **Prototype for one bounded world region**, not a production streaming/atlas implementation.
 
+### `Assets/_Game/Scripts/World/Environment/BiomeSnowfallParticleDriver.cs`
+
+Optional low-cost snowfall using an authored Unity ParticleSystem (with its own URP-compatible snowflake material). Follows a target near the camera, controls emission rate from both winter theme weight and `BiomeSnowWorld.SnowfallIntensity`. Does not simulate collisions/snow accumulation per particle: accumulation remains in the independent CPU field. Set ParticleSystem shape, gravity, particle lifetime, texture/material and emission area through its own Inspector. Shelter and interior exclusions remain TODO.
+
 ### `Assets/_Game/Shaders/Effects/LC_ThinSnowURP.shader`
 
 Independent lightweight URP prototype shader for **static opaque meshes**, with base texture, soft winter tint, upward-normal threshold, breakup/noise, fog, simple Lambert/SH light with main light/shadow and URP Lit shadow/depth pass reuse. Uses the world-space snow mask. **Not a replacement for production LC_StylizedLit, terrain or LC_Foliage.** Its material must be assigned intentionally for smoke tests. No advanced PBR lighting or foliage wind support.
@@ -47,7 +51,7 @@ EditMode tests authored (not executed): world negatives, interpolation across ti
 1. Open in Unity 6000.5.5f1 (from ProjectSettings in main) or the actual matching version for the integration branch. Check Package Manager and graphics settings first: **main branch Packages/manifest.json does not include URP**, despite user's active URP development elsewhere. DO NOT install/overwrite URP or replace existing materials as a side-effect of this prototype.
 2. On an **approved URP branch**, add empty GameObject `BiomeSnowWorld` with `BiomeSnowWorld` and `SnowMaskTextureBridge`. Keep the default world-space simulation rectangle or adjust to test plot. Bridge discovers controller on the same GO.
 3. Place **one static opaque prop** using a new material with shader `Little Castle/Environment/URP Thin Snow Prototype` (only if valid in that URP version). For existing material/shader, adapt Custom Function instead of replacing it.
-4. In Play Mode call component context menu `Paint winter at this GameObject (prototype)` (or call `PaintTheme` in code); set `Snowfall Intensity` nonzero, observe coverage grow over simulation time, stop snowfall and observe slower melting. Set brush radius and GO position to match demonstration.
+4. Optionally add a separate ParticleSystem + `BiomeSnowfallParticleDriver` with `world` and `followTarget` assigned, a small box emission area and a compatible unlit snowflake particle material. Its rate follows winter influence and weather intensity. In Play Mode call component context menu `Paint winter at this GameObject (prototype)` (or call `PaintTheme` in code); set `Snowfall Intensity` nonzero, observe coverage grow over simulation time, stop snowfall and observe slower melting. Set brush radius and GO position to match demonstration.
 5. Drive `ExportJson/ImportJson` on demand in an external tool/test. This is not already plugged into `WorldSaveState`.
 6. Run tests and image regression captures. If shader fails to compile, read errors from Unity; record details, adjust based on actual URP package version. No Unity visual validation has occurred yet.
 
