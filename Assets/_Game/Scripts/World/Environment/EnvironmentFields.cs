@@ -212,54 +212,134 @@ namespace LittleCastle.World.Environment
             return total > 1f ? selected / total : selected;
         }
 
+        // Backwards compatible entry point used by current runtime and tests.
         public bool Paint(Vector2 center, float radius, int themeId, float opacity)
         {
-            if (themeId < 0 || radius <= 0f || float.IsNaN(radius) || float.IsInfinity(radius))
-                throw new ArgumentOutOfRangeException(nameof(radius));
-            if (float.IsNaN(opacity) || float.IsInfinity(opacity))
-                throw new ArgumentOutOfRangeException(nameof(opacity));
+            return Paint(center, radius, themeId, opacity, 0f);
+        }
+
+        /// <param name="hardness">0 = full soft falloff, 1 = hard circular brush.</param>
+        public bool Paint(Vector2 center, float radius, int themeId, float opacity,
+            float hardness)
+        {
+            ValidateBrush(center, radius, themeId, opacity);
+            hardness = Mathf.Clamp01(hardness);
             opacity = Mathf.Clamp01(opacity);
             if (opacity == 0f) return false;
 
-            int left = Mathf.FloorToInt((center.x - radius) / CellSize - 0.5f);
-            int right = Mathf.CeilToInt((center.x + radius) / CellSize - 0.5f);
-            int bottom = Mathf.FloorToInt((center.y - radius) / CellSize - 0.5f);
-            int top = Mathf.CeilToInt((center.y + radius) / CellSize - 0.5f);
+            GetCells(center, radius, out int left, out int right,
+                out int bottom, out int top);
             bool changed = false;
 
+            // Create the target once outside the loops; do not mutate
+            // dictionary contents while iterating through its layers.
+            var target = themeId == EnvironmentThemeIds.Summer
+                ? null : Layer(themeId);
             for (int z = bottom; z <= top; z++)
             for (int x = left; x <= right; x++)
             {
-                float dx = (x + 0.5f) * CellSize - center.x;
-                float dz = (z + 0.5f) * CellSize - center.y;
-                float distance = Mathf.Sqrt(dx * dx + dz * dz);
-                if (distance > radius) continue;
+                float strength = BrushWeight(center, radius, hardness, x, z)
+                    * opacity;
+                if (strength <= 0f) continue;
 
-                float fade = 1f - Mathf.SmoothStep(0f, 1f, distance / radius);
-                float t = opacity * fade;
-                // Painting one theme gradually suppresses other influences.
+                // Always suppress other painted themes. Erasing to summer is
+                // equivalent to fading all explicit theme layers.
                 foreach (var other in layers)
                 {
                     if (other.Key == themeId) continue;
                     float previous = other.Value.GetCell(x, z);
                     if (previous > 0f)
-                        changed |= other.Value.SetCell(x, z, previous * (1f - t));
+                        changed |= other.Value.SetCell(x, z,
+                            previous * (1f - strength));
                 }
-                if (themeId != EnvironmentThemeIds.Summer)
+                if (target != null)
                 {
-                    var field = Layer(themeId);
-                    changed |= field.SetCell(x, z,
-                        Mathf.Lerp(field.GetCell(x, z), 1f, t));
+                    float previous = target.GetCell(x, z);
+                    changed |= target.SetCell(x, z,
+                        Mathf.Lerp(previous, 1f, strength));
                 }
             }
 
-            if (changed)
-            {
-                Revision++;
-                Changed?.Invoke(new Rect(
-                    center.x - radius, center.y - radius, radius * 2f, radius * 2f));
-            }
+            BroadcastChanges(changed, center, radius);
             return changed;
+        }
+
+        /// <summary>Blur selected theme locally while preserving its world-space grid.</summary>
+        public bool Smooth(Vector2 center, float radius, int themeId,
+            float opacity, float hardness = 0f)
+        {
+            ValidateBrush(center, radius, themeId, opacity);
+            opacity = Mathf.Clamp01(opacity);
+            hardness = Mathf.Clamp01(hardness);
+            if (opacity == 0f || themeId == EnvironmentThemeIds.Summer ||
+                !layers.TryGetValue(themeId, out var field))
+                return false;
+
+            GetCells(center, radius, out int left, out int right,
+                out int bottom, out int top);
+            // Evaluate against original values to avoid directional bias.
+            var updates = new List<(int x, int z, float value)>();
+            for (int z = bottom; z <= top; z++)
+            for (int x = left; x <= right; x++)
+            {
+                float weight = BrushWeight(center, radius, hardness, x, z)
+                    * opacity;
+                if (weight <= 0f) continue;
+                float old = field.GetCell(x, z);
+                float average = (old * 4f + field.GetCell(x - 1, z) +
+                    field.GetCell(x + 1, z) + field.GetCell(x, z - 1) +
+                    field.GetCell(x, z + 1)) / 8f;
+                updates.Add((x, z, Mathf.Lerp(old, average, weight)));
+            }
+            bool changed = false;
+            foreach (var value in updates)
+                changed |= field.SetCell(value.x, value.z, value.value);
+            BroadcastChanges(changed, center, radius);
+            return changed;
+        }
+
+        private void BroadcastChanges(bool changed, Vector2 center, float radius)
+        {
+            if (!changed) return;
+            Revision++;
+            Changed?.Invoke(new Rect(center.x - radius,
+                center.y - radius, radius * 2f, radius * 2f));
+        }
+
+        private void GetCells(Vector2 center, float radius, out int left,
+            out int right, out int bottom, out int top)
+        {
+            left = Mathf.FloorToInt((center.x - radius) / CellSize - 0.5f);
+            right = Mathf.CeilToInt((center.x + radius) / CellSize - 0.5f);
+            bottom = Mathf.FloorToInt((center.y - radius) / CellSize - 0.5f);
+            top = Mathf.CeilToInt((center.y + radius) / CellSize - 0.5f);
+        }
+
+        private float BrushWeight(Vector2 center, float radius,
+            float hardness, int x, int z)
+        {
+            float dx = (x + 0.5f) * CellSize - center.x;
+            float dz = (z + 0.5f) * CellSize - center.y;
+            float distance = Mathf.Sqrt(dx * dx + dz * dz);
+            if (distance > radius) return 0f;
+            if (hardness >= 0.999f || distance <= radius * hardness)
+                return 1f;
+            float progress = (distance - radius * hardness) /
+                Mathf.Max(0.0001f, radius * (1f - hardness));
+            return 1f - Mathf.SmoothStep(0f, 1f, progress);
+        }
+
+        private static void ValidateBrush(Vector2 center, float radius,
+            int themeId, float opacity)
+        {
+            if (themeId < 0) throw new ArgumentOutOfRangeException(nameof(themeId));
+            if (float.IsNaN(center.x) || float.IsInfinity(center.x) ||
+                float.IsNaN(center.y) || float.IsInfinity(center.y))
+                throw new ArgumentOutOfRangeException(nameof(center));
+            if (radius <= 0f || float.IsNaN(radius) || float.IsInfinity(radius))
+                throw new ArgumentOutOfRangeException(nameof(radius));
+            if (float.IsNaN(opacity) || float.IsInfinity(opacity))
+                throw new ArgumentOutOfRangeException(nameof(opacity));
         }
 
         public List<ThemeLayerSnapshot> Capture()
