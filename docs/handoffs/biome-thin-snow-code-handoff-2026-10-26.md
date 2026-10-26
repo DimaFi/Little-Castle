@@ -46,6 +46,35 @@ Reusable Shader Graph Custom Function `LC_ThinSnow_float` returning snow coverag
 
 EditMode tests authored (not executed): world negatives, interpolation across tile seams, summer winter brush with localized event, snowfall accumulating/melting, JSON snapshot roundtrip, corrupted tile rejection.
 
+## Biome painting implementation (2026-10-26 extension)
+
+Added files:
+- `Assets/_Game/Editor/BiomeSnowWorldEditor.cs` — **Unity Scene View + Inspector authoring tool**, not a second map editor. Select GameObject containing `BiomeSnowWorld`; enable "Enable biome brush in Scene View" in the same Inspector.
+- `Assets/_Game/Scripts/World/Environment/BiomeThemeProfile.cs` — optional ScriptableObject authoring palette entries with stable IDs, names and preview tints.
+- Biome fields now accept hardness/softness and a two-pass smooth operation. `BiomeSnowWorld` exposes the brush methods, serialized scene snapshot `authoredStateJson` and reload method for Undo/Redo.
+- Additional EditMode tests authored for hardness, smoothing, Unity authoring JSON roundtrip.
+
+### Authoring manual test
+
+1. Place `BiomeSnowWorld` on a GameObject in an **existing editor map scene** and select it (do not generate a new scene).
+2. Inspect its `SimulationBounds`; defaults are a **256m square** with `cellSize=2m`. Set actual map bounds before serious painting. Coordinate sampling is in world XZ, including negative coordinates.
+3. Ensure ground has a raycast-compatible collider. Select "Enable biome brush in Scene View" in component Inspector.
+4. Optional: assign `BiomeThemeProfile` assets to `Available Themes` in component; default palette includes summer meadow, enchanted, elven and winter.
+5. Paint on ground with **left mouse** at any camera zoom; scrolling zooms without changing the radius in metres; Alt/Right/Middle navigation remains. Shift+drag temporarily erases to summer. Toolbar: Paint, Erase, Smooth.
+6. Radius 0.5–320m, strength 0.01–1, hardness 0–1, toggle **Show sampled biome overlay** to see approximate coloured influence discs. Under very high map zoom, **Frame entire map** frames current configured SimulationBounds, not automatically generated world extent. Restore camera button/Inspector closing reverts the previous editor camera.
+7. At stroke mouse-up, authoring JSON is serialized onto the `BiomeSnowWorld` component; save the **Unity scene**, close/reopen, verify persistence. Undo/Redo should reload exact previous field snapshot. Test close-range cleanup along road/river and far overview paint on same map.
+8. This authoring tool only paints **biome influence data**. It currently does NOT automatically recolor the actual terrain, replace foliage, or create snow weather. The sampled Scene View color overlay is for diagnostics, not final material response.
+9. "Plane Y=0" fallback is opt-in for collider-less test scenes; when disabled the brush requires a physics raycast hit. For actual terrain above 0, use real collision. The brush needs production authoring-panel integration once the active editor's owning branch is identified.
+
+### Known editor-specific limits
+
+- This is a **custom inspector Scene View integration** in the existing Unity editor, not yet wired into the user's possibly unpublished custom brush UI. No duplicate runtime UI is created.
+- Undo stores **whole sparse-field serialized JSON per stroke** for prototype safety. Large maps need delta-based per-stroke Undo and efficient map asset persistence after profiling.
+- Preview currently samples a fixed at-most 23x23 grid of discs per SceneView repaint and raycasts per sample to avoid unlimited GameObjects; the preview is approximate at high zoom, not production-quality visualization.
+- Painting circle, eraser and smooth are functional C# implementations. Rectangle/lasso selection and GPU-shader whole-map authoring preview remain follow-up work.
+- The prototype has not been run in Unity Editor/Player. Its exact user interaction and prefab importer behaviour must be verified against the actual project in desktop Codex.
+- The world-scale raster resolution is **set by `cellSize`**, not camera zoom. For finer edges use a smaller cell size only after memory/profile estimates and save migration. Zoom itself never changes an authored brush radius.
+
 ## Try it locally after verifying render pipeline
 
 1. Open in Unity 6000.5.5f1 (from ProjectSettings in main) or the actual matching version for the integration branch. Check Package Manager and graphics settings first: **main branch Packages/manifest.json does not include URP**, despite user's active URP development elsewhere. DO NOT install/overwrite URP or replace existing materials as a side-effect of this prototype.
