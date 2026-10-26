@@ -1,0 +1,8 @@
+{
+    "pass": true,
+    "exactField": true,
+    "frames": 4,
+    "priorityRefreshes": 1,
+    "wallMs": 63.945770263671878,
+    "solveBudgetMs": 2.0
+}

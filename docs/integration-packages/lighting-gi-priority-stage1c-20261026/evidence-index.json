@@ -1,0 +1,2163 @@
+{
+  "parentCommit": "d1d92e0505110726be62f6ed408f33e446201ce8",
+  "localEvidenceRoot": "E:\\Games_Develop\\Research\\SpatialIndirectStage1C_20261026",
+  "sourceManifestSHA256": "c291140daabd0dc8ff96cd663396073a3382149bbbfd16f2935774c3177f9225",
+  "rawArtifacts": [
+    {
+      "path": "Guarded01Fifo/benchmarks.json",
+      "sha256": "7a8e1947e27c2591b90c50f9e0b57e1748691797e729ee58f2609de3989bb47e",
+      "bytes": 3258
+    },
+    {
+      "path": "Guarded01Fifo/camera-00.json",
+      "sha256": "50b93f51c1a7754026f865c813720cfc121f9d7d4ad3be7f47f4cb11c5d93188",
+      "bytes": 350
+    },
+    {
+      "path": "Guarded01Fifo/camera-00.png",
+      "sha256": "09d3c548a77fa1ab43379768b46ead55a0304db0a096010c11207aab3526c1e0",
+      "bytes": 1154111
+    },
+    {
+      "path": "Guarded01Fifo/camera-01.json",
+      "sha256": "0670b31c6a822ce481d6518010fa5484ed92dc73f667adb9aa9e04f989fa68bc",
+      "bytes": 364
+    },
+    {
+      "path": "Guarded01Fifo/camera-01.png",
+      "sha256": "0f1704a6ee742ae375fcac2513cbbbd18ac4c7d0987d2923dac38ace3313ac1f",
+      "bytes": 1149287
+    },
+    {
+      "path": "Guarded01Fifo/camera-02.json",
+      "sha256": "653c5579aaf238ee4eb6c626ef14957e9c9b578fc150a2faf209fcffa119ac75",
+      "bytes": 364
+    },
+    {
+      "path": "Guarded01Fifo/camera-02.png",
+      "sha256": "7e44472031951d486ef0e3b9fd7a5e21c8ee9ffd08e0a430099a10808d1e1f77",
+      "bytes": 1142730
+    },
+    {
+      "path": "Guarded01Fifo/camera-03.json",
+      "sha256": "5667e79696aba615bb09f4a8b9d9d6b4c5a5035635901990684a583577b927de",
+      "bytes": 364
+    },
+    {
+      "path": "Guarded01Fifo/camera-03.png",
+      "sha256": "50866d5ae86c12a4b0f1ace199a593e72fb4505b6057ee8915bdb68ecf2cb919",
+      "bytes": 1130458
+    },
+    {
+      "path": "Guarded01Fifo/camera-04.json",
+      "sha256": "e653e5dd1ba9d18b286d6ca2220dffab8f836102eca70f446a341b74a7c0fdec",
+      "bytes": 364
+    },
+    {
+      "path": "Guarded01Fifo/camera-04.png",
+      "sha256": "624bb7bec77fc6a25dbaa6c58da80380c0643277653125f14ead0b0d95eaff0d",
+      "bytes": 1121025
+    },
+    {
+      "path": "Guarded01Fifo/camera-05.json",
+      "sha256": "a57c351c6bd495bbfeff40326b8ee2b24e9e3ffc97174d75b4a74bfffa553991",
+      "bytes": 364
+    },
+    {
+      "path": "Guarded01Fifo/camera-05.png",
+      "sha256": "647f55ddf61a9005dfb2324204423bd590bc1c13d3f14be3db35ee05f538d997",
+      "bytes": 1108149
+    },
+    {
+      "path": "Guarded01Fifo/camera-06.json",
+      "sha256": "fe5791aabea45aa178121745821db9b95fee9b28f067a26c1ffc91ffcda29f6d",
+      "bytes": 364
+    },
+    {
+      "path": "Guarded01Fifo/camera-06.png",
+      "sha256": "9d946f450d00df476e039aee0d71cc9c3570462ed221529dfed2cbf1f17bd6b0",
+      "bytes": 1094285
+    },
+    {
+      "path": "Guarded01Fifo/camera-07.json",
+      "sha256": "4850f395d6e56c94e9d31b17d1f962ffc63aa9027c7c7bd53d885547469f3520",
+      "bytes": 364
+    },
+    {
+      "path": "Guarded01Fifo/camera-07.png",
+      "sha256": "430fb613ac6583b4cd37463a7c6e8802eb3b430a7542ab22f19de8f9f8be4a5a",
+      "bytes": 1082433
+    },
+    {
+      "path": "Guarded01Fifo/camera-08.json",
+      "sha256": "bd98e45935beeb2955efd2a7ee8b5eb44292fb360105d7ec8bd2dee2f7487666",
+      "bytes": 364
+    },
+    {
+      "path": "Guarded01Fifo/camera-08.png",
+      "sha256": "0b5f024c53fbfd3113e6f5e18e868c470471adbac682c298e5f4ddb56a06d52d",
+      "bytes": 1068108
+    },
+    {
+      "path": "Guarded01Fifo/camera-09.json",
+      "sha256": "fdbd176122841b2f89e8bd6a608e1973f457d5f313f1dab886a586e062909e12",
+      "bytes": 364
+    },
+    {
+      "path": "Guarded01Fifo/camera-09.png",
+      "sha256": "84ee46da41e5ebae37797e58f6cda5bf6e7c43e98ebee3b900e2b4ee07cdb487",
+      "bytes": 1054101
+    },
+    {
+      "path": "Guarded01Fifo/camera-10.json",
+      "sha256": "a3654fc6008e9fb462dfab58d483cff9e125d2e70bc2a481bdaad198333ea980",
+      "bytes": 364
+    },
+    {
+      "path": "Guarded01Fifo/camera-10.png",
+      "sha256": "87e88869d2b2321835d99e09e83da3b4b6542335a474889c8a5278fe4b554a20",
+      "bytes": 1040134
+    },
+    {
+      "path": "Guarded01Fifo/camera-11.json",
+      "sha256": "db635130539173d623162225708180e0b2189a2d251b74aa74f377d4b5f25ba4",
+      "bytes": 364
+    },
+    {
+      "path": "Guarded01Fifo/camera-11.png",
+      "sha256": "6307a7159101aa5c753d7d7bc5e8728882c4136e6ef49039df188b3538dd2691",
+      "bytes": 1027033
+    },
+    {
+      "path": "Guarded01Fifo/day-light-refresh-probes.bin",
+      "sha256": "029788b3daefe1f84a5dfce9fe7075af3bc578ea90f0c5468206ac95428ff39f",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded01Fifo/gi-overview-day.json",
+      "sha256": "d26779385060deb3f7cce7e30e692dbc376fb8da1cbfaeebf5604f1f3c813083",
+      "bytes": 318
+    },
+    {
+      "path": "Guarded01Fifo/gi-overview-day.png",
+      "sha256": "50eee7e47172a3bdd450f1680e3f2d1018fd6c37af68c0fc645b177abd6be7b5",
+      "bytes": 2230830
+    },
+    {
+      "path": "Guarded01Fifo/gi-overview-night.json",
+      "sha256": "2c66a44007605a172f76310116c2b960359260a17da8aa704982e95be3adc704",
+      "bytes": 317
+    },
+    {
+      "path": "Guarded01Fifo/gi-overview-night.png",
+      "sha256": "182d97e855955d72119ecfb8f19878e0b6a874fb3ebba57fa77ca81621a5bf4c",
+      "bytes": 2029953
+    },
+    {
+      "path": "Guarded01Fifo/gi-overview-sunset.json",
+      "sha256": "10236d57dcafebc9c56c8724ba6f904e291b125bef766f0bab5e904ae8f5bf93",
+      "bytes": 318
+    },
+    {
+      "path": "Guarded01Fifo/gi-overview-sunset.png",
+      "sha256": "c4af419891bd2d48348556cfbec8246637825e38e3b993c299866ce18ef23fdc",
+      "bytes": 2340966
+    },
+    {
+      "path": "Guarded01Fifo/gi-small-cube-added.json",
+      "sha256": "8a2902f247b640f9621fef6498f9d2fdadf8e093917f832cb58b5dc4bfa28cc5",
+      "bytes": 350
+    },
+    {
+      "path": "Guarded01Fifo/gi-small-cube-added.png",
+      "sha256": "aefcc49462db79f145d2785b163f85de5a3647b336b35fb5e0e0759b7057064c",
+      "bytes": 1120487
+    },
+    {
+      "path": "Guarded01Fifo/gi-small-cube-moved.json",
+      "sha256": "8a2902f247b640f9621fef6498f9d2fdadf8e093917f832cb58b5dc4bfa28cc5",
+      "bytes": 350
+    },
+    {
+      "path": "Guarded01Fifo/gi-small-cube-moved.png",
+      "sha256": "ced4e22387ac8866717c42c739c3f932d7adcf714748f964e4411c5f2fa068c1",
+      "bytes": 1126339
+    },
+    {
+      "path": "Guarded01Fifo/gi-thin-wall-day.json",
+      "sha256": "7f5ff0b567c0324a6132ff012c106e6b4afea2f9bed0fc4910aa61233820f8dc",
+      "bytes": 364
+    },
+    {
+      "path": "Guarded01Fifo/gi-thin-wall-day.png",
+      "sha256": "2b6cd2d32971ce17525d8a39cbe6aebee80682245713327e9e1144134ff5cbc8",
+      "bytes": 1017162
+    },
+    {
+      "path": "Guarded01Fifo/gi-thin-wall-guard-off.json",
+      "sha256": "d06dec724a3dc98f5fe78a123af4839d05984885aa2f656532c4bf5c381ad54a",
+      "bytes": 365
+    },
+    {
+      "path": "Guarded01Fifo/gi-thin-wall-guard-off.png",
+      "sha256": "e239908438cf5c2bc323811554ce439b9bd76c20228f1e3a9d85560d2ab83e01",
+      "bytes": 1010531
+    },
+    {
+      "path": "Guarded01Fifo/gi-thin-wall-guard-on.json",
+      "sha256": "7f5ff0b567c0324a6132ff012c106e6b4afea2f9bed0fc4910aa61233820f8dc",
+      "bytes": 364
+    },
+    {
+      "path": "Guarded01Fifo/gi-thin-wall-guard-on.png",
+      "sha256": "07f2dd86154ef9bad3c62b5c4878710c93d17df3802fe678e14ff2177b2aa0c8",
+      "bytes": 1016876
+    },
+    {
+      "path": "Guarded01Fifo/gi-under-roof-day.json",
+      "sha256": "50b93f51c1a7754026f865c813720cfc121f9d7d4ad3be7f47f4cb11c5d93188",
+      "bytes": 350
+    },
+    {
+      "path": "Guarded01Fifo/gi-under-roof-day.png",
+      "sha256": "e10b3299b1af93fcc614eb4cd139d50be80776842606fe23940378e2dfbcd0f1",
+      "bytes": 1153780
+    },
+    {
+      "path": "Guarded01Fifo/gi-under-roof-night.json",
+      "sha256": "9ca60c07263edf1ec1745403039e6da34f5b4d0d68d79687194f2a9214553d5a",
+      "bytes": 349
+    },
+    {
+      "path": "Guarded01Fifo/gi-under-roof-night.png",
+      "sha256": "75c846227fb77aac088fbfb7d35ae852aa373c023b252f1fcf1c411ebcb0bc25",
+      "bytes": 945750
+    },
+    {
+      "path": "Guarded01Fifo/gi-under-roof-offscreen-grey.json",
+      "sha256": "50b93f51c1a7754026f865c813720cfc121f9d7d4ad3be7f47f4cb11c5d93188",
+      "bytes": 350
+    },
+    {
+      "path": "Guarded01Fifo/gi-under-roof-offscreen-grey.png",
+      "sha256": "01c33915ffebeede784414d615a263d3eed4c14f07ccb738b62e3f3f9f88d5f1",
+      "bytes": 1143434
+    },
+    {
+      "path": "Guarded01Fifo/gi-under-roof-offscreen-red.json",
+      "sha256": "50b93f51c1a7754026f865c813720cfc121f9d7d4ad3be7f47f4cb11c5d93188",
+      "bytes": 350
+    },
+    {
+      "path": "Guarded01Fifo/gi-under-roof-offscreen-red.png",
+      "sha256": "7de4b5f0242035c6e7ae5e68aaf09c538ac4b8739453aa669fadcc86dc31b1c0",
+      "bytes": 1154056
+    },
+    {
+      "path": "Guarded01Fifo/gi-under-roof-removed.json",
+      "sha256": "c868b4b5fe1dc85d894d2d3bb078bc7f6ba56f1493f0648a6e849d182bc4a2c7",
+      "bytes": 350
+    },
+    {
+      "path": "Guarded01Fifo/gi-under-roof-removed.png",
+      "sha256": "7e5b1988351530bf3f1292b8ed087c41cbd0c7ff27ea3e3edc67cb410d573189",
+      "bytes": 1410933
+    },
+    {
+      "path": "Guarded01Fifo/gi-under-roof-sunset.json",
+      "sha256": "e00bce98ae28990855eb89fe96d8b21f736a9d3fff455caaefd631355d547d42",
+      "bytes": 350
+    },
+    {
+      "path": "Guarded01Fifo/gi-under-roof-sunset.png",
+      "sha256": "9df37bf18f5d82d7e144764baa10fadf6b099fce79309275905caa85b9c149a2",
+      "bytes": 1053551
+    },
+    {
+      "path": "Guarded01Fifo/initial-field-probes.bin",
+      "sha256": "029788b3daefe1f84a5dfce9fe7075af3bc578ea90f0c5468206ac95428ff39f",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded01Fifo/legacy-overview-day.json",
+      "sha256": "22ca5fc94cea6cde700affa714ed26a9ba118d6f5f1064c8ffb004141ee3a62d",
+      "bytes": 319
+    },
+    {
+      "path": "Guarded01Fifo/legacy-overview-day.png",
+      "sha256": "3e56baf5cb3daabf99a5c12cfc6721d0a9138abacd2b76684802d083ed131833",
+      "bytes": 2253768
+    },
+    {
+      "path": "Guarded01Fifo/legacy-thin-wall-day.json",
+      "sha256": "2f2f9d20c96817f55894513653ac4bb37da2a9310475e2f599922f98d7bb1340",
+      "bytes": 365
+    },
+    {
+      "path": "Guarded01Fifo/legacy-thin-wall-day.png",
+      "sha256": "126d7886c7c83bcb3d52256395caf97100e4851af3c46a97f5c3bfb150402b98",
+      "bytes": 1022171
+    },
+    {
+      "path": "Guarded01Fifo/legacy-under-roof-day.json",
+      "sha256": "9f8b6055f5d582f1a682ef6dfd247ae4b8e122a8699b0c6056037efc04e3b4de",
+      "bytes": 351
+    },
+    {
+      "path": "Guarded01Fifo/legacy-under-roof-day.png",
+      "sha256": "13f0303454ab250748f7b2645a9a68cf1a48859ad52ce7e8b3e08efb49fed381",
+      "bytes": 1127172
+    },
+    {
+      "path": "Guarded01Fifo/night-light-refresh-probes.bin",
+      "sha256": "9b0057462da3eb15e52a60bcff3f5ff8e562f7f7254326d1371edbedb26b3884",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded01Fifo/offscreen-reflector-grey-probes.bin",
+      "sha256": "7813516dcf29e051ac8daec197f3ed3b877eee68286167ed539a98753d898817",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded01Fifo/offscreen-reflector-restored-probes.bin",
+      "sha256": "029788b3daefe1f84a5dfce9fe7075af3bc578ea90f0c5468206ac95428ff39f",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded01Fifo/result.txt",
+      "sha256": "277c8da2d0f34fed7d13af36f0cf51f6304e4bf7ff2818f5fceb4aebe400c122",
+      "bytes": 191
+    },
+    {
+      "path": "Guarded01Fifo/roof-removal-probes.bin",
+      "sha256": "999ea72d190af8e5adda30e396095c831efd6b7be5647811dcad9ca54ad9e69e",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded01Fifo/roof-undo-probes.bin",
+      "sha256": "029788b3daefe1f84a5dfce9fe7075af3bc578ea90f0c5468206ac95428ff39f",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded01Fifo/runtime-errors.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "Guarded01Fifo/small-cube-add-probes.bin",
+      "sha256": "625846d39377773a8a0a7e7951cc2f8aa2e77b1eeeddc25f18193755fdbb5d54",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded01Fifo/small-cube-move-probes.bin",
+      "sha256": "5f037c9d5e6c07e5498738562a6eab6af905207d0b9fe8d55df49bdb74316f6d",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded01Fifo/small-cube-remove-probes.bin",
+      "sha256": "029788b3daefe1f84a5dfce9fe7075af3bc578ea90f0c5468206ac95428ff39f",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded01Fifo/small-cube-undo-probes.bin",
+      "sha256": "625846d39377773a8a0a7e7951cc2f8aa2e77b1eeeddc25f18193755fdbb5d54",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded01Fifo/sunset-light-refresh-probes.bin",
+      "sha256": "a996d7c693504c12c7fda0bc8c724eb47a79d700abee54d44112441d5e5e556e",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded01Fifo/transport-checks.json",
+      "sha256": "78b4eccd827df6e33057874a3835f17734992649552a9777770204c2e77839bb",
+      "bytes": 1114
+    },
+    {
+      "path": "Guarded01Fifo/updates.json",
+      "sha256": "db918cb7b034e784992a92293a0019529817427c39ce3d547ef54f8804e79965",
+      "bytes": 23018
+    },
+    {
+      "path": "Guarded01Priority/benchmarks.json",
+      "sha256": "2f6aafc957593bed0a4e57e87b90e3c1c09a05c6dd2c255d0cdd234ccab7ca5b",
+      "bytes": 3258
+    },
+    {
+      "path": "Guarded01Priority/camera-00.json",
+      "sha256": "50b93f51c1a7754026f865c813720cfc121f9d7d4ad3be7f47f4cb11c5d93188",
+      "bytes": 350
+    },
+    {
+      "path": "Guarded01Priority/camera-00.png",
+      "sha256": "fc21fd168863d3555040e82f3377fd1a653d7c8a5045626abffde44faec0028c",
+      "bytes": 1154533
+    },
+    {
+      "path": "Guarded01Priority/camera-01.json",
+      "sha256": "0670b31c6a822ce481d6518010fa5484ed92dc73f667adb9aa9e04f989fa68bc",
+      "bytes": 364
+    },
+    {
+      "path": "Guarded01Priority/camera-01.png",
+      "sha256": "c6bc40c7a674ed29689ea58b5239b2b04ff7200862b87fd4f6219f8b342fc397",
+      "bytes": 1148948
+    },
+    {
+      "path": "Guarded01Priority/camera-02.json",
+      "sha256": "653c5579aaf238ee4eb6c626ef14957e9c9b578fc150a2faf209fcffa119ac75",
+      "bytes": 364
+    },
+    {
+      "path": "Guarded01Priority/camera-02.png",
+      "sha256": "ad77fc84caf9a68d03834c91378dd50318c331de9b893d00a47020fee2348890",
+      "bytes": 1142704
+    },
+    {
+      "path": "Guarded01Priority/camera-03.json",
+      "sha256": "5667e79696aba615bb09f4a8b9d9d6b4c5a5035635901990684a583577b927de",
+      "bytes": 364
+    },
+    {
+      "path": "Guarded01Priority/camera-03.png",
+      "sha256": "e833018757f229a6990f17779174f66381f9da22e69d135c8e01351a47c01079",
+      "bytes": 1129593
+    },
+    {
+      "path": "Guarded01Priority/camera-04.json",
+      "sha256": "e653e5dd1ba9d18b286d6ca2220dffab8f836102eca70f446a341b74a7c0fdec",
+      "bytes": 364
+    },
+    {
+      "path": "Guarded01Priority/camera-04.png",
+      "sha256": "e835a6a33db7722f8cc7e70dcf288e7d923f6d51b47ae2cfe7d9d0ef24312a73",
+      "bytes": 1121701
+    },
+    {
+      "path": "Guarded01Priority/camera-05.json",
+      "sha256": "a57c351c6bd495bbfeff40326b8ee2b24e9e3ffc97174d75b4a74bfffa553991",
+      "bytes": 364
+    },
+    {
+      "path": "Guarded01Priority/camera-05.png",
+      "sha256": "ae0d6590628737039653c13ec7bd39bbd3b699568d803a183311d93e921efaa4",
+      "bytes": 1108972
+    },
+    {
+      "path": "Guarded01Priority/camera-06.json",
+      "sha256": "fe5791aabea45aa178121745821db9b95fee9b28f067a26c1ffc91ffcda29f6d",
+      "bytes": 364
+    },
+    {
+      "path": "Guarded01Priority/camera-06.png",
+      "sha256": "4bb39a364d5b95a8bd75b3482bf27c13af65475452e27e596654709b6c4578c1",
+      "bytes": 1095889
+    },
+    {
+      "path": "Guarded01Priority/camera-07.json",
+      "sha256": "4850f395d6e56c94e9d31b17d1f962ffc63aa9027c7c7bd53d885547469f3520",
+      "bytes": 364
+    },
+    {
+      "path": "Guarded01Priority/camera-07.png",
+      "sha256": "25a1672357968fa68fb3aef290b3dcba0555287b631c0a3031f07549ef5cd58d",
+      "bytes": 1082440
+    },
+    {
+      "path": "Guarded01Priority/camera-08.json",
+      "sha256": "bd98e45935beeb2955efd2a7ee8b5eb44292fb360105d7ec8bd2dee2f7487666",
+      "bytes": 364
+    },
+    {
+      "path": "Guarded01Priority/camera-08.png",
+      "sha256": "1de9cbd9f44cccbad5dfed767bc53cdfe4f3efd117340c45ccf9dea4e2032575",
+      "bytes": 1068970
+    },
+    {
+      "path": "Guarded01Priority/camera-09.json",
+      "sha256": "fdbd176122841b2f89e8bd6a608e1973f457d5f313f1dab886a586e062909e12",
+      "bytes": 364
+    },
+    {
+      "path": "Guarded01Priority/camera-09.png",
+      "sha256": "a32100100a2f97468592538f56e457ff7f67c9f99d1c6fb7a698157daa33ac74",
+      "bytes": 1052998
+    },
+    {
+      "path": "Guarded01Priority/camera-10.json",
+      "sha256": "a3654fc6008e9fb462dfab58d483cff9e125d2e70bc2a481bdaad198333ea980",
+      "bytes": 364
+    },
+    {
+      "path": "Guarded01Priority/camera-10.png",
+      "sha256": "06e5b93b891c82cb9d22bb73760a44dd1a91c85ff2e0a02846a2840d99cbdca5",
+      "bytes": 1039575
+    },
+    {
+      "path": "Guarded01Priority/camera-11.json",
+      "sha256": "db635130539173d623162225708180e0b2189a2d251b74aa74f377d4b5f25ba4",
+      "bytes": 364
+    },
+    {
+      "path": "Guarded01Priority/camera-11.png",
+      "sha256": "286b29cf23577c12a06cfb9228e6f77e2314603af466e842ebf3112d225ac14d",
+      "bytes": 1026205
+    },
+    {
+      "path": "Guarded01Priority/day-light-refresh-probes.bin",
+      "sha256": "029788b3daefe1f84a5dfce9fe7075af3bc578ea90f0c5468206ac95428ff39f",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded01Priority/gi-overview-day.json",
+      "sha256": "d26779385060deb3f7cce7e30e692dbc376fb8da1cbfaeebf5604f1f3c813083",
+      "bytes": 318
+    },
+    {
+      "path": "Guarded01Priority/gi-overview-day.png",
+      "sha256": "c7d1ba08c831a537fad91f5296d752e7862733ac9f969e93a20a93fb54b91a64",
+      "bytes": 2231483
+    },
+    {
+      "path": "Guarded01Priority/gi-overview-night.json",
+      "sha256": "2c66a44007605a172f76310116c2b960359260a17da8aa704982e95be3adc704",
+      "bytes": 317
+    },
+    {
+      "path": "Guarded01Priority/gi-overview-night.png",
+      "sha256": "ae8c454ede71c8a0a9242819036a1cf260a5697685afa9da3641540c5cd8851c",
+      "bytes": 2029465
+    },
+    {
+      "path": "Guarded01Priority/gi-overview-sunset.json",
+      "sha256": "10236d57dcafebc9c56c8724ba6f904e291b125bef766f0bab5e904ae8f5bf93",
+      "bytes": 318
+    },
+    {
+      "path": "Guarded01Priority/gi-overview-sunset.png",
+      "sha256": "10a2c1de32a733cf2f264117d1e134a43d3081aad890cdecdb87427d9f3e8205",
+      "bytes": 2339924
+    },
+    {
+      "path": "Guarded01Priority/gi-small-cube-added.json",
+      "sha256": "8a2902f247b640f9621fef6498f9d2fdadf8e093917f832cb58b5dc4bfa28cc5",
+      "bytes": 350
+    },
+    {
+      "path": "Guarded01Priority/gi-small-cube-added.png",
+      "sha256": "02c2bfc5843fd9a55beb91897c788a13d9977b52963b49fc048c6fea7bd91217",
+      "bytes": 1119766
+    },
+    {
+      "path": "Guarded01Priority/gi-small-cube-moved.json",
+      "sha256": "8a2902f247b640f9621fef6498f9d2fdadf8e093917f832cb58b5dc4bfa28cc5",
+      "bytes": 350
+    },
+    {
+      "path": "Guarded01Priority/gi-small-cube-moved.png",
+      "sha256": "0ffe118187dd27843b9003c9e2935f6793c32aaabb84e35d2f36cb0a2f3cd211",
+      "bytes": 1117695
+    },
+    {
+      "path": "Guarded01Priority/gi-thin-wall-day.json",
+      "sha256": "7f5ff0b567c0324a6132ff012c106e6b4afea2f9bed0fc4910aa61233820f8dc",
+      "bytes": 364
+    },
+    {
+      "path": "Guarded01Priority/gi-thin-wall-day.png",
+      "sha256": "f8effeb261b04ed7ff076b8be8e1d74468e8aaacab9b9172510a9daef5ff9420",
+      "bytes": 1017670
+    },
+    {
+      "path": "Guarded01Priority/gi-thin-wall-guard-off.json",
+      "sha256": "d06dec724a3dc98f5fe78a123af4839d05984885aa2f656532c4bf5c381ad54a",
+      "bytes": 365
+    },
+    {
+      "path": "Guarded01Priority/gi-thin-wall-guard-off.png",
+      "sha256": "c1943343f868a9d9ef73038790a49776deaa1cc0134a54d21682198530a68b3a",
+      "bytes": 1011235
+    },
+    {
+      "path": "Guarded01Priority/gi-thin-wall-guard-on.json",
+      "sha256": "7f5ff0b567c0324a6132ff012c106e6b4afea2f9bed0fc4910aa61233820f8dc",
+      "bytes": 364
+    },
+    {
+      "path": "Guarded01Priority/gi-thin-wall-guard-on.png",
+      "sha256": "3e77eda7dbc7ff4729faa7e990a1a6ced6a47424ac67839f0de74722292dcb11",
+      "bytes": 1017105
+    },
+    {
+      "path": "Guarded01Priority/gi-under-roof-day.json",
+      "sha256": "50b93f51c1a7754026f865c813720cfc121f9d7d4ad3be7f47f4cb11c5d93188",
+      "bytes": 350
+    },
+    {
+      "path": "Guarded01Priority/gi-under-roof-day.png",
+      "sha256": "fb61957d9609fac16fd0b6a6922c148b6948c2f1608b44b9d05190527b7ca4fe",
+      "bytes": 1153398
+    },
+    {
+      "path": "Guarded01Priority/gi-under-roof-night.json",
+      "sha256": "9ca60c07263edf1ec1745403039e6da34f5b4d0d68d79687194f2a9214553d5a",
+      "bytes": 349
+    },
+    {
+      "path": "Guarded01Priority/gi-under-roof-night.png",
+      "sha256": "dc05d8e8336882d46279757317c4211873c617faff46ef64e87bc1e86cbcf208",
+      "bytes": 946187
+    },
+    {
+      "path": "Guarded01Priority/gi-under-roof-offscreen-grey.json",
+      "sha256": "50b93f51c1a7754026f865c813720cfc121f9d7d4ad3be7f47f4cb11c5d93188",
+      "bytes": 350
+    },
+    {
+      "path": "Guarded01Priority/gi-under-roof-offscreen-grey.png",
+      "sha256": "bc406fc0b9d022aa6b90f2fc7b096ad3b756bf2f6c930f58a7a4d78063f9123a",
+      "bytes": 1144321
+    },
+    {
+      "path": "Guarded01Priority/gi-under-roof-offscreen-red.json",
+      "sha256": "50b93f51c1a7754026f865c813720cfc121f9d7d4ad3be7f47f4cb11c5d93188",
+      "bytes": 350
+    },
+    {
+      "path": "Guarded01Priority/gi-under-roof-offscreen-red.png",
+      "sha256": "a7f3a8eabd426488ffdab41864505c11a0959893574efe328447bab163f9e002",
+      "bytes": 1154444
+    },
+    {
+      "path": "Guarded01Priority/gi-under-roof-removed.json",
+      "sha256": "c868b4b5fe1dc85d894d2d3bb078bc7f6ba56f1493f0648a6e849d182bc4a2c7",
+      "bytes": 350
+    },
+    {
+      "path": "Guarded01Priority/gi-under-roof-removed.png",
+      "sha256": "98a9b9babbbfa0519abdeab65b37add9639ede23f6d8d1576a2ea937dd25fbe9",
+      "bytes": 1411233
+    },
+    {
+      "path": "Guarded01Priority/gi-under-roof-sunset.json",
+      "sha256": "e00bce98ae28990855eb89fe96d8b21f736a9d3fff455caaefd631355d547d42",
+      "bytes": 350
+    },
+    {
+      "path": "Guarded01Priority/gi-under-roof-sunset.png",
+      "sha256": "3c66b1224211448e9e34f4f6b8906e97607e279bf506bb1a0013d6777bf2bf72",
+      "bytes": 1054005
+    },
+    {
+      "path": "Guarded01Priority/initial-field-probes.bin",
+      "sha256": "029788b3daefe1f84a5dfce9fe7075af3bc578ea90f0c5468206ac95428ff39f",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded01Priority/legacy-overview-day.json",
+      "sha256": "22ca5fc94cea6cde700affa714ed26a9ba118d6f5f1064c8ffb004141ee3a62d",
+      "bytes": 319
+    },
+    {
+      "path": "Guarded01Priority/legacy-overview-day.png",
+      "sha256": "395b6ee63f1f3f6039eaf88028c428657224cfea985f65c18e90127178a9caee",
+      "bytes": 2252698
+    },
+    {
+      "path": "Guarded01Priority/legacy-thin-wall-day.json",
+      "sha256": "2f2f9d20c96817f55894513653ac4bb37da2a9310475e2f599922f98d7bb1340",
+      "bytes": 365
+    },
+    {
+      "path": "Guarded01Priority/legacy-thin-wall-day.png",
+      "sha256": "e4905d99611415f5e2cdc70d95da6b3aa1d419b42008f82d9ffce8ea35c6fbd8",
+      "bytes": 1021623
+    },
+    {
+      "path": "Guarded01Priority/legacy-under-roof-day.json",
+      "sha256": "9f8b6055f5d582f1a682ef6dfd247ae4b8e122a8699b0c6056037efc04e3b4de",
+      "bytes": 351
+    },
+    {
+      "path": "Guarded01Priority/legacy-under-roof-day.png",
+      "sha256": "f930a64a41e7046652dca26c98903be554df61580a43b28df074b8d962594551",
+      "bytes": 1126607
+    },
+    {
+      "path": "Guarded01Priority/night-light-refresh-probes.bin",
+      "sha256": "9b0057462da3eb15e52a60bcff3f5ff8e562f7f7254326d1371edbedb26b3884",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded01Priority/offscreen-reflector-grey-probes.bin",
+      "sha256": "7813516dcf29e051ac8daec197f3ed3b877eee68286167ed539a98753d898817",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded01Priority/offscreen-reflector-restored-probes.bin",
+      "sha256": "029788b3daefe1f84a5dfce9fe7075af3bc578ea90f0c5468206ac95428ff39f",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded01Priority/result.txt",
+      "sha256": "277c8da2d0f34fed7d13af36f0cf51f6304e4bf7ff2818f5fceb4aebe400c122",
+      "bytes": 191
+    },
+    {
+      "path": "Guarded01Priority/roof-removal-probes.bin",
+      "sha256": "999ea72d190af8e5adda30e396095c831efd6b7be5647811dcad9ca54ad9e69e",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded01Priority/roof-undo-probes.bin",
+      "sha256": "029788b3daefe1f84a5dfce9fe7075af3bc578ea90f0c5468206ac95428ff39f",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded01Priority/runtime-errors.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "Guarded01Priority/small-cube-add-probes.bin",
+      "sha256": "625846d39377773a8a0a7e7951cc2f8aa2e77b1eeeddc25f18193755fdbb5d54",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded01Priority/small-cube-move-probes.bin",
+      "sha256": "5f037c9d5e6c07e5498738562a6eab6af905207d0b9fe8d55df49bdb74316f6d",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded01Priority/small-cube-remove-probes.bin",
+      "sha256": "029788b3daefe1f84a5dfce9fe7075af3bc578ea90f0c5468206ac95428ff39f",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded01Priority/small-cube-undo-probes.bin",
+      "sha256": "625846d39377773a8a0a7e7951cc2f8aa2e77b1eeeddc25f18193755fdbb5d54",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded01Priority/sunset-light-refresh-probes.bin",
+      "sha256": "a996d7c693504c12c7fda0bc8c724eb47a79d700abee54d44112441d5e5e556e",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded01Priority/transport-checks.json",
+      "sha256": "78b4eccd827df6e33057874a3835f17734992649552a9777770204c2e77839bb",
+      "bytes": 1114
+    },
+    {
+      "path": "Guarded01Priority/updates.json",
+      "sha256": "b25271ee00c4e9943724e1bede549f545cd919038a0d55c995c1bd46fd8d9446",
+      "bytes": 22924
+    },
+    {
+      "path": "Guarded02Fifo/benchmarks.json",
+      "sha256": "d87e5090cfc618e8da312a71da0fc0cf5dd28c623bf5f70133a83fff69c976a6",
+      "bytes": 3257
+    },
+    {
+      "path": "Guarded02Fifo/day-light-refresh-probes.bin",
+      "sha256": "029788b3daefe1f84a5dfce9fe7075af3bc578ea90f0c5468206ac95428ff39f",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded02Fifo/initial-field-probes.bin",
+      "sha256": "029788b3daefe1f84a5dfce9fe7075af3bc578ea90f0c5468206ac95428ff39f",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded02Fifo/night-light-refresh-probes.bin",
+      "sha256": "9b0057462da3eb15e52a60bcff3f5ff8e562f7f7254326d1371edbedb26b3884",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded02Fifo/offscreen-reflector-grey-probes.bin",
+      "sha256": "7813516dcf29e051ac8daec197f3ed3b877eee68286167ed539a98753d898817",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded02Fifo/offscreen-reflector-restored-probes.bin",
+      "sha256": "029788b3daefe1f84a5dfce9fe7075af3bc578ea90f0c5468206ac95428ff39f",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded02Fifo/result.txt",
+      "sha256": "277c8da2d0f34fed7d13af36f0cf51f6304e4bf7ff2818f5fceb4aebe400c122",
+      "bytes": 191
+    },
+    {
+      "path": "Guarded02Fifo/roof-removal-probes.bin",
+      "sha256": "999ea72d190af8e5adda30e396095c831efd6b7be5647811dcad9ca54ad9e69e",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded02Fifo/roof-undo-probes.bin",
+      "sha256": "029788b3daefe1f84a5dfce9fe7075af3bc578ea90f0c5468206ac95428ff39f",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded02Fifo/runtime-errors.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "Guarded02Fifo/small-cube-add-probes.bin",
+      "sha256": "625846d39377773a8a0a7e7951cc2f8aa2e77b1eeeddc25f18193755fdbb5d54",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded02Fifo/small-cube-move-probes.bin",
+      "sha256": "5f037c9d5e6c07e5498738562a6eab6af905207d0b9fe8d55df49bdb74316f6d",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded02Fifo/small-cube-remove-probes.bin",
+      "sha256": "029788b3daefe1f84a5dfce9fe7075af3bc578ea90f0c5468206ac95428ff39f",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded02Fifo/small-cube-undo-probes.bin",
+      "sha256": "625846d39377773a8a0a7e7951cc2f8aa2e77b1eeeddc25f18193755fdbb5d54",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded02Fifo/sunset-light-refresh-probes.bin",
+      "sha256": "a996d7c693504c12c7fda0bc8c724eb47a79d700abee54d44112441d5e5e556e",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded02Fifo/transport-checks.json",
+      "sha256": "78b4eccd827df6e33057874a3835f17734992649552a9777770204c2e77839bb",
+      "bytes": 1114
+    },
+    {
+      "path": "Guarded02Fifo/updates.json",
+      "sha256": "0be3f3f3b40f32da1f545a63f2a856e03c358bf39e6445edab35c606e4399aec",
+      "bytes": 23033
+    },
+    {
+      "path": "Guarded02Priority/benchmarks.json",
+      "sha256": "a1688465295d5d278aec92fefc019ba5147a10c263f6b4b993320851bc376cf6",
+      "bytes": 3260
+    },
+    {
+      "path": "Guarded02Priority/day-light-refresh-probes.bin",
+      "sha256": "029788b3daefe1f84a5dfce9fe7075af3bc578ea90f0c5468206ac95428ff39f",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded02Priority/initial-field-probes.bin",
+      "sha256": "029788b3daefe1f84a5dfce9fe7075af3bc578ea90f0c5468206ac95428ff39f",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded02Priority/night-light-refresh-probes.bin",
+      "sha256": "9b0057462da3eb15e52a60bcff3f5ff8e562f7f7254326d1371edbedb26b3884",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded02Priority/offscreen-reflector-grey-probes.bin",
+      "sha256": "7813516dcf29e051ac8daec197f3ed3b877eee68286167ed539a98753d898817",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded02Priority/offscreen-reflector-restored-probes.bin",
+      "sha256": "029788b3daefe1f84a5dfce9fe7075af3bc578ea90f0c5468206ac95428ff39f",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded02Priority/result.txt",
+      "sha256": "277c8da2d0f34fed7d13af36f0cf51f6304e4bf7ff2818f5fceb4aebe400c122",
+      "bytes": 191
+    },
+    {
+      "path": "Guarded02Priority/roof-removal-probes.bin",
+      "sha256": "999ea72d190af8e5adda30e396095c831efd6b7be5647811dcad9ca54ad9e69e",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded02Priority/roof-undo-probes.bin",
+      "sha256": "029788b3daefe1f84a5dfce9fe7075af3bc578ea90f0c5468206ac95428ff39f",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded02Priority/runtime-errors.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "Guarded02Priority/small-cube-add-probes.bin",
+      "sha256": "625846d39377773a8a0a7e7951cc2f8aa2e77b1eeeddc25f18193755fdbb5d54",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded02Priority/small-cube-move-probes.bin",
+      "sha256": "5f037c9d5e6c07e5498738562a6eab6af905207d0b9fe8d55df49bdb74316f6d",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded02Priority/small-cube-remove-probes.bin",
+      "sha256": "029788b3daefe1f84a5dfce9fe7075af3bc578ea90f0c5468206ac95428ff39f",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded02Priority/small-cube-undo-probes.bin",
+      "sha256": "625846d39377773a8a0a7e7951cc2f8aa2e77b1eeeddc25f18193755fdbb5d54",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded02Priority/sunset-light-refresh-probes.bin",
+      "sha256": "a996d7c693504c12c7fda0bc8c724eb47a79d700abee54d44112441d5e5e556e",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded02Priority/transport-checks.json",
+      "sha256": "78b4eccd827df6e33057874a3835f17734992649552a9777770204c2e77839bb",
+      "bytes": 1114
+    },
+    {
+      "path": "Guarded02Priority/updates.json",
+      "sha256": "f154f173a03b8f14ff38dcc6d6f4f33c1c87da2b5238f492b84bf4d9c080664d",
+      "bytes": 22978
+    },
+    {
+      "path": "Guarded03Fifo/benchmarks.json",
+      "sha256": "cac0ed33d567dc0e8756d53eb52ec97ef0a54cd8b0c1dc2e78fe439cbbcc9452",
+      "bytes": 3257
+    },
+    {
+      "path": "Guarded03Fifo/day-light-refresh-probes.bin",
+      "sha256": "029788b3daefe1f84a5dfce9fe7075af3bc578ea90f0c5468206ac95428ff39f",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded03Fifo/initial-field-probes.bin",
+      "sha256": "029788b3daefe1f84a5dfce9fe7075af3bc578ea90f0c5468206ac95428ff39f",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded03Fifo/night-light-refresh-probes.bin",
+      "sha256": "9b0057462da3eb15e52a60bcff3f5ff8e562f7f7254326d1371edbedb26b3884",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded03Fifo/offscreen-reflector-grey-probes.bin",
+      "sha256": "7813516dcf29e051ac8daec197f3ed3b877eee68286167ed539a98753d898817",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded03Fifo/offscreen-reflector-restored-probes.bin",
+      "sha256": "029788b3daefe1f84a5dfce9fe7075af3bc578ea90f0c5468206ac95428ff39f",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded03Fifo/result.txt",
+      "sha256": "277c8da2d0f34fed7d13af36f0cf51f6304e4bf7ff2818f5fceb4aebe400c122",
+      "bytes": 191
+    },
+    {
+      "path": "Guarded03Fifo/roof-removal-probes.bin",
+      "sha256": "999ea72d190af8e5adda30e396095c831efd6b7be5647811dcad9ca54ad9e69e",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded03Fifo/roof-undo-probes.bin",
+      "sha256": "029788b3daefe1f84a5dfce9fe7075af3bc578ea90f0c5468206ac95428ff39f",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded03Fifo/runtime-errors.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "Guarded03Fifo/small-cube-add-probes.bin",
+      "sha256": "625846d39377773a8a0a7e7951cc2f8aa2e77b1eeeddc25f18193755fdbb5d54",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded03Fifo/small-cube-move-probes.bin",
+      "sha256": "5f037c9d5e6c07e5498738562a6eab6af905207d0b9fe8d55df49bdb74316f6d",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded03Fifo/small-cube-remove-probes.bin",
+      "sha256": "029788b3daefe1f84a5dfce9fe7075af3bc578ea90f0c5468206ac95428ff39f",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded03Fifo/small-cube-undo-probes.bin",
+      "sha256": "625846d39377773a8a0a7e7951cc2f8aa2e77b1eeeddc25f18193755fdbb5d54",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded03Fifo/sunset-light-refresh-probes.bin",
+      "sha256": "a996d7c693504c12c7fda0bc8c724eb47a79d700abee54d44112441d5e5e556e",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded03Fifo/transport-checks.json",
+      "sha256": "78b4eccd827df6e33057874a3835f17734992649552a9777770204c2e77839bb",
+      "bytes": 1114
+    },
+    {
+      "path": "Guarded03Fifo/updates.json",
+      "sha256": "6a1c1eca69cbf187c3ed60981f85f63dca05fa892ee6fd92c64a54430a9828df",
+      "bytes": 23038
+    },
+    {
+      "path": "Guarded03Priority/benchmarks.json",
+      "sha256": "26a4064c34a3333a3787d7f98cfde883c3872b5a228ef78299e1959afa55bbbf",
+      "bytes": 3261
+    },
+    {
+      "path": "Guarded03Priority/day-light-refresh-probes.bin",
+      "sha256": "029788b3daefe1f84a5dfce9fe7075af3bc578ea90f0c5468206ac95428ff39f",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded03Priority/initial-field-probes.bin",
+      "sha256": "029788b3daefe1f84a5dfce9fe7075af3bc578ea90f0c5468206ac95428ff39f",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded03Priority/night-light-refresh-probes.bin",
+      "sha256": "9b0057462da3eb15e52a60bcff3f5ff8e562f7f7254326d1371edbedb26b3884",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded03Priority/offscreen-reflector-grey-probes.bin",
+      "sha256": "7813516dcf29e051ac8daec197f3ed3b877eee68286167ed539a98753d898817",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded03Priority/offscreen-reflector-restored-probes.bin",
+      "sha256": "029788b3daefe1f84a5dfce9fe7075af3bc578ea90f0c5468206ac95428ff39f",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded03Priority/result.txt",
+      "sha256": "277c8da2d0f34fed7d13af36f0cf51f6304e4bf7ff2818f5fceb4aebe400c122",
+      "bytes": 191
+    },
+    {
+      "path": "Guarded03Priority/roof-removal-probes.bin",
+      "sha256": "999ea72d190af8e5adda30e396095c831efd6b7be5647811dcad9ca54ad9e69e",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded03Priority/roof-undo-probes.bin",
+      "sha256": "029788b3daefe1f84a5dfce9fe7075af3bc578ea90f0c5468206ac95428ff39f",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded03Priority/runtime-errors.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "Guarded03Priority/small-cube-add-probes.bin",
+      "sha256": "625846d39377773a8a0a7e7951cc2f8aa2e77b1eeeddc25f18193755fdbb5d54",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded03Priority/small-cube-move-probes.bin",
+      "sha256": "5f037c9d5e6c07e5498738562a6eab6af905207d0b9fe8d55df49bdb74316f6d",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded03Priority/small-cube-remove-probes.bin",
+      "sha256": "029788b3daefe1f84a5dfce9fe7075af3bc578ea90f0c5468206ac95428ff39f",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded03Priority/small-cube-undo-probes.bin",
+      "sha256": "625846d39377773a8a0a7e7951cc2f8aa2e77b1eeeddc25f18193755fdbb5d54",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded03Priority/sunset-light-refresh-probes.bin",
+      "sha256": "a996d7c693504c12c7fda0bc8c724eb47a79d700abee54d44112441d5e5e556e",
+      "bytes": 1382976
+    },
+    {
+      "path": "Guarded03Priority/transport-checks.json",
+      "sha256": "78b4eccd827df6e33057874a3835f17734992649552a9777770204c2e77839bb",
+      "bytes": 1114
+    },
+    {
+      "path": "Guarded03Priority/updates.json",
+      "sha256": "35fbe6dde32f39c704e21fdc42876020a41106c64ea0fadece92e76954741d43",
+      "bytes": 22963
+    },
+    {
+      "path": "GuardedSerial/benchmarks.json",
+      "sha256": "08bbc37d71adafef7aa9f43f834ebcfe6c9da27438e0c4b5f555aacb64d74077",
+      "bytes": 3258
+    },
+    {
+      "path": "GuardedSerial/day-light-refresh-probes.bin",
+      "sha256": "dbc096359cc6937047ebc7b93eaa02b16b4900e42a8acfb3509da78bbf14980a",
+      "bytes": 1382976
+    },
+    {
+      "path": "GuardedSerial/initial-field-probes.bin",
+      "sha256": "dbc096359cc6937047ebc7b93eaa02b16b4900e42a8acfb3509da78bbf14980a",
+      "bytes": 1382976
+    },
+    {
+      "path": "GuardedSerial/night-light-refresh-probes.bin",
+      "sha256": "7d95e11e0fa4d981b95a7b2a9e17fa2b475bcbbf433ed3faad85961fe030286c",
+      "bytes": 1382976
+    },
+    {
+      "path": "GuardedSerial/offscreen-reflector-grey-probes.bin",
+      "sha256": "b1a03fbffa73c6f08945908f18f469c8a44bd1878ed056edf40d9d853bdb65cf",
+      "bytes": 1382976
+    },
+    {
+      "path": "GuardedSerial/offscreen-reflector-restored-probes.bin",
+      "sha256": "dbc096359cc6937047ebc7b93eaa02b16b4900e42a8acfb3509da78bbf14980a",
+      "bytes": 1382976
+    },
+    {
+      "path": "GuardedSerial/result.txt",
+      "sha256": "277c8da2d0f34fed7d13af36f0cf51f6304e4bf7ff2818f5fceb4aebe400c122",
+      "bytes": 191
+    },
+    {
+      "path": "GuardedSerial/roof-removal-probes.bin",
+      "sha256": "e09ac28fe9f8d34bad3ce1e6ee65dc58720d70a1908e8af46dc88bf3d23061f5",
+      "bytes": 1382976
+    },
+    {
+      "path": "GuardedSerial/roof-undo-probes.bin",
+      "sha256": "dbc096359cc6937047ebc7b93eaa02b16b4900e42a8acfb3509da78bbf14980a",
+      "bytes": 1382976
+    },
+    {
+      "path": "GuardedSerial/runtime-errors.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "GuardedSerial/small-cube-add-probes.bin",
+      "sha256": "c8e43d8c60863f31dabcb303577eadfc5b973430ad0f198b34a2b61fd74923f4",
+      "bytes": 1382976
+    },
+    {
+      "path": "GuardedSerial/small-cube-move-probes.bin",
+      "sha256": "5c55ac286113421bb3bc3736d25ddf9d06b5e1df7c4f8e9198340768625e581e",
+      "bytes": 1382976
+    },
+    {
+      "path": "GuardedSerial/small-cube-remove-probes.bin",
+      "sha256": "dbc096359cc6937047ebc7b93eaa02b16b4900e42a8acfb3509da78bbf14980a",
+      "bytes": 1382976
+    },
+    {
+      "path": "GuardedSerial/small-cube-undo-probes.bin",
+      "sha256": "c8e43d8c60863f31dabcb303577eadfc5b973430ad0f198b34a2b61fd74923f4",
+      "bytes": 1382976
+    },
+    {
+      "path": "GuardedSerial/sunset-light-refresh-probes.bin",
+      "sha256": "f0fdda8cd14bd26c0bd9648923356b4df33eab3418cfbc1f2e88c54ae54c740a",
+      "bytes": 1382976
+    },
+    {
+      "path": "GuardedSerial/transport-checks.json",
+      "sha256": "6c4dd53324645a8b8d7c17c8337368e3289c2e590cf988368b0abd3bf9631ff8",
+      "bytes": 1119
+    },
+    {
+      "path": "GuardedSerial/updates.json",
+      "sha256": "24a86355888720411fa4a074364a50177236e89fe299b3579419f644a0459115",
+      "bytes": 22572
+    },
+    {
+      "path": "GuardedMotion/motion-checks.json",
+      "sha256": "73e47be559b74fd7e439b30ead4820e1413194647f09259e8ef95af5c6d284d4",
+      "bytes": 149
+    },
+    {
+      "path": "GuardedMotion/result.txt",
+      "sha256": "9416204b35db816d7a23a3c7bbf0e31f0db4ce37e1b07daebad88259e689e645",
+      "bytes": 80
+    },
+    {
+      "path": "GuardedMotion/runtime-errors.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    }
+  ],
+  "logs": [
+    {
+      "path": "build-guarded.log",
+      "sha256": "901993bbd9ab7adf76eebbe8b75906c4523062ed600ca4263849393aae04e58c",
+      "bytes": 498507
+    },
+    {
+      "path": "editmode-final.log",
+      "sha256": "cf243ff5c084b84b00def2d881baf2a1125a54bba015890c8193ca3846f4155b",
+      "bytes": 171067
+    },
+    {
+      "path": "Guarded01Fifo.log",
+      "sha256": "9302d50f68ba7e2ed57e2fcddf3fec9d7825847d23463e3e00994fc5126d7e18",
+      "bytes": 3147
+    },
+    {
+      "path": "Guarded01Priority.log",
+      "sha256": "58752876ed195a145171515389908f24bad677a95ab8a599d676333f33040d41",
+      "bytes": 3150
+    },
+    {
+      "path": "Guarded02Fifo.log",
+      "sha256": "feac17982c866048535e47e31c86500795c9018e48c5d19c98d32a229d0af78d",
+      "bytes": 3148
+    },
+    {
+      "path": "Guarded02Priority.log",
+      "sha256": "0fdc1cbec87d6d7328f334ee05381f960895825bfecb14418defe5bbf299edce",
+      "bytes": 3148
+    },
+    {
+      "path": "Guarded03Fifo.log",
+      "sha256": "a0a01d7746621988d80d56a0dbb95c48ce13421a09443133a70c3f4b1058f745",
+      "bytes": 3149
+    },
+    {
+      "path": "Guarded03Priority.log",
+      "sha256": "7c732d1c3e50b59515eab729fde14e2482b949f50d18ecffb102bc9f61ee2627",
+      "bytes": 3149
+    },
+    {
+      "path": "GuardedMotion.log",
+      "sha256": "b1c02a35fc90476d808b7d4984a70353e9ceccd7ecc3f544ce9aa11c54bf7cdf",
+      "bytes": 2396
+    },
+    {
+      "path": "GuardedSerial.log",
+      "sha256": "09d6957c7c744542d5b17179993fcbb323cfb033034762a01c3e7d0a3558fa75",
+      "bytes": 3180
+    },
+    {
+      "path": "playmode-final.log",
+      "sha256": "6f8920ef9fd72d69ac29163260318ad0b791df5e266312e060a127fe7e410f09",
+      "bytes": 84617
+    }
+  ],
+  "playerFiles": [
+    {
+      "path": "dstorage.dll",
+      "sha256": "cae65787f61514bec6f012f44546e68b19e39d8854a9ab52af813370d44b272a",
+      "bytes": 206904
+    },
+    {
+      "path": "dstoragecore.dll",
+      "sha256": "cf85b19a92a8276f8baca0db9bbcd60735bad50768deb303d310e84d5f4fdd11",
+      "bytes": 1482784
+    },
+    {
+      "path": "SpatialIndirectStudy.exe",
+      "sha256": "c7e7c0fb799bc979d2a086d8836d9570443f925c753442c2979fac9e38d69c13",
+      "bytes": 667648
+    },
+    {
+      "path": "UnityCrashHandler64.exe",
+      "sha256": "2be501dba884f8ddee06b08d773cfd6c0d3739006a26991f5810a04612e80591",
+      "bytes": 1735600
+    },
+    {
+      "path": "UnityPlayer.dll",
+      "sha256": "b507f5d20f0262b7b392075ec7a9354f18e8929161367313be6c86fbfc060dbe",
+      "bytes": 37139888
+    },
+    {
+      "path": "D3D12/D3D12Core.dll",
+      "sha256": "625bd40005b1c3708695d5256ecf230d278e6b8edba5a88af70f3d91324f3052",
+      "bytes": 4725304
+    },
+    {
+      "path": "Little-Castle_BurstDebugInformation_DoNotShip/Data/Plugins/x86_64/lib_burst_generated.txt",
+      "sha256": "647c6b05bbe52cecf51e5c81300df925d5b951af0f3074706ff843c707455b48",
+      "bytes": 208619
+    },
+    {
+      "path": "MonoBleedingEdge/EmbedRuntime/mono-2.0-bdwgc.dll",
+      "sha256": "d543a78967747660c48ff6dc3a98aaa93b9ed050762a455c56147c293df9b206",
+      "bytes": 7831472
+    },
+    {
+      "path": "MonoBleedingEdge/EmbedRuntime/MonoPosixHelper.dll",
+      "sha256": "7b43f1ef5de699c5eabc3905e7b71000130a5647e4fcd90a29f8dd78737b52e6",
+      "bytes": 611248
+    },
+    {
+      "path": "MonoBleedingEdge/etc/mono/browscap.ini",
+      "sha256": "4ddd50f31fb968f30bedefc253a46dc3f2890192d05cdaa9e0a64a056eee807e",
+      "bytes": 311984
+    },
+    {
+      "path": "MonoBleedingEdge/etc/mono/config",
+      "sha256": "5776169973a26a387b8b3e5c0f2301a7ab9a6dd7c7d3efa22a96abc47fbf8662",
+      "bytes": 3815
+    },
+    {
+      "path": "MonoBleedingEdge/etc/mono/2.0/DefaultWsdlHelpGenerator.aspx",
+      "sha256": "751861040b69ea63a3827507b7c8da9c7f549dc181c1c8af4b7ca78cc97d710a",
+      "bytes": 60575
+    },
+    {
+      "path": "MonoBleedingEdge/etc/mono/2.0/machine.config",
+      "sha256": "e91782a27fa39fc6c1d6ee8b08529f5d35052310d0006034b878eb04b8f2af30",
+      "bytes": 29066
+    },
+    {
+      "path": "MonoBleedingEdge/etc/mono/2.0/settings.map",
+      "sha256": "49c6160f9d54af4270a3b4e997fc4a8301f79b9e2070118fa46ddbcbbc44f9a2",
+      "bytes": 2622
+    },
+    {
+      "path": "MonoBleedingEdge/etc/mono/2.0/web.config",
+      "sha256": "cf2b54339e069b9e42f7d6795eecbf562c50c1011f4ca8f65f578fe52d97ff92",
+      "bytes": 11635
+    },
+    {
+      "path": "MonoBleedingEdge/etc/mono/2.0/Browsers/Compat.browser",
+      "sha256": "8a1082057ac5681dcd4e9c227ed7fb8eb42ac1618963b5de3b65739dd77e2741",
+      "bytes": 1605
+    },
+    {
+      "path": "MonoBleedingEdge/etc/mono/4.0/DefaultWsdlHelpGenerator.aspx",
+      "sha256": "751861040b69ea63a3827507b7c8da9c7f549dc181c1c8af4b7ca78cc97d710a",
+      "bytes": 60575
+    },
+    {
+      "path": "MonoBleedingEdge/etc/mono/4.0/machine.config",
+      "sha256": "e60aec2c5115d65b3acb3c55ea21576dbd770f579166c017125571e46ae560ed",
+      "bytes": 33598
+    },
+    {
+      "path": "MonoBleedingEdge/etc/mono/4.0/settings.map",
+      "sha256": "ce1db1ad8a9512073164e3eccdc193f7eda036e1a9733caec4635de21b2865c8",
+      "bytes": 2622
+    },
+    {
+      "path": "MonoBleedingEdge/etc/mono/4.0/web.config",
+      "sha256": "e38bb8cc68fe5b4edecdfd288d094b9e8ced7629039b2a347682aba0d8bd7492",
+      "bytes": 18802
+    },
+    {
+      "path": "MonoBleedingEdge/etc/mono/4.0/Browsers/Compat.browser",
+      "sha256": "8a1082057ac5681dcd4e9c227ed7fb8eb42ac1618963b5de3b65739dd77e2741",
+      "bytes": 1605
+    },
+    {
+      "path": "MonoBleedingEdge/etc/mono/4.5/DefaultWsdlHelpGenerator.aspx",
+      "sha256": "751861040b69ea63a3827507b7c8da9c7f549dc181c1c8af4b7ca78cc97d710a",
+      "bytes": 60575
+    },
+    {
+      "path": "MonoBleedingEdge/etc/mono/4.5/machine.config",
+      "sha256": "ee950004b576fb28dc85f4b0435ed04bf96612de2e8b53be84d07afe85a0de6c",
+      "bytes": 34056
+    },
+    {
+      "path": "MonoBleedingEdge/etc/mono/4.5/settings.map",
+      "sha256": "ce1db1ad8a9512073164e3eccdc193f7eda036e1a9733caec4635de21b2865c8",
+      "bytes": 2622
+    },
+    {
+      "path": "MonoBleedingEdge/etc/mono/4.5/web.config",
+      "sha256": "c4cbddd4fd9347b58cc5a72b36dc4ba1ad2bb699e65869d05cd3fb9865f0d824",
+      "bytes": 18811
+    },
+    {
+      "path": "MonoBleedingEdge/etc/mono/4.5/Browsers/Compat.browser",
+      "sha256": "8a1082057ac5681dcd4e9c227ed7fb8eb42ac1618963b5de3b65739dd77e2741",
+      "bytes": 1605
+    },
+    {
+      "path": "MonoBleedingEdge/etc/mono/mconfig/config.xml",
+      "sha256": "0c56e34c69124510fa8c19e7b4c2ca6c1c4ff460ae19f798dd0ca035809e396d",
+      "bytes": 25817
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/app.info",
+      "sha256": "dfbffa1eb4aba8a308666e61b587066eadeea575107433e42b4c8f95c55753b3",
+      "bytes": 28
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/boot.config",
+      "sha256": "dafb226243acdbd19921c4305ad4e7da8335a2369350ab68ce1ef5cfd71dacf5",
+      "bytes": 156
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/globalgamemanagers",
+      "sha256": "bd12facb996a67b9e9bb47e0d0ae7747d50401b7811283b6dba9470aabe48458",
+      "bytes": 88836
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/globalgamemanagers.assets",
+      "sha256": "40c5d3ed8927b4b3cbfd9d6ebe4576a6dfb279f8eaac235b66f01d2550abee9d",
+      "bytes": 919088
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/globalgamemanagers.assets.resS",
+      "sha256": "26b24bbd0bdb7017ecbac3b829c0ed7c4848bc343af5702e96ebdb75a7258b04",
+      "bytes": 6174944
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/level0",
+      "sha256": "a9c2086d296a6524af920db548194b149137e4d93928f635b47f966feae9a27c",
+      "bytes": 31088
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/level1",
+      "sha256": "b44640ddc93b9737b914897dba3789cf6326d081a47731d5e235f93d5a2f35b4",
+      "bytes": 25876
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/resources.assets",
+      "sha256": "d11a19517f55c7e47bbbbad9c5e5fb698d623d6fdd77da066715d28a4aee33ba",
+      "bytes": 1996
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/RuntimeInitializeOnLoads.json",
+      "sha256": "eafeadd87e75b370cf311578b0ddb7e68b03244faba0b9b074d21c4622cfaec4",
+      "bytes": 2518
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/ScriptingAssemblies.json",
+      "sha256": "6a38dee7857aa63847b36f925dc0044aeec6328c68d15ceb6c9b56cc5cff89ee",
+      "bytes": 4305
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/sharedassets0.assets",
+      "sha256": "38857c4006e8eda901d2691cc11f78f48ff8e88541636a08c1c3ce157dc2cf9e",
+      "bytes": 6126316
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/sharedassets0.assets.resS",
+      "sha256": "73f184301b6c27fb745d6e3e5b94f32acb31b69ce9d9de4ae636b68896561f4f",
+      "bytes": 17004480
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/sharedassets1.assets",
+      "sha256": "84515933cc08793d6acca41a0bbc8506e4de015479ac07acc3f557fa89be97d6",
+      "bytes": 4044
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/Assembly-CSharp.dll",
+      "sha256": "fd4b1e6d4de3fb28bc9398bc2505628e2ca53afc4ef280d8581a212ed9028fa2",
+      "bytes": 6144
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/LittleCastle.Runtime.dll",
+      "sha256": "5f07f48f6ccaa4a197f1212964f4e7ddeee0f8ebc8f60509ca3f2a3106d1ceca",
+      "bytes": 476672
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/Mono.Security.dll",
+      "sha256": "1849437c1d2fe7698c0fde2a9a6aad9a864372a373b7c1d887da902a36965b36",
+      "bytes": 241152
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/mscorlib.dll",
+      "sha256": "f7698bd46af58d3ee9dac59a286cfedfd28e51f71c0fe3940671a3ccc7af5711",
+      "bytes": 4632064
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/netstandard.dll",
+      "sha256": "6ae62e082dc494a2433984177f60ca4db5fae69b1f360a8b33754172b310b8c5",
+      "bytes": 90112
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/System.Buffers.dll",
+      "sha256": "762f8fdbe975e05b76be5fe996c53ce7c75e4a2830f2f50b02a5948ef6ba0aeb",
+      "bytes": 4608
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/System.Collections.Immutable.dll",
+      "sha256": "5b1b1c83ba3d135c2fdfe425842fbe9c7432878b7e468623acb554c69b4c130f",
+      "bytes": 252680
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/System.ComponentModel.Composition.dll",
+      "sha256": "335d76d10ae5b80d1faae4833937b9166551ccc9e79ee8262d2da4d58843f79d",
+      "bytes": 257024
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/System.Configuration.dll",
+      "sha256": "d7139dd6b622233d316aac733b392b9c1a545375804f62685f57f9d36f1c7ac2",
+      "bytes": 124928
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/System.Core.dll",
+      "sha256": "a4637c44a11ea827d686313cfca3f5191225d2a96f7eaf0f10aa32de446380d2",
+      "bytes": 1113088
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/System.Data.DataSetExtensions.dll",
+      "sha256": "80432a96154f8d2935b2f1c9e61b2ee6109fd6234e281327b3b297451c8931ba",
+      "bytes": 29696
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/System.Data.dll",
+      "sha256": "ab47d362cff6f6e665cadbc8c6c81f9fa3612f23483a44d08b339347ac99f116",
+      "bytes": 2125312
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/System.dll",
+      "sha256": "d26cada0fc3dcae061f0fa421df15a082cb35ccf81ccaeebc8b0e2d2e6877099",
+      "bytes": 2641920
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/System.Drawing.dll",
+      "sha256": "3c3586ba170c1788a8d3a4e419eb1f50f092070f4d81e90238b2fe6c5405cf2c",
+      "bytes": 489984
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/System.EnterpriseServices.dll",
+      "sha256": "00595c8eea345fe0e47da702100e460aaaf8f14d27a24950b71d926cbf1201c4",
+      "bytes": 44544
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/System.IO.Compression.dll",
+      "sha256": "a2803c059bd49c7fe520673f7e2b06657bb0419b253a5267e3f1da14b357dd5a",
+      "bytes": 114688
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/System.IO.Compression.FileSystem.dll",
+      "sha256": "f45ca89827639a880dcbeab1917af99a5bd18aec4433fbcb2d7774ccf9fe7121",
+      "bytes": 18432
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/System.Memory.dll",
+      "sha256": "c4f030a2cba7da7cdcf493257c24560e203d355904aee490d645a935842f834a",
+      "bytes": 4608
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/System.Net.Http.dll",
+      "sha256": "128b31fec424c70356952314abff2f6b1408f64b7613d2ae4bde5e84c2f8ac03",
+      "bytes": 122880
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/System.Numerics.dll",
+      "sha256": "b968dc8852985029fd5dd08a1a9c3a6b8750ea4470cd677a5051c33fc5a08639",
+      "bytes": 119296
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/System.Reflection.Metadata.dll",
+      "sha256": "afcfd6c166fe0d59f45cc6363082806f6a7ea8ceed9dc6c75eec9fd79ccb5717",
+      "bytes": 487584
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/System.Runtime.CompilerServices.Unsafe.dll",
+      "sha256": "fd67abc4c4af10affbcd42fd68a2a7bc361b26714afe6965d4d0d139459d8297",
+      "bytes": 19256
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/System.Runtime.dll",
+      "sha256": "e0a7334b7ba419aaab6bd3bb6992d693e689341a9178172c9bf99c2aa6a085bd",
+      "bytes": 12288
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/System.Runtime.Serialization.dll",
+      "sha256": "685123acdbb6ac313e503e89f4831fed096be838ccb000b85b33ee903562807f",
+      "bytes": 934400
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/System.Security.dll",
+      "sha256": "02d51b98dc8c877124fea386c9fbf7264790aae381ab15577eb0e2d082d1bcc4",
+      "bytes": 320000
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/System.ServiceModel.Internals.dll",
+      "sha256": "077333adc8bf20eb40e94d1909db2d07a16925a9192b69064f34eaf128804c8b",
+      "bytes": 215040
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/System.Transactions.dll",
+      "sha256": "6557e5029469211193ccec80dd4d3ad090f5eb87d80f5d5341d77a6d3506b64b",
+      "bytes": 35328
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/System.Xml.dll",
+      "sha256": "32129a7d847a5efeacee6bd4b0d6bbffc8923551c5446a8c216d8ef1191b1de1",
+      "bytes": 3160064
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/System.Xml.Linq.dll",
+      "sha256": "fd300e794b9ccd85d95bbab54e282da1333faa20a9209457944e831c27452b00",
+      "bytes": 136704
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/Unity.Burst.dll",
+      "sha256": "08e8358e406ef86f30c264418427e8ed2aced00b2b9fd3ca5923c54f753bc145",
+      "bytes": 304640
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/Unity.Burst.Unsafe.dll",
+      "sha256": "9d9c1ff52411decbee5d9f0d1cd61ebeaa222077aa77a52101ea3debafae98e2",
+      "bytes": 5632
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/Unity.Collections.dll",
+      "sha256": "e244a4aa1bf12649678bf0f4f01a73881bb9ccf2320124e7c78c580415fc2e17",
+      "bytes": 461824
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/Unity.Collections.LowLevel.ILSupport.dll",
+      "sha256": "ff50383f807f9692e4913b97e47d86fefcb8faa33d6d48cd3e3fd6fc7ffb448d",
+      "bytes": 5120
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/Unity.InputSystem.dll",
+      "sha256": "fb87444eacc5b0241c56f60dada23e4a8cbf5a27fc5fd206a2e2d75be29d2afc",
+      "bytes": 1131520
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/Unity.InputSystem.ForUI.dll",
+      "sha256": "544770136d593852f2f724bdfd0b91a967f49e9d4aab2e483a7ae94de0779a12",
+      "bytes": 16384
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/Unity.InternalAPIEngineBridge.004.dll",
+      "sha256": "b84c7e1ea156f5010619ca48ef444b07bd5ba4e51f598864d5cf8bca6d85ca45",
+      "bytes": 5120
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/Unity.InternalAPIEngineBridge.RenderPipelines.Core.Runtime.Shared.dll",
+      "sha256": "0d8bef61b6ea4e44e179d3a8e191e1ce13db5b53b230489a4c3ec0403225df52",
+      "bytes": 4096
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/Unity.Mathematics.dll",
+      "sha256": "047e1faa2475e1b22d960f427b180ecca99d57f6f3cf1591e953fa5d663603ec",
+      "bytes": 6144
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/Unity.PathTracing.Runtime.dll",
+      "sha256": "35fb6f95b4b5b662f829cebc9f7b98bf39c541bd31f9b56d278d2bbc9b16752e",
+      "bytes": 153600
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/Unity.RenderPipeline.Universal.ShaderLibrary.dll",
+      "sha256": "c5b1f3517b024a6ad477eb557fd8502320f6324730d91d05320b70e884ba927e",
+      "bytes": 9216
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/Unity.RenderPipelines.Core.Runtime.dll",
+      "sha256": "57fbad220c5767c7dea63b262c5c315e307cacfd9ea7a46df6fe74f5b3de325a",
+      "bytes": 1139712
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/Unity.RenderPipelines.Core.Runtime.Shared.dll",
+      "sha256": "36b43a9cc78256c8d6a42d10fad096838bb4b9fd00af8a479c9e4918f82369af",
+      "bytes": 12800
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/Unity.RenderPipelines.Core.ShaderLibrary.dll",
+      "sha256": "5278ac37242dae976fcb3ff3f001da3f8908bd796a034080ab0641b47fdfd79d",
+      "bytes": 4608
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/Unity.RenderPipelines.GPUDriven.Runtime.dll",
+      "sha256": "1a7d44952105bca229297bba9ab7f35a43ca2b44ef96175379e6f4bd4472ef7a",
+      "bytes": 281088
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.dll",
+      "sha256": "2e66b955376d6f108fbb86eeecd67f2d597f586da7055708cc0fdfe221e300c4",
+      "bytes": 4608
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/Unity.RenderPipelines.Universal.2D.Runtime.dll",
+      "sha256": "eaaab8f8e362125ce259b5b646694cf24c8a553a5389a973325be34c1897aaa7",
+      "bytes": 211456
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/Unity.RenderPipelines.Universal.Config.Runtime.dll",
+      "sha256": "d30d71d325a8b55dd294efde4b46f7dc808235487a167aa6277358fde94a7d1a",
+      "bytes": 5632
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/Unity.RenderPipelines.Universal.Runtime.dll",
+      "sha256": "a8406584275edbc4840aa307d28c635ec4e6ce7abb53b6e3c9dc3b47e8d89ef7",
+      "bytes": 756224
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/Unity.RenderPipelines.Universal.Shaders.dll",
+      "sha256": "b18b88a528288f45f22844f5e9670e73f913260e72f7ddca81b252d042cb0771",
+      "bytes": 4608
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/Unity.Scripting.dll",
+      "sha256": "149f005343f80f90a8c15b031b1f7d372adea6e1179dca807ffc332397ac8e12",
+      "bytes": 68528
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/Unity.SurfaceCache.Runtime.dll",
+      "sha256": "426a50983f190def1a62dd9ebdf217f6a462d3338fd84e725f10abe089c0ebc0",
+      "bytes": 4096
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/Unity.TextMeshPro.dll",
+      "sha256": "56324756771023dfec2c184a2395cd3f53e8356406aed381c8d8495f122aa692",
+      "bytes": 449536
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/Unity.UnifiedRayTracing.Runtime.dll",
+      "sha256": "b24c53251959319dc31f2dd6a084fefe747b836093fc35a18baf2ff1da6fc55d",
+      "bytes": 99328
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.AccessibilityModule.dll",
+      "sha256": "3d32a89e98433ca2d1a5208339563fa900ca898e5a54ab2bdd26ba15e1cd7255",
+      "bytes": 49072
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.AdaptivePerformanceModule.dll",
+      "sha256": "471ad5c6534654e1c34f85758169303940606f5f6490d825c2fd8daf363083a4",
+      "bytes": 117680
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.AIModule.dll",
+      "sha256": "e6a11a7e2c32c9433508bdb29c02afb4647f4575acba4b5575e1cba519df3743",
+      "bytes": 86440
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.AMDModule.dll",
+      "sha256": "3f1517ac921ce41a71a2d8b74c27965ccf0234967af83543d830080722f81f4e",
+      "bytes": 21936
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.AndroidJNIModule.dll",
+      "sha256": "3959ea9b41069846f01b8d23552cda06106ba911bff955765170df8d33de461e",
+      "bytes": 120752
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.AnimationModule.dll",
+      "sha256": "b38fc0422caa9d0d8b5cecb8bf9ad51600ec25c14d0351b7652c458e0fcb827d",
+      "bytes": 218536
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.ARModule.dll",
+      "sha256": "24d0aa7fe16f05839bdd04e346e100bfe4dac299e7e327294b4757e1abeb002e",
+      "bytes": 27056
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.AssetBundleModule.dll",
+      "sha256": "cd04da6e129dca6b427e2ed79d8cd8201d5292b2cc2d88c0e9ec061e295d4f03",
+      "bytes": 42416
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.AudioModule.dll",
+      "sha256": "0ae8ce7733590fd87abb0f95cc81fd3e0f9cd324ea5c49fbc88a585ce86c116e",
+      "bytes": 142768
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.ClothModule.dll",
+      "sha256": "b438862a62b83b8d74d48ad86bf689421f0a9bfbe47ad8a04e82892dc9878e0c",
+      "bytes": 37296
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.ClusterInputModule.dll",
+      "sha256": "38e9184c28ff37efb9d2abb7040732fa529a91d03b6cc4d9bcd060d1d2c74e4a",
+      "bytes": 29096
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.ClusterRendererModule.dll",
+      "sha256": "d168b1df08c9b3e3c1664ae7891561a2c2658205ae15f85c81a6b588d2153c80",
+      "bytes": 28072
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.ContentLoadModule.dll",
+      "sha256": "a981b7883351a0606f37a23251406238979b820648698c1d1edf0646839135ed",
+      "bytes": 46512
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.CoreModule.dll",
+      "sha256": "0810323ebf65d64523108e83d638ebbedfb006191393c5e8577786e23e929bfe",
+      "bytes": 1973672
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.CrashReportingModule.dll",
+      "sha256": "44d6514f01a4d6c697d4f15edec04a26efcf7ca3ce98efcbce3d5bc2f36f9b68",
+      "bytes": 28072
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.DirectorModule.dll",
+      "sha256": "703b3b3401eb65e5b3376e4d6ab94f337d6e30d06b71754d29dfbc7e99dbc0e8",
+      "bytes": 41896
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.dll",
+      "sha256": "afdbf24d77ff482d9da786ab73b304189439ec5167dbee43aa8c7a86b4f86804",
+      "bytes": 210352
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.DSPGraphModule.dll",
+      "sha256": "5fb490c7efa1154ff51c60e71ed44eeaf8e265a03efc1f72d55816b074f55dda",
+      "bytes": 32680
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.GameCenterModule.dll",
+      "sha256": "4ff5e647c0dc2f35a548b97af3680f980a5b0b1dd9dd05a71005250e16577c58",
+      "bytes": 45480
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.GIModule.dll",
+      "sha256": "64ffd723c2cf28a3d6064a53b9ad9f78428c11bd760048fb022cf0fc423b1806",
+      "bytes": 25520
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.GraphicsStateCollectionSerializerModule.dll",
+      "sha256": "c8e58d2af8936cb2849929580f60a12d36ca7f596ae8c0d5de186f3d1755a9bf",
+      "bytes": 14248
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.GridModule.dll",
+      "sha256": "77bb300a93257adc8e347fa152eeeabfd72a3def4de131af6b4214c2e4e6151c",
+      "bytes": 32176
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.HierarchyCoreModule.dll",
+      "sha256": "d0ccbb6733e1b1576f762e1bb17045a4c00b101952f23bbda67842a4d96601dd",
+      "bytes": 105392
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.HierarchyModule.dll",
+      "sha256": "4b16eca4cc8bc6fd0e1dbcb5777d228ce30817233b34260ea09c082a1b73ff23",
+      "bytes": 100264
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.HotReloadModule.dll",
+      "sha256": "524c26925fcfc88f9315c87c81912332d107780c5879181204c24b35c0546fdf",
+      "bytes": 25512
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.IdentifiersModule.dll",
+      "sha256": "6e2cf1adf38dd614a63929a5ecd78767370cb383c26cbf03c87c34ed800ebabb",
+      "bytes": 16816
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.ImageConversionModule.dll",
+      "sha256": "de8a48dff5e5a3da6fc37c6e22109559655560580b197c993ecd4acfaeed9734",
+      "bytes": 33704
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.IMGUIModule.dll",
+      "sha256": "402e4b8af84b27dd69b1c34529b8da4623ea69b182944afce756a302f74034bc",
+      "bytes": 188840
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.InputForUIModule.dll",
+      "sha256": "cb5e1ca046a59fc627b0bd050e5a83a60631cf0bc1ea028e2b65b71dafce2641",
+      "bytes": 55728
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.InputLegacyModule.dll",
+      "sha256": "91ee69856dbac475789d75eb888d015413c7b95863c8b03388318f1e1a4b8b52",
+      "bytes": 41896
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.InputModule.dll",
+      "sha256": "5194a4da97b5a30294b14a0f7120e07570524555c167b82f9fba77ee09df57a4",
+      "bytes": 30632
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.InsightsModule.dll",
+      "sha256": "d6fc5d25692e614c999678377bc72995794707c783cfea50e7e3a6d81be905a3",
+      "bytes": 15784
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.JSONSerializeModule.dll",
+      "sha256": "8ef5b2bcbb1de1600bf3289201db600a717f267cba476d13ab6a50538489f83b",
+      "bytes": 28080
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.LocalizationModule.dll",
+      "sha256": "1857be20ec5333df256b517d60b1b47f3d721780fc1e09a65001d49840974416",
+      "bytes": 28080
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.MarshallingModule.dll",
+      "sha256": "62db3f2cfd472f35b021c88c8247d5884f8508db4ef227e0c9c85e0426737a23",
+      "bytes": 97200
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.MathematicsModule.dll",
+      "sha256": "940df9bd7793b5ed07cf56b182d559068dfa1cda88340cfd7550cbeb214ce87d",
+      "bytes": 740784
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.MultiplayerModule.dll",
+      "sha256": "d40fead2a5ee128562e95b9ccb31005f458300285e917eafeb0333e51e04be99",
+      "bytes": 17832
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.NVIDIAModule.dll",
+      "sha256": "7c1cfb9a2463ed47c524bb79d177ad58e0f455a3f3555380b78874e11357566e",
+      "bytes": 40360
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.ParticleSystemModule.dll",
+      "sha256": "eafc04d26a5530cd89a2f82ade76b3184e3f208a3ef220be46d4240c0632dccd",
+      "bytes": 168872
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.PerformanceReportingModule.dll",
+      "sha256": "aa949babba6f92050abb093bcec73e4362cb966a31e243664cb52051cc8fdb9d",
+      "bytes": 26544
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.Physics2DModule.dll",
+      "sha256": "7ac453e0c7afed358e428f099ea4fb5a5c534560a0dadda8961eb2f37a44209a",
+      "bytes": 222120
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.PhysicsBackendPhysXModule.dll",
+      "sha256": "3041c361cc395c7d02c2033568d26d8eaf8df0e5568eb412833e6383cba467d4",
+      "bytes": 14256
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.PhysicsCore2DModule.dll",
+      "sha256": "5764f78cd1e0d7a1ca0d58b1f1b21614742ec00c97038d0cfd99e23a9a58b3b6",
+      "bytes": 450472
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.PhysicsModule.dll",
+      "sha256": "1eb22f9aad8a26ee4add54534757d28439e7817700aacdd8735f6cb1133a914a",
+      "bytes": 180144
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.PropertiesModule.dll",
+      "sha256": "05a10f6c128681434f71d3a30c28bb2e8469f0db812aabe6fa52b6295ec5eae7",
+      "bytes": 124336
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.RenderAs2DModule.dll",
+      "sha256": "ca0356d1a5a13792f88cf166989c947abfa404f255dedee93c92015cb9e41e26",
+      "bytes": 27048
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.RuntimeInitializeOnLoadManagerInitializerModule.dll",
+      "sha256": "4e120cca29c0c535d6a53ea19a24f686ca5e5ad558b351897bf26587b9e94141",
+      "bytes": 25520
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.ScreenCaptureModule.dll",
+      "sha256": "63e04c54331797e0ea80b21542775a1d3312009eec27233490aba8ba867bfb39",
+      "bytes": 27568
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.ScriptingModule.dll",
+      "sha256": "1f013095b7904b66b4289eb045c24ebe96a9a154e831a70b20aff26a0f05894b",
+      "bytes": 27560
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.ShaderVariantAnalyticsModule.dll",
+      "sha256": "3f78b047d406a0aa6724d253e526ecb4cf49888d19f6b4bee904ac1c3949ed20",
+      "bytes": 25512
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.SharedInternalsModule.dll",
+      "sha256": "9f523dfa581071dbd7c06859eafed59807fb30ba124189fd260f0a2e167ccdaa",
+      "bytes": 36784
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.SpriteMaskModule.dll",
+      "sha256": "37bd831234c11aeb7a90bc7d21e6d385a7ea19ec5a646cb68cf574e2ac06b085",
+      "bytes": 29616
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.SpriteShapeModule.dll",
+      "sha256": "75e3b4f49ef3a7f0079fff0319f2d0a3e602bdd2663f54dc61b62b50e3a012e1",
+      "bytes": 33712
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.StreamingModule.dll",
+      "sha256": "fdfeff40c03c2ae0c29a2ec4e63397d0f328385f78056a0d45d831bb990cb0f2",
+      "bytes": 27056
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.SubstanceModule.dll",
+      "sha256": "65fc52b083a749455b5da879c2edc07deb11b7f793a9ef90847ee016c292e592",
+      "bytes": 30632
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.SubsystemsModule.dll",
+      "sha256": "6b485109474ae4b22f6cbb6e1c02413cf1e562a467c0224568581fdc78e4d5cd",
+      "bytes": 42408
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.TerrainModule.dll",
+      "sha256": "f7b0cad73fcc0e6857738e53221b98b594419872b751fd9b92e88bbce3c2b9c2",
+      "bytes": 131504
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.TerrainPhysicsModule.dll",
+      "sha256": "9a960f2fc0652604a3e0496e02931be9bb05a369cb6a326ab9e48137cf569ade",
+      "bytes": 27048
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.TextCoreFontEngineModule.dll",
+      "sha256": "f91333e6a02cb607c35e8f327255673a42288e84aa7acc6812bcb5c21a645134",
+      "bytes": 77744
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.TextCoreTextEngineModule.dll",
+      "sha256": "d5220ae63b1194e698ab702389688f635aabe5114a36bedc78ef441d8debb78e",
+      "bytes": 331184
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.TextRenderingModule.dll",
+      "sha256": "b4ed59e8bdd74af4746e0eb255c185e13a9a23af1dde68177aa6756fedf725ca",
+      "bytes": 38832
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.TilemapModule.dll",
+      "sha256": "8372408814c57c9bd665afdb428176dfd643deb406c093682930ed97cb543b4e",
+      "bytes": 75176
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.TLSModule.dll",
+      "sha256": "c5572db8328b7c8128c5d716ff58ae813ab953a396801d5d05e6d8baa873f75d",
+      "bytes": 33192
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.U2DRuntimeModule.dll",
+      "sha256": "7de9ebf4cef608ca66402444dc2a19f0c147e6a9f5d9a20aeb6b68e050a60158",
+      "bytes": 26536
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.UI.dll",
+      "sha256": "3fa4e4bf1992ad841844365b1030a566a002e09f41257017d4cbccdd18e19903",
+      "bytes": 276992
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.UIElementsModule.dll",
+      "sha256": "af8a36b5c1d63c89cfcb56b21e95925c27f8f5c6896619e6927fd154c4465697",
+      "bytes": 2348976
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.UIModule.dll",
+      "sha256": "fe0d483c9a7cd12590a306b75a90d7d1dc5546acefb470365f744210163cdc86",
+      "bytes": 54192
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.UmbraModule.dll",
+      "sha256": "9f41287243babcb40bffbc7d87493876fff37db65e70c3d4ee61c8653fcf3974",
+      "bytes": 25520
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.UnityAnalyticsCommonModule.dll",
+      "sha256": "a197403b99eed031fb04a2e456b427daa506c81a5fb79dd072bf00b833e51e1e",
+      "bytes": 35760
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.UnityAnalyticsModule.dll",
+      "sha256": "70943395f5e8863fee8a8dfd8de7c3fdf89814b718ae42a932c7350825319bbd",
+      "bytes": 60328
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.UnityConnectModule.dll",
+      "sha256": "837792b9444a66be640197d1e2b9209cb6afa97cb5e13e4fe618f755847ec3a1",
+      "bytes": 29104
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.UnityConsentModule.dll",
+      "sha256": "4144dda8b763edba910234221e7ac6b8b0b700ac6d9871253a3823b4fbc1e839",
+      "bytes": 16296
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.UnityCurlModule.dll",
+      "sha256": "0401c35987384c2e4076666462fc0b6b8f0c047e0595db21142eb347726f6a8c",
+      "bytes": 27568
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.UnityWebRequestAssetBundleModule.dll",
+      "sha256": "1535a8a733970bdd9aa68adbf44cdd6c006abea05d85ffd096678778d5b59041",
+      "bytes": 30128
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.UnityWebRequestAudioModule.dll",
+      "sha256": "bc3b6c43a06d4f90ed5d3f640cd71bfe75fb53b7f4213cc2c388412753ec320f",
+      "bytes": 29608
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.UnityWebRequestModule.dll",
+      "sha256": "539ba3d11ad5e8560ad035fe96abd0f3584da2080d2dbce27c0242d4c3d9f9b0",
+      "bytes": 79272
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.UnityWebRequestTextureModule.dll",
+      "sha256": "11a54d82dd9ff2ed1505093c88796958b701768bb6c932d04e89d396343a55de",
+      "bytes": 28592
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.UnityWebRequestWWWModule.dll",
+      "sha256": "f5a84e0bc3f6a85aecf40cb3687c756ab0d02a9ad85fc57a9f01766be795527b",
+      "bytes": 36784
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.VectorGraphicsModule.dll",
+      "sha256": "5314657fb4fc4716bbd668675ce28ea52ab34da35b18ab1bbfbe2769b6232636",
+      "bytes": 227760
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.VehiclesModule.dll",
+      "sha256": "e53b8981ff0a9945b19f26e95638a3d68a3d7fbf5fae88950b6d82548f06334e",
+      "bytes": 32680
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.VFXModule.dll",
+      "sha256": "86620abdda181d099ca13f4efbf12fbaabea7c5e0e4b5b70da66c5fa019ec44b",
+      "bytes": 81840
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.VideoModule.dll",
+      "sha256": "8abdefb3e8d33d092708e91214c9fdb9190f189cb8eb1c11b644ac25cbef8f8f",
+      "bytes": 48552
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.VirtualTexturingModule.dll",
+      "sha256": "6400a418f6f72b23f45a9df2a20f6fb1bdf0fb01d80955e23b0a44afabbcfe0a",
+      "bytes": 43440
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.WindModule.dll",
+      "sha256": "d3f04f87fa97ceff69bf1446b60ab47b878e2e521f0ed8ba732f54a3d3ead773",
+      "bytes": 28080
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Managed/UnityEngine.XRModule.dll",
+      "sha256": "258e403801e641793369abc9f12a37a62eb5d7c174dad3842dd8ee30dda8ede4",
+      "bytes": 95656
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Plugins/x86_64/lib_burst_generated.dll",
+      "sha256": "bec7665e1ab2c7a5ce48e5f261a5270a10ae739e95b1f65d52ab9e923fabf047",
+      "bytes": 448000
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Resources/unity default resources",
+      "sha256": "1fbaff511bdec6cf276529de02215fee9fdcf7298ea9d7c49dc6b984ee73a7f5",
+      "bytes": 5881648
+    },
+    {
+      "path": "SpatialIndirectStudy_Data/Resources/unity_builtin_extra",
+      "sha256": "48c8072962cb75f9e8e0945d44cdeb9c479c78cbaa94bbfe3214574c06aabf71",
+      "bytes": 405368
+    }
+  ],
+  "excludedPreliminaryPrefix": "Final",
+  "excludedCompileFailure": "build-final.log"
+}

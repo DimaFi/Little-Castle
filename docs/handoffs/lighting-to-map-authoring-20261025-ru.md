@@ -419,3 +419,32 @@ Raw evidence:E:/Games_Develop/Research/SpatialIndirectStage1B_20261026.
 ветка codex/lighting-gi-kernels-stage1b-2026-10-26. Публикация подтверждается
 локальным publication-gi-stage1b/publication-receipt.json после remote проверки.
 URP editor не менялся и не ожидает GI. Его новый height/tree snapshot ещё не перенесён.
+
+## Этап1В: приоритет GI — 26.10.2026
+
+Очередь frustum-support priority (запас1.8*spacing+.08m),3видимых:1global FIFO,
+без дублей, со старым revision gate; camera refresh не сбрасывает fairness.
+Классификация внутри прежнего2ms budget.203 Edit+6Play,3 Release FIFO/Priority пары
+на одном Player +serial run.36 fields max FIFO/Priority error0,
+serial5.0663948e-07;24 field regressions к1Б без изменения результата.
+Куб0.8m,move0.5m: Priority support convergence384.8ms,
+полная566.5ms. Roof support551.2ms,
+полная898.8ms. Это conservative frustum-support/render metrics,
+не pixel/input-to-display latency. Queue delta~281KB; solve quality не снижено.
+Отчёт:`docs/reports/lighting-gi-priority-stage1c-20261026-ru.md`.
+
+Далее **этап2: версия результата и плавное обновление**. Buffer сейчас in-place,
+разный возраст проб возможен. Проверить commit/Undo/load во время pending work,
+camera motion, continuous WorldTime и bounded work без starvation. Не повторять
+готовый этап1В и не объявлять решённым pixel/temporal качество по latency queues.
+После этого — актуальный terrain/object snapshot и готовые модели в отдельной
+визуальной зоне. Диагностические куб,стены,крыша остаются; shaders/палитра в1В прежние.
+
+
+Before/current SHA+GUID, audit и patch в lighting-копии:stage1c-manifest.json,
+stage1c-audit.json,gi-d1d92e0-to-stage1c.patch. Новых Meadow зависимостей нет;
+Trace/Transport,7shared shaders,scene/materials,3settings unchanged; MAIN game drift0.
+Другая URP копия и apps не изменялись. Source/evidence packet:
+docs/integration-packages/lighting-gi-priority-stage1c-20261026/.
+Публикация нового пакета подтверждается publication-gi-stage1c/publication-receipt.json
+после отдельной remote проверки; исходный1Б опубликованd1d92e0.

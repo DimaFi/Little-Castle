@@ -1,0 +1,42 @@
+[
+  {
+    "path": "Assets/_Game/Scripts/Research/SpatialIndirectCache.cs",
+    "sha256": "ad759e91908fe245f80f881f5e5e5c62e5d27c26d5f705fbba1b8ef88a6fe4a2"
+  },
+  {
+    "path": "Assets/_Game/Scripts/Research/SpatialIndirectVolume.cs",
+    "sha256": "c5c9e4a1fe7e6043467054e5087a265f313a5c6606f548981eb37738287b70ff"
+  },
+  {
+    "path": "Assets/_Game/Scripts/Research/SpatialIndirectStudyReview.cs",
+    "sha256": "c1bc2583c6eff237d07ae7390169d1be0937589100644aa02e74d3a8d159f6c7"
+  },
+  {
+    "path": "Assets/_Game/Scripts/Research/SpatialIndirectTrace.cs",
+    "sha256": "ebf9eb242903623e32286737d1f8ced941ce6cca7dceb36907295a83ea46abae"
+  },
+  {
+    "path": "Assets/_Game/Scripts/Research/SpatialIndirectTransport.cs",
+    "sha256": "777f28b2a32b28402eb243b011036c61644869d27163ab5a890ef932463767d3"
+  },
+  {
+    "path": "Assets/_Game/Editor/SpatialIndirectStage1Build.cs",
+    "sha256": "001de17b4abe875944ec06c714ba59b0ecedce303392fea09946681c878b9908"
+  },
+  {
+    "path": "Assets/_Game/Scenes/SpatialIndirectStudy_20261026.unity",
+    "sha256": "f91f2cc9cb6e010b857499cd41918502e0e6a265e934af69cc85ee957865cea4"
+  },
+  {
+    "path": "ProjectSettings/ProjectSettings.asset",
+    "sha256": "917e5fd654d712d1242fed4dc2ad7a31f202e691bb9183ce5d6ff82169dce661"
+  },
+  {
+    "path": "ProjectSettings/QualitySettings.asset",
+    "sha256": "bf2a90b2ec073be90df8b606b12894e84b13b7133863b9f040331cb6150d969f"
+  },
+  {
+    "path": "ProjectSettings/GraphicsSettings.asset",
+    "sha256": "de7e2162963a8ae4aee3467e6043f925960cf4ee4b23ab2f1ec1efa405388aad"
+  }
+]

@@ -1,0 +1,286 @@
+--- STAGE1B/Assets/_Game/Scripts/Research/SpatialIndirectCache.cs
++++ STAGE1C/Assets/_Game/Scripts/Research/SpatialIndirectCache.cs
+@@ -1,5 +1,4 @@
+ using System;
+-using System.Collections.Generic;
+ using UnityEngine;
+ 
+ namespace LittleCastle.Research
+@@ -19,8 +18,19 @@
+         public SpatialIndirectTrace.Probe[] Data {get;}
+         readonly bool[] queued;
+         readonly int[] revisions;
+-        readonly Queue<int> queue;
+-        public int PendingCount=>queue.Count;
++        // Intrusive global FIFO + visible subset: promotion/removal never leaves
++        // duplicate/stale queue entries, even during repeated edits/camera motion.
++        readonly int[] next,previous,priorityNext,priorityPrevious;
++        readonly bool[] priority;
++        readonly Vector4[] planes=new Vector4[6];
++        int head=-1,tail=-1,priorityHead=-1,priorityTail=-1,pending,priorityPending,priorityRun;
++        bool hasPriority;
++        float priorityPadding;
++        public int PendingCount=>pending;
++        public int PriorityPendingCount=>priorityPending;
++        public const int PriorityBurst=3;
++        public long QueuePayloadBytes=>ProbeCount*22L+6*16; // 4int + 2bool + revision int
++        public bool IsPriority(int index)=>priority[index];
+         public int ProbeCount=>Data.Length;
+         public SpatialIndirectCache(Vector3 origin,Vector3Int size,float spacing)
+         {
+@@ -28,13 +38,39 @@
+             Origin=origin;Size=size;Spacing=spacing;
+             var extent=new Vector3(size.x-1,size.y-1,size.z-1)*spacing;
+             Bounds=new Bounds(origin+extent*.5f,extent);
+-            int count=size.x*size.y*size.z;Data=new SpatialIndirectTrace.Probe[count];queued=new bool[count];revisions=new int[count];queue=new Queue<int>(count);
++            int count=size.x*size.y*size.z;Data=new SpatialIndirectTrace.Probe[count];queued=new bool[count];revisions=new int[count];priority=new bool[count];
++            next=new int[count];previous=new int[count];priorityNext=new int[count];priorityPrevious=new int[count];
+         }
+         public int Index(int x,int y,int z)=>(z*Size.y+y)*Size.x+x;
+         public Vector3 Position(int index)
+         {int x=index%Size.x,y=index/Size.x%Size.y,z=index/(Size.x*Size.y);return Origin+new Vector3(x,y,z)*Spacing;}
+         void Mark(int i)
+-        {revisions[i]++;if(queued[i])return;queued[i]=true;queue.Enqueue(i);}
++        {
++            revisions[i]++;if(queued[i])return;queued[i]=true;pending++;
++            previous[i]=tail;next[i]=-1;if(tail<0)head=i;else next[tail]=i;tail=i;
++            priority[i]=Visible(i);if(priority[i])AppendPriority(i);
++        }
++        void AppendPriority(int i)
++        {priorityPrevious[i]=priorityTail;priorityNext[i]=-1;if(priorityTail<0)priorityHead=i;else priorityNext[priorityTail]=i;priorityTail=i;priorityPending++;}
++        bool Visible(int index)
++        {
++            if(!hasPriority)return false;var p=Position(index);
++            for(int i=0;i<6;i++){var plane=planes[i];if(plane.x*p.x+plane.y*p.y+plane.z*p.z+plane.w < -priorityPadding)return false;}return true;
++        }
++        /// <summary>Conservative probe support of a camera frustum; no camera/authority dependency.</summary>
++        public void SetPriority(Plane[] frustum,float padding)
++        {
++            if(frustum==null||frustum.Length!=6||padding<0||float.IsNaN(padding)||float.IsInfinity(padding))throw new ArgumentException("Six finite frustum planes and nonnegative padding required.");
++            for(int i=0;i<6;i++)
++            {
++                var n=frustum[i].normal;float d=frustum[i].distance;
++                if(!float.IsFinite(n.x)||!float.IsFinite(n.y)||!float.IsFinite(n.z)||!float.IsFinite(d)||Mathf.Abs(n.sqrMagnitude-1)>.001f)throw new ArgumentException("Normalised finite planes required.");
++            }
++            for(int i=0;i<6;i++){var n=frustum[i].normal;planes[i]=new Vector4(n.x,n.y,n.z,frustum[i].distance);}
++            hasPriority=true;priorityPadding=padding;priorityHead=priorityTail=-1;priorityPending=0;
++            for(int i=head;i>=0;i=next[i]){priority[i]=Visible(i);if(priority[i])AppendPriority(i);}
++            // Keep priorityRun across camera changes: motion cannot reset fairness.
++        }
+         public void InvalidateAll(){for(int i=0;i<Data.Length;i++)Mark(i);}
+         public int Invalidate(Bounds changed,float influenceRadius,bool preview=false)
+         {
+@@ -49,10 +85,19 @@
+             for(int z=z0;z<=z1;z++)for(int y=y0;y<=y1;y++)for(int x=x0;x<=x1;x++){Mark(Index(x,y,z));touched++;}
+             return touched;
+         }
+-        public bool TryBegin(out Work work)
++        public bool TryBegin(out Work work,bool prioritize=true)
+         {
+-            if(queue.Count==0){work=default;return false;}
+-            int i=queue.Dequeue();queued[i]=false;work=new Work(i,revisions[i]);return true;
++            if(pending==0){work=default;return false;}
++            bool preferred=prioritize&&priorityHead>=0&&priorityRun<PriorityBurst;
++            int i=preferred?priorityHead:head;priorityRun=preferred?priorityRun+1:0;
++            if(previous[i]<0)head=next[i];else next[previous[i]]=next[i];
++            if(next[i]<0)tail=previous[i];else previous[next[i]]=previous[i];
++            if(priority[i])
++            {
++                if(priorityPrevious[i]<0)priorityHead=priorityNext[i];else priorityNext[priorityPrevious[i]]=priorityNext[i];
++                if(priorityNext[i]<0)priorityTail=priorityPrevious[i];else priorityPrevious[priorityNext[i]]=priorityPrevious[i];priorityPending--;
++            }
++            queued[i]=false;pending--;work=new Work(i,revisions[i]);return true;
+         }
+         public bool Commit(Work work,SpatialIndirectTrace.Probe result)
+         {if(revisions[work.index]!=work.revision)return false;Data[work.index]=result;return true;}
+--- STAGE1B/Assets/_Game/Scripts/Research/SpatialIndirectVolume.cs
++++ STAGE1C/Assets/_Game/Scripts/Research/SpatialIndirectVolume.cs
+@@ -26,6 +26,17 @@
+         public int maximumCachedProbesPerFrame=8192;
+         public bool applyIndirect=true,visibilityGuard=true,bounce=true;
+         public bool UseTransport {get;private set;}
++        public bool UsePriority {get;private set;}
++        public Camera priorityCamera;
++        public double LastPriorityMs {get;private set;}
++        public double TotalPriorityMs {get;private set;}
++        public int PriorityRefreshes {get;private set;}
++        public long TotalPrioritySolved {get;private set;}
++        public long TotalPriorityChanges {get;private set;}
++        readonly Plane[] priorityPlanes=new Plane[6];
++        Matrix4x4 priorityView,priorityProjection;
++        bool priorityPrepared;
++        int priorityRefreshAfterFrame;
+         public SpatialIndirectTransport Transport {get;private set;}
+         public SpatialIndirectProfile Profile {get;private set;}
+         public long TotalSolverAllocatedBytes {get;private set;}
+@@ -66,6 +77,7 @@
+             if(SystemInfo.graphicsShaderLevel<45)throw new NotSupportedException("Spatial indirect experiment requires shader model 4.5; baseline remains available.");
+             owner=this;
+             var args=Environment.GetCommandLineArgs();UseTransport=Array.IndexOf(args,"-giReference")<0;
++            UsePriority=Array.IndexOf(args,"-giFifo")<0;if(!priorityCamera)priorityCamera=Camera.main;
+             Profile=new SpatialIndirectProfile{enabled=Array.IndexOf(args,"-giProfile")>=0};
+             long calibration=GC.GetAllocatedBytesForCurrentThread();GC.KeepAlive(new byte[4096]);AllocationCalibrationBytes=GC.GetAllocatedBytesForCurrentThread()-calibration;AllocationCounterSupported=AllocationCalibrationBytes>=4096;
+             allocationCounter=new SpatialIndirectAllocationCounter(Array.IndexOf(args,"-giAlloc")>=0);allocationCounter.Begin();
+@@ -122,14 +134,29 @@
+         void BindParameters()=>Shader.SetGlobalVector("_LC_IndirectParameters",new Vector4(applyIndirect?1:0,spacing,.08f,visibilityGuard?1:0));
+         void Update()
+         {
+-            BindParameters();LastProcessed=LastUploadedBytes=0;LastSolveMs=LastUploadMs=0;changed.Clear();
++            BindParameters();LastProcessed=LastUploadedBytes=0;LastSolveMs=LastUploadMs=LastPriorityMs=0;changed.Clear();
+             if(Cache.PendingCount==0)return;
+             var snapshot=Snapshot;var light=lighting;long allocated=GC.GetAllocatedBytesForCurrentThread();allocationCounter.Begin();timer.Restart();
+-            while(LastProcessed<EffectiveProbeLimit&&Cache.TryBegin(out var work))
++            // Priority classification is inside the SAME cooperative CPU budget.
++            if(priorityCamera&&(!priorityPrepared||(Time.frameCount>=priorityRefreshAfterFrame&&(!priorityView.Equals(priorityCamera.worldToCameraMatrix)||!priorityProjection.Equals(priorityCamera.projectionMatrix)))))
++            {
++                long start=SpatialIndirectProfile.Stamp();GeometryUtility.CalculateFrustumPlanes(priorityCamera,priorityPlanes);
++                Cache.SetPriority(priorityPlanes,spacing*1.8f+.08f);priorityView=priorityCamera.worldToCameraMatrix;priorityProjection=priorityCamera.projectionMatrix;priorityPrepared=true;
++                LastPriorityMs=SpatialIndirectProfile.Ms(SpatialIndirectProfile.Stamp()-start);TotalPriorityMs+=LastPriorityMs;PriorityRefreshes++;priorityRefreshAfterFrame=Time.frameCount+4;
++                // At least three solver frames between moving-camera rebuilds.
++                // Only queue preference may lag; geometry/revision correctness does not.
++            }
++            bool budgetRemaining=timer.Elapsed.TotalMilliseconds<workBudgetMs;
++            while(budgetRemaining&&LastProcessed<EffectiveProbeLimit&&Cache.TryBegin(out var work,UsePriority))
+             {
+                 var position=Cache.Position(work.index);
+                 var result=UseTransport?Transport.Solve(work.index,position,bounce):snapshot.Solve(position,light,rayDistance,bounce);
+-                if(Cache.Commit(work,result)){changed.Add(work.index);LastProcessed++;TotalSolved++;}
++                var old=Cache.Data[work.index];
++                if(Cache.Commit(work,result))
++                {
++                    changed.Add(work.index);LastProcessed++;TotalSolved++;
++                    if(Cache.IsPriority(work.index)){TotalPrioritySolved++;if(result.c0.w>.5f&&(!old.c0.Equals(result.c0)||!old.cx.Equals(result.cx)||!old.cy.Equals(result.cy)||!old.cz.Equals(result.cz)))TotalPriorityChanges++;}
++                }
+                 if(timer.Elapsed.TotalMilliseconds>=workBudgetMs)break;
+             }
+             LastSolveMs=timer.Elapsed.TotalMilliseconds;TotalSolveMs+=LastSolveMs;timer.Restart();
+--- STAGE1B/Assets/_Game/Scripts/Research/SpatialIndirectStudyReview.cs
++++ STAGE1C/Assets/_Game/Scripts/Research/SpatialIndirectStudyReview.cs
+@@ -32,6 +32,10 @@
+         readonly FrameTiming[] timing=new FrameTiming[1];
+         readonly List<float> intervals=new List<float>(600),gpu=new List<float>(600),cpu=new List<float>(600);
+         bool measuring;int warmup,lastFrame=-1;long stamp;
++        bool latencyActive;
++        long latencyStart,latencyChanges;
++        double firstSupportMs=-1,visibleSupportMs=-1;
++        int latencyRenderFrames;
+         static readonly Vector3[] Eyes={new Vector3(8,8,-9),new Vector3(-6,3.2f,.1f),new Vector3(-.1f,2.6f,1.6f)};
+         static readonly Vector3[] Targets={new Vector3(-5,1,4),new Vector3(-6,1.8f,6.7f),new Vector3(-1.65f,1.5f,5)};
+         static readonly string[] Names={"overview","under-roof","thin-wall"};
+@@ -41,6 +45,7 @@
+             var args=Environment.GetCommandLineArgs();regression=args.Contains("-giMeadowRegression");
+             if(regression){SceneManager.LoadScene("LightingMeadow_20261025");return;}
+             automated=args.Contains("-giStudy");showUI=!automated;output=Path.GetFullPath(Arg(args,"-giOutput",Path.Combine(Application.dataPath,"../SpatialIndirectCaptures")));Directory.CreateDirectory(output);
++            field.priorityCamera=camera;
+             previous=QualitySettings.renderPipeline;QualitySettings.renderPipeline=ao;camera.allowHDR=true;camera.GetUniversalAdditionalCameraData().renderPostProcessing=true;
+             Application.runInBackground=true;QualitySettings.vSyncCount=0;Application.targetFrameRate=automated?60:60;
+             SetHour(12);SetView(0);Application.logMessageReceived+=Log;RenderPipelineManager.endCameraRendering+=Rendered;
+@@ -65,6 +70,19 @@
+         {
+             if(regression)yield break;
+             yield return WaitCache("initial-field");
++            if(Array.IndexOf(Environment.GetCommandLineArgs(),"-giMotionStudy")>=0)
++            {
++                var motionBaseline=(SpatialIndirectTrace.Probe[])field.Cache.Data.Clone();int refreshes=field.PriorityRefreshes,frames=0;
++                field.RefreshLighting();var motionEye=camera.transform.position;float start=Time.realtimeSinceStartup;
++                while(!field.Ready&&frames<240)
++                {camera.transform.position=motionEye+Vector3.right*(Mathf.Sin(frames*.4f)*1.5f);frames++;yield return null;}
++                bool identical=field.Ready;
++                for(int i=0;i<motionBaseline.Length&&identical;i++){var a=motionBaseline[i];var b=field.Cache.Data[i];identical=a.c0.Equals(b.c0)&&a.cx.Equals(b.cx)&&a.cy.Equals(b.cy)&&a.cz.Equals(b.cz);}
++                int count=field.PriorityRefreshes-refreshes;
++                if(!identical||count>(frames+3)/4+1)throw new Exception("Moving-camera queue failed progress, exactness or refresh throttle.");
++                File.WriteAllText(output+"/motion-checks.json",JsonUtility.ToJson(new MotionReport{pass=true,frames=frames,priorityRefreshes=count,wallMs=(Time.realtimeSinceStartup-start)*1000,solveBudgetMs=field.workBudgetMs,exactField=true},true));
++                File.WriteAllText(output+"/result.txt","PASS moving camera: bounded refreshes, full progress and exact unchanged field.\n");File.WriteAllText(output+"/runtime-errors.txt",errors);complete=true;Application.Quit(errors.Length==0?0:2);yield break;
++            }
+             if(!automated)yield break;
+             freezeWind=true;
+             for(int mode=0;mode<2;mode++)for(int i=0;i<3;i++)
+@@ -102,6 +120,22 @@
+             SetHour(18.5f);yield return WaitCache("sunset-light-refresh");SetView(0);yield return Capture("gi-overview-sunset");SetView(1);yield return Capture("gi-under-roof-sunset");
+             SetHour(1);yield return WaitCache("night-light-refresh");SetView(0);yield return Capture("gi-overview-night");SetView(1);yield return Capture("gi-under-roof-night");
+             SetHour(12);yield return WaitCache("day-light-refresh");freezeWind=false;SetView(0);
++            if(Array.IndexOf(Environment.GetCommandLineArgs(),"-giPriorityStudy")>=0)
++            {
++                // Explicit 0.8m cube, 0.5m committed move. Original six-proxy
++                // fixture and its first eight comparisons are unchanged.
++                SetView(1);for(int f=0;f<6;f++)yield return null;
++                var cube=GameObject.CreatePrimitive(PrimitiveType.Cube);cube.name="Small edit latency reference cube";Destroy(cube.GetComponent<Collider>());
++                var visual=cube.GetComponent<Renderer>();visual.sharedMaterial=field.proxies[5].visual.sharedMaterial;visual.enabled=false;
++                var box=new Bounds(new Vector3(-8.3f,.65f,3.2f),Vector3.one*.8f);cube.transform.position=box.center;cube.transform.localScale=box.size;
++                var expanded=new SpatialIndirectVolume.ProxyObject[7];Array.Copy(field.proxies,expanded,6);
++                expanded[6]=new SpatialIndirectVolume.ProxyObject{id="small-edit-cube",bounds=box,albedo=field.proxies[5].albedo,visual=visual,active=false};field.proxies=expanded;
++                field.CommitProxy(6,true,box,expanded[6].albedo);yield return WaitCache("small-cube-add");yield return Capture("gi-small-cube-added");
++                var moved=box;moved.center+=Vector3.back*.5f;cube.transform.position=moved.center;
++                field.CommitProxy(6,true,moved,expanded[6].albedo);yield return WaitCache("small-cube-move");yield return Capture("gi-small-cube-moved");
++                cube.transform.position=box.center;field.CommitProxy(6,true,box,expanded[6].albedo);yield return WaitCache("small-cube-undo");
++                field.CommitProxy(6,false,box,expanded[6].albedo);yield return WaitCache("small-cube-remove");Destroy(cube);SetView(0);
++            }
+             File.WriteAllText(output+"/transport-checks.json",JsonUtility.ToJson(new TransportChecks{reflectorVisible=reflectorVisible,red=red,grey=grey,covered=covered,uncovered=uncovered,undo=undo,guardOff=noGuard,guardOn=guard,otherWallSide=right,localReflectorProbes=dirty,localRoofProbes=roofDirty,totalProbes=field.Cache.ProbeCount},true));
+             // Timings contain normal visible camera renders only. No readback/capture/update work.
+             QualitySettings.vSyncCount=0;Application.targetFrameRate=-1;
+@@ -117,6 +151,8 @@
+             long allocations=field.TotalSolverAllocatedBytes,geometry=field.Transport?.GeometryBuilds??0,injection=field.Transport?.Injections??0,reweight=field.Transport?.DirectReweights??0;
+             int gc0=GC.CollectionCount(0),gc1=GC.CollectionCount(1),gc2=GC.CollectionCount(2);
+             long replay=field.Transport?.EnvironmentReplays??0,allocationCalls=field.TotalSolverAllocationCalls;
++            double priorityMs=field.TotalPriorityMs;int priorityRefreshes=field.PriorityRefreshes;long prioritySolved=field.TotalPrioritySolved;
++            latencyStart=SpatialIndirectProfile.Stamp();latencyChanges=field.TotalPriorityChanges;firstSupportMs=visibleSupportMs=-1;latencyRenderFrames=0;latencyActive=true;
+             while(!field.Ready)
+             {
+                 max=Math.Max(max,field.LastSolveMs);maxUpload=Math.Max(maxUpload,field.LastUploadMs);maxTotal=Math.Max(maxTotal,field.LastSolveMs+field.LastUploadMs);maxProbes=Math.Max(maxProbes,field.LastProcessed);maxBytes=Math.Max(maxBytes,field.LastUploadedBytes);frames++;
+@@ -124,9 +160,14 @@
+                 yield return null;
+             }
+             max=Math.Max(max,field.LastSolveMs);maxUpload=Math.Max(maxUpload,field.LastUploadMs);maxTotal=Math.Max(maxTotal,field.LastSolveMs+field.LastUploadMs);maxProbes=Math.Max(maxProbes,field.LastProcessed);maxBytes=Math.Max(maxBytes,field.LastUploadedBytes);
+-            updates.Add(new UpdateReport{reason=reason,queued=pending,solved=field.TotalSolved-startSolved,totalProbes=field.Cache.ProbeCount,frames=frames,wallMs=(Time.realtimeSinceStartup-start)*1000,solveMs=field.TotalSolveMs-solve,uploadMs=field.TotalUploadMs-upload,maxSolveFrameMs=max,maxUploadFrameMs=maxUpload,maxTotalUpdateFrameMs=maxTotal,maxProbesFrame=maxProbes,maxUploadFrameBytes=maxBytes,uploadedBytes=field.TotalUploadBytes-bytes,bufferBytes=field.BufferBytes,skyTransportEntries=field.SurfaceEntries,mode=field.UseTransport?"cached-transport":"reference",solveBudgetMs=field.workBudgetMs,probeLimit=field.EffectiveProbeLimit,solverAllocatedBytes=field.TotalSolverAllocatedBytes-allocations,commitMs=reason=="initial-field"?0:field.LastCommitMs,commitAllocatedBytes=reason=="initial-field"?0:field.LastCommitAllocatedBytes,geometryBuilds=(field.Transport?.GeometryBuilds??0)-geometry,injections=(field.Transport?.Injections??0)-injection,directReweights=(field.Transport?.DirectReweights??0)-reweight,transportPayloadBytes=field.Transport?.PayloadBytes??0,activeHitLinks=field.Transport?.ActiveHitLinks??0,allocatedLinkSlots=field.Transport?.AllocatedLinkSlots??0,allocatedBlockSlots=field.Transport?.AllocatedBlockSlots??0,prunedSurfaceCells=field.Transport?.LastPrunedSurfaceCells??0,managedUsedBytes=UnityEngine.Profiling.Profiler.GetMonoUsedSizeLong(),gc0=GC.CollectionCount(0)-gc0,gc1=GC.CollectionCount(1)-gc1,gc2=GC.CollectionCount(2)-gc2});
+-            Debug.Log("LC_GI_UPDATE "+reason+" solved="+(field.TotalSolved-startSolved)+" wallMs="+((Time.realtimeSinceStartup-start)*1000).ToString("F1")+" cpuMs="+(field.TotalSolveMs-solve).ToString("F1"));
++            double fullWall=(Time.realtimeSinceStartup-start)*1000;
++            // Allow the final upload to reach one ordinary camera render BEFORE
++            // any diagnostic PNG/bin readback. This frame is outside fullWall.
++            yield return null;latencyActive=false;
++            updates.Add(new UpdateReport{reason=reason,queued=pending,solved=field.TotalSolved-startSolved,totalProbes=field.Cache.ProbeCount,frames=frames,wallMs=fullWall,solveMs=field.TotalSolveMs-solve,uploadMs=field.TotalUploadMs-upload,maxSolveFrameMs=max,maxUploadFrameMs=maxUpload,maxTotalUpdateFrameMs=maxTotal,maxProbesFrame=maxProbes,maxUploadFrameBytes=maxBytes,uploadedBytes=field.TotalUploadBytes-bytes,bufferBytes=field.BufferBytes,skyTransportEntries=field.SurfaceEntries,mode=field.UseTransport?"cached-transport":"reference",solveBudgetMs=field.workBudgetMs,probeLimit=field.EffectiveProbeLimit,solverAllocatedBytes=field.TotalSolverAllocatedBytes-allocations,commitMs=reason=="initial-field"?0:field.LastCommitMs,commitAllocatedBytes=reason=="initial-field"?0:field.LastCommitAllocatedBytes,geometryBuilds=(field.Transport?.GeometryBuilds??0)-geometry,injections=(field.Transport?.Injections??0)-injection,directReweights=(field.Transport?.DirectReweights??0)-reweight,transportPayloadBytes=field.Transport?.PayloadBytes??0,activeHitLinks=field.Transport?.ActiveHitLinks??0,allocatedLinkSlots=field.Transport?.AllocatedLinkSlots??0,allocatedBlockSlots=field.Transport?.AllocatedBlockSlots??0,prunedSurfaceCells=field.Transport?.LastPrunedSurfaceCells??0,managedUsedBytes=UnityEngine.Profiling.Profiler.GetMonoUsedSizeLong(),gc0=GC.CollectionCount(0)-gc0,gc1=GC.CollectionCount(1)-gc1,gc2=GC.CollectionCount(2)-gc2});
++            Debug.Log("LC_GI_UPDATE "+reason+" solved="+(field.TotalSolved-startSolved)+" wallMs="+fullWall.ToString("F1")+" cpuMs="+(field.TotalSolveMs-solve).ToString("F1"));
+             var latest=updates[updates.Count-1];latest.environmentReplays=(field.Transport?.EnvironmentReplays??0)-replay;latest.allocationCounterSupported=field.AllocationCounterSupported;latest.allocationCalibrationBytes=field.AllocationCalibrationBytes;
++            latest.priorityMode=field.UsePriority;latest.priorityClassifyMs=field.TotalPriorityMs-priorityMs;latest.priorityRefreshes=field.PriorityRefreshes-priorityRefreshes;latest.visibleSupportSolved=field.TotalPrioritySolved-prioritySolved;latest.firstChangedSupportRenderedMs=firstSupportMs;latest.visibleSupportRenderedMs=visibleSupportMs;latest.latencyCameraFrames=latencyRenderFrames;latest.queuePayloadBytes=field.Cache.QueuePayloadBytes;
+             if(!field.AllocationCounterSupported){latest.solverAllocatedBytes=-1;latest.commitAllocatedBytes=-1;}
+             latest.allocationRecorderSupported=field.AllocationRecorderSupported;latest.solverAllocationCalls=field.AllocationRecorderSupported?field.TotalSolverAllocationCalls-allocationCalls:-1;latest.commandAllocationCalls=field.AllocationRecorderSupported?field.LastCommandAllocationCalls:-1;latest.setupAllocationCalls=field.SetupAllocationCalls;
+             if(Array.IndexOf(Environment.GetCommandLineArgs(),"-giDump")>=0)
+@@ -145,6 +186,12 @@
+         }
+         void Rendered(ScriptableRenderContext c,Camera cam)
+         {
++            if(latencyActive&&cam==camera&&!cam.targetTexture)
++            {
++                latencyRenderFrames++;double elapsed=SpatialIndirectProfile.Ms(SpatialIndirectProfile.Stamp()-latencyStart);
++                if(firstSupportMs<0&&field.TotalPriorityChanges>latencyChanges)firstSupportMs=elapsed;
++                if(visibleSupportMs<0&&field.Cache.PriorityPendingCount==0)visibleSupportMs=elapsed;
++            }
+             if(!measuring||cam!=camera||cam.targetTexture||Time.frameCount-warmup<120||lastFrame==Time.frameCount||intervals.Count>=600)return;
+             lastFrame=Time.frameCount;long now=System.Diagnostics.Stopwatch.GetTimestamp();
+             if(stamp!=0){intervals.Add((float)((now-stamp)*1000.0/System.Diagnostics.Stopwatch.Frequency));if(FrameTimingManager.GetLatestTimings(1,timing)>0){if(timing[0].gpuFrameTime>0)gpu.Add((float)timing[0].gpuFrameTime);if(timing[0].cpuFrameTime>0)cpu.Add((float)timing[0].cpuFrameTime);}}
+@@ -174,10 +221,15 @@
+             public long uploadedBytes,solverAllocatedBytes,commitAllocatedBytes,geometryBuilds,injections,directReweights,environmentReplays,transportPayloadBytes,activeHitLinks,allocatedLinkSlots,allocatedBlockSlots,managedUsedBytes;
+             public long allocationCalibrationBytes,solverAllocationCalls,commandAllocationCalls,setupAllocationCalls;
+             public bool allocationCounterSupported,allocationRecorderSupported;
++            public bool priorityMode;
++            public int priorityRefreshes,latencyCameraFrames;
++            public long visibleSupportSolved,queuePayloadBytes;
++            public double priorityClassifyMs,firstChangedSupportRenderedMs,visibleSupportRenderedMs;
+             public double wallMs,solveMs,uploadMs,maxSolveFrameMs,maxUploadFrameMs,maxTotalUpdateFrameMs,commitMs;
+             public float solveBudgetMs;
+         }
+         [Serializable] public sealed class UpdateReports{public UpdateReport[] reports;}
++        [Serializable] public sealed class MotionReport{public bool pass,exactField;public int frames,priorityRefreshes;public float wallMs,solveBudgetMs;}
+         [Serializable] public sealed class BenchmarkReport{public bool indirect,development,timingAvailable;public string device,processor,unity,colorSpace,api;public int width,height;public long allocatedBytes;public UrpPreviewQuality.Snapshot pipeline;public LightingBenchmarkController.Distribution frame,gpu,cpu;}
+         [Serializable] public sealed class BenchmarkReports{public BenchmarkReport[] reports;}
+         void OnGUI(){if(showUI&&!regression)GUI.Box(new Rect(12,12,760,85),"Spatial indirect prototype | "+(field.applyIndirect?"ON":"legacy")+" | "+hour+"h | pending "+field.Cache.PendingCount+"\nF1 indirect | F2 camera | F3 time | F4 roof | F5 wall guard\nCPU solve "+field.LastSolveMs.ToString("F2")+" ms | "+field.LastProcessed+" probes | upload "+field.LastUploadedBytes+" B");}
+--- STAGE1B/Assets/_Game/Editor/SpatialIndirectStage1Build.cs
++++ STAGE1C/Assets/_Game/Editor/SpatialIndirectStage1Build.cs
+@@ -16,7 +16,7 @@
+ {
+     public static class SpatialIndirectStage1Build
+     {
+-        public static string Output=>Array.IndexOf(Environment.GetCommandLineArgs(),"-giStage1B")>=0?"E:/Games_Develop/Research/SpatialIndirectStage1B_20261026":"E:/Games_Develop/Research/SpatialIndirectStage1_20261026";
++        public static string Output=>Array.IndexOf(Environment.GetCommandLineArgs(),"-giStage1C")>=0?"E:/Games_Develop/Research/SpatialIndirectStage1C_20261026":Array.IndexOf(Environment.GetCommandLineArgs(),"-giStage1B")>=0?"E:/Games_Develop/Research/SpatialIndirectStage1B_20261026":"E:/Games_Develop/Research/SpatialIndirectStage1_20261026";
+         static void Open()
+         {
+             if(Path.GetFileName(Path.GetDirectoryName(Application.dataPath))!="Little-Castle_LightingIntegration_20261025")throw new InvalidOperationException("Isolated lighting copy only.");

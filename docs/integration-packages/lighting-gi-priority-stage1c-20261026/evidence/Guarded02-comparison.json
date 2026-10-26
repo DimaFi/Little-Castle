@@ -1,0 +1,79 @@
+{
+  "pass_": true,
+  "round": 2,
+  "fields": [
+    {
+      "path": "day-light-refresh-probes.bin",
+      "maxCoefficientError": 0.0,
+      "serialError": 4.470348358154297e-07,
+      "previousStage1BError": 0.0
+    },
+    {
+      "path": "initial-field-probes.bin",
+      "maxCoefficientError": 0.0,
+      "serialError": 4.470348358154297e-07,
+      "previousStage1BError": 0.0
+    },
+    {
+      "path": "night-light-refresh-probes.bin",
+      "maxCoefficientError": 0.0,
+      "serialError": 3.5762786865234375e-07,
+      "previousStage1BError": 0.0
+    },
+    {
+      "path": "offscreen-reflector-grey-probes.bin",
+      "maxCoefficientError": 0.0,
+      "serialError": 4.470348358154297e-07,
+      "previousStage1BError": 0.0
+    },
+    {
+      "path": "offscreen-reflector-restored-probes.bin",
+      "maxCoefficientError": 0.0,
+      "serialError": 4.470348358154297e-07,
+      "previousStage1BError": 0.0
+    },
+    {
+      "path": "roof-removal-probes.bin",
+      "maxCoefficientError": 0.0,
+      "serialError": 4.023313522338867e-07,
+      "previousStage1BError": 0.0
+    },
+    {
+      "path": "roof-undo-probes.bin",
+      "maxCoefficientError": 0.0,
+      "serialError": 4.470348358154297e-07,
+      "previousStage1BError": 0.0
+    },
+    {
+      "path": "small-cube-add-probes.bin",
+      "maxCoefficientError": 0.0,
+      "serialError": 4.470348358154297e-07,
+      "previousStage1BError": null
+    },
+    {
+      "path": "small-cube-move-probes.bin",
+      "maxCoefficientError": 0.0,
+      "serialError": 4.470348358154297e-07,
+      "previousStage1BError": null
+    },
+    {
+      "path": "small-cube-remove-probes.bin",
+      "maxCoefficientError": 0.0,
+      "serialError": 4.470348358154297e-07,
+      "previousStage1BError": null
+    },
+    {
+      "path": "small-cube-undo-probes.bin",
+      "maxCoefficientError": 0.0,
+      "serialError": 4.470348358154297e-07,
+      "previousStage1BError": null
+    },
+    {
+      "path": "sunset-light-refresh-probes.bin",
+      "maxCoefficientError": 0.0,
+      "serialError": 5.066394805908203e-07,
+      "previousStage1BError": 0.0
+    }
+  ],
+  "images": []
+}

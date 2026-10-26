@@ -1,0 +1,9 @@
+{
+  "pass_": true,
+  "failures": [],
+  "mainDrift": [],
+  "sharedShadersUnchanged": 7,
+  "traceAndTransportUnchanged": true,
+  "fixtureAndSettingsUnchanged": true,
+  "newGuidUnique": true
+}

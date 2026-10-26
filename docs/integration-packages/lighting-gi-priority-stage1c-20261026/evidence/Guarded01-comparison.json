@@ -1,0 +1,225 @@
+{
+  "pass_": true,
+  "round": 1,
+  "fields": [
+    {
+      "path": "day-light-refresh-probes.bin",
+      "maxCoefficientError": 0.0,
+      "serialError": 4.470348358154297e-07,
+      "previousStage1BError": 0.0
+    },
+    {
+      "path": "initial-field-probes.bin",
+      "maxCoefficientError": 0.0,
+      "serialError": 4.470348358154297e-07,
+      "previousStage1BError": 0.0
+    },
+    {
+      "path": "night-light-refresh-probes.bin",
+      "maxCoefficientError": 0.0,
+      "serialError": 3.5762786865234375e-07,
+      "previousStage1BError": 0.0
+    },
+    {
+      "path": "offscreen-reflector-grey-probes.bin",
+      "maxCoefficientError": 0.0,
+      "serialError": 4.470348358154297e-07,
+      "previousStage1BError": 0.0
+    },
+    {
+      "path": "offscreen-reflector-restored-probes.bin",
+      "maxCoefficientError": 0.0,
+      "serialError": 4.470348358154297e-07,
+      "previousStage1BError": 0.0
+    },
+    {
+      "path": "roof-removal-probes.bin",
+      "maxCoefficientError": 0.0,
+      "serialError": 4.023313522338867e-07,
+      "previousStage1BError": 0.0
+    },
+    {
+      "path": "roof-undo-probes.bin",
+      "maxCoefficientError": 0.0,
+      "serialError": 4.470348358154297e-07,
+      "previousStage1BError": 0.0
+    },
+    {
+      "path": "small-cube-add-probes.bin",
+      "maxCoefficientError": 0.0,
+      "serialError": 4.470348358154297e-07,
+      "previousStage1BError": null
+    },
+    {
+      "path": "small-cube-move-probes.bin",
+      "maxCoefficientError": 0.0,
+      "serialError": 4.470348358154297e-07,
+      "previousStage1BError": null
+    },
+    {
+      "path": "small-cube-remove-probes.bin",
+      "maxCoefficientError": 0.0,
+      "serialError": 4.470348358154297e-07,
+      "previousStage1BError": null
+    },
+    {
+      "path": "small-cube-undo-probes.bin",
+      "maxCoefficientError": 0.0,
+      "serialError": 4.470348358154297e-07,
+      "previousStage1BError": null
+    },
+    {
+      "path": "sunset-light-refresh-probes.bin",
+      "maxCoefficientError": 0.0,
+      "serialError": 5.066394805908203e-07,
+      "previousStage1BError": 0.0
+    }
+  ],
+  "images": [
+    {
+      "path": "camera-00.png",
+      "meanAbsoluteByteError": 0.16610548482510287,
+      "maxByteError": 18
+    },
+    {
+      "path": "camera-01.png",
+      "meanAbsoluteByteError": 0.16346354166666666,
+      "maxByteError": 18
+    },
+    {
+      "path": "camera-02.png",
+      "meanAbsoluteByteError": 0.16334313914609053,
+      "maxByteError": 19
+    },
+    {
+      "path": "camera-03.png",
+      "meanAbsoluteByteError": 0.16230324074074073,
+      "maxByteError": 17
+    },
+    {
+      "path": "camera-04.png",
+      "meanAbsoluteByteError": 0.15734310699588477,
+      "maxByteError": 17
+    },
+    {
+      "path": "camera-05.png",
+      "meanAbsoluteByteError": 0.15790075231481482,
+      "maxByteError": 22
+    },
+    {
+      "path": "camera-06.png",
+      "meanAbsoluteByteError": 0.15198350694444446,
+      "maxByteError": 19
+    },
+    {
+      "path": "camera-07.png",
+      "meanAbsoluteByteError": 0.15026475694444444,
+      "maxByteError": 18
+    },
+    {
+      "path": "camera-08.png",
+      "meanAbsoluteByteError": 0.14792293595679012,
+      "maxByteError": 27
+    },
+    {
+      "path": "camera-09.png",
+      "meanAbsoluteByteError": 0.1455592528292181,
+      "maxByteError": 22
+    },
+    {
+      "path": "camera-10.png",
+      "meanAbsoluteByteError": 0.14089377572016462,
+      "maxByteError": 16
+    },
+    {
+      "path": "camera-11.png",
+      "meanAbsoluteByteError": 0.1415160429526749,
+      "maxByteError": 20
+    },
+    {
+      "path": "gi-overview-day.png",
+      "meanAbsoluteByteError": 0.11724520961934157,
+      "maxByteError": 5
+    },
+    {
+      "path": "gi-overview-night.png",
+      "meanAbsoluteByteError": 0.18923787937242798,
+      "maxByteError": 8
+    },
+    {
+      "path": "gi-overview-sunset.png",
+      "meanAbsoluteByteError": 0.21421199845679012,
+      "maxByteError": 11
+    },
+    {
+      "path": "gi-small-cube-added.png",
+      "meanAbsoluteByteError": 1.5755163323045267,
+      "maxByteError": 195
+    },
+    {
+      "path": "gi-small-cube-moved.png",
+      "meanAbsoluteByteError": 2.2307997363683127,
+      "maxByteError": 195
+    },
+    {
+      "path": "gi-thin-wall-day.png",
+      "meanAbsoluteByteError": 0.12440650720164609,
+      "maxByteError": 8
+    },
+    {
+      "path": "gi-thin-wall-guard-off.png",
+      "meanAbsoluteByteError": 0.11706741898148149,
+      "maxByteError": 6
+    },
+    {
+      "path": "gi-thin-wall-guard-on.png",
+      "meanAbsoluteByteError": 0.1255566808127572,
+      "maxByteError": 12
+    },
+    {
+      "path": "gi-under-roof-day.png",
+      "meanAbsoluteByteError": 0.16664962705761316,
+      "maxByteError": 19
+    },
+    {
+      "path": "gi-under-roof-night.png",
+      "meanAbsoluteByteError": 0.1370556841563786,
+      "maxByteError": 18
+    },
+    {
+      "path": "gi-under-roof-offscreen-grey.png",
+      "meanAbsoluteByteError": 0.16577948173868312,
+      "maxByteError": 20
+    },
+    {
+      "path": "gi-under-roof-offscreen-red.png",
+      "meanAbsoluteByteError": 0.16633905606995886,
+      "maxByteError": 18
+    },
+    {
+      "path": "gi-under-roof-removed.png",
+      "meanAbsoluteByteError": 0.12620965149176955,
+      "maxByteError": 14
+    },
+    {
+      "path": "gi-under-roof-sunset.png",
+      "meanAbsoluteByteError": 0.21694171167695472,
+      "maxByteError": 20
+    },
+    {
+      "path": "legacy-overview-day.png",
+      "meanAbsoluteByteError": 0.13933915252057613,
+      "maxByteError": 6
+    },
+    {
+      "path": "legacy-thin-wall-day.png",
+      "meanAbsoluteByteError": 0.15261268647119342,
+      "maxByteError": 10
+    },
+    {
+      "path": "legacy-under-roof-day.png",
+      "meanAbsoluteByteError": 0.2652388760288066,
+      "maxByteError": 27
+    }
+  ]
+}
