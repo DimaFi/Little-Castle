@@ -98,6 +98,67 @@ namespace LittleCastle.Tests
         }
 
         [Test]
+        public void PaintHardness_ControlsSoftBorder_WithoutChangingWorldMetreRadius()
+        {
+            var soft = new BiomeInfluenceField(1f, 8);
+            var hard = new BiomeInfluenceField(1f, 8);
+            var center = new Vector2(0.5f, 0.5f);
+            soft.Paint(center, 4f, EnvironmentThemeIds.Winter, 1f, 0f);
+            hard.Paint(center, 4f, EnvironmentThemeIds.Winter, 1f, 1f);
+
+            Assert.AreEqual(1f, soft.Sample(EnvironmentThemeIds.Winter,
+                0.5f, 0.5f), 0.00001f);
+            Assert.Greater(hard.Sample(EnvironmentThemeIds.Winter, 2.5f, 0.5f),
+                soft.Sample(EnvironmentThemeIds.Winter, 2.5f, 0.5f));
+            Assert.AreEqual(0f, hard.Sample(EnvironmentThemeIds.Winter,
+                12.5f, 0.5f), 0.00001f);
+        }
+
+        [Test]
+        public void SmoothBrush_UsesOriginalNeighborsAndSoftensSharpPeak()
+        {
+            var biomes = new BiomeInfluenceField(1f, 8);
+            var p = new Vector2(0.5f, 0.5f);
+            biomes.Paint(p, 0.6f, EnvironmentThemeIds.Winter, 1f, 1f);
+            Assert.AreEqual(1f, biomes.Sample(EnvironmentThemeIds.Winter,
+                0.5f, 0.5f), 0.00001f);
+
+            Assert.IsTrue(biomes.Smooth(p, 3f,
+                EnvironmentThemeIds.Winter, 1f, 1f));
+            Assert.Less(biomes.Sample(EnvironmentThemeIds.Winter,
+                0.5f, 0.5f), 1f);
+            Assert.Greater(biomes.Sample(EnvironmentThemeIds.Winter,
+                1.5f, 0.5f), 0f);
+        }
+
+        [Test]
+        public void AuthoredSnapshot_SurvivesUnitySerializedFieldRoundTrip()
+        {
+            var go = new GameObject("Biome authoring serialization test");
+            try
+            {
+                var world = go.AddComponent<BiomeSnowWorld>();
+                world.PaintTheme(new Vector3(0.5f, 0f, 0.5f), 3f,
+                    EnvironmentThemeIds.Winter, 1f, 1f);
+                world.SaveAuthoringState();
+                var serialized = UnityEditor.EditorJsonUtility.ToJson(world);
+                Assert.IsTrue(serialized.Contains("authoredStateJson"));
+
+                world.PaintTheme(new Vector3(0.5f, 0f, 0.5f), 3f,
+                    EnvironmentThemeIds.Summer, 1f, 1f);
+                UnityEditor.EditorJsonUtility.FromJsonOverwrite(serialized, world);
+                world.ReloadAuthoringState();
+
+                Assert.AreEqual(1f, world.Themes.Sample(
+                    EnvironmentThemeIds.Winter, 0.5f, 0.5f), 0.00001f);
+            }
+            finally
+            {
+                UnityEngine.Object.DestroyImmediate(go);
+            }
+        }
+
+        [Test]
         public void CorruptSnapshot_DoesNotOverwritePreviousValidField()
         {
             var field = new SparseWorldFloatField(2f, 8);
