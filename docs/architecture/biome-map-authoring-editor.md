@@ -26,6 +26,23 @@ When selecting `Biomes`, the author may rise **high above the terrain to see a l
 - If camera/scattered geometry uses origin shifts or streamed chunks, sampling must use stable authoritative world positions, not only current local scene transforms.
 - Controls are **developer-authoring only**, but they call the same environment core as eventual in-game biome conversion magic.
 
+### Close-range precision editing — equally important
+
+The same `Biomes` tool must also work **at close zoom**, right down to the terrain around roads, trees, buildings, bridges and shorelines. Do not force the author to remain at high altitude, and do not silently make painting coarser than the map's underlying resolution.
+
+- Smooth continuous zoom all the way from whole-map strategic overview to familiar terrain-editing distance. Keep brush active at every zoom level and preserve tool state.
+- Provide small world-space brush radius, strength/opacity, hard or feathered falloff, optional brush boundary outline plus highlighted candidate cells for precise editing. Show the real effective paint area on terrain, not an inaccurate screen-space circle.
+- Allow fine **paint / erase / smooth** operations along a painted biome border, with light brush strokes and independent Undo/Redo transactions; don't require a full-area repaint to fix one edge.
+- Keep the color-weight overlay optionally visible at close zoom to inspect actual blend values. Add a toggle to compare **overlay vs final terrain and props**, so author can see if a biome transition looks natural.
+- Edge refinement should work over steep slopes, rivers, roads, cliff edges and under the cursor's exact world-space hit point. Respect no-paint restrictions/masks only when explicitly enabled by authoring rules.
+- For perfectly shaped authored boundaries optionally support **polygon selection and feathered fill**, but don't make precision edits dependent on a polygon tool being ready. A hard edge may be intentionally authored, although default remains soft, natural blending.
+- Keep brush world-space strength and falloff independent of camera zoom: a 3-metre brush must still paint 3 metres whether camera is near or far. Hotkey presets can change radius intentionally, not automatically redefine data.
+- Ensure highest precision supported by actual influence field cell resolution; **do not imply pixel-perfect curves where grid size is 2m**. If needed, add configurable grid resolution or local high-detail authoring patches, and validate storage/performance before raising resolution.
+
+#### Close-up acceptance demonstration
+
+After painting a large winter zone from the top-down map view, zoom directly to its boundary beside a summer road and stone wall. Use a small radius at close range to erase unwanted winter influence, refine a curved edge and smooth the transition. Observe updated material appearance on the same existing path/wall and adjacent vegetation once presentation integration exists, then zoom back out and confirm the territory outline stayed correct. Undo/Redo must restore precise prior values with no change to terrain heights or persistent object IDs.
+
 ### Map-scale acceptance demonstration
 
 On a representative world, launch the existing map editor; open `Biomes`; click Frame Map to rise to whole-map altitude. Paint a large irregular winter area by dragging, then switch to a small-radius brush and feather the boundary. Zoom in to inspect soft snow transition near road/trees/building, undo the full stroke, redo it, save/reload, and restore the original editor camera when leaving Biomes. No unintended change to map height, existing road splines or persistent object IDs.
