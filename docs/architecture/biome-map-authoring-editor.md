@@ -9,6 +9,27 @@ Developer opens existing **Little Castle map editor**, switches to **Biome** too
 
 **Do not create a parallel editor UI**; discover and extend the actual active editor brush/tool pipeline and reuse its camera, pointer world-ray/terrain projection, hotkeys, panels, Undo/Redo and save. Some current brush work is not on main. Do not blindly add a second paint system.
 
+## One editor / high-altitude map-painting camera (user-approved)
+
+The user confirms: **a single existing map editor**, with `Biomes` as a section/tool tab. No second window/application or duplicate brush framework.
+
+When selecting `Biomes`, the author may rise **high above the terrain to see a large portion or the entirety of the map**, as in city-builder map-painting workflows:
+
+- Provide **near / region / whole-map** camera zoom scales and smooth, controllable orthographic top-down (or near top-down) view. The actual maximum height and projection must adapt to current world extents, not a magic fixed number.
+- Add **Frame Map** and **Frame Selection** actions; retain pan, scroll zoom and optional rotation. Cursor-centred zoom is preferred, with smooth navigation and stable terrain ray selection at high altitude.
+- **Remember and restore** the user's pre-existing map editor camera pose, projection, controls and zoom on leaving Biomes. Avoid mutating normal play/strategy camera defaults.
+- Scale brush radius **in world metres**, with presets suited to single clearings, regions and whole-map strokes. At extreme zoom, offer explicit display size and optional brush-scale compensation only for preview/readability; paint radius itself stays deterministic in world coordinates.
+- Continuous pointer dragging must interpolate discrete brush dabs at distance-based intervals, so fast high-altitude movement does not leave gaps; use bounded update batches and refresh throttling.
+- Show an **optional semi-transparent biome ownership/influence overlay on the whole visible map** with a legible color legend and feathered borders; terrain and roads remain readable. Allow hiding the overlay to inspect actual art result.
+- Include **polygon/lasso selection in later polish**, but prioritise rectangle fill and large-radius brush for fast design of entire faction territories. Support smooth/erase, selection boundary and preview before applying a large region.
+- Support large map and streamable terrain via global/resident preview or lightweight overview data, rather than forcing every vegetation object to instantiate at distant zoom. Keep high-altitude brush interaction performant on a 2–16 player-scale world.
+- If camera/scattered geometry uses origin shifts or streamed chunks, sampling must use stable authoritative world positions, not only current local scene transforms.
+- Controls are **developer-authoring only**, but they call the same environment core as eventual in-game biome conversion magic.
+
+### Map-scale acceptance demonstration
+
+On a representative world, launch the existing map editor; open `Biomes`; click Frame Map to rise to whole-map altitude. Paint a large irregular winter area by dragging, then switch to a small-radius brush and feather the boundary. Zoom in to inspect soft snow transition near road/trees/building, undo the full stroke, redo it, save/reload, and restore the original editor camera when leaving Biomes. No unintended change to map height, existing road splines or persistent object IDs.
+
 ## Definitions and palette
 
 The existing generated `World.BiomeKind` is **ecological terrain classification**: TemperateGrassland, WetLowland, etc. Keep it unchanged in save/world generation.
