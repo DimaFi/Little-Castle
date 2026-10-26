@@ -377,3 +377,45 @@ compiled Players индексированы SHA256; их бинарники не
 проход1Б: primary/shadow kernels и приоритет видимых проб; затем плавные версии,
 непрерывные сутки и snapshot нового рельефа/объектов. Fixed grid/L1/flat AABB,
 canopy/emitters/production activation остаются открытыми. Редактор не блокируется.
+
+## Этап1Б: ускорение kernels GI — 26.10.2026
+
+Ускорены primary intervals и any-hit shadow/sky visibility, precomputed72 sky
+directions, exact-zero source gating с корректным zero→nonzero epoch.
+197/197 Edit Mode,6/6 Play Mode,3 Release пары;24 full fields совпали побитово
+с опубликованным cached Stage1, serial error5.0664e-7. Та же сцена/лучи/2ms budget.
+Median:initial4.701→2.765s;roof removal1.532→0.831s;Undo1.955→0.934s;
+sunset0.701→0.335s;night0.651→0.300s;day0.684→0.301s. Albedo~31ms как прежде.
+Transport payload прежний~8.38MiB плюс overhead; static directions+1728B.
+Отчёт:`docs/reports/lighting-gi-kernels-stage1b-20261026-ru.md`.
+
+Следующий шаг1В — **приоритет видимых проб и стандартизированная малая правка**:
+измерить first visible response/visible convergence отдельно от полного поля;
+сохранить starvation bound для невидимой области и stale-work gate. Полная roof
+сходимость ещё выше0.5s; не поднимать2ms budget ради целевого показателя.
+После этого этап2:согласованные версии, плавное обновление и continuous WorldTime.
+
+### Следующий визуальный стенд: готовые модели и диагностическая зона
+
+Уточнение пользователя26.10:в будущем поставить часть готовых моделей для живой
+оценки света, **оставив куб со стенами** для экспериментов. Добавлять это отдельным
+сценовым изменением после текущего A/B, сохранив прежний benchmark без изменений.
+Диагностическая зона:куб/тонкая стена/крыша/отражатель. Вторая зона:несколько
+согласованных production моделей,разные камень/дерево/крыша и крупные/мелкие формы;
+approved Oaks A/B/C/D и Meadow остаются частью окружения. Временный WorldSpawnCatalog
+ради стенда не мигрировать. Выбор конкретных ещё не утверждённых моделей фиксировать
+перед переносом, с GUID/SHA и source snapshot; реальные сетки проверять по AGENTS.
+Общий набор day/sunset/readable night и cameras close/overview;GI/AO toggles,
+ветер/LOD и shadow alignment. Не подменять этими моделями чистый кубический тест.
+Это план, в пакете1Б новые модели не переносились.
+
+
+Before/current SHA, audit и patch:stage1b-manifest.json,stage1b-audit.json,
+gi-98da069-to-stage1b.patch в docs/lighting-integration lighting-копии.
+Новых Meadow/mesh зависимостей нет, GUID существующих C# сохранены,7shared shaders,
+сцена, материалы и3ProjectSettings неизменны; MAIN game files без drift.
+Raw evidence:E:/Games_Develop/Research/SpatialIndirectStage1B_20261026.
+Отдельный пакет:docs/integration-packages/lighting-gi-kernels-stage1b-20261026/;
+ветка codex/lighting-gi-kernels-stage1b-2026-10-26. Публикация подтверждается
+локальным publication-gi-stage1b/publication-receipt.json после remote проверки.
+URP editor не менялся и не ожидает GI. Его новый height/tree snapshot ещё не перенесён.

@@ -1,0 +1,539 @@
+{
+  "repository": "DimaFi/Little-Castle",
+  "branch": "codex/lighting-gi-kernels-stage1b-2026-10-26",
+  "parentCommit": "98da06954c1d8c027d275ea80f8300c8b65ff7e9",
+  "files": [
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/payload/Assets/_Game/Scripts/Research/SpatialIndirectTrace.cs",
+      "sha256": "ebf9eb242903623e32286737d1f8ced941ce6cca7dceb36907295a83ea46abae",
+      "gitBlobSHA": "e8c39473c2b63d079e3c84a40c85cd78936474c2",
+      "bytes": 16011,
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\Assets\\_Game\\Scripts\\Research\\SpatialIndirectTrace.cs"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/payload/Assets/_Game/Scripts/Research/SpatialIndirectTrace.cs.meta",
+      "sha256": "e4e0992b810550f2db3499c2e2dded476dbff95d52b0c72f8e944820abd397e5",
+      "gitBlobSHA": "c0277c6f75349e5bbdf25f027aa187cfd80fffa9",
+      "bytes": 59,
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\Assets\\_Game\\Scripts\\Research\\SpatialIndirectTrace.cs.meta"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/payload/Assets/_Game/Scripts/Research/SpatialIndirectTransport.cs",
+      "sha256": "777f28b2a32b28402eb243b011036c61644869d27163ab5a890ef932463767d3",
+      "gitBlobSHA": "03177e7d0b6be517e94e9fc2aef63bb51aa0f3a2",
+      "bytes": 16776,
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\Assets\\_Game\\Scripts\\Research\\SpatialIndirectTransport.cs"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/payload/Assets/_Game/Scripts/Research/SpatialIndirectTransport.cs.meta",
+      "sha256": "6f1b40124ea3fb1f42ba916558abcf006c8e1722aebad639658225562c03c41e",
+      "gitBlobSHA": "deba28f3752b7ec9d84a8c4adf8832e565b522e3",
+      "bytes": 59,
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\Assets\\_Game\\Scripts\\Research\\SpatialIndirectTransport.cs.meta"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/payload/Assets/_Game/Tests/Editor/SpatialIndirectTransportTests.cs",
+      "sha256": "c396a3b181fe11259713edf0a81301954a3506f4911a891957705804542ad21b",
+      "gitBlobSHA": "f1a08ce5ec84e56f83000a16bbf8d66ae8d1be1c",
+      "bytes": 12675,
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\Assets\\_Game\\Tests\\Editor\\SpatialIndirectTransportTests.cs"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/payload/Assets/_Game/Tests/Editor/SpatialIndirectTransportTests.cs.meta",
+      "sha256": "5644910664d57a4ed37fd9e87b4a374b726ab9f3e7c1e70f349a44556e783244",
+      "gitBlobSHA": "933433df9f0f3ce6d8c2d7d967136ece3ffdd5ac",
+      "bytes": 59,
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\Assets\\_Game\\Tests\\Editor\\SpatialIndirectTransportTests.cs.meta"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/payload/Assets/_Game/Editor/SpatialIndirectStage1Build.cs",
+      "sha256": "001de17b4abe875944ec06c714ba59b0ecedce303392fea09946681c878b9908",
+      "gitBlobSHA": "8ce47bc5ae398b80b2db02f35dc4ab685c56dcf1",
+      "bytes": 7734,
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\Assets\\_Game\\Editor\\SpatialIndirectStage1Build.cs"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/payload/Assets/_Game/Editor/SpatialIndirectStage1Build.cs.meta",
+      "sha256": "fb85b42619c7a81da4930f58d0f212d5a5f749dd6e4b36f1d60f18b672fead22",
+      "gitBlobSHA": "6f2f7ded99a1eccd729c2de5dba15a0b80a49653",
+      "bytes": 59,
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\Assets\\_Game\\Editor\\SpatialIndirectStage1Build.cs.meta"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/reference/stage1b-baseline-98da069/manifest.json",
+      "sha256": "5533a8a2137e63673cc0dc357e30503979f8d2445d4ea3c737b64bf8389c8033",
+      "gitBlobSHA": "dc16650cf5662794155ff736fb8df2fce5baa9da",
+      "bytes": 1763,
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\docs\\lighting-integration\\stage1b-baseline-98da069\\manifest.json"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/reference/stage1b-baseline-98da069/Assets/_Game/Editor/SpatialIndirectStage1Build.cs",
+      "sha256": "803133c56941f08b7c12cc974e894f7c23068252e09011a25d4eed4894b2e439",
+      "gitBlobSHA": "bade6e02b98c2ff48904d695a5f8de1bae2a4689",
+      "bytes": 7608,
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\docs\\lighting-integration\\stage1b-baseline-98da069\\Assets\\_Game\\Editor\\SpatialIndirectStage1Build.cs"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/reference/stage1b-baseline-98da069/Assets/_Game/Scenes/SpatialIndirectStudy_20261026.unity",
+      "sha256": "f91f2cc9cb6e010b857499cd41918502e0e6a265e934af69cc85ee957865cea4",
+      "gitBlobSHA": "0b87735b7ca78d836c3173b5eb7572abe557f733",
+      "bytes": 106308,
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\docs\\lighting-integration\\stage1b-baseline-98da069\\Assets\\_Game\\Scenes\\SpatialIndirectStudy_20261026.unity"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/reference/stage1b-baseline-98da069/Assets/_Game/Scripts/Research/SpatialIndirectCache.cs",
+      "sha256": "ad759e91908fe245f80f881f5e5e5c62e5d27c26d5f705fbba1b8ef88a6fe4a2",
+      "gitBlobSHA": "22b98154c4c7dfd8e5d303c9b06f9351a8c66d1e",
+      "bytes": 3254,
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\docs\\lighting-integration\\stage1b-baseline-98da069\\Assets\\_Game\\Scripts\\Research\\SpatialIndirectCache.cs"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/reference/stage1b-baseline-98da069/Assets/_Game/Scripts/Research/SpatialIndirectStudyReview.cs",
+      "sha256": "c1bc2583c6eff237d07ae7390169d1be0937589100644aa02e74d3a8d159f6c7",
+      "gitBlobSHA": "ee08f756948d47825616842303cc34fd21aec2df",
+      "bytes": 20631,
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\docs\\lighting-integration\\stage1b-baseline-98da069\\Assets\\_Game\\Scripts\\Research\\SpatialIndirectStudyReview.cs"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/reference/stage1b-baseline-98da069/Assets/_Game/Scripts/Research/SpatialIndirectTrace.cs",
+      "sha256": "614d514bce3e31438ee41911b079f1f8b7690b91ba8af0e308a264567c9c7597",
+      "gitBlobSHA": "9a3b30abd015cfba88d3e1a0a9b9e91c0ce0eece",
+      "bytes": 13832,
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\docs\\lighting-integration\\stage1b-baseline-98da069\\Assets\\_Game\\Scripts\\Research\\SpatialIndirectTrace.cs"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/reference/stage1b-baseline-98da069/Assets/_Game/Scripts/Research/SpatialIndirectTransport.cs",
+      "sha256": "49fa5b253b00262a7291752e730652e34f8753b00f42c7be84a5f4ba44acbfa6",
+      "gitBlobSHA": "582d5fb870bfb42cce4ea436371b427164888759",
+      "bytes": 15571,
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\docs\\lighting-integration\\stage1b-baseline-98da069\\Assets\\_Game\\Scripts\\Research\\SpatialIndirectTransport.cs"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/reference/stage1b-baseline-98da069/Assets/_Game/Scripts/Research/SpatialIndirectVolume.cs",
+      "sha256": "c5c9e4a1fe7e6043467054e5087a265f313a5c6606f548981eb37738287b70ff",
+      "gitBlobSHA": "7e50eb4dc0c0c2ff7aa462d4428af4d2c18dbc9c",
+      "bytes": 11830,
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\docs\\lighting-integration\\stage1b-baseline-98da069\\Assets\\_Game\\Scripts\\Research\\SpatialIndirectVolume.cs"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/reference/stage1b-baseline-98da069/Assets/_Game/Tests/Editor/SpatialIndirectTransportTests.cs",
+      "sha256": "2b3c61eadce6be346852def68a10d971328b39b565a864a013a330a7f25745d4",
+      "gitBlobSHA": "7e9a075dcf2f694c8efcfde2b57a9168d4571813",
+      "bytes": 8376,
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\docs\\lighting-integration\\stage1b-baseline-98da069\\Assets\\_Game\\Tests\\Editor\\SpatialIndirectTransportTests.cs"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/reference/stage1b-baseline-98da069/ProjectSettings/GraphicsSettings.asset",
+      "sha256": "de7e2162963a8ae4aee3467e6043f925960cf4ee4b23ab2f1ec1efa405388aad",
+      "gitBlobSHA": "5e11a656cc4bb2bdb4c33a02018bdfc6ebf0becf",
+      "bytes": 2957,
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\docs\\lighting-integration\\stage1b-baseline-98da069\\ProjectSettings\\GraphicsSettings.asset"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/reference/stage1b-baseline-98da069/ProjectSettings/ProjectSettings.asset",
+      "sha256": "917e5fd654d712d1242fed4dc2ad7a31f202e691bb9183ce5d6ff82169dce661",
+      "gitBlobSHA": "fb5265b945a839f287e3682109fd3b70973a117e",
+      "bytes": 20613,
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\docs\\lighting-integration\\stage1b-baseline-98da069\\ProjectSettings\\ProjectSettings.asset"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/reference/stage1b-baseline-98da069/ProjectSettings/QualitySettings.asset",
+      "sha256": "bf2a90b2ec073be90df8b606b12894e84b13b7133863b9f040331cb6150d969f",
+      "gitBlobSHA": "3beeed069594a338a95f2272d65d36d5260acc81",
+      "bytes": 10138,
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\docs\\lighting-integration\\stage1b-baseline-98da069\\ProjectSettings\\QualitySettings.asset"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/stage1b-manifest.json",
+      "sha256": "9bd481c0b819917a15c6530506cc2d7222ebac57a493078b6bf6efef5a2ff5cd",
+      "gitBlobSHA": "391d78855fa0aa042dca0a0d1d85f12de71d1a43",
+      "bytes": 2517,
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\docs\\lighting-integration\\stage1b-manifest.json"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/stage1b-audit.json",
+      "sha256": "486e9bd9413c89e2211b559379f5a74b0fc213e6a00884f814ecb733b398a5ac",
+      "gitBlobSHA": "a8cebbdef0885524afa08e6df2f8d45c9ac12e28",
+      "bytes": 168,
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\docs\\lighting-integration\\stage1b-audit.json"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/gi-98da069-to-stage1b.patch",
+      "sha256": "fde2abc4da5edfbce3f63ff0d13a737cff44fa88de4d9754f2d8715367cdd6e3",
+      "gitBlobSHA": "bdf91e540e54e0dce91a97a98fdd2dc77dce11ef",
+      "bytes": 16339,
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\docs\\lighting-integration\\gi-98da069-to-stage1b.patch"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/tools/run_stage1b.ps1",
+      "sha256": "7223ebfe7c0aa6dd149c0d1e300e51d667db3c1e0dd7c6168a80fc0166c92558",
+      "gitBlobSHA": "953eab01a5cfc8d722990b86674d7c2bfa1ad452",
+      "bytes": 1717,
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\Tools\\LightingStudy\\run_stage1b.ps1"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/tools/audit_stage1b.py",
+      "sha256": "a00fe35ac0f287bd72bdc12d98276d30c16c3d1e6c54ab6b824bc55084072f54",
+      "gitBlobSHA": "0240f5da4bcb44361069f2f4f01177fb6f8c405d",
+      "bytes": 2896,
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\Tools\\LightingStudy\\audit_stage1b.py"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/tools/summarize_stage1b.py",
+      "sha256": "271cca2a0bbee919a938729d3c7c5a169329a24f34e00bc27fed831b3b9c471d",
+      "gitBlobSHA": "dbbe82a1a37318c84c8872ebd7976dc57654a11c",
+      "bytes": 7400,
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\Tools\\LightingStudy\\summarize_stage1b.py"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/tools/report_stage1b.py",
+      "sha256": "64ad3df25a66d7dab118cac18f9a0265e0d655ea6706a79aa1c83be161302e26",
+      "gitBlobSHA": "d2022abc938e97c5755936aa0b5018e55e22260a",
+      "bytes": 17929,
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\Tools\\LightingStudy\\report_stage1b.py"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/tools/prepare_stage1b_publication.py",
+      "sha256": "a12a1a191b1545ec58ba4695e648bf6a042cf57fd99bc57ceaf120328773fd1f",
+      "gitBlobSHA": "00bb324e62a56d25282022d77cba085ebea2d83d",
+      "bytes": 6822,
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\Tools\\LightingStudy\\prepare_stage1b_publication.py"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/evidence/Final01Before/updates.json",
+      "sha256": "8e3c25db964614db77e8322fc4aff480267ed9d4be8292134ca85112269432cb",
+      "gitBlobSHA": "ae27b20176e028b2a1715f678b13a542d84620b3",
+      "bytes": 12611,
+      "source": "E:\\Games_Develop\\Research\\SpatialIndirectStage1B_20261026\\Final01Before\\updates.json"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/evidence/Final01Before/benchmarks.json",
+      "sha256": "b59b6d4ced754284a1f1cb9ac2d57c73d1ba3d956b3ffb3c4c232443132f85c7",
+      "gitBlobSHA": "674f5099d7bd7ae9726dbf254035cf91c3e53eec",
+      "bytes": 3264,
+      "source": "E:\\Games_Develop\\Research\\SpatialIndirectStage1B_20261026\\Final01Before\\benchmarks.json"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/evidence/Final01Before/transport-checks.json",
+      "sha256": "78b4eccd827df6e33057874a3835f17734992649552a9777770204c2e77839bb",
+      "gitBlobSHA": "5ad11c77f060f31b0c00172b253b1ecbbcd38f12",
+      "bytes": 1114,
+      "source": "E:\\Games_Develop\\Research\\SpatialIndirectStage1B_20261026\\Final01Before\\transport-checks.json"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/evidence/Final01Before/result.txt",
+      "sha256": "277c8da2d0f34fed7d13af36f0cf51f6304e4bf7ff2818f5fceb4aebe400c122",
+      "gitBlobSHA": "815c3920bd380ce595b0ba04e3dc8efb089e55b4",
+      "bytes": 191,
+      "source": "E:\\Games_Develop\\Research\\SpatialIndirectStage1B_20261026\\Final01Before\\result.txt"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/evidence/Final01Before/runtime-errors.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gitBlobSHA": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "bytes": 0,
+      "source": "E:\\Games_Develop\\Research\\SpatialIndirectStage1B_20261026\\Final01Before\\runtime-errors.txt"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/evidence/Final01After/updates.json",
+      "sha256": "abf11d685cc026d94a935f66a87d88a434278ffd761b4fe238e5e6083a11e7f6",
+      "gitBlobSHA": "9fa584474cca459c0aae71e8331e84599276f28e",
+      "bytes": 12539,
+      "source": "E:\\Games_Develop\\Research\\SpatialIndirectStage1B_20261026\\Final01After\\updates.json"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/evidence/Final01After/benchmarks.json",
+      "sha256": "dc585ed12494ab5aa6f4d67cb6837d322e2137e0e9bc741a77ab7140f965ae70",
+      "gitBlobSHA": "5081d7fbae65ba10f2fc0e9a7640275497c03d9a",
+      "bytes": 3258,
+      "source": "E:\\Games_Develop\\Research\\SpatialIndirectStage1B_20261026\\Final01After\\benchmarks.json"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/evidence/Final01After/transport-checks.json",
+      "sha256": "78b4eccd827df6e33057874a3835f17734992649552a9777770204c2e77839bb",
+      "gitBlobSHA": "5ad11c77f060f31b0c00172b253b1ecbbcd38f12",
+      "bytes": 1114,
+      "source": "E:\\Games_Develop\\Research\\SpatialIndirectStage1B_20261026\\Final01After\\transport-checks.json"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/evidence/Final01After/result.txt",
+      "sha256": "277c8da2d0f34fed7d13af36f0cf51f6304e4bf7ff2818f5fceb4aebe400c122",
+      "gitBlobSHA": "815c3920bd380ce595b0ba04e3dc8efb089e55b4",
+      "bytes": 191,
+      "source": "E:\\Games_Develop\\Research\\SpatialIndirectStage1B_20261026\\Final01After\\result.txt"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/evidence/Final01After/runtime-errors.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gitBlobSHA": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "bytes": 0,
+      "source": "E:\\Games_Develop\\Research\\SpatialIndirectStage1B_20261026\\Final01After\\runtime-errors.txt"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/evidence/Final01-comparison.json",
+      "sha256": "8a4cee63b02fea07f529c6ff4bba319e7156be717374b41aaf4e863274a694cf",
+      "gitBlobSHA": "5d8f77921919d19587f447976192d915abbe5222",
+      "bytes": 5671,
+      "source": "E:\\Games_Develop\\Research\\SpatialIndirectStage1B_20261026\\Final01-comparison.json"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/evidence/Final02Before/updates.json",
+      "sha256": "7970ee715acb565ec72983a7cdb0bd37ba0c62fb7f1d6be3010b086c9c965e2a",
+      "gitBlobSHA": "7595f6f7d67149b2651f78bbe8ac9d75eaf21103",
+      "bytes": 12613,
+      "source": "E:\\Games_Develop\\Research\\SpatialIndirectStage1B_20261026\\Final02Before\\updates.json"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/evidence/Final02Before/benchmarks.json",
+      "sha256": "e4aaf7e20e1fa78efcdd1d71d251ad842e76d584f515ed475570f422415bb086",
+      "gitBlobSHA": "5428737bad5fbc035baaae5b5c71aed95544001b",
+      "bytes": 3256,
+      "source": "E:\\Games_Develop\\Research\\SpatialIndirectStage1B_20261026\\Final02Before\\benchmarks.json"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/evidence/Final02Before/transport-checks.json",
+      "sha256": "78b4eccd827df6e33057874a3835f17734992649552a9777770204c2e77839bb",
+      "gitBlobSHA": "5ad11c77f060f31b0c00172b253b1ecbbcd38f12",
+      "bytes": 1114,
+      "source": "E:\\Games_Develop\\Research\\SpatialIndirectStage1B_20261026\\Final02Before\\transport-checks.json"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/evidence/Final02Before/result.txt",
+      "sha256": "277c8da2d0f34fed7d13af36f0cf51f6304e4bf7ff2818f5fceb4aebe400c122",
+      "gitBlobSHA": "815c3920bd380ce595b0ba04e3dc8efb089e55b4",
+      "bytes": 191,
+      "source": "E:\\Games_Develop\\Research\\SpatialIndirectStage1B_20261026\\Final02Before\\result.txt"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/evidence/Final02Before/runtime-errors.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gitBlobSHA": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "bytes": 0,
+      "source": "E:\\Games_Develop\\Research\\SpatialIndirectStage1B_20261026\\Final02Before\\runtime-errors.txt"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/evidence/Final02After/updates.json",
+      "sha256": "5c3171b470a69425662f34b2b792385948bc26753232ba1cf52523fea876114a",
+      "gitBlobSHA": "abbc15fb03d1c95e0225e645859c6c3c25cecbdb",
+      "bytes": 12583,
+      "source": "E:\\Games_Develop\\Research\\SpatialIndirectStage1B_20261026\\Final02After\\updates.json"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/evidence/Final02After/benchmarks.json",
+      "sha256": "a24821a7a9910798e17c66eacd29012ae4cc95502cef2bc5a6457223b148eca7",
+      "gitBlobSHA": "c796fab50fb3c9b5933dabc521cb2ae52113d1fa",
+      "bytes": 3251,
+      "source": "E:\\Games_Develop\\Research\\SpatialIndirectStage1B_20261026\\Final02After\\benchmarks.json"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/evidence/Final02After/transport-checks.json",
+      "sha256": "78b4eccd827df6e33057874a3835f17734992649552a9777770204c2e77839bb",
+      "gitBlobSHA": "5ad11c77f060f31b0c00172b253b1ecbbcd38f12",
+      "bytes": 1114,
+      "source": "E:\\Games_Develop\\Research\\SpatialIndirectStage1B_20261026\\Final02After\\transport-checks.json"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/evidence/Final02After/result.txt",
+      "sha256": "277c8da2d0f34fed7d13af36f0cf51f6304e4bf7ff2818f5fceb4aebe400c122",
+      "gitBlobSHA": "815c3920bd380ce595b0ba04e3dc8efb089e55b4",
+      "bytes": 191,
+      "source": "E:\\Games_Develop\\Research\\SpatialIndirectStage1B_20261026\\Final02After\\result.txt"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/evidence/Final02After/runtime-errors.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gitBlobSHA": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "bytes": 0,
+      "source": "E:\\Games_Develop\\Research\\SpatialIndirectStage1B_20261026\\Final02After\\runtime-errors.txt"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/evidence/Final02-comparison.json",
+      "sha256": "96492bb47ca74570de7fdc96288a5ea36994e750286650e8197894115ef41fa1",
+      "gitBlobSHA": "5032e26849590c2f96158172492eec983ba1c6c0",
+      "bytes": 1520,
+      "source": "E:\\Games_Develop\\Research\\SpatialIndirectStage1B_20261026\\Final02-comparison.json"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/evidence/Final03Before/updates.json",
+      "sha256": "4f7875a67ae369850e4f04eda1c28a55238e3dc146b5d70691ba4ae6ac621405",
+      "gitBlobSHA": "45a9feb218accea4e3e91ffe0397d164e79ce7c5",
+      "bytes": 12604,
+      "source": "E:\\Games_Develop\\Research\\SpatialIndirectStage1B_20261026\\Final03Before\\updates.json"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/evidence/Final03Before/benchmarks.json",
+      "sha256": "0a7c17f6c632d8e8f9e92789769ec1d3d9a7311c7cc002fe78573fc3d6f684b7",
+      "gitBlobSHA": "d52844686d8245ec5aafb04ef5b98787883fb5d2",
+      "bytes": 3257,
+      "source": "E:\\Games_Develop\\Research\\SpatialIndirectStage1B_20261026\\Final03Before\\benchmarks.json"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/evidence/Final03Before/transport-checks.json",
+      "sha256": "78b4eccd827df6e33057874a3835f17734992649552a9777770204c2e77839bb",
+      "gitBlobSHA": "5ad11c77f060f31b0c00172b253b1ecbbcd38f12",
+      "bytes": 1114,
+      "source": "E:\\Games_Develop\\Research\\SpatialIndirectStage1B_20261026\\Final03Before\\transport-checks.json"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/evidence/Final03Before/result.txt",
+      "sha256": "277c8da2d0f34fed7d13af36f0cf51f6304e4bf7ff2818f5fceb4aebe400c122",
+      "gitBlobSHA": "815c3920bd380ce595b0ba04e3dc8efb089e55b4",
+      "bytes": 191,
+      "source": "E:\\Games_Develop\\Research\\SpatialIndirectStage1B_20261026\\Final03Before\\result.txt"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/evidence/Final03Before/runtime-errors.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gitBlobSHA": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "bytes": 0,
+      "source": "E:\\Games_Develop\\Research\\SpatialIndirectStage1B_20261026\\Final03Before\\runtime-errors.txt"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/evidence/Final03After/updates.json",
+      "sha256": "505f3bf924139f2f3a2bf95d505b1f8085c096730aed2892cd187506953a4fb6",
+      "gitBlobSHA": "dc9f1e6078e26248a995bed68ab9d3c874ea2732",
+      "bytes": 12615,
+      "source": "E:\\Games_Develop\\Research\\SpatialIndirectStage1B_20261026\\Final03After\\updates.json"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/evidence/Final03After/benchmarks.json",
+      "sha256": "db969b15708d6bb8eae849aa24016edda5a155225f30245a9026e783a83e3195",
+      "gitBlobSHA": "6aa0e56585936b085b20b41e4ee6b6e96de5659f",
+      "bytes": 3259,
+      "source": "E:\\Games_Develop\\Research\\SpatialIndirectStage1B_20261026\\Final03After\\benchmarks.json"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/evidence/Final03After/transport-checks.json",
+      "sha256": "78b4eccd827df6e33057874a3835f17734992649552a9777770204c2e77839bb",
+      "gitBlobSHA": "5ad11c77f060f31b0c00172b253b1ecbbcd38f12",
+      "bytes": 1114,
+      "source": "E:\\Games_Develop\\Research\\SpatialIndirectStage1B_20261026\\Final03After\\transport-checks.json"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/evidence/Final03After/result.txt",
+      "sha256": "277c8da2d0f34fed7d13af36f0cf51f6304e4bf7ff2818f5fceb4aebe400c122",
+      "gitBlobSHA": "815c3920bd380ce595b0ba04e3dc8efb089e55b4",
+      "bytes": 191,
+      "source": "E:\\Games_Develop\\Research\\SpatialIndirectStage1B_20261026\\Final03After\\result.txt"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/evidence/Final03After/runtime-errors.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gitBlobSHA": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "bytes": 0,
+      "source": "E:\\Games_Develop\\Research\\SpatialIndirectStage1B_20261026\\Final03After\\runtime-errors.txt"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/evidence/Final03-comparison.json",
+      "sha256": "76544075147e92122eda43aed01413257be0391281f0beeec6f9cad7222bceef",
+      "gitBlobSHA": "cb5abb3bb56f8d509f60712eb76c8599ee533a57",
+      "bytes": 1520,
+      "source": "E:\\Games_Develop\\Research\\SpatialIndirectStage1B_20261026\\Final03-comparison.json"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/evidence/stage1b-summary.json",
+      "sha256": "3996a5cda5b00705be0a47ba40ce63aa48a8115ee509a7322e00926a04f5c81c",
+      "gitBlobSHA": "962baa5ad794f312a229c27d27fdc13c84316098",
+      "bytes": 93344,
+      "source": "E:\\Games_Develop\\Research\\SpatialIndirectStage1B_20261026\\stage1b-summary.json"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/evidence/editmode.xml",
+      "sha256": "771f882170db386f2d4b938959340de4e42d0f0d6050345b3fb6bb95af93ee42",
+      "gitBlobSHA": "0d45120fa44a52303c6500928e2380ba5bceac44",
+      "bytes": 165987,
+      "source": "E:\\Games_Develop\\Research\\SpatialIndirectStage1B_20261026\\editmode.xml"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/evidence/playmode.xml",
+      "sha256": "058ea4c76700b1ad284a57713a2fb499cb3a7d0650cbb3b3389401d982d83c01",
+      "gitBlobSHA": "35b5c8bc6d6fa59fb9998f51728d1ae7bb082723",
+      "bytes": 9830,
+      "source": "E:\\Games_Develop\\Research\\SpatialIndirectStage1B_20261026\\playmode.xml"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/evidence/reference-profile.json",
+      "sha256": "aafe5e4bdfff2dcb1d842965a404177bb956cbc353f8a7e991a185f5b8bd046b",
+      "gitBlobSHA": "219ae7c2e94c6a860b4dc91c5d94776430185ce4",
+      "bytes": 615,
+      "source": "E:\\Games_Develop\\Research\\SpatialIndirectStage1B_20261026\\reference-profile.json"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/evidence/cached-profile.json",
+      "sha256": "5dd3dd72a1ec0c636c7def01b8f0f52e39892b4fecef1f2237aa108fb16aeeca",
+      "gitBlobSHA": "8801026fb70faafd407209c39930096d71905998",
+      "bytes": 639,
+      "source": "E:\\Games_Develop\\Research\\SpatialIndirectStage1B_20261026\\cached-profile.json"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/evidence/build.txt",
+      "sha256": "b26022fc8c084f6e11e98eb279a9277bd5fdf335fb084be1b96db350c9ee971f",
+      "gitBlobSHA": "bf5c9f7a2a77530a17ed4782ce94e61ebf554fff",
+      "bytes": 131,
+      "source": "E:\\Games_Develop\\Research\\SpatialIndirectStage1B_20261026\\build.txt"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/evidence/build-warnings.txt",
+      "sha256": "11811c8bef5acb8e3befc728b33fbc0cc6cafc8eb8f72b1b9cdd09bf7b2151ae",
+      "gitBlobSHA": "eb3195ae5f26c2ba599afa97162f0c174041b957",
+      "bytes": 300,
+      "source": "E:\\Games_Develop\\Research\\SpatialIndirectStage1B_20261026\\build-warnings.txt"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/evidence/stage1b-game-comparison.png",
+      "sha256": "5313e750428b63adf299d6265a066512eb1f3be1a33931dff7a0f1c6e95cb79d",
+      "gitBlobSHA": "71810849cd379ae256e1802d4fb3555f7f3703fd",
+      "bytes": 1639705,
+      "source": "E:\\Games_Develop\\Research\\SpatialIndirectStage1B_20261026\\stage1b-game-comparison.png"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/evidence/stage1b-time-of-day.png",
+      "sha256": "e4129f4b1ff7e655507a839598529ed459c058dcc9ff94ae42061f567b8a1f86",
+      "gitBlobSHA": "cc4acf2c9f3bc1d078f6863736363d8dc2b69603",
+      "bytes": 836092,
+      "source": "E:\\Games_Develop\\Research\\SpatialIndirectStage1B_20261026\\stage1b-time-of-day.png"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/evidence/stage1b-performance.png",
+      "sha256": "2636e3c38c3c4f3952d1e23373a466c84c09e21a7d1791a963db4cc5d1b9882f",
+      "gitBlobSHA": "07a5bb085a28e863c59c49880b123add59941bb8",
+      "bytes": 55557,
+      "source": "E:\\Games_Develop\\Research\\SpatialIndirectStage1B_20261026\\stage1b-performance.png"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/evidence-index.json",
+      "sha256": "9b8317a986d5a5a1d91583a45ba309921d4802d9ee280e8e81dd36eab07076ff",
+      "gitBlobSHA": "4a6d87ebaca1d9523ca944e8d03418b39d0f78f4",
+      "bytes": 114917,
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\publication-gi-stage1b\\evidence-index.json"
+    },
+    {
+      "path": "docs/reports/lighting-gi-kernels-stage1b-20261026-ru.md",
+      "sha256": "e7d53fd8343bcb6e766ed3711b2f9cb0344956d7ae756dcda3fd61e12339e0e7",
+      "gitBlobSHA": "262cf10af4495af478bb3026a78ae46889fb8af1",
+      "bytes": 12047,
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\docs\\reports\\lighting-gi-kernels-stage1b-20261026-ru.md"
+    },
+    {
+      "path": "docs/plans/lighting-next-stages-20261026-ru.md",
+      "sha256": "2f149befb3a92bf24b159d66b89ec7535106584a7f9b47638ec5979721eb42fb",
+      "gitBlobSHA": "08ca98ff770286ca8a0f5fa6965539bdc4482703",
+      "bytes": 25730,
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\docs\\plans\\lighting-next-stages-20261026-ru.md"
+    },
+    {
+      "path": "docs/handoffs/lighting-to-map-authoring-20261025-ru.md",
+      "sha256": "7e6ad7b65c9d69a41e181927ea819c6034750717a46fe18a4e8f31cb86b01e6b",
+      "gitBlobSHA": "b947081498bd4364fc6de664af2424d9df2ffbbf",
+      "bytes": 39385,
+      "source": "E:\\Games_Develop\\Little-Castle\\docs\\handoffs\\lighting-to-map-authoring-20261025-ru.md"
+    },
+    {
+      "path": "docs/integration-packages/lighting-gi-kernels-stage1b-20261026/README.md",
+      "sha256": "c6d78b5d3bb83ad6e36b94158d6fd962012596e09591deb0c4b6a3fbd8773d10",
+      "gitBlobSHA": "9d98b1eed54c4116b081047374f09631d5728924",
+      "bytes": 2738,
+      "source": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025\\publication-gi-stage1b\\README.md"
+    }
+  ]
+}

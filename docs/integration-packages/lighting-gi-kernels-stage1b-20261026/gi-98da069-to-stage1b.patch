@@ -1,0 +1,216 @@
+--- STAGE1/Assets/_Game/Scripts/Research/SpatialIndirectTrace.cs
++++ STAGE1B/Assets/_Game/Scripts/Research/SpatialIndirectTrace.cs
+@@ -123,15 +123,52 @@
+         }
+         public bool TraceCandidates(Vector3 origin,Vector3 direction,Vector3 inverse,float distance,int mask,out Hit hit,int ignore=-1)
+         {
+-            hit=default;bool found=false;float best=distance;
++            hit=default;int nearest=-1;float best=distance;Vector3 normal=default;
+             for(int i=0;i<geometry.Length;i++)
+             {
+                 if((mask&(1<<i))==0||i==ignore)continue;
+                 if(Profile!=null&&Profile.enabled)Profile.boxTests++;
+-                if(!Slab(origin,inverse,geometry[i].min,geometry[i].max,best,out float t,out var n))continue;
+-                best=t;hit=new Hit(i,t,origin+direction*t,n);found=true;
+-            }
+-            return found;
++                ref readonly var g=ref geometry[i];
++                if(!CandidateSlab(origin,inverse,g.min,g.max,best,out float t,out var n))continue;
++                best=t;normal=n;nearest=i;
++            }
++            if(nearest<0)return false;
++            hit=new Hit(nearest,best,origin+direction*best,normal);return true;
++        }
++        // Visibility needs any blocker, not a nearest-hit position/normal. Keep the
++        // reference Trace/Slab independent so numerical regressions remain visible.
++        public bool OccludedCandidates(Vector3 origin,Vector3 inverse,float distance,int mask,int ignore=-1)
++        {
++            for(int i=0;i<geometry.Length;i++)
++            {
++                if((mask&(1<<i))==0||i==ignore)continue;
++                if(Profile!=null&&Profile.enabled)Profile.boxTests++;
++                ref readonly var g=ref geometry[i];
++                if(CandidateSlab(origin,inverse,g.min,g.max,distance,out _,out _,false))return true;
++            }
++            return false;
++        }
++        [MethodImpl(MethodImplOptions.AggressiveInlining)]
++        static bool CandidateSlab(Vector3 p,Vector3 inv,Vector3 lo,Vector3 hi,float limit,out float distance,out Vector3 normal,bool needNormal=true)
++        {
++            // Same finite inverse and strict endpoint rules as Slab, with early
++            // axis rejection. No reciprocal approximation or direction quantisation.
++            distance=0;normal=default;
++            float ax=(lo.x-p.x)*inv.x,bx=(hi.x-p.x)*inv.x;
++            float nx=ax<bx?ax:bx,fx=ax>bx?ax:bx;
++            if(fx<=.001f)return false;
++            float ay=(lo.y-p.y)*inv.y,by=(hi.y-p.y)*inv.y;
++            float ny=ay<by?ay:by,fy=ay>by?ay:by;
++            float near=nx>ny?nx:ny,far=fx<fy?fx:fy;
++            if(far<near||far<=.001f)return false;
++            float az=(lo.z-p.z)*inv.z,bz=(hi.z-p.z)*inv.z;
++            float nz=az<bz?az:bz,fz=az>bz?az:bz;
++            near=near>nz?near:nz;far=far<fz?far:fz;distance=near>.001f?near:far;
++            if(far<near||distance<=.001f||distance>=limit)return false;
++            if(!needNormal)return true;
++            if(near>.001f){if(nx>=ny&&nx>=nz)normal.x=inv.x>0?-1:1;else if(ny>=nz)normal.y=inv.y>0?-1:1;else normal.z=inv.z>0?-1:1;}
++            else{if(fx<=fy&&fx<=fz)normal.x=inv.x>0?1:-1;else if(fy<=fz)normal.y=inv.y>0?1:-1;else normal.z=inv.z>0?1:-1;}
++            return true;
+         }
+         public static Vector3 InverseRay(Vector3 d)=>Inverse(d);
+         bool TraceInverse(Vector3 origin,Vector3 direction,Vector3 inverse,float distance,out Hit hit,int ignore=-1)
+--- STAGE1/Assets/_Game/Scripts/Research/SpatialIndirectTransport.cs
++++ STAGE1B/Assets/_Game/Scripts/Research/SpatialIndirectTransport.cs
+@@ -42,12 +42,15 @@
+         readonly Dictionary<Key,Surface> surfaces=new Dictionary<Key,Surface>(16384);
+         readonly List<Key> removed=new List<Key>(16384);
+         static readonly Vector3[] Normals={Vector3.left,Vector3.right,Vector3.down,Vector3.up,Vector3.back,Vector3.forward};
++        static readonly Vector3[] SkyDirections=MakeSkyDirections();
++        static readonly Vector3[] SkyInverses=MakeSkyInverses();
+         SpatialIndirectTrace snapshot;
+         SpatialIndirectTrace.Lighting light;
+         Vector4 openSky,openEquator,openGround;
+         Vector3 inverseSun,inverseMoon;
+         float range=-1;
+         int lightEpoch;
++        bool sunActive,moonActive;
+         public long GeometryBuilds {get;private set;}
+         public long Injections {get;private set;}
+         public long DirectReweights {get;private set;}
+@@ -80,7 +83,11 @@
+         public void SetLighting(SpatialIndirectTrace.Lighting value,float maximumDistance)
+         {
+             if(range!=maximumDistance){range=maximumDistance;surfaces.Clear();foreach(var c in cells)c.valid=false;}
+-            if(!light.sunDirection.Equals(value.sunDirection)||!light.moonDirection.Equals(value.moonDirection))lightEpoch++;
++            bool sun=!value.sunColor.Equals(Vector3.zero),moon=!value.moonColor.Equals(Vector3.zero);
++            // A zero-to-nonzero source needs visibility even if its direction stayed
++            // fixed. Never reuse weights produced while that source was inactive.
++            if(!light.sunDirection.Equals(value.sunDirection)||!light.moonDirection.Equals(value.moonDirection)||sun!=sunActive||moon!=moonActive)lightEpoch++;
++            sunActive=sun;moonActive=moon;
+             light=value;inverseSun=SpatialIndirectTrace.InverseRay(light.sunDirection);inverseMoon=SpatialIndirectTrace.InverseRay(light.moonDirection);
+         }
+         public void InvalidateGeometry(Bounds oldBounds,Bounds newBounds,int changedId)
+@@ -181,6 +188,8 @@
+         void ReweightDirect(Cell c,Vector3 position)
+         {
+             DirectReweights++;Array.Fill(scratchIds,-1);
++            if(!sunActive&&!moonActive)
++            {for(int i=0;i<c.blockCount;i++)c.blocks[i].sun=c.blocks[i].moon=Vector4.zero;c.directEpoch=lightEpoch;return;}
+             int mask=snapshot.CandidateMask(position,range*2+.02f);var profile=snapshot.Profile;bool timed=profile!=null&&profile.enabled;long stamp=timed?SpatialIndirectProfile.Stamp():0;
+             bool trace=false;
+             for(int i=0;i<c.blockCount;i++)
+@@ -189,7 +198,7 @@
+                 // A convex source cannot shadow its own outward-facing hemisphere.
+                 // With no other box in finite support, aggregate a uniform face exactly.
+                 if(b.uniformFace>=0&&(mask&~(1<<activeIndex[b.id]))==0)
+-                {var n=Normals[b.uniformFace];b.sun=b.faceSum*Mathf.Max(0,Vector3.Dot(n,light.sunDirection));b.moon=b.faceSum*Mathf.Max(0,Vector3.Dot(n,light.moonDirection));}
++                {var n=Normals[b.uniformFace];b.sun=sunActive?b.faceSum*Mathf.Max(0,Vector3.Dot(n,light.sunDirection)):Vector4.zero;b.moon=moonActive?b.faceSum*Mathf.Max(0,Vector3.Dot(n,light.moonDirection)):Vector4.zero;}
+                 else{trace=true;b.sun=b.moon=Vector4.zero;scratchIds[b.id]=i;}
+             }
+             for(int i=0;trace&&i<c.linkCount;i++)
+@@ -198,9 +207,9 @@
+                 if(scratchIds[id]<0)continue;
+                 if(proxy<0)throw new InvalidOperationException("Stale transport used a removed proxy.");
+                 var n=Normals[face];var p=position+directions[ray]*link.distance+n*.01f;
+-                float sun=Mathf.Max(0,Vector3.Dot(n,light.sunDirection)),moon=Mathf.Max(0,Vector3.Dot(n,light.moonDirection));
+-                if(sun>0){if(timed)profile.shadowRays++;if(snapshot.TraceCandidates(p,light.sunDirection,inverseSun,range,mask,out _,proxy))sun=0;}
+-                if(moon>0){if(timed)profile.shadowRays++;if(snapshot.TraceCandidates(p,light.moonDirection,inverseMoon,range,mask,out _,proxy))moon=0;}
++                float sun=sunActive?Mathf.Max(0,Vector3.Dot(n,light.sunDirection)):0,moon=moonActive?Mathf.Max(0,Vector3.Dot(n,light.moonDirection)):0;
++                if(sun>0){if(timed)profile.shadowRays++;if(snapshot.OccludedCandidates(p,inverseSun,range,mask,proxy))sun=0;}
++                if(moon>0){if(timed)profile.shadowRays++;if(snapshot.OccludedCandidates(p,inverseMoon,range,mask,proxy))moon=0;}
+                 ref var b=ref c.blocks[scratchIds[id]];b.sun+=projection[ray]*sun;b.moon+=projection[ray]*moon;
+             }
+             if(timed)profile.shadowTicks+=SpatialIndirectProfile.Stamp()-stamp;c.directEpoch=lightEpoch;
+@@ -212,17 +221,29 @@
+             if(count)profile.skyMisses++;
+             var p=new Vector3((key.x+.5f)*.5f,(key.y+.5f)*.5f,(key.z+.5f)*.5f);var g=snapshot.GetProxy(hit.index);int axis=face/2;
+             p=Vector3.Min(g.max,Vector3.Max(g.min,p));p[axis]=(face&1)==1?g.max[axis]:g.min[axis];p+=hit.normal*.01f;
+-            Vector3 tangent=Vector3.Cross(Mathf.Abs(hit.normal.y)>.9f?Vector3.forward:Vector3.up,hit.normal).normalized,bitangent=Vector3.Cross(hit.normal,tangent),weights=Vector3.zero;
++            Vector3 weights=Vector3.zero;
+             int mask=snapshot.CandidateMask(p,range);
+             for(int i=0;i<12;i++)
+             {
+-                float r=Mathf.Sqrt((i+.5f)/12),angle=i*2.39996322972865332f;var d=tangent*(r*Mathf.Cos(angle))+bitangent*(r*Mathf.Sin(angle))+hit.normal*Mathf.Sqrt(1-r*r);
++                int sample=face*12+i;var d=SkyDirections[sample];
+                 if(count)profile.skyRays++;
+-                if(snapshot.TraceCandidates(p,d,SpatialIndirectTrace.InverseRay(d),range,mask,out _,hit.index))continue;
++                if(snapshot.OccludedCandidates(p,SkyInverses[sample],range,mask,hit.index))continue;
+                 float up=Mathf.Max(0,d.y),down=Mathf.Max(0,-d.y);weights+=new Vector3(up,1-up-down,down)/12;
+             }
+             surfaces.Add(key,new Surface{position=p,weights=weights});return weights;
+         }
+         static int Face(Vector3 n)=>Mathf.Abs(n.x)>.5f?(n.x>0?1:0):Mathf.Abs(n.y)>.5f?(n.y>0?3:2):(n.z>0?5:4);
++        static Vector3[] MakeSkyDirections()
++        {
++            var result=new Vector3[72];
++            for(int face=0;face<6;face++)
++            {
++                var n=Normals[face];var tangent=Vector3.Cross(Mathf.Abs(n.y)>.9f?Vector3.forward:Vector3.up,n).normalized;var bitangent=Vector3.Cross(n,tangent);
++                for(int i=0;i<12;i++){float r=Mathf.Sqrt((i+.5f)/12),angle=i*2.39996322972865332f;result[face*12+i]=tangent*(r*Mathf.Cos(angle))+bitangent*(r*Mathf.Sin(angle))+n*Mathf.Sqrt(1-r*r);}
++            }
++            return result;
++        }
++        static Vector3[] MakeSkyInverses()
++        {var result=new Vector3[SkyDirections.Length];for(int i=0;i<result.Length;i++)result[i]=SpatialIndirectTrace.InverseRay(SkyDirections[i]);return result;}
+     }
+ }
+--- STAGE1/Assets/_Game/Tests/Editor/SpatialIndirectTransportTests.cs
++++ STAGE1B/Assets/_Game/Tests/Editor/SpatialIndirectTransportTests.cs
+@@ -86,5 +86,47 @@
+             Assert.That(trace.TraceCandidates(Vector3.zero,direction,SpatialIndirectTrace.InverseRay(direction),6,trace.CandidateMask(Vector3.zero,6),out var cached),Is.True);
+             Assert.That(cached.distance,Is.EqualTo(reference.distance));
+         }
++        [Test] public void OptimisedNearestAndAnyHitMatchReferenceAcrossDeterministicFiniteRays()
++        {
++            var random=new System.Random(670261);float Next(float span)=>(float)(random.NextDouble()*2-1)*span;
++            var boxes=new SpatialIndirectTrace.Proxy[8];
++            for(int i=0;i<boxes.Length;i++)boxes[i]=new SpatialIndirectTrace.Proxy(new Bounds(new Vector3(Next(5),Next(3),Next(5)),new Vector3(i==0?.0001f:Mathf.Abs(Next(4)),Mathf.Abs(Next(5)),Mathf.Abs(Next(4)))),Vector3.one,i);
++            var trace=new SpatialIndirectTrace(boxes,64);
++            for(int i=0;i<24000;i++)
++            {
++                var p=new Vector3(Next(9),Next(6),Next(9));var d=new Vector3(Next(1),Next(1),Next(1)).normalized;
++                if(i%7==0)d[i%3]=0;if(i%11==0)d[i%3]=-.000000001f;
++                float range=i%13==0?.0005f:Mathf.Abs(Next(12));int ignore=i%9-1;int mask=trace.CandidateMask(p,range);
++                bool found=trace.Trace(p,d,range,out var expected,ignore);var inv=SpatialIndirectTrace.InverseRay(d);
++                bool nearest=trace.TraceCandidates(p,d,inv,range,mask,out var actual,ignore),any=trace.OccludedCandidates(p,inv,range,mask,ignore);
++                if(found!=nearest||found!=any||(found&&(expected.index!=actual.index||expected.distance!=actual.distance||!expected.normal.Equals(actual.normal)||!expected.position.Equals(actual.position))))Assert.Fail("Kernel mismatch at deterministic ray "+i);
++            }
++        }
++        [Test] public void OptimisedSlabPreservesInsideExitFaceTiesAndStrictFiniteEndpoints()
++        {
++            var box=new Bounds(Vector3.zero,Vector3.one*2);var trace=new SpatialIndirectTrace(new[]{new SpatialIndirectTrace.Proxy(box,Vector3.one,0),new SpatialIndirectTrace.Proxy(box,Vector3.zero,1)},64);
++            foreach(var p in new[]{Vector3.zero,Vector3.one,new Vector3(-2,-2,-2),new Vector3(-2,1,0),new Vector3(-1,0,0)})
++            foreach(var d in new[]{Vector3.right,Vector3.left,Vector3.up,new Vector3(1,1,1).normalized,new Vector3(1,0,1).normalized,new Vector3(0,-1e-9f,1)})
++            foreach(float limit in new[]{.0005f,.001f,1f,2f,6f})
++            {
++                bool a=trace.Trace(p,d,limit,out var before),b=trace.TraceCandidates(p,d,SpatialIndirectTrace.InverseRay(d),limit,3,out var after);
++                Assert.That(b,Is.EqualTo(a));Assert.That(trace.OccludedCandidates(p,SpatialIndirectTrace.InverseRay(d),limit,3),Is.EqualTo(a));
++                if(a){Assert.That(after.index,Is.EqualTo(before.index));Assert.That(after.distance,Is.EqualTo(before.distance));Assert.That(after.normal,Is.EqualTo(before.normal));}
++            }
++        }
++        [Test] public void InactiveSourcesRegainVisibilityAtSameDirectionAfterGeometryChange()
++        {
++            var roof=new Bounds(new Vector3(0,2.6f,0),new Vector3(3,.12f,3));
++            var before=new SpatialIndirectTrace(new[]{Ground(),new SpatialIndirectTrace.Proxy(roof,Vector3.one*.5f,3)},64);var after=new SpatialIndirectTrace(new[]{Ground()},64);
++            var grid=new SpatialIndirectCache(new Vector3(-3,.1f,-3),new Vector3Int(7,4,7),1);var cached=new SpatialIndirectTransport(grid,before);
++            SpatialIndirectTrace.Lighting Mode(float sun,float moon)=>new SpatialIndirectTrace.Lighting(Vector3.one*.2f,Vector3.one*.1f,Vector3.one*.05f,new Vector3(.3f,.8f,.2f),Vector3.one*sun,new Vector3(-.4f,.6f,.1f),Vector3.one*moon);
++            Compare(cached,before,grid,Mode(0,0),3);Compare(cached,before,grid,Mode(.8f,0),3);Compare(cached,before,grid,Mode(0,.1f),3);Compare(cached,before,grid,Mode(0,0),3);
++            cached.Bind(after);cached.InvalidateGeometry(roof,roof,3);Compare(cached,after,grid,Mode(0,0),3);Compare(cached,after,grid,Mode(.8f,.1f),3);
++        }
++        [Test] public void PrecomputedSurfaceHemisphereMatchesReferenceOnAllSixFaces()
++        {
++            var trace=new SpatialIndirectTrace(new[]{new SpatialIndirectTrace.Proxy(new Bounds(Vector3.zero,new Vector3(2,3,4)),Vector3.one*.6f,2),new SpatialIndirectTrace.Proxy(new Bounds(new Vector3(3,1,0),new Vector3(.12f,4,4)),Vector3.one*.3f,5)},64);
++            var grid=new SpatialIndirectCache(new Vector3(-3,-3,-3),new Vector3Int(7,7,7),1);var cached=new SpatialIndirectTransport(grid,trace);Compare(cached,trace,grid,Light(new Vector3(.4f,.7f,.3f)),4);
++        }
+     }
+ }
+--- STAGE1/Assets/_Game/Editor/SpatialIndirectStage1Build.cs
++++ STAGE1B/Assets/_Game/Editor/SpatialIndirectStage1Build.cs
+@@ -16,7 +16,7 @@
+ {
+     public static class SpatialIndirectStage1Build
+     {
+-        public const string Output="E:/Games_Develop/Research/SpatialIndirectStage1_20261026";
++        public static string Output=>Array.IndexOf(Environment.GetCommandLineArgs(),"-giStage1B")>=0?"E:/Games_Develop/Research/SpatialIndirectStage1B_20261026":"E:/Games_Develop/Research/SpatialIndirectStage1_20261026";
+         static void Open()
+         {
+             if(Path.GetFileName(Path.GetDirectoryName(Application.dataPath))!="Little-Castle_LightingIntegration_20261025")throw new InvalidOperationException("Isolated lighting copy only.");

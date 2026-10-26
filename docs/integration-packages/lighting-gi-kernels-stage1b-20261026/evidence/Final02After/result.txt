@@ -1,0 +1,2 @@
+PASS bounded proxy transport, offscreen contribution, roof removal/undo, preview isolation, local invalidation, camera independence.
+Thin-wall interpolation and images require visual review.
