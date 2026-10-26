@@ -19,6 +19,7 @@ namespace LittleCastle.Editor
 
         private bool enabledBrush;
         private bool fallbackToYZero;
+        private bool showBiomeOverlay = true;
         private float radius = 18f;
         private float strength = 0.6f;
         private float hardness = 0.15f;
@@ -95,6 +96,8 @@ namespace LittleCastle.Editor
             hardness = EditorGUILayout.Slider(
                 new GUIContent("Hardness", "0 = soft boundary, 1 = fully hard"),
                 hardness, 0f, 1f);
+            showBiomeOverlay = EditorGUILayout.ToggleLeft(
+                "Show sampled biome overlay in Scene View", showBiomeOverlay);
             fallbackToYZero = EditorGUILayout.ToggleLeft(
                 "Allow flat Y=0 plane if terrain raycast misses", fallbackToYZero);
 
@@ -165,6 +168,8 @@ namespace LittleCastle.Editor
                 HandleUtility.AddDefaultControl(
                     GUIUtility.GetControlID(FocusType.Passive));
 
+            if (showBiomeOverlay && e.type == EventType.Repaint)
+                DrawBiomeOverview();
             bool hasHit = TryHit(e.mousePosition, out var point,
                 out var normal);
             if (hasHit && (e.type == EventType.Repaint ||
@@ -205,6 +210,52 @@ namespace LittleCastle.Editor
                     e.Use();
                 }
             }
+        }
+
+        private void DrawBiomeOverview()
+        {
+            // Bounded, coarse authoring preview; NEVER spawn per-cell GameObjects.
+            var view = SceneView.currentDrawingSceneView;
+            if (view == null) return;
+            CollectPalette(out var ids, out var names, out var colors);
+            float halfSpan = Mathf.Clamp(view.size, 8f, 2000f);
+            float step = Mathf.Max(World.Themes.CellSize,
+                2f * halfSpan / 22f);
+            Rect bounds = World.SimulationBounds;
+            Vector3 pivot = view.pivot;
+
+            for (int row = -11; row <= 11; row++)
+            for (int col = -11; col <= 11; col++)
+            {
+                float x = pivot.x + col * step;
+                float z = pivot.z + row * step;
+                if (!bounds.Contains(new Vector2(x, z))) continue;
+                int dominant = -1;
+                float best = 0.025f;
+                for (int i = 0; i < ids.Length; i++)
+                {
+                    if (ids[i] == EnvironmentThemeIds.Summer) continue;
+                    float weight = World.Themes.Sample(ids[i], x, z);
+                    if (weight <= best) continue;
+                    best = weight;
+                    dominant = i;
+                }
+                if (dominant < 0) continue;
+
+                // Ground projection is approximate and capped to 529 raycasts per
+                // repaint. Full real-time terrain paint preview belongs to the
+                // production chunk/renderer integration.
+                Ray ray = new Ray(new Vector3(x, 10000f, z), Vector3.down);
+                if (!Physics.Raycast(ray, out RaycastHit hit, 20000f))
+                    continue;
+
+                Color tint = colors[dominant];
+                tint.a = Mathf.Lerp(0f, 0.23f, best);
+                Handles.color = tint;
+                Handles.DrawSolidDisc(hit.point + hit.normal * 0.03f,
+                    hit.normal, step * 0.55f);
+            }
+            Handles.color = Color.white;
         }
 
         private bool TryHit(Vector2 mousePosition, out Vector3 point,
