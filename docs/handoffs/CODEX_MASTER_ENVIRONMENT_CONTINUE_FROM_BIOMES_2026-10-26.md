@@ -24,6 +24,9 @@ Issue: https://github.com/DimaFi/Little-Castle/issues/78.
 Реальный исходный код прототипа:
 - `Assets/_Game/Scripts/World/Environment/EnvironmentFields.cs`
 - `Assets/_Game/Scripts/World/Environment/BiomeSnowWorld.cs`
+- `Assets/_Game/Scripts/World/Environment/BiomeThemeProfile.cs`
+- `Assets/_Game/Editor/BiomeSnowWorldEditor.cs` — настоящая Inspector + Scene View кисть для рисования на любом масштабе камеры; пока прототип, не интегрирован в пользовательские закрытые инструменты.
+- `docs/architecture/biome-map-authoring-editor.md` — согласованное поведение редактора и условия приёмки.
 - `Assets/_Game/Scripts/World/Environment/SnowMaskTextureBridge.cs`
 - `Assets/_Game/Scripts/World/Environment/BiomeSnowfallParticleDriver.cs`
 - `Assets/_Game/Shaders/Effects/LC_ThinSnowURP.shader`
@@ -61,6 +64,10 @@ Issue: https://github.com/DimaFi/Little-Castle/issues/78.
 10. Задокументируй что именно из прототипа оставлено, переработано или удалено, почему, и приложи реальные скриншоты/Profiler до/после.
 
 ## 2A. ОБЯЗАТЕЛЬНО: ВИЗУАЛЬНЫЙ РЕДАКТОР БИОМОВ ДЛЯ РАЗРАБОТЧИКА КАРТ
+
+**Ветка уже содержит первую реализацию UI:** `BiomeSnowWorldEditor` рисует в стандартном Unity Scene View, если выбран `BiomeSnowWorld`; есть Paint/Erase/Smooth, мягкость, zoom-independent radius, Frame Map, цветовой диагностический overlay и сохранение авторских штрихов в сериализованный компонент. Это следует протестировать, исправить и встроить в РЕАЛЬНЫЙ текущий редактор карт, который может находиться в отдельной ветке. Не объявляй уже выполненной полноценную смену материалов/растений или гибкую масштабную кисть без Unity proof. Текущий undo прототипно хранит JSON всей карты на штрих, его нужно оптимизировать для больших карт.
+
+
 
 **Отсутствует в текущем прототипе:** `PaintTheme()` является лишь API и тестовыми context-menu командами, а не настоящим инструментом. Нужно создать **работающий инструмент в текущем редакторе карт** с видом сверху, как привычная покраска территорий в Cities: Skylines. Не делать отдельный дублирующий редактор.
 
