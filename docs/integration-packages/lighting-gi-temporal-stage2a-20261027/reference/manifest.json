@@ -1,0 +1,46 @@
+[
+  {
+    "path": "Assets/_Game/Scripts/Research/SpatialIndirectVolume.cs",
+    "sha256": "b51d897b3e18a0bce11980ec059b6db34b79fa68d5274f307dc3f2c547220f1a"
+  },
+  {
+    "path": "Assets/_Game/Scripts/Research/SpatialIndirectStudyReview.cs",
+    "sha256": "b06ee3cfac4f6e5bddb469844cb3277d059efc94e13f1df2822752d9ae5019ab"
+  },
+  {
+    "path": "Assets/_Game/Editor/SpatialIndirectStage1Build.cs",
+    "sha256": "7a411f7aa4356ca2c2cff3a8eea90111b599ea92b1345f37f030b94c57e8610a"
+  },
+  {
+    "path": "Assets/_Game/Shaders/Surface/LC_SpatialIndirect.hlsl",
+    "sha256": "b6d6d5845590b0d81c992fdd11f7d375ea6a328a0dd417453b7b25792b7e9b50"
+  },
+  {
+    "path": "Assets/_Game/Scripts/Research/SpatialIndirectCache.cs",
+    "sha256": "eb33ef1fd8fc10abf300b2575bb909402b8b2a0b6cefcddaa0073b0a2947f786"
+  },
+  {
+    "path": "Assets/_Game/Scripts/Research/SpatialIndirectTrace.cs",
+    "sha256": "ebf9eb242903623e32286737d1f8ced941ce6cca7dceb36907295a83ea46abae"
+  },
+  {
+    "path": "Assets/_Game/Scripts/Research/SpatialIndirectTransport.cs",
+    "sha256": "777f28b2a32b28402eb243b011036c61644869d27163ab5a890ef932463767d3"
+  },
+  {
+    "path": "Assets/_Game/Scenes/SpatialIndirectStudy_20261026.unity",
+    "sha256": "f91f2cc9cb6e010b857499cd41918502e0e6a265e934af69cc85ee957865cea4"
+  },
+  {
+    "path": "ProjectSettings/ProjectSettings.asset",
+    "sha256": "917e5fd654d712d1242fed4dc2ad7a31f202e691bb9183ce5d6ff82169dce661"
+  },
+  {
+    "path": "ProjectSettings/QualitySettings.asset",
+    "sha256": "bf2a90b2ec073be90df8b606b12894e84b13b7133863b9f040331cb6150d969f"
+  },
+  {
+    "path": "ProjectSettings/GraphicsSettings.asset",
+    "sha256": "de7e2162963a8ae4aee3467e6043f925960cf4ee4b23ab2f1ec1efa405388aad"
+  }
+]

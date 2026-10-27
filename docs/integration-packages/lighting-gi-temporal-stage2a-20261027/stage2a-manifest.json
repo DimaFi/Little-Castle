@@ -1,0 +1,102 @@
+{
+  "parentCommit": "f4ae7b19e70bcd9a53f8ce7eea84d97ef195d542",
+  "baselineManifestSHA256": "b0bc94c8203dd2942648beadf9f18123b349bb1463160667961fae6013916497",
+  "modified": [
+    {
+      "path": "Assets/_Game/Scripts/Research/SpatialIndirectVolume.cs",
+      "beforeSHA256": "b51d897b3e18a0bce11980ec059b6db34b79fa68d5274f307dc3f2c547220f1a",
+      "sha256": "5deb10032d0229a786b5aeb229aa7c1c662c250ce6f3d5c9707b29974539051e",
+      "bytes": 18828
+    },
+    {
+      "path": "Assets/_Game/Scripts/Research/SpatialIndirectStudyReview.cs",
+      "beforeSHA256": "b06ee3cfac4f6e5bddb469844cb3277d059efc94e13f1df2822752d9ae5019ab",
+      "sha256": "5487648a1691bb5221120a09e1d11dd1b54233e165e2017731139c30c58718a7",
+      "bytes": 26662
+    },
+    {
+      "path": "Assets/_Game/Editor/SpatialIndirectStage1Build.cs",
+      "beforeSHA256": "7a411f7aa4356ca2c2cff3a8eea90111b599ea92b1345f37f030b94c57e8610a",
+      "sha256": "be7f5bf1de68e1e1fea64b120ebdd56509b62388cf4bc6d690ac16b4c89f20bd",
+      "bytes": 8108
+    },
+    {
+      "path": "Assets/_Game/Shaders/Surface/LC_SpatialIndirect.hlsl",
+      "beforeSHA256": "b6d6d5845590b0d81c992fdd11f7d375ea6a328a0dd417453b7b25792b7e9b50",
+      "sha256": "f1302afddc76707fd9a880a5a3610654186cf4b5622f38c04a26cde36ffee4d4",
+      "bytes": 4438
+    }
+  ],
+  "newAssets": [
+    {
+      "path": "Assets/_Game/Scripts/Research/SpatialIndirectPublication.cs",
+      "sha256": "6449b2fbfa4046edf771bac18c90e6f45643d2a9f5f24b03703ceb4d2b2faef5",
+      "bytes": 4058
+    },
+    {
+      "path": "Assets/_Game/Scripts/Research/SpatialIndirectPublication.cs.meta",
+      "sha256": "56792563bfb7b5d6f81a0a3044c249aaf3acfd72da16b23b8adbb2c448cd744f",
+      "bytes": 59
+    },
+    {
+      "path": "Assets/_Game/Scripts/Research/SpatialIndirectTemporalStudy.cs",
+      "sha256": "b5acfaf80d79aa463cb4171abdc95bf26338a13f2471ac6fca541fada9caf0fc",
+      "bytes": 10350
+    },
+    {
+      "path": "Assets/_Game/Scripts/Research/SpatialIndirectTemporalStudy.cs.meta",
+      "sha256": "811ba5ee0a6a7ef3626b54ef9223c6eeeaadd86a06bce366fa84d292106d63db",
+      "bytes": 59
+    },
+    {
+      "path": "Assets/_Game/Scripts/Research/SpatialIndirectGameViewStudy.cs",
+      "sha256": "3d4f66bdaa4eb2cceea7f0899ee4fc1614b5b8bd73c09206399e6b179b366318",
+      "bytes": 9669
+    },
+    {
+      "path": "Assets/_Game/Scripts/Research/SpatialIndirectGameViewStudy.cs.meta",
+      "sha256": "3b8436f426b6fdff57a04f15f85b10455be63be9e30f64b7c899f64079dac521",
+      "bytes": 59
+    },
+    {
+      "path": "Assets/_Game/Tests/Editor/SpatialIndirectPublicationTests.cs",
+      "sha256": "6b45d07667fc6d27383cc4ef2a4faafa04d5290f754a770006c69dbb202f471a",
+      "bytes": 6019
+    },
+    {
+      "path": "Assets/_Game/Tests/Editor/SpatialIndirectPublicationTests.cs.meta",
+      "sha256": "3d08a1f8b8b6183b1331cb296e8b3385ae4d49a9082eb2c1e4038a60420a1e35",
+      "bytes": 59
+    }
+  ],
+  "unchangedInputs": [
+    {
+      "path": "Assets/_Game/Scripts/Research/SpatialIndirectCache.cs",
+      "sha256": "eb33ef1fd8fc10abf300b2575bb909402b8b2a0b6cefcddaa0073b0a2947f786"
+    },
+    {
+      "path": "Assets/_Game/Scripts/Research/SpatialIndirectTrace.cs",
+      "sha256": "ebf9eb242903623e32286737d1f8ced941ce6cca7dceb36907295a83ea46abae"
+    },
+    {
+      "path": "Assets/_Game/Scripts/Research/SpatialIndirectTransport.cs",
+      "sha256": "777f28b2a32b28402eb243b011036c61644869d27163ab5a890ef932463767d3"
+    },
+    {
+      "path": "Assets/_Game/Scenes/SpatialIndirectStudy_20261026.unity",
+      "sha256": "f91f2cc9cb6e010b857499cd41918502e0e6a265e934af69cc85ee957865cea4"
+    },
+    {
+      "path": "ProjectSettings/ProjectSettings.asset",
+      "sha256": "917e5fd654d712d1242fed4dc2ad7a31f202e691bb9183ce5d6ff82169dce661"
+    },
+    {
+      "path": "ProjectSettings/QualitySettings.asset",
+      "sha256": "bf2a90b2ec073be90df8b606b12894e84b13b7133863b9f040331cb6150d969f"
+    },
+    {
+      "path": "ProjectSettings/GraphicsSettings.asset",
+      "sha256": "de7e2162963a8ae4aee3467e6043f925960cf4ee4b23ab2f1ec1efa405388aad"
+    }
+  ]
+}

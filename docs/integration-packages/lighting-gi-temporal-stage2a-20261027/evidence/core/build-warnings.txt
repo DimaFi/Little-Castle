@@ -1,0 +1,1 @@
+Warning: Assets\_Game\Scripts\Building\Walls\LocalSandboxController.cs(41,34): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'

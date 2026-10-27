@@ -1,0 +1,1000 @@
+{
+  "parentCommit": "f4ae7b19e70bcd9a53f8ce7eea84d97ef195d542",
+  "baselineManifestSHA256": "b0bc94c8203dd2942648beadf9f18123b349bb1463160667961fae6013916497",
+  "modified": [
+    {
+      "path": "Assets/_Game/Scripts/Research/SpatialIndirectVolume.cs",
+      "beforeSHA256": "b51d897b3e18a0bce11980ec059b6db34b79fa68d5274f307dc3f2c547220f1a",
+      "sha256": "5deb10032d0229a786b5aeb229aa7c1c662c250ce6f3d5c9707b29974539051e",
+      "bytes": 18828
+    },
+    {
+      "path": "Assets/_Game/Scripts/Research/SpatialIndirectStudyReview.cs",
+      "beforeSHA256": "b06ee3cfac4f6e5bddb469844cb3277d059efc94e13f1df2822752d9ae5019ab",
+      "sha256": "5487648a1691bb5221120a09e1d11dd1b54233e165e2017731139c30c58718a7",
+      "bytes": 26662
+    },
+    {
+      "path": "Assets/_Game/Editor/SpatialIndirectStage1Build.cs",
+      "beforeSHA256": "7a411f7aa4356ca2c2cff3a8eea90111b599ea92b1345f37f030b94c57e8610a",
+      "sha256": "114c3160219f51ad9ef0e543ab8b4055570a6c003ffa7bb18eda12b872afbae6",
+      "bytes": 7982
+    },
+    {
+      "path": "Assets/_Game/Shaders/Surface/LC_SpatialIndirect.hlsl",
+      "beforeSHA256": "b6d6d5845590b0d81c992fdd11f7d375ea6a328a0dd417453b7b25792b7e9b50",
+      "sha256": "f1302afddc76707fd9a880a5a3610654186cf4b5622f38c04a26cde36ffee4d4",
+      "bytes": 4438
+    }
+  ],
+  "newAssets": [
+    {
+      "path": "Assets/_Game/Scripts/Research/SpatialIndirectPublication.cs",
+      "sha256": "6449b2fbfa4046edf771bac18c90e6f45643d2a9f5f24b03703ceb4d2b2faef5",
+      "bytes": 4058
+    },
+    {
+      "path": "Assets/_Game/Scripts/Research/SpatialIndirectPublication.cs.meta",
+      "sha256": "56792563bfb7b5d6f81a0a3044c249aaf3acfd72da16b23b8adbb2c448cd744f",
+      "bytes": 59
+    },
+    {
+      "path": "Assets/_Game/Scripts/Research/SpatialIndirectTemporalStudy.cs",
+      "sha256": "b5acfaf80d79aa463cb4171abdc95bf26338a13f2471ac6fca541fada9caf0fc",
+      "bytes": 10350
+    },
+    {
+      "path": "Assets/_Game/Scripts/Research/SpatialIndirectTemporalStudy.cs.meta",
+      "sha256": "811ba5ee0a6a7ef3626b54ef9223c6eeeaadd86a06bce366fa84d292106d63db",
+      "bytes": 59
+    },
+    {
+      "path": "Assets/_Game/Tests/Editor/SpatialIndirectPublicationTests.cs",
+      "sha256": "6b45d07667fc6d27383cc4ef2a4faafa04d5290f754a770006c69dbb202f471a",
+      "bytes": 6019
+    },
+    {
+      "path": "Assets/_Game/Tests/Editor/SpatialIndirectPublicationTests.cs.meta",
+      "sha256": "3d08a1f8b8b6183b1331cb296e8b3385ae4d49a9082eb2c1e4038a60420a1e35",
+      "bytes": 59
+    }
+  ],
+  "unchangedInputs": [
+    {
+      "path": "Assets/_Game/Scripts/Research/SpatialIndirectCache.cs",
+      "sha256": "eb33ef1fd8fc10abf300b2575bb909402b8b2a0b6cefcddaa0073b0a2947f786"
+    },
+    {
+      "path": "Assets/_Game/Scripts/Research/SpatialIndirectTrace.cs",
+      "sha256": "ebf9eb242903623e32286737d1f8ced941ce6cca7dceb36907295a83ea46abae"
+    },
+    {
+      "path": "Assets/_Game/Scripts/Research/SpatialIndirectTransport.cs",
+      "sha256": "777f28b2a32b28402eb243b011036c61644869d27163ab5a890ef932463767d3"
+    },
+    {
+      "path": "Assets/_Game/Scenes/SpatialIndirectStudy_20261026.unity",
+      "sha256": "f91f2cc9cb6e010b857499cd41918502e0e6a265e934af69cc85ee957865cea4"
+    },
+    {
+      "path": "ProjectSettings/ProjectSettings.asset",
+      "sha256": "917e5fd654d712d1242fed4dc2ad7a31f202e691bb9183ce5d6ff82169dce661"
+    },
+    {
+      "path": "ProjectSettings/QualitySettings.asset",
+      "sha256": "bf2a90b2ec073be90df8b606b12894e84b13b7133863b9f040331cb6150d969f"
+    },
+    {
+      "path": "ProjectSettings/GraphicsSettings.asset",
+      "sha256": "de7e2162963a8ae4aee3467e6043f925960cf4ee4b23ab2f1ec1efa405388aad"
+    }
+  ],
+  "playerFiles": [
+    {
+      "path": "Player/dstorage.dll",
+      "sha256": "cae65787f61514bec6f012f44546e68b19e39d8854a9ab52af813370d44b272a",
+      "bytes": 206904
+    },
+    {
+      "path": "Player/dstoragecore.dll",
+      "sha256": "cf85b19a92a8276f8baca0db9bbcd60735bad50768deb303d310e84d5f4fdd11",
+      "bytes": 1482784
+    },
+    {
+      "path": "Player/SpatialIndirectStudy.exe",
+      "sha256": "c7e7c0fb799bc979d2a086d8836d9570443f925c753442c2979fac9e38d69c13",
+      "bytes": 667648
+    },
+    {
+      "path": "Player/UnityCrashHandler64.exe",
+      "sha256": "2be501dba884f8ddee06b08d773cfd6c0d3739006a26991f5810a04612e80591",
+      "bytes": 1735600
+    },
+    {
+      "path": "Player/UnityPlayer.dll",
+      "sha256": "b507f5d20f0262b7b392075ec7a9354f18e8929161367313be6c86fbfc060dbe",
+      "bytes": 37139888
+    },
+    {
+      "path": "Player/D3D12/D3D12Core.dll",
+      "sha256": "625bd40005b1c3708695d5256ecf230d278e6b8edba5a88af70f3d91324f3052",
+      "bytes": 4725304
+    },
+    {
+      "path": "Player/Little-Castle_BurstDebugInformation_DoNotShip/Data/Plugins/x86_64/lib_burst_generated.txt",
+      "sha256": "647c6b05bbe52cecf51e5c81300df925d5b951af0f3074706ff843c707455b48",
+      "bytes": 208619
+    },
+    {
+      "path": "Player/MonoBleedingEdge/EmbedRuntime/mono-2.0-bdwgc.dll",
+      "sha256": "d543a78967747660c48ff6dc3a98aaa93b9ed050762a455c56147c293df9b206",
+      "bytes": 7831472
+    },
+    {
+      "path": "Player/MonoBleedingEdge/EmbedRuntime/MonoPosixHelper.dll",
+      "sha256": "7b43f1ef5de699c5eabc3905e7b71000130a5647e4fcd90a29f8dd78737b52e6",
+      "bytes": 611248
+    },
+    {
+      "path": "Player/MonoBleedingEdge/etc/mono/browscap.ini",
+      "sha256": "4ddd50f31fb968f30bedefc253a46dc3f2890192d05cdaa9e0a64a056eee807e",
+      "bytes": 311984
+    },
+    {
+      "path": "Player/MonoBleedingEdge/etc/mono/config",
+      "sha256": "5776169973a26a387b8b3e5c0f2301a7ab9a6dd7c7d3efa22a96abc47fbf8662",
+      "bytes": 3815
+    },
+    {
+      "path": "Player/MonoBleedingEdge/etc/mono/2.0/DefaultWsdlHelpGenerator.aspx",
+      "sha256": "751861040b69ea63a3827507b7c8da9c7f549dc181c1c8af4b7ca78cc97d710a",
+      "bytes": 60575
+    },
+    {
+      "path": "Player/MonoBleedingEdge/etc/mono/2.0/machine.config",
+      "sha256": "e91782a27fa39fc6c1d6ee8b08529f5d35052310d0006034b878eb04b8f2af30",
+      "bytes": 29066
+    },
+    {
+      "path": "Player/MonoBleedingEdge/etc/mono/2.0/settings.map",
+      "sha256": "49c6160f9d54af4270a3b4e997fc4a8301f79b9e2070118fa46ddbcbbc44f9a2",
+      "bytes": 2622
+    },
+    {
+      "path": "Player/MonoBleedingEdge/etc/mono/2.0/web.config",
+      "sha256": "cf2b54339e069b9e42f7d6795eecbf562c50c1011f4ca8f65f578fe52d97ff92",
+      "bytes": 11635
+    },
+    {
+      "path": "Player/MonoBleedingEdge/etc/mono/2.0/Browsers/Compat.browser",
+      "sha256": "8a1082057ac5681dcd4e9c227ed7fb8eb42ac1618963b5de3b65739dd77e2741",
+      "bytes": 1605
+    },
+    {
+      "path": "Player/MonoBleedingEdge/etc/mono/4.0/DefaultWsdlHelpGenerator.aspx",
+      "sha256": "751861040b69ea63a3827507b7c8da9c7f549dc181c1c8af4b7ca78cc97d710a",
+      "bytes": 60575
+    },
+    {
+      "path": "Player/MonoBleedingEdge/etc/mono/4.0/machine.config",
+      "sha256": "e60aec2c5115d65b3acb3c55ea21576dbd770f579166c017125571e46ae560ed",
+      "bytes": 33598
+    },
+    {
+      "path": "Player/MonoBleedingEdge/etc/mono/4.0/settings.map",
+      "sha256": "ce1db1ad8a9512073164e3eccdc193f7eda036e1a9733caec4635de21b2865c8",
+      "bytes": 2622
+    },
+    {
+      "path": "Player/MonoBleedingEdge/etc/mono/4.0/web.config",
+      "sha256": "e38bb8cc68fe5b4edecdfd288d094b9e8ced7629039b2a347682aba0d8bd7492",
+      "bytes": 18802
+    },
+    {
+      "path": "Player/MonoBleedingEdge/etc/mono/4.0/Browsers/Compat.browser",
+      "sha256": "8a1082057ac5681dcd4e9c227ed7fb8eb42ac1618963b5de3b65739dd77e2741",
+      "bytes": 1605
+    },
+    {
+      "path": "Player/MonoBleedingEdge/etc/mono/4.5/DefaultWsdlHelpGenerator.aspx",
+      "sha256": "751861040b69ea63a3827507b7c8da9c7f549dc181c1c8af4b7ca78cc97d710a",
+      "bytes": 60575
+    },
+    {
+      "path": "Player/MonoBleedingEdge/etc/mono/4.5/machine.config",
+      "sha256": "ee950004b576fb28dc85f4b0435ed04bf96612de2e8b53be84d07afe85a0de6c",
+      "bytes": 34056
+    },
+    {
+      "path": "Player/MonoBleedingEdge/etc/mono/4.5/settings.map",
+      "sha256": "ce1db1ad8a9512073164e3eccdc193f7eda036e1a9733caec4635de21b2865c8",
+      "bytes": 2622
+    },
+    {
+      "path": "Player/MonoBleedingEdge/etc/mono/4.5/web.config",
+      "sha256": "c4cbddd4fd9347b58cc5a72b36dc4ba1ad2bb699e65869d05cd3fb9865f0d824",
+      "bytes": 18811
+    },
+    {
+      "path": "Player/MonoBleedingEdge/etc/mono/4.5/Browsers/Compat.browser",
+      "sha256": "8a1082057ac5681dcd4e9c227ed7fb8eb42ac1618963b5de3b65739dd77e2741",
+      "bytes": 1605
+    },
+    {
+      "path": "Player/MonoBleedingEdge/etc/mono/mconfig/config.xml",
+      "sha256": "0c56e34c69124510fa8c19e7b4c2ca6c1c4ff460ae19f798dd0ca035809e396d",
+      "bytes": 25817
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/app.info",
+      "sha256": "dfbffa1eb4aba8a308666e61b587066eadeea575107433e42b4c8f95c55753b3",
+      "bytes": 28
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/boot.config",
+      "sha256": "a41ba3dde4fa404435afd149fa4ec31dfeceb41faa6ab7a8182f133f502a849b",
+      "bytes": 156
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/globalgamemanagers",
+      "sha256": "4486626d366e9b832e43c992c53b274328551b62fe2a6c19a418f26e5c00cf39",
+      "bytes": 88932
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/globalgamemanagers.assets",
+      "sha256": "f05c9047c387a3b550bba1d651f393080b094e01b5f1d2012e8399ab64a690a8",
+      "bytes": 919424
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/globalgamemanagers.assets.resS",
+      "sha256": "26b24bbd0bdb7017ecbac3b829c0ed7c4848bc343af5702e96ebdb75a7258b04",
+      "bytes": 6174944
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/level0",
+      "sha256": "15eb15239568489cc908c8284b03aea69880ae7da6abaa83f758c9e66c2e2b4f",
+      "bytes": 31120
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/level1",
+      "sha256": "82bfc75f31904c1e2283c2382d27f97c186aa534f3bd15bc3d009c415a9a1039",
+      "bytes": 25876
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/resources.assets",
+      "sha256": "d11a19517f55c7e47bbbbad9c5e5fb698d623d6fdd77da066715d28a4aee33ba",
+      "bytes": 1996
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/RuntimeInitializeOnLoads.json",
+      "sha256": "eafeadd87e75b370cf311578b0ddb7e68b03244faba0b9b074d21c4622cfaec4",
+      "bytes": 2518
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/ScriptingAssemblies.json",
+      "sha256": "6a38dee7857aa63847b36f925dc0044aeec6328c68d15ceb6c9b56cc5cff89ee",
+      "bytes": 4305
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/sharedassets0.assets",
+      "sha256": "029849f914d45490a0194e642328ab5dafa350ba825aefa5ea9a42e668397e48",
+      "bytes": 6202892
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/sharedassets0.assets.resS",
+      "sha256": "73f184301b6c27fb745d6e3e5b94f32acb31b69ce9d9de4ae636b68896561f4f",
+      "bytes": 17004480
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/sharedassets1.assets",
+      "sha256": "8f581e5c5af5a951566dcda334f5eec425fb2f6352ff09548fe6205e86d2457a",
+      "bytes": 4044
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/Assembly-CSharp.dll",
+      "sha256": "75868bf9231c46b8caf29da6a0b3302a698db14bbae085eeed379392c5beb611",
+      "bytes": 6144
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/LittleCastle.Runtime.dll",
+      "sha256": "df1b96ef6a8229a45b9491ea8f2052513a4d6164d6f3c1a0f4940d939e187777",
+      "bytes": 511488
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/Mono.Security.dll",
+      "sha256": "1849437c1d2fe7698c0fde2a9a6aad9a864372a373b7c1d887da902a36965b36",
+      "bytes": 241152
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/mscorlib.dll",
+      "sha256": "f7698bd46af58d3ee9dac59a286cfedfd28e51f71c0fe3940671a3ccc7af5711",
+      "bytes": 4632064
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/netstandard.dll",
+      "sha256": "6ae62e082dc494a2433984177f60ca4db5fae69b1f360a8b33754172b310b8c5",
+      "bytes": 90112
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/System.Buffers.dll",
+      "sha256": "762f8fdbe975e05b76be5fe996c53ce7c75e4a2830f2f50b02a5948ef6ba0aeb",
+      "bytes": 4608
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/System.Collections.Immutable.dll",
+      "sha256": "5b1b1c83ba3d135c2fdfe425842fbe9c7432878b7e468623acb554c69b4c130f",
+      "bytes": 252680
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/System.ComponentModel.Composition.dll",
+      "sha256": "335d76d10ae5b80d1faae4833937b9166551ccc9e79ee8262d2da4d58843f79d",
+      "bytes": 257024
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/System.Configuration.dll",
+      "sha256": "d7139dd6b622233d316aac733b392b9c1a545375804f62685f57f9d36f1c7ac2",
+      "bytes": 124928
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/System.Core.dll",
+      "sha256": "a4637c44a11ea827d686313cfca3f5191225d2a96f7eaf0f10aa32de446380d2",
+      "bytes": 1113088
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/System.Data.DataSetExtensions.dll",
+      "sha256": "80432a96154f8d2935b2f1c9e61b2ee6109fd6234e281327b3b297451c8931ba",
+      "bytes": 29696
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/System.Data.dll",
+      "sha256": "ab47d362cff6f6e665cadbc8c6c81f9fa3612f23483a44d08b339347ac99f116",
+      "bytes": 2125312
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/System.dll",
+      "sha256": "d26cada0fc3dcae061f0fa421df15a082cb35ccf81ccaeebc8b0e2d2e6877099",
+      "bytes": 2641920
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/System.Drawing.dll",
+      "sha256": "3c3586ba170c1788a8d3a4e419eb1f50f092070f4d81e90238b2fe6c5405cf2c",
+      "bytes": 489984
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/System.EnterpriseServices.dll",
+      "sha256": "00595c8eea345fe0e47da702100e460aaaf8f14d27a24950b71d926cbf1201c4",
+      "bytes": 44544
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/System.IO.Compression.dll",
+      "sha256": "a2803c059bd49c7fe520673f7e2b06657bb0419b253a5267e3f1da14b357dd5a",
+      "bytes": 114688
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/System.IO.Compression.FileSystem.dll",
+      "sha256": "f45ca89827639a880dcbeab1917af99a5bd18aec4433fbcb2d7774ccf9fe7121",
+      "bytes": 18432
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/System.Memory.dll",
+      "sha256": "c4f030a2cba7da7cdcf493257c24560e203d355904aee490d645a935842f834a",
+      "bytes": 4608
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/System.Net.Http.dll",
+      "sha256": "128b31fec424c70356952314abff2f6b1408f64b7613d2ae4bde5e84c2f8ac03",
+      "bytes": 122880
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/System.Numerics.dll",
+      "sha256": "b968dc8852985029fd5dd08a1a9c3a6b8750ea4470cd677a5051c33fc5a08639",
+      "bytes": 119296
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/System.Reflection.Metadata.dll",
+      "sha256": "afcfd6c166fe0d59f45cc6363082806f6a7ea8ceed9dc6c75eec9fd79ccb5717",
+      "bytes": 487584
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/System.Runtime.CompilerServices.Unsafe.dll",
+      "sha256": "fd67abc4c4af10affbcd42fd68a2a7bc361b26714afe6965d4d0d139459d8297",
+      "bytes": 19256
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/System.Runtime.dll",
+      "sha256": "e0a7334b7ba419aaab6bd3bb6992d693e689341a9178172c9bf99c2aa6a085bd",
+      "bytes": 12288
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/System.Runtime.Serialization.dll",
+      "sha256": "685123acdbb6ac313e503e89f4831fed096be838ccb000b85b33ee903562807f",
+      "bytes": 934400
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/System.Security.dll",
+      "sha256": "02d51b98dc8c877124fea386c9fbf7264790aae381ab15577eb0e2d082d1bcc4",
+      "bytes": 320000
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/System.ServiceModel.Internals.dll",
+      "sha256": "077333adc8bf20eb40e94d1909db2d07a16925a9192b69064f34eaf128804c8b",
+      "bytes": 215040
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/System.Transactions.dll",
+      "sha256": "6557e5029469211193ccec80dd4d3ad090f5eb87d80f5d5341d77a6d3506b64b",
+      "bytes": 35328
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/System.Xml.dll",
+      "sha256": "32129a7d847a5efeacee6bd4b0d6bbffc8923551c5446a8c216d8ef1191b1de1",
+      "bytes": 3160064
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/System.Xml.Linq.dll",
+      "sha256": "fd300e794b9ccd85d95bbab54e282da1333faa20a9209457944e831c27452b00",
+      "bytes": 136704
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/Unity.Burst.dll",
+      "sha256": "08e8358e406ef86f30c264418427e8ed2aced00b2b9fd3ca5923c54f753bc145",
+      "bytes": 304640
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/Unity.Burst.Unsafe.dll",
+      "sha256": "9d9c1ff52411decbee5d9f0d1cd61ebeaa222077aa77a52101ea3debafae98e2",
+      "bytes": 5632
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/Unity.Collections.dll",
+      "sha256": "e244a4aa1bf12649678bf0f4f01a73881bb9ccf2320124e7c78c580415fc2e17",
+      "bytes": 461824
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/Unity.Collections.LowLevel.ILSupport.dll",
+      "sha256": "ff50383f807f9692e4913b97e47d86fefcb8faa33d6d48cd3e3fd6fc7ffb448d",
+      "bytes": 5120
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/Unity.InputSystem.dll",
+      "sha256": "fb87444eacc5b0241c56f60dada23e4a8cbf5a27fc5fd206a2e2d75be29d2afc",
+      "bytes": 1131520
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/Unity.InputSystem.ForUI.dll",
+      "sha256": "544770136d593852f2f724bdfd0b91a967f49e9d4aab2e483a7ae94de0779a12",
+      "bytes": 16384
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/Unity.InternalAPIEngineBridge.004.dll",
+      "sha256": "b84c7e1ea156f5010619ca48ef444b07bd5ba4e51f598864d5cf8bca6d85ca45",
+      "bytes": 5120
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/Unity.InternalAPIEngineBridge.RenderPipelines.Core.Runtime.Shared.dll",
+      "sha256": "0d8bef61b6ea4e44e179d3a8e191e1ce13db5b53b230489a4c3ec0403225df52",
+      "bytes": 4096
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/Unity.Mathematics.dll",
+      "sha256": "047e1faa2475e1b22d960f427b180ecca99d57f6f3cf1591e953fa5d663603ec",
+      "bytes": 6144
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/Unity.PathTracing.Runtime.dll",
+      "sha256": "35fb6f95b4b5b662f829cebc9f7b98bf39c541bd31f9b56d278d2bbc9b16752e",
+      "bytes": 153600
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/Unity.RenderPipeline.Universal.ShaderLibrary.dll",
+      "sha256": "c5b1f3517b024a6ad477eb557fd8502320f6324730d91d05320b70e884ba927e",
+      "bytes": 9216
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/Unity.RenderPipelines.Core.Runtime.dll",
+      "sha256": "57fbad220c5767c7dea63b262c5c315e307cacfd9ea7a46df6fe74f5b3de325a",
+      "bytes": 1139712
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/Unity.RenderPipelines.Core.Runtime.Shared.dll",
+      "sha256": "36b43a9cc78256c8d6a42d10fad096838bb4b9fd00af8a479c9e4918f82369af",
+      "bytes": 12800
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/Unity.RenderPipelines.Core.ShaderLibrary.dll",
+      "sha256": "5278ac37242dae976fcb3ff3f001da3f8908bd796a034080ab0641b47fdfd79d",
+      "bytes": 4608
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/Unity.RenderPipelines.GPUDriven.Runtime.dll",
+      "sha256": "1a7d44952105bca229297bba9ab7f35a43ca2b44ef96175379e6f4bd4472ef7a",
+      "bytes": 281088
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.dll",
+      "sha256": "2e66b955376d6f108fbb86eeecd67f2d597f586da7055708cc0fdfe221e300c4",
+      "bytes": 4608
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/Unity.RenderPipelines.Universal.2D.Runtime.dll",
+      "sha256": "eaaab8f8e362125ce259b5b646694cf24c8a553a5389a973325be34c1897aaa7",
+      "bytes": 211456
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/Unity.RenderPipelines.Universal.Config.Runtime.dll",
+      "sha256": "d30d71d325a8b55dd294efde4b46f7dc808235487a167aa6277358fde94a7d1a",
+      "bytes": 5632
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/Unity.RenderPipelines.Universal.Runtime.dll",
+      "sha256": "a8406584275edbc4840aa307d28c635ec4e6ce7abb53b6e3c9dc3b47e8d89ef7",
+      "bytes": 756224
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/Unity.RenderPipelines.Universal.Shaders.dll",
+      "sha256": "b18b88a528288f45f22844f5e9670e73f913260e72f7ddca81b252d042cb0771",
+      "bytes": 4608
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/Unity.Scripting.dll",
+      "sha256": "149f005343f80f90a8c15b031b1f7d372adea6e1179dca807ffc332397ac8e12",
+      "bytes": 68528
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/Unity.SurfaceCache.Runtime.dll",
+      "sha256": "426a50983f190def1a62dd9ebdf217f6a462d3338fd84e725f10abe089c0ebc0",
+      "bytes": 4096
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/Unity.TextMeshPro.dll",
+      "sha256": "56324756771023dfec2c184a2395cd3f53e8356406aed381c8d8495f122aa692",
+      "bytes": 449536
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/Unity.UnifiedRayTracing.Runtime.dll",
+      "sha256": "b24c53251959319dc31f2dd6a084fefe747b836093fc35a18baf2ff1da6fc55d",
+      "bytes": 99328
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.AccessibilityModule.dll",
+      "sha256": "3d32a89e98433ca2d1a5208339563fa900ca898e5a54ab2bdd26ba15e1cd7255",
+      "bytes": 49072
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.AdaptivePerformanceModule.dll",
+      "sha256": "471ad5c6534654e1c34f85758169303940606f5f6490d825c2fd8daf363083a4",
+      "bytes": 117680
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.AIModule.dll",
+      "sha256": "e6a11a7e2c32c9433508bdb29c02afb4647f4575acba4b5575e1cba519df3743",
+      "bytes": 86440
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.AMDModule.dll",
+      "sha256": "3f1517ac921ce41a71a2d8b74c27965ccf0234967af83543d830080722f81f4e",
+      "bytes": 21936
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.AndroidJNIModule.dll",
+      "sha256": "3959ea9b41069846f01b8d23552cda06106ba911bff955765170df8d33de461e",
+      "bytes": 120752
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.AnimationModule.dll",
+      "sha256": "b38fc0422caa9d0d8b5cecb8bf9ad51600ec25c14d0351b7652c458e0fcb827d",
+      "bytes": 218536
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.ARModule.dll",
+      "sha256": "24d0aa7fe16f05839bdd04e346e100bfe4dac299e7e327294b4757e1abeb002e",
+      "bytes": 27056
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.AssetBundleModule.dll",
+      "sha256": "cd04da6e129dca6b427e2ed79d8cd8201d5292b2cc2d88c0e9ec061e295d4f03",
+      "bytes": 42416
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.AudioModule.dll",
+      "sha256": "0ae8ce7733590fd87abb0f95cc81fd3e0f9cd324ea5c49fbc88a585ce86c116e",
+      "bytes": 142768
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.ClothModule.dll",
+      "sha256": "b438862a62b83b8d74d48ad86bf689421f0a9bfbe47ad8a04e82892dc9878e0c",
+      "bytes": 37296
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.ClusterInputModule.dll",
+      "sha256": "38e9184c28ff37efb9d2abb7040732fa529a91d03b6cc4d9bcd060d1d2c74e4a",
+      "bytes": 29096
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.ClusterRendererModule.dll",
+      "sha256": "d168b1df08c9b3e3c1664ae7891561a2c2658205ae15f85c81a6b588d2153c80",
+      "bytes": 28072
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.ContentLoadModule.dll",
+      "sha256": "a981b7883351a0606f37a23251406238979b820648698c1d1edf0646839135ed",
+      "bytes": 46512
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.CoreModule.dll",
+      "sha256": "0810323ebf65d64523108e83d638ebbedfb006191393c5e8577786e23e929bfe",
+      "bytes": 1973672
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.CrashReportingModule.dll",
+      "sha256": "44d6514f01a4d6c697d4f15edec04a26efcf7ca3ce98efcbce3d5bc2f36f9b68",
+      "bytes": 28072
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.DirectorModule.dll",
+      "sha256": "703b3b3401eb65e5b3376e4d6ab94f337d6e30d06b71754d29dfbc7e99dbc0e8",
+      "bytes": 41896
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.dll",
+      "sha256": "afdbf24d77ff482d9da786ab73b304189439ec5167dbee43aa8c7a86b4f86804",
+      "bytes": 210352
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.DSPGraphModule.dll",
+      "sha256": "5fb490c7efa1154ff51c60e71ed44eeaf8e265a03efc1f72d55816b074f55dda",
+      "bytes": 32680
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.GameCenterModule.dll",
+      "sha256": "4ff5e647c0dc2f35a548b97af3680f980a5b0b1dd9dd05a71005250e16577c58",
+      "bytes": 45480
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.GIModule.dll",
+      "sha256": "64ffd723c2cf28a3d6064a53b9ad9f78428c11bd760048fb022cf0fc423b1806",
+      "bytes": 25520
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.GraphicsStateCollectionSerializerModule.dll",
+      "sha256": "c8e58d2af8936cb2849929580f60a12d36ca7f596ae8c0d5de186f3d1755a9bf",
+      "bytes": 14248
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.GridModule.dll",
+      "sha256": "77bb300a93257adc8e347fa152eeeabfd72a3def4de131af6b4214c2e4e6151c",
+      "bytes": 32176
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.HierarchyCoreModule.dll",
+      "sha256": "d0ccbb6733e1b1576f762e1bb17045a4c00b101952f23bbda67842a4d96601dd",
+      "bytes": 105392
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.HierarchyModule.dll",
+      "sha256": "4b16eca4cc8bc6fd0e1dbcb5777d228ce30817233b34260ea09c082a1b73ff23",
+      "bytes": 100264
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.HotReloadModule.dll",
+      "sha256": "524c26925fcfc88f9315c87c81912332d107780c5879181204c24b35c0546fdf",
+      "bytes": 25512
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.IdentifiersModule.dll",
+      "sha256": "6e2cf1adf38dd614a63929a5ecd78767370cb383c26cbf03c87c34ed800ebabb",
+      "bytes": 16816
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.ImageConversionModule.dll",
+      "sha256": "de8a48dff5e5a3da6fc37c6e22109559655560580b197c993ecd4acfaeed9734",
+      "bytes": 33704
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.IMGUIModule.dll",
+      "sha256": "402e4b8af84b27dd69b1c34529b8da4623ea69b182944afce756a302f74034bc",
+      "bytes": 188840
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.InputForUIModule.dll",
+      "sha256": "cb5e1ca046a59fc627b0bd050e5a83a60631cf0bc1ea028e2b65b71dafce2641",
+      "bytes": 55728
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.InputLegacyModule.dll",
+      "sha256": "91ee69856dbac475789d75eb888d015413c7b95863c8b03388318f1e1a4b8b52",
+      "bytes": 41896
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.InputModule.dll",
+      "sha256": "5194a4da97b5a30294b14a0f7120e07570524555c167b82f9fba77ee09df57a4",
+      "bytes": 30632
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.InsightsModule.dll",
+      "sha256": "d6fc5d25692e614c999678377bc72995794707c783cfea50e7e3a6d81be905a3",
+      "bytes": 15784
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.JSONSerializeModule.dll",
+      "sha256": "8ef5b2bcbb1de1600bf3289201db600a717f267cba476d13ab6a50538489f83b",
+      "bytes": 28080
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.LocalizationModule.dll",
+      "sha256": "1857be20ec5333df256b517d60b1b47f3d721780fc1e09a65001d49840974416",
+      "bytes": 28080
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.MarshallingModule.dll",
+      "sha256": "62db3f2cfd472f35b021c88c8247d5884f8508db4ef227e0c9c85e0426737a23",
+      "bytes": 97200
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.MathematicsModule.dll",
+      "sha256": "940df9bd7793b5ed07cf56b182d559068dfa1cda88340cfd7550cbeb214ce87d",
+      "bytes": 740784
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.MultiplayerModule.dll",
+      "sha256": "d40fead2a5ee128562e95b9ccb31005f458300285e917eafeb0333e51e04be99",
+      "bytes": 17832
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.NVIDIAModule.dll",
+      "sha256": "7c1cfb9a2463ed47c524bb79d177ad58e0f455a3f3555380b78874e11357566e",
+      "bytes": 40360
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.ParticleSystemModule.dll",
+      "sha256": "eafc04d26a5530cd89a2f82ade76b3184e3f208a3ef220be46d4240c0632dccd",
+      "bytes": 168872
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.PerformanceReportingModule.dll",
+      "sha256": "aa949babba6f92050abb093bcec73e4362cb966a31e243664cb52051cc8fdb9d",
+      "bytes": 26544
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.Physics2DModule.dll",
+      "sha256": "7ac453e0c7afed358e428f099ea4fb5a5c534560a0dadda8961eb2f37a44209a",
+      "bytes": 222120
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.PhysicsBackendPhysXModule.dll",
+      "sha256": "3041c361cc395c7d02c2033568d26d8eaf8df0e5568eb412833e6383cba467d4",
+      "bytes": 14256
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.PhysicsCore2DModule.dll",
+      "sha256": "5764f78cd1e0d7a1ca0d58b1f1b21614742ec00c97038d0cfd99e23a9a58b3b6",
+      "bytes": 450472
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.PhysicsModule.dll",
+      "sha256": "1eb22f9aad8a26ee4add54534757d28439e7817700aacdd8735f6cb1133a914a",
+      "bytes": 180144
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.PropertiesModule.dll",
+      "sha256": "05a10f6c128681434f71d3a30c28bb2e8469f0db812aabe6fa52b6295ec5eae7",
+      "bytes": 124336
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.RenderAs2DModule.dll",
+      "sha256": "ca0356d1a5a13792f88cf166989c947abfa404f255dedee93c92015cb9e41e26",
+      "bytes": 27048
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.RuntimeInitializeOnLoadManagerInitializerModule.dll",
+      "sha256": "4e120cca29c0c535d6a53ea19a24f686ca5e5ad558b351897bf26587b9e94141",
+      "bytes": 25520
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.ScreenCaptureModule.dll",
+      "sha256": "63e04c54331797e0ea80b21542775a1d3312009eec27233490aba8ba867bfb39",
+      "bytes": 27568
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.ScriptingModule.dll",
+      "sha256": "1f013095b7904b66b4289eb045c24ebe96a9a154e831a70b20aff26a0f05894b",
+      "bytes": 27560
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.ShaderVariantAnalyticsModule.dll",
+      "sha256": "3f78b047d406a0aa6724d253e526ecb4cf49888d19f6b4bee904ac1c3949ed20",
+      "bytes": 25512
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.SharedInternalsModule.dll",
+      "sha256": "9f523dfa581071dbd7c06859eafed59807fb30ba124189fd260f0a2e167ccdaa",
+      "bytes": 36784
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.SpriteMaskModule.dll",
+      "sha256": "37bd831234c11aeb7a90bc7d21e6d385a7ea19ec5a646cb68cf574e2ac06b085",
+      "bytes": 29616
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.SpriteShapeModule.dll",
+      "sha256": "75e3b4f49ef3a7f0079fff0319f2d0a3e602bdd2663f54dc61b62b50e3a012e1",
+      "bytes": 33712
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.StreamingModule.dll",
+      "sha256": "fdfeff40c03c2ae0c29a2ec4e63397d0f328385f78056a0d45d831bb990cb0f2",
+      "bytes": 27056
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.SubstanceModule.dll",
+      "sha256": "65fc52b083a749455b5da879c2edc07deb11b7f793a9ef90847ee016c292e592",
+      "bytes": 30632
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.SubsystemsModule.dll",
+      "sha256": "6b485109474ae4b22f6cbb6e1c02413cf1e562a467c0224568581fdc78e4d5cd",
+      "bytes": 42408
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.TerrainModule.dll",
+      "sha256": "f7b0cad73fcc0e6857738e53221b98b594419872b751fd9b92e88bbce3c2b9c2",
+      "bytes": 131504
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.TerrainPhysicsModule.dll",
+      "sha256": "9a960f2fc0652604a3e0496e02931be9bb05a369cb6a326ab9e48137cf569ade",
+      "bytes": 27048
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.TextCoreFontEngineModule.dll",
+      "sha256": "f91333e6a02cb607c35e8f327255673a42288e84aa7acc6812bcb5c21a645134",
+      "bytes": 77744
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.TextCoreTextEngineModule.dll",
+      "sha256": "d5220ae63b1194e698ab702389688f635aabe5114a36bedc78ef441d8debb78e",
+      "bytes": 331184
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.TextRenderingModule.dll",
+      "sha256": "b4ed59e8bdd74af4746e0eb255c185e13a9a23af1dde68177aa6756fedf725ca",
+      "bytes": 38832
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.TilemapModule.dll",
+      "sha256": "8372408814c57c9bd665afdb428176dfd643deb406c093682930ed97cb543b4e",
+      "bytes": 75176
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.TLSModule.dll",
+      "sha256": "c5572db8328b7c8128c5d716ff58ae813ab953a396801d5d05e6d8baa873f75d",
+      "bytes": 33192
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.U2DRuntimeModule.dll",
+      "sha256": "7de9ebf4cef608ca66402444dc2a19f0c147e6a9f5d9a20aeb6b68e050a60158",
+      "bytes": 26536
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.UI.dll",
+      "sha256": "3fa4e4bf1992ad841844365b1030a566a002e09f41257017d4cbccdd18e19903",
+      "bytes": 276992
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.UIElementsModule.dll",
+      "sha256": "af8a36b5c1d63c89cfcb56b21e95925c27f8f5c6896619e6927fd154c4465697",
+      "bytes": 2348976
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.UIModule.dll",
+      "sha256": "fe0d483c9a7cd12590a306b75a90d7d1dc5546acefb470365f744210163cdc86",
+      "bytes": 54192
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.UmbraModule.dll",
+      "sha256": "9f41287243babcb40bffbc7d87493876fff37db65e70c3d4ee61c8653fcf3974",
+      "bytes": 25520
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.UnityAnalyticsCommonModule.dll",
+      "sha256": "a197403b99eed031fb04a2e456b427daa506c81a5fb79dd072bf00b833e51e1e",
+      "bytes": 35760
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.UnityAnalyticsModule.dll",
+      "sha256": "70943395f5e8863fee8a8dfd8de7c3fdf89814b718ae42a932c7350825319bbd",
+      "bytes": 60328
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.UnityConnectModule.dll",
+      "sha256": "837792b9444a66be640197d1e2b9209cb6afa97cb5e13e4fe618f755847ec3a1",
+      "bytes": 29104
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.UnityConsentModule.dll",
+      "sha256": "4144dda8b763edba910234221e7ac6b8b0b700ac6d9871253a3823b4fbc1e839",
+      "bytes": 16296
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.UnityCurlModule.dll",
+      "sha256": "0401c35987384c2e4076666462fc0b6b8f0c047e0595db21142eb347726f6a8c",
+      "bytes": 27568
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.UnityWebRequestAssetBundleModule.dll",
+      "sha256": "1535a8a733970bdd9aa68adbf44cdd6c006abea05d85ffd096678778d5b59041",
+      "bytes": 30128
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.UnityWebRequestAudioModule.dll",
+      "sha256": "bc3b6c43a06d4f90ed5d3f640cd71bfe75fb53b7f4213cc2c388412753ec320f",
+      "bytes": 29608
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.UnityWebRequestModule.dll",
+      "sha256": "539ba3d11ad5e8560ad035fe96abd0f3584da2080d2dbce27c0242d4c3d9f9b0",
+      "bytes": 79272
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.UnityWebRequestTextureModule.dll",
+      "sha256": "11a54d82dd9ff2ed1505093c88796958b701768bb6c932d04e89d396343a55de",
+      "bytes": 28592
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.UnityWebRequestWWWModule.dll",
+      "sha256": "f5a84e0bc3f6a85aecf40cb3687c756ab0d02a9ad85fc57a9f01766be795527b",
+      "bytes": 36784
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.VectorGraphicsModule.dll",
+      "sha256": "5314657fb4fc4716bbd668675ce28ea52ab34da35b18ab1bbfbe2769b6232636",
+      "bytes": 227760
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.VehiclesModule.dll",
+      "sha256": "e53b8981ff0a9945b19f26e95638a3d68a3d7fbf5fae88950b6d82548f06334e",
+      "bytes": 32680
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.VFXModule.dll",
+      "sha256": "86620abdda181d099ca13f4efbf12fbaabea7c5e0e4b5b70da66c5fa019ec44b",
+      "bytes": 81840
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.VideoModule.dll",
+      "sha256": "8abdefb3e8d33d092708e91214c9fdb9190f189cb8eb1c11b644ac25cbef8f8f",
+      "bytes": 48552
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.VirtualTexturingModule.dll",
+      "sha256": "6400a418f6f72b23f45a9df2a20f6fb1bdf0fb01d80955e23b0a44afabbcfe0a",
+      "bytes": 43440
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.WindModule.dll",
+      "sha256": "d3f04f87fa97ceff69bf1446b60ab47b878e2e521f0ed8ba732f54a3d3ead773",
+      "bytes": 28080
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Managed/UnityEngine.XRModule.dll",
+      "sha256": "258e403801e641793369abc9f12a37a62eb5d7c174dad3842dd8ee30dda8ede4",
+      "bytes": 95656
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Plugins/x86_64/lib_burst_generated.dll",
+      "sha256": "bec7665e1ab2c7a5ce48e5f261a5270a10ae739e95b1f65d52ab9e923fabf047",
+      "bytes": 448000
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Resources/unity default resources",
+      "sha256": "1fbaff511bdec6cf276529de02215fee9fdcf7298ea9d7c49dc6b984ee73a7f5",
+      "bytes": 5881648
+    },
+    {
+      "path": "Player/SpatialIndirectStudy_Data/Resources/unity_builtin_extra",
+      "sha256": "48c8072962cb75f9e8e0945d44cdeb9c479c78cbaa94bbfe3214574c06aabf71",
+      "bytes": 405368
+    }
+  ],
+  "note": "Core measurements predate addition of the separate game-camera test harness; rendering/transport/publication sources remain identical."
+}

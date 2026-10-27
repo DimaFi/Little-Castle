@@ -1,0 +1,1 @@
+PASS coherent snapshots, preview isolation, geometry barrier (temporal mode), rapid undo/move, exact final transport.

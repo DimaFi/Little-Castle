@@ -1,0 +1,2360 @@
+{
+    "views": [
+        {
+            "name": "game-12.0-d11",
+            "hour": 12.0,
+            "requestedDistance": 11.0,
+            "distance": 11.0,
+            "pitch": 42.000003814697269,
+            "fov": 50.0,
+            "fogStart": 84.0,
+            "fogEnd": 178.5,
+            "shadowDistance": 90.0,
+            "position": {
+                "x": -8.688753128051758,
+                "y": 7.369442462921143,
+                "z": -1.6962356567382813
+            },
+            "focus": {
+                "x": -4.0,
+                "y": 0.009006195701658726,
+                "z": 5.0
+            },
+            "grass": {
+                "lodClumps": [
+                    1815,
+                    1331,
+                    0,
+                    0
+                ],
+                "visiblePatches": 26,
+                "clumps": 3146,
+                "triangles": 325248,
+                "drawCalls": 7,
+                "forceFullDetail": false
+            },
+            "oaks": [
+                {
+                    "name": "Oak_B_Study",
+                    "expectedLod": 0,
+                    "rendererVisibleIndicators": [
+                        1,
+                        0,
+                        0
+                    ],
+                    "screenHeight": 0.16473528742790223,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_A_Study",
+                    "expectedLod": 0,
+                    "rendererVisibleIndicators": [
+                        1,
+                        0,
+                        0
+                    ],
+                    "screenHeight": 0.28346145153045657,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_A_Study",
+                    "expectedLod": 1,
+                    "rendererVisibleIndicators": [
+                        0,
+                        1,
+                        0
+                    ],
+                    "screenHeight": 0.09879439324140549,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_D_Study",
+                    "expectedLod": 1,
+                    "rendererVisibleIndicators": [
+                        0,
+                        1,
+                        0
+                    ],
+                    "screenHeight": 0.09799207001924515,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_C_Study",
+                    "expectedLod": 1,
+                    "rendererVisibleIndicators": [
+                        0,
+                        1,
+                        0
+                    ],
+                    "screenHeight": 0.13932646811008454,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_B_Study",
+                    "expectedLod": 1,
+                    "rendererVisibleIndicators": [
+                        0,
+                        1,
+                        0
+                    ],
+                    "screenHeight": 0.11894912272691727,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                }
+            ],
+            "benchmarkOffset": 0
+        },
+        {
+            "name": "game-12.0-d35",
+            "hour": 12.0,
+            "requestedDistance": 35.0,
+            "distance": 35.0,
+            "pitch": 50.0000114440918,
+            "fov": 50.0,
+            "fogStart": 84.0,
+            "fogEnd": 178.5,
+            "shadowDistance": 90.0,
+            "position": {
+                "x": -16.904071807861329,
+                "y": 26.838592529296876,
+                "z": -13.42892837524414
+            },
+            "focus": {
+                "x": -4.0,
+                "y": 0.02703937515616417,
+                "z": 5.0
+            },
+            "grass": {
+                "lodClumps": [
+                    0,
+                    9801,
+                    484,
+                    0
+                ],
+                "visiblePatches": 85,
+                "clumps": 10285,
+                "triangles": 480128,
+                "drawCalls": 21,
+                "forceFullDetail": false
+            },
+            "oaks": [
+                {
+                    "name": "Oak_B_Study",
+                    "expectedLod": 1,
+                    "rendererVisibleIndicators": [
+                        0,
+                        1,
+                        0
+                    ],
+                    "screenHeight": 0.11653902381658554,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_A_Study",
+                    "expectedLod": 0,
+                    "rendererVisibleIndicators": [
+                        1,
+                        0,
+                        0
+                    ],
+                    "screenHeight": 0.16534259915351869,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_A_Study",
+                    "expectedLod": 1,
+                    "rendererVisibleIndicators": [
+                        0,
+                        1,
+                        0
+                    ],
+                    "screenHeight": 0.08397489786148071,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_D_Study",
+                    "expectedLod": 1,
+                    "rendererVisibleIndicators": [
+                        0,
+                        1,
+                        0
+                    ],
+                    "screenHeight": 0.07760787010192871,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_C_Study",
+                    "expectedLod": 1,
+                    "rendererVisibleIndicators": [
+                        0,
+                        1,
+                        0
+                    ],
+                    "screenHeight": 0.11165442317724228,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_B_Study",
+                    "expectedLod": 1,
+                    "rendererVisibleIndicators": [
+                        0,
+                        1,
+                        0
+                    ],
+                    "screenHeight": 0.09263362735509873,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                }
+            ],
+            "benchmarkOffset": 2
+        },
+        {
+            "name": "game-12.0-d75",
+            "hour": 12.0,
+            "requestedDistance": 75.0,
+            "distance": 75.0,
+            "pitch": 57.0,
+            "fov": 50.0,
+            "fogStart": 84.0,
+            "fogEnd": 178.5,
+            "shadowDistance": 90.0,
+            "position": {
+                "x": -27.429410934448243,
+                "y": 62.91530227661133,
+                "z": -28.460670471191408
+            },
+            "focus": {
+                "x": -4.0,
+                "y": 0.015010243281722069,
+                "z": 5.0
+            },
+            "grass": {
+                "lodClumps": [
+                    0,
+                    4840,
+                    7260,
+                    5687
+                ],
+                "visiblePatches": 147,
+                "clumps": 17787,
+                "triangles": 423016,
+                "drawCalls": 37,
+                "forceFullDetail": false
+            },
+            "oaks": [
+                {
+                    "name": "Oak_B_Study",
+                    "expectedLod": 1,
+                    "rendererVisibleIndicators": [
+                        0,
+                        1,
+                        0
+                    ],
+                    "screenHeight": 0.07535205781459809,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_A_Study",
+                    "expectedLod": 1,
+                    "rendererVisibleIndicators": [
+                        0,
+                        1,
+                        0
+                    ],
+                    "screenHeight": 0.083433136343956,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_A_Study",
+                    "expectedLod": 1,
+                    "rendererVisibleIndicators": [
+                        0,
+                        1,
+                        0
+                    ],
+                    "screenHeight": 0.060888610780239108,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_D_Study",
+                    "expectedLod": 1,
+                    "rendererVisibleIndicators": [
+                        0,
+                        1,
+                        0
+                    ],
+                    "screenHeight": 0.056279219686985019,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_C_Study",
+                    "expectedLod": 1,
+                    "rendererVisibleIndicators": [
+                        0,
+                        1,
+                        0
+                    ],
+                    "screenHeight": 0.07374339550733566,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_B_Study",
+                    "expectedLod": 1,
+                    "rendererVisibleIndicators": [
+                        0,
+                        1,
+                        0
+                    ],
+                    "screenHeight": 0.06584224104881287,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                }
+            ],
+            "benchmarkOffset": 4
+        },
+        {
+            "name": "game-12.0-d115",
+            "hour": 12.0,
+            "requestedDistance": 115.0,
+            "distance": 115.0,
+            "pitch": 62.000003814697269,
+            "fov": 50.0,
+            "fogStart": 84.0,
+            "fogEnd": 178.5,
+            "shadowDistance": 90.0,
+            "position": {
+                "x": -34.966949462890628,
+                "y": 101.54721069335938,
+                "z": -39.22539138793945
+            },
+            "focus": {
+                "x": -4.0,
+                "y": 0.008231342770159245,
+                "z": 5.0
+            },
+            "grass": {
+                "lodClumps": [
+                    0,
+                    0,
+                    0,
+                    13794
+                ],
+                "visiblePatches": 114,
+                "clumps": 13794,
+                "triangles": 110352,
+                "drawCalls": 28,
+                "forceFullDetail": false
+            },
+            "oaks": [
+                {
+                    "name": "Oak_B_Study",
+                    "expectedLod": 2,
+                    "rendererVisibleIndicators": [
+                        0,
+                        0,
+                        1
+                    ],
+                    "screenHeight": 0.054821696132421496,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_A_Study",
+                    "expectedLod": 2,
+                    "rendererVisibleIndicators": [
+                        0,
+                        0,
+                        1
+                    ],
+                    "screenHeight": 0.05462377890944481,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_A_Study",
+                    "expectedLod": 2,
+                    "rendererVisibleIndicators": [
+                        0,
+                        0,
+                        1
+                    ],
+                    "screenHeight": 0.04575351998209953,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_D_Study",
+                    "expectedLod": 2,
+                    "rendererVisibleIndicators": [
+                        0,
+                        0,
+                        1
+                    ],
+                    "screenHeight": 0.04348309710621834,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_C_Study",
+                    "expectedLod": 2,
+                    "rendererVisibleIndicators": [
+                        0,
+                        0,
+                        1
+                    ],
+                    "screenHeight": 0.05278926342725754,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_B_Study",
+                    "expectedLod": 2,
+                    "rendererVisibleIndicators": [
+                        0,
+                        0,
+                        1
+                    ],
+                    "screenHeight": 0.050275154411792758,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                }
+            ],
+            "benchmarkOffset": 6
+        },
+        {
+            "name": "game-12.0-d190",
+            "hour": 12.0,
+            "requestedDistance": 190.0,
+            "distance": 190.0,
+            "pitch": 68.00001525878906,
+            "fov": 50.0,
+            "fogStart": 84.0,
+            "fogEnd": 178.5,
+            "shadowDistance": 90.0,
+            "position": {
+                "x": -44.8244514465332,
+                "y": 176.21876525878907,
+                "z": -53.303367614746097
+            },
+            "focus": {
+                "x": -4.0,
+                "y": 0.053851641714572909,
+                "z": 5.0
+            },
+            "grass": {
+                "lodClumps": [
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "visiblePatches": 0,
+                "clumps": 0,
+                "triangles": 0,
+                "drawCalls": 0,
+                "forceFullDetail": false
+            },
+            "oaks": [
+                {
+                    "name": "Oak_B_Study",
+                    "expectedLod": 2,
+                    "rendererVisibleIndicators": [
+                        0,
+                        0,
+                        1
+                    ],
+                    "screenHeight": 0.03575476258993149,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_A_Study",
+                    "expectedLod": 2,
+                    "rendererVisibleIndicators": [
+                        0,
+                        0,
+                        1
+                    ],
+                    "screenHeight": 0.032891470938920978,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_A_Study",
+                    "expectedLod": 2,
+                    "rendererVisibleIndicators": [
+                        0,
+                        0,
+                        1
+                    ],
+                    "screenHeight": 0.030270326882600786,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_D_Study",
+                    "expectedLod": 2,
+                    "rendererVisibleIndicators": [
+                        0,
+                        0,
+                        1
+                    ],
+                    "screenHeight": 0.029884103685617448,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_C_Study",
+                    "expectedLod": 2,
+                    "rendererVisibleIndicators": [
+                        0,
+                        0,
+                        1
+                    ],
+                    "screenHeight": 0.03362774848937988,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_B_Study",
+                    "expectedLod": 2,
+                    "rendererVisibleIndicators": [
+                        0,
+                        0,
+                        1
+                    ],
+                    "screenHeight": 0.03417779132723808,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                }
+            ],
+            "benchmarkOffset": 8
+        },
+        {
+            "name": "game-18.5-d11",
+            "hour": 18.5,
+            "requestedDistance": 11.0,
+            "distance": 11.0,
+            "pitch": 42.000003814697269,
+            "fov": 50.0,
+            "fogStart": 80.875,
+            "fogEnd": 173.8125,
+            "shadowDistance": 90.0,
+            "position": {
+                "x": -8.688753128051758,
+                "y": 7.369292259216309,
+                "z": -1.6962356567382813
+            },
+            "focus": {
+                "x": -4.0,
+                "y": 0.008855685591697693,
+                "z": 5.0
+            },
+            "grass": {
+                "lodClumps": [
+                    1815,
+                    1331,
+                    0,
+                    0
+                ],
+                "visiblePatches": 26,
+                "clumps": 3146,
+                "triangles": 325248,
+                "drawCalls": 7,
+                "forceFullDetail": false
+            },
+            "oaks": [
+                {
+                    "name": "Oak_B_Study",
+                    "expectedLod": 0,
+                    "rendererVisibleIndicators": [
+                        1,
+                        0,
+                        0
+                    ],
+                    "screenHeight": 0.1647353321313858,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_A_Study",
+                    "expectedLod": 0,
+                    "rendererVisibleIndicators": [
+                        1,
+                        0,
+                        0
+                    ],
+                    "screenHeight": 0.2834615409374237,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_A_Study",
+                    "expectedLod": 1,
+                    "rendererVisibleIndicators": [
+                        0,
+                        1,
+                        0
+                    ],
+                    "screenHeight": 0.09879440069198609,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_D_Study",
+                    "expectedLod": 1,
+                    "rendererVisibleIndicators": [
+                        0,
+                        1,
+                        0
+                    ],
+                    "screenHeight": 0.09799207746982575,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_C_Study",
+                    "expectedLod": 1,
+                    "rendererVisibleIndicators": [
+                        0,
+                        1,
+                        0
+                    ],
+                    "screenHeight": 0.13932649791240693,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_B_Study",
+                    "expectedLod": 1,
+                    "rendererVisibleIndicators": [
+                        0,
+                        1,
+                        0
+                    ],
+                    "screenHeight": 0.11894913762807846,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                }
+            ],
+            "benchmarkOffset": 10
+        },
+        {
+            "name": "game-18.5-d35",
+            "hour": 18.5,
+            "requestedDistance": 35.0,
+            "distance": 35.0,
+            "pitch": 50.0000114440918,
+            "fov": 50.0,
+            "fogStart": 80.875,
+            "fogEnd": 173.8125,
+            "shadowDistance": 90.0,
+            "position": {
+                "x": -16.904071807861329,
+                "y": 26.825843811035158,
+                "z": -13.42892837524414
+            },
+            "focus": {
+                "x": -4.0,
+                "y": 0.014290502294898034,
+                "z": 5.0
+            },
+            "grass": {
+                "lodClumps": [
+                    0,
+                    9801,
+                    484,
+                    0
+                ],
+                "visiblePatches": 85,
+                "clumps": 10285,
+                "triangles": 480128,
+                "drawCalls": 21,
+                "forceFullDetail": false
+            },
+            "oaks": [
+                {
+                    "name": "Oak_B_Study",
+                    "expectedLod": 1,
+                    "rendererVisibleIndicators": [
+                        0,
+                        1,
+                        0
+                    ],
+                    "screenHeight": 0.1165476143360138,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_A_Study",
+                    "expectedLod": 0,
+                    "rendererVisibleIndicators": [
+                        1,
+                        0,
+                        0
+                    ],
+                    "screenHeight": 0.1653742492198944,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_A_Study",
+                    "expectedLod": 1,
+                    "rendererVisibleIndicators": [
+                        0,
+                        1,
+                        0
+                    ],
+                    "screenHeight": 0.08397950232028961,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_D_Study",
+                    "expectedLod": 1,
+                    "rendererVisibleIndicators": [
+                        0,
+                        1,
+                        0
+                    ],
+                    "screenHeight": 0.07761099189519882,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_C_Study",
+                    "expectedLod": 1,
+                    "rendererVisibleIndicators": [
+                        0,
+                        1,
+                        0
+                    ],
+                    "screenHeight": 0.11166325956583023,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_B_Study",
+                    "expectedLod": 1,
+                    "rendererVisibleIndicators": [
+                        0,
+                        1,
+                        0
+                    ],
+                    "screenHeight": 0.09263794869184494,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                }
+            ],
+            "benchmarkOffset": 12
+        },
+        {
+            "name": "game-18.5-d75",
+            "hour": 18.5,
+            "requestedDistance": 75.0,
+            "distance": 75.0,
+            "pitch": 57.0,
+            "fov": 50.0,
+            "fogStart": 80.875,
+            "fogEnd": 173.8125,
+            "shadowDistance": 90.0,
+            "position": {
+                "x": -27.429410934448243,
+                "y": 62.916831970214847,
+                "z": -28.460670471191408
+            },
+            "focus": {
+                "x": -4.0,
+                "y": 0.016541602090001107,
+                "z": 5.0
+            },
+            "grass": {
+                "lodClumps": [
+                    0,
+                    4840,
+                    7260,
+                    5687
+                ],
+                "visiblePatches": 147,
+                "clumps": 17787,
+                "triangles": 423016,
+                "drawCalls": 37,
+                "forceFullDetail": false
+            },
+            "oaks": [
+                {
+                    "name": "Oak_B_Study",
+                    "expectedLod": 1,
+                    "rendererVisibleIndicators": [
+                        0,
+                        1,
+                        0
+                    ],
+                    "screenHeight": 0.07535132020711899,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_A_Study",
+                    "expectedLod": 1,
+                    "rendererVisibleIndicators": [
+                        0,
+                        1,
+                        0
+                    ],
+                    "screenHeight": 0.08343180269002915,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_A_Study",
+                    "expectedLod": 1,
+                    "rendererVisibleIndicators": [
+                        0,
+                        1,
+                        0
+                    ],
+                    "screenHeight": 0.06088807061314583,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_D_Study",
+                    "expectedLod": 1,
+                    "rendererVisibleIndicators": [
+                        0,
+                        1,
+                        0
+                    ],
+                    "screenHeight": 0.056278832256793979,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_C_Study",
+                    "expectedLod": 1,
+                    "rendererVisibleIndicators": [
+                        0,
+                        1,
+                        0
+                    ],
+                    "screenHeight": 0.07374257594347,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_B_Study",
+                    "expectedLod": 1,
+                    "rendererVisibleIndicators": [
+                        0,
+                        1,
+                        0
+                    ],
+                    "screenHeight": 0.06584174931049347,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                }
+            ],
+            "benchmarkOffset": 14
+        },
+        {
+            "name": "game-18.5-d115",
+            "hour": 18.5,
+            "requestedDistance": 115.0,
+            "distance": 115.0,
+            "pitch": 62.000003814697269,
+            "fov": 50.0,
+            "fogStart": 80.875,
+            "fogEnd": 173.8125,
+            "shadowDistance": 90.0,
+            "position": {
+                "x": -34.966949462890628,
+                "y": 101.64385986328125,
+                "z": -39.22539138793945
+            },
+            "focus": {
+                "x": -4.0,
+                "y": 0.10488350689411164,
+                "z": 5.0
+            },
+            "grass": {
+                "lodClumps": [
+                    0,
+                    0,
+                    0,
+                    13794
+                ],
+                "visiblePatches": 114,
+                "clumps": 13794,
+                "triangles": 110352,
+                "drawCalls": 28,
+                "forceFullDetail": false
+            },
+            "oaks": [
+                {
+                    "name": "Oak_B_Study",
+                    "expectedLod": 2,
+                    "rendererVisibleIndicators": [
+                        0,
+                        0,
+                        1
+                    ],
+                    "screenHeight": 0.054792046546936038,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_A_Study",
+                    "expectedLod": 2,
+                    "rendererVisibleIndicators": [
+                        0,
+                        0,
+                        1
+                    ],
+                    "screenHeight": 0.054583627730607989,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_A_Study",
+                    "expectedLod": 2,
+                    "rendererVisibleIndicators": [
+                        0,
+                        0,
+                        1
+                    ],
+                    "screenHeight": 0.04572935774922371,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_D_Study",
+                    "expectedLod": 2,
+                    "rendererVisibleIndicators": [
+                        0,
+                        0,
+                        1
+                    ],
+                    "screenHeight": 0.04346432536840439,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_C_Study",
+                    "expectedLod": 2,
+                    "rendererVisibleIndicators": [
+                        0,
+                        0,
+                        1
+                    ],
+                    "screenHeight": 0.05275735259056091,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_B_Study",
+                    "expectedLod": 2,
+                    "rendererVisibleIndicators": [
+                        0,
+                        0,
+                        1
+                    ],
+                    "screenHeight": 0.0502522811293602,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                }
+            ],
+            "benchmarkOffset": 16
+        },
+        {
+            "name": "game-18.5-d190",
+            "hour": 18.5,
+            "requestedDistance": 190.0,
+            "distance": 190.0,
+            "pitch": 68.00001525878906,
+            "fov": 50.0,
+            "fogStart": 80.875,
+            "fogEnd": 173.8125,
+            "shadowDistance": 90.0,
+            "position": {
+                "x": -44.8244514465332,
+                "y": 176.16793823242188,
+                "z": -53.303367614746097
+            },
+            "focus": {
+                "x": -4.0,
+                "y": 0.003025264013558626,
+                "z": 5.0
+            },
+            "grass": {
+                "lodClumps": [
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "visiblePatches": 0,
+                "clumps": 0,
+                "triangles": 0,
+                "drawCalls": 0,
+                "forceFullDetail": false
+            },
+            "oaks": [
+                {
+                    "name": "Oak_B_Study",
+                    "expectedLod": 2,
+                    "rendererVisibleIndicators": [
+                        0,
+                        0,
+                        1
+                    ],
+                    "screenHeight": 0.035762425512075427,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_A_Study",
+                    "expectedLod": 2,
+                    "rendererVisibleIndicators": [
+                        0,
+                        0,
+                        1
+                    ],
+                    "screenHeight": 0.032899703830480579,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_A_Study",
+                    "expectedLod": 2,
+                    "rendererVisibleIndicators": [
+                        0,
+                        0,
+                        1
+                    ],
+                    "screenHeight": 0.03027682937681675,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_D_Study",
+                    "expectedLod": 2,
+                    "rendererVisibleIndicators": [
+                        0,
+                        0,
+                        1
+                    ],
+                    "screenHeight": 0.029889799654483796,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_C_Study",
+                    "expectedLod": 2,
+                    "rendererVisibleIndicators": [
+                        0,
+                        0,
+                        1
+                    ],
+                    "screenHeight": 0.033635463565588,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_B_Study",
+                    "expectedLod": 2,
+                    "rendererVisibleIndicators": [
+                        0,
+                        0,
+                        1
+                    ],
+                    "screenHeight": 0.03418448567390442,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                }
+            ],
+            "benchmarkOffset": 18
+        },
+        {
+            "name": "game-1.0-d11",
+            "hour": 1.0,
+            "requestedDistance": 11.0,
+            "distance": 11.0,
+            "pitch": 42.000003814697269,
+            "fov": 50.0,
+            "fogStart": 65.0,
+            "fogEnd": 150.0,
+            "shadowDistance": 90.0,
+            "position": {
+                "x": -8.688753128051758,
+                "y": 7.427607536315918,
+                "z": -1.6962356567382813
+            },
+            "focus": {
+                "x": -4.0,
+                "y": 0.06717105954885483,
+                "z": 5.0
+            },
+            "grass": {
+                "lodClumps": [
+                    1815,
+                    1331,
+                    0,
+                    0
+                ],
+                "visiblePatches": 26,
+                "clumps": 3146,
+                "triangles": 325248,
+                "drawCalls": 7,
+                "forceFullDetail": false
+            },
+            "oaks": [
+                {
+                    "name": "Oak_B_Study",
+                    "expectedLod": 0,
+                    "rendererVisibleIndicators": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "screenHeight": 0.1647217571735382,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_A_Study",
+                    "expectedLod": 0,
+                    "rendererVisibleIndicators": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "screenHeight": 0.2834237217903137,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_A_Study",
+                    "expectedLod": 1,
+                    "rendererVisibleIndicators": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "screenHeight": 0.09878940880298615,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_D_Study",
+                    "expectedLod": 1,
+                    "rendererVisibleIndicators": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "screenHeight": 0.0979895070195198,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_C_Study",
+                    "expectedLod": 1,
+                    "rendererVisibleIndicators": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "screenHeight": 0.13931959867477418,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_B_Study",
+                    "expectedLod": 1,
+                    "rendererVisibleIndicators": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "screenHeight": 0.11894397437572479,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                }
+            ],
+            "benchmarkOffset": 20
+        },
+        {
+            "name": "game-1.0-d35",
+            "hour": 1.0,
+            "requestedDistance": 35.0,
+            "distance": 35.0,
+            "pitch": 50.0000114440918,
+            "fov": 50.0,
+            "fogStart": 65.0,
+            "fogEnd": 150.0,
+            "shadowDistance": 90.0,
+            "position": {
+                "x": -16.904071807861329,
+                "y": 26.821928024291993,
+                "z": -13.42892837524414
+            },
+            "focus": {
+                "x": -4.0,
+                "y": 0.01037412229925394,
+                "z": 5.0
+            },
+            "grass": {
+                "lodClumps": [
+                    0,
+                    9801,
+                    484,
+                    0
+                ],
+                "visiblePatches": 85,
+                "clumps": 10285,
+                "triangles": 480128,
+                "drawCalls": 21,
+                "forceFullDetail": false
+            },
+            "oaks": [
+                {
+                    "name": "Oak_B_Study",
+                    "expectedLod": 1,
+                    "rendererVisibleIndicators": [
+                        0,
+                        1,
+                        0
+                    ],
+                    "screenHeight": 0.1165502518415451,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_A_Study",
+                    "expectedLod": 0,
+                    "rendererVisibleIndicators": [
+                        1,
+                        0,
+                        0
+                    ],
+                    "screenHeight": 0.1653839647769928,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_A_Study",
+                    "expectedLod": 1,
+                    "rendererVisibleIndicators": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "screenHeight": 0.08398091048002243,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_D_Study",
+                    "expectedLod": 1,
+                    "rendererVisibleIndicators": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "screenHeight": 0.07761196047067642,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_C_Study",
+                    "expectedLod": 1,
+                    "rendererVisibleIndicators": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "screenHeight": 0.11166597157716751,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_B_Study",
+                    "expectedLod": 1,
+                    "rendererVisibleIndicators": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "screenHeight": 0.0926392674446106,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                }
+            ],
+            "benchmarkOffset": 22
+        },
+        {
+            "name": "game-1.0-d75",
+            "hour": 1.0,
+            "requestedDistance": 75.0,
+            "distance": 75.0,
+            "pitch": 57.0,
+            "fov": 50.0,
+            "fogStart": 65.0,
+            "fogEnd": 150.0,
+            "shadowDistance": 90.0,
+            "position": {
+                "x": -27.429410934448243,
+                "y": 62.910884857177737,
+                "z": -28.460670471191408
+            },
+            "focus": {
+                "x": -4.0,
+                "y": 0.010595249943435192,
+                "z": 5.0
+            },
+            "grass": {
+                "lodClumps": [
+                    0,
+                    4840,
+                    7260,
+                    5687
+                ],
+                "visiblePatches": 147,
+                "clumps": 17787,
+                "triangles": 423016,
+                "drawCalls": 37,
+                "forceFullDetail": false
+            },
+            "oaks": [
+                {
+                    "name": "Oak_B_Study",
+                    "expectedLod": 1,
+                    "rendererVisibleIndicators": [
+                        0,
+                        1,
+                        0
+                    ],
+                    "screenHeight": 0.07535417377948761,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_A_Study",
+                    "expectedLod": 1,
+                    "rendererVisibleIndicators": [
+                        0,
+                        1,
+                        0
+                    ],
+                    "screenHeight": 0.08343703299760819,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_A_Study",
+                    "expectedLod": 1,
+                    "rendererVisibleIndicators": [
+                        0,
+                        1,
+                        0
+                    ],
+                    "screenHeight": 0.060890186578035358,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_D_Study",
+                    "expectedLod": 1,
+                    "rendererVisibleIndicators": [
+                        0,
+                        1,
+                        0
+                    ],
+                    "screenHeight": 0.05628032982349396,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_C_Study",
+                    "expectedLod": 1,
+                    "rendererVisibleIndicators": [
+                        0,
+                        1,
+                        0
+                    ],
+                    "screenHeight": 0.07374577224254608,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_B_Study",
+                    "expectedLod": 1,
+                    "rendererVisibleIndicators": [
+                        0,
+                        1,
+                        0
+                    ],
+                    "screenHeight": 0.06584365665912628,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                }
+            ],
+            "benchmarkOffset": 24
+        },
+        {
+            "name": "game-1.0-d115",
+            "hour": 1.0,
+            "requestedDistance": 115.0,
+            "distance": 115.0,
+            "pitch": 62.000003814697269,
+            "fov": 50.0,
+            "fogStart": 65.0,
+            "fogEnd": 150.0,
+            "shadowDistance": 90.0,
+            "position": {
+                "x": -34.966949462890628,
+                "y": 101.54913330078125,
+                "z": -39.22539138793945
+            },
+            "focus": {
+                "x": -4.0,
+                "y": 0.010151178576052189,
+                "z": 5.0
+            },
+            "grass": {
+                "lodClumps": [
+                    0,
+                    0,
+                    0,
+                    13794
+                ],
+                "visiblePatches": 114,
+                "clumps": 13794,
+                "triangles": 110352,
+                "drawCalls": 28,
+                "forceFullDetail": false
+            },
+            "oaks": [
+                {
+                    "name": "Oak_B_Study",
+                    "expectedLod": 2,
+                    "rendererVisibleIndicators": [
+                        0,
+                        0,
+                        1
+                    ],
+                    "screenHeight": 0.05482110381126404,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_A_Study",
+                    "expectedLod": 2,
+                    "rendererVisibleIndicators": [
+                        0,
+                        0,
+                        1
+                    ],
+                    "screenHeight": 0.05462297797203064,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_A_Study",
+                    "expectedLod": 2,
+                    "rendererVisibleIndicators": [
+                        0,
+                        0,
+                        1
+                    ],
+                    "screenHeight": 0.04575303569436073,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_D_Study",
+                    "expectedLod": 2,
+                    "rendererVisibleIndicators": [
+                        0,
+                        0,
+                        1
+                    ],
+                    "screenHeight": 0.04348272085189819,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_C_Study",
+                    "expectedLod": 2,
+                    "rendererVisibleIndicators": [
+                        0,
+                        0,
+                        1
+                    ],
+                    "screenHeight": 0.0527886264026165,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_B_Study",
+                    "expectedLod": 2,
+                    "rendererVisibleIndicators": [
+                        0,
+                        0,
+                        1
+                    ],
+                    "screenHeight": 0.050274696201086047,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                }
+            ],
+            "benchmarkOffset": 26
+        },
+        {
+            "name": "game-1.0-d190",
+            "hour": 1.0,
+            "requestedDistance": 190.0,
+            "distance": 190.0,
+            "pitch": 68.00001525878906,
+            "fov": 50.0,
+            "fogStart": 65.0,
+            "fogEnd": 150.0,
+            "shadowDistance": 90.0,
+            "position": {
+                "x": -44.8244514465332,
+                "y": 176.1670684814453,
+                "z": -53.303367614746097
+            },
+            "focus": {
+                "x": -4.0,
+                "y": 0.0021508873905986549,
+                "z": 5.0
+            },
+            "grass": {
+                "lodClumps": [
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "visiblePatches": 0,
+                "clumps": 0,
+                "triangles": 0,
+                "drawCalls": 0,
+                "forceFullDetail": false
+            },
+            "oaks": [
+                {
+                    "name": "Oak_B_Study",
+                    "expectedLod": 2,
+                    "rendererVisibleIndicators": [
+                        0,
+                        0,
+                        1
+                    ],
+                    "screenHeight": 0.03576255589723587,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_A_Study",
+                    "expectedLod": 2,
+                    "rendererVisibleIndicators": [
+                        0,
+                        0,
+                        1
+                    ],
+                    "screenHeight": 0.03289984539151192,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_A_Study",
+                    "expectedLod": 2,
+                    "rendererVisibleIndicators": [
+                        0,
+                        0,
+                        1
+                    ],
+                    "screenHeight": 0.030276939272880555,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_D_Study",
+                    "expectedLod": 2,
+                    "rendererVisibleIndicators": [
+                        0,
+                        0,
+                        1
+                    ],
+                    "screenHeight": 0.029889898374676706,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_C_Study",
+                    "expectedLod": 2,
+                    "rendererVisibleIndicators": [
+                        0,
+                        0,
+                        1
+                    ],
+                    "screenHeight": 0.033635593950748447,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                },
+                {
+                    "name": "Oak_B_Study",
+                    "expectedLod": 2,
+                    "rendererVisibleIndicators": [
+                        0,
+                        0,
+                        1
+                    ],
+                    "screenHeight": 0.03418460115790367,
+                    "transitionHeights": [
+                        0.1599999964237213,
+                        0.054999999701976779,
+                        0.008999999612569809
+                    ]
+                }
+            ],
+            "benchmarkOffset": 28
+        }
+    ],
+    "motion": [
+        {
+            "frame": 0,
+            "distance": 18.0,
+            "position": {
+                "x": -11.672505378723145,
+                "y": 12.626154899597168,
+                "z": -5.957475662231445
+            },
+            "grass": {
+                "lodClumps": [
+                    2178,
+                    4477,
+                    0,
+                    0
+                ],
+                "visiblePatches": 55,
+                "clumps": 6655,
+                "triangles": 528528,
+                "drawCalls": 14,
+                "forceFullDetail": false
+            }
+        },
+        {
+            "frame": 6,
+            "distance": 19.920549392700197,
+            "position": {
+                "x": -12.192987442016602,
+                "y": 14.242616653442383,
+                "z": -6.802739143371582
+            },
+            "grass": {
+                "lodClumps": [
+                    1815,
+                    5082,
+                    0,
+                    0
+                ],
+                "visiblePatches": 57,
+                "clumps": 6897,
+                "triangles": 505296,
+                "drawCalls": 15,
+                "forceFullDetail": false
+            }
+        },
+        {
+            "frame": 12,
+            "distance": 24.372285842895509,
+            "position": {
+                "x": -13.461532592773438,
+                "y": 17.61988067626953,
+                "z": -8.884042739868164
+            },
+            "grass": {
+                "lodClumps": [
+                    1573,
+                    6171,
+                    0,
+                    0
+                ],
+                "visiblePatches": 64,
+                "clumps": 7744,
+                "triangles": 522720,
+                "drawCalls": 17,
+                "forceFullDetail": false
+            }
+        },
+        {
+            "frame": 18,
+            "distance": 29.21848487854004,
+            "position": {
+                "x": -14.761040687561036,
+                "y": 21.365415573120118,
+                "z": -11.049379348754883
+            },
+            "grass": {
+                "lodClumps": [
+                    1089,
+                    8107,
+                    0,
+                    0
+                ],
+                "visiblePatches": 76,
+                "clumps": 9196,
+                "triangles": 545952,
+                "drawCalls": 20,
+                "forceFullDetail": false
+            }
+        },
+        {
+            "frame": 24,
+            "distance": 34.105377197265628,
+            "position": {
+                "x": -15.993854522705079,
+                "y": 25.2471981048584,
+                "z": -13.125760078430176
+            },
+            "grass": {
+                "lodClumps": [
+                    0,
+                    10043,
+                    847,
+                    0
+                ],
+                "visiblePatches": 90,
+                "clumps": 10890,
+                "triangles": 499004,
+                "drawCalls": 23,
+                "forceFullDetail": false
+            }
+        },
+        {
+            "frame": 30,
+            "distance": 38.99590301513672,
+            "position": {
+                "x": -17.151504516601564,
+                "y": 29.239959716796876,
+                "z": -15.095653533935547
+            },
+            "grass": {
+                "lodClumps": [
+                    0,
+                    10043,
+                    1573,
+                    0
+                ],
+                "visiblePatches": 96,
+                "clumps": 11616,
+                "triangles": 513524,
+                "drawCalls": 25,
+                "forceFullDetail": false
+            }
+        },
+        {
+            "frame": 36,
+            "distance": 43.88683319091797,
+            "position": {
+                "x": -18.232145309448243,
+                "y": 33.340362548828128,
+                "z": -16.9556827545166
+            },
+            "grass": {
+                "lodClumps": [
+                    0,
+                    10527,
+                    2420,
+                    0
+                ],
+                "visiblePatches": 107,
+                "clumps": 12947,
+                "triangles": 553696,
+                "drawCalls": 27,
+                "forceFullDetail": false
+            }
+        },
+        {
+            "frame": 42,
+            "distance": 48.77740478515625,
+            "position": {
+                "x": -19.234025955200197,
+                "y": 37.54447937011719,
+                "z": -18.70322036743164
+            },
+            "grass": {
+                "lodClumps": [
+                    0,
+                    10043,
+                    3630,
+                    121
+                ],
+                "visiblePatches": 114,
+                "clumps": 13794,
+                "triangles": 555632,
+                "drawCalls": 30,
+                "forceFullDetail": false
+            }
+        },
+        {
+            "frame": 48,
+            "distance": 53.66814041137695,
+            "position": {
+                "x": -20.155685424804689,
+                "y": 41.84981918334961,
+                "z": -20.336196899414064
+            },
+            "grass": {
+                "lodClumps": [
+                    0,
+                    9801,
+                    4477,
+                    726
+                ],
+                "visiblePatches": 124,
+                "clumps": 15004,
+                "triangles": 565796,
+                "drawCalls": 31,
+                "forceFullDetail": false
+            }
+        },
+        {
+            "frame": 54,
+            "distance": 58.55891036987305,
+            "position": {
+                "x": -20.995519638061525,
+                "y": 46.252567291259769,
+                "z": -21.852325439453126
+            },
+            "grass": {
+                "lodClumps": [
+                    0,
+                    9317,
+                    5566,
+                    1089
+                ],
+                "visiblePatches": 132,
+                "clumps": 15972,
+                "triangles": 567248,
+                "drawCalls": 34,
+                "forceFullDetail": false
+            }
+        },
+        {
+            "frame": 60,
+            "distance": 63.44963073730469,
+            "position": {
+                "x": -21.751989364624025,
+                "y": 50.74921798706055,
+                "z": -23.249385833740236
+            },
+            "grass": {
+                "lodClumps": [
+                    0,
+                    8107,
+                    6171,
+                    2299
+                ],
+                "visiblePatches": 137,
+                "clumps": 16577,
+                "triangles": 530948,
+                "drawCalls": 35,
+                "forceFullDetail": false
+            }
+        },
+        {
+            "frame": 66,
+            "distance": 68.34034729003906,
+            "position": {
+                "x": -22.42363929748535,
+                "y": 55.33587646484375,
+                "z": -24.525299072265626
+            },
+            "grass": {
+                "lodClumps": [
+                    0,
+                    7381,
+                    6534,
+                    2904
+                ],
+                "visiblePatches": 139,
+                "clumps": 16819,
+                "triangles": 508200,
+                "drawCalls": 35,
+                "forceFullDetail": false
+            }
+        },
+        {
+            "frame": 72,
+            "distance": 73.23115539550781,
+            "position": {
+                "x": -23.009061813354493,
+                "y": 60.00920104980469,
+                "z": -25.67809295654297
+            },
+            "grass": {
+                "lodClumps": [
+                    0,
+                    5929,
+                    7139,
+                    4114
+                ],
+                "visiblePatches": 142,
+                "clumps": 17182,
+                "triangles": 460284,
+                "drawCalls": 36,
+                "forceFullDetail": false
+            }
+        },
+        {
+            "frame": 78,
+            "distance": 78.1219482421875,
+            "position": {
+                "x": -23.506864547729493,
+                "y": 64.76476287841797,
+                "z": -26.70574951171875
+            },
+            "grass": {
+                "lodClumps": [
+                    0,
+                    4356,
+                    7744,
+                    5203
+                ],
+                "visiblePatches": 143,
+                "clumps": 17303,
+                "triangles": 405592,
+                "drawCalls": 36,
+                "forceFullDetail": false
+            }
+        },
+        {
+            "frame": 84,
+            "distance": 83.01270294189453,
+            "position": {
+                "x": -23.91574478149414,
+                "y": 69.59918975830078,
+                "z": -27.60639190673828
+            },
+            "grass": {
+                "lodClumps": [
+                    0,
+                    1936,
+                    8591,
+                    6897
+                ],
+                "visiblePatches": 144,
+                "clumps": 17424,
+                "triangles": 319924,
+                "drawCalls": 36,
+                "forceFullDetail": false
+            }
+        },
+        {
+            "frame": 90,
+            "distance": 87.90343475341797,
+            "position": {
+                "x": -24.234416961669923,
+                "y": 74.50800323486328,
+                "z": -28.378215789794923
+            },
+            "grass": {
+                "lodClumps": [
+                    0,
+                    0,
+                    8712,
+                    8833
+                ],
+                "visiblePatches": 145,
+                "clumps": 17545,
+                "triangles": 244904,
+                "drawCalls": 36,
+                "forceFullDetail": false
+            }
+        },
+        {
+            "frame": 96,
+            "distance": 92.79419708251953,
+            "position": {
+                "x": -24.46169090270996,
+                "y": 79.48766326904297,
+                "z": -29.019512176513673
+            },
+            "grass": {
+                "lodClumps": [
+                    0,
+                    0,
+                    7018,
+                    10527
+                ],
+                "visiblePatches": 145,
+                "clumps": 17545,
+                "triangles": 224576,
+                "drawCalls": 37,
+                "forceFullDetail": false
+            }
+        },
+        {
+            "frame": 102,
+            "distance": 97.68496704101563,
+            "position": {
+                "x": -24.59640884399414,
+                "y": 84.53382110595703,
+                "z": -29.528621673583986
+            },
+            "grass": {
+                "lodClumps": [
+                    0,
+                    0,
+                    5445,
+                    12221
+                ],
+                "visiblePatches": 146,
+                "clumps": 17666,
+                "triangles": 206668,
+                "drawCalls": 36,
+                "forceFullDetail": false
+            }
+        },
+        {
+            "frame": 108,
+            "distance": 102.57579040527344,
+            "position": {
+                "x": -24.63745880126953,
+                "y": 89.64256286621094,
+                "z": -29.903974533081056
+            },
+            "grass": {
+                "lodClumps": [
+                    0,
+                    0,
+                    2420,
+                    15004
+                ],
+                "visiblePatches": 144,
+                "clumps": 17424,
+                "triangles": 168432,
+                "drawCalls": 36,
+                "forceFullDetail": false
+            }
+        },
+        {
+            "frame": 114,
+            "distance": 107.46648406982422,
+            "position": {
+                "x": -24.58379364013672,
+                "y": 94.80947875976563,
+                "z": -30.14403533935547
+            },
+            "grass": {
+                "lodClumps": [
+                    0,
+                    0,
+                    0,
+                    17061
+                ],
+                "visiblePatches": 141,
+                "clumps": 17061,
+                "triangles": 136488,
+                "drawCalls": 35,
+                "forceFullDetail": false
+            }
+        }
+    ],
+    "rig": "StrategyCameraController unchanged; test-only private target injection",
+    "treeVisibility": "Renderer.isVisible indicators include shadows/crossfades; expectedLOD is a screen-height estimate",
+    "grassLodDistances": {
+        "x": 22.0,
+        "y": 70.0,
+        "z": 90.0
+    },
+    "grassMaximumDistance": 128.0,
+    "groundRelativeFog": false
+}

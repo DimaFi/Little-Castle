@@ -1,0 +1,653 @@
+{
+  "pass_": true,
+  "pairs": 3,
+  "fields": 12,
+  "probesPerField": 21609,
+  "maxModeError": 0.0,
+  "maxStage1CError": 0.0,
+  "maxSerialError": 5.066394805908203e-07,
+  "imagePairs": 4,
+  "maxImageMeanByteError": 0.2162795781893004,
+  "steps": [
+    {
+      "reason": "initial",
+      "Immediate": {
+        "wallMs": {
+          "median": 2913.7391999999995,
+          "minimum": 2901.9552,
+          "maximum": 5047.3937000000005
+        },
+        "firstPublicationMs": {
+          "median": 251.7689000000001,
+          "minimum": 235.82809999999998,
+          "maximum": 514.7747000000003
+        },
+        "solveMs": {
+          "median": 330.4966000000001,
+          "minimum": 327.4558000000001,
+          "maximum": 576.7028000000003
+        },
+        "publishMs": {
+          "median": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "uploadedBytes": {
+          "median": 1382976,
+          "minimum": 1382976,
+          "maximum": 1382976
+        },
+        "commitMs": {
+          "median": 0.0686,
+          "minimum": 0.0519,
+          "maximum": 0.0803
+        },
+        "commitUploadMs": {
+          "median": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "maxSolveFrameMs": 34.126000000000005,
+        "maxSolvePublishFrameMs": 34.145100000000006
+      },
+      "Temporal": {
+        "wallMs": {
+          "median": 3071.2590000000005,
+          "minimum": 3033.2878,
+          "maximum": 4963.936000000001
+        },
+        "firstPublicationMs": {
+          "median": 2856.6737,
+          "minimum": 2819.386100000001,
+          "maximum": 4760.938700000001
+        },
+        "solveMs": {
+          "median": 324.1071999999999,
+          "minimum": 321.4591999999998,
+          "maximum": 687.4098000000004
+        },
+        "publishMs": {
+          "median": 0.4809,
+          "minimum": 0.4245,
+          "maximum": 0.8961
+        },
+        "uploadedBytes": {
+          "median": 2765952,
+          "minimum": 2765952,
+          "maximum": 2765952
+        },
+        "commitMs": {
+          "median": 0.0532,
+          "minimum": 0.0525,
+          "maximum": 0.0956
+        },
+        "commitUploadMs": {
+          "median": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "maxSolveFrameMs": 16.856,
+        "maxSolvePublishFrameMs": 16.856
+      }
+    },
+    {
+      "reason": "sunset",
+      "Immediate": {
+        "wallMs": {
+          "median": 415.8966999999993,
+          "minimum": 367.11069999999955,
+          "maximum": 561.2805999999999
+        },
+        "firstPublicationMs": {
+          "median": 18.008200000000585,
+          "minimum": 17.855400000000188,
+          "maximum": 19.00610000000036
+        },
+        "solveMs": {
+          "median": 48.128999999999905,
+          "minimum": 43.679400000000044,
+          "maximum": 62.21040000000005
+        },
+        "publishMs": {
+          "median": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "uploadedBytes": {
+          "median": 1382976,
+          "minimum": 1382976,
+          "maximum": 1382976
+        },
+        "commitMs": {
+          "median": 0.8023,
+          "minimum": 0.7857,
+          "maximum": 0.8793
+        },
+        "commitUploadMs": {
+          "median": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "maxSolveFrameMs": 7.0345,
+        "maxSolvePublishFrameMs": 7.0581000000000005
+      },
+      "Temporal": {
+        "wallMs": {
+          "median": 582.5111999999999,
+          "minimum": 582.0916000000001,
+          "maximum": 702.1385000000002
+        },
+        "firstPublicationMs": {
+          "median": 367.1047000000005,
+          "minimum": 366.58770000000015,
+          "maximum": 502.21909999999957
+        },
+        "solveMs": {
+          "median": 42.8125,
+          "minimum": 42.765399999999886,
+          "maximum": 55.47230000000002
+        },
+        "publishMs": {
+          "median": 0.529,
+          "minimum": 0.42299999999999993,
+          "maximum": 0.5574
+        },
+        "uploadedBytes": {
+          "median": 2765952,
+          "minimum": 2765952,
+          "maximum": 2765952
+        },
+        "commitMs": {
+          "median": 1.1916,
+          "minimum": 0.7897,
+          "maximum": 5.2826
+        },
+        "commitUploadMs": {
+          "median": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "maxSolveFrameMs": 4.0671,
+        "maxSolvePublishFrameMs": 4.0671
+      }
+    },
+    {
+      "reason": "return-day",
+      "Immediate": {
+        "wallMs": {
+          "median": 333.50939999999963,
+          "minimum": 302.93679999999944,
+          "maximum": 556.009099999999
+        },
+        "firstPublicationMs": {
+          "median": 17.80380000000026,
+          "minimum": 3.606299999999507,
+          "maximum": 18.464099999999206
+        },
+        "solveMs": {
+          "median": 38.96930000000003,
+          "minimum": 37.275800000000004,
+          "maximum": 77.37130000000025
+        },
+        "publishMs": {
+          "median": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "uploadedBytes": {
+          "median": 1382976,
+          "minimum": 1382976,
+          "maximum": 1382976
+        },
+        "commitMs": {
+          "median": 0.824,
+          "minimum": 0.7613,
+          "maximum": 0.8904
+        },
+        "commitUploadMs": {
+          "median": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "maxSolveFrameMs": 16.256600000000002,
+        "maxSolvePublishFrameMs": 16.3791
+      },
+      "Temporal": {
+        "wallMs": {
+          "median": 532.4968000000006,
+          "minimum": 518.6832999999992,
+          "maximum": 691.8942000000002
+        },
+        "firstPublicationMs": {
+          "median": 316.3853000000003,
+          "minimum": 302.4927000000002,
+          "maximum": 488.1214000000007
+        },
+        "solveMs": {
+          "median": 36.469499999999925,
+          "minimum": 36.20799999999997,
+          "maximum": 68.95859999999982
+        },
+        "publishMs": {
+          "median": 0.4162000000000001,
+          "minimum": 0.40670000000000006,
+          "maximum": 7.706199999999999
+        },
+        "uploadedBytes": {
+          "median": 2765952,
+          "minimum": 2765952,
+          "maximum": 2765952
+        },
+        "commitMs": {
+          "median": 0.8606,
+          "minimum": 0.7814,
+          "maximum": 1.0255
+        },
+        "commitUploadMs": {
+          "median": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "maxSolveFrameMs": 16.0804,
+        "maxSolvePublishFrameMs": 16.0804
+      }
+    },
+    {
+      "reason": "rapid-undo-remote-move",
+      "Immediate": {
+        "wallMs": {
+          "median": 1247.994199999999,
+          "minimum": 1228.7182000000003,
+          "maximum": 1972.876000000001
+        },
+        "firstPublicationMs": {
+          "median": 14.362900000000067,
+          "minimum": 10.145300000001356,
+          "maximum": 15.111700000000283
+        },
+        "solveMs": {
+          "median": 150.48379999999975,
+          "minimum": 147.6528,
+          "maximum": 212.69879999999955
+        },
+        "publishMs": {
+          "median": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "uploadedBytes": {
+          "median": 855360,
+          "minimum": 855360,
+          "maximum": 855360
+        },
+        "commitMs": {
+          "median": 2.7202,
+          "minimum": 1.5339,
+          "maximum": 6.3814
+        },
+        "commitUploadMs": {
+          "median": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "maxSolveFrameMs": 8.2021,
+        "maxSolvePublishFrameMs": 8.2256
+      },
+      "Temporal": {
+        "wallMs": {
+          "median": 1413.0852999999988,
+          "minimum": 1412.8539999999985,
+          "maximum": 2240.1964000000003
+        },
+        "firstPublicationMs": {
+          "median": 1197.9688999999994,
+          "minimum": 1196.6801999999984,
+          "maximum": 2017.237400000001
+        },
+        "solveMs": {
+          "median": 144.37860000000006,
+          "minimum": 142.96370000000013,
+          "maximum": 301.3916999999999
+        },
+        "publishMs": {
+          "median": 0.4385999999999999,
+          "minimum": 0.4083000000000001,
+          "maximum": 0.8531999999999993
+        },
+        "uploadedBytes": {
+          "median": 2765952,
+          "minimum": 2765952,
+          "maximum": 2765952
+        },
+        "commitMs": {
+          "median": 1.6382,
+          "minimum": 1.5903,
+          "maximum": 1.6766
+        },
+        "commitUploadMs": {
+          "median": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "maxSolveFrameMs": 15.5746,
+        "maxSolvePublishFrameMs": 15.5746
+      }
+    },
+    {
+      "reason": "night",
+      "Immediate": {
+        "wallMs": {
+          "median": 302.49090000000047,
+          "minimum": 286.4974000000009,
+          "maximum": 457.00180000000046
+        },
+        "firstPublicationMs": {
+          "median": 3.4949999999991377,
+          "minimum": 3.4053000000007216,
+          "maximum": 20.150199999999785
+        },
+        "solveMs": {
+          "median": 36.941900000000146,
+          "minimum": 35.69710000000009,
+          "maximum": 46.7419000000001
+        },
+        "publishMs": {
+          "median": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "uploadedBytes": {
+          "median": 1382976,
+          "minimum": 1382976,
+          "maximum": 1382976
+        },
+        "commitMs": {
+          "median": 0.7695,
+          "minimum": 0.7646,
+          "maximum": 1.3214
+        },
+        "commitUploadMs": {
+          "median": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "maxSolveFrameMs": 2.011,
+        "maxSolvePublishFrameMs": 2.3486
+      },
+      "Temporal": {
+        "wallMs": {
+          "median": 518.0384999999994,
+          "minimum": 501.22460000000046,
+          "maximum": 673.0470999999998
+        },
+        "firstPublicationMs": {
+          "median": 302.70310000000046,
+          "minimum": 286.6327999999996,
+          "maximum": 458.40299999999877
+        },
+        "solveMs": {
+          "median": 36.979600000000005,
+          "minimum": 35.63530000000003,
+          "maximum": 62.05880000000002
+        },
+        "publishMs": {
+          "median": 0.4878,
+          "minimum": 0.42589999999999995,
+          "maximum": 1.3003999999999998
+        },
+        "uploadedBytes": {
+          "median": 2765952,
+          "minimum": 2765952,
+          "maximum": 2765952
+        },
+        "commitMs": {
+          "median": 0.7582,
+          "minimum": 0.7495,
+          "maximum": 1.311
+        },
+        "commitUploadMs": {
+          "median": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "maxSolveFrameMs": 6.708200000000001,
+        "maxSolvePublishFrameMs": 6.708200000000001
+      }
+    }
+  ],
+  "steady": [
+    {
+      "mode": "Immediate",
+      "phase": "settled-off",
+      "gpuMeanMs": {
+        "median": 0.8148574829101562,
+        "minimum": 0.7967394590377808,
+        "maximum": 0.9504414200782776
+      },
+      "gpuSamples": 1350,
+      "frameMedianMs": {
+        "median": 1.3803000450134277,
+        "minimum": 1.3741999864578247,
+        "maximum": 2.1826000213623047
+      },
+      "frameP95Ms": {
+        "median": 2.488100051879883,
+        "minimum": 2.302799940109253,
+        "maximum": 16.33799934387207
+      },
+      "frameP99Ms": {
+        "median": 3.0608999729156494,
+        "minimum": 2.8036999702453613,
+        "maximum": 21.645599365234375
+      }
+    },
+    {
+      "mode": "Immediate",
+      "phase": "settled-on",
+      "gpuMeanMs": {
+        "median": 1.3113998174667358,
+        "minimum": 1.207687258720398,
+        "maximum": 1.3360989093780518
+      },
+      "gpuSamples": 1467,
+      "frameMedianMs": {
+        "median": 2.26200008392334,
+        "minimum": 1.378999948501587,
+        "maximum": 2.3194000720977783
+      },
+      "frameP95Ms": {
+        "median": 8.022000312805176,
+        "minimum": 2.387500047683716,
+        "maximum": 17.544099807739258
+      },
+      "frameP99Ms": {
+        "median": 10.398200035095215,
+        "minimum": 2.6468000411987305,
+        "maximum": 21.155399322509766
+      }
+    },
+    {
+      "mode": "Immediate",
+      "phase": "history-read-on",
+      "gpuMeanMs": {
+        "median": 1.367098331451416,
+        "minimum": 1.2875468730926514,
+        "maximum": 1.4210482835769653
+      },
+      "gpuSamples": 1436,
+      "frameMedianMs": {
+        "median": 2.402100086212158,
+        "minimum": 1.4521000385284424,
+        "maximum": 2.7360000610351562
+      },
+      "frameP95Ms": {
+        "median": 8.718799591064453,
+        "minimum": 2.2908999919891357,
+        "maximum": 17.116500854492188
+      },
+      "frameP99Ms": {
+        "median": 12.989999771118164,
+        "minimum": 2.5822999477386475,
+        "maximum": 22.535499572753906
+      }
+    },
+    {
+      "mode": "Temporal",
+      "phase": "settled-off",
+      "gpuMeanMs": {
+        "median": 0.8132830858230591,
+        "minimum": 0.7861025333404541,
+        "maximum": 0.9381887912750244
+      },
+      "gpuSamples": 1493,
+      "frameMedianMs": {
+        "median": 1.1847000122070312,
+        "minimum": 1.1684000492095947,
+        "maximum": 1.9577000141143799
+      },
+      "frameP95Ms": {
+        "median": 2.027400016784668,
+        "minimum": 2.0107998847961426,
+        "maximum": 9.009099960327148
+      },
+      "frameP99Ms": {
+        "median": 2.6749000549316406,
+        "minimum": 2.6119000911712646,
+        "maximum": 16.664400100708008
+      }
+    },
+    {
+      "mode": "Temporal",
+      "phase": "settled-on",
+      "gpuMeanMs": {
+        "median": 1.2170932292938232,
+        "minimum": 1.2127522230148315,
+        "maximum": 1.319757342338562
+      },
+      "gpuSamples": 1612,
+      "frameMedianMs": {
+        "median": 1.3113000392913818,
+        "minimum": 1.289199948310852,
+        "maximum": 2.3782999515533447
+      },
+      "frameP95Ms": {
+        "median": 2.3057000637054443,
+        "minimum": 2.190500020980835,
+        "maximum": 9.5378999710083
+      },
+      "frameP99Ms": {
+        "median": 2.8754000663757324,
+        "minimum": 2.509700059890747,
+        "maximum": 12.474200248718262
+      }
+    },
+    {
+      "mode": "Temporal",
+      "phase": "history-read-on",
+      "gpuMeanMs": {
+        "median": 1.3289810419082642,
+        "minimum": 1.325892448425293,
+        "maximum": 1.5005412101745605
+      },
+      "gpuSamples": 1569,
+      "frameMedianMs": {
+        "median": 1.5663000345230103,
+        "minimum": 1.4460999965667725,
+        "maximum": 2.78410005569458
+      },
+      "frameP95Ms": {
+        "median": 3.216200113296509,
+        "minimum": 2.6586999893188477,
+        "maximum": 9.130399703979492
+      },
+      "frameP99Ms": {
+        "median": 4.127999782562256,
+        "minimum": 3.04830002784729,
+        "maximum": 12.7677001953125
+      }
+    }
+  ],
+  "cycles": [
+    {
+      "name": "FinalCycle1x",
+      "temporal": true,
+      "speed": 1.0,
+      "dayRealSeconds": 360.0,
+      "nightRealSeconds": 90.0,
+      "realSeconds": 450.56820239999996,
+      "gameMinutes": 1440.0038289770139,
+      "geometryRebuilds": 0,
+      "publications": 752,
+      "frames": 26609,
+      "cycleWallExcludingSettleSeconds": 450.00369299999994,
+      "maxClockSnapshotAgeGameMinutes": 7.738710492446444,
+      "p95ClockSnapshotAgeGameMinutes": 5.546992255226068,
+      "maxFixedPointColorFrameDelta": 0.0014029246183687595,
+      "p99FixedPointColorFrameDelta": 0.00023881298514611112,
+      "wholePlayerGCMeasured": false,
+      "maxSnapshotAgeSeconds": 1.5653759814144337,
+      "p95SnapshotAgeSeconds": 1.1445976656535417
+    },
+    {
+      "name": "FinalCycle8x",
+      "temporal": true,
+      "speed": 8.0,
+      "dayRealSeconds": 360.0,
+      "nightRealSeconds": 90.0,
+      "realSeconds": 56.8085519,
+      "gameMinutes": 1440.160903728258,
+      "geometryRebuilds": 0,
+      "publications": 100,
+      "frames": 3301,
+      "cycleWallExcludingSettleSeconds": 56.259387799999985,
+      "maxClockSnapshotAgeGameMinutes": 48.99896999901398,
+      "p95ClockSnapshotAgeGameMinutes": 40.89068760474515,
+      "maxFixedPointColorFrameDelta": 0.001989791749739704,
+      "p99FixedPointColorFrameDelta": 0.001140068645886385,
+      "wholePlayerGCMeasured": false,
+      "maxSnapshotAgeSeconds": 1.2164403185317099,
+      "p95SnapshotAgeSeconds": 1.0115760000000016
+    },
+    {
+      "name": "FinalCycle8xImmediate",
+      "temporal": false,
+      "speed": 8.0,
+      "dayRealSeconds": 360.0,
+      "nightRealSeconds": 90.0,
+      "realSeconds": 56.6075632,
+      "gameMinutes": 1440.127459017558,
+      "geometryRebuilds": 0,
+      "publications": 0,
+      "frames": 3338,
+      "cycleWallExcludingSettleSeconds": 56.259186,
+      "maxClockSnapshotAgeGameMinutes": 39.9336959918337,
+      "p95ClockSnapshotAgeGameMinutes": 30.228939870993198,
+      "maxFixedPointColorFrameDelta": 0.015472036387537927,
+      "p99FixedPointColorFrameDelta": 0.0036062507516381186,
+      "wholePlayerGCMeasured": false,
+      "maxSnapshotAgeSeconds": 0.8035867000000039,
+      "p95SnapshotAgeSeconds": 0.687786660000003
+    }
+  ],
+  "tests": [
+    {
+      "path": "editmode.xml",
+      "total": "210",
+      "passed": "210",
+      "failed": "0",
+      "skipped": "0"
+    },
+    {
+      "path": "playmode.xml",
+      "total": "6",
+      "passed": "6",
+      "failed": "0",
+      "skipped": "0"
+    }
+  ],
+  "gpuBufferBytes": {
+    "Immediate": 1382976,
+    "Temporal": 2765952
+  },
+  "additionalCPUPublicationPayloadBytes": 2765952
+}

@@ -448,3 +448,44 @@ Trace/Transport,7shared shaders,scene/materials,3settings unchanged; MAIN game d
 docs/integration-packages/lighting-gi-priority-stage1c-20261026/.
 Публикация нового пакета подтверждается publication-gi-stage1c/publication-receipt.json
 после отдельной remote проверки; исходный1Б опубликованd1d92e0.
+
+
+## Текущий приоритет после этапа2А — 27.10.2026
+
+Плавные сутки проверены:360s день+90s ночь на общем WorldTimeSystem, без geometry
+rebuild. Coherent current/previous snapshots и0.2s fade уменьшают скачки света,
+но whole-field gate добавляет задержку, а geometry barrier — возможную тёмную паузу.
+Это исследовательский кандидат, не default production activation.210 Edit+6Play,
+3core пары,12полей mode error0; отдельные1x/8xcycles и3пары реальной strategy camera.
+Отчёт: `docs/reports/lighting-gi-temporal-stage2a-20261027-ru.md`.
+
+Основная приёмка теперь **сверху, close/mid/far, с родными LOD**. Roof/wall interior
+остаётся диагностикой утечек. Тест11..190m выявил: средняя дистанция может быть
+тяжелее близкой, после115m тени90m не покрывают землю; distance fog вымывает дальний
+цвет. Ground-relative fog проверен только как опциональный runtime A/B; не принят.
+
+Следующий конкретный проход:
+1. Прочитать актуальную передачу map-authoring и снять выборочный committed
+   terrain/object snapshot с GUID/SHA, не меняя другую рабочую копию.
+2. Согласовать height sampling + committed old/new bounds/chunks; derived caches
+   обновлять локально и асинхронно относительно команд/preview/undo/save/load.
+3. Новый живой визуальный стенд: рельеф/дороги/Meadow/Oak A–D, отдельная зона
+   выбранных готовых моделей; куб/стены/крыша остаются. WorldSpawnCatalog не менять.
+4. A/B дальние тени/туман/палитра и SSAO/rootAO на day/sunset/readable night;
+   совместить непрерывные сутки с zoom/pan и локальной правкой. Детали под крышей
+   не должны поглощать бюджет основной стратегической картинки.
+5. После оценки видимой пользы GI решить, нужна ли chunk/region publication для
+   снижения задержки вместо текущего whole-field gate; reference и stale gate сохранить.
+
+Новый пакет не переносит terrain/models и не блокирует инструменты карты.
+Ниже исторический план; завершённые этапы1/1Б/1В и проверка2А не повторяются.
+
+Source manifest/audit/patch: lighting integration docs/lighting-integration/stage2a-*.
+Core evidence:E:/Games_Develop/Research/SpatialIndirectStage2A_20261026.
+Game-view evidence:E:/Games_Develop/Research/LightingGameViews_20261026.
+Пакет:docs/integration-packages/lighting-gi-temporal-stage2a-20261027/.
+Предыдущий1В опубликован и проверен: f4ae7b19e70bcd9a53f8ce7eea84d97ef195d542.
+Статус нового пакета определяется publication-gi-stage2a/publication-receipt.json,
+не наличием локального commit. Новых Meadow зависимостей нет; исходный f4ae7b1
+заморожен в stage2a-baseline-f4ae7b1; все asset SHA/GUID в stage2a-manifest.json.
+MAIN game assets/settings unchanged, другая URP рабочая копия read-only.
