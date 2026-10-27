@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="14" result="Passed" total="14" passed="14" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-10-27 06:00:59Z" end-time="2026-10-27 06:02:32Z" duration="92,6708943">
+  <test-suite type="TestSuite" id="1031" name="Little-Castle" fullname="Little-Castle" runstate="Runnable" testcasecount="14" result="Passed" start-time="2026-10-27 06:00:59Z" end-time="2026-10-27 06:02:32Z" duration="92.670894" total="14" passed="14" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="PlayMode" />
+    </properties>
+    <test-suite type="Assembly" id="1025" name="LittleCastle.Tests.PlayMode.dll" fullname="E:/Games_Develop/Little-Castle_BrushFoundation_20261027/Library/ScriptAssemblies/LittleCastle.Tests.PlayMode.dll" runstate="Runnable" testcasecount="14" result="Passed" start-time="2026-10-27 06:00:59Z" end-time="2026-10-27 06:02:32Z" duration="92.663882" total="14" passed="14" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="23240" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="PlayMode" />
+        <property name="EditorOnly" value="False" />
+      </properties>
+      <test-suite type="TestSuite" id="1026" name="LittleCastle" fullname="LittleCastle" runstate="Runnable" testcasecount="14" result="Passed" start-time="2026-10-27 06:00:59Z" end-time="2026-10-27 06:02:32Z" duration="92.663266" total="14" passed="14" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1027" name="Tests" fullname="LittleCastle.Tests" runstate="Runnable" testcasecount="14" result="Passed" start-time="2026-10-27 06:00:59Z" end-time="2026-10-27 06:02:32Z" duration="92.662881" total="14" passed="14" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestFixture" id="1001" name="ConceptVillageRuntimeTests" fullname="LittleCastle.Tests.ConceptVillageRuntimeTests" classname="LittleCastle.Tests.ConceptVillageRuntimeTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-10-27 06:00:59Z" end-time="2026-10-27 06:00:59Z" duration="0.033640" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1003" name="DoesNotUseDecorativeMeshColliderAsGroundSupport" fullname="LittleCastle.Tests.ConceptVillageRuntimeTests.DoesNotUseDecorativeMeshColliderAsGroundSupport" methodname="DoesNotUseDecorativeMeshColliderAsGroundSupport" classname="LittleCastle.Tests.ConceptVillageRuntimeTests" runstate="Runnable" seed="1258331526" result="Passed" start-time="2026-10-27 06:00:59Z" end-time="2026-10-27 06:00:59Z" duration="0.019496" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1002" name="PlacesThreeHousesOnlyOnPlayableStreamedTerrain" fullname="LittleCastle.Tests.ConceptVillageRuntimeTests.PlacesThreeHousesOnlyOnPlayableStreamedTerrain" methodname="PlacesThreeHousesOnlyOnPlayableStreamedTerrain" classname="LittleCastle.Tests.ConceptVillageRuntimeTests" runstate="Runnable" seed="198450710" result="Passed" start-time="2026-10-27 06:00:59Z" end-time="2026-10-27 06:00:59Z" duration="0.005826" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1004" name="FlowerPlacementPlayModeTests" fullname="LittleCastle.Tests.FlowerPlacementPlayModeTests" classname="LittleCastle.Tests.FlowerPlacementPlayModeTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-10-27 06:00:59Z" end-time="2026-10-27 06:01:01Z" duration="1.930627" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1005" name="Flowers_RealModelsRespectSlopeRoadsBuildingsAndReplay" fullname="LittleCastle.Tests.FlowerPlacementPlayModeTests.Flowers_RealModelsRespectSlopeRoadsBuildingsAndReplay" methodname="Flowers_RealModelsRespectSlopeRoadsBuildingsAndReplay" classname="LittleCastle.Tests.FlowerPlacementPlayModeTests" runstate="Runnable" seed="98808873" result="Passed" start-time="2026-10-27 06:00:59Z" end-time="2026-10-27 06:01:01Z" duration="1.930088" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1006" name="FlowerStreamingBudgetPlayModeTests" fullname="LittleCastle.Tests.FlowerStreamingBudgetPlayModeTests" classname="LittleCastle.Tests.FlowerStreamingBudgetPlayModeTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-10-27 06:01:01Z" end-time="2026-10-27 06:02:21Z" duration="79.804772" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1007" name="Flowers_FiniteMapsKeepBootstrapLazyFor2_8_16Players" fullname="LittleCastle.Tests.FlowerStreamingBudgetPlayModeTests.Flowers_FiniteMapsKeepBootstrapLazyFor2_8_16Players" methodname="Flowers_FiniteMapsKeepBootstrapLazyFor2_8_16Players" classname="LittleCastle.Tests.FlowerStreamingBudgetPlayModeTests" runstate="Runnable" seed="63921110" result="Passed" start-time="2026-10-27 06:01:01Z" end-time="2026-10-27 06:02:21Z" duration="79.803734" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1008" name="MapEditPlayModeTests" fullname="LittleCastle.Tests.MapEditPlayModeTests" classname="LittleCastle.Tests.MapEditPlayModeTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-10-27 06:02:21Z" end-time="2026-10-27 06:02:21Z" duration="0.038221" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1009" name="MapEdit_RealPainterScatterAndGpuReplayAgree" fullname="LittleCastle.Tests.MapEditPlayModeTests.MapEdit_RealPainterScatterAndGpuReplayAgree" methodname="MapEdit_RealPainterScatterAndGpuReplayAgree" classname="LittleCastle.Tests.MapEditPlayModeTests" runstate="Runnable" seed="509620322" result="Passed" start-time="2026-10-27 06:02:21Z" end-time="2026-10-27 06:02:21Z" duration="0.037693" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1010" name="MapRiverPlayModeTests" fullname="LittleCastle.Tests.MapRiverPlayModeTests" classname="LittleCastle.Tests.MapRiverPlayModeTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-10-27 06:02:21Z" end-time="2026-10-27 06:02:21Z" duration="0.186148" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1011" name="River_RibbonsHaveUpwardTrianglesSharedBordersAndBoundedViews" fullname="LittleCastle.Tests.MapRiverPlayModeTests.River_RibbonsHaveUpwardTrianglesSharedBordersAndBoundedViews" methodname="River_RibbonsHaveUpwardTrianglesSharedBordersAndBoundedViews" classname="LittleCastle.Tests.MapRiverPlayModeTests" runstate="Runnable" seed="293455305" result="Passed" start-time="2026-10-27 06:02:21Z" end-time="2026-10-27 06:02:21Z" duration="0.185224" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1012" name="MapTerrainPlayModeTests" fullname="LittleCastle.Tests.MapTerrainPlayModeTests" classname="LittleCastle.Tests.MapTerrainPlayModeTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-10-27 06:02:21Z" end-time="2026-10-27 06:02:21Z" duration="0.064866" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1013" name="MapTerrain_ChunksRootsTreesCollisionAndCleanupFollowHeightCommands" fullname="LittleCastle.Tests.MapTerrainPlayModeTests.MapTerrain_ChunksRootsTreesCollisionAndCleanupFollowHeightCommands" methodname="MapTerrain_ChunksRootsTreesCollisionAndCleanupFollowHeightCommands" classname="LittleCastle.Tests.MapTerrainPlayModeTests" runstate="Runnable" seed="1450433101" result="Passed" start-time="2026-10-27 06:02:21Z" end-time="2026-10-27 06:02:21Z" duration="0.064175" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1014" name="MapToolPlayModeTests" fullname="LittleCastle.Tests.MapToolPlayModeTests" classname="LittleCastle.Tests.MapToolPlayModeTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-10-27 06:02:21Z" end-time="2026-10-27 06:02:21Z" duration="0.124080" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1015" name="MapTools_OneBatchedRevisionUpdatesResidentTreesOnBothSidesOfZero" fullname="LittleCastle.Tests.MapToolPlayModeTests.MapTools_OneBatchedRevisionUpdatesResidentTreesOnBothSidesOfZero" methodname="MapTools_OneBatchedRevisionUpdatesResidentTreesOnBothSidesOfZero" classname="LittleCastle.Tests.MapToolPlayModeTests" runstate="Runnable" seed="767934034" result="Passed" start-time="2026-10-27 06:02:21Z" end-time="2026-10-27 06:02:21Z" duration="0.013039" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1016" name="MapTools_RealMeadowAdapterUsesRegistryForSurfaceHeightAndSaveReplay" fullname="LittleCastle.Tests.MapToolPlayModeTests.MapTools_RealMeadowAdapterUsesRegistryForSurfaceHeightAndSaveReplay" methodname="MapTools_RealMeadowAdapterUsesRegistryForSurfaceHeightAndSaveReplay" classname="LittleCastle.Tests.MapToolPlayModeTests" runstate="Runnable" seed="410096179" result="Passed" start-time="2026-10-27 06:02:21Z" end-time="2026-10-27 06:02:21Z" duration="0.110281" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1017" name="MapTreePlayModeTests" fullname="LittleCastle.Tests.MapTreePlayModeTests" classname="LittleCastle.Tests.MapTreePlayModeTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-10-27 06:02:21Z" end-time="2026-10-27 06:02:21Z" duration="0.012199" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1019" name="MapTrees_CrownPickSkipsEmptyCornerOfNeighbourBounds" fullname="LittleCastle.Tests.MapTreePlayModeTests.MapTrees_CrownPickSkipsEmptyCornerOfNeighbourBounds" methodname="MapTrees_CrownPickSkipsEmptyCornerOfNeighbourBounds" classname="LittleCastle.Tests.MapTreePlayModeTests" runstate="Runnable" seed="1014519090" result="Passed" start-time="2026-10-27 06:02:21Z" end-time="2026-10-27 06:02:21Z" duration="0.003789" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1018" name="MapTrees_PresenterBudgetIdentitySelectionHeightAndCleanup" fullname="LittleCastle.Tests.MapTreePlayModeTests.MapTrees_PresenterBudgetIdentitySelectionHeightAndCleanup" methodname="MapTrees_PresenterBudgetIdentitySelectionHeightAndCleanup" classname="LittleCastle.Tests.MapTreePlayModeTests" runstate="Runnable" seed="2116616367" result="Passed" start-time="2026-10-27 06:02:21Z" end-time="2026-10-27 06:02:21Z" duration="0.005898" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1020" name="PresentationOwnershipPlayModeTests" fullname="LittleCastle.Tests.PresentationOwnershipPlayModeTests" classname="LittleCastle.Tests.PresentationOwnershipPlayModeTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-10-27 06:02:21Z" end-time="2026-10-27 06:02:21Z" duration="0.010460" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1022" name="ChunkReleaseAndReload_FreesWaterWithoutDuplicateOwner" fullname="LittleCastle.Tests.PresentationOwnershipPlayModeTests.ChunkReleaseAndReload_FreesWaterWithoutDuplicateOwner" methodname="ChunkReleaseAndReload_FreesWaterWithoutDuplicateOwner" classname="LittleCastle.Tests.PresentationOwnershipPlayModeTests" runstate="Runnable" seed="1829440383" result="Passed" start-time="2026-10-27 06:02:21Z" end-time="2026-10-27 06:02:21Z" duration="0.007656" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1021" name="RuntimeEmitterAwake_DisablesUnbudgetedLight" fullname="LittleCastle.Tests.PresentationOwnershipPlayModeTests.RuntimeEmitterAwake_DisablesUnbudgetedLight" methodname="RuntimeEmitterAwake_DisablesUnbudgetedLight" classname="LittleCastle.Tests.PresentationOwnershipPlayModeTests" runstate="Runnable" seed="1488551231" result="Passed" start-time="2026-10-27 06:02:21Z" end-time="2026-10-27 06:02:21Z" duration="0.002219" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1023" name="WorldStreamerPlayModeTests" fullname="LittleCastle.Tests.WorldStreamerPlayModeTests" classname="LittleCastle.Tests.WorldStreamerPlayModeTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-10-27 06:02:21Z" end-time="2026-10-27 06:02:32Z" duration="10.456492" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1024" name="TestScene_StreamsAcrossFramesAndPreservesRuntimeDelta" fullname="LittleCastle.Tests.WorldStreamerPlayModeTests.TestScene_StreamsAcrossFramesAndPreservesRuntimeDelta" methodname="TestScene_StreamsAcrossFramesAndPreservesRuntimeDelta" classname="LittleCastle.Tests.WorldStreamerPlayModeTests" runstate="Runnable" seed="1367516200" result="Passed" start-time="2026-10-27 06:02:21Z" end-time="2026-10-27 06:02:32Z" duration="10.455891" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[WORLD_VERIFY initial-ready: elapsed=6899,83 ms, active=49, desired=49, cached=49, colliders=5, loads=49, unloads=0, worstStage=39,44 ms. Legacy WorldGenerationTest, nographics Editor; NOT concept MATCH READY or GPU profiling.
+Legacy radius-based WorldStreamer focus is approaching the edge of its fixed MacroWorldPlan. Remaining macro chunks: 0. Configure WorldMapRules and a finite session map for production matches.
+WORLD_VERIFY first-visit-ready: elapsed=2718,33 ms, active=29, desired=29, cached=78, colliders=4, loads=78, unloads=49, worstStage=39,44 ms. Legacy WorldGenerationTest, nographics Editor; NOT concept MATCH READY or GPU profiling.
+WORLD_VERIFY return-ready: elapsed=697,29 ms, active=49, desired=49, cached=80, colliders=5, loads=127, unloads=78, worstStage=39,44 ms. Legacy WorldGenerationTest, nographics Editor; NOT concept MATCH READY or GPU profiling.
+WORLD_VERIFY playmode sceneLoad=2555,53 ms, maxObservedFrame=82,53 ms, activeTarget=49, colliders=5.
+Saving results to: C:/Users/Дмитрий/AppData/LocalLow/DefaultCompany/Little-Castle\TestResults.xml
+]]></output>
+            </test-case>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

@@ -1,0 +1,42 @@
+{
+  "unity": "6000.5.5f1",
+  "pipeline": "URP 17.5.0 (local fixture)",
+  "date": "2026-10-27",
+  "source_checkpoint": "d2094da",
+  "implementation_commit": "88ebdd70909b7977ffa433dce498f40ceaa23d46",
+  "editmode": {
+    "total": "242",
+    "passed": "240",
+    "failed": "2",
+    "skipped": "0",
+    "duration": "21,6715758",
+    "map_cases": {
+      "total": 61,
+      "passed": 61
+    },
+    "failures": [
+      {
+        "name": "LittleCastle.Tests.ConceptSceneIntegrationTests.ConceptMaterialAndCatalogReferenceRealApprovedAssets",
+        "message": "  Committed concept must not depend on ignored local art.\n  Expected: not String containing \"/TerrainStarter_v001/\"\n  But was:  \"Assets/_Game/Art/Imported/TerrainStarter_v001/Textures/T_Oak_Kit_Palette.png\"\n"
+      },
+      {
+        "name": "LittleCastle.Tests.UrpPreviewQualityTests.RuntimeQuality_ChangesCloneAndRestoresSlotWithoutChangingSharedAsset",
+        "message": "  Expected: False\n  But was:  True\n"
+      }
+    ]
+  },
+  "local_data_scale_measurement": "4096 logical tree records; local radius 12 m command: 2,699 ms (Editor, no renderer). No full forest rendering claim.\n",
+  "playmode": {
+    "total": "14",
+    "passed": "14",
+    "failed": "0",
+    "skipped": "0",
+    "duration": "92,6708943",
+    "map_cases": {
+      "total": 7,
+      "passed": 7
+    },
+    "failures": []
+  },
+  "sceneview": "PASS SceneView MouseDown/Drag/Up at size=12; points=15; radius=3 world metres\nPASS SceneView MouseDown/Drag/Up at size=90; points=15; radius=3 world metres\nPASS SceneView MouseDown/Drag/Up at size=1200; points=15; radius=3 world metres\nPASS same SceneView adapter applies height brush; changed nodes=332\nPASS SceneView height Undo/Redo exact save replay\nPASS author JSON reopen preserves baked height and strokes\n"
+}
