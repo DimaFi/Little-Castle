@@ -36,8 +36,17 @@ namespace LittleCastle.Editor
         readonly Dictionary<Renderer,MaterialPropertyBlock> rendererBindings=new Dictionary<Renderer,MaterialPropertyBlock>();
         readonly Dictionary<MeadowGrassRenderer,MaterialPropertyBlock> grassBindings=new Dictionary<MeadowGrassRenderer,MaterialPropertyBlock>();
         readonly Dictionary<InnerverseGrassStudy,MaterialPropertyBlock> accentBindings=new Dictionary<InnerverseGrassStudy,MaterialPropertyBlock>();
-        [MenuItem("Little Castle/Map/Surface Authoring")]
-        static void Open()=>GetWindow<MapAuthoringWindow>("Карта · покрытие");
+        [MenuItem("Little Castle/Map/World Editor")]
+        static void Open()
+        {
+            var window=GetWindow<MapAuthoringWindow>("World Editor");
+            if(window.session==null)window.ConnectSceneMap();
+        }
+        void ConnectSceneMap()
+        {
+            var painter=FindAnyObjectByType<MeadowSurfacePainter>();
+            if(painter&&painter.source)Connect(painter.source);
+        }
         void OnEnable(){SceneView.duringSceneGui+=SceneGUI;EditorApplication.playModeStateChanged+=PlayState;EditorApplication.update+=Tick;}
         void OnDisable(){tools?.Cancel();if(session!=null)session.Changed-=Changed;SceneView.duringSceneGui-=SceneGUI;EditorApplication.playModeStateChanged-=PlayState;EditorApplication.update-=Tick;RestorePreview();if(preview)DestroyImmediate(preview);}
         void Tick(){if(!EditorApplication.isPlaying){TickTools();terrainPreview?.FlushColliderBudget(2);var riverView=SceneView.lastActiveSceneView;if(riverView&&riverView.camera)riverPreview?.Tick(riverView.camera.transform.position);if(treePreview!=null){var view=SceneView.lastActiveSceneView;treePreview.Tick(view&&view.camera?view.camera.transform.position:Vector3.zero);}}}
@@ -55,6 +64,9 @@ namespace LittleCastle.Editor
         {
             RestorePreview();if(EditorApplication.isPlaying)return;
             var painter=FindAnyObjectByType<MeadowSurfacePainter>();if(!painter||painter.source!=source)return;
+            // Initialize the loaded scene's existing presentation values in Edit Mode.
+            // No lighting settings, materials or shaders are authored by this window.
+            var globals=FindAnyObjectByType<StylizedLightingGlobals>();if(globals)globals.ApplyGlobals();
             var ground=MeadowSurfacePainter.FindGround(painter.terrainMaterial);
             if(ground)terrainPreview=new MapTerrainPresentation(session,ground,FindAnyObjectByType<MeadowGrassRenderer>(),FindAnyObjectByType<InnerverseGrassStudy>());
             if(treeCatalog)treePreview=new MapTreePresentation(session,treeCatalog);var rockCatalog=MapRockCatalog.Default;if(rockCatalog)riverPreview=new MapRiverPresentation(session,rockCatalog);
@@ -87,8 +99,7 @@ namespace LittleCastle.Editor
             EditorGUILayout.HelpBox("ЛКМ в SceneView — мазок. Alt — камера. Один мазок — одна отмена. Предпросмотр: R дорожка, G растительность. Сохранение файла не меняет базовую сцену.",MessageType.Info);
             var selected=(SurfacePaintData)EditorGUILayout.ObjectField("База карты",source,typeof(SurfacePaintData),false);
             if(selected!=source)Connect(selected);
-            if(!source&&GUILayout.Button("Взять базу из Meadow"))
-            {var painter=FindAnyObjectByType<MeadowSurfacePainter>();if(painter)Connect(painter.source);}
+            if(!source&&GUILayout.Button("Подключить карту открытой сцены"))ConnectSceneMap();
             if(session==null)return;
             if(EditorApplication.isPlaying){EditorGUILayout.HelpBox("Для правок в Play Mode используйте игровую панель Meadow. Авторский документ редактируется вне Play Mode.",MessageType.Info);return;}
             DrawRiverTools();

@@ -22,7 +22,7 @@ namespace LittleCastle.Editor
             if(!painter)throw new InvalidOperationException("Local Meadow fixture is unavailable; sync the art library first.");
             var globals=UnityEngine.Object.FindAnyObjectByType<StylizedLightingGlobals>();if(globals)globals.ApplyGlobals();
             Preflight();
-            var window=EditorWindow.GetWindow<MapAuthoringWindow>("Карта · инструменты");window.position=new Rect(20,80,410,850);window.Connect(painter.source);window.SetTool("surface.road");
+            var window=EditorWindow.GetWindow<MapAuthoringWindow>("World Editor");window.position=new Rect(20,80,410,850);window.Connect(painter.source);window.SetTool("surface.road");
             var view=EditorWindow.GetWindow<SceneView>();view.Show();
             var b=painter.source.bounds;view.LookAt(new Vector3(b.x+b.z*.5f,0,b.y+b.w*.5f),Quaternion.Euler(65,0,0),90,false,true);
             window.VerificationSession.Changed+=change=>
