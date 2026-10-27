@@ -92,7 +92,7 @@ namespace LittleCastle.Editor
             if(session==null)return;
             if(EditorApplication.isPlaying){EditorGUILayout.HelpBox("Для правок в Play Mode используйте игровую панель Meadow. Авторский документ редактируется вне Play Mode.",MessageType.Info);return;}
             DrawRiverTools();
-            brush=EditorGUILayout.Toggle("Кисть в SceneView",brush);if(brush)treeTool=0;
+            brush=EditorGUILayout.Toggle("Инструмент в SceneView",brush);
             DrawCommonTools();
             minimumHeight=EditorGUILayout.FloatField("Нижний предел, м",minimumHeight);maximumHeight=EditorGUILayout.FloatField("Верхний предел, м",maximumHeight);
             if(GUILayout.Button("Задать пределы авторской карты"))Run(()=>
@@ -147,23 +147,23 @@ namespace LittleCastle.Editor
                     GUILayout.BeginHorizontal();for(int col=0;col<2;col++)
                     {
                         int cell=row*2+col;if(cell>=groupIndices.Count)break;int index=groupIndices[cell];var entry=treeCatalog.entries[index];
-                        if(GUILayout.Button(new GUIContent(entry.title,entry.thumbnail),GUILayout.Width(124),GUILayout.Height(108))){tools.Complete();session.CommitStroke();selectedTreeSource=index;extensionToolId=null;treeTool=1;brush=false;treeScale=Mathf.Clamp(1,entry.definition.minimumScale,entry.definition.maximumScale);}
+                        if(GUILayout.Button(new GUIContent(entry.title,entry.thumbnail),GUILayout.Width(124),GUILayout.Height(108))){selectedTreeSource=index;SetTool("tree.place");treeScale=Mathf.Clamp(1,entry.definition.minimumScale,entry.definition.maximumScale);}
                     }
                     GUILayout.EndHorizontal();
                 }
-                for(int p=0;p<treeCatalog.packs.Length;p++)if(GUILayout.Button("Кисть: "+MapTreeCatalog.PackTitle(treeCatalog.packs[p]))){tools.Complete();session.CommitStroke();selectedTreePack=p;extensionToolId=null;treeTool=2;brush=false;}
+                for(int p=0;p<treeCatalog.packs.Length;p++)if(GUILayout.Button("Кисть: "+MapTreeCatalog.PackTitle(treeCatalog.packs[p]))){selectedTreePack=p;SetTool("vegetation.grove");}
                 if(treeTool==2){treeDensity=EditorGUILayout.Slider("Плотность",treeDensity,0,1);treeSpacing=EditorGUILayout.Slider("Интервал, м",treeSpacing,2,16);treeSeed=EditorGUILayout.IntField("Seed",treeSeed);}
                 treeYaw=EditorGUILayout.Slider("Поворот дерева",treeYaw,0,359);
                 var definition=treeCatalog.entries[selectedTreeSource].definition;treeScale=EditorGUILayout.Slider("Масштаб дерева",treeScale,definition.minimumScale,definition.maximumScale);
-                if(GUILayout.Button("Выбрать дерево по кроне")){tools.Complete();session.CommitStroke();treeTool=3;brush=false;}
+                if(GUILayout.Button("Выбрать дерево по кроне")){SetTool("tree.pick");}
                 if(selectedTree!=0&&session.HasTree(selectedTree))
                 {
                     GUILayout.Label("Выбрано: "+session.GetTree(selectedTree).archetypeId);
-                    GUILayout.BeginHorizontal();if(GUILayout.Button("Переместить")){tools.Complete();session.CommitStroke();treeTool=4;brush=false;}
+                    GUILayout.BeginHorizontal();if(GUILayout.Button("Переместить")){SetTool("tree.move");}
                     if(GUILayout.Button("Повернуть / масштаб"))Run(()=>{var r=session.GetTree(selectedTree);session.TransformTree(selectedTree,r.position,treeYaw,treeScale);});
                     if(GUILayout.Button("Удалить"))Run(()=>{session.DeleteTree(selectedTree);selectedTree=0;});GUILayout.EndHorizontal();
                 }
-                if(treeTool!=0&&GUILayout.Button("Закончить работу с деревьями")){tools.Complete();session.CommitStroke();treeTool=0;}
+                if(treeTool!=0&&GUILayout.Button("Закончить работу с деревьями")){tools.Complete();session.CommitStroke();treeTool=0;brush=false;}
             }
             GUILayout.Label(status??"");
             if(preview){float size=Mathf.Min(position.width-20,300);GUILayout.Label(preview,GUILayout.Width(size),GUILayout.Height(size));}

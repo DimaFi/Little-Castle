@@ -40,10 +40,11 @@ namespace LittleCastle.Editor
         internal void SetTool(string id)
         {
             tools.Complete();pointerHeld=false;riverTools.mode=0;
+            if(tools.Selected==null||tools.Selected.Id!=id)softness=id.StartsWith("terrain.")?1:id=="vegetation.grove"?0:.38f;
             extensionToolId=id=="surface.road"||id=="surface.meadow"||id=="surface.erase"||id=="terrain.raise"||id=="terrain.lower"||id=="vegetation.grove"||id=="tree.place"||id=="tree.pick"||id=="tree.move"||id=="river.points"?null:id;
             treeTool=id=="tree.place"?1:id=="vegetation.grove"?2:id=="tree.pick"?3:id=="tree.move"?4:0;
             sculpting=id.StartsWith("terrain.",StringComparison.Ordinal);lower=id=="terrain.lower";road=id=="surface.road";erase=id=="surface.erase";
-            brush=treeTool==0&&id!="river.points";
+            brush=true;
             if(id=="river.points"){showRivers=true;riverTools.mode=2;}
             tools.Select(id);
         }
@@ -96,13 +97,13 @@ namespace LittleCastle.Editor
         void TickTools()
         {
             if(tools==null||session==null)return;
-            if(!brush&&treeTool==0&&(!showRivers||riverTools.mode==0)){tools.Cancel();pointerHeld=false;return;}
+            if(!brush){tools.Cancel();pointerHeld=false;return;}
             if(pointerHeld&&!(EditorWindow.mouseOverWindow is SceneView)){tools.Release();pointerHeld=false;}
             try{ConfigureTools();tools.Tick(EditorApplication.timeSinceStartup);}catch(Exception e){status=e.Message;pointerHeld=false;}
         }
         void SceneGUI(SceneView view)
         {
-            if(session==null||EditorApplication.isPlaying||!brush&&treeTool==0&&(!showRivers||riverTools.mode==0))return;
+            if(session==null||EditorApplication.isPlaying||!brush)return;
             var e=Event.current;ConfigureTools();
             if(e.type==EventType.KeyDown&&e.keyCode==KeyCode.Escape)
             {tools.Cancel();pointerHeld=false;riverTools.mode=0;treeTool=0;e.Use();return;}

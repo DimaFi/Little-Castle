@@ -12,7 +12,7 @@ namespace LittleCastle.Editor
         void DrawRiverTools()
         {
             showRivers=EditorGUILayout.Foldout(showRivers,"Реки, песчаные спуски, броды и скалы",true);
-            if(showRivers){riverTools.Draw(session);if(riverTools.mode!=0){extensionToolId=null;brush=false;treeTool=0;}}
+            if(showRivers){bool previous=GUI.changed;GUI.changed=false;riverTools.Draw(session);bool changed=GUI.changed;GUI.changed|=previous;if(riverTools.mode!=0&&changed){extensionToolId=null;brush=true;treeTool=0;}}
         }
         void DrawRiverDraft()
         {
