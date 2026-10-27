@@ -120,6 +120,13 @@ namespace LittleCastle.Rendering
         private float windSpeed = 1f;
 
         public float Daylight { get; private set; }
+        public void SetWindPresentation(Vector2 direction, float strength, float speed)
+        {
+            windDirection = direction;
+            windStrength = Mathf.Clamp(strength, 0, 2);
+            windSpeed = Mathf.Max(0, speed);
+            ApplyGlobals();
+        }
         public float Twilight { get; private set; }
         public float NightAmount { get; private set; }
 

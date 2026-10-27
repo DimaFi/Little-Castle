@@ -313,6 +313,9 @@ namespace LittleCastle.World
                             referencedArchetypes.Add(
                                 rule.archetypeId);
                         }
+                        if(rule.flowerMeadow&&rule.flowerVariants!=null)
+                            foreach(string variant in rule.flowerVariants)
+                                if(!string.IsNullOrWhiteSpace(variant))referencedArchetypes.Add(variant);
 
                         if (rule.spacing < 0.25f)
                         {
@@ -874,6 +877,17 @@ namespace LittleCastle.World
                 }
             }
 
+            if(catalog.groundCoverLibrary&&catalog.groundCoverLibrary.prototypes!=null)
+            {
+                foreach(var prototype in catalog.groundCoverLibrary.prototypes)
+                {
+                    if(prototype==null||string.IsNullOrWhiteSpace(prototype.stableId))
+                    {report.AddError("Instanced ground-cover prototype has no stable ID.");continue;}
+                    if(!catalogIds.Add(prototype.stableId))report.AddError("Duplicate instanced ground-cover archetype: '"+prototype.stableId+"'.");
+                    if(prototype.lodMeshes==null||prototype.lodMeshes.Length!=4||prototype.materials==null)
+                        report.AddError("Instanced ground-cover prototype is incomplete: '"+prototype.stableId+"'.");
+                }
+            }
             foreach (string archetypeId in referencedArchetypes)
             {
                 if (!catalogIds.Contains(archetypeId))

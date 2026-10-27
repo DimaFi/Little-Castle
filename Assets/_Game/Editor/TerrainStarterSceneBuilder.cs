@@ -540,7 +540,7 @@ namespace LittleCastle.Editor
             var rt=RenderTexture.GetTemporary(1600,1000,24,RenderTextureFormat.Default,RenderTextureReadWrite.Default,4);
             var previous=RenderTexture.active; var old=camera.targetTexture;
             var image=new Texture2D(1600,1000,TextureFormat.RGB24,false);
-            try { camera.targetTexture=rt; camera.Render(); RenderTexture.active=rt;
+            try { camera.targetTexture=rt; CameraCaptureCompatibility.Render(camera,rt); RenderTexture.active=rt;
                 image.ReadPixels(new Rect(0,0,1600,1000),0,0); image.Apply(); File.WriteAllBytes(path,image.EncodeToPNG()); }
             finally { camera.targetTexture=old; RenderTexture.active=previous; RenderTexture.ReleaseTemporary(rt); UnityEngine.Object.DestroyImmediate(image); }
         }

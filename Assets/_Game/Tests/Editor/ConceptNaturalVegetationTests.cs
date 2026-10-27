@@ -136,7 +136,7 @@ namespace LittleCastle.Tests
         }
 
         [Test]
-        public void ConceptOnlyYamlFlags_AreEnabledWhileMainPresetsStayLegacy()
+        public void GroundCoverPresetsRespectClearanceWhileMainTreeFlagsStayLegacy()
         {
             var conceptGrass = AssetDatabase.LoadAssetAtPath<GroundCoverStage>(
                 "Assets/_Game/Settings/World/ConceptWorld_v001/Stages/09_GroundCover.asset");
@@ -157,9 +157,9 @@ namespace LittleCastle.Tests
             Assert.That(new SerializedObject(conceptGrass)
                 .FindProperty("fadeGrassOnSteepSlopes").boolValue, Is.True);
             Assert.That(new SerializedObject(mainGrass)
-                .FindProperty("respectGrassPlacementBlocks").boolValue, Is.False);
+                .FindProperty("respectGrassPlacementBlocks").boolValue, Is.True);
             Assert.That(new SerializedObject(mainGrass)
-                .FindProperty("fadeGrassOnSteepSlopes").boolValue, Is.False);
+                .FindProperty("fadeGrassOnSteepSlopes").boolValue, Is.True);
             Assert.That(new SerializedObject(conceptScatter)
                 .FindProperty("restrictTreeSurfaces").boolValue, Is.True);
             Assert.That(new SerializedObject(conceptScatter)

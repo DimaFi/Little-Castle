@@ -1870,7 +1870,8 @@ namespace LittleCastle.World
                                 chunkData,
                                 catalog,
                                 worldOrigin,
-                                runtimeDelta);
+                                runtimeDelta,
+                                GenerationSettings.ChunkWorldSize);
                     }
 
                     lastSpawnPresentationMilliseconds =

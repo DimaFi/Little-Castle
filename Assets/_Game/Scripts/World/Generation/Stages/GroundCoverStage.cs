@@ -25,9 +25,9 @@ namespace LittleCastle.World
         [Range(0f, 1f)]
         [SerializeField] private float moistureInfluence = 0.25f;
 
-        [Header("Concept-only natural placement (opt in)")]
+        [Header("Placement clearance and slope")]
         [Tooltip("Honor the authoritative Grass placement-block bit on roads, " +
-                 "bridge supports, rivers and settlement clearings. Legacy off.")]
+                 "bridge supports, rivers and settlement clearings.")]
         [SerializeField] private bool respectGrassPlacementBlocks;
 
         [Tooltip("Fade grass density on steep slopes without changing terrain " +

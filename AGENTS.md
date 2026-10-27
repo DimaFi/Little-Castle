@@ -2,6 +2,16 @@
 
 This file defines rules for AI coding agents working in this repository.
 
+## Map authoring / lighting coordination — 2026-10-25
+
+Before continuing map tools, read
+`docs/handoffs/map-authoring-coordination-20261025-ru.md` and its canonical plan
+in the main Little-Castle project. Current scope is manual map authoring: shared
+surface tools/save, bounded terrain editing, then Oak A/B/C/D placement; rivers
+follow. Shared shaders, lighting globals and URP profiles are reserved for a
+separate lighting integration copy during parallel work. Do not overwrite that
+work or reset the user's open Meadow Player edits.
+
 ## FIRST PROJECT PREFLIGHT — foliage model/shader compatibility
 
 This is the first rendering/model compatibility check for any coding agent
