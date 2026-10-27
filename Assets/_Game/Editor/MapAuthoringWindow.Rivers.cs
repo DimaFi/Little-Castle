@@ -7,16 +7,33 @@ namespace LittleCastle.Editor
     public sealed partial class MapAuthoringWindow
     {
         MapRiverPresentation riverPreview;
-        readonly MapRiverToolState riverTools=new MapRiverToolState();
-        bool showRivers;
+        MapRiverToolState riverTools=new MapRiverToolState();
+        void ConfigureRiverProfile()
+        {
+            var painter=FindAnyObjectByType<MeadowSurfacePainter>();
+            riverTools.ConfigureNewRiverProfile(painter&&painter.source==source&&painter.waterOnlyRivers);
+        }
         void DrawRiverTools()
         {
-            showRivers=EditorGUILayout.Foldout(showRivers,"Реки, песчаные спуски, броды и скалы",true);
-            if(showRivers){bool previous=GUI.changed;GUI.changed=false;riverTools.Draw(session);bool changed=GUI.changed;GUI.changed|=previous;if(riverTools.mode!=0&&changed){extensionToolId=null;brush=true;treeTool=0;}}
+            ConfigureRiverProfile();
+            EditorGUILayout.HelpBox("1. Новая река → 2. Точки по земле в SceneView по течению → 3. Применить реку. Только после применения река входит в JSON и авторскую базу.",MessageType.Info);
+            if(riverTools.HasUnappliedDraft(session)&&GUILayout.Button("Сбросить неприменённый черновик…"))
+            {
+                if(EditorUtility.DisplayDialog("Сбросить черновик реки?","Удалить неприменённые точки и настройки? Уже применённые реки останутся в карте.","Сбросить черновик","Отмена"))
+                {riverTools=new MapRiverToolState();ConfigureRiverProfile();brush=false;SceneView.RepaintAll();}
+            }
+            int revision=riverTools.ModeRevision,mode=riverTools.mode;
+            riverTools.Draw(session,false);
+            if(riverTools.ModeRevision!=revision||riverTools.mode!=mode)
+            {
+                if(riverTools.mode!=0)SetTool("river.points");
+                else {tools.Complete();pointerHeld=false;brush=false;}
+                SceneView.RepaintAll();
+            }
         }
         void DrawRiverDraft()
         {
-            if(!showRivers||riverTools.mode==0)return;
+            if(CurrentToolId!="river.points"||riverTools.mode==0)return;
             var points=riverTools.DraftPoints;Handles.color=Color.cyan;
             for(int i=0;i<points.Count;i++)
             {

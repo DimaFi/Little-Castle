@@ -1,0 +1,17 @@
+{
+  "samples": 240,
+  "monotonic": true,
+  "firstAbsoluteMinutes": 1189.1666208902996,
+  "lastAbsoluteMinutes": 1857.9999542236326,
+  "maxAdjacentDelta": {
+    "sunR": 0.0,
+    "sunG": 0.004823505878448486,
+    "sunB": 0.006906360387802124,
+    "sunIntensity": 0.013828098773956299,
+    "ambientR": 0.0017472505569458008,
+    "ambientG": 0.0011647939682006836,
+    "ambientB": 0.0008736252784729004
+  },
+  "visual_note": "Coherent 120 simulated real seconds from 19.8 hours through midnight and dawn; no clock reset per sample. Max deltas are recorded values, not invented pass thresholds.",
+  "ao_pair_camera_max_delta": 0.0
+}

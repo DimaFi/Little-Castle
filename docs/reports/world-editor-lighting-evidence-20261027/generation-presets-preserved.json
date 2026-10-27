@@ -1,0 +1,22 @@
+[
+  {
+    "path": "Assets/_Game/Settings/World/Stages/09_GroundCover.asset",
+    "unchanged_from_before_main": true,
+    "sha256": "37a541245af3b28f551cd68416f898d65f10c01932220083e818b737f233dcbe"
+  },
+  {
+    "path": "Assets/_Game/Settings/World/ConceptWorld_v001/Stages/09_GroundCover.asset",
+    "unchanged_from_before_main": true,
+    "sha256": "53725356f4f69dca15dbbf373cf060c3635665f93199ee3b7ecfc922cb49fcc0"
+  },
+  {
+    "path": "Assets/_Game/Settings/World/Stages/11_ObjectScatter.asset",
+    "unchanged_from_before_main": true,
+    "sha256": "74ed7dc0f8648787536f1aeeddcb7b75c2a1a7ab00fec7a55d355ef110bfecbb"
+  },
+  {
+    "path": "Assets/_Game/Settings/World/ConceptWorld_v001/Stages/11_ObjectScatter.asset",
+    "unchanged_from_before_main": true,
+    "sha256": "4cf8ae166b5f0c0736364268886889094afe1cb540a42aa32fdfbcc658b23bbb"
+  }
+]

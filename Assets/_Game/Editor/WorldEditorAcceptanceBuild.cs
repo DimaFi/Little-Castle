@@ -87,6 +87,23 @@ namespace LittleCastle.Editor
             UrpQualityProfileSetup.Run();
             EditorSceneManager.MarkSceneDirty(scene);EditorSceneManager.SaveScene(scene);AssetDatabase.SaveAssets();
         }
+        [MenuItem("Little Castle/World Editor/Configure integrated water")]
+        public static void ConfigureIntegratedWater()
+        {
+            if(EditorApplication.isPlayingOrWillChangePlaymode)throw new InvalidOperationException("Exit Play Mode first.");
+            var scene=UnityEngine.SceneManagement.SceneManager.GetActiveScene();
+            if(Application.isBatchMode&&scene.path!=Scene)scene=EditorSceneManager.OpenScene(Scene);
+            if(scene.path!=Scene)throw new InvalidOperationException("Open the integrated World Editor scene first.");
+            var painter=Object.FindAnyObjectByType<MeadowSurfacePainter>();
+            painter.riverCatalogOverride=Need<MapRockCatalog>("Assets/_Game/Art/Studies/RiverWater_20261026/RiverWater_Catalog.asset");painter.waterOnlyRivers=true;
+            var ui=Object.FindAnyObjectByType<MeadowPreview>();ui.profile=Need<UniversalRenderPipelineAsset>(Root+"/WaterAO.asset");
+            var cameraData=painter.studyCamera.GetUniversalAdditionalCameraData();cameraData.requiresDepthTexture=true;cameraData.requiresColorTexture=true;
+            var reflection=painter.GetComponent<UberRiverReflectionAdapter>();if(!reflection)reflection=painter.gameObject.AddComponent<UberRiverReflectionAdapter>();
+            reflection.painter=painter;reflection.reflectionScale=.5f;
+            var checks=Object.FindAnyObjectByType<WorldEditorAcceptance>();if(checks){checks.ao=ui.profile;checks.hdr=Need<UniversalRenderPipelineAsset>(Root+"/WaterHDR.asset");}
+            EditorSceneManager.MarkSceneDirty(scene);EditorSceneManager.SaveScene(scene);AssetDatabase.SaveAssets();
+            Debug.Log("WORLD_EDITOR_WATER_READY: new rivers v2; v1 preserved; owned water profiles + depth/opaque; one reflection plane.");
+        }
         [MenuItem("Little Castle/World Editor/Open Integrated Scene")]
         public static void OpenScene()
         {
@@ -124,7 +141,7 @@ namespace LittleCastle.Editor
             var before=settings.ToDictionary(p=>p,File.ReadAllBytes);
             try
             {
-                var hdr=Need<UniversalRenderPipelineAsset>(Root+"/HDR.asset");var ao=Need<UniversalRenderPipelineAsset>(Root+"/AO.asset");
+                var hdr=Need<UniversalRenderPipelineAsset>(Root+"/WaterHDR.asset");var ao=Need<UniversalRenderPipelineAsset>(Root+"/WaterAO.asset");
                 PlayerSettings.enableFrameTimingStats=true;GraphicsSettings.defaultRenderPipeline=ao;
                 // Both profiles participate in shader variant collection; no asset mutation.
                 for(int i=0;i<old.Length;i++){QualitySettings.SetQualityLevel(i,false);QualitySettings.renderPipeline=i==0?hdr:ao;}

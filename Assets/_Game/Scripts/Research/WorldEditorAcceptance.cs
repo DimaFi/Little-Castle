@@ -94,6 +94,7 @@ namespace LittleCastle.Acceptance
                 Require(!(b is LightingMeadowReview||b is SpatialIndirectStudyReview),"Review driver present: disabled components still run Awake.");
             if(benchmark){yield return Benchmark();yield break;}
             BrushChecks();
+            if(Array.IndexOf(Environment.GetCommandLineArgs(),"-weRiverChecks")>=0)yield return RiverChecks();
             rows.Add("name,hour,distance,ao,cameraX,cameraY,cameraZ,shadowDistance,fogStart,fogEnd");
             foreach(float hour in new[]{12f,18.5f,1f})foreach(float distance in new[]{11f,35f,115f})foreach(bool useAO in new[]{false,true})
             {
@@ -142,6 +143,38 @@ namespace LittleCastle.Acceptance
             }
             finally{painter.LoadJson(original);painter.enabled=enabled;}
         }
+        IEnumerator RiverChecks()
+        {
+            var river=painter.GetComponent<MapRiverRuntimeTool>();Require(river,"River adapter missing.");
+            var state=(MapRiverToolState)typeof(MapRiverRuntimeTool).GetField("state",Private).GetValue(river);
+            string original=painter.ExportJson();bool enabled=painter.enabled;painter.enabled=false;
+            try
+            {
+                river.ConfigureWaterOnly(painter.waterOnlyRivers);river.BeginRiver();
+                var controller=painter.Tools;controller.Select("river.points");
+                foreach(var point in new[]{new Vector2(-14,-12),new Vector2(-14,24)})
+                {controller.Begin(new MapToolPointer(new Ray(new Vector3(point.x,100,point.y),Vector3.down),true,point),Time.unscaledTimeAsDouble);controller.Complete();}
+                Require(state.CanApplyRiver&&state.draft.nodes.Count==2,"Shared river tool did not collect both clicks.");
+                Require(river.HasUnappliedDraft,"New river must be reported as unsaved draft.");
+                Require(state.ApplyRiver(painter.Session),"River Apply failed: "+state.status);
+                Require(!river.HasUnappliedDraft,"Applied river still marked as unpublished.");
+                long id=state.draft.id;string saved=painter.ExportJson();
+                Require(painter.Session.GetRiver(id).layoutVersion==2,"Integrated new river profile is not v2.");
+                painter.Undo();Require(painter.ExportJson()==original,"River undo mismatch.");
+                painter.Redo();Require(painter.ExportJson()==saved,"River redo mismatch.");
+                File.WriteAllText(Path.Combine(output,"river-save.json"),saved);painter.LoadJson(original);painter.LoadJson(File.ReadAllText(Path.Combine(output,"river-save.json")));
+                Require(painter.ExportJson()==saved,"River disk roundtrip mismatch.");
+                painter.enabled=enabled;river.CloseTools();Pose(35);
+                foreach(float hour in new[]{12f,1f})
+                {
+                    SetHour(hour);for(int frame=0;frame<24;frame++)yield return null;
+                    Require(painter.RiverView.ResidentTiles>0,"Applied river has no resident water mesh.");
+                    yield return Capture("river-h"+F(hour)+"-d35");
+                }
+                File.WriteAllText(Path.Combine(output,"river-checks.txt"),"PASS shared control-point clicks; draft guard; Apply v2; Undo/Redo; isolated disk save/load; resident water and day/night renders.\n");
+            }
+            finally{river.DiscardDraft();river.CloseTools();painter.LoadJson(original);painter.enabled=enabled;}
+        }
         IEnumerator Capture(string name)
         {
             for(int attempt=0;attempt<4;attempt++)
@@ -180,6 +213,18 @@ namespace LittleCastle.Acceptance
             float distance=ReadFloat(args,"-weDistance",35),hour=ReadFloat(args,"-weHour",12);
             bool useAO=ReadFloat(args,"-weAO",1)>0;
             QualitySettings.renderPipeline=useAO?ao:hdr;SetHour(hour);Pose(distance);
+            double riverCommitMs=0;bool withRiver=Array.IndexOf(args,"-weBenchmarkRiver")>=0;
+            if(withRiver)
+            {
+                double started=Time.realtimeSinceStartupAsDouble;
+                painter.Session.UpsertRiver(new MapRiverRecord{id=918273,layoutVersion=2,nodes=new List<MapRiverNode>{
+                    new MapRiverNode{id=1,position=new Vector2(-14,-12),leftBank=MapBankKind.Sand,rightBank=MapBankKind.Sand},
+                    new MapRiverNode{id=2,position=new Vector2(-14,24),leftBank=MapBankKind.Sand,rightBank=MapBankKind.Sand}}});
+                riverCommitMs=(Time.realtimeSinceStartupAsDouble-started)*1000;
+                // Derived tile work runs through the real budgeted presentation before warming up.
+                for(int i=0;i<60;i++)yield return null;
+                Require(painter.RiverView.ResidentTiles>0,"Benchmark river presentation missing.");
+            }
             QualitySettings.vSyncCount=0;Application.targetFrameRate=-1;
             // Foreground measurements only. Hidden launch allows selecting the right
             // window before warming up; timeout is an explicit failed measurement.
@@ -209,7 +254,7 @@ namespace LittleCastle.Acceptance
             for(int i=0;i<600;i++)rows.Add(i+","+F(samples[i])+","+F(cpu[i])+","+F(gpu[i])+","+(gcAvailable?alloc[i].ToString():"unavailable"));
             File.WriteAllLines(Path.Combine(output,"benchmark.csv"),rows);
             var grass=FindAnyObjectByType<MeadowGrassRenderer>();
-            File.WriteAllText(Path.Combine(output,"benchmark.txt"),"600 ordinary rendered camera frames; 120 warmup; no PNG/readback during measurement.\nCPU timing samples="+cpuCount+"; GPU timing samples="+gpuCount+"; GC recorder="+gcAvailable+"\nBatchMode="+Application.isBatchMode+"; focused="+Application.isFocused+"; GPU="+SystemInfo.graphicsDeviceName+"; API="+SystemInfo.graphicsDeviceType+"\nDistance="+F(distance)+"; hour="+F(hour)+"; AO="+useAO+"; resolution="+Screen.width+"x"+Screen.height+"; grassPatches="+(grass?grass.visiblePatches:0)+"; clumps="+(grass?grass.submittedClumps:0)+"; triangles="+(grass?grass.submittedTriangles:0)+"; grassDraws="+(grass?grass.drawCalls:0)+"\nGPU/CPU zero timings mean unavailable, not zero cost.\n");
+            File.WriteAllText(Path.Combine(output,"benchmark.txt"),"600 ordinary rendered camera frames; 120 warmup; no PNG/readback during measurement.\nCPU timing samples="+cpuCount+"; GPU timing samples="+gpuCount+"; GC recorder="+gcAvailable+"\nBatchMode="+Application.isBatchMode+"; focused="+Application.isFocused+"; GPU="+SystemInfo.graphicsDeviceName+"; API="+SystemInfo.graphicsDeviceType+"\nDistance="+F(distance)+"; hour="+F(hour)+"; AO="+useAO+"; resolution="+Screen.width+"x"+Screen.height+"; grassPatches="+(grass?grass.visiblePatches:0)+"; clumps="+(grass?grass.submittedClumps:0)+"; triangles="+(grass?grass.submittedTriangles:0)+"; grassDraws="+(grass?grass.drawCalls:0)+"\nRiver="+withRiver+"; riverCommitMs="+F(riverCommitMs)+"; residentWaterTiles="+painter.RiverView.ResidentTiles+"; reflectionScale="+(painter.GetComponent<UberRiverReflectionAdapter>()?.reflectionScale.ToString()??"none")+"\nGPU/CPU zero timings mean unavailable, not zero cost.\n");
         }
         static float ReadFloat(string[] args,string key,float fallback)
         {int i=Array.IndexOf(args,key);return i>=0&&i+1<args.Length?float.Parse(args[i+1],CultureInfo.InvariantCulture):fallback;}

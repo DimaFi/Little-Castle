@@ -12,11 +12,9 @@ namespace LittleCastle.Editor
         [SerializeField] MapBrushPreset brushPreset;
         readonly Vector3[] outerOutline=new Vector3[65],innerOutline=new Vector3[65];
         bool pointerHeld;
-        string[] toolNames;
-        string extensionToolId;
         void InitializeTools()
         {
-            tools?.Cancel();pointerHeld=false;
+            tools?.Complete();pointerHeld=false;
             var registry=MapToolRegistry.ExistingBrushes();
             if(treeCatalog&&treeCatalog.entries.Length>0)
             {
@@ -29,56 +27,37 @@ namespace LittleCastle.Editor
                     if(index>=0)selectedTreeSource=index;treeYaw=r.yawDegrees;treeScale=r.uniformScale;
                 },false));
                 registry.Register(new MapClickTool("tree.move","Переместить дерево","Растительность",p=>
-                {if(session.HasTree(selectedTree))session.TransformTree(selectedTree,p.position,treeYaw,treeScale);treeTool=3;}));
+                {if(session.HasTree(selectedTree))session.TransformTree(selectedTree,p.position,treeYaw,treeScale);treeTool=3;activeToolId="tree.pick";}));
             }
             registry.Register(new MapClickTool("river.points","Контрольные точки","Вода и берега",p=>riverTools.Click(session,p.position),true,MapToolGesture.ControlPoints));
             tools=new MapToolController(session,registry);
-            toolNames=new string[registry.Tools.Count];
-            for(int i=0;i<toolNames.Length;i++)toolNames[i]=registry.Tools[i].Category+" / "+registry.Tools[i].Title;
+            bool found=false;foreach(var tool in registry.Tools)if(tool.Id==activeToolId){found=true;break;}
+            if(!found)activeToolId="surface.road";
+            treeTool=activeToolId=="tree.place"?1:activeToolId=="vegetation.grove"?2:activeToolId=="tree.pick"?3:activeToolId=="tree.move"?4:0;
+            sculpting=activeToolId.StartsWith("terrain.",StringComparison.Ordinal);
+            tools.Select(activeToolId);toolCategory=CategoryForTool(tools.Selected);
         }
-        string CurrentToolId=>extensionToolId??(showRivers&&riverTools.mode!=0?"river.points":treeTool==1?"tree.place":treeTool==2?"vegetation.grove":treeTool==3?"tree.pick":treeTool==4?"tree.move":sculpting?(lower?"terrain.lower":"terrain.raise"):erase?"surface.erase":road?"surface.road":"surface.meadow");
+        string CurrentToolId=>activeToolId;
         internal void SetTool(string id)
         {
-            tools.Complete();pointerHeld=false;riverTools.mode=0;
-            if(tools.Selected==null||tools.Selected.Id!=id)softness=id.StartsWith("terrain.")?1:id=="vegetation.grove"?0:.38f;
-            extensionToolId=id=="surface.road"||id=="surface.meadow"||id=="surface.erase"||id=="terrain.raise"||id=="terrain.lower"||id=="vegetation.grove"||id=="tree.place"||id=="tree.pick"||id=="tree.move"||id=="river.points"?null:id;
+            tools.Complete();pointerHeld=false;
+            var selected=tools.registry.Get(id);
+            if(id!="river.points")riverTools.Stop();
+            else if(riverTools.mode==0)riverTools.Resume();
+            if(CurrentToolId!=id)softness=id.StartsWith("terrain.")?1:id=="vegetation.grove"?0:.38f;
+            activeToolId=id;toolCategory=CategoryForTool(selected);
             treeTool=id=="tree.place"?1:id=="vegetation.grove"?2:id=="tree.pick"?3:id=="tree.move"?4:0;
             sculpting=id.StartsWith("terrain.",StringComparison.Ordinal);lower=id=="terrain.lower";road=id=="surface.road";erase=id=="surface.erase";
-            brush=true;
-            if(id=="river.points"){showRivers=true;riverTools.mode=2;}
-            tools.Select(id);
+            brush=true;tools.Select(id);SceneView.RepaintAll();
         }
         void DrawCommonTools()
         {
             if(tools==null)InitializeTools();
-            int index=0;var registered=tools.registry.Tools;
-            for(int i=0;i<registered.Count;i++)if(registered[i].Id==CurrentToolId)index=i;
-            int next=EditorGUILayout.Popup("Инструмент",index,toolNames);
-            if(next!=index){SetTool(registered[next].Id);softness=CurrentToolId.StartsWith("terrain.")?1:CurrentToolId=="vegetation.grove"?0:.38f;}
-            var tool=registered[next];
-            if(tool.Controls!=MapToolControls.None)
-            {
-                if((tool.Controls&MapToolControls.Radius)!=0)radius=EditorGUILayout.Slider("Радиус, м",radius,treeTool==2?1:.5f,tool.MaximumRadius(session));
-                if((tool.Controls&MapToolControls.Strength)!=0)strength=EditorGUILayout.Slider("Сила",strength,0,1);
-                if((tool.Controls&MapToolControls.Softness)!=0)softness=EditorGUILayout.Slider("Мягкость края",softness,0,1);
-                if(sculpting)terrainRate=EditorGUILayout.Slider("Метры в секунду",terrainRate,.1f,4);
-                brushPreset=(MapBrushPreset)EditorGUILayout.ObjectField("Профиль кисти",brushPreset,typeof(MapBrushPreset),false);
-                using(new EditorGUILayout.HorizontalScope())
-                {
-                    if(brushPreset&&GUILayout.Button("Применить профиль"))Run(()=>
-                    {var t=tools.registry.Get(brushPreset.toolId);brushPreset.settings.Validate(t.MaximumRadius(session));SetTool(t.Id);radius=brushPreset.settings.radius;strength=brushPreset.settings.strength;softness=brushPreset.settings.softness;});
-                    if(GUILayout.Button("Сохранить профиль…"))
-                    {
-                        string path=EditorUtility.SaveFilePanelInProject("Профиль кисти","MapBrushPreset","asset","Сохранить настройки кисти");
-                        if(path.Length>0){var asset=CreateInstance<MapBrushPreset>();asset.toolId=CurrentToolId;asset.settings=new MapBrushSettings{radius=radius,strength=strength,softness=softness};AssetDatabase.CreateAsset(asset,path);brushPreset=asset;}
-                    }
-                }
-            }
-            if(GUILayout.Button("Показать всю карту в SceneView"))
-            {
-                var view=SceneView.lastActiveSceneView;if(view){var b=session.Bounds;view.Frame(new Bounds(new Vector3(b.x+b.z/2,(session.MinimumHeight+session.MaximumHeight)/2,b.y+b.w/2),new Vector3(b.z,session.MaximumHeight-session.MinimumHeight,b.w)),false);}
-            }
-            EditorGUILayout.HelpBox("ЛКМ — действие; Esc — отмена текущего штриха. Alt, ПКМ, СКМ и колесо — управление камерой. Внешний контур — радиус, внутренний — начало мягкого края.",MessageType.None);
+            var tool=tools.registry.Get(CurrentToolId);
+            if((tool.Controls&MapToolControls.Radius)!=0)radius=EditorGUILayout.Slider("Радиус, м",radius,treeTool==2?1:.5f,tool.MaximumRadius(session));
+            if((tool.Controls&MapToolControls.Strength)!=0)strength=EditorGUILayout.Slider("Сила",strength,0,1);
+            if((tool.Controls&MapToolControls.Softness)!=0)softness=EditorGUILayout.Slider("Мягкость края",softness,0,1);
+            if(sculpting)terrainRate=EditorGUILayout.Slider("Метры в секунду",terrainRate,.1f,4);
         }
         void ConfigureTools()
         {
@@ -97,7 +76,7 @@ namespace LittleCastle.Editor
         void TickTools()
         {
             if(tools==null||session==null)return;
-            if(!brush){tools.Cancel();pointerHeld=false;return;}
+            if(!brush){tools.Complete();pointerHeld=false;return;}
             if(pointerHeld&&!(EditorWindow.mouseOverWindow is SceneView)){tools.Release();pointerHeld=false;}
             try{ConfigureTools();tools.Tick(EditorApplication.timeSinceStartup);}catch(Exception e){status=e.Message;pointerHeld=false;}
         }
@@ -106,9 +85,9 @@ namespace LittleCastle.Editor
             if(session==null||EditorApplication.isPlaying||!brush)return;
             var e=Event.current;ConfigureTools();
             if(e.type==EventType.KeyDown&&e.keyCode==KeyCode.Escape)
-            {tools.Cancel();pointerHeld=false;riverTools.mode=0;treeTool=0;e.Use();return;}
+            {tools.Cancel();pointerHeld=false;riverTools.Stop();brush=false;e.Use();return;}
             if(e.type==EventType.KeyDown&&(e.control||e.command)&&(e.keyCode==KeyCode.Z||e.keyCode==KeyCode.Y))
-            {pointerHeld=false;if(e.keyCode==KeyCode.Y||e.shift)tools.Redo();else tools.Undo();e.Use();return;}
+            {pointerHeld=false;if(e.keyCode==KeyCode.Y||e.shift)tools.Redo();else tools.Undo();riverTools.Refresh(session);e.Use();return;}
             if(e.alt||e.button==1||e.button==2)
             {if(pointerHeld){tools.Release();pointerHeld=false;}return;}
             if(e.type==EventType.Layout)HandleUtility.AddDefaultControl(GUIUtility.GetControlID(FocusType.Passive));
@@ -124,7 +103,12 @@ namespace LittleCastle.Editor
             }
             try
             {
-                if(e.type==EventType.MouseDown&&e.button==0){tools.Begin(p,EditorApplication.timeSinceStartup);pointerHeld=tools.Active;e.Use();}
+                if(e.type==EventType.MouseDown&&e.button==0)
+                {
+                    tools.Begin(p,EditorApplication.timeSinceStartup);pointerHeld=tools.Active;
+                    if(CurrentToolId=="river.points")hasUnsavedChanges=documentDirty||riverTools.HasUnappliedDraft(session);
+                    Repaint();view.Repaint();e.Use();
+                }
                 if(pointerHeld&&e.type==EventType.MouseDrag){if(hit)tools.Move(p);else{tools.Release();pointerHeld=false;}e.Use();}
             }
             catch(Exception error){status=error.Message;tools.Cancel();pointerHeld=false;}

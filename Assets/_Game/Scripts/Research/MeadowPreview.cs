@@ -228,6 +228,7 @@ namespace LittleCastle.Research
         }
         void OnGUI()
         {
+            if(worldEditorMode){DrawWorldEditorUI();return;}
             if(!showUI)return;float scale=Mathf.Clamp(Screen.width/1600f,.85f,1.3f);GUI.matrix=Matrix4x4.Scale(Vector3.one*scale);
             GUILayout.BeginArea(new Rect(16,16,300,Mathf.Min(900,Screen.height/scale-32)),GUI.skin.box);panelScroll=GUILayout.BeginScrollView(panelScroll);GUILayout.Label(worldEditorMode?"WORLD EDITOR":"ЗЕЛЁНЫЙ ЛУГ · трава и свет");string[] names={"Луг","Трава вблизи и взаимодействие","Игровая высота","Трава в тени"};for(int i=0;i<4;i++)if(GUILayout.Button((worldEditorMode?"":(i+1)+"  ")+names[i],GUILayout.Height(28)))SetView(i);
             if(worldEditorMode&&authoringClock)

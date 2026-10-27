@@ -1,0 +1,37 @@
+[
+  {
+    "file": "package.json",
+    "sha256": "871DDE0EA8F9AF4DFBB400B86E527A5C8F9DFF5501EEAD7A62D2F0997E951ADB",
+    "same": true
+  },
+  {
+    "file": "LICENSE.md",
+    "sha256": "364B0C08B7FE15B70C4777DCCB26FC21D02AE831C2F707DBE29879AC15ECE353",
+    "same": true
+  },
+  {
+    "file": "Documentation~/Shader-Graph-Sample-Production-Ready-Weather.md",
+    "sha256": "938CC82E6DCD0BC68A46DD776FD2070BE23A225AABDAB13F8315FC014F5DF97D",
+    "same": true
+  },
+  {
+    "file": "Samples~/ProductionReady/Weather/Snow/Snow.shadersubgraph",
+    "sha256": "41131341B0D9B81D7629694EB61F6C32BB9435484D546C16903EC0869410A150",
+    "same": true
+  },
+  {
+    "file": "Samples~/ProductionReady/Weather/Snow/Components/Snow_Mask.shadersubgraph",
+    "sha256": "F235E98C6031F20CD89A8EFD9863F3C5C2A14AA373EAD8FFD68AD6C7F0438C0F",
+    "same": true
+  },
+  {
+    "file": "Samples~/ProductionReady/Weather/Snow/Components/Snow_Sparkles.shadersubgraph",
+    "sha256": "D88CE1D14FD947165291D598159CFE62DDD7321B48ACB184D062463858409E96",
+    "same": true
+  },
+  {
+    "file": "Samples~/ProductionReady/Weather/SnowExample.shadergraph",
+    "sha256": "1EF52DBF01E729B8655F2EBBA22F0CC1F45A3662CCEC71BD552899FF82EA6766",
+    "same": true
+  }
+]

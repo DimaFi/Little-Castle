@@ -424,8 +424,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalCameraData
   m_RenderShadows: 1
-  m_RequiresDepthTextureOption: 2
-  m_RequiresOpaqueTextureOption: 2
+  m_RequiresDepthTextureOption: 1
+  m_RequiresOpaqueTextureOption: 1
   m_CameraType: 0
   m_Cameras: []
   m_RendererIndex: -1
@@ -487,8 +487,8 @@ MonoBehaviour:
   atmosphere: {fileID: 1145319857}
   globals: {fileID: 348784513}
   painter: {fileID: 1486487990}
-  hdr: {fileID: 11400000, guid: 76ce6befebd154640a96229553080b0c, type: 2}
-  ao: {fileID: 11400000, guid: 882c8b7039ca1ee4581813494a1b1c4f, type: 2}
+  hdr: {fileID: 11400000, guid: 5bb183bdb31a415597993543036b9a3d, type: 2}
+  ao: {fileID: 11400000, guid: c55bdc67f77c4f9ca3ae0a5bc26787df, type: 2}
 --- !u!114 &76295309
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -501,7 +501,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03dd1a20358408946bdf96dda2b66e32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: LittleCastle.Runtime::LittleCastle.Research.MeadowPreview
-  profile: {fileID: 11400000, guid: 882c8b7039ca1ee4581813494a1b1c4f, type: 2}
+  profile: {fileID: 11400000, guid: c55bdc67f77c4f9ca3ae0a5bc26787df, type: 2}
   studyCamera: {fileID: 76295302}
   sun: {fileID: 164371123}
   globals: {fileID: 348784513}
@@ -3415,6 +3415,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1486487991}
   - component: {fileID: 1486487990}
+  - component: {fileID: 1486487992}
   m_Layer: 0
   m_Name: Shared author and player meadow brush
   m_TagString: Untagged
@@ -3454,6 +3455,8 @@ MonoBehaviour:
   stampsPerSecond: 15
   status: 
   allowedTools: 511
+  riverCatalogOverride: {fileID: 11400000, guid: 6510f8fcb7a81e74a88f8c885ccafb6e, type: 2}
+  waterOnlyRivers: 1
   sculpting: 0
   lowerTerrain: 0
   terrainMetresPerSecond: 1.5
@@ -3484,6 +3487,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1486487992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1486487989}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff3ccd32f09a56e4c9e4ba3f754023d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: LittleCastle.Runtime::LittleCastle.Research.UberRiverReflectionAdapter
+  painter: {fileID: 1486487990}
+  reflectionScale: 0.5
 --- !u!1 &1524966704
 GameObject:
   m_ObjectHideFlags: 0

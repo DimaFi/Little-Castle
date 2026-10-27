@@ -29,6 +29,8 @@ namespace LittleCastle.Research
         public MapEditAccess allowedTools=MapEditAccess.All;
         public MapEditSession Session {get;private set;}
         public MapRiverPresentation RiverView {get;private set;}
+        public MapRockCatalog riverCatalogOverride;
+        public bool waterOnlyRivers;
         public SurfacePaintDocument edits=>Session?.ExportEdits()??new SurfacePaintDocument();
         public bool sculpting,lowerTerrain;
         [Range(.1f,4)] public float terrainMetresPerSecond=1.5f;
@@ -71,7 +73,8 @@ namespace LittleCastle.Research
             if(studyCamera&&studyCamera.TryGetComponent<LittleCastle.CameraSystem.StrategyCameraController>(out var authoringCamera))
                 authoringCamera.ConfigureAuthoringRange(Mathf.Max(source.bounds.z,source.bounds.w)*2);
             if(ground)TerrainView=new MapTerrainPresentation(Session,ground,FindAnyObjectByType<MeadowGrassRenderer>(),FindAnyObjectByType<InnerverseGrassStudy>(),scatterRenderer);
-            var rockCatalog=MapRockCatalog.Default;if(rockCatalog){RiverView=new MapRiverPresentation(Session,rockCatalog);gameObject.AddComponent<MapRiverRuntimeTool>().Connect(this);}
+            var rockCatalog=riverCatalogOverride?riverCatalogOverride:MapRockCatalog.Default;
+            if(rockCatalog){RiverView=new MapRiverPresentation(Session,rockCatalog,waterOnlyRivers);var riverTool=gameObject.AddComponent<MapRiverRuntimeTool>();riverTool.Connect(this);riverTool.ConfigureWaterOnly(waterOnlyRivers);}
             if(treeCatalog){Session.RegisterTreeCatalog(treeCatalog.Definitions,treeCatalog.packs);TreeView=new MapTreePresentation(Session,treeCatalog);}
             mask=new Texture2D(Resolution,Resolution,TextureFormat.RG16,false,true){name="Derived road and meadow mask · not save state",filterMode=FilterMode.Bilinear,wrapMode=TextureWrapMode.Clamp};
             pixels=new byte[Resolution*Resolution*2];

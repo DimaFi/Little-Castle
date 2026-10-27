@@ -84,11 +84,17 @@ namespace LittleCastle.Rendering
             originalAccents=accents?accents.authoredMatrices:null;
             if(originalAccents!=null)accents.authoredMatrices=(Matrix4x4[])originalAccents.Clone();
             if(scatter){previousHeightSampler=scatter.heightSampler;scatter.heightSampler=session.SampleHeight;}
-            if(projectSceneTrees)foreach(var lod in UnityEngine.Object.FindObjectsByType<LODGroup>())
+            if(projectSceneTrees)
             {
-                var p=lod.transform.position;var b=session.Bounds;
-                if(p.x<b.x||p.z<b.y||p.x>b.x+b.z||p.z>b.y+b.w||Mathf.Abs(p.y-reference.Height(p.x,p.z))>.35f)continue;
-                anchors.Add(new Anchor{transform=lod.transform,original=p,offset=p.y-reference.Height(p.x,p.z)});
+                var candidates=new HashSet<Transform>();
+                foreach(var anchor in UnityEngine.Object.FindObjectsByType<MapTerrainAnchor>())candidates.Add(anchor.transform);
+                var catalog=MapTreeCatalog.Default;if(catalog)foreach(var tree in catalog.SceneSources())candidates.Add(tree.transform);
+                foreach(var target in candidates)
+                {
+                    var p=target.position;var b=session.Bounds;
+                    if(p.x<b.x||p.z<b.y||p.x>b.x+b.z||p.z>b.y+b.w)continue;
+                    anchors.Add(new Anchor{transform=target,original=p,offset=p.y-reference.Height(p.x,p.z)});
+                }
             }
             BuildChunks();sourceRenderer.enabled=false;if(sourceCollider)sourceCollider.enabled=false;
             var map=session.Bounds;ProjectPlants(new Rect(map.x-2,map.y-2,map.z+4,map.w+4));

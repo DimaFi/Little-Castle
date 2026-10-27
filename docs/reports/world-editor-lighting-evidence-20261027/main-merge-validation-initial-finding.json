@@ -1,0 +1,773 @@
+{
+  "scope": "Read-only static validation; no Unity launch or visual assertions",
+  "main": "E:\\Games_Develop\\Little-Castle",
+  "checks": [
+    {
+      "name": "ReviewedMergedFileExact",
+      "pass_": true,
+      "path": "Assets\\_Game\\Scripts\\World\\Rendering\\DayNightLightingController.cs",
+      "actual": "d99a6fa7adbf31d0e5978a072bc70f7ab31610df20740f4b1df178503728d6d4",
+      "expected": "d99a6fa7adbf31d0e5978a072bc70f7ab31610df20740f4b1df178503728d6d4"
+    },
+    {
+      "name": "ReviewedMergedFileExact",
+      "pass_": true,
+      "path": "Assets\\_Game\\Scripts\\World\\Rendering\\DayNightLightingController.cs.meta",
+      "actual": "cf2ee1628c9602dee563853252df80290b058c48944ef76c4446c5136d8daac5",
+      "expected": "cf2ee1628c9602dee563853252df80290b058c48944ef76c4446c5136d8daac5"
+    },
+    {
+      "name": "ReviewedMergedFileExact",
+      "pass_": true,
+      "path": "Assets\\_Game\\Scripts\\World\\Rendering\\LightingPaletteProfile.cs",
+      "actual": "ebcded17fcfc75b1db03a7929f0964ae77a40bff84552f8f89b6b1078da4a989",
+      "expected": "ebcded17fcfc75b1db03a7929f0964ae77a40bff84552f8f89b6b1078da4a989"
+    },
+    {
+      "name": "ReviewedMergedFileExact",
+      "pass_": true,
+      "path": "Assets\\_Game\\Scripts\\World\\Rendering\\LightingPaletteProfile.cs.meta",
+      "actual": "dc62c5245888311aed61ce1eb95dc42af270d1c40dc11ca180197df436cc243d",
+      "expected": "dc62c5245888311aed61ce1eb95dc42af270d1c40dc11ca180197df436cc243d"
+    },
+    {
+      "name": "ReviewedMergedFileExact",
+      "pass_": true,
+      "path": "Assets\\_Game\\Scripts\\World\\Rendering\\StylizedLightingGlobals.cs",
+      "actual": "36ba268fc742e7d04bb6a2324b0c47d5f2dc6e1eebd8b4a92bae01396222b62f",
+      "expected": "36ba268fc742e7d04bb6a2324b0c47d5f2dc6e1eebd8b4a92bae01396222b62f"
+    },
+    {
+      "name": "ReviewedMergedFileExact",
+      "pass_": true,
+      "path": "Assets\\_Game\\Scripts\\World\\Rendering\\StylizedLightingGlobals.cs.meta",
+      "actual": "805d14fd781549ae5623adc9d2d312e2626e55e86afa1cd7617ee89e71dfd524",
+      "expected": "805d14fd781549ae5623adc9d2d312e2626e55e86afa1cd7617ee89e71dfd524"
+    },
+    {
+      "name": "ReviewedMergedFileExact",
+      "pass_": true,
+      "path": "Assets\\_Game\\Shaders\\Foliage\\LC_Foliage.shader",
+      "actual": "2fd8044f9e34d5f44c28aa7bf1b3eeffc9dd8d6f681ca9140af63608d0606510",
+      "expected": "2fd8044f9e34d5f44c28aa7bf1b3eeffc9dd8d6f681ca9140af63608d0606510"
+    },
+    {
+      "name": "ReviewedMergedFileExact",
+      "pass_": true,
+      "path": "Assets\\_Game\\Shaders\\Foliage\\LC_Foliage.shader.meta",
+      "actual": "0e381172d3a3bae9e3e18770d340bd489de897166c06dd1e1f7c736c8ce8c175",
+      "expected": "0e381172d3a3bae9e3e18770d340bd489de897166c06dd1e1f7c736c8ce8c175"
+    },
+    {
+      "name": "ReviewedMergedFileExact",
+      "pass_": true,
+      "path": "Assets\\_Game\\Shaders\\Foliage\\LC_FoliageURP.hlsl",
+      "actual": "b59f70a517a489ca9bb66493938cd2a0b3a0ac77787070a42375fea656717bfe",
+      "expected": "b59f70a517a489ca9bb66493938cd2a0b3a0ac77787070a42375fea656717bfe"
+    },
+    {
+      "name": "ReviewedMergedFileExact",
+      "pass_": true,
+      "path": "Assets\\_Game\\Shaders\\Foliage\\LC_FoliageURP.hlsl.meta",
+      "actual": "731eadfb9b1f416b43a5bea8eb680f34592c10f8165978274edacdffe481e85d",
+      "expected": "731eadfb9b1f416b43a5bea8eb680f34592c10f8165978274edacdffe481e85d"
+    },
+    {
+      "name": "ReviewedMergedFileExact",
+      "pass_": true,
+      "path": "Assets\\_Game\\Shaders\\Foliage\\LC_Grass.shader",
+      "actual": "fbb486e3d88ea9af85850e93d9cdb4b04d1e1f9a29c1d15175e06b904047c62d",
+      "expected": "fbb486e3d88ea9af85850e93d9cdb4b04d1e1f9a29c1d15175e06b904047c62d"
+    },
+    {
+      "name": "ReviewedMergedFileExact",
+      "pass_": true,
+      "path": "Assets\\_Game\\Shaders\\Foliage\\LC_Grass.shader.meta",
+      "actual": "b45433ab961301c2646caa8f5b48280ee48aec804cae7c86606650482d31c9af",
+      "expected": "b45433ab961301c2646caa8f5b48280ee48aec804cae7c86606650482d31c9af"
+    },
+    {
+      "name": "ReviewedMergedFileExact",
+      "pass_": true,
+      "path": "Assets\\_Game\\Shaders\\Foliage\\LC_GrassURP.hlsl",
+      "actual": "024599bd09c386f805e98c0abe5edd6dfdb8c992e217ec7b96e0fdeba7008dfb",
+      "expected": "024599bd09c386f805e98c0abe5edd6dfdb8c992e217ec7b96e0fdeba7008dfb"
+    },
+    {
+      "name": "ReviewedMergedFileExact",
+      "pass_": true,
+      "path": "Assets\\_Game\\Shaders\\Foliage\\LC_GrassURP.hlsl.meta",
+      "actual": "dd9dad68f165deaa4197a6ea431b566c0e903ca768b3c630799ba271f33fc801",
+      "expected": "dd9dad68f165deaa4197a6ea431b566c0e903ca768b3c630799ba271f33fc801"
+    },
+    {
+      "name": "ReviewedMergedFileExact",
+      "pass_": true,
+      "path": "Assets\\_Game\\Shaders\\Foliage\\LC_VegetationURPCommon.hlsl",
+      "actual": "0b143e9ecb71d4f80b9999884a7ff2185e88c2e077a930842e171480c8ac931e",
+      "expected": "0b143e9ecb71d4f80b9999884a7ff2185e88c2e077a930842e171480c8ac931e"
+    },
+    {
+      "name": "ReviewedMergedFileExact",
+      "pass_": true,
+      "path": "Assets\\_Game\\Shaders\\Foliage\\LC_VegetationURPCommon.hlsl.meta",
+      "actual": "91aceca34492ad5fcfdebe9da040df5f0454862495f3b1419d9ec07ad9dfff23",
+      "expected": "91aceca34492ad5fcfdebe9da040df5f0454862495f3b1419d9ec07ad9dfff23"
+    },
+    {
+      "name": "ReviewedMergedFileExact",
+      "pass_": true,
+      "path": "Assets\\_Game\\Shaders\\Surface\\LC_LightingCommon.hlsl",
+      "actual": "d47e5f6292bf012fd25d37aaf2f0926210e26bee638d9a26d4cb5e93b358ef64",
+      "expected": "d47e5f6292bf012fd25d37aaf2f0926210e26bee638d9a26d4cb5e93b358ef64"
+    },
+    {
+      "name": "ReviewedMergedFileExact",
+      "pass_": true,
+      "path": "Assets\\_Game\\Shaders\\Surface\\LC_LightingCommon.hlsl.meta",
+      "actual": "6d4bc23105a3aaa047dac2f09e7334d86031502a205d1cbd8f56af095d943b64",
+      "expected": "6d4bc23105a3aaa047dac2f09e7334d86031502a205d1cbd8f56af095d943b64"
+    },
+    {
+      "name": "ReviewedMergedFileExact",
+      "pass_": true,
+      "path": "Assets\\_Game\\Shaders\\Surface\\LC_SpatialIndirect.hlsl",
+      "actual": "f1302afddc76707fd9a880a5a3610654186cf4b5622f38c04a26cde36ffee4d4",
+      "expected": "f1302afddc76707fd9a880a5a3610654186cf4b5622f38c04a26cde36ffee4d4"
+    },
+    {
+      "name": "ReviewedMergedFileExact",
+      "pass_": true,
+      "path": "Assets\\_Game\\Shaders\\Surface\\LC_SpatialIndirect.hlsl.meta",
+      "actual": "1035534ceeaa45c76130e4d99e82aac635010bf1f386dc853ceb5f86b74b536b",
+      "expected": "1035534ceeaa45c76130e4d99e82aac635010bf1f386dc853ceb5f86b74b536b"
+    },
+    {
+      "name": "ReviewedMergedFileExact",
+      "pass_": true,
+      "path": "Assets\\_Game\\Shaders\\Surface\\LC_StylizedLit.shader",
+      "actual": "e73d877e4822bae3d7b3471979ea154f765582f9a5b2e0f6f3a06b55ea0e849f",
+      "expected": "e73d877e4822bae3d7b3471979ea154f765582f9a5b2e0f6f3a06b55ea0e849f"
+    },
+    {
+      "name": "ReviewedMergedFileExact",
+      "pass_": true,
+      "path": "Assets\\_Game\\Shaders\\Surface\\LC_StylizedLit.shader.meta",
+      "actual": "035b55ff93046e25a6eb72dea890f677aed66e032dbd01ff56fbdd3947bbf30e",
+      "expected": "035b55ff93046e25a6eb72dea890f677aed66e032dbd01ff56fbdd3947bbf30e"
+    },
+    {
+      "name": "ReviewedMergedFileExact",
+      "pass_": true,
+      "path": "Assets\\_Game\\Shaders\\Terrain\\LC_Terrain.shader",
+      "actual": "19a99385070ecde8aef52d2afde0e324cb019d2952e94b3b121f204e96bf8d66",
+      "expected": "19a99385070ecde8aef52d2afde0e324cb019d2952e94b3b121f204e96bf8d66"
+    },
+    {
+      "name": "ReviewedMergedFileExact",
+      "pass_": true,
+      "path": "Assets\\_Game\\Shaders\\Terrain\\LC_Terrain.shader.meta",
+      "actual": "5c5a683f4a89c73eff52466cc8994e23d5979c716b3c51ca04b34208cfd1f67d",
+      "expected": "5c5a683f4a89c73eff52466cc8994e23d5979c716b3c51ca04b34208cfd1f67d"
+    },
+    {
+      "name": "PreservedMapRuntimeFileExact",
+      "pass_": true,
+      "path": "Assets\\_Game\\Scripts\\Research\\InnerverseGrassStudy.cs",
+      "actual": "6ccae2d53c11a5ef4411156d1ba0bfde4b52f9624967dfaf408787b4efde0ba2",
+      "expected": "6ccae2d53c11a5ef4411156d1ba0bfde4b52f9624967dfaf408787b4efde0ba2",
+      "before": "3d977a0b5511c758901862e7ce1685e4d320ffe58c8a35209679d14c615f6e47"
+    },
+    {
+      "name": "PreservedMapRuntimeFileExact",
+      "pass_": true,
+      "path": "Assets\\_Game\\Scripts\\World\\Rendering\\ChunkTerrainVertexMasks.cs",
+      "actual": "f1bb94f0f797bc064d6618b67f4cd926914929a7f054176b2c40ef700c6d379b",
+      "expected": "f1bb94f0f797bc064d6618b67f4cd926914929a7f054176b2c40ef700c6d379b",
+      "before": "a1febd6267704dd0ff4b74cf94ef1c67d469bec08c8fc2e3780d5a28f28bf311"
+    },
+    {
+      "name": "PreservedMapRuntimeFileExact",
+      "pass_": true,
+      "path": "Assets\\_Game\\Scripts\\World\\Rendering\\MeadowGrassRenderer.cs",
+      "actual": "ae1725413083c058ef6b26f34c5bbc03153ff99bc2aaa84b385b94f6ac223909",
+      "expected": "ae1725413083c058ef6b26f34c5bbc03153ff99bc2aaa84b385b94f6ac223909",
+      "before": null
+    },
+    {
+      "name": "PreservedMapRuntimeFileExact",
+      "pass_": true,
+      "path": "Assets\\_Game\\Scripts\\World\\Time\\WorldTimeSystem.cs",
+      "actual": "8dc2cf284844bac45ae6525386e2e62fe42d03e1ce936cca921d3278abfb0251",
+      "expected": "8dc2cf284844bac45ae6525386e2e62fe42d03e1ce936cca921d3278abfb0251",
+      "before": "8dc2cf284844bac45ae6525386e2e62fe42d03e1ce936cca921d3278abfb0251"
+    },
+    {
+      "name": "PreservedMapRuntimeFileExact",
+      "pass_": true,
+      "path": "Assets\\_Game\\Scripts\\World\\Time\\WorldClock.cs",
+      "actual": "dbb8e1cc95984557d2a0019cf7086a43a910c306b6e402d843c1f57a6fe94c83",
+      "expected": "dbb8e1cc95984557d2a0019cf7086a43a910c306b6e402d843c1f57a6fe94c83",
+      "before": "dbb8e1cc95984557d2a0019cf7086a43a910c306b6e402d843c1f57a6fe94c83"
+    },
+    {
+      "name": "PreservedMapRuntimeFileExact",
+      "pass_": true,
+      "path": "Assets\\_Game\\Scripts\\World\\Time\\WorldTimeSettings.cs",
+      "actual": "3c82a7cbb3379b48ca6b9652c1226f6fb6e59b5c69a2089de5a32d9391fec625",
+      "expected": "3c82a7cbb3379b48ca6b9652c1226f6fb6e59b5c69a2089de5a32d9391fec625",
+      "before": "3c82a7cbb3379b48ca6b9652c1226f6fb6e59b5c69a2089de5a32d9391fec625"
+    },
+    {
+      "name": "PreservedLocalMapShader",
+      "pass_": true,
+      "path": "Assets\\_Game\\Shaders\\Rivers\\LC_RiverBank.shader",
+      "actual": "c851f0bfad7ac8fdb9d59b7d5316f3fe6cd78c28b902aa7a00246e1b4d5a5012",
+      "expected": "c851f0bfad7ac8fdb9d59b7d5316f3fe6cd78c28b902aa7a00246e1b4d5a5012"
+    },
+    {
+      "name": "PreservedLocalMapShader",
+      "pass_": true,
+      "path": "Assets\\_Game\\Shaders\\Rivers\\LC_RiverWater.shader",
+      "actual": "c95cbd37f188f12a6aa0f63bd3a0dc88f4721dc0d9b8e6cabc07d4ffee4b2053",
+      "expected": "c95cbd37f188f12a6aa0f63bd3a0dc88f4721dc0d9b8e6cabc07d4ffee4b2053"
+    },
+    {
+      "name": "PreservedLocalMapShader",
+      "pass_": true,
+      "path": "Assets\\_Game\\Shaders\\Terrain\\LC_Water.shader",
+      "actual": "06bc80d0113c0cb68a03695d507710d9234a4e21104f308be0868c9ddca9c78b",
+      "expected": "06bc80d0113c0cb68a03695d507710d9234a4e21104f308be0868c9ddca9c78b"
+    },
+    {
+      "name": "PreservedLocalMapShader",
+      "pass_": true,
+      "path": "Assets\\_Game\\Shaders\\Terrain\\LC_Snowfall.shader",
+      "actual": "596319745255daf5e48d936b2e5ce453d6b4076bad4a4fcc6e7120c9b45ee656",
+      "expected": "596319745255daf5e48d936b2e5ce453d6b4076bad4a4fcc6e7120c9b45ee656"
+    },
+    {
+      "name": "PreservedLocalMapShader",
+      "pass_": true,
+      "path": "Assets\\_Game\\Shaders\\Surface\\LC_SurfacePaint.hlsl",
+      "actual": "089fff9772179a8523faf9a469760a1eee120809061788fd999181217941232c",
+      "expected": "089fff9772179a8523faf9a469760a1eee120809061788fd999181217941232c"
+    },
+    {
+      "name": "PreservedLocalMapShader",
+      "pass_": true,
+      "path": "Assets\\_Game\\Shaders\\Surface\\LC_GroundPalette.cginc",
+      "actual": "173208d7d05050fb31f4759092e948c68017fcb7e4e1eda08d90f88c05ca3abf",
+      "expected": "173208d7d05050fb31f4759092e948c68017fcb7e4e1eda08d90f88c05ca3abf"
+    },
+    {
+      "name": "PreservedLocalMapShader",
+      "pass_": true,
+      "path": "Assets\\_Game\\Shaders\\Surface\\LC_SoftShadow.cginc",
+      "actual": "6e6fdb32a6d314f0c1f938fa83cc7565c5eb138631dfdbf8a0de5e1a01fa0352",
+      "expected": "6e6fdb32a6d314f0c1f938fa83cc7565c5eb138631dfdbf8a0de5e1a01fa0352"
+    },
+    {
+      "name": "ShaderIncludeClosure",
+      "pass_": true,
+      "missing": []
+    },
+    {
+      "name": "SceneDependencyGuidClosure",
+      "pass_": true,
+      "missing": [],
+      "assetCount": 63
+    },
+    {
+      "name": "NoSpatialGIInSceneDependencyClosure",
+      "pass_": true,
+      "scripts": []
+    },
+    {
+      "name": "WorldEditorModeEnabled",
+      "pass_": true
+    },
+    {
+      "name": "NoUnconditionalBenchmarkAwakeOnActiveCamera",
+      "pass_": false,
+      "components": [
+        {
+          "fileID": 76295307,
+          "body": "--- !u!114 &76295307\nMonoBehaviour:\n  m_ObjectHideFlags: 0\n  m_CorrespondingSourceObject: {fileID: 0}\n  m_PrefabInstance: {fileID: 0}\n  m_PrefabAsset: {fileID: 0}\n  m_GameObject: {fileID: 76295301}\n  m_Enabled: 0\n  m_EditorHideFlags: 0\n  m_Script: {fileID: 11500000, guid: b05b87efe2b5db64bbd9ff0a0210b085, type: 3}\n  m_Name: \n  m_EditorClassIdentifier: LittleCastle.Runtime::LittleCastle.Research.LightingMeadowReview\n  reviewCamera: {fileID: 76295302}\n  clock: {fileID: 1696229881}\n  atmosphere: {fileID: 1145319857}\n  globals: {fileID: 348784513}\n  palette: {fileID: 11400000, guid: 785dbdba7e3908041862f565e3613b12, type: 2}\n  hdr: {fileID: 11400000, guid: 76ce6befebd154640a96229553080b0c, type: 2}\n  ao: {fileID: 11400000, guid: 882c8b7039ca1ee4581813494a1b1c4f, type: 2}\n  grass: {fileID: 1325034560}\n  painter: {fileID: 1486487990}\n  interaction: {fileID: 202576668}\n  demonstrator: {fileID: 756942287}\n  showUI: 1\n  mode: 1\n  view: 0\n  hour: 12\n"
+        }
+      ],
+      "reason": "Disabled MonoBehaviour still receives Awake on active GameObject; LightingMeadowReview.Awake calls SetHour which sets RunAutomatically=false, changes camera, pipeline and framerate."
+    },
+    {
+      "name": "GISpatialKeywordAbsentInSceneAssets",
+      "pass_": true
+    },
+    {
+      "name": "MainLinearWorkingSpace",
+      "pass_": true
+    },
+    {
+      "name": "ClockSettingsContract",
+      "pass_": true
+    },
+    {
+      "name": "SceneLocalFileIDReferencesResolve",
+      "pass_": true,
+      "missing": []
+    },
+    {
+      "name": "SingleAuthoritativeClock",
+      "pass_": true,
+      "count": 1
+    },
+    {
+      "name": "ClockContinuousAt1x",
+      "pass_": true
+    },
+    {
+      "name": "ClockSettingsResolve",
+      "pass_": true,
+      "path": "Assets\\_Game\\Settings\\World\\MainWorldTimeSettings.asset",
+      "body": "%YAML 1.1\n%TAG !u! tag:unity3d.com,2011:\n--- !u!114 &11400000\nMonoBehaviour:\n  m_ObjectHideFlags: 0\n  m_CorrespondingSourceObject: {fileID: 0}\n  m_PrefabInstance: {fileID: 0}\n  m_PrefabAsset: {fileID: 0}\n  m_GameObject: {fileID: 0}\n  m_Enabled: 1\n  m_EditorHideFlags: 0\n  m_Script: {fileID: 11500000, guid: 1f4b9e6c2a73485d9c10b37e5f26a841, type: 3}\n  m_Name: MainWorldTimeSettings\n  m_EditorClassIdentifier: LittleCastle.Runtime::LittleCastle.World.WorldTimeSettings\n  startHour: 8\n  dayStartHour: 6\n  nightStartHour: 20\n  dayRealSeconds: 360\n  nightRealSeconds: 90\n"
+    },
+    {
+      "name": "SceneLightingComponentUnique",
+      "pass_": true,
+      "script": "DayNightLightingController.cs",
+      "count": 1
+    },
+    {
+      "name": "SceneLightingClockBound",
+      "pass_": true,
+      "script": "DayNightLightingController.cs",
+      "fileID": 1145319857
+    },
+    {
+      "name": "SceneLightingComponentUnique",
+      "pass_": true,
+      "script": "StylizedLightingGlobals.cs",
+      "count": 1
+    },
+    {
+      "name": "SceneLightingClockBound",
+      "pass_": true,
+      "script": "StylizedLightingGlobals.cs",
+      "fileID": 348784513
+    }
+  ],
+  "allPassed": false,
+  "components": [
+    {
+      "fileID": 76295304,
+      "scriptGuid": "e3b16bfc2d154e41a584fdd8f3c93211",
+      "scripts": [
+        "Assets\\_Game\\Scripts\\Camera\\StrategyCameraController.cs"
+      ],
+      "body": "--- !u!114 &76295304\nMonoBehaviour:\n  m_ObjectHideFlags: 0\n  m_CorrespondingSourceObject: {fileID: 0}\n  m_PrefabInstance: {fileID: 0}\n  m_PrefabAsset: {fileID: 0}\n  m_GameObject: {fileID: 76295301}\n  m_Enabled: 1\n  m_EditorHideFlags: 0\n  m_Script: {fileID: 11500000, guid: e3b16bfc2d154e41a584fdd8f3c93211, type: 3}\n  m_Name: \n  m_EditorClassIdentifier: LittleCastle.Runtime::LittleCastle.CameraSystem.StrategyCameraController\n  streamingFocus: {fileID: 0}\n  worldStreamer: {fileID: 0}\n  groundMask:\n    serializedVersion: 2\n    m_Bits: 4294967295\n  enableEdgeScroll: 0\n  edgeScrollPixels: 14\n  closePanSpeed: 12\n  farPanSpeed: 58\n  panSmoothing: 10\n  middleDragSpeed: 0.75\n  allowPitchAdjustment: 1\n  minimumPitch: 6\n  maximumPitch: 72\n  initialPitch: 42\n  mouseRotationSensitivity: 3.2\n  keyboardRotationSpeed: 80\n  minimumDistance: 11\n  maximumDistance: 190\n  initialDistance: 115\n  zoomSensitivity: 2.4\n  zoomSmoothing: 12\n  followGroundHeight: 1\n  groundProbeHeight: 1200\n  focusHeightOffset: 0.25\n  groundHeightSmoothing: 8\n  initializeFromCurrentView: 1\n"
+    },
+    {
+      "fileID": 76295305,
+      "scriptGuid": "a79441f348de89743a2939f4d699eac1",
+      "scripts": [],
+      "body": "--- !u!114 &76295305\nMonoBehaviour:\n  m_ObjectHideFlags: 0\n  m_CorrespondingSourceObject: {fileID: 0}\n  m_PrefabInstance: {fileID: 0}\n  m_PrefabAsset: {fileID: 0}\n  m_GameObject: {fileID: 76295301}\n  m_Enabled: 1\n  m_EditorHideFlags: 0\n  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}\n  m_Name: \n  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalCameraData\n  m_RenderShadows: 1\n  m_RequiresDepthTextureOption: 2\n  m_RequiresOpaqueTextureOption: 2\n  m_CameraType: 0\n  m_Cameras: []\n  m_RendererIndex: -1\n  m_VolumeLayerMask:\n    serializedVersion: 2\n    m_Bits: 1\n  m_VolumeTrigger: {fileID: 0}\n  m_VolumeFrameworkUpdateModeOption: 2\n  m_RenderPostProcessing: 1\n  m_Antialiasing: 0\n  m_AntialiasingQuality: 2\n  m_StopNaN: 0\n  m_Dithering: 0\n  m_ClearDepth: 1\n  m_AllowXRRendering: 1\n  m_AllowHDROutput: 1\n  m_UseScreenCoordOverride: 0\n  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}\n  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}\n  m_RequiresDepthTexture: 0\n  m_RequiresColorTexture: 0\n  m_TaaSettings:\n    m_Quality: 3\n    m_FrameInfluence: 0.1\n    m_JitterScale: 1\n    m_MipBias: 0\n    m_VarianceClampScale: 0.9\n    m_ContrastAdaptiveSharpening: 0\n  m_Version: 2\n"
+    },
+    {
+      "fileID": 76295307,
+      "scriptGuid": "b05b87efe2b5db64bbd9ff0a0210b085",
+      "scripts": [
+        "Assets\\_Game\\Scripts\\Research\\LightingMeadowReview.cs"
+      ],
+      "body": "--- !u!114 &76295307\nMonoBehaviour:\n  m_ObjectHideFlags: 0\n  m_CorrespondingSourceObject: {fileID: 0}\n  m_PrefabInstance: {fileID: 0}\n  m_PrefabAsset: {fileID: 0}\n  m_GameObject: {fileID: 76295301}\n  m_Enabled: 0\n  m_EditorHideFlags: 0\n  m_Script: {fileID: 11500000, guid: b05b87efe2b5db64bbd9ff0a0210b085, type: 3}\n  m_Name: \n  m_EditorClassIdentifier: LittleCastle.Runtime::LittleCastle.Research.LightingMeadowReview\n  reviewCamera: {fileID: 76295302}\n  clock: {fileID: 1696229881}\n  atmosphere: {fileID: 1145319857}\n  globals: {fileID: 348784513}\n  palette: {fileID: 11400000, guid: 785dbdba7e3908041862f565e3613b12, type: 2}\n  hdr: {fileID: 11400000, guid: 76ce6befebd154640a96229553080b0c, type: 2}\n  ao: {fileID: 11400000, guid: 882c8b7039ca1ee4581813494a1b1c4f, type: 2}\n  grass: {fileID: 1325034560}\n  painter: {fileID: 1486487990}\n  interaction: {fileID: 202576668}\n  demonstrator: {fileID: 756942287}\n  showUI: 1\n  mode: 1\n  view: 0\n  hour: 12\n"
+    },
+    {
+      "fileID": 76295308,
+      "scriptGuid": "217531f4b9aa98148baf5c188972557c",
+      "scripts": [
+        "Assets\\_Game\\Scripts\\Research\\WorldEditorAcceptance.cs"
+      ],
+      "body": "--- !u!114 &76295308\nMonoBehaviour:\n  m_ObjectHideFlags: 0\n  m_CorrespondingSourceObject: {fileID: 0}\n  m_PrefabInstance: {fileID: 0}\n  m_PrefabAsset: {fileID: 0}\n  m_GameObject: {fileID: 76295301}\n  m_Enabled: 1\n  m_EditorHideFlags: 0\n  m_Script: {fileID: 11500000, guid: 217531f4b9aa98148baf5c188972557c, type: 3}\n  m_Name: \n  m_EditorClassIdentifier: LittleCastle.Runtime::LittleCastle.Acceptance.WorldEditorAcceptance\n  camera: {fileID: 76295302}\n  clock: {fileID: 1696229881}\n  atmosphere: {fileID: 1145319857}\n  globals: {fileID: 348784513}\n  painter: {fileID: 1486487990}\n  hdr: {fileID: 11400000, guid: 76ce6befebd154640a96229553080b0c, type: 2}\n  ao: {fileID: 11400000, guid: 882c8b7039ca1ee4581813494a1b1c4f, type: 2}\n"
+    },
+    {
+      "fileID": 76295309,
+      "scriptGuid": "03dd1a20358408946bdf96dda2b66e32",
+      "scripts": [
+        "Assets\\_Game\\Scripts\\Research\\MeadowPreview.cs"
+      ],
+      "body": "--- !u!114 &76295309\nMonoBehaviour:\n  m_ObjectHideFlags: 0\n  m_CorrespondingSourceObject: {fileID: 0}\n  m_PrefabInstance: {fileID: 0}\n  m_PrefabAsset: {fileID: 0}\n  m_GameObject: {fileID: 76295301}\n  m_Enabled: 1\n  m_EditorHideFlags: 0\n  m_Script: {fileID: 11500000, guid: 03dd1a20358408946bdf96dda2b66e32, type: 3}\n  m_Name: \n  m_EditorClassIdentifier: LittleCastle.Runtime::LittleCastle.Research.MeadowPreview\n  profile: {fileID: 11400000, guid: 882c8b7039ca1ee4581813494a1b1c4f, type: 2}\n  studyCamera: {fileID: 76295302}\n  sun: {fileID: 164371123}\n  globals: {fileID: 348784513}\n  grass: {fileID: 1325034560}\n  interaction: {fileID: 202576668}\n  demonstrator: {fileID: 756942287}\n  painter: {fileID: 1486487990}\n  baselineGrass: {fileID: 11400000, guid: 4c3b27d6849881e489990774c0f53187, type: 2}\n  worldEditorMode: 1\n"
+    },
+    {
+      "fileID": 202576668,
+      "scriptGuid": "86e15e2255f98c74495587eb0a1c30c3",
+      "scripts": [
+        "Assets\\_Game\\Scripts\\World\\Rendering\\GrassInteractionManager.cs"
+      ],
+      "body": "--- !u!114 &202576668\nMonoBehaviour:\n  m_ObjectHideFlags: 0\n  m_CorrespondingSourceObject: {fileID: 0}\n  m_PrefabInstance: {fileID: 0}\n  m_PrefabAsset: {fileID: 0}\n  m_GameObject: {fileID: 202576667}\n  m_Enabled: 1\n  m_EditorHideFlags: 0\n  m_Script: {fileID: 11500000, guid: 86e15e2255f98c74495587eb0a1c30c3, type: 3}\n  m_Name: \n  m_EditorClassIdentifier: LittleCastle.Runtime::LittleCastle.Rendering.GrassInteractionManager\n  focusCamera: {fileID: 76295302}\n  activeDistance: 28\n  interactionEnabled: 1\n  updateRate: 15\n"
+    },
+    {
+      "fileID": 227759085,
+      "scriptGuid": "9ddac503fe6403741958dbd00db77314",
+      "scripts": [
+        "Assets\\_Game\\Scripts\\World\\Rendering\\MeadowScatterRenderer.cs"
+      ],
+      "body": "--- !u!114 &227759085\nMonoBehaviour:\n  m_ObjectHideFlags: 0\n  m_CorrespondingSourceObject: {fileID: 0}\n  m_PrefabInstance: {fileID: 0}\n  m_PrefabAsset: {fileID: 0}\n  m_GameObject: {fileID: 227759084}\n  m_Enabled: 1\n  m_EditorHideFlags: 0\n  m_Script: {fileID: 11500000, guid: 9ddac503fe6403741958dbd00db77314, type: 3}\n  m_Name: \n  m_EditorClassIdentifier: LittleCastle.Runtime::LittleCastle.Rendering.MeadowScatterRenderer\n  library: {fileID: 11400000, guid: 83ec347481dc6134caaf27e6d44ec9b0, type: 2}\n  painter: {fileID: 0}\n  maximumDistance: 45\n  lodDistances: {x: 12, y: 23, z: 34}\n  maximumInstances: 1500\n  candidateSpacing: 0.9\n  plantGroupSize: 2.4\n  seed: 417\n  densityMultiplier: 1\n  isolatedChance: 0.04\n  clearingChance: 0.72\n  clearingRadius: 5.26\n  minimumSeparation: 0.35\n  authoredInstances: 0\n  visiblePatches: 0\n  submittedInstances: 0\n  submittedTriangles: 0\n  drawCalls: 0\n  candidateBudgetReached: 0\n"
+    },
+    {
+      "fileID": 320279500,
+      "scriptGuid": "a9aef638aa579f9429dd34d82a9f95d1",
+      "scripts": [
+        "Assets\\_Game\\Scripts\\Research\\InnerverseGrassStudy.cs"
+      ],
+      "body": "--- !u!114 &320279500\nMonoBehaviour:\n  m_ObjectHideFlags: 0\n  m_CorrespondingSourceObject: {fileID: 0}\n  m_PrefabInstance: {fileID: 0}\n  m_PrefabAsset: {fileID: 0}\n  m_GameObject: {fileID: 320279499}\n  m_Enabled: 1\n  m_EditorHideFlags: 0\n  m_Script: {fileID: 11500000, guid: a9aef638aa579f9429dd34d82a9f95d1, type: 3}\n  m_Name: \n  m_EditorClassIdentifier: LittleCastle.Runtime::LittleCastle.Research.InnerverseGrassStudy\n  lodMeshes:\n  - {fileID: -5594943449212225110, guid: b64664a15804c6a40b649fb352af0896, type: 3}\n  - {fileID: 8649022572691837781, guid: b64664a15804c6a40b649fb352af0896, type: 3}\n  - {fileID: 8288663934865301322, guid: b64664a15804c6a40b649fb352af0896, type: 3}\n  - {fileID: -2506670864321007810, guid: b64664a15804c6a40b649fb352af0896, type: 3}\n  grassMaterial: {fileID: 2100000, guid: 96c07d188a1320a43a2fa89cddbfdefc, type: 2}\n  authoredMatrices:\n  - e00: -0.77733004\n    e01: 0\n    e02: 0.18909805\n    e03: -37.963326\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.23562688\n    e20: -0.18909805\n    e21: 0\n    e22: -0.77733004\n    e23: -36.024136\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: 0.199571\n    e01: 0\n    e02: 0.77470726\n    e03: -24.32264\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.40325072\n    e20: -0.77470726\n    e21: 0\n    e22: 0.199571\n    e23: -36.53254\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: 0.71204036\n    e01: 0\n    e02: 0.36468968\n    e03: 1.0816032\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.23189852\n    e20: -0.36468968\n    e21: 0\n    e22: 0.71204036\n    e23: -39.450436\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: 0.45535287\n    e01: 0\n    e02: -0.6577642\n    e03: 37.965046\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.26306182\n    e20: 0.6577642\n    e21: 0\n    e22: 0.45535287\n    e23: -34.416065\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: -0.77733004\n    e01: 0\n    e02: 0.18909805\n    e03: 42.036674\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.32085282\n    e20: -0.18909805\n    e21: 0\n    e22: -0.77733004\n    e23: -36.024136\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: 0.79625624\n    e01: 0\n    e02: -0.07730443\n    e03: -47.575222\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.18808036\n    e20: 0.07730443\n    e21: 0\n    e22: 0.79625624\n    e23: -28.50398\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: -0.37652683\n    e01: 0\n    e02: -0.70585245\n    e03: -30.919664\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.26201808\n    e20: 0.70585245\n    e21: 0\n    e22: -0.37652683\n    e23: -24.240128\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: 0.5351495\n    e01: 0\n    e02: -0.5946554\n    e03: -14.871728\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.33815774\n    e20: 0.5946554\n    e21: 0\n    e22: 0.5351495\n    e23: -29.401844\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: -0.7378231\n    e01: 0\n    e02: 0.30922002\n    e03: -14.383042\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.33086282\n    e20: -0.30922002\n    e21: 0\n    e22: -0.7378231\n    e23: -28.921614\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: -0.6785685\n    e01: 0\n    e02: 0.42372727\n    e03: 8.362265\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.21636772\n    e20: -0.42372727\n    e21: 0\n    e22: -0.6785685\n    e23: -26.584238\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: -0.0886322\n    e01: 0\n    e02: -0.79507506\n    e03: 19.974089\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.15683748\n    e20: 0.79507506\n    e21: 0\n    e22: -0.0886322\n    e23: -29.586275\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: 0.47960177\n    e01: 0\n    e02: -0.6402985\n    e03: 35.216625\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.24518222\n    e20: 0.6402985\n    e21: 0\n    e22: 0.47960177\n    e23: -25.289349\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: -0.7790046\n    e01: 0\n    e02: 0.18207645\n    e03: 46.36038\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.26313323\n    e20: -0.18207645\n    e21: 0\n    e22: -0.7790046\n    e23: -24.326292\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: 0.31635156\n    e01: 0\n    e02: 0.73479366\n    e03: -39.066795\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.33224052\n    e20: -0.73479366\n    e21: 0\n    e22: 0.31635156\n    e23: -8.202517\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: 0.6861014\n    e01: 0\n    e02: -0.41141826\n    e03: -27.46632\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.21325555\n    e20: 0.41141826\n    e21: 0\n    e22: 0.6861014\n    e23: -12.011993\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: -0.21909456\n    e01: 0\n    e02: 0.7694137\n    e03: -31.86503\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.24475521\n    e20: -0.7694137\n    e21: 0\n    e22: -0.21909456\n    e23: -11.468752\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: -0.7972647\n    e01: 0\n    e02: -0.066098385\n    e03: -13.402516\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.17326929\n    e20: 0.066098385\n    e21: 0\n    e22: -0.7972647\n    e23: -13.526136\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: -0.7821105\n    e01: 0\n    e02: -0.16823488\n    e03: 0.62967056\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.26608425\n    e20: 0.16823488\n    e21: 0\n    e22: -0.7821105\n    e23: -12.699673\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: 0.7470183\n    e01: 0\n    e02: 0.28629294\n    e03: 0.9248066\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.2746973\n    e20: -0.28629294\n    e21: 0\n    e22: 0.7470183\n    e23: -10.681703\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: -0.3831168\n    e01: 0\n    e02: -0.7022973\n    e03: 8.173366\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.31969306\n    e20: 0.7022973\n    e21: 0\n    e22: -0.3831168\n    e23: -15.593645\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: -0.78681225\n    e01: 0\n    e02: -0.1446604\n    e03: 10.437768\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.33166203\n    e20: 0.1446604\n    e21: 0\n    e22: -0.78681225\n    e23: -15.804202\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: -0.73525923\n    e01: 0\n    e02: 0.3152679\n    e03: 15.644484\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.36114195\n    e20: -0.3152679\n    e21: 0\n    e22: -0.73525923\n    e23: -15.064069\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: 0.0067435266\n    e01: 0\n    e02: 0.7999715\n    e03: 9.2109375\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.35008308\n    e20: -0.7999715\n    e21: 0\n    e22: 0.0067435266\n    e23: -12.937343\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: 0.5725379\n    e01: 0\n    e02: 0.5587489\n    e03: 12.984971\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.40962246\n    e20: -0.5587489\n    e21: 0\n    e22: 0.5725379\n    e23: -9.261412\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: 0.6814937\n    e01: 0\n    e02: 0.4190064\n    e03: 31.90782\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.30354196\n    e20: -0.4190064\n    e21: 0\n    e22: 0.6814937\n    e23: -13.920425\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: 0.11539459\n    e01: 0\n    e02: -0.79163384\n    e03: 28.616108\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.35486558\n    e20: 0.79163384\n    e21: 0\n    e22: 0.11539459\n    e23: -11.028902\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: 0.7097936\n    e01: 0\n    e02: 0.36904338\n    e03: 32.965492\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.29418457\n    e20: -0.36904338\n    e21: 0\n    e22: 0.7097936\n    e23: -13.582669\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: -0.7266194\n    e01: 0\n    e02: -0.33470035\n    e03: -19.79215\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.28421402\n    e20: 0.33470035\n    e21: 0\n    e22: -0.7266194\n    e23: -5.985133\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: 0.5235899\n    e01: 0\n    e02: -0.6048584\n    e03: -14.108856\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.2768963\n    e20: 0.6048584\n    e21: 0\n    e22: 0.5235899\n    e23: -4.8843484\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: 0.787791\n    e01: 0\n    e02: -0.13923131\n    e03: -13.395847\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.29280272\n    e20: 0.13923131\n    e21: 0\n    e22: 0.787791\n    e23: -4.176239\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: 0.028221084\n    e01: 0\n    e02: -0.7995021\n    e03: -9.849283\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.3613845\n    e20: 0.7995021\n    e21: 0\n    e22: 0.028221084\n    e23: -0.9828911\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: -0.090322874\n    e01: 0\n    e02: -0.7948848\n    e03: 5.6152883\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.36891115\n    e20: 0.7948848\n    e21: 0\n    e22: -0.090322874\n    e23: -1.9602833\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: 0.5235899\n    e01: 0\n    e02: -0.6048584\n    e03: 17.891144\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.4583701\n    e20: 0.6048584\n    e21: 0\n    e22: 0.5235899\n    e23: -4.8843484\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: 0.787791\n    e01: 0\n    e02: -0.13923131\n    e03: 18.604153\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.46187773\n    e20: 0.13923131\n    e21: 0\n    e22: 0.787791\n    e23: -4.176239\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: 0.028221084\n    e01: 0\n    e02: -0.7995021\n    e03: 22.150717\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.46031916\n    e20: 0.7995021\n    e21: 0\n    e22: 0.028221084\n    e23: -0.9828911\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: -0.7266194\n    e01: 0\n    e02: -0.33470035\n    e03: 28.20785\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.38702625\n    e20: 0.33470035\n    e21: 0\n    e22: -0.7266194\n    e23: -5.985133\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: -0.54570836\n    e01: 0\n    e02: -0.5849807\n    e03: -37.490063\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.57126355\n    e20: 0.5849807\n    e21: 0\n    e22: -0.54570836\n    e23: 3.0752304\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: -0.53094834\n    e01: 0\n    e02: -0.59840935\n    e03: -35.997707\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.65527695\n    e20: 0.59840935\n    e21: 0\n    e22: -0.53094834\n    e23: 4.1528993\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: -0.5762536\n    e01: 0\n    e02: 0.5549161\n    e03: -36.69542\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.6683602\n    e20: -0.5549161\n    e21: 0\n    e22: -0.5762536\n    e23: 4.9385333\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: -0.5794091\n    e01: 0\n    e02: 0.5516204\n    e03: -30.160864\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.6843341\n    e20: -0.5516204\n    e21: 0\n    e22: -0.5794091\n    e23: 1.8325033\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: -0.77166474\n    e01: 0\n    e02: 0.21103004\n    e03: -28.096514\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 1.1782309\n    e20: -0.21103004\n    e21: 0\n    e22: -0.77166474\n    e23: 6.6900244\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: 0.4449013\n    e01: 0\n    e02: -0.6648781\n    e03: -13.696303\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.70090336\n    e20: 0.6648781\n    e21: 0\n    e22: 0.4449013\n    e23: 3.2478113\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: -0.019788552\n    e01: 0\n    e02: 0.7997553\n    e03: -13.42416\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.7605551\n    e20: -0.7997553\n    e21: 0\n    e22: -0.019788552\n    e23: 4.139939\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: 0.53668404\n    e01: 0\n    e02: -0.59327084\n    e03: -6.034991\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.53596926\n    e20: 0.59327084\n    e21: 0\n    e22: 0.53668404\n    e23: 5.611436\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: -0.6203651\n    e01: 0\n    e02: -0.50512093\n    e03: 30.207708\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.37124655\n    e20: 0.50512093\n    e21: 0\n    e22: -0.6203651\n    e23: 3.053782\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: 0.3802665\n    e01: 0\n    e02: 0.7038447\n    e03: 38.12022\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.23941827\n    e20: -0.7038447\n    e21: 0\n    e22: 0.3802665\n    e23: 7.0108\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: 0.7917153\n    e01: 0\n    e02: -0.11483427\n    e03: -43.76126\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.5984463\n    e20: 0.11483427\n    e21: 0\n    e22: 0.7917153\n    e23: 11.89865\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: -0.5494601\n    e01: 0\n    e02: 0.5814581\n    e03: -28.095638\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 1.3549923\n    e20: -0.5814581\n    e21: 0\n    e22: -0.5494601\n    e23: 8.288093\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: -0.7266194\n    e01: 0\n    e02: -0.33470035\n    e03: -19.79215\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 1.7082156\n    e20: 0.33470035\n    e21: 0\n    e22: -0.7266194\n    e23: 10.014867\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: -0.7266194\n    e01: 0\n    e02: -0.33470035\n    e03: 28.20785\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.3981991\n    e20: 0.33470035\n    e21: 0\n    e22: -0.7266194\n    e23: 10.014867\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: -0.2672268\n    e01: 0\n    e02: 0.754049\n    e03: -25.10281\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 3.1198347\n    e20: -0.754049\n    e21: 0\n    e22: -0.2672268\n    e23: 23.488535\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: 0.797023\n    e01: 0\n    e02: 0.06895198\n    e03: 11.3248415\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.4533982\n    e20: -0.06895198\n    e21: 0\n    e22: 0.797023\n    e23: 18.66368\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: -0.7972647\n    e01: 0\n    e02: -0.066098385\n    e03: 18.597485\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.51150167\n    e20: 0.066098385\n    e21: 0\n    e22: -0.7972647\n    e23: 18.473864\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: -0.43404275\n    e01: 0\n    e02: 0.67201704\n    e03: 26.349035\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.6353\n    e20: -0.67201704\n    e21: 0\n    e22: -0.43404275\n    e23: 21.43449\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: 0.4185627\n    e01: 0\n    e02: 0.6817663\n    e03: -44.7541\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.48250008\n    e20: -0.6817663\n    e21: 0\n    e22: 0.4185627\n    e23: 31.757065\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: 0.3754635\n    e01: 0\n    e02: -0.7064186\n    e03: -24.437172\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 3.187183\n    e20: 0.7064186\n    e21: 0\n    e22: 0.3754635\n    e23: 24.233965\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: 0.7513626\n    e01: 0\n    e02: 0.2746893\n    e03: -42.776783\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.53388005\n    e20: -0.2746893\n    e21: 0\n    e22: 0.7513626\n    e23: 35.881897\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: 0.46378192\n    e01: 0\n    e02: 0.65184844\n    e03: -36.68226\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 1.286007\n    e20: -0.65184844\n    e21: 0\n    e22: 0.46378192\n    e23: 32.994034\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: 0.47960177\n    e01: 0\n    e02: -0.6402985\n    e03: -28.783375\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 1.8833215\n    e20: 0.6402985\n    e21: 0\n    e22: 0.47960177\n    e23: 38.71065\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: 0.7623621\n    e01: 0\n    e02: 0.24249546\n    e03: -10.349411\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 1.7676014\n    e20: -0.24249546\n    e21: 0\n    e22: 0.7623621\n    e23: 34.044434\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: -0.32447433\n    e01: 0\n    e02: -0.7312431\n    e03: -10.299254\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 1.718412\n    e20: 0.7312431\n    e21: 0\n    e22: -0.32447433\n    e23: 34.797447\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: 0.66740483\n    e01: 0\n    e02: -0.44110185\n    e03: -11.01435\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 1.640461\n    e20: 0.44110185\n    e21: 0\n    e22: 0.66740483\n    e23: 37.34716\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: -0.77857316\n    e01: 0\n    e02: 0.18391226\n    e03: -6.0586576\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 1.2109139\n    e20: -0.18391226\n    e21: 0\n    e22: -0.77857316\n    e23: 34.808853\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: -0.24331741\n    e01: 0\n    e02: 0.76210016\n    e03: 0.50532967\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.7692024\n    e20: -0.76210016\n    e21: 0\n    e22: -0.24331741\n    e23: 36.50205\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: 0.45044366\n    e01: 0\n    e02: -0.6611358\n    e03: 11.3017645\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 1.1359593\n    e20: 0.6611358\n    e21: 0\n    e22: 0.45044366\n    e23: 36.19084\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: 0.008478022\n    e01: 0\n    e02: 0.79995507\n    e03: 10.302897\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 1.1042547\n    e20: -0.79995507\n    e21: 0\n    e22: 0.008478022\n    e23: 37.296944\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: 0.2844936\n    e01: 0\n    e02: 0.74770546\n    e03: 9.939638\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 1.1233495\n    e20: -0.74770546\n    e21: 0\n    e22: 0.2844936\n    e23: 38.90538\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: 0.7968866\n    e01: 0\n    e02: 0.07051071\n    e03: 27.224127\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 1.5627847\n    e20: -0.07051071\n    e21: 0\n    e22: 0.7968866\n    e23: 32.42826\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: 0.6962944\n    e01: 0\n    e02: -0.39392143\n    e03: 28.59267\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 1.8787954\n    e20: 0.39392143\n    e21: 0\n    e22: 0.6962944\n    e23: 35.902187\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: -0.37652683\n    e01: 0\n    e02: -0.70585245\n    e03: 33.080338\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 1.8971413\n    e20: 0.70585245\n    e21: 0\n    e22: -0.37652683\n    e23: 39.759872\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: -0.7790046\n    e01: 0\n    e02: 0.18207645\n    e03: 46.36038\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.8762764\n    e20: -0.18207645\n    e21: 0\n    e22: -0.7790046\n    e23: 39.67371\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: 0.6910626\n    e01: 0\n    e02: -0.40302902\n    e03: -42.430603\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.4251605\n    e20: 0.40302902\n    e21: 0\n    e22: 0.6910626\n    e23: 41.038395\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: 0.5914461\n    e01: 0\n    e02: 0.53869426\n    e03: -47.860615\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.16761066\n    e20: -0.53869426\n    e21: 0\n    e22: 0.5914461\n    e23: 42.003418\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: -0.77733004\n    e01: 0\n    e02: 0.18909805\n    e03: -37.963326\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.63369817\n    e20: -0.18909805\n    e21: 0\n    e22: -0.77733004\n    e23: 43.975864\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: 0.7934393\n    e01: 0\n    e02: 0.10224505\n    e03: -10.497684\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 1.274995\n    e20: -0.10224505\n    e21: 0\n    e22: 0.7934393\n    e23: 41.78178\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: 0.2778015\n    e01: 0\n    e02: -0.75021756\n    e03: 38.87987\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 1.436095\n    e20: 0.75021756\n    e21: 0\n    e22: 0.2778015\n    e23: 40.470436\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: 0.16347103\n    e01: 0\n    e02: -0.78312016\n    e03: 39.78194\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 1.3830408\n    e20: 0.78312016\n    e21: 0\n    e22: 0.16347103\n    e23: 41.98615\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: 0.7994431\n    e01: 0\n    e02: 0.029844439\n    e03: 33.127647\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 1.8533636\n    e20: -0.029844439\n    e21: 0\n    e22: 0.7994431\n    e23: 46.96107\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: -0.59319395\n    e01: 0\n    e02: -0.5367689\n    e03: 34.37382\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 1.7617198\n    e20: 0.5367689\n    e21: 0\n    e22: -0.59319395\n    e23: 46.968254\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: -0.77733004\n    e01: 0\n    e02: 0.18909805\n    e03: 42.036674\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 1.2003925\n    e20: -0.18909805\n    e21: 0\n    e22: -0.77733004\n    e23: 43.975864\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: 0.69668114\n    e01: 0\n    e02: 0.3932371\n    e03: -46.403408\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.14105438\n    e20: -0.3932371\n    e21: 0\n    e22: 0.69668114\n    e23: 51.761806\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: 0.31444803\n    e01: 0\n    e02: 0.7356102\n    e03: -32.09394\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.6602224\n    e20: -0.7356102\n    e21: 0\n    e22: 0.31444803\n    e23: 51.102695\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: 0.6455763\n    e01: 0\n    e02: 0.47247353\n    e03: -18.63154\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 1.112012\n    e20: -0.47247353\n    e21: 0\n    e22: 0.6455763\n    e23: 48.838245\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: 0.04926262\n    e01: 0\n    e02: 0.7984818\n    e03: -22.244509\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.7536877\n    e20: -0.7984818\n    e21: 0\n    e22: 0.04926262\n    e23: 54.095734\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: 0.27638555\n    e01: 0\n    e02: 0.75074035\n    e03: -17.090305\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.6576784\n    e20: -0.75074035\n    e21: 0\n    e22: 0.27638555\n    e23: 55.65306\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: -0.7186758\n    e01: 0\n    e02: -0.35143277\n    e03: -1.6704081\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.51981366\n    e20: 0.35143277\n    e21: 0\n    e22: -0.7186758\n    e23: 52.002483\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: -0.51774466\n    e01: 0\n    e02: 0.60986924\n    e03: 14.667263\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 1.3936198\n    e20: -0.60986924\n    e21: 0\n    e22: -0.51774466\n    e23: 49.18823\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: 0.110713296\n    e01: 0\n    e02: 0.7923021\n    e03: 14.319233\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 1.340016\n    e20: -0.7923021\n    e21: 0\n    e22: 0.110713296\n    e23: 49.590054\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: 0.6097277\n    e01: 0\n    e02: 0.5179114\n    e03: 12.715123\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 1.0149168\n    e20: -0.5179114\n    e21: 0\n    e22: 0.6097277\n    e23: 52.758022\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: -0.6411461\n    e01: 0\n    e02: -0.47846803\n    e03: 12.891431\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.9973557\n    e20: 0.47846803\n    e21: 0\n    e22: -0.6411461\n    e23: 53.198475\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: 0.79843163\n    e01: 0\n    e02: -0.05006935\n    e03: -28.25394\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.5343946\n    e20: 0.05006935\n    e21: 0\n    e22: 0.79843163\n    e23: 56.94487\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: -0.7799228\n    e01: 0\n    e02: -0.17810224\n    e03: -16.139236\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.46285817\n    e20: 0.17810224\n    e21: 0\n    e22: -0.7799228\n    e23: 60.695213\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: 0.79899687\n    e01: 0\n    e02: -0.040050022\n    e03: -0.52611524\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.43106988\n    e20: 0.040050022\n    e21: 0\n    e22: 0.79899687\n    e23: 56.10257\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: 0.07666173\n    e01: 0\n    e02: -0.7963184\n    e03: -3.834613\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.34981528\n    e20: 0.7963184\n    e21: 0\n    e22: 0.07666173\n    e23: 61.42661\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: -0.022998525\n    e01: 0\n    e02: 0.7996694\n    e03: -7.5916796\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.33797333\n    e20: -0.7996694\n    e21: 0\n    e22: -0.022998525\n    e23: 63.66754\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: -0.7809834\n    e01: 0\n    e02: -0.1733923\n    e03: 0.24344248\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.3713554\n    e20: 0.1733923\n    e21: 0\n    e22: -0.7809834\n    e23: 59.46333\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: -0.13721715\n    e01: 0\n    e02: -0.7881443\n    e03: 0.5942679\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.36551833\n    e20: 0.7881443\n    e21: 0\n    e22: -0.13721715\n    e23: 59.8828\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: 0.79899687\n    e01: 0\n    e02: -0.040050022\n    e03: 15.473885\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.93253934\n    e20: 0.040050022\n    e21: 0\n    e22: 0.79899687\n    e23: 56.10257\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: 0.07666173\n    e01: 0\n    e02: -0.7963184\n    e03: 12.165387\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.50459373\n    e20: 0.7963184\n    e21: 0\n    e22: 0.07666173\n    e23: 61.42661\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: -0.022998525\n    e01: 0\n    e02: 0.7996694\n    e03: 8.40832\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.37245637\n    e20: -0.7996694\n    e21: 0\n    e22: -0.022998525\n    e23: 63.66754\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: -0.7799228\n    e01: 0\n    e02: -0.17810224\n    e03: 31.860764\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.765803\n    e20: 0.17810224\n    e21: 0\n    e22: -0.7799228\n    e23: 60.695213\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  - e00: 0.79843163\n    e01: 0\n    e02: -0.05006935\n    e03: 35.74606\n    e10: 0\n    e11: 0.8\n    e12: 0\n    e13: 0.9506325\n    e20: 0.05006935\n    e21: 0\n    e22: 0.79843163\n    e23: 56.94487\n    e30: 0\n    e31: 0\n    e32: 0\n    e33: 1\n  maximumDistance: 60\n  receiveGroundShadows: 1\n  lastVisibleClumps: 0\n  lastSubmittedTriangles: 0\n"
+    },
+    {
+      "fileID": 348784513,
+      "scriptGuid": "91d59c7dbcc74d24b949902a3937b905",
+      "scripts": [
+        "Assets\\_Game\\Scripts\\World\\Rendering\\StylizedLightingGlobals.cs"
+      ],
+      "body": "--- !u!114 &348784513\nMonoBehaviour:\n  m_ObjectHideFlags: 0\n  m_CorrespondingSourceObject: {fileID: 0}\n  m_PrefabInstance: {fileID: 0}\n  m_PrefabAsset: {fileID: 0}\n  m_GameObject: {fileID: 348784512}\n  m_Enabled: 1\n  m_EditorHideFlags: 0\n  m_Script: {fileID: 11500000, guid: 91d59c7dbcc74d24b949902a3937b905, type: 3}\n  m_Name: \n  m_EditorClassIdentifier: LittleCastle.Runtime::LittleCastle.Rendering.StylizedLightingGlobals\n  timeSystem: {fileID: 1696229881}\n  atmosphere: {fileID: 1145319857}\n  sun: {fileID: 164371123}\n  moon: {fileID: 1232713601}\n  dayShadowTint: {r: 0.72, g: 0.82, b: 1, a: 1}\n  twilightShadowTint: {r: 0.48, g: 0.56, b: 0.78, a: 1}\n  nightShadowTint: {r: 0.34, g: 0.44, b: 0.68, a: 1}\n  ambientMultiplier: 1\n  sunMultiplier: 1\n  moonMultiplier: 1\n  windDirection: {x: 0.86, y: 0.5}\n  windStrength: 0.6\n  windSpeed: 0.65\n"
+    },
+    {
+      "fileID": 756942284,
+      "scriptGuid": "72373cb6a959d1047ac5da215539a678",
+      "scripts": [
+        "Assets\\_Game\\Scripts\\World\\Rendering\\GrassInteractionSource.cs"
+      ],
+      "body": "--- !u!114 &756942284\nMonoBehaviour:\n  m_ObjectHideFlags: 0\n  m_CorrespondingSourceObject: {fileID: 0}\n  m_PrefabInstance: {fileID: 0}\n  m_PrefabAsset: {fileID: 0}\n  m_GameObject: {fileID: 756942283}\n  m_Enabled: 1\n  m_EditorHideFlags: 0\n  m_Script: {fileID: 11500000, guid: 72373cb6a959d1047ac5da215539a678, type: 3}\n  m_Name: \n  m_EditorClassIdentifier: LittleCastle.Runtime::LittleCastle.Rendering.GrassInteractionSource\n  radius: 1.05\n  bend: 1\n  heightOffset: -0.7\n"
+    },
+    {
+      "fileID": 1145319857,
+      "scriptGuid": "4c7e2b9f5da67b80af43e6a18259db74",
+      "scripts": [
+        "Assets\\_Game\\Scripts\\World\\Rendering\\DayNightLightingController.cs"
+      ],
+      "body": "--- !u!114 &1145319857\nMonoBehaviour:\n  m_ObjectHideFlags: 0\n  m_CorrespondingSourceObject: {fileID: 0}\n  m_PrefabInstance: {fileID: 0}\n  m_PrefabAsset: {fileID: 0}\n  m_GameObject: {fileID: 1145319856}\n  m_Enabled: 1\n  m_EditorHideFlags: 0\n  m_Script: {fileID: 11500000, guid: 4c7e2b9f5da67b80af43e6a18259db74, type: 3}\n  m_Name: \n  m_EditorClassIdentifier: LittleCastle.Runtime::LittleCastle.World.DayNightLightingController\n  timeSystem: {fileID: 1696229881}\n  palette: {fileID: 11400000, guid: 785dbdba7e3908041862f565e3613b12, type: 2}\n  sun: {fileID: 164371123}\n  moon: {fileID: 1232713601}\n  sunAzimuth: -38\n  maxSunIntensity: 1.1\n  maxMoonIntensity: 0.14\n  sunDayColor: {r: 1, g: 0.96, b: 0.84, a: 1}\n  sunHorizonColor: {r: 1, g: 0.56, b: 0.31, a: 1}\n  moonLightColor: {r: 0.58, g: 0.68, b: 1, a: 1}\n  dawnTransitionGameHours: 2\n  duskTransitionGameHours: 2\n  twilightGameHours: 1.25\n  skyboxMaterial: {fileID: 2100000, guid: d6f98e824c2a8cc4cb7b0afd8514a110, type: 2}\n  dayZenith: {r: 0.24, g: 0.52, b: 0.82, a: 1}\n  dayHorizon: {r: 0.79, g: 0.88, b: 0.94, a: 1}\n  dayLowerSky: {r: 0.54, g: 0.67, b: 0.73, a: 1}\n  nightZenith: {r: 0.035, g: 0.065, b: 0.15, a: 1}\n  nightHorizon: {r: 0.17, g: 0.22, b: 0.34, a: 1}\n  nightLowerSky: {r: 0.11, g: 0.14, b: 0.22, a: 1}\n  twilightZenith: {r: 0.24, g: 0.2, b: 0.38, a: 1}\n  twilightHorizon: {r: 1, g: 0.52, b: 0.31, a: 1}\n  twilightLowerSky: {r: 0.48, g: 0.32, b: 0.38, a: 1}\n  skySunColor: {r: 1.85, g: 1.32, b: 0.76, a: 1}\n  skyMoonColor: {r: 0.83, g: 0.92, b: 1.25, a: 1}\n  dayAmbientSky: {r: 0.78, g: 0.82, b: 0.86, a: 1}\n  dayAmbientEquator: {r: 0.62, g: 0.66, b: 0.7, a: 1}\n  dayAmbientGround: {r: 0.42, g: 0.44, b: 0.4, a: 1}\n  nightAmbientSky: {r: 0.25, g: 0.31, b: 0.46, a: 1}\n  nightAmbientEquator: {r: 0.2, g: 0.25, b: 0.36, a: 1}\n  nightAmbientGround: {r: 0.13, g: 0.16, b: 0.24, a: 1}\n  controlFog: 1\n  dayFogColor: {r: 0.7, g: 0.79, b: 0.84, a: 1}\n  nightFogColor: {r: 0.16, g: 0.21, b: 0.31, a: 1}\n  twilightFogColor: {r: 0.52, g: 0.34, b: 0.38, a: 1}\n  dayFogStart: 85\n  dayFogEnd: 180\n  nightFogStart: 65\n  nightFogEnd: 150\n"
+    },
+    {
+      "fileID": 1325034560,
+      "scriptGuid": "4f2817d6575efa641b95a7ecf5b2683a",
+      "scripts": [
+        "Assets\\_Game\\Scripts\\World\\Rendering\\MeadowGrassRenderer.cs"
+      ],
+      "body": "--- !u!114 &1325034560\nMonoBehaviour:\n  m_ObjectHideFlags: 0\n  m_CorrespondingSourceObject: {fileID: 0}\n  m_PrefabInstance: {fileID: 0}\n  m_PrefabAsset: {fileID: 0}\n  m_GameObject: {fileID: 1325034559}\n  m_Enabled: 1\n  m_EditorHideFlags: 0\n  m_Script: {fileID: 11500000, guid: 4f2817d6575efa641b95a7ecf5b2683a, type: 3}\n  m_Name: \n  m_EditorClassIdentifier: LittleCastle.Runtime::LittleCastle.Rendering.MeadowGrassRenderer\n  data: {fileID: 11400000, guid: 4c3b27d6849881e489990774c0f53187, type: 2}\n  material: {fileID: 2100000, guid: aa779147bb09a5b4db5044a1fbe5222d, type: 2}\n  maximumDistance: 128\n  lodDistances: {x: 22, y: 70, z: 90}\n  forceFullDetail: 0\n  visiblePatches: 0\n  submittedClumps: 0\n  submittedTriangles: 0\n  drawCalls: 0\n"
+    },
+    {
+      "fileID": 1486487990,
+      "scriptGuid": "f9cd21f666a1ba0449706158ace66f19",
+      "scripts": [
+        "Assets\\_Game\\Scripts\\Research\\MeadowSurfacePainter.cs"
+      ],
+      "body": "--- !u!114 &1486487990\nMonoBehaviour:\n  m_ObjectHideFlags: 0\n  m_CorrespondingSourceObject: {fileID: 0}\n  m_PrefabInstance: {fileID: 0}\n  m_PrefabAsset: {fileID: 0}\n  m_GameObject: {fileID: 1486487989}\n  m_Enabled: 1\n  m_EditorHideFlags: 0\n  m_Script: {fileID: 11500000, guid: f9cd21f666a1ba0449706158ace66f19, type: 3}\n  m_Name: \n  m_EditorClassIdentifier: LittleCastle.Runtime::LittleCastle.Research.MeadowSurfacePainter\n  brushSoftness: 0.38\n  source: {fileID: 11400000, guid: 0ebaf7e69f24f8a4398addf6e0a85bea, type: 2}\n  studyCamera: {fileID: 76295302}\n  terrainMaterial: {fileID: 2100000, guid: 581e652dded457f488139d8908ca1af1, type: 2}\n  grassMaterial: {fileID: 2100000, guid: aa779147bb09a5b4db5044a1fbe5222d, type: 2}\n  accentMaterial: {fileID: 2100000, guid: 96c07d188a1320a43a2fa89cddbfdefc, type: 2}\n  brushMaterial: {fileID: 2100000, guid: 1cceece9cedf4b4409a26e47e7edd498, type: 2}\n  authoredPreviewMask: {fileID: 2800000, guid: 309ca312ed4a0164b9d74e867921479a, type: 2}\n  painting: 0\n  road: 0\n  erase: 0\n  populatePlants: 1\n  currentProfile: 1\n  scatterRenderer: {fileID: 227759085}\n  radius: 3\n  strength: 1\n  density: 1\n  stampsPerSecond: 15\n  status: \n  allowedTools: 511\n  sculpting: 0\n  lowerTerrain: 0\n  terrainMetresPerSecond: 1.5\n  treeCatalog: {fileID: 0}\n  playerMode: 0\n  treeTool: 0\n  selectedTreeSource: 0\n  selectedTreePack: 0\n  selectedTreeGroup: 0\n  treeScale: 1\n  treeYaw: 0\n  treeBrushSpacing: 6\n  treeBrushDensity: 0.7\n  treeBrushSeed: 1729\n  selectedTree: 0\n"
+    },
+    {
+      "fileID": 1696229881,
+      "scriptGuid": "3b6d1a8e4c956a7f9e32d5907148ca63",
+      "scripts": [
+        "Assets\\_Game\\Scripts\\World\\Time\\WorldTimeSystem.cs"
+      ],
+      "body": "--- !u!114 &1696229881\nMonoBehaviour:\n  m_ObjectHideFlags: 0\n  m_CorrespondingSourceObject: {fileID: 0}\n  m_PrefabInstance: {fileID: 0}\n  m_PrefabAsset: {fileID: 0}\n  m_GameObject: {fileID: 1696229880}\n  m_Enabled: 1\n  m_EditorHideFlags: 0\n  m_Script: {fileID: 11500000, guid: 3b6d1a8e4c956a7f9e32d5907148ca63, type: 3}\n  m_Name: \n  m_EditorClassIdentifier: LittleCastle.Runtime::LittleCastle.World.WorldTimeSystem\n  worldDefinition: {fileID: 0}\n  timeSettingsOverride: {fileID: 11400000, guid: 6e904db17fc89da2c16508c3a47bfd96, type: 2}\n  runAutomatically: 1\n  simulationSpeedMultiplier: 1\n"
+    },
+    {
+      "fileID": 2136877405,
+      "scriptGuid": "172515602e62fb746b5d573b38a5fe58",
+      "scripts": [],
+      "body": "--- !u!114 &2136877405\nMonoBehaviour:\n  m_ObjectHideFlags: 0\n  m_CorrespondingSourceObject: {fileID: 0}\n  m_PrefabInstance: {fileID: 0}\n  m_PrefabAsset: {fileID: 0}\n  m_GameObject: {fileID: 2136877404}\n  m_Enabled: 1\n  m_EditorHideFlags: 0\n  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}\n  m_Name: \n  m_EditorClassIdentifier: Unity.RenderPipelines.Core.Runtime::UnityEngine.Rendering.Volume\n  m_IsGlobal: 1\n  priority: 0\n  blendDistance: 0\n  weight: 1\n  sharedProfile: {fileID: 11400000, guid: 0af7110f574faa143b5829f88c93bb27, type: 2}\n"
+    }
+  ],
+  "includes": [
+    {
+      "source": "Assets\\_Game\\Shaders\\Distance\\LC_DistantSimple.shader",
+      "include": "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Fog.hlsl",
+      "kind": "package",
+      "resolved": true
+    },
+    {
+      "source": "Assets\\_Game\\Shaders\\Distance\\LC_DistantSimple.shader",
+      "include": "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl",
+      "kind": "package",
+      "resolved": true
+    },
+    {
+      "source": "Assets\\_Game\\Shaders\\Effects\\LC_EmissiveGlow.shader",
+      "include": "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl",
+      "kind": "package",
+      "resolved": true
+    },
+    {
+      "source": "Assets\\_Game\\Shaders\\Effects\\LC_EmissiveGlow.shader",
+      "include": "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Fog.hlsl",
+      "kind": "package",
+      "resolved": true
+    },
+    {
+      "source": "Assets\\_Game\\Shaders\\Effects\\LC_NightLightPool.shader",
+      "include": "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl",
+      "kind": "package",
+      "resolved": true
+    },
+    {
+      "source": "Assets\\_Game\\Shaders\\Effects\\LC_NightLightPool.shader",
+      "include": "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Fog.hlsl",
+      "kind": "package",
+      "resolved": true
+    },
+    {
+      "source": "Assets\\_Game\\Shaders\\Foliage\\LC_Foliage.shader",
+      "include": "LC_FoliageURP.hlsl",
+      "kind": "relative",
+      "resolved": true
+    },
+    {
+      "source": "Assets\\_Game\\Shaders\\Foliage\\LC_Foliage.shader",
+      "include": "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Fog.hlsl",
+      "kind": "package",
+      "resolved": true
+    },
+    {
+      "source": "Assets\\_Game\\Shaders\\Foliage\\LC_FoliageURP.hlsl",
+      "include": "LC_VegetationURPCommon.hlsl",
+      "kind": "relative",
+      "resolved": true
+    },
+    {
+      "source": "Assets\\_Game\\Shaders\\Foliage\\LC_Grass.shader",
+      "include": "LC_GrassURP.hlsl",
+      "kind": "relative",
+      "resolved": true
+    },
+    {
+      "source": "Assets\\_Game\\Shaders\\Foliage\\LC_Grass.shader",
+      "include": "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Fog.hlsl",
+      "kind": "package",
+      "resolved": true
+    },
+    {
+      "source": "Assets\\_Game\\Shaders\\Foliage\\LC_GrassURP.hlsl",
+      "include": "LC_VegetationURPCommon.hlsl",
+      "kind": "relative",
+      "resolved": true
+    },
+    {
+      "source": "Assets\\_Game\\Shaders\\Foliage\\LC_GrassURP.hlsl",
+      "include": "../Surface/LC_GroundPalette.cginc",
+      "kind": "relative",
+      "resolved": true
+    },
+    {
+      "source": "Assets\\_Game\\Shaders\\Foliage\\LC_GrassURP.hlsl",
+      "include": "../Surface/LC_SurfacePaint.hlsl",
+      "kind": "relative",
+      "resolved": true
+    },
+    {
+      "source": "Assets\\_Game\\Shaders\\Foliage\\LC_VegetationURPCommon.hlsl",
+      "include": "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl",
+      "kind": "package",
+      "resolved": true
+    },
+    {
+      "source": "Assets\\_Game\\Shaders\\Foliage\\LC_VegetationURPCommon.hlsl",
+      "include": "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl",
+      "kind": "package",
+      "resolved": true
+    },
+    {
+      "source": "Assets\\_Game\\Shaders\\Foliage\\LC_VegetationURPCommon.hlsl",
+      "include": "../Surface/LC_LightingCommon.hlsl",
+      "kind": "relative",
+      "resolved": true
+    },
+    {
+      "source": "Assets\\_Game\\Shaders\\Rivers\\LC_RiverBank.shader",
+      "include": "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl",
+      "kind": "package",
+      "resolved": true
+    },
+    {
+      "source": "Assets\\_Game\\Shaders\\Rivers\\LC_RiverBank.shader",
+      "include": "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl",
+      "kind": "package",
+      "resolved": true
+    },
+    {
+      "source": "Assets\\_Game\\Shaders\\Rivers\\LC_RiverWater.shader",
+      "include": "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl",
+      "kind": "package",
+      "resolved": true
+    },
+    {
+      "source": "Assets\\_Game\\Shaders\\Rivers\\LC_RiverWater.shader",
+      "include": "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl",
+      "kind": "package",
+      "resolved": true
+    },
+    {
+      "source": "Assets\\_Game\\Shaders\\Sky\\StylizedDayNightSky.shader",
+      "include": "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl",
+      "kind": "package",
+      "resolved": true
+    },
+    {
+      "source": "Assets\\_Game\\Shaders\\Surface\\LC_LightingCommon.hlsl",
+      "include": "Packages/com.unity.render-pipelines.universal/ShaderLibrary/AmbientOcclusion.hlsl",
+      "kind": "package",
+      "resolved": true
+    },
+    {
+      "source": "Assets\\_Game\\Shaders\\Surface\\LC_LightingCommon.hlsl",
+      "include": "LC_SpatialIndirect.hlsl",
+      "kind": "relative",
+      "resolved": true
+    },
+    {
+      "source": "Assets\\_Game\\Shaders\\Surface\\LC_SoftScene.shader",
+      "include": "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl",
+      "kind": "package",
+      "resolved": true
+    },
+    {
+      "source": "Assets\\_Game\\Shaders\\Surface\\LC_SoftScene.shader",
+      "include": "Packages/com.unity.render-pipelines.core/Runtime/Utilities/Blit.hlsl",
+      "kind": "package",
+      "resolved": true
+    },
+    {
+      "source": "Assets\\_Game\\Shaders\\Surface\\LC_SoftScene.shader",
+      "include": "UnityCG.cginc",
+      "kind": "Unity builtin include",
+      "resolved": true
+    },
+    {
+      "source": "Assets\\_Game\\Shaders\\Surface\\LC_StylizedLit.shader",
+      "include": "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl",
+      "kind": "package",
+      "resolved": true
+    },
+    {
+      "source": "Assets\\_Game\\Shaders\\Surface\\LC_StylizedLit.shader",
+      "include": "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl",
+      "kind": "package",
+      "resolved": true
+    },
+    {
+      "source": "Assets\\_Game\\Shaders\\Surface\\LC_StylizedLit.shader",
+      "include": "LC_LightingCommon.hlsl",
+      "kind": "relative",
+      "resolved": true
+    },
+    {
+      "source": "Assets\\_Game\\Shaders\\Surface\\LC_StylizedLit.shader",
+      "include": "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Fog.hlsl",
+      "kind": "package",
+      "resolved": true
+    },
+    {
+      "source": "Assets\\_Game\\Shaders\\Terrain\\LC_Snowfall.shader",
+      "include": "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl",
+      "kind": "package",
+      "resolved": true
+    },
+    {
+      "source": "Assets\\_Game\\Shaders\\Terrain\\LC_Snowfall.shader",
+      "include": "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Fog.hlsl",
+      "kind": "package",
+      "resolved": true
+    },
+    {
+      "source": "Assets\\_Game\\Shaders\\Terrain\\LC_Terrain.shader",
+      "include": "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl",
+      "kind": "package",
+      "resolved": true
+    },
+    {
+      "source": "Assets\\_Game\\Shaders\\Terrain\\LC_Terrain.shader",
+      "include": "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl",
+      "kind": "package",
+      "resolved": true
+    },
+    {
+      "source": "Assets\\_Game\\Shaders\\Terrain\\LC_Terrain.shader",
+      "include": "../Surface/LC_LightingCommon.hlsl",
+      "kind": "relative",
+      "resolved": true
+    },
+    {
+      "source": "Assets\\_Game\\Shaders\\Terrain\\LC_Terrain.shader",
+      "include": "../Surface/LC_GroundPalette.cginc",
+      "kind": "relative",
+      "resolved": true
+    },
+    {
+      "source": "Assets\\_Game\\Shaders\\Terrain\\LC_Terrain.shader",
+      "include": "../Surface/LC_SurfacePaint.hlsl",
+      "kind": "relative",
+      "resolved": true
+    },
+    {
+      "source": "Assets\\_Game\\Shaders\\Terrain\\LC_Terrain.shader",
+      "include": "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Fog.hlsl",
+      "kind": "package",
+      "resolved": true
+    },
+    {
+      "source": "Assets\\_Game\\Shaders\\Terrain\\LC_Water.shader",
+      "include": "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Fog.hlsl",
+      "kind": "package",
+      "resolved": true
+    },
+    {
+      "source": "Assets\\_Game\\Shaders\\Terrain\\LC_Water.shader",
+      "include": "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl",
+      "kind": "package",
+      "resolved": true
+    },
+    {
+      "source": "Assets\\_Game\\Shaders\\Terrain\\LC_Water.shader",
+      "include": "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl",
+      "kind": "package",
+      "resolved": true
+    },
+    {
+      "source": "Assets\\_Game\\Shaders\\Terrain\\LC_Water.shader",
+      "include": "../Surface/LC_GroundPalette.cginc",
+      "kind": "relative",
+      "resolved": true
+    }
+  ],
+  "packageGuidResolutions": {
+    "6bd486065ce11414fa40e631affc4900": "E:\\Games_Develop\\Little-Castle\\Library\\PackageCache\\com.unity.render-pipelines.core@b19a46951e65\\Runtime\\Lighting\\ProbeVolume\\ProbeVolumesOptions.cs.meta",
+    "172515602e62fb746b5d573b38a5fe58": "E:\\Games_Develop\\Little-Castle\\Library\\PackageCache\\com.unity.render-pipelines.core@b19a46951e65\\Runtime\\Volume\\Volume.cs.meta",
+    "d7fd9488000d3734a9e00ee676215985": "E:\\Games_Develop\\Little-Castle\\Library\\PackageCache\\com.unity.render-pipelines.core@b19a46951e65\\Runtime\\Volume\\VolumeProfile.cs.meta",
+    "d0353a89b1f911e48b9e16bdc9f2e058": "E:\\Games_Develop\\Little-Castle\\Library\\PackageCache\\com.unity.render-pipelines.universal@040461d037aa\\Editor\\AssetVersion.cs.meta",
+    "a79441f348de89743a2939f4d699eac1": "E:\\Games_Develop\\Little-Castle\\Library\\PackageCache\\com.unity.render-pipelines.universal@040461d037aa\\Runtime\\UniversalAdditionalCameraData.cs.meta",
+    "de640fe3d0db1804a85f9fc8f5cadab6": "E:\\Games_Develop\\Little-Castle\\Library\\PackageCache\\com.unity.render-pipelines.universal@040461d037aa\\Runtime\\UniversalRendererData.cs.meta",
+    "41439944d30ece34e96484bdb6645b55": "E:\\Games_Develop\\Little-Castle\\Library\\PackageCache\\com.unity.render-pipelines.universal@040461d037aa\\Runtime\\Data\\PostProcessData.asset.meta",
+    "bf2edee5c58d82540a51f03df9d42094": "E:\\Games_Develop\\Little-Castle\\Library\\PackageCache\\com.unity.render-pipelines.universal@040461d037aa\\Runtime\\Data\\UniversalRenderPipelineAsset.cs.meta",
+    "0b2db86121404754db890f4c8dfe81b2": "E:\\Games_Develop\\Little-Castle\\Library\\PackageCache\\com.unity.render-pipelines.universal@040461d037aa\\Runtime\\Overrides\\Bloom.cs.meta",
+    "cdfbdbb87d3286943a057f7791b43141": "E:\\Games_Develop\\Little-Castle\\Library\\PackageCache\\com.unity.render-pipelines.universal@040461d037aa\\Runtime\\Overrides\\ChannelMixer.cs.meta",
+    "81180773991d8724ab7f2d216912b564": "E:\\Games_Develop\\Little-Castle\\Library\\PackageCache\\com.unity.render-pipelines.universal@040461d037aa\\Runtime\\Overrides\\ChromaticAberration.cs.meta",
+    "66f335fb1ffd8684294ad653bf1c7564": "E:\\Games_Develop\\Little-Castle\\Library\\PackageCache\\com.unity.render-pipelines.universal@040461d037aa\\Runtime\\Overrides\\ColorAdjustments.cs.meta",
+    "3eb4b772797da9440885e8bd939e9560": "E:\\Games_Develop\\Little-Castle\\Library\\PackageCache\\com.unity.render-pipelines.universal@040461d037aa\\Runtime\\Overrides\\ColorCurves.cs.meta",
+    "e021b4c809a781e468c2988c016ebbea": "E:\\Games_Develop\\Little-Castle\\Library\\PackageCache\\com.unity.render-pipelines.universal@040461d037aa\\Runtime\\Overrides\\ColorLookup.cs.meta",
+    "c01700fd266d6914ababb731e09af2eb": "E:\\Games_Develop\\Little-Castle\\Library\\PackageCache\\com.unity.render-pipelines.universal@040461d037aa\\Runtime\\Overrides\\DepthOfField.cs.meta",
+    "29fa0085f50d5e54f8144f766051a691": "E:\\Games_Develop\\Little-Castle\\Library\\PackageCache\\com.unity.render-pipelines.universal@040461d037aa\\Runtime\\Overrides\\FilmGrain.cs.meta",
+    "c5e1dc532bcb41949b58bc4f2abfbb7e": "E:\\Games_Develop\\Little-Castle\\Library\\PackageCache\\com.unity.render-pipelines.universal@040461d037aa\\Runtime\\Overrides\\LensDistortion.cs.meta",
+    "5485954d14dfb9a4c8ead8edb0ded5b1": "E:\\Games_Develop\\Little-Castle\\Library\\PackageCache\\com.unity.render-pipelines.universal@040461d037aa\\Runtime\\Overrides\\LiftGammaGain.cs.meta",
+    "ccf1aba9553839d41ae37dd52e9ebcce": "E:\\Games_Develop\\Little-Castle\\Library\\PackageCache\\com.unity.render-pipelines.universal@040461d037aa\\Runtime\\Overrides\\MotionBlur.cs.meta",
+    "fb60a22f311433c4c962b888d1393f88": "E:\\Games_Develop\\Little-Castle\\Library\\PackageCache\\com.unity.render-pipelines.universal@040461d037aa\\Runtime\\Overrides\\PaniniProjection.cs.meta",
+    "06437c1ff663d574d9447842ba0a72e4": "E:\\Games_Develop\\Little-Castle\\Library\\PackageCache\\com.unity.render-pipelines.universal@040461d037aa\\Runtime\\Overrides\\ScreenSpaceLensFlare.cs.meta",
+    "558a8e2b6826cf840aae193990ba9f2e": "E:\\Games_Develop\\Little-Castle\\Library\\PackageCache\\com.unity.render-pipelines.universal@040461d037aa\\Runtime\\Overrides\\ShadowsMidtonesHighlights.cs.meta",
+    "70afe9e12c7a7ed47911bb608a23a8ff": "E:\\Games_Develop\\Little-Castle\\Library\\PackageCache\\com.unity.render-pipelines.universal@040461d037aa\\Runtime\\Overrides\\SplitToning.cs.meta",
+    "97c23e3b12dc18c42a140437e53d3951": "E:\\Games_Develop\\Little-Castle\\Library\\PackageCache\\com.unity.render-pipelines.universal@040461d037aa\\Runtime\\Overrides\\Tonemapping.cs.meta",
+    "899c54efeace73346a0a16faa3afe726": "E:\\Games_Develop\\Little-Castle\\Library\\PackageCache\\com.unity.render-pipelines.universal@040461d037aa\\Runtime\\Overrides\\Vignette.cs.meta",
+    "221518ef91623a7438a71fef23660601": "E:\\Games_Develop\\Little-Castle\\Library\\PackageCache\\com.unity.render-pipelines.universal@040461d037aa\\Runtime\\Overrides\\WhiteBalance.cs.meta",
+    "f62c9c65cf3354c93be831c8bc075510": "E:\\Games_Develop\\Little-Castle\\Library\\PackageCache\\com.unity.render-pipelines.universal@040461d037aa\\Runtime\\RendererFeatures\\ScreenSpaceAmbientOcclusion.cs.meta",
+    "650dd9526735d5b46b79224bc6e94025": "E:\\Games_Develop\\Little-Castle\\Library\\PackageCache\\com.unity.render-pipelines.universal@040461d037aa\\Shaders\\Unlit.shader.meta",
+    "cf852408f2e174538bcd9b7fda1c5ae7": "E:\\Games_Develop\\Little-Castle\\Library\\PackageCache\\com.unity.render-pipelines.universal@040461d037aa\\Shaders\\Debug\\DebugReplacement.shader.meta",
+    "573620ae32aec764abd4d728906d2587": "E:\\Games_Develop\\Little-Castle\\Library\\PackageCache\\com.unity.render-pipelines.universal@040461d037aa\\Shaders\\Debug\\HDRDebugView.shader.meta",
+    "53626a513ea68ce47b59dc1299fe3959": "E:\\Games_Develop\\Little-Castle\\Library\\PackageCache\\com.unity.render-pipelines.universal@040461d037aa\\Shaders\\Debug\\ProbeVolumeSamplingDebugPositionNormal.compute.meta",
+    "f9ee4ed84c1d10c49aabb9b210b0fc44": "E:\\Games_Develop\\Little-Castle\\Library\\PackageCache\\com.unity.render-pipelines.universal@040461d037aa\\Textures\\BayerMatrix.png.meta",
+    "e3d24661c1e055f45a7560c033dbb837": "E:\\Games_Develop\\Little-Castle\\Library\\PackageCache\\com.unity.render-pipelines.universal@040461d037aa\\Textures\\BlueNoise64\\L\\LDR_LLL1_0.png.meta"
+  },
+  "note": "Package resolution uses current Library/PackageCache; object/model subasset IDs are not validated."
+}

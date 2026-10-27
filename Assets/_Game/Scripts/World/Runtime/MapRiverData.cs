@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace LittleCastle.World
 {
-    public enum MapBankKind { Cliff, Sand }
+    public enum MapBankKind { Cliff, Sand, Rocky, Stepped, HighCliff }
     public enum MapRiverConnection { Open, Source, Outlet, Drop }
     [Serializable] public sealed class MapRiverNode
     {
@@ -61,6 +61,8 @@ namespace LittleCastle.World
     {
         public Vector2 center,tangent;
         public float station,width,depth,water,speed,leftTransition,rightTransition,leftSand,rightSand,ford,shallowDepth;
+        public int seed,layoutVersion;
+        public float leftSteps,rightSteps,leftRocky,rightRocky;
         public Vector2 Left=>new Vector2(-tangent.y,tangent.x);
         public Vector2 Edge(float side)=>center+Left*(width*.5f*side);
     }
@@ -71,19 +73,20 @@ namespace LittleCastle.World
         public readonly List<MapRiverFrame> frames=new List<MapRiverFrame>();
         public readonly Rect bounds;
         readonly Dictionary<ChunkCoordinate,List<int>> segmentIndex=new Dictionary<ChunkCoordinate,List<int>>();
+        readonly List<float> travelTimes=new List<float>();
         public float Length=>frames[frames.Count-1].station;
         static Vector2 Curve(Vector2 a,Vector2 b,Vector2 c,Vector2 d,float t)=>.5f*((2*b)+(-a+c)*t+(2*a-5*b+4*c-d)*t*t+(-a+3*b-3*c+d)*t*t*t);
         public MapRiverPath(MapRiverRecord r)
         {
             record=r;
-            if(r==null||r.id==0||r.layoutVersion!=1||r.nodes==null||r.nodes.Count<2||r.nodes.Count>1024||r.patches==null||r.rocks==null)throw new InvalidDataException("Река: нужны 2–1024 контрольные точки и версия профиля 1.");
+            if(r==null||r.id==0||(r.layoutVersion!=1&&r.layoutVersion!=2)||r.nodes==null||r.nodes.Count<2||r.nodes.Count>1024||r.patches==null||r.rocks==null)throw new InvalidDataException("Река: нужны 2–1024 контрольные точки и поддерживаемая версия профиля 1 или 2.");
             foreach(var node in r.nodes)if(node==null)throw new InvalidDataException("Река: отсутствует контрольная точка.");
             var ids=new HashSet<long>();Vector2 lo=r.nodes[0].position,hi=lo;
             float length=0;Vector2 previous=lo;
             for(int i=0;i<r.nodes.Count;i++)
             {
                 var n=r.nodes[i];
-                if(n==null||n.id==0||!ids.Add(n.id)||!Finite(n.position.x)||!Finite(n.position.y)||!Range(n.width,4,60)||!Range(n.depth,.15f,10)||!Finite(n.waterHeight)||!Range(n.speed,.05f,6)||!Range(n.leftTransition,2,30)||!Range(n.rightTransition,2,30)||(int)n.leftBank<0||(int)n.leftBank>1||(int)n.rightBank<0||(int)n.rightBank>1||(int)n.connection<0||(int)n.connection>3)throw new InvalidDataException("Река: неверная точка, ширина, глубина или переход берега.");
+                if(n==null||n.id==0||!ids.Add(n.id)||!Finite(n.position.x)||!Finite(n.position.y)||!Range(n.width,4,60)||!Range(n.depth,.15f,10)||!Finite(n.waterHeight)||!Range(n.speed,.05f,6)||!Range(n.leftTransition,2,30)||!Range(n.rightTransition,2,30)||(int)n.leftBank<0||(int)n.leftBank>4||(int)n.rightBank<0||(int)n.rightBank>4||(int)n.connection<0||(int)n.connection>3)throw new InvalidDataException("Река: неверная точка, ширина, глубина или переход берега.");
                 if(i==r.nodes.Count-1)continue;
                 var next=r.nodes[i+1];float distance=Vector2.Distance(n.position,next.position);
                 if(distance<2||distance>1024)throw new InvalidDataException("Река: расстояние между точками должно быть 2–1024 м.");
@@ -99,10 +102,10 @@ namespace LittleCastle.World
                     if(tangent.sqrMagnitude<.9f)throw new InvalidDataException("Река: вырожденный изгиб.");
                     length+=Vector2.Distance(previous,p);previous=p;
                     if(frames.Count>=8192)throw new InvalidDataException("Река: более 8192 выборок. Разделите длинную реку на участки.");
-                    var f=new MapRiverFrame{center=p,tangent=tangent,station=length,width=Mathf.Lerp(n.width,next.width,t),depth=Mathf.Lerp(n.depth,next.depth,t),water=Mathf.Lerp(n.waterHeight,next.waterHeight,t),speed=Mathf.Lerp(n.speed,next.speed,t),leftTransition=Mathf.Lerp(n.leftTransition,next.leftTransition,t),rightTransition=Mathf.Lerp(n.rightTransition,next.rightTransition,t),leftSand=Mathf.Lerp((float)n.leftBank,(float)next.leftBank,t),rightSand=Mathf.Lerp((float)n.rightBank,(float)next.rightBank,t),shallowDepth=.25f};frames.Add(f);
+                    var f=new MapRiverFrame{center=p,tangent=tangent,station=length,width=Mathf.Lerp(n.width,next.width,t),depth=Mathf.Lerp(n.depth,next.depth,t),water=Mathf.Lerp(n.waterHeight,next.waterHeight,t),speed=Mathf.Lerp(n.speed,next.speed,t),leftTransition=Mathf.Lerp(n.leftTransition,next.leftTransition,t),rightTransition=Mathf.Lerp(n.rightTransition,next.rightTransition,t),leftSand=Mathf.Lerp(n.leftBank==MapBankKind.Sand?1:0,next.leftBank==MapBankKind.Sand?1:0,t),rightSand=Mathf.Lerp(n.rightBank==MapBankKind.Sand?1:0,next.rightBank==MapBankKind.Sand?1:0,t),seed=r.seed,layoutVersion=r.layoutVersion,leftSteps=Mathf.Lerp(n.leftBank==MapBankKind.Stepped?1:0,next.leftBank==MapBankKind.Stepped?1:0,t),rightSteps=Mathf.Lerp(n.rightBank==MapBankKind.Stepped?1:0,next.rightBank==MapBankKind.Stepped?1:0,t),leftRocky=Mathf.Lerp(n.leftBank==MapBankKind.Rocky?1:0,next.leftBank==MapBankKind.Rocky?1:0,t),rightRocky=Mathf.Lerp(n.rightBank==MapBankKind.Rocky?1:0,next.rightBank==MapBankKind.Rocky?1:0,t),shallowDepth=.25f};if(r.layoutVersion==2)f.width+=RiverBankGeneration.WidthVariation(r.seed,length);frames.Add(f);
                 }
             }
-            var last=r.nodes[r.nodes.Count-1];var lf=frames[frames.Count-1];lf.station+=Vector2.Distance(lf.center,last.position);lf.center=last.position;lf.width=last.width;lf.depth=last.depth;lf.water=last.waterHeight;lf.speed=last.speed;lf.leftTransition=last.leftTransition;lf.rightTransition=last.rightTransition;lf.leftSand=(float)last.leftBank;lf.rightSand=(float)last.rightBank;frames.Add(lf);
+            var last=r.nodes[r.nodes.Count-1];var lf=frames[frames.Count-1];lf.station+=Vector2.Distance(lf.center,last.position);lf.center=last.position;lf.width=last.width+(r.layoutVersion>=2?RiverBankGeneration.WidthVariation(r.seed,lf.station):0);lf.depth=last.depth;lf.water=last.waterHeight;lf.speed=last.speed;lf.leftTransition=last.leftTransition;lf.rightTransition=last.rightTransition;lf.leftSand=last.leftBank==MapBankKind.Sand?1:0;lf.rightSand=last.rightBank==MapBankKind.Sand?1:0;lf.leftSteps=last.leftBank==MapBankKind.Stepped?1:0;lf.rightSteps=last.rightBank==MapBankKind.Stepped?1:0;lf.leftRocky=last.leftBank==MapBankKind.Rocky?1:0;lf.rightRocky=last.rightBank==MapBankKind.Rocky?1:0;frames.Add(lf);
             foreach(var patch in r.patches)
                 if(patch==null||patch.id==0||!ids.Add(patch.id)||!Range(patch.station,0,Length)||!Range(patch.radius,2,30)||!Range(patch.shallowDepth,.1f,.5f)||(!patch.left&&!patch.right)||(patch.crossChannel&&(!patch.left||!patch.right)))throw new InvalidDataException("Берег/брод: неверный участок. Брод требует оба спуска.");
             for(int i=0;i<frames.Count;i++)
@@ -143,6 +146,7 @@ namespace LittleCastle.World
                 float distance=SegmentDistance(frames[i].center,frames[i+1].center,frames[j].center,frames[j+1].center);
                 if(distance<clearance)throw new InvalidDataException("Река пересекает себя или соседний берег. Раздвиньте изгибы.");
             }
+            travelTimes.Add(0);for(int i=1;i<frames.Count;i++)travelTimes.Add(travelTimes[i-1]+(frames[i].station-frames[i-1].station)*.5f*(1/frames[i-1].speed+1/frames[i].speed));
         }
         static bool Finite(float v)=>!float.IsNaN(v)&&!float.IsInfinity(v);
         static bool Range(float v,float lo,float hi)=>Finite(v)&&v>=lo&&v<=hi;
@@ -159,6 +163,11 @@ namespace LittleCastle.World
             int lo=0,hi=frames.Count-1;while(lo+1<hi){int m=(lo+hi)/2;if(frames[m].station<station)lo=m;else hi=m;}
             var a=frames[lo];var b=frames[hi];return Blend(a,b,Mathf.InverseLerp(a.station,b.station,station));
         }
+        public float TravelTime(float station)
+        {
+            int lo=0,hi=frames.Count-1;while(lo+1<hi){int m=(lo+hi)/2;if(frames[m].station<station)lo=m;else hi=m;}
+            return Mathf.Lerp(travelTimes[lo],travelTimes[hi],Mathf.InverseLerp(frames[lo].station,frames[hi].station,station));
+        }
         public bool Nearest(Vector2 p,out MapRiverFrame frame,out float signedDistance)
         {
             frame=default;signedDistance=0;if(!bounds.Contains(p))return false;float best=float.PositiveInfinity;
@@ -171,9 +180,10 @@ namespace LittleCastle.World
             // Round finite end caps; prevent an infinite lateral projection past endpoints.
             return best<Mathf.Pow(frame.width*.5f+Mathf.Max(frame.leftTransition,frame.rightTransition)+3,2);
         }
-        static MapRiverFrame Blend(MapRiverFrame a,MapRiverFrame b,float t)=>new MapRiverFrame{center=Vector2.Lerp(a.center,b.center,t),tangent=Vector2.Lerp(a.tangent,b.tangent,t).normalized,station=Mathf.Lerp(a.station,b.station,t),width=Mathf.Lerp(a.width,b.width,t),depth=Mathf.Lerp(a.depth,b.depth,t),water=Mathf.Lerp(a.water,b.water,t),speed=Mathf.Lerp(a.speed,b.speed,t),leftTransition=Mathf.Lerp(a.leftTransition,b.leftTransition,t),rightTransition=Mathf.Lerp(a.rightTransition,b.rightTransition,t),leftSand=Mathf.Lerp(a.leftSand,b.leftSand,t),rightSand=Mathf.Lerp(a.rightSand,b.rightSand,t),ford=Mathf.Lerp(a.ford,b.ford,t),shallowDepth=Mathf.Lerp(a.shallowDepth,b.shallowDepth,t)};
+        static MapRiverFrame Blend(MapRiverFrame a,MapRiverFrame b,float t)=>new MapRiverFrame{center=Vector2.Lerp(a.center,b.center,t),tangent=Vector2.Lerp(a.tangent,b.tangent,t).normalized,station=Mathf.Lerp(a.station,b.station,t),width=Mathf.Lerp(a.width,b.width,t),depth=Mathf.Lerp(a.depth,b.depth,t),water=Mathf.Lerp(a.water,b.water,t),speed=Mathf.Lerp(a.speed,b.speed,t),leftTransition=Mathf.Lerp(a.leftTransition,b.leftTransition,t),rightTransition=Mathf.Lerp(a.rightTransition,b.rightTransition,t),leftSand=Mathf.Lerp(a.leftSand,b.leftSand,t),rightSand=Mathf.Lerp(a.rightSand,b.rightSand,t),ford=Mathf.Lerp(a.ford,b.ford,t),shallowDepth=Mathf.Lerp(a.shallowDepth,b.shallowDepth,t),seed=a.seed,layoutVersion=a.layoutVersion,leftSteps=Mathf.Lerp(a.leftSteps,b.leftSteps,t),rightSteps=Mathf.Lerp(a.rightSteps,b.rightSteps,t),leftRocky=Mathf.Lerp(a.leftRocky,b.leftRocky,t),rightRocky=Mathf.Lerp(a.rightRocky,b.rightRocky,t)};
         public static float Bed(MapRiverFrame f,float distance,float ground)
         {
+            if(f.layoutVersion>=2)return RiverBankGeneration.SampleBed(f,distance,ground);
             float half=f.width*.5f,d=Mathf.Abs(distance),sand=distance>=0?f.leftSand:f.rightSand,transition=distance>=0?f.leftTransition:f.rightTransition;
             float depth=Mathf.Lerp(f.depth,f.shallowDepth,f.ford);
             float bed=f.water-depth;float shelf=f.water-Mathf.Lerp(.7f,.12f,sand);

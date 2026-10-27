@@ -52,7 +52,9 @@ namespace LittleCastle.World
                 foreach(var a in path.frames)foreach(var b in other.frames)
                     if(Vector2.Distance(a.center,b.center)<(a.width+b.width)*.5f+Mathf.Max(a.leftTransition,a.rightTransition)+Mathf.Max(b.leftTransition,b.rightTransition))throw new InvalidDataException("Перекрытие рек не поддержано: разделите берега. Соединения уровней зарезервированы в профиле.");
             // Existing final composition is retained. Moving a river should use TranslateRiver.
-            if(record.rocks.Count==0&&(before==null||before.record.rocks.Count==0))record.rocks=LayoutRocks(path,record.id,record.seed);
+            if(record.rocks.Count==0&&(before==null||before.record.rocks.Count==0)&&
+                (record.layoutVersion==1||record.nodes.Exists(n=>n.leftBank!=MapBankKind.Sand||n.rightBank!=MapBankKind.Sand)))
+                record.rocks=LayoutRocks(path,record.id,record.seed);
             ValidateRockRecords(record.rocks);
             if(before!=null&&JsonUtility.ToJson(before.record)==JsonUtility.ToJson(record))return;
             Rect dirty=before==null?path.bounds:Union(before.bounds,path.bounds);
@@ -129,7 +131,7 @@ namespace LittleCastle.World
                     var p=standalone?f.center:f.Edge(side)+f.Left*side*(def.thickness*.22f);
                     float yaw=Mathf.Atan2(f.tangent.x,f.tangent.y)*Mathf.Rad2Deg+(side<0?180:0);
                     list.Add(new MapRockInstance{id=id,archetypeId=def.id,catalogVersion=def.version,position=p,yaw=yaw,scale=scale,station=station,side=side,bankOffset=def.thickness*.22f,topOffset=standalone?def.height:0});
-                    station+=(def.length-def.overlap)*scale;index++;
+                    station+=(def.length-def.overlap)*scale*(path.record.layoutVersion>=2?Mathf.Lerp(.85f,2.15f,((h>>17)%997)/997f):1);index++;
                 }
             }
             return list;
@@ -188,7 +190,7 @@ namespace LittleCastle.World
         }
         public bool QueryWater(Vector2 p,out float level,out float depth,out Vector2 flow)
         {
-            foreach(var path in RiversAt(p))if(path.Nearest(p,out var f,out float d)&&Vector2.Distance(p,f.center)<=f.width*.5f)
+            foreach(var path in RiversAt(p))if(path.Nearest(p,out var f,out float d)&&Vector2.Distance(p,f.center)<=f.width*.5f+(f.layoutVersion>=2?(d>=0?f.leftTransition:f.rightTransition):0))
             {level=f.water;depth=Mathf.Max(0,level-SampleHeight(p.x,p.y));flow=f.tangent*f.speed;return depth>.01f;}
             level=depth=0;flow=Vector2.zero;return false;
         }
@@ -198,7 +200,7 @@ namespace LittleCastle.World
             foreach(var reserved in authored.placementExclusions)if(reserved.Overlaps(footprint)||reserved.Contains(new Vector2(x,z)))return false;
             var p=new Vector2(x,z);foreach(var path in RiversAt(p))if(path.Nearest(p,out var f,out float d))
             {
-                float sand=d>=0?f.leftSand:f.rightSand;float edge=f.width*.5f+(sand>.05f?(d>=0?f.leftTransition:f.rightTransition):2);
+                float sand=d>=0?f.leftSand:f.rightSand;float edge=f.width*.5f+(sand>.05f?(d>=0?f.leftTransition:f.rightTransition)*(f.layoutVersion>=2?.6f:1):2);
                 if(Vector2.Distance(p,f.center)<edge+clearance)return false;
             }
             foreach(var s in rockSections.Values)foreach(var rock in s.rocks)if(!rock.removed&&(rock.position-p).sqrMagnitude<Mathf.Pow(2+clearance,2))return false;
@@ -207,7 +209,7 @@ namespace LittleCastle.World
         public float SandCoverage(float x,float z)
         {
             var p=new Vector2(x,z);float result=0;foreach(var path in RiversAt(p))if(path.Nearest(p,out var f,out float d))
-            {float half=f.width*.5f,transition=d>=0?f.leftTransition:f.rightTransition,sand=d>=0?f.leftSand:f.rightSand;result=Mathf.Max(result,Mathf.Abs(d)<=half?1:sand*(1-Mathf.SmoothStep(.65f,1,(Mathf.Abs(d)-half)/transition)));}return result;
+            {float half=f.width*.5f,transition=d>=0?f.leftTransition:f.rightTransition,sand=d>=0?f.leftSand:f.rightSand;float distance=Vector2.Distance(p,f.center);result=Mathf.Max(result,f.layoutVersion>=2?(distance<=half?1:sand*(1-Mathf.SmoothStep(0,1,Mathf.InverseLerp(.45f,1,(distance-half)/transition)))):(Mathf.Abs(d)<=half?1:sand*(1-Mathf.SmoothStep(.65f,1,(Mathf.Abs(d)-half)/transition))));}return result;
         }
         public bool CanTraverse(Vector2 from,Vector2 to,float maxDepth=.45f,float maxSlope=32,float step=.2f)
         {

@@ -1,0 +1,62 @@
+[
+  {
+    "path": "Assets\\_Game\\Shaders\\Foliage\\LC_Foliage.shader",
+    "before": "128a7ec5026c6252b53bebc4725aa347c4d6fd758dd5c7c7d914af6c3d4819ab",
+    "after": "2fd8044f9e34d5f44c28aa7bf1b3eeffc9dd8d6f681ca9140af63608d0606510"
+  },
+  {
+    "path": "Assets\\_Game\\Shaders\\Foliage\\LC_FoliageURP.hlsl",
+    "before": "55fdbd4bec3ddd36dc83511d8ac1df53264b0bc460c083210580fa3a421ddeab",
+    "after": "b59f70a517a489ca9bb66493938cd2a0b3a0ac77787070a42375fea656717bfe"
+  },
+  {
+    "path": "Assets\\_Game\\Shaders\\Foliage\\LC_Grass.shader",
+    "before": "d88c1469014459cf711f02827333f56511cea4d01dbbbc620c58ed5afd10650e",
+    "after": "fbb486e3d88ea9af85850e93d9cdb4b04d1e1f9a29c1d15175e06b904047c62d"
+  },
+  {
+    "path": "Assets\\_Game\\Shaders\\Foliage\\LC_GrassURP.hlsl",
+    "before": "cc9de48eba8eccbfb874f34e98a2dc2f2c77978843c4966a7c43c2c74424d57b",
+    "after": "024599bd09c386f805e98c0abe5edd6dfdb8c992e217ec7b96e0fdeba7008dfb"
+  },
+  {
+    "path": "Assets\\_Game\\Shaders\\Foliage\\LC_VegetationURPCommon.hlsl",
+    "before": "0b143e9ecb71d4f80b9999884a7ff2185e88c2e077a930842e171480c8ac931e",
+    "after": "0b143e9ecb71d4f80b9999884a7ff2185e88c2e077a930842e171480c8ac931e"
+  },
+  {
+    "path": "Assets\\_Game\\Shaders\\Surface\\LC_LightingCommon.hlsl",
+    "before": "78fff9e989422c3202030845171d085d0a77aa031e8b2f8bc4bfbec341a459d3",
+    "after": "d47e5f6292bf012fd25d37aaf2f0926210e26bee638d9a26d4cb5e93b358ef64"
+  },
+  {
+    "path": "Assets\\_Game\\Shaders\\Surface\\LC_SpatialIndirect.hlsl",
+    "before": null,
+    "after": "f1302afddc76707fd9a880a5a3610654186cf4b5622f38c04a26cde36ffee4d4"
+  },
+  {
+    "path": "Assets\\_Game\\Shaders\\Surface\\LC_SpatialIndirect.hlsl.meta",
+    "before": null,
+    "after": "1035534ceeaa45c76130e4d99e82aac635010bf1f386dc853ceb5f86b74b536b"
+  },
+  {
+    "path": "Assets\\_Game\\Shaders\\Surface\\LC_StylizedLit.shader",
+    "before": "f2b325f394fba86470744cabacbf43e2a67d446b6ac6432f44d698f5a4e7b48c",
+    "after": "e73d877e4822bae3d7b3471979ea154f765582f9a5b2e0f6f3a06b55ea0e849f"
+  },
+  {
+    "path": "Assets\\_Game\\Shaders\\Terrain\\LC_Terrain.shader",
+    "before": "27ae34322162d3efcd7a1d6f5748bf831056b0d004cd5f0e1d72c24ddf9b5e77",
+    "after": "19a99385070ecde8aef52d2afde0e324cb019d2952e94b3b121f204e96bf8d66"
+  },
+  {
+    "path": "Assets\\_Game\\Shaders\\Surface\\LC_SurfacePaint.hlsl",
+    "before": null,
+    "after": "089fff9772179a8523faf9a469760a1eee120809061788fd999181217941232c"
+  },
+  {
+    "path": "Assets\\_Game\\Shaders\\Surface\\LC_SurfacePaint.hlsl.meta",
+    "before": null,
+    "after": "4a4db382c286d8f618533b287d0089d8556bc63e1973cd43463a07dce2cd46f2"
+  }
+]
