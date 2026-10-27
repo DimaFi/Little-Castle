@@ -70,6 +70,26 @@ namespace LittleCastle.CameraSystem
         private float pitch;
         private float currentGroundY;
 
+        /// <summary>Opt-in for map authoring views only; normal game camera defaults remain unchanged.</summary>
+        public void ConfigureAuthoringRange(float maximum)
+        {
+            minimumDistance=3;
+            maximumDistance=Mathf.Max(190,maximum);
+            GetComponent<Camera>().farClipPlane=Mathf.Max(GetComponent<Camera>().farClipPlane,maximumDistance*2);
+        }
+
+        /// <summary>Resume the strategy rig after an authoring camera preset.</summary>
+        public void SyncFromCurrentView()
+        {
+            bool previous = initializeFromCurrentView;
+            initializeFromCurrentView = true;
+            InitializeCameraState();
+            initializeFromCurrentView = previous;
+            focusVelocity = Vector3.zero;
+            distanceVelocity = 0;
+            ApplyImmediate();
+        }
+
         private void Start()
         {
             InitializeCameraState();

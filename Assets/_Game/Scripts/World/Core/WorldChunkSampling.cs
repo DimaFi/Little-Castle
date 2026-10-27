@@ -48,23 +48,30 @@ namespace LittleCastle.World
                 Mathf.Clamp01(
                     gz - z0);
 
-            float a =
-                Mathf.Lerp(
-                    chunk.GetHeight(x0, z0),
-                    chunk.GetHeight(x1, z0),
-                    tx);
+            // ChunkMeshBuilder uses (a,c,b), (b,c,d), with diagonal b--c.
+            // Bilinear interpolation describes a curved patch, not those triangles.
+            float a = chunk.GetHeight(x0, z0), b = chunk.GetHeight(x1, z0);
+            float c = chunk.GetHeight(x0, z1), d = chunk.GetHeight(x1, z1);
+            return tx + tz <= 1f ? a + (b-a)*tx + (c-a)*tz
+                : d + (c-d)*(1f-tx) + (b-d)*(1f-tz);
+        }
 
-            float b =
-                Mathf.Lerp(
-                    chunk.GetHeight(x0, z1),
-                    chunk.GetHeight(x1, z1),
-                    tx);
+        public static Vector3 SampleTriangleNormal(WorldChunkData chunk,
+            WorldGenerationSettings settings, float worldX, float worldZ)
+            => SampleTriangleNormal(chunk,settings.ChunkWorldSize,worldX,worldZ);
 
-            return
-                Mathf.Lerp(
-                    a,
-                    b,
-                    tz);
+        public static Vector3 SampleTriangleNormal(WorldChunkData chunk,
+            float chunkWorldSize, float worldX, float worldZ)
+        {
+            float step=chunkWorldSize/chunk.CellsPerSide;
+            float gx=(worldX-chunk.Coordinate.x*chunkWorldSize)/step;
+            float gz=(worldZ-chunk.Coordinate.z*chunkWorldSize)/step;
+            int x = Mathf.Clamp(Mathf.FloorToInt(gx), 0, chunk.CellsPerSide-1);
+            int z = Mathf.Clamp(Mathf.FloorToInt(gz), 0, chunk.CellsPerSide-1);
+            float a=chunk.GetHeight(x,z), b=chunk.GetHeight(x+1,z);
+            float c=chunk.GetHeight(x,z+1), d=chunk.GetHeight(x+1,z+1);
+            return gx-x+gz-z<=1f ? new Vector3(a-b,step,a-c).normalized
+                : new Vector3(c-d,step,b-d).normalized;
         }
 
         public static float SampleSlope(

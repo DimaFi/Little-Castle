@@ -31,6 +31,8 @@ namespace LittleCastle.World
         menuName = "Little Castle/World/World Spawn Catalog")]
     public sealed class WorldSpawnCatalog : ScriptableObject
     {
+        [Tooltip("Small decorative models share the existing meadow instancing presenter.")]
+        public LittleCastle.Rendering.MeadowScatterLibrary groundCoverLibrary;
 #if UNITY_EDITOR
         public delegate bool LocalVariantResolver(
             WorldSpawnCatalog catalog,
