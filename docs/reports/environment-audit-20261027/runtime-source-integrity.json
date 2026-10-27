@@ -1,0 +1,22 @@
+[
+  {
+    "file": "BiomeSnowfallParticleDriver.cs",
+    "identical": true
+  },
+  {
+    "file": "BiomeSnowWorld.cs",
+    "identical": true
+  },
+  {
+    "file": "BiomeThemeProfile.cs",
+    "identical": true
+  },
+  {
+    "file": "EnvironmentFields.cs",
+    "identical": true
+  },
+  {
+    "file": "SnowMaskTextureBridge.cs",
+    "identical": true
+  }
+]

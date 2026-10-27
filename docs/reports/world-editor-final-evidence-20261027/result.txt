@@ -1,0 +1,1 @@
+PASS automated checks; visual acceptance remains manual.

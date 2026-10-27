@@ -21,6 +21,7 @@ Shader "Little Castle/Effects/LC Emissive Glow"
             "Queue" = "Transparent+20"
             "RenderType" = "Transparent"
             "IgnoreProjector" = "True"
+            "RenderPipeline" = "UniversalPipeline"
         }
 
         Blend SrcAlpha One
@@ -30,25 +31,33 @@ Shader "Little Castle/Effects/LC Emissive Glow"
 
         Pass
         {
-            CGPROGRAM
+            Name "FORWARD"
+            Tags { "LightMode" = "UniversalForward" }
+
+            HLSLPROGRAM
 
             #pragma target 3.0
             #pragma vertex vert
             #pragma fragment frag
-            #pragma multi_compile_fog
             #pragma multi_compile_instancing
 
-            #include "UnityCG.cginc"
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+            #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Fog.hlsl"
 
-            sampler2D _MainTex;
-            float4 _MainTex_ST;
+            // Keep shared presentation globals outside the material buffer.
+            CBUFFER_START(UnityPerMaterial)
+                float4 _MainTex_ST;
 
-            fixed4 _Color;
-            half _DayStrength;
-            half _NightStrength;
-            half _FlickerStrength;
-            half _FlickerSpeed;
-            half _NightThreshold;
+                half4 _Color;
+                half _DayStrength;
+                half _NightStrength;
+                half _FlickerStrength;
+                half _FlickerSpeed;
+                half _NightThreshold;
+            CBUFFER_END
+
+            TEXTURE2D(_MainTex);
+            SAMPLER(sampler_MainTex);
 
             half _LC_NightAmount;
             float4 _LC_GameTime;
@@ -67,7 +76,7 @@ Shader "Little Castle/Effects/LC Emissive Glow"
                 float2 uv : TEXCOORD0;
                 float3 worldPosition : TEXCOORD1;
 
-                UNITY_FOG_COORDS(2)
+                half fogCoord : TEXCOORD2;
 
                 UNITY_VERTEX_INPUT_INSTANCE_ID
                 UNITY_VERTEX_OUTPUT_STEREO
@@ -75,15 +84,15 @@ Shader "Little Castle/Effects/LC Emissive Glow"
 
             v2f vert(appdata v)
             {
-                v2f o;
+                v2f o = (v2f)0;
 
                 UNITY_SETUP_INSTANCE_ID(v);
                 UNITY_TRANSFER_INSTANCE_ID(v, o);
                 UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
                 o.position =
-                    UnityObjectToClipPos(
-                        v.vertex);
+                    TransformObjectToHClip(
+                        v.vertex.xyz);
 
                 o.uv =
                     TRANSFORM_TEX(
@@ -91,24 +100,23 @@ Shader "Little Castle/Effects/LC Emissive Glow"
                         _MainTex);
 
                 o.worldPosition =
-                    mul(
-                        unity_ObjectToWorld,
-                        v.vertex).xyz;
+                    TransformObjectToWorld(
+                        v.vertex.xyz);
 
-                UNITY_TRANSFER_FOG(
-                    o,
-                    o.position);
+                o.fogCoord = ComputeFogFactor(o.position.z);
 
                 return o;
             }
 
-            fixed4 frag(v2f i) : SV_Target
+            half4 frag(v2f i) : SV_Target
             {
                 UNITY_SETUP_INSTANCE_ID(i);
+                UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
 
-                fixed4 sample =
-                    tex2D(
+                half4 sample =
+                    SAMPLE_TEXTURE2D(
                         _MainTex,
+                        sampler_MainTex,
                         i.uv);
 
                 half night =
@@ -160,27 +168,23 @@ Shader "Little Castle/Effects/LC Emissive Glow"
                     sample.a *
                     _Color.a;
 
-                fixed4 result =
-                    fixed4(
+                half4 result =
+                    half4(
                         sample.rgb *
                             _Color.rgb *
                             strength *
                             flicker,
                         alpha);
 
-                UNITY_APPLY_FOG_COLOR(
-                    i.fogCoord,
-                    result,
-                    fixed4(
-                        0,
-                        0,
-                        0,
-                        0));
+                half fogFactor = InitializeInputDataFog(
+                    float4(i.worldPosition, 1.0), i.fogCoord);
+                result.rgb = MixFogColor(
+                    result.rgb, half3(0, 0, 0), fogFactor);
 
                 return result;
             }
 
-            ENDCG
+            ENDHLSL
         }
     }
 

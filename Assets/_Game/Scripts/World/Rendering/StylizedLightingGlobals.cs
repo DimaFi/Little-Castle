@@ -120,6 +120,13 @@ namespace LittleCastle.Rendering
         private float windSpeed = 1f;
 
         public float Daylight { get; private set; }
+        public void SetWindPresentation(Vector2 direction, float strength, float speed)
+        {
+            windDirection = direction;
+            windStrength = Mathf.Clamp(strength, 0, 2);
+            windSpeed = Mathf.Max(0, speed);
+            ApplyGlobals();
+        }
         public float Twilight { get; private set; }
         public float NightAmount { get; private set; }
 
@@ -180,37 +187,37 @@ namespace LittleCastle.Rendering
 
             CurrentSunColor =
                 sun != null
-                    ? sun.color *
+                    ? ToWorkingColor(sun.color) *
                       sun.intensity *
                       sunMultiplier
                     : Color.black;
 
             CurrentMoonColor =
                 moon != null
-                    ? moon.color *
+                    ? ToWorkingColor(moon.color) *
                       moon.intensity *
                       moonMultiplier
                     : Color.black;
 
             CurrentAmbientSkyColor =
-                RenderSettings.ambientSkyColor *
+                ToWorkingColor(RenderSettings.ambientSkyColor) *
                 ambientMultiplier;
 
             CurrentAmbientEquatorColor =
-                RenderSettings.ambientEquatorColor *
+                ToWorkingColor(RenderSettings.ambientEquatorColor) *
                 ambientMultiplier;
 
             CurrentAmbientGroundColor =
-                RenderSettings.ambientGroundColor *
+                ToWorkingColor(RenderSettings.ambientGroundColor) *
                 ambientMultiplier;
 
             CurrentAmbientColor =
                 EvaluateAmbientColor();
 
             CurrentShadowTint =
-                EvaluateShadowTint(
+                ToWorkingColor(EvaluateShadowTint(
                     Daylight,
-                    Twilight);
+                    Twilight));
 
             Shader.SetGlobalVector(
                 SunDirectionId,
@@ -345,6 +352,12 @@ namespace LittleCastle.Rendering
                 CurrentAmbientGroundColor *
                 0.15f;
         }
+
+        // Shader.SetGlobalColor supplies raw values. Unlike material colour
+        // properties, these globals need an explicit working-space conversion.
+        // Convert the authored colour before multiplying light intensity.
+        public static Color ToWorkingColor(Color authoredColor) =>
+            QualitySettings.activeColorSpace == ColorSpace.Linear ? authoredColor.linear : authoredColor;
 
         private Color EvaluateShadowTint(
             float daylight,

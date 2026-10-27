@@ -25,6 +25,7 @@ Shader "Little Castle/Distance/LC Distant Simple"
         {
             "RenderType" = "Opaque"
             "Queue" = "Geometry"
+            "RenderPipeline" = "UniversalPipeline"
         }
 
         LOD 80
@@ -34,28 +35,36 @@ Shader "Little Castle/Distance/LC Distant Simple"
 
         Pass
         {
-            CGPROGRAM
+            Name "FORWARD"
+            Tags { "LightMode" = "UniversalForward" }
 
-            #pragma target 2.0
+            HLSLPROGRAM
+
+            #pragma target 3.5
             #pragma vertex vert
             #pragma fragment frag
-            #pragma multi_compile_fog
+            #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Fog.hlsl"
             #pragma multi_compile_instancing
 
-            #include "UnityCG.cginc"
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 
-            sampler2D _MainTex;
-            float4 _MainTex_ST;
-            fixed4 _Color;
-            half _TextureDetail;
-            half _CanopyNormalBlend;
-            float4 _CanopyCenter;
+            TEXTURE2D(_MainTex); SAMPLER(sampler_MainTex);
 
-            half _Cutoff;
-            half _UseAlphaClip;
-            half _TopLightStrength;
-            half _AmbientStrength;
-            half _NightDesaturate;
+            // Shared presentation globals stay outside the material buffer.
+            CBUFFER_START(UnityPerMaterial)
+                float4 _MainTex_ST;
+                half4 _Color;
+                half _TextureDetail;
+                half _CanopyNormalBlend;
+                float4 _CanopyCenter;
+
+                half _Cutoff;
+                half _UseAlphaClip;
+                half _TopLightStrength;
+                half _AmbientStrength;
+                half _NightDesaturate;
+                half _Cull;
+            CBUFFER_END
 
             half4 _LC_SunDirection;
             half4 _LC_SunColor;
@@ -80,7 +89,7 @@ Shader "Little Castle/Distance/LC Distant Simple"
                 float2 uv : TEXCOORD0;
                 half3 worldNormal : TEXCOORD1;
 
-                UNITY_FOG_COORDS(2)
+                float fogCoord : TEXCOORD2;
 
                 UNITY_VERTEX_INPUT_INSTANCE_ID
                 UNITY_VERTEX_OUTPUT_STEREO
@@ -88,15 +97,14 @@ Shader "Little Castle/Distance/LC Distant Simple"
 
             v2f vert(appdata v)
             {
-                v2f o;
+                v2f o = (v2f)0;
 
                 UNITY_SETUP_INSTANCE_ID(v);
                 UNITY_TRANSFER_INSTANCE_ID(v, o);
                 UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
-                o.position =
-                    UnityObjectToClipPos(
-                        v.vertex);
+                VertexPositionInputs positions = GetVertexPositionInputs(v.vertex.xyz);
+                o.position = positions.positionCS;
 
                 o.uv =
                     TRANSFORM_TEX(
@@ -104,15 +112,15 @@ Shader "Little Castle/Distance/LC Distant Simple"
                         _MainTex);
 
                 o.worldNormal =
-                    UnityObjectToWorldNormal(
+                    TransformObjectToWorldNormal(
                         v.normal);
                 float3 canopyDirection = normalize(v.vertex.xyz - _CanopyCenter.xyz + float3(0,0.0001,0));
                 o.worldNormal = normalize(lerp(o.worldNormal,
-                    UnityObjectToWorldNormal(canopyDirection), _CanopyNormalBlend));
+                    TransformObjectToWorldNormal(canopyDirection), _CanopyNormalBlend));
 
-                UNITY_TRANSFER_FOG(
-                    o,
-                    o.position);
+                // URP 17.5 evaluates fog per fragment from interpolated view Z.
+                // Keep one scalar varying instead of a world-position varying.
+                o.fogCoord = positions.positionVS.z;
 
                 return o;
             }
@@ -142,21 +150,23 @@ Shader "Little Castle/Distance/LC Distant Simple"
                         down;
             }
 
-            fixed4 frag(v2f i) : SV_Target
+            half4 frag(v2f i) : SV_Target
             {
                 UNITY_SETUP_INSTANCE_ID(i);
+                UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
 
-                fixed4 sample =
-                    tex2D(
+                half4 baseSample =
+                    SAMPLE_TEXTURE2D(
                         _MainTex,
+                        sampler_MainTex,
                         i.uv) *
                     _Color;
-                sample.rgb = lerp(_Color.rgb * 0.65h, sample.rgb, _TextureDetail);
+                baseSample.rgb = lerp(_Color.rgb * 0.65h, baseSample.rgb, _TextureDetail);
 
                 if (_UseAlphaClip > 0.5h)
                 {
                     clip(
-                        sample.a -
+                        baseSample.a -
                         _Cutoff);
                 }
 
@@ -186,7 +196,7 @@ Shader "Little Castle/Distance/LC Distant Simple"
 
                 half luminance =
                     dot(
-                        sample.rgb,
+                        baseSample.rgb,
                         half3(
                             0.2126h,
                             0.7152h,
@@ -194,25 +204,25 @@ Shader "Little Castle/Distance/LC Distant Simple"
 
                 half3 nightColor =
                     lerp(
-                        sample.rgb,
+                        baseSample.rgb,
                         luminance.xxx,
                         _NightDesaturate *
                         _LC_NightAmount);
 
-                fixed4 result =
-                    fixed4(
+                half4 result =
+                    half4(
                         nightColor *
                         lightColor,
                         1.0);
 
-                UNITY_APPLY_FOG(
-                    i.fogCoord,
-                    result);
+                float nearToFarZ = max(-i.fogCoord - _ProjectionParams.y, 0.0);
+                half fogFactor = ComputeFogFactorZ0ToFar(nearToFarZ);
+                result.rgb = MixFog(result.rgb, fogFactor);
 
                 return result;
             }
 
-            ENDCG
+            ENDHLSL
         }
     }
 

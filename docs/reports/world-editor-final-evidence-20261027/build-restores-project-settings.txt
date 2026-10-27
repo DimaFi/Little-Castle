@@ -1,0 +1,10 @@
+Restored default=Assets/_Game/Settings/Rendering/URP/LittleCastle_URP_Medium.asset
+Assets/_Game/Settings/Rendering/URP/LittleCastle_URP_Low.asset
+Assets/_Game/Settings/Rendering/URP/LittleCastle_URP_Low.asset
+Assets/_Game/Settings/Rendering/URP/LittleCastle_URP_Medium.asset
+Assets/_Game/Settings/Rendering/URP/LittleCastle_URP_High.asset
+Assets/_Game/Settings/Rendering/URP/LittleCastle_URP_High.asset
+Assets/_Game/Settings/Rendering/URP/LittleCastle_URP_Ultra.asset
+ProjectSettings/ProjectSettings.asset bytes restored=True
+ProjectSettings/GraphicsSettings.asset bytes restored=True
+ProjectSettings/QualitySettings.asset bytes restored=True

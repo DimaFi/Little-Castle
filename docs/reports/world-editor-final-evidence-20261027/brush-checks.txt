@@ -1,0 +1,2 @@
+PASS live MapToolController stroke/undo/redo and isolated disk save/load; JSON + derived mask checks.
+History intentionally cleared when restoring baseline.

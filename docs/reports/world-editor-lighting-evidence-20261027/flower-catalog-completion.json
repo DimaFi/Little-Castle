@@ -1,0 +1,27 @@
+{
+  "roots": [
+    "Assets/_Game/Art/Studies/Meadow_20261025/Meadow_ScatterLibrary.asset",
+    "Assets/_Game/Art/QuaterniusMeadow/Quaternius_MeadowLibrary.asset"
+  ],
+  "changed": [
+    {
+      "path": "Assets/_Game/Art/QuaterniusMeadow/Quaternius_MeadowLibrary.asset",
+      "before": null,
+      "after": "6dac660622a580ec8a5a736ee53f86309af45a568bf650bdca641d1f5f5818cd"
+    },
+    {
+      "path": "Assets/_Game/Art/QuaterniusMeadow/Quaternius_MeadowLibrary.asset.meta",
+      "before": null,
+      "after": "d6b3d29ea0402cf8b5512d6e4d23e60d47e0c4e017e5ebc10f6d8fc8d1d4e257"
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/Meadow_20261025/Meadow_ScatterLibrary.asset",
+      "before": "be000ee76044324d27d92bdb0aac9ffe8b480ae84200b27714449203dee270e4",
+      "after": "5106ef998124d26208b8fc29d938f2480844104a97750bdfe9bf9e2e787a6475"
+    }
+  ],
+  "preserved_conflicts": [
+    "Assets/_Game/Shaders/Foliage/LC_Foliage.shader",
+    "Assets/_Game/Shaders/Surface/LC_StylizedLit.shader"
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "editmode": {
+    "total": "278",
+    "passed": "277",
+    "failed": "1"
+  },
+  "playmode": {
+    "total": "15",
+    "passed": "15",
+    "failed": "0"
+  },
+  "failures": [
+    {
+      "name": "LittleCastle.Tests.ConceptNaturalVegetationTests.GroundCoverPresetsRespectClearanceWhileMainTreeFlagsStayLegacy",
+      "message": "  Expected: True\n  But was:  False\n",
+      "stack": "at LittleCastle.Tests.ConceptNaturalVegetationTests.GroundCoverPresetsRespectClearanceWhileMainTreeFlagsStayLegacy () [0x000a8] in E:\\Games_Develop\\Little-Castle\\Assets\\_Game\\Tests\\Editor\\ConceptNaturalVegetationTests.cs:159\n"
+    }
+  ],
+  "Map": {
+    "total": 74,
+    "passed": 74
+  },
+  "Lighting": {
+    "total": 5,
+    "passed": 5
+  },
+  "SpatialIndirect": {
+    "total": 32,
+    "passed": 32
+  },
+  "Flower": {
+    "total": 5,
+    "passed": 5
+  },
+  "WorldEditor": {
+    "total": 1,
+    "passed": 1
+  }
+}

@@ -1,0 +1,80 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Accents
+  m_Shader: {fileID: 4800000, guid: 33513dccfd2743e79320b00c44339b95, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - _LC_SURFACE_PAINT
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 1
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: 2af1601ba09f43e4f8b69a794b72fb75, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OpacityMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SurfacePaint:
+        m_Texture: {fileID: 2800000, guid: 309ca312ed4a0164b9d74e867921479a, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AmbientStrength: 0.94
+    - _ColorVariation: 0.08
+    - _Cutoff: 0.301
+    - _DensityFar: 90
+    - _DensityFloor: 0.12
+    - _DensityNear: 16
+    - _FadeEnd: 58
+    - _FadeStart: 28
+    - _GustScale: 0.018
+    - _GustSpeed: 0.28
+    - _GustStrength: 0.38
+    - _InteractionDistance: 28
+    - _InteractionStrength: 0
+    - _MeadowMode: 0
+    - _MeadowPaletteStrength: 0
+    - _MeadowRootOcclusion: 0
+    - _MeadowSoftEnd: 65
+    - _MeadowSoftStart: 14
+    - _MeadowSoftness: 0
+    - _MicroFlutter: 0.025
+    - _MicroFlutterScale: 2.2
+    - _MicroFlutterSpeed: 3.2
+    - _OpacityMapStrength: 0
+    - _ShadowTintStrength: 0.38
+    - _TransmissionStrength: 0.25
+    - _UpNormalBias: 0.72
+    - _UseObjectAnchorFade: 1
+    - _UseRootAnchor: 0
+    - _UseSurfacePaint: 1
+    - _WindAmplitude: 0.16
+    - _WindBend: 1
+    m_Colors:
+    - _Color: {r: 0.24, g: 0.33, b: 0.15, a: 1}
+    - _DryColor: {r: 0.43, g: 0.46, b: 0.24, a: 1}
+    - _RootColor: {r: 0.17, g: 0.26, b: 0.065, a: 1}
+    - _SurfacePaintBounds: {r: -48, g: -40, b: 0.010416667, a: 0.009615385}
+    - _TipColor: {r: 0.32, g: 0.415, b: 0.205, a: 1}
+    - _TransmissionColor: {r: 0.7, g: 0.92, b: 0.3, a: 1}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1

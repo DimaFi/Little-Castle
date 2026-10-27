@@ -1,0 +1,3842 @@
+[
+  {
+    "path": "Assets/_Game/Art/Imported/Bridge_Stone_A/v002/bridge-site.json",
+    "size": 37540,
+    "sha256": "dd887606c4bde32d1ede8cd9b6f4fd7361ff2a78c694d91d9a734fc433a272bb"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/Bridge_Stone_A/v002/bridge_contract.py",
+    "size": 4685,
+    "sha256": "232c19bacdcab16a8b1e49d3dd22622381b216be393867b71a0d463ee8a57731"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/Bridge_Stone_A/v002/README.md",
+    "size": 2515,
+    "sha256": "98fbb9b96f4a24b57dcc0e211b503d44edbf8720237f900b35ea4d2cc4ba2d0d"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/Bridge_Stone_A/v002/release.json",
+    "size": 4792,
+    "sha256": "7b33ae9915b3cde4d11ba91318065bf76e6afe25d64bd554f81e4362e9faf647"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/Bridge_Stone_A/v002/Meshes/Bridge_Sockets.fbx",
+    "size": 12156,
+    "sha256": "0736a757d8486720b7cc5ef8ee79db843cc6104d787137d601bc9666f8dfec52"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/Bridge_Stone_A/v002/Meshes/COL_Bridge_A.fbx",
+    "size": 37932,
+    "sha256": "5a9f366b6d2ac95504d66544e9ae0c1ea2bf2d2b0c34c04a09d67b9e4b951512"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/Bridge_Stone_A/v002/Meshes/SM_Bridge_Dressing_A_LOD0.fbx",
+    "size": 1051244,
+    "sha256": "45e6d507192a2afb85a303a0cdb031b2b2224d7920ee427a69866733f34e329d"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/Bridge_Stone_A/v002/Meshes/SM_Bridge_Dressing_A_LOD1.fbx",
+    "size": 448124,
+    "sha256": "4fa2f146acc7aaf00903bcbc2ad11576027927548e453576cdf77dedf1a56732"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/Bridge_Stone_A/v002/Meshes/SM_Bridge_Dressing_A_LOD2.fbx",
+    "size": 26556,
+    "sha256": "79cb1be7f1cb4d9abd40545bae5439d2cb5308915fb2e5c9b0a3032a1390abbd"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/Bridge_Stone_A/v002/Meshes/SM_Bridge_Stone_A_LOD0.fbx",
+    "size": 1019020,
+    "sha256": "b56f6628e802f39d8871c86a5393ee64c62d310eb517c08df48d2771a62da6f9"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/Bridge_Stone_A/v002/Meshes/SM_Bridge_Stone_A_LOD1.fbx",
+    "size": 579836,
+    "sha256": "47bff7db69aa2f7439fe5555de2bedaca63d9c160b292f329a36085cc9628f3c"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/Bridge_Stone_A/v002/Meshes/SM_Bridge_Stone_A_LOD2.fbx",
+    "size": 107900,
+    "sha256": "810df37ce397f50f4c3ac756b4b0c69449ee52db7c3e61005a808aa6396b0dd7"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/Bridge_Stone_A/v002/Meshes/SM_Bridge_TerrainReference_LOD0.fbx",
+    "size": 122716,
+    "sha256": "dce0e35be60e17a9ade787ccd44c50cc8eef3617039065f0c4ac337e8fe611a0"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/Bridge_Stone_A/v002/Meshes/SM_Bridge_TerrainReference_LOD1.fbx",
+    "size": 42220,
+    "sha256": "619215739b76ebfa022c46ec70d7867b255755a111fb29a54869d75478645e3f"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/Bridge_Stone_A/v002/Meshes/SM_Bridge_TerrainReference_LOD2.fbx",
+    "size": 25660,
+    "sha256": "cf932a877b6511b2c1c3b1be75e0746869232a18307aec5b2233772bb71f53e2"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/Bridge_Stone_A/v002/Meshes/SM_Bridge_Water_A.fbx",
+    "size": 91932,
+    "sha256": "7b5d12bca38cbf82aacddf7c8991e3d557805ac9fd88719478e0b3d814cfcaae"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/Bridge_Stone_A/v002/Preview/Bridge_Detail.png",
+    "size": 2278325,
+    "sha256": "c369e9b930c6773a372c0bfc69712aa694eab14abd202f822e0a2f3af5912403"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/Bridge_Stone_A/v002/Preview/Bridge_Hero.png",
+    "size": 2267768,
+    "sha256": "c2590dce5f9fff8bb1a0578812bfc4ff6e576c1a4cd582a89b514dd887764e35"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/Bridge_Stone_A/v002/Preview/Bridge_Realtime_Eevee.png",
+    "size": 2249039,
+    "sha256": "6af07397a02edc87017973a27151361a2f80933d401b5b2910395a6b8ca6d6b6"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/Bridge_Stone_A/v002/Preview/Bridge_Reverse.png",
+    "size": 2198541,
+    "sha256": "8b7ee4b4fd4092c3812d381d407dc41da92d9822abf8802e0d6531f7e381b69b"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/Bridge_Stone_A/v002/Preview/Bridge_Side.png",
+    "size": 1774153,
+    "sha256": "f47bade3ccfef81fe9c7c8617bfe5388a87d7041d533de4f8355122006a5e5da"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/Bridge_Stone_A/v002/Preview/Bridge_Top.png",
+    "size": 2122357,
+    "sha256": "20593b7fda7ba9e1028df7b5a34e86d1b7d66c4c806c15df0a36ac81d9f96708"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/Bridge_Stone_A/v002/QA/geometry_report.json",
+    "size": 18530,
+    "sha256": "93b3662f28775ad762f7dec58497257d1460dc78967a7c47cc04a39fbf467de2"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/Bridge_Stone_A/v002/QA/roundtrip_report.json",
+    "size": 19357,
+    "sha256": "3f82fd38d040a41681b3bfba4cd417626d20837bd6903af6cf172602d567e438"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/Bridge_Stone_A/v002/QA/visual_review.md",
+    "size": 2131,
+    "sha256": "a8261926fbcb00ce6bf58da25e55fd770e9678889dae0e3cc507ac756b8b9a2a"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/Bridge_Stone_A/v002/Textures/T_Bridge_Grass_BaseColor.png",
+    "size": 11586,
+    "sha256": "a95030ed073ee1891192fe02f5e3253b11304f1ebc87464651602011493c833e"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/Bridge_Stone_A/v002/Textures/T_Bridge_Limestone_BaseColor.png",
+    "size": 2861985,
+    "sha256": "8b96b184c5d2c773d3da6ae76a71a8b3b7f9b33e1af21f81c54af660214be00c"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/Bridge_Stone_A/v002/Textures/T_Bridge_Palette_BaseColor.png",
+    "size": 7617,
+    "sha256": "ade02d71dd2c63f715e08f42c9cd7e6649a925bfc3d6470e0edde60bfe3e4e80"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/Bridge_Stone_A/v002/Textures/T_Bridge_StoneAtlas_BaseColor.png",
+    "size": 1962639,
+    "sha256": "07cf09aaff10de0d99fa3a6be9e73a6a2ccdaa0ccd2c064a9e58b8391fa30b67"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/Bridge_Stone_A/v002/Textures/T_Bridge_Terrain_BaseColor.png",
+    "size": 94339,
+    "sha256": "1bb0fb34746d4825c88421926d98f29b0b1dc287084b52f2aded69512dc623f6"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/Bridge_Stone_A/v002/Textures/T_Bridge_Water_BaseColor.png",
+    "size": 132653,
+    "sha256": "0603f2787876b439ebd3b52cbb51e2315b025de77ebd8e48dc7976406eb23323"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/Bridge_Stone_A/v002/Textures/T_WallStoneSurface_A_BaseColor.png",
+    "size": 2999973,
+    "sha256": "651415fd08c0f96a875e8cd616d1cf43bf5a0765c2cd20e0be057d33aa95c60b"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/ConceptWorldKit_v001/Provenance.json",
+    "size": 15222,
+    "sha256": "b1724083b9a57591bc9fc3f310b60a707aae49d01702b21867e943437837d22c"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/ConceptWorldKit_v001/Materials/house.mat",
+    "size": 1994,
+    "sha256": "4ab1decffb6f13e9ebf14d1eab2f81bd207252e3e3c4a06b05d2c575bbf0f284"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/ConceptWorldKit_v001/Materials/house_Far.mat",
+    "size": 1187,
+    "sha256": "888225ba74cb8f57e741e5167c7e3117bf0bf8947bb52c906ee07660b75fe946"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/ConceptWorldKit_v001/Materials/oak.mat",
+    "size": 1992,
+    "sha256": "b36fc248432aa35655ee5060da52da9627d42bd4fcdbb132b9b9af4c17e01aba"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/ConceptWorldKit_v001/Materials/oak_Far.mat",
+    "size": 1185,
+    "sha256": "5aba533c64282542b6121a83e6df9d68cc943462bc197c4af18c62f76b56253b"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/ConceptWorldKit_v001/Materials/oak_Leaves.mat",
+    "size": 2100,
+    "sha256": "1d468bfce31d5c34fd56e43941977a6d23f6a45d369cf0976ae0748e8eeee267"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/ConceptWorldKit_v001/Materials/oak_Leaves_Far.mat",
+    "size": 1244,
+    "sha256": "3c410d89b0d3c27661431f5ab954ec567b6127add97a6ee38e767e7d14f6bfc8"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/ConceptWorldKit_v001/Materials/SM_Stone_Medium_A.mat",
+    "size": 2006,
+    "sha256": "e72377b2ba606097d2fb818c326cd5b83c20256578b4e876f4b09b2cd287925c"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/ConceptWorldKit_v001/Materials/well.mat",
+    "size": 1993,
+    "sha256": "b969938f096a7754c459347c0a8b5a3417133d24329ebe4d93fdedf0c99ed420"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/ConceptWorldKit_v001/Materials/well_Far.mat",
+    "size": 1186,
+    "sha256": "bbee9c543d7922396e7db85ba7b918c26aa6c1c0e2dd0f3310c5c4e764e54e81"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/ConceptWorldKit_v001/Models/house_LOD0.fbx",
+    "size": 5303756,
+    "sha256": "c922af1c03699736a3db1d493cc62133b3518c30c7b134c5b2dbf6f381990732"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/ConceptWorldKit_v001/Models/house_LOD1.fbx",
+    "size": 2369964,
+    "sha256": "a7b22ebba4d1f2e5eb79736f00811894754e213c18916986f1f38cc71562ad66"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/ConceptWorldKit_v001/Models/house_LOD2.fbx",
+    "size": 1038076,
+    "sha256": "de84cea02515505f637b5142e2040b1f17cedd467b0e9f00bb8a6ce03ce57f3e"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/ConceptWorldKit_v001/Models/oak_LOD0.fbx",
+    "size": 519148,
+    "sha256": "be124c284e03d2ebb50f81968c18dcb7d5a81c4ba2dc96d019849ca310d8fb6e"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/ConceptWorldKit_v001/Models/oak_LOD1.fbx",
+    "size": 313116,
+    "sha256": "e55b2d7cef7b0c18bcbf97b74ef562b0f5fa32c3d82cfc7cfbeb2f70c5d0d5f0"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/ConceptWorldKit_v001/Models/oak_LOD2.fbx",
+    "size": 171180,
+    "sha256": "0e78cc7462270bfd19f21a08f7ada02114e2f2f131da1c5a1f425fec55c49b2a"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/ConceptWorldKit_v001/Models/SM_Stone_Medium_A.fbx",
+    "size": 25228,
+    "sha256": "2bb19b8828b0f86ad510bbc0274e65cc94e157fe42738a95b0c39c9cac59359d"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/ConceptWorldKit_v001/Models/well_LOD0.fbx",
+    "size": 537532,
+    "sha256": "e869314e9a0b885ab569cd6ccc2884c723b0cef5da5d9c105fb229db3493b06b"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/ConceptWorldKit_v001/Models/well_LOD1.fbx",
+    "size": 290348,
+    "sha256": "169dfa454ce87498240ca3e1e5be103cd17a161ca2bb041170c6de93ae517de3"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/ConceptWorldKit_v001/Models/well_LOD2.fbx",
+    "size": 126364,
+    "sha256": "dc77d2dc10960e7516a1f5cae8e12168de76c3e396220604368ea59aa339288a"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/ConceptWorldKit_v001/Prefabs/house.prefab",
+    "size": 13640,
+    "sha256": "32948d067ae639e236c0b4d90bf3738f8fbad0c569efa6a738b916df50af96a8"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/ConceptWorldKit_v001/Prefabs/oak.prefab",
+    "size": 16778,
+    "sha256": "737ee9a4f55f2eb4124d707d03ce278f9e49ce676248eb4c23e9c09b87733875"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/ConceptWorldKit_v001/Prefabs/SM_Stone_Medium_A.prefab",
+    "size": 5748,
+    "sha256": "9e03dd82f7fdfd30c1f988a1af855d6461813738e584a56b7a4d8ebf4c0bcfdd"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/ConceptWorldKit_v001/Prefabs/well.prefab",
+    "size": 13643,
+    "sha256": "8ac1797e3a1931125e33e1f0351cb511fe55f992a311854696818eae22a7250c"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/ConceptWorldKit_v001/Study/Textures/DirtPath_A_AO.png",
+    "size": 1135296,
+    "sha256": "5392116c6894ff3fce25881d8aca78e6c9fc11d361783258c5cb49592f77e629"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/ConceptWorldKit_v001/Study/Textures/DirtPath_A_Normal.png",
+    "size": 3771487,
+    "sha256": "a11782765012782ee25d5fcc23871f357cf1600cb49750364035828fb9322520"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/ConceptWorldKit_v001/Study/Textures/Grass_MeadowSoft_BaseColor.png",
+    "size": 3039650,
+    "sha256": "e6aefb5e0253b9ddc0c48b83a26b8c1113ad859eff69c651d65f71f4b2122b6c"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/ConceptWorldKit_v001/Textures/DirtGround_A_BaseColor.png",
+    "size": 2948475,
+    "sha256": "b15309028955216c0a7ae7e5805d87f4b7e4cf0514365f136a450e63182f2971"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/ConceptWorldKit_v001/Textures/DirtPath_A_BaseColor.png",
+    "size": 3290806,
+    "sha256": "19fda5d6e578d522eec73c5eb2b624e630189a0cfa6b656de3d90115200eba93"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/ConceptWorldKit_v001/Textures/house_BaseColor.png",
+    "size": 5916871,
+    "sha256": "baa3d168629e33181be2e3b4dd90fe14fc111cf5b9fc225e38da872f7b61df2d"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/ConceptWorldKit_v001/Textures/oak_BaseColor.png",
+    "size": 3446048,
+    "sha256": "e788dada610351e46b1f97dba32321bb92e044042a4c9c84b8dae0bf85423744"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/ConceptWorldKit_v001/Textures/T_Foliage_BaseColor.png",
+    "size": 1867186,
+    "sha256": "204b80e1779330ae290a94d3a8c9e50923aa84683238fcff28848a8faf9ebfb9"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/ConceptWorldKit_v001/Textures/T_Oak_Kit_Palette.png",
+    "size": 435,
+    "sha256": "323e3e1435741a35e7957e16134f969b214e3b89b747000bde9ebb050e873e2e"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/ConceptWorldKit_v001/Textures/T_WallStoneSurface_A_BaseColor.png",
+    "size": 2999973,
+    "sha256": "651415fd08c0f96a875e8cd616d1cf43bf5a0765c2cd20e0be057d33aa95c60b"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/ConceptWorldKit_v001/Textures/well_BaseColor.png",
+    "size": 1440135,
+    "sha256": "626e1d3f0dbbec1e5ab201438ddd4e189837ce20304780d312d6c9594a8fecd2"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/QuaterniusNature/Textures/Bark_DeadTree.png",
+    "size": 4228870,
+    "sha256": "8f055724c35f8e8c5685a505775b3b9ebfc6b4745308ef35ce1cfe6fd976153f"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/QuaterniusNature/Textures/Bark_DeadTree_Normal.png",
+    "size": 5728199,
+    "sha256": "692da2f58909263f074cb17b36defd09f56bf89ab7efda567a9a3e59261747b3"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/QuaterniusNature/Textures/Bark_NormalTree.png",
+    "size": 3894788,
+    "sha256": "f36e94fdd73255347325b998e02a0b2575fdf714b0315bfe5e8ff34bc8e13603"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/QuaterniusNature/Textures/Bark_NormalTree_Normal.png",
+    "size": 4384496,
+    "sha256": "852f6155404b8c39e100e41e26970e02a6a5c81b482d3726618dab28e3ad03a2"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/QuaterniusNature/Textures/Bark_TwistedTree.png",
+    "size": 4630805,
+    "sha256": "01608a96c42954eb725b32824530b51e67a2f3d85432d21a8d8adff958d2084a"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/QuaterniusNature/Textures/Bark_TwistedTree_Normal.png",
+    "size": 5728199,
+    "sha256": "692da2f58909263f074cb17b36defd09f56bf89ab7efda567a9a3e59261747b3"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/QuaterniusNature/Textures/Flowers.png",
+    "size": 444609,
+    "sha256": "5c531f2329c241c625aafd6cb769de29f33b480ef2a16491c2489f3c68e62a6a"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/QuaterniusNature/Textures/Grass.png",
+    "size": 33605,
+    "sha256": "5d69048193b246a73c996b892607fb36c75d0c60afcb2dab8aa12de3c0b2d9bd"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/QuaterniusNature/Textures/Leaf_Pine_C.png",
+    "size": 70055,
+    "sha256": "86f7ff7a214f5424de48d269568f36a15485e61c80677e426c7be9f45181eef9"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/QuaterniusNature/Textures/Leaves.png",
+    "size": 2586432,
+    "sha256": "23248cebe28a24e78add32db3c2ee2f4d7b9219e9d2467279722f0197a7b6bd5"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/QuaterniusNature/Textures/Leaves_NormalTree_C.png",
+    "size": 158796,
+    "sha256": "998612bdf0b76a22f5f54d65cd7a457815d2842d89653fa4348a4ebb42933ad3"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/QuaterniusNature/Textures/Leaves_TwistedTree_C.png",
+    "size": 70353,
+    "sha256": "0e459b56b14c0e81b1b7cf3d1e8c6f0bb71790eb6c46bb02a76a922d8df646ea"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/QuaterniusNature/Textures/Mushrooms.png",
+    "size": 1208660,
+    "sha256": "e29eed2db831e44a29634fe25c62e9e31edf201e978a52912b9e5221ffd4a1f3"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/QuaterniusNature/Textures/PathRocks_Diffuse.png",
+    "size": 811732,
+    "sha256": "85a04abb2c136fee53b376daf3b7d7f96fdf3966de0258dff6fe2b24da792b23"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/QuaterniusNature/Textures/Rocks_Diffuse.png",
+    "size": 2517398,
+    "sha256": "b813696df6081f469a127092eb0ce45cc39d56f3ccc0699152bfcd3804810b48"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Connections.json",
+    "size": 7093,
+    "sha256": "e38b32731e462bd61fc5296b7f393bfe491a257d3f9b31d0d80a4cf3873dfa38"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/CottageGarden.unity",
+    "size": 685275,
+    "sha256": "2046569569fda9deb6d0e4c6baddd7d3165cfbfe9ab59c3b0941c0dfead41dbf"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/MeadowVillage.unity",
+    "size": 1222894,
+    "sha256": "03521795aae58bc1ed5b839ccd308b7ae8308e7f511924e714db345f5e4a5138"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/provenance.json",
+    "size": 20935,
+    "sha256": "d478ae9fbff55e17416cb7d01cf84c3b2b4a3a4f4c5f4c3a8ae916055dcfc422"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Materials/barrel.mat",
+    "size": 1995,
+    "sha256": "76cf5e4ebf4e6695139fd1222a1d5c55913c477f2cbace9e782b4a7694aae179"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Materials/barrel_Far.mat",
+    "size": 1188,
+    "sha256": "148a215bc742733fb104bc54ae5183354eb6d71754e82796bbb14fe44c238fef"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Materials/bench.mat",
+    "size": 1994,
+    "sha256": "31ebd3d048bb6bc830fdf5c3256d29d5635c5d688c2249f475c61d5779bcf5f9"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Materials/bench_Far.mat",
+    "size": 1187,
+    "sha256": "7043d14e61bf74ab4ac1579d16222ee6022103f6e8780203acf1d689b028d9f7"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Materials/crate.mat",
+    "size": 1994,
+    "sha256": "debfbea33cd5106b815593d5b5a6987316c751ba296b7579ad832ae83ec5f22d"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Materials/crate_Far.mat",
+    "size": 1187,
+    "sha256": "06dc10e80a8184d3273dde86d1fb1ca3e2f01ac7f28fa025e5f43122008423a4"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Materials/fence.mat",
+    "size": 1994,
+    "sha256": "7b724a29e7c0bdff0f1df931f2e9290d07672eefaa32120b7643e4475eae6420"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Materials/fence_Far.mat",
+    "size": 1187,
+    "sha256": "5f4f08d291b08fcd6abe17e8674b276511da15abc266e7e03e67b01756e83d91"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Materials/house.mat",
+    "size": 1994,
+    "sha256": "e49bfa129062c62c681baf7eca9920af7a7ded5f2d110097fbf0ec333a6b4d71"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Materials/house_Far.mat",
+    "size": 1187,
+    "sha256": "8943a96a06b63c32baf9555e1cbb8069883d8c6c602a1a37a46d0be1160cb795"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Materials/Meadow.mat",
+    "size": 1825,
+    "sha256": "44783ba0d072789e3012abb75f83987e255c9339addef1c51223ded432975441"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Materials/MeadowGrass.mat",
+    "size": 1576,
+    "sha256": "797d1726b6aea4517fdbc28d3dc3b858adf1ada95f0fb4149677296a4b3631dc"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Materials/M_FortificationRoof_Shared.mat",
+    "size": 2041,
+    "sha256": "eeb2bcb32197d4f9e590e079bd8e4e773d6f92a2baceac3c295d6ff541e2391b"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Materials/M_FortificationRoof_Shared_Far.mat",
+    "size": 1234,
+    "sha256": "5ec866f54c28e54689fab778b128778f061c9c972d8e3db958cff5ef7079e1d6"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Materials/M_FortificationTimber_Shared.mat",
+    "size": 2017,
+    "sha256": "fc650983af7faa7357568c8951b4ff84e3060f9d827a19261064591dcd7034d6"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Materials/M_FortificationTimber_Shared_Far.mat",
+    "size": 1210,
+    "sha256": "f19a237b6e3181084ac7122cbb063f6f732a8dee0f0e7052ca8d421a0b2a0022"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Materials/M_Wall_Stone_Shared.mat",
+    "size": 2008,
+    "sha256": "c971ca06ce8a114356b0308da8b09e75f0b72cc8dcadee92ac6a7aed618237aa"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Materials/M_Wall_Stone_Shared_Far.mat",
+    "size": 1201,
+    "sha256": "9cc05c0ac5b6e6342e77903fbb83d957c3c485a93e6f913366df0a51f9aaf96b"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Materials/oak.mat",
+    "size": 1992,
+    "sha256": "015c9ac68788c3dd75ec44443acdbf336d49da922221e0861da7f0be045c8366"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Materials/oak_Far.mat",
+    "size": 1185,
+    "sha256": "1d851044c5807dcfd448ec7633b9fa2aeb473d242c3b62dc003167dea3c913b9"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Materials/oak_Leaves.mat",
+    "size": 2100,
+    "sha256": "4deee1cb53bba05b0ef2168e8bbb083f83c2ff4f1aa168ff5608975a27d2924d"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Materials/oak_Leaves_Far.mat",
+    "size": 1244,
+    "sha256": "d998bbcfcf1bb13f254619b3a63f2b9982dbc15c598ca0acd2031666c3f468eb"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Materials/SM_FlowerCluster_A.mat",
+    "size": 2007,
+    "sha256": "3760e8f0de5bb2117dbd9f45ae7f4106b2b6de0c88c5f3adfa42da2bfd900a83"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Materials/SM_FlowerCluster_B.mat",
+    "size": 2007,
+    "sha256": "74bbe6ee6f7b4ca32d2a127161b8714883c65c1294b3c6899414b8bc79d7ce14"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Materials/SM_LeafCluster_Small_A_Leaves.mat",
+    "size": 2082,
+    "sha256": "8d1246995cb21f81db13f097c0ea04433fcc3782281a795c2615697355139d12"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Materials/SM_Stone_Medium_A.mat",
+    "size": 2006,
+    "sha256": "b316fde705e29fe12021aa18776c928246b1e658cea40c085f51324ffbc1e8e8"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Materials/SM_Stone_Small_A.mat",
+    "size": 2005,
+    "sha256": "ba3a034f585c5cc7104f6b4bfb31a2a0df73ef116a3247f19867f6bf39c2d107"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Materials/SoftScene.mat",
+    "size": 859,
+    "sha256": "fcdaa971da22f32c73bf0a5ce9603bc70f9a574c2d8fcedb25243212bdcf3979"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Materials/well.mat",
+    "size": 1993,
+    "sha256": "655b7cc625859baa5b90fa551bc765b9fc8daa60d14621c637683147d6062208"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Materials/well_Far.mat",
+    "size": 1186,
+    "sha256": "8e2fc8eb9a1ca46103ade2d21065f7d284a96fc5a596ed8cf0da2c8454ff0c0a"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Grass_-1_-1.asset",
+    "size": 1307072,
+    "sha256": "45a552193810765c33b6421fceb42502696f64bca1478aef7104aa41818321e5"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Grass_-1_-2.asset",
+    "size": 1554385,
+    "sha256": "39641ad782a5e43c2288aa0c3e169a4a1c88d10e8066bd962438b89ce7956991"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Grass_-1_0.asset",
+    "size": 1382672,
+    "sha256": "b4b8d619c016227beacea711301592318dfcbdab5f3c0901f5cceff2a8c768d2"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Grass_-1_1.asset",
+    "size": 1561948,
+    "sha256": "0a62a388e2438430e00230f21283c3e11efa47110b486033aaad98a90b19c1e3"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Grass_-2_-1.asset",
+    "size": 1731509,
+    "sha256": "961a42282f9c17541897624cd57888a86bbbfcdb470d2442be8a81754af6658b"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Grass_-2_-2.asset",
+    "size": 1731507,
+    "sha256": "8bca865be95332c87c167688c0404c159e64069613df232c1850b0c077478a2a"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Grass_-2_0.asset",
+    "size": 1731506,
+    "sha256": "f6c0db3a68afed451a775b795abc086036b9677e7ad80b39bbab1a9ee9481005"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Grass_-2_1.asset",
+    "size": 1731506,
+    "sha256": "5a381afda37f4210c61ba909418d2a2eb351c4aeb96a0e2c260a4f9484d1a0b5"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Grass_0_-1.asset",
+    "size": 1445312,
+    "sha256": "adb2904d3f62f265ae226071583a90a32bf005d3363c8808aa34234111058b3f"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Grass_0_-2.asset",
+    "size": 1635386,
+    "sha256": "9fddf41c27dc2e61ab18f02de848a56119d6cfe6d558d8875c80145a0c858305"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Grass_0_0.asset",
+    "size": 1209868,
+    "sha256": "b643aa4030ee7f617067f2d180fccc446436fc47c4c5fa9b9b3ad2196f3783ff"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Grass_0_1.asset",
+    "size": 1645104,
+    "sha256": "0c6a680f1dffdae34f75c22ce5e511aabc770ca11a18607ebd8b7dabe59b1899"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Grass_1_-1.asset",
+    "size": 1731502,
+    "sha256": "586ddae207794dd26011bb82278480c588d51dcce355f7aef0e60a0af8dcd521"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Grass_1_-2.asset",
+    "size": 1731508,
+    "sha256": "659e532eb5b9795c49b8652d99aa1bd7a3b5ae02228cb7e86710df404ca6217e"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Grass_1_0.asset",
+    "size": 1731502,
+    "sha256": "b78773398977c332425bc0d82e935f83b7730ee5af1fa0c5455e8ef8fd1ac797"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Grass_1_1.asset",
+    "size": 1731501,
+    "sha256": "c58264c6d9813583305d8a9c063cea63ea887ecf332636f4ebed7345775e3d3e"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow_-1_-1.asset",
+    "size": 115148,
+    "sha256": "9c7a211408ec96ecd3a1492281f2210a4c96a0b63ce6997365c94d58a1c87293"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow_-1_-2.asset",
+    "size": 115144,
+    "sha256": "d1b9c69a90855549ccf143c1e0e1a51650e3e569950319fd409bc9990714026d"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow_-1_-3.asset",
+    "size": 115140,
+    "sha256": "4b66556405bd748a14cbc3f70ecc7f3d8dde64485609357513a58aa094e35c11"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow_-1_0.asset",
+    "size": 115151,
+    "sha256": "5012183d6a6dbf54a36ea3a885d48a46804dd5a2b94da103aa0282e9d6a42e30"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow_-1_1.asset",
+    "size": 115143,
+    "sha256": "c973ce150b24337021dd2bd0901e79703ad940bd1298bfbefa1cf75af2909a0c"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow_-1_2.asset",
+    "size": 115143,
+    "sha256": "75c99bc7bc531ee5137dc077bc83bfa1277a2d5662b71ab4fb43d5c2a4b1cf64"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow_-2_-1.asset",
+    "size": 115138,
+    "sha256": "888d0c170be24a22c1075def6b07edc4842ac46a9db3c6cc0aa87c01aff13f97"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow_-2_-2.asset",
+    "size": 115144,
+    "sha256": "96a7860530bf98c2cf862b28ccdc450398e381e73f39d1e901f267758df3106e"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow_-2_-3.asset",
+    "size": 115144,
+    "sha256": "6097ae4ab6742994b1643a0f5b0591dd0cc4d2fe15f986f0c41c51f0a2a704ce"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow_-2_0.asset",
+    "size": 115143,
+    "sha256": "3b0aa901342440afc3a6a78773c1f2f1eba8c932d62b3d8cf9c1c6fb04462a9d"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow_-2_1.asset",
+    "size": 115143,
+    "sha256": "c1876eac52bc15a111b36376f3879a461186f0061f134c02259ab553afa6fe9f"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow_-2_2.asset",
+    "size": 115143,
+    "sha256": "9ac45f4845489091ad9fec7488d221f8da7ee1f45a758e26c6d267930245e0e7"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow_-3_-1.asset",
+    "size": 115144,
+    "sha256": "a6e52e8f9dd7c61e9888b194324fa572e80ef8cf3cf20488e19ab943c31aabef"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow_-3_-2.asset",
+    "size": 115142,
+    "sha256": "3a5343f0429b8c4aa2d8594cbc5e9e9ec540e8ce21b7220d8c2bfb2cea19bece"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow_-3_-3.asset",
+    "size": 115144,
+    "sha256": "e6e758f3448cb450cec4ff42fb50b90ae00fbef1c756400e6ad391bd7593d228"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow_-3_0.asset",
+    "size": 115143,
+    "sha256": "d3c97b16a78a197a245dd6d5a4db58722da2459262f8c11fdc2dbf273eb422c9"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow_-3_1.asset",
+    "size": 115143,
+    "sha256": "4c591ec7df0671c6e20ea7a7adb6b314e3ebd5b916fdc7f8c684e63841b04e38"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow_-3_2.asset",
+    "size": 115143,
+    "sha256": "4a64cc99f5e7c9f3374783f08f4b556755c14ada424a6562a01711b3f5cf80d2"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow_0_-1.asset",
+    "size": 115143,
+    "sha256": "76459aebf75276762e52eec5723eb9e4ed46ed2a381f37b90ad9491eceda416f"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow_0_-2.asset",
+    "size": 115139,
+    "sha256": "6d7d1d201563e6cdf3da1c51366cec63b177d57c18f37166077c82a4f22bc25e"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow_0_-3.asset",
+    "size": 115143,
+    "sha256": "bb3b4022f4cb6d052e2d2c4829111cb7f87ca1b08608bac60b5127790891aadd"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow_0_0.asset",
+    "size": 115146,
+    "sha256": "48090e20bbdb4320179af11b560dd9889819e708362b209a0ed4639dd9329979"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow_0_1.asset",
+    "size": 115142,
+    "sha256": "4c5a713fc29cbe06d25b620add2db0c2a6a4a58e14befd5a90d3c30aec8d5894"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow_0_2.asset",
+    "size": 115142,
+    "sha256": "6ffc36529adb3dec86385578dd8e2bb5eceebb75cfaf19ec8af6ae09d5308cdb"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow_1_-1.asset",
+    "size": 115143,
+    "sha256": "eece3665a8fb76d1b053d33938e52ebd959c9d27d4da0736c837a755ecbb98f5"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow_1_-2.asset",
+    "size": 115143,
+    "sha256": "6582d5d82925838bd244c51c26aa004c5b515f5121863c260b5964b71afc5229"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow_1_-3.asset",
+    "size": 115141,
+    "sha256": "aab7631e159199cc9e33263758ba16f30d50f60d6966c889313ee5eec900767b"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow_1_0.asset",
+    "size": 115142,
+    "sha256": "0ca81c41a829a0b65281a1acaa2115d9a178c2c64c5268cb4736d919f7e1ace0"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow_1_1.asset",
+    "size": 115144,
+    "sha256": "8295bdd25d4d1c21bbba6ef995c5d4b9e0701eaa5d0085740d7d46f3f8a3e118"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow_1_2.asset",
+    "size": 115142,
+    "sha256": "821e8ffb3ec9bb5f0f3507c8dc0402433b4cd8025d89d7abcb27d7158679fb48"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow_2_-1.asset",
+    "size": 115143,
+    "sha256": "7ecaf1df83f7bcaf1b9c2e101478dd383b8de42654aa1ffb0b2ef17ba92c7ea6"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow_2_-2.asset",
+    "size": 115143,
+    "sha256": "85a17596c39ed2b34e9937444cef17824c9b7b7f5a4d295de2e262bd05231a50"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow_2_-3.asset",
+    "size": 115143,
+    "sha256": "4c482e003ed94f5474d32ea88a1ef23546d291e2c817348d01f4e43916f149ef"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow_2_0.asset",
+    "size": 115142,
+    "sha256": "9fa47b5a20a2d9b5658b2be562691d44602b5a7811d40c81c0add6b1206ce202"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow_2_1.asset",
+    "size": 115140,
+    "sha256": "5ec0d4ad12715ef3edff1f55cf9e0dee80387b98bde99b0ae65248a5d65f2d5e"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow_2_2.asset",
+    "size": 115142,
+    "sha256": "a4d5260f358097ad8100eb2b5bc8d2166bc64527056e546adaa30080b1e2abf2"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Grass_-1_-1.asset",
+    "size": 5394875,
+    "sha256": "472e4d9220e0fce98623a6a4e3c09cf04e671c1d145aadee83728aa4e84e6d1c"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Grass_-1_-1_0.asset",
+    "size": 7163197,
+    "sha256": "f31834afda45b1a0bc005507738d0b4d221b85d19eb33005ff3da5819bd51554"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Grass_-1_-1_1.asset",
+    "size": 2463036,
+    "sha256": "f2256066ff80338414d761a5efe968d58ae6754cfa46d872d1f9fee28def99a9"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Grass_-1_-1_2.asset",
+    "size": 578072,
+    "sha256": "89feef0852f2b05ce77a881cb59c785430cf3e02ab64b0d28be2214db9cc9167"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Grass_-1_-2.asset",
+    "size": 6197309,
+    "sha256": "c79e0ffaecf136c410df0cfa17ac0fabcc4241576f59ab06a228dcdc9ce89277"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Grass_-1_-2_0.asset",
+    "size": 8235989,
+    "sha256": "41e3912380228693023b208f1129db74b6cca294e072c52945cf4325e13371aa"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Grass_-1_-2_1.asset",
+    "size": 2844628,
+    "sha256": "a4250182bdeb3b01dbff1bd0da7ea57da730c68a2aaa5272eb8415b745a7e163"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Grass_-1_-2_2.asset",
+    "size": 655827,
+    "sha256": "a6539eaf6372f44e3d833d1b855327b750e67431f3080ad1856ef8946341139c"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Grass_-1_0.asset",
+    "size": 6915512,
+    "sha256": "5e75bc7467e72f8f679e2c67af677d96656d53e708771a3f5b8177f300f8c898"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Grass_-1_0_0.asset",
+    "size": 9219513,
+    "sha256": "ed01d87fad38b320e4418e9c752af59e94d0049b39ebde347d87fca56c769806"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Grass_-1_0_1.asset",
+    "size": 3171513,
+    "sha256": "5248e6a714bbe6f5248adefb08b73e810d8fb83c9c65100c0911c02f1df1ddcd"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Grass_-1_0_2.asset",
+    "size": 723507,
+    "sha256": "c5754bded38c338da4b34bc86ad56a0b3fb5768f48d6b877e1177c09393759fc"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Grass_-1_1.asset",
+    "size": 6915510,
+    "sha256": "8b34e5cacab54f49f6f04fbca17a64ea56b50b05358d0001d660cc7e98871cd0"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Grass_-1_1_0.asset",
+    "size": 9219511,
+    "sha256": "f10d11a9082ca304ec176187f3cea4586852473a61af5674810992281d4b1484"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Grass_-1_1_1.asset",
+    "size": 3171508,
+    "sha256": "fccce7330c827972732d76422462cb0e54836cf89c106c563fcd28150a018d71"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Grass_-1_1_2.asset",
+    "size": 723500,
+    "sha256": "78885d942a75436f30c7407f333f10f68a8e7993b5fb8bbf25c09d2dfaf76a7b"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Grass_-2_-1.asset",
+    "size": 6915512,
+    "sha256": "90bd16ebdb92e97ae91d80f3466a2f7f0dfe5a13a0486614f1933a5d67461759"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Grass_-2_-1_0.asset",
+    "size": 9219513,
+    "sha256": "049d1c6dee493248d83469ca6f4e4e376ebc2158b9c16d28947606c60eae7ccc"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Grass_-2_-1_1.asset",
+    "size": 3171510,
+    "sha256": "ae5ff17a080c9e6fe0c99c1909cb13118d26127ab994f58f0cc74868a79c2035"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Grass_-2_-1_2.asset",
+    "size": 723507,
+    "sha256": "da5d0dc5019fbc0a9fdc68a6cfcc9ac885dd4829e01c253f506272b1c9d4dc80"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Grass_-2_-2.asset",
+    "size": 6915509,
+    "sha256": "0281312a946c83b191cf8863d28b599c3dec24c11baa3eddb36803b0b2127f77"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Grass_-2_-2_0.asset",
+    "size": 9219510,
+    "sha256": "8933967e6fb04170151b1b610543b5da83b97dc7a7e9a8c193e8abc8cb8115b6"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Grass_-2_-2_1.asset",
+    "size": 3171509,
+    "sha256": "eb99a2d1c9258b791aeacbbe1a0adad4f1bab2be25a5f73f38c55c00accfa776"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Grass_-2_-2_2.asset",
+    "size": 723505,
+    "sha256": "855a505a57c3ad77d4dd96336d1f2f0ea0b5ba1ef65df3765f1f37c02ada098d"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Grass_-2_0.asset",
+    "size": 6915509,
+    "sha256": "8206d92fa8c20cefc507b86670d175ca7959e7419f6ed7de9bbf09c175387582"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Grass_-2_0_0.asset",
+    "size": 9219510,
+    "sha256": "0c0c45e3898edc3bcf74f992ac742501f188cf06f6197bc8d8ad5aff3166ab48"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Grass_-2_0_1.asset",
+    "size": 3171506,
+    "sha256": "82d2fb86397d36f9710a44bd6790a0e805562080ebe6fad91010bb950eed137b"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Grass_-2_0_2.asset",
+    "size": 723502,
+    "sha256": "6926a6694665a3f9e9e8fffb56654f623b657ad92817c00b17aa5681fb3eceff"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Grass_-2_1.asset",
+    "size": 6915507,
+    "sha256": "14e92539708aa13fcdc60059609c3244bbf222bb8ef59ea0036232d097a75b06"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Grass_-2_1_0.asset",
+    "size": 9219508,
+    "sha256": "9e3d4de452ad00817ddd98b31a722806c5ea786befe66ec73fead4555e3b2f62"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Grass_-2_1_1.asset",
+    "size": 3171506,
+    "sha256": "928b7006ee6096d3820444ff8f6730dee85e4e70e9b3744cd7500fe1954cf50f"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Grass_-2_1_2.asset",
+    "size": 723503,
+    "sha256": "692c406aaa2c801b8ebf3fd22a6230740859123a768f8b1de863a5524453fec6"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Grass_0_-1.asset",
+    "size": 6915512,
+    "sha256": "06d5e721a7f0e7668053620259393d3a7b97bd463ff67c9cd24943ddc7e695bc"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Grass_0_-1_0.asset",
+    "size": 9219513,
+    "sha256": "264b2a9cd3dd5541880b2974d7b864a89c74bc157d43bb75d487abebb967fac8"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Grass_0_-1_1.asset",
+    "size": 3171513,
+    "sha256": "2fdb813ca5051548ba1196676ac01d456d7d309bb65ac6088f35707062319be1"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Grass_0_-1_2.asset",
+    "size": 723510,
+    "sha256": "d4461e8fade98ccb25abc52734cbae53705518bf22d419ea5bfdc8d3d4982209"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Grass_0_-2.asset",
+    "size": 6915507,
+    "sha256": "6687f28c4a5145c817c7a2784a151a7e49687d5fbce21d23a216d558aecde6fa"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Grass_0_-2_0.asset",
+    "size": 9219508,
+    "sha256": "c5761bd1af11850ebbfe556d835d65d8eb350be42f03174ee47a32f2f504517a"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Grass_0_-2_1.asset",
+    "size": 3171508,
+    "sha256": "36927c15ce5f9859aac4e59c39ff9501085270345431485814e918435387410b"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Grass_0_-2_2.asset",
+    "size": 723506,
+    "sha256": "807e0f627ba9496170b0e883c3d9b84e77f43ae36a7b04a3b0b363bf77a352d2"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Grass_0_0.asset",
+    "size": 6915508,
+    "sha256": "98bea6a21015b55483904770cef2df0fbda47a3c3868352b0c49c2359250aa83"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Grass_0_0_0.asset",
+    "size": 9219509,
+    "sha256": "c73a0020eacd35fd2a9a457fa3615c837636d454e0ec44553ef99244ed73c9fa"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Grass_0_0_1.asset",
+    "size": 3171510,
+    "sha256": "74e7129da5ecd2c51a42e5fc927cdb0fbfd6165406d9cf01aa1b9740991e8cf5"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Grass_0_0_2.asset",
+    "size": 723503,
+    "sha256": "7a68a4517faf6984d844023a70677aeab6cdd9366a63b30d391f76cb19e46753"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Grass_0_1.asset",
+    "size": 6915506,
+    "sha256": "168db4e352f311ae27db95658a0f10819ebb2a29ba2391442f4eaeeb80c4a5bc"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Grass_0_1_0.asset",
+    "size": 9219507,
+    "sha256": "02ffa83550f4dda8d9d36be9f72d434cfa6c32d2787b90d58e98f80227e30d4b"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Grass_0_1_1.asset",
+    "size": 3171507,
+    "sha256": "1cbc7810ed9136ee0ba6335fca78846aedf132b8f73cc2207ef690462a02061e"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Grass_0_1_2.asset",
+    "size": 723501,
+    "sha256": "8a13c485cb54d69c27e74d70d41acc203390942f6a0b07285a2aea13f98b57ed"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Grass_1_-1.asset",
+    "size": 6915506,
+    "sha256": "ea36f632288cce00ef98fceeff758d1ff2ba2142350fa2d59d4b451d0a7d02be"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Grass_1_-1_0.asset",
+    "size": 9219507,
+    "sha256": "d70cb5ce8790a52591c9ccd29679402da39eff671a7b8ea86cb03866f4c00533"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Grass_1_-1_1.asset",
+    "size": 3171509,
+    "sha256": "bb494d40846706baf87e5598e7590e21315d55e178734782021993085a1b9a52"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Grass_1_-1_2.asset",
+    "size": 723500,
+    "sha256": "b024a62ab5dc33953f66e381f41e78b2be27e2d04a7ad0a9276abc1fdf925ad1"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Grass_1_-2.asset",
+    "size": 6915509,
+    "sha256": "b54b2e55afcd0aecbc74b3e8ec45ae3d4d37dcd3f5f081d6b94d4934833262e1"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Grass_1_-2_0.asset",
+    "size": 9219510,
+    "sha256": "c03aced0deceec14978078f09c39e97e89f1baa29cad57435a54c92f819e4b05"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Grass_1_-2_1.asset",
+    "size": 3171510,
+    "sha256": "2989dd4386c9be8310d9acf5ceac65d43da6d1b5b713340e04b98e70bdad3406"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Grass_1_-2_2.asset",
+    "size": 723500,
+    "sha256": "cc7f98f178592ea35adc2321c111f4727e5d21291821166b2138d84109ff99da"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Grass_1_0.asset",
+    "size": 6915504,
+    "sha256": "70ecd4a62b2707dc0ce22ab704701e58338ada2095fe00ff0961308b87409a68"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Grass_1_0_0.asset",
+    "size": 9219505,
+    "sha256": "95e1308bd9aa5570ef5e68c17df1ea9bb372747893d4a90e4f82e959afd1d22b"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Grass_1_0_1.asset",
+    "size": 3171503,
+    "sha256": "ddf75a8d4c6c9b48d74c5037ab5058bded68d2e6cbdf97f961a70fd59be9a356"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Grass_1_0_2.asset",
+    "size": 723501,
+    "sha256": "71ca2aff2db5b112d2b35afd7681bacf17458f30b4bb86da74564dca20d635b8"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Grass_1_1.asset",
+    "size": 6915507,
+    "sha256": "de708d7934c3eb16cd30f2ec800022e5c27668bf55edba55e19b2a8098f4fad6"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Grass_1_1_0.asset",
+    "size": 9219508,
+    "sha256": "3e7da1eb2d06616ff0cceee511d3608d91bef41c1f943998a3ec89316ae30450"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Grass_1_1_1.asset",
+    "size": 3171506,
+    "sha256": "65ed9f3238a2abfa8901e74f76f04cfbd9a1cbc91184b5dc81d7646fe11cfabf"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Grass_1_1_2.asset",
+    "size": 723497,
+    "sha256": "ff0fff9dd7168c439c2681e649bf7275d5f9a9a8921f2ce301575353503cae6b"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Meadow_-1_-1.asset",
+    "size": 115148,
+    "sha256": "2798c3cf08aac9e2daf6dafca9b9ae9289de95a9586b52c02aec440b7b647698"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Meadow_-1_-2.asset",
+    "size": 115144,
+    "sha256": "ac3aca495e31e4deb028b762c6df678795c328430c40697cf8f4d7f4cf9dca6d"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Meadow_-1_-3.asset",
+    "size": 115140,
+    "sha256": "ae7e02777ecbb1d63aa3de909c30c93c059a4960dbd3f8737ba466de58028a25"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Meadow_-1_-4.asset",
+    "size": 115144,
+    "sha256": "8a90a32999954c6358917134056ec3ec1b83d2431d276662a62494a3995620f0"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Meadow_-1_0.asset",
+    "size": 115151,
+    "sha256": "5718558e851f087415bb00e857f9d67e8185bab51a04e217f2694cd64e99217a"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Meadow_-1_1.asset",
+    "size": 115143,
+    "sha256": "584b8b6803e3ab57f9b71349b1a160470a410c842ad2b86174a23b80f1258ac4"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Meadow_-1_2.asset",
+    "size": 115143,
+    "sha256": "78baf4c14d048237c1f6e99117cde3e03527f185dca12309d7533fd7aabd199e"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Meadow_-1_3.asset",
+    "size": 115143,
+    "sha256": "a68af310d25f0330420682f554342a69579bfdec6e85d32b0759132e819397c0"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Meadow_-2_-1.asset",
+    "size": 115138,
+    "sha256": "0a4b798cdcceb28bcb165005a6fdea2410b632238563e827b75d21425ce86e05"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Meadow_-2_-2.asset",
+    "size": 115144,
+    "sha256": "da4097094111d5c7494d6b6f5f1ef9e16ac94da37aeae3d54642a4531cea6b27"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Meadow_-2_-3.asset",
+    "size": 115144,
+    "sha256": "6097ae4ab6742994b1643a0f5b0591dd0cc4d2fe15f986f0c41c51f0a2a704ce"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Meadow_-2_-4.asset",
+    "size": 115144,
+    "sha256": "b4a3d42f5d7db4c95cbaad59443669e541acae070c98d7e1581015a894a56fab"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Meadow_-2_0.asset",
+    "size": 115143,
+    "sha256": "00a33e510a9f9025c8900dbc49f4bb66f315291cf3c837b4eaa4fc37d1810179"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Meadow_-2_1.asset",
+    "size": 115143,
+    "sha256": "13acd35941824284667842e2f2f682d786d671f4f2cac4ab0c7e32a4da319c30"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Meadow_-2_2.asset",
+    "size": 115143,
+    "sha256": "9ac45f4845489091ad9fec7488d221f8da7ee1f45a758e26c6d267930245e0e7"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Meadow_-2_3.asset",
+    "size": 115143,
+    "sha256": "31a911070c0b8561b3a35f9db3b257e72bc0944daac014e6b2c32a923c9c743d"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Meadow_-3_-1.asset",
+    "size": 115144,
+    "sha256": "a6e52e8f9dd7c61e9888b194324fa572e80ef8cf3cf20488e19ab943c31aabef"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Meadow_-3_-2.asset",
+    "size": 115142,
+    "sha256": "3a5343f0429b8c4aa2d8594cbc5e9e9ec540e8ce21b7220d8c2bfb2cea19bece"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Meadow_-3_-3.asset",
+    "size": 115144,
+    "sha256": "e6e758f3448cb450cec4ff42fb50b90ae00fbef1c756400e6ad391bd7593d228"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Meadow_-3_-4.asset",
+    "size": 115144,
+    "sha256": "ed0d27500215f6237418ff9254c01b843145056f5a7e978e838a954fa29ffdcc"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Meadow_-3_0.asset",
+    "size": 115143,
+    "sha256": "d3c97b16a78a197a245dd6d5a4db58722da2459262f8c11fdc2dbf273eb422c9"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Meadow_-3_1.asset",
+    "size": 115143,
+    "sha256": "4c591ec7df0671c6e20ea7a7adb6b314e3ebd5b916fdc7f8c684e63841b04e38"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Meadow_-3_2.asset",
+    "size": 115143,
+    "sha256": "4a64cc99f5e7c9f3374783f08f4b556755c14ada424a6562a01711b3f5cf80d2"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Meadow_-3_3.asset",
+    "size": 115143,
+    "sha256": "562d42039024c3c5262333143b007e16b1bdc699403d43fc4aa914d8c61a1502"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Meadow_-4_-1.asset",
+    "size": 115144,
+    "sha256": "681113304d92ac531a4012812a21da34e7c427a5c2448716540bf8c298e7438e"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Meadow_-4_-2.asset",
+    "size": 115142,
+    "sha256": "b148cff5765f589c69ce04f9ba522921095a108509f3d74e47a1262b314112f0"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Meadow_-4_-3.asset",
+    "size": 115144,
+    "sha256": "c2aaa4a6e88988ae3ca740563443d91d2ba13db1ba7ca1de62b36a13c9b19f73"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Meadow_-4_-4.asset",
+    "size": 115142,
+    "sha256": "3839d97497ca13de65c9abd0d29f9b0e9be04aa557de20cfa0a00252f3903be6"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Meadow_-4_0.asset",
+    "size": 115143,
+    "sha256": "8976a8fe8b43371d77749e663373402620c256b4147a022e2a8cab2145a1f2c3"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Meadow_-4_1.asset",
+    "size": 115141,
+    "sha256": "b99e80d4ae5364d1aed2bfd337b750457ca3aadf08fd6d982844ab1b7ce94a35"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Meadow_-4_2.asset",
+    "size": 115143,
+    "sha256": "797820abb537782ba62e2222caffd630d4a7393c69335321806a4484064d647f"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Meadow_-4_3.asset",
+    "size": 115143,
+    "sha256": "dae8421ab319ca40de90ff346856af26a9cddddd285f4b7f3a12ad083b0b009d"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Meadow_0_-1.asset",
+    "size": 115143,
+    "sha256": "6215a31f38e9ba89116e524983e7f89f0260ea4dbf7a565f11f19147684bb76b"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Meadow_0_-2.asset",
+    "size": 115139,
+    "sha256": "1caf9f3fd5913d0bd382bf13c2d0dda68ceb672790c0f629cf57603d1cd0c85f"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Meadow_0_-3.asset",
+    "size": 115143,
+    "sha256": "3335ca2425d8954b893dd8f90b1c9522118243106306b2008203e3063bb7a441"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Meadow_0_-4.asset",
+    "size": 115143,
+    "sha256": "a4e5867035fce52bada289eb0d5b991b10d311397e1cc1af9fbf1b5ed25a7e3c"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Meadow_0_0.asset",
+    "size": 115146,
+    "sha256": "6a87c893e7806425425043d512851f04d1d5b55e4f3244cd9924f2bab40ebbac"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Meadow_0_1.asset",
+    "size": 115142,
+    "sha256": "0d4c15fc82458d0912c283cbdf82320524101ab17e4af26643091940e1feb391"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Meadow_0_2.asset",
+    "size": 115142,
+    "sha256": "f537a9840d7229a96737b6bc8227633b44ba7d7b48e2cc622c20771383671921"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Meadow_0_3.asset",
+    "size": 115142,
+    "sha256": "c4d278e00f513eca31b75a18c0bd5bd3ac2d267f72cd3e16677d002913ebe571"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Meadow_1_-1.asset",
+    "size": 115143,
+    "sha256": "542153f9e639ac775383a6fca7412b6ba8662e9396816e773ca1fa85bac31589"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Meadow_1_-2.asset",
+    "size": 115143,
+    "sha256": "85265c9bbfa0afedce71494e9e5855c2ca32b2c4d6a7cb1985125512e658287e"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Meadow_1_-3.asset",
+    "size": 115141,
+    "sha256": "aab7631e159199cc9e33263758ba16f30d50f60d6966c889313ee5eec900767b"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Meadow_1_-4.asset",
+    "size": 115143,
+    "sha256": "f597dc899bd7bd6230a794f82ce03e3fd508e7c53fa8ea61a75a801df91bfa65"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Meadow_1_0.asset",
+    "size": 115142,
+    "sha256": "732240a84eac8ee5e7abe9cd909902cec8dc61b8e83cfa5dcc068856a4f29568"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Meadow_1_1.asset",
+    "size": 115144,
+    "sha256": "001f9f93dce45c9d5941f6c3e809fc9d15e9d2a3da7a6ff69137e779d7be5986"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Meadow_1_2.asset",
+    "size": 115142,
+    "sha256": "821e8ffb3ec9bb5f0f3507c8dc0402433b4cd8025d89d7abcb27d7158679fb48"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Meadow_1_3.asset",
+    "size": 115142,
+    "sha256": "3d1146705bf446e3933aaa5c4b755c074fe0daca805ceb0ca5ccfe5a7bcfcf5e"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Meadow_2_-1.asset",
+    "size": 115143,
+    "sha256": "7ecaf1df83f7bcaf1b9c2e101478dd383b8de42654aa1ffb0b2ef17ba92c7ea6"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Meadow_2_-2.asset",
+    "size": 115143,
+    "sha256": "85a17596c39ed2b34e9937444cef17824c9b7b7f5a4d295de2e262bd05231a50"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Meadow_2_-3.asset",
+    "size": 115143,
+    "sha256": "4c482e003ed94f5474d32ea88a1ef23546d291e2c817348d01f4e43916f149ef"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Meadow_2_-4.asset",
+    "size": 115143,
+    "sha256": "8854074b8f34319134d2972e3d876f61c67e55690e9123a67eb0f4d7a6ac8bee"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Meadow_2_0.asset",
+    "size": 115142,
+    "sha256": "9fa47b5a20a2d9b5658b2be562691d44602b5a7811d40c81c0add6b1206ce202"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Meadow_2_1.asset",
+    "size": 115140,
+    "sha256": "5ec0d4ad12715ef3edff1f55cf9e0dee80387b98bde99b0ae65248a5d65f2d5e"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Meadow_2_2.asset",
+    "size": 115142,
+    "sha256": "a4d5260f358097ad8100eb2b5bc8d2166bc64527056e546adaa30080b1e2abf2"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Meadow_2_3.asset",
+    "size": 115142,
+    "sha256": "8a381833bc140773b46d513f412f17bf848b7030f004d4a94fb46013a0bb582e"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Meadow_3_-1.asset",
+    "size": 115141,
+    "sha256": "60d9b23c512454939d11748b73beff6e45f51961c178aedc2702b1612138ad55"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Meadow_3_-2.asset",
+    "size": 115143,
+    "sha256": "b45f131e32bc40653ff876895c37d8c77ce69d77982f3fa6827a33e34ff72427"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Meadow_3_-3.asset",
+    "size": 115143,
+    "sha256": "516af2710d4944531c9cd0a69f212b106f8eb0a71b21413f982f9b0940d5e71b"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Meadow_3_-4.asset",
+    "size": 115143,
+    "sha256": "6f32f75cf44b17f6e71e5fca355610ec0f9db484799e7d10c9693c38bf51b074"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Meadow_3_0.asset",
+    "size": 115138,
+    "sha256": "a522a774c9ae40e68de27b82812a11d463249dba0ce4743d6f450c7837a0e3fd"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Meadow_3_1.asset",
+    "size": 115140,
+    "sha256": "d66039604c51fb085b14a5ed5809d20a61c46a4e6a2ae06409552d72ba43ce40"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Meadow_3_2.asset",
+    "size": 115142,
+    "sha256": "660fe28839d7c937b9aef3bf04ee57251fbde992c4377beca323d16faf16a6c7"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Garden/Meadow_3_3.asset",
+    "size": 115138,
+    "sha256": "36e6c62835114553da74661c1e089e502aedd3a39d2e57f52c8c20941424c7f6"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Grass_-1_-1_0.asset",
+    "size": 5451030,
+    "sha256": "6c8def7d28653bff92c9dcc89fd3b587aad5c7157c09c0504bea2b591154c697"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Grass_-1_-1_1.asset",
+    "size": 1891355,
+    "sha256": "f45711d78aa8984187535fc3681dc9ec0fc84fcc2dc9e269a646022a2908da63"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Grass_-1_-1_2.asset",
+    "size": 440909,
+    "sha256": "60512788e4839db775fa7860c997aa3b862f842d0338edc4c7ee51550f886f03"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Grass_-1_-2_0.asset",
+    "size": 6378751,
+    "sha256": "c9711d870063e2cc5fadd18f3da1f8a4c4c47568457e43d9033d0a8b6a12ce3b"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Grass_-1_-2_1.asset",
+    "size": 2198070,
+    "sha256": "e39ed0a68c87b03881c8ca154257f72092fc87b608e74f1d7bce1591b72e56e4"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Grass_-1_-2_2.asset",
+    "size": 500308,
+    "sha256": "5389462bc71495672c48b8339928795d892faa0f78a93155566fa843fac99f85"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Grass_-1_0_0.asset",
+    "size": 5709152,
+    "sha256": "0613a9167742f653d1068bf5055dd3ad623db420b664573d11778370dbe1d04e"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Grass_-1_0_1.asset",
+    "size": 1955071,
+    "sha256": "659a86c92e26f4d99080eb1719cffd91b4b8376c4b0ad97a7a70330b804509c8"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Grass_-1_0_2.asset",
+    "size": 434427,
+    "sha256": "e927efa55cdd623b9e4c270a86f90e25c1534bbd140b4789672c732ecd0c0c8a"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Grass_-1_1_0.asset",
+    "size": 6349587,
+    "sha256": "05bd36b033dab6d6d518d1ab1990e93a34a10a3e484dfe516f6f47c979bcf11f"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Grass_-1_1_1.asset",
+    "size": 2178626,
+    "sha256": "66965932f133841d74f0365109b3c518e0e004be859a4781109e2831ad4b18b0"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Grass_-1_1_2.asset",
+    "size": 501386,
+    "sha256": "46935469d3fabf0eff82c5ec53bb89b103427fccaf27dd87918553cf9a12e13b"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Grass_-2_-1_0.asset",
+    "size": 6915512,
+    "sha256": "90bd16ebdb92e97ae91d80f3466a2f7f0dfe5a13a0486614f1933a5d67461759"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Grass_-2_-1_1.asset",
+    "size": 2379509,
+    "sha256": "c8a4db67dc7edb7096de638d724d254b4fd4fb28bb39659a1474f3025c24edcf"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Grass_-2_-1_2.asset",
+    "size": 543506,
+    "sha256": "2154324599a2d11d69ec3039cf7b905d9400ee98bb961717af447c57a7bf9a23"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Grass_-2_-2_0.asset",
+    "size": 6915509,
+    "sha256": "0281312a946c83b191cf8863d28b599c3dec24c11baa3eddb36803b0b2127f77"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Grass_-2_-2_1.asset",
+    "size": 2379508,
+    "sha256": "6357060718fb00de51b42d56efcf8038e29d3ab6320df424432e478c825d8b11"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Grass_-2_-2_2.asset",
+    "size": 543504,
+    "sha256": "7d3357f31630d4dd569cf6d7b256a0286aa4b4aaae44253f47a6d6568e4d1056"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Grass_-2_0_0.asset",
+    "size": 6915509,
+    "sha256": "8206d92fa8c20cefc507b86670d175ca7959e7419f6ed7de9bbf09c175387582"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Grass_-2_0_1.asset",
+    "size": 2379505,
+    "sha256": "fd660f22eec924b60fe06ebadd64950cda86f4d615955fa4dc5b3341df3b46d9"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Grass_-2_0_2.asset",
+    "size": 543501,
+    "sha256": "fd0492167129722bc5a0a94d75b7557e575b53af3a2f010a04ad0e8b32665b37"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Grass_-2_1_0.asset",
+    "size": 6915507,
+    "sha256": "14e92539708aa13fcdc60059609c3244bbf222bb8ef59ea0036232d097a75b06"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Grass_-2_1_1.asset",
+    "size": 2379505,
+    "sha256": "cd6a3521638ae93c3ac999bc0b3806a7702d63c7519f04f18992096514a30c3f"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Grass_-2_1_2.asset",
+    "size": 543502,
+    "sha256": "28ffa933dda5829ff9d4905bc2f3134ca7f01ab2c849764aeaf4c8a9a99a7589"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Grass_0_-1_0.asset",
+    "size": 5940272,
+    "sha256": "2b3177f286899f35621e8db6d842b320fdf614e992843aa2ef0f51e9daa674a3"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Grass_0_-1_1.asset",
+    "size": 2034991,
+    "sha256": "27e7cfe519222e9ea43c1ab2fc2e6d74ed81ca090badf8e518a1a25f625128b3"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Grass_0_-1_2.asset",
+    "size": 462509,
+    "sha256": "fe9570c6166343b19fa380f4ba4e31e7405cbb0009faee7445aba6be53a22551"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Grass_0_-2_0.asset",
+    "size": 6738387,
+    "sha256": "e33b3c10b21f5a4fc1a1a584b0ed49af4192ea3b715e76e5e5b80849f2dfae80"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Grass_0_-2_1.asset",
+    "size": 2326587,
+    "sha256": "697d6ca650964cb33fb837c654e3cd37dc466fd9d12005d701aeeaa86a4539d3"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Grass_0_-2_2.asset",
+    "size": 530544,
+    "sha256": "b14a1b2470153a67c90ec54a60f79a06137aef77444678a2ccfc792bfa467615"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Grass_0_0_0.asset",
+    "size": 5044950,
+    "sha256": "eb02d38f19a9cef32a5127a9a37280b758ae784259214e66bf80a388c2eed188"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Grass_0_0_1.asset",
+    "size": 1731501,
+    "sha256": "325f4c1336c59f5e2d5666a2699d54987503e2f144eecc579997306bd3fefdce"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Grass_0_0_2.asset",
+    "size": 405267,
+    "sha256": "a2b759ce347ae35eafb40ac14f58e6a2c185d5e615f3ff2c5422e005c8dcc66b"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Grass_0_1_0.asset",
+    "size": 6697346,
+    "sha256": "62087be588a80dbc0e99f5db75141b84171ec72e334c8603bca818780fd705c3"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Grass_0_1_1.asset",
+    "size": 2300668,
+    "sha256": "383e9dcb4cb0ac7f67d3fc08e7481286f5d3f33a85874776824373f9a6a7e4df"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Grass_0_1_2.asset",
+    "size": 528382,
+    "sha256": "0e32cbcc754e1c438ee393acc3674db9dd62ec72a69c8cde2584e165fcbd015a"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Grass_1_-1_0.asset",
+    "size": 6915506,
+    "sha256": "ea36f632288cce00ef98fceeff758d1ff2ba2142350fa2d59d4b451d0a7d02be"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Grass_1_-1_1.asset",
+    "size": 2379508,
+    "sha256": "1b371ca4a2d1b0368377c1701509d5f11c185607889346de2f8b595481412e4b"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Grass_1_-1_2.asset",
+    "size": 543499,
+    "sha256": "50da9d6eabf3b93858a5cbbaf8d7a73713c62faf7ddf778d1356df0a8141d4b5"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Grass_1_-2_0.asset",
+    "size": 6915509,
+    "sha256": "b54b2e55afcd0aecbc74b3e8ec45ae3d4d37dcd3f5f081d6b94d4934833262e1"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Grass_1_-2_1.asset",
+    "size": 2379509,
+    "sha256": "0b2ee3ed8cc8ad57af522b0b2c56ccc34314b921cc4613c4c85cb1155c77ace4"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Grass_1_-2_2.asset",
+    "size": 543499,
+    "sha256": "13c208291fe2c82153b551db9adddae73999d3025844902d4c0688591706ddcd"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Grass_1_0_0.asset",
+    "size": 6915504,
+    "sha256": "70ecd4a62b2707dc0ce22ab704701e58338ada2095fe00ff0961308b87409a68"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Grass_1_0_1.asset",
+    "size": 2379502,
+    "sha256": "19fc0bbec1cad1922fb31959cdfe1b7249d2cb9e55ae8941a462f27c9a849603"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Grass_1_0_2.asset",
+    "size": 543500,
+    "sha256": "ad0a7a7388a5743ce895ebf353fa11ada41b7384c8f2a1561617c4fb568f8403"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Grass_1_1_0.asset",
+    "size": 6915507,
+    "sha256": "de708d7934c3eb16cd30f2ec800022e5c27668bf55edba55e19b2a8098f4fad6"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Grass_1_1_1.asset",
+    "size": 2379505,
+    "sha256": "b1e7a618ecd71ddaac51d20d2d97d73f470e6f0656718e04ea2fce2df6936eae"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Grass_1_1_2.asset",
+    "size": 543496,
+    "sha256": "da2048c2934899a64bf9803ba8bcccb626a08368965824f3a39faed242300ced"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Meadow_-1_-1.asset",
+    "size": 115148,
+    "sha256": "ffe0c354282f620b07426d7ff1758b8de6324f380c708503a9ae90dbfa2a293d"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Meadow_-1_-2.asset",
+    "size": 115144,
+    "sha256": "57759a86eea849a762bf158260a7536c34859fd07916e944963237f9f354d0b4"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Meadow_-1_-3.asset",
+    "size": 115140,
+    "sha256": "ee5318580e448611fb0e9c0294cd09f26666d1a5e7ff9fd19681031817ae10ca"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Meadow_-1_-4.asset",
+    "size": 115144,
+    "sha256": "6f2c9fd24bf3aba8f203ce7f72c199eb3f8eb2e4a48f401157261ad6ef8f2f87"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Meadow_-1_0.asset",
+    "size": 115151,
+    "sha256": "3f711a1a2f753948caa20b051365b304f6052cd1d2bf4d161fb1ddf63207f7b4"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Meadow_-1_1.asset",
+    "size": 115143,
+    "sha256": "56f1d358f7367936f3e4e664015c81adb413c08035c490ea12f170fbd7a4f2a0"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Meadow_-1_2.asset",
+    "size": 115143,
+    "sha256": "49a9d732d3efe64ceadaa5fda5812a89ae751baabff9a1c5f5d2f7bb92d95f8f"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Meadow_-1_3.asset",
+    "size": 115143,
+    "sha256": "4d68d4ccdc3daa3a7c1da0f02e31fb4fe14f35b83605390b9f7d9ddb588c2d8c"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Meadow_-2_-1.asset",
+    "size": 115138,
+    "sha256": "9177184b499b1cfeb22608b08a0a6f05bc3f4f6e9483478a2fb7c8dfe9bf2a33"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Meadow_-2_-2.asset",
+    "size": 115144,
+    "sha256": "8d4221a685116a29d76f39074d87018117e7be7d4dae3fce0a07009b00ba1b90"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Meadow_-2_-3.asset",
+    "size": 115144,
+    "sha256": "6097ae4ab6742994b1643a0f5b0591dd0cc4d2fe15f986f0c41c51f0a2a704ce"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Meadow_-2_-4.asset",
+    "size": 115144,
+    "sha256": "b4a3d42f5d7db4c95cbaad59443669e541acae070c98d7e1581015a894a56fab"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Meadow_-2_0.asset",
+    "size": 115143,
+    "sha256": "c47f41c1ca8efb1a45d2968327f978a774097e7cb4106ef181450e3acd039171"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Meadow_-2_1.asset",
+    "size": 115143,
+    "sha256": "a3a92339267a6cf5ea9d6bb369cc4039e6e68e4c8695381d5d35804f0f644b04"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Meadow_-2_2.asset",
+    "size": 115143,
+    "sha256": "9ac45f4845489091ad9fec7488d221f8da7ee1f45a758e26c6d267930245e0e7"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Meadow_-2_3.asset",
+    "size": 115143,
+    "sha256": "31a911070c0b8561b3a35f9db3b257e72bc0944daac014e6b2c32a923c9c743d"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Meadow_-3_-1.asset",
+    "size": 115144,
+    "sha256": "a6e52e8f9dd7c61e9888b194324fa572e80ef8cf3cf20488e19ab943c31aabef"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Meadow_-3_-2.asset",
+    "size": 115142,
+    "sha256": "3a5343f0429b8c4aa2d8594cbc5e9e9ec540e8ce21b7220d8c2bfb2cea19bece"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Meadow_-3_-3.asset",
+    "size": 115144,
+    "sha256": "e6e758f3448cb450cec4ff42fb50b90ae00fbef1c756400e6ad391bd7593d228"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Meadow_-3_-4.asset",
+    "size": 115144,
+    "sha256": "ed0d27500215f6237418ff9254c01b843145056f5a7e978e838a954fa29ffdcc"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Meadow_-3_0.asset",
+    "size": 115143,
+    "sha256": "d3c97b16a78a197a245dd6d5a4db58722da2459262f8c11fdc2dbf273eb422c9"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Meadow_-3_1.asset",
+    "size": 115143,
+    "sha256": "4c591ec7df0671c6e20ea7a7adb6b314e3ebd5b916fdc7f8c684e63841b04e38"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Meadow_-3_2.asset",
+    "size": 115143,
+    "sha256": "4a64cc99f5e7c9f3374783f08f4b556755c14ada424a6562a01711b3f5cf80d2"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Meadow_-3_3.asset",
+    "size": 115143,
+    "sha256": "562d42039024c3c5262333143b007e16b1bdc699403d43fc4aa914d8c61a1502"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Meadow_-4_-1.asset",
+    "size": 115144,
+    "sha256": "681113304d92ac531a4012812a21da34e7c427a5c2448716540bf8c298e7438e"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Meadow_-4_-2.asset",
+    "size": 115142,
+    "sha256": "b148cff5765f589c69ce04f9ba522921095a108509f3d74e47a1262b314112f0"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Meadow_-4_-3.asset",
+    "size": 115144,
+    "sha256": "c2aaa4a6e88988ae3ca740563443d91d2ba13db1ba7ca1de62b36a13c9b19f73"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Meadow_-4_-4.asset",
+    "size": 115142,
+    "sha256": "3839d97497ca13de65c9abd0d29f9b0e9be04aa557de20cfa0a00252f3903be6"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Meadow_-4_0.asset",
+    "size": 115143,
+    "sha256": "8976a8fe8b43371d77749e663373402620c256b4147a022e2a8cab2145a1f2c3"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Meadow_-4_1.asset",
+    "size": 115141,
+    "sha256": "b99e80d4ae5364d1aed2bfd337b750457ca3aadf08fd6d982844ab1b7ce94a35"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Meadow_-4_2.asset",
+    "size": 115143,
+    "sha256": "797820abb537782ba62e2222caffd630d4a7393c69335321806a4484064d647f"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Meadow_-4_3.asset",
+    "size": 115143,
+    "sha256": "dae8421ab319ca40de90ff346856af26a9cddddd285f4b7f3a12ad083b0b009d"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Meadow_0_-1.asset",
+    "size": 115143,
+    "sha256": "53c0088dc1d320d66c3f8755fbe0f369b755d6dbacf74033c2f9eee20fa366b2"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Meadow_0_-2.asset",
+    "size": 115139,
+    "sha256": "2ce9b149271d6e05e3f7df01c66cdd7992d3071ae6abc4818814173dfa8dc632"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Meadow_0_-3.asset",
+    "size": 115143,
+    "sha256": "e48f10750ee0a35b7ef1563be419401a9e4776f982a39c4371167849ce3e55ef"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Meadow_0_-4.asset",
+    "size": 115143,
+    "sha256": "0a436abfcc83f33d629fea9c9753717f200436d6984e33d8d1f6e2266a999af8"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Meadow_0_0.asset",
+    "size": 115146,
+    "sha256": "8fcb7a4d13230a12d685a30f0ea841856795c1196b110c592c895f969f950fff"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Meadow_0_1.asset",
+    "size": 115142,
+    "sha256": "8020d09a21afab9d08df5380090546adb6276d3a4edaa13dcdafa036b49780ad"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Meadow_0_2.asset",
+    "size": 115142,
+    "sha256": "ba3f5ff6a8259ed1b27d1fc067586986ceda603a6cc933e7d9a21cfaeaa88225"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Meadow_0_3.asset",
+    "size": 115142,
+    "sha256": "6f649a91c29f4d21df026ead47aec990435e1f71c27fa07e60d7784427bd89fe"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Meadow_1_-1.asset",
+    "size": 115143,
+    "sha256": "124d427f12d4c8fe3ce43d8bde2804c0f4a12b498dbf5feb7f4b971f3fb4b933"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Meadow_1_-2.asset",
+    "size": 115143,
+    "sha256": "8b7c76819d1003f04dac39173bcb0d3aaa5fb2099478c0342e46700937b76ef6"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Meadow_1_-3.asset",
+    "size": 115141,
+    "sha256": "aab7631e159199cc9e33263758ba16f30d50f60d6966c889313ee5eec900767b"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Meadow_1_-4.asset",
+    "size": 115143,
+    "sha256": "f597dc899bd7bd6230a794f82ce03e3fd508e7c53fa8ea61a75a801df91bfa65"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Meadow_1_0.asset",
+    "size": 115142,
+    "sha256": "803168c52a51357b426c29068a29c66c84ae2b770188e5f45945eeecc8085770"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Meadow_1_1.asset",
+    "size": 115144,
+    "sha256": "d7e2682723670999ad124816987246fc7469e5ed29bbea737e10e3b3f59ced0f"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Meadow_1_2.asset",
+    "size": 115142,
+    "sha256": "821e8ffb3ec9bb5f0f3507c8dc0402433b4cd8025d89d7abcb27d7158679fb48"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Meadow_1_3.asset",
+    "size": 115142,
+    "sha256": "3d1146705bf446e3933aaa5c4b755c074fe0daca805ceb0ca5ccfe5a7bcfcf5e"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Meadow_2_-1.asset",
+    "size": 115143,
+    "sha256": "7ecaf1df83f7bcaf1b9c2e101478dd383b8de42654aa1ffb0b2ef17ba92c7ea6"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Meadow_2_-2.asset",
+    "size": 115143,
+    "sha256": "85a17596c39ed2b34e9937444cef17824c9b7b7f5a4d295de2e262bd05231a50"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Meadow_2_-3.asset",
+    "size": 115143,
+    "sha256": "4c482e003ed94f5474d32ea88a1ef23546d291e2c817348d01f4e43916f149ef"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Meadow_2_-4.asset",
+    "size": 115143,
+    "sha256": "8854074b8f34319134d2972e3d876f61c67e55690e9123a67eb0f4d7a6ac8bee"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Meadow_2_0.asset",
+    "size": 115142,
+    "sha256": "9fa47b5a20a2d9b5658b2be562691d44602b5a7811d40c81c0add6b1206ce202"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Meadow_2_1.asset",
+    "size": 115140,
+    "sha256": "5ec0d4ad12715ef3edff1f55cf9e0dee80387b98bde99b0ae65248a5d65f2d5e"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Meadow_2_2.asset",
+    "size": 115142,
+    "sha256": "a4d5260f358097ad8100eb2b5bc8d2166bc64527056e546adaa30080b1e2abf2"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Meadow_2_3.asset",
+    "size": 115142,
+    "sha256": "8a381833bc140773b46d513f412f17bf848b7030f004d4a94fb46013a0bb582e"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Meadow_3_-1.asset",
+    "size": 115141,
+    "sha256": "60d9b23c512454939d11748b73beff6e45f51961c178aedc2702b1612138ad55"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Meadow_3_-2.asset",
+    "size": 115143,
+    "sha256": "b45f131e32bc40653ff876895c37d8c77ce69d77982f3fa6827a33e34ff72427"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Meadow_3_-3.asset",
+    "size": 115143,
+    "sha256": "516af2710d4944531c9cd0a69f212b106f8eb0a71b21413f982f9b0940d5e71b"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Meadow_3_-4.asset",
+    "size": 115143,
+    "sha256": "6f32f75cf44b17f6e71e5fca355610ec0f9db484799e7d10c9693c38bf51b074"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Meadow_3_0.asset",
+    "size": 115138,
+    "sha256": "a522a774c9ae40e68de27b82812a11d463249dba0ce4743d6f450c7837a0e3fd"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Meadow_3_1.asset",
+    "size": 115140,
+    "sha256": "d66039604c51fb085b14a5ed5809d20a61c46a4e6a2ae06409552d72ba43ce40"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Meadow_3_2.asset",
+    "size": 115142,
+    "sha256": "660fe28839d7c937b9aef3bf04ee57251fbde992c4377beca323d16faf16a6c7"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Meshes/Meadow/Meadow_3_3.asset",
+    "size": 115138,
+    "sha256": "36e6c62835114553da74661c1e089e502aedd3a39d2e57f52c8c20941424c7f6"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Models/barrel_LOD0.fbx",
+    "size": 171100,
+    "sha256": "c26a5a38a0b0769a43bfc997ae32c17bc4bfe934f5a7a0096ca4f5eacc9fea82"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Models/barrel_LOD1.fbx",
+    "size": 87676,
+    "sha256": "9956d880a9177fbf586b917011fa189e173003df4f7373a4e7ddeac72cd2eb09"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Models/barrel_LOD2.fbx",
+    "size": 45276,
+    "sha256": "a28cfb38cc67c57bf70a09cad21620e564043391f05e140477d3ce90eced2eab"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Models/bench_LOD0.fbx",
+    "size": 72700,
+    "sha256": "907639eceedb28d5847e379f523a30351cd2ef9fe3bd2212b93487b15b6e8f1b"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Models/bench_LOD1.fbx",
+    "size": 47548,
+    "sha256": "ade6de96388d929b8beffd3439edea71b575b916902af66f5e92fad15b1cc38e"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Models/bench_LOD2.fbx",
+    "size": 29964,
+    "sha256": "590942483e24fafd9a1a95477c9daceed662c090da06e08c3fa2bf7747f644f3"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Models/crate_LOD0.fbx",
+    "size": 96332,
+    "sha256": "01b8a9cb05a6a65826bc155517ee8a55a0765fc725639cae261d58ad9d3f84a9"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Models/crate_LOD1.fbx",
+    "size": 68060,
+    "sha256": "57254f4a519d47d3b5bbb638f58bfceb9b0173ec79be64e900143d3527d00245"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Models/crate_LOD2.fbx",
+    "size": 36972,
+    "sha256": "a18ad8ea449499387c95e2e2bde77b98cb1d8e25969175eef467c87f2e220540"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Models/fence_LOD0.fbx",
+    "size": 45900,
+    "sha256": "3dc35da22c03b0b447052b204f080b9ba2ecb2884fd27e4ac981d6638f5e6409"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Models/fence_LOD1.fbx",
+    "size": 34764,
+    "sha256": "9b6bd76b17420609c554734fcfa7cd2ffa85d9463b3ed44e6200dcad5efe4035"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Models/fence_LOD2.fbx",
+    "size": 24636,
+    "sha256": "efeb03ff32f5858918fe47aa226d922c6932b3bfa3d63f83ffd1b4fbc7a58b58"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Models/house_LOD0.fbx",
+    "size": 5303756,
+    "sha256": "c922af1c03699736a3db1d493cc62133b3518c30c7b134c5b2dbf6f381990732"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Models/house_LOD1.fbx",
+    "size": 2369964,
+    "sha256": "a7b22ebba4d1f2e5eb79736f00811894754e213c18916986f1f38cc71562ad66"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Models/house_LOD2.fbx",
+    "size": 1038076,
+    "sha256": "de84cea02515505f637b5142e2040b1f17cedd467b0e9f00bb8a6ce03ce57f3e"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Models/oak_LOD0.fbx",
+    "size": 519148,
+    "sha256": "be124c284e03d2ebb50f81968c18dcb7d5a81c4ba2dc96d019849ca310d8fb6e"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Models/oak_LOD1.fbx",
+    "size": 313116,
+    "sha256": "e55b2d7cef7b0c18bcbf97b74ef562b0f5fa32c3d82cfc7cfbeb2f70c5d0d5f0"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Models/oak_LOD2.fbx",
+    "size": 171180,
+    "sha256": "0e78cc7462270bfd19f21a08f7ada02114e2f2f131da1c5a1f425fec55c49b2a"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Models/SM_ArcherTower_A.fbx",
+    "size": 1017564,
+    "sha256": "b091994a5bfef4193930389b3c61821861b42aaae0fad42bbaab01b4eece7499"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Models/SM_FlowerCluster_A.fbx",
+    "size": 33708,
+    "sha256": "8fe476683f0814ccad36f3aa875c1cab8e76da794c6d97154a0dd3e5e15d7cba"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Models/SM_FlowerCluster_B.fbx",
+    "size": 50124,
+    "sha256": "a9906f3409902b9db5b7b6c30dbeed76d01b8e8f4e406ddabcbb2c72988b15dc"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Models/SM_LeafCluster_Small_A.fbx",
+    "size": 25212,
+    "sha256": "04d7396a63354014df410723846e538c4dc91d37730e68efcebbb783e7550666"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Models/SM_Stone_Medium_A.fbx",
+    "size": 25228,
+    "sha256": "2bb19b8828b0f86ad510bbc0274e65cc94e157fe42738a95b0c39c9cac59359d"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Models/SM_Stone_Small_A.fbx",
+    "size": 25276,
+    "sha256": "dd336276f4ad738fb6220c1536faefdb91d000cb86f6d43a84ebb133b1e41b04"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Models/SM_Wall_Banner_Bracket_A.fbx",
+    "size": 46956,
+    "sha256": "f4ab0a9ff8216b647c493eeaad61fd5062d34e992552138ae538cad30932bdbd"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Models/SM_Wall_Banner_Cloth_A.fbx",
+    "size": 46748,
+    "sha256": "54c4046cd075cfb74d0bdf36ed410afd235260ae8dbc5fd2b31c760916885d41"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Models/SM_Wall_Banner_Trim_A.fbx",
+    "size": 43564,
+    "sha256": "8beab2b3adf9477bcbee1a04ec7e3f215f03203999545d41ac610aa3f36ad765"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Models/SM_Wall_Gatehouse_A.fbx",
+    "size": 409996,
+    "sha256": "59c14318c45ab9f4c5ed027a48bff0a0b5f3bc58669d7306e724b543832f0922"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Models/SM_Wall_GateLeaf_Left_A.fbx",
+    "size": 109036,
+    "sha256": "b941c33381cf7849dc3d20e366a4cbee68beb59c2cc9062c57e035d0bf8114fb"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Models/SM_Wall_GateLeaf_Right_A.fbx",
+    "size": 109484,
+    "sha256": "a0f1310868bfbd59396ee1994fc682eefc51847ddccc23ab841588be0f0a9695"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Models/SM_Wall_Stone_1m_A.fbx",
+    "size": 429948,
+    "sha256": "37568d446b1745825efa9542a8da04da5cc4236f5ed81bf74830dd78479a518b"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Models/SM_Wall_Stone_2m_A.fbx",
+    "size": 534300,
+    "sha256": "fe5c9280e27bca0c4fa5be4b857a797fdbcc96e38a050b2052715d4f0d1deafc"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Models/SM_Wall_Stone_End_A.fbx",
+    "size": 294684,
+    "sha256": "5674642efd358f30a2366b5a5bccff54cfa3cb9708130b642f738c9794c11017"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Models/SM_Wall_Stone_Pillar_A.fbx",
+    "size": 348140,
+    "sha256": "dd55140b4e3c8adfcda4005bf406caa2412afd030029149055d135aef292f937"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Models/well_LOD0.fbx",
+    "size": 537532,
+    "sha256": "e869314e9a0b885ab569cd6ccc2884c723b0cef5da5d9c105fb229db3493b06b"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Models/well_LOD1.fbx",
+    "size": 290348,
+    "sha256": "169dfa454ce87498240ca3e1e5be103cd17a161ca2bb041170c6de93ae517de3"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Models/well_LOD2.fbx",
+    "size": 126364,
+    "sha256": "dc77d2dc10960e7516a1f5cae8e12168de76c3e396220604368ea59aa339288a"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Prefabs/barrel.prefab",
+    "size": 13640,
+    "sha256": "52a2345a4185fa6a59751b2c625d0be14a1121f0f3dfc332e78ba43f917f7a18"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Prefabs/bench.prefab",
+    "size": 13633,
+    "sha256": "e3d834b8f88a4876202e7c60f85e1ea54b2e641a4063147aa445b427746a4028"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Prefabs/crate.prefab",
+    "size": 13636,
+    "sha256": "ede097396878dba686d087d924e11bbe12edb3e6d93823c2938d51be25445b12"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Prefabs/fence.prefab",
+    "size": 13649,
+    "sha256": "5fb86c86c4d165bbce3adb050ab2f51803d0a984a48e338118cc67d049136de5"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Prefabs/house.prefab",
+    "size": 13640,
+    "sha256": "6b6380ecb4865b0ea89de15ababf2ecf2637c9c5fcc8047901ad3a4c80cfc42c"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Prefabs/oak.prefab",
+    "size": 16778,
+    "sha256": "7270b255bb458f14b38aedc5d50364f0c41fcf326b81e63c5b04f44a56e03aa3"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Prefabs/SM_ArcherTower_A.prefab",
+    "size": 14875,
+    "sha256": "7d144ba245946862869de05b76760e68b7c889baa6217487fc631faf77f0cb7c"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Prefabs/SM_FlowerCluster_A.prefab",
+    "size": 5726,
+    "sha256": "5793d581fefb2b7e61c04494a2771e0706ed1d9e222296c7b485aefaa702d818"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Prefabs/SM_FlowerCluster_B.prefab",
+    "size": 5731,
+    "sha256": "1d721810c0b57c41f7c4711f6d3873b00155692cfecd443b604cf7339c7761cf"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Prefabs/SM_LeafCluster_Small_A.prefab",
+    "size": 5742,
+    "sha256": "07635daa37bf8185899a66307132d78c51c6f2a123ed46cf2d8d0b97a8c37d49"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Prefabs/SM_Stone_Medium_A.prefab",
+    "size": 5748,
+    "sha256": "ef913b901ecc8c4274bac516f5d9791c4566df0f6d2aaf16c544dbfce84513e9"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Prefabs/SM_Stone_Small_A.prefab",
+    "size": 5753,
+    "sha256": "496fa9114bedf2b778caf6f20256b74e45b81571c85fffcadaac4205c0ca68d8"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Prefabs/SM_Wall_Stone_2m_A.prefab",
+    "size": 8327,
+    "sha256": "60a0a9fa3373440adb6b46867bed3858e70259e490a80c07c623be7a9f20a3f5"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Prefabs/SM_Wall_Stone_Pillar_A.prefab",
+    "size": 8336,
+    "sha256": "5ec8dae84b4eb6bf1b4cfde9082957a4d309a05a206bfd1a429f0ee37f6d004b"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Prefabs/well.prefab",
+    "size": 13643,
+    "sha256": "47454c3caabdd1d9482a198cf861f46b70904eba775bc5bac4b009bd8079a11a"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/garden-plants-source.json",
+    "size": 5216,
+    "sha256": "4b1e04e50d5b53661b0f0839ed66f7a3730200c0f10258c233aa8a0d1f795142"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/house-source.json",
+    "size": 531,
+    "sha256": "456010246b1d42733cd048b687c13c7d2fd5205930e7c7ff7e647b9af2621025"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Materials/barrel.mat",
+    "size": 1995,
+    "sha256": "76cf5e4ebf4e6695139fd1222a1d5c55913c477f2cbace9e782b4a7694aae179"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Materials/barrel_Far.mat",
+    "size": 1188,
+    "sha256": "148a215bc742733fb104bc54ae5183354eb6d71754e82796bbb14fe44c238fef"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Materials/bench.mat",
+    "size": 1994,
+    "sha256": "31ebd3d048bb6bc830fdf5c3256d29d5635c5d688c2249f475c61d5779bcf5f9"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Materials/bench_Far.mat",
+    "size": 1187,
+    "sha256": "7043d14e61bf74ab4ac1579d16222ee6022103f6e8780203acf1d689b028d9f7"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Materials/crate.mat",
+    "size": 1994,
+    "sha256": "debfbea33cd5106b815593d5b5a6987316c751ba296b7579ad832ae83ec5f22d"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Materials/crate_Far.mat",
+    "size": 1187,
+    "sha256": "06dc10e80a8184d3273dde86d1fb1ca3e2f01ac7f28fa025e5f43122008423a4"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Materials/fence.mat",
+    "size": 1994,
+    "sha256": "7b724a29e7c0bdff0f1df931f2e9290d07672eefaa32120b7643e4475eae6420"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Materials/fence_Far.mat",
+    "size": 1187,
+    "sha256": "5f4f08d291b08fcd6abe17e8674b276511da15abc266e7e03e67b01756e83d91"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Materials/GardenPlants.mat",
+    "size": 2054,
+    "sha256": "2707c633a03c855736a7757319f6626fcd5e8337e497a897409440650b7dd10f"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Materials/GardenPlants_Far.mat",
+    "size": 1197,
+    "sha256": "af44e39b88887a7217c85d94501450660c752667b87bb388db9fa996c820343f"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Materials/GardenShrub.mat",
+    "size": 2072,
+    "sha256": "302c62b7d3b88dbf7c66b5f888e5da765f5b7af91fbf788e675562550b542615"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Materials/GardenShrub_Far.mat",
+    "size": 1218,
+    "sha256": "0eb27e5debdb0310b4bd266bc0dab92dfa9567f984937f2b10b21ebe1314250c"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Materials/house.mat",
+    "size": 1994,
+    "sha256": "fef42929041356cf60dcff7644ae0fd34c0dc06f67bea862a25a269396d52d4a"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Materials/house_Far.mat",
+    "size": 1187,
+    "sha256": "0e729860d3f053c6be632d59a72b0fcd2e5ed102621fec8ff32fceabf5846d07"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Materials/Meadow.mat",
+    "size": 2890,
+    "sha256": "2903acb7e7177cfefb5d1916cd42646328570802cd09a7c51c69823cd44439a1"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Materials/MeadowGrass.mat",
+    "size": 1724,
+    "sha256": "c0f1c354cf4f3e2d587fe37e15d220e4701e81b18383036fe69619334e781ca7"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Materials/M_BannerBracket_Shared.mat",
+    "size": 1964,
+    "sha256": "1d8ab9d162b5d2241a70f5534d474ba434ace622eb389a0d19ed989cc54f11e4"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Materials/M_BannerBracket_Shared_Far.mat",
+    "size": 1157,
+    "sha256": "8b62a010df75a88d7dc8c9a30f1d8704b2b63197201c9a1efdd3fba05414403c"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Materials/M_FortificationRoof_Shared.mat",
+    "size": 2041,
+    "sha256": "eeb2bcb32197d4f9e590e079bd8e4e773d6f92a2baceac3c295d6ff541e2391b"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Materials/M_FortificationRoof_Shared_Far.mat",
+    "size": 1234,
+    "sha256": "5ec866f54c28e54689fab778b128778f061c9c972d8e3db958cff5ef7079e1d6"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Materials/M_FortificationTimber_Shared.mat",
+    "size": 2017,
+    "sha256": "fc650983af7faa7357568c8951b4ff84e3060f9d827a19261064591dcd7034d6"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Materials/M_FortificationTimber_Shared_Far.mat",
+    "size": 1210,
+    "sha256": "f19a237b6e3181084ac7122cbb063f6f732a8dee0f0e7052ca8d421a0b2a0022"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Materials/M_Wall_Stone_Shared.mat",
+    "size": 2008,
+    "sha256": "c971ca06ce8a114356b0308da8b09e75f0b72cc8dcadee92ac6a7aed618237aa"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Materials/M_Wall_Stone_Shared_Far.mat",
+    "size": 1201,
+    "sha256": "9cc05c0ac5b6e6342e77903fbb83d957c3c485a93e6f913366df0a51f9aaf96b"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Materials/oak.mat",
+    "size": 1992,
+    "sha256": "015c9ac68788c3dd75ec44443acdbf336d49da922221e0861da7f0be045c8366"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Materials/oak_Far.mat",
+    "size": 1185,
+    "sha256": "1d851044c5807dcfd448ec7633b9fa2aeb473d242c3b62dc003167dea3c913b9"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Materials/oak_Leaves.mat",
+    "size": 2100,
+    "sha256": "4deee1cb53bba05b0ef2168e8bbb083f83c2ff4f1aa168ff5608975a27d2924d"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Materials/oak_Leaves_Far.mat",
+    "size": 1244,
+    "sha256": "d998bbcfcf1bb13f254619b3a63f2b9982dbc15c598ca0acd2031666c3f468eb"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Materials/SM_FlowerCluster_A.mat",
+    "size": 2007,
+    "sha256": "3760e8f0de5bb2117dbd9f45ae7f4106b2b6de0c88c5f3adfa42da2bfd900a83"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Materials/SM_FlowerCluster_B.mat",
+    "size": 2007,
+    "sha256": "74bbe6ee6f7b4ca32d2a127161b8714883c65c1294b3c6899414b8bc79d7ce14"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Materials/SM_LeafCluster_Small_A_Leaves.mat",
+    "size": 2082,
+    "sha256": "8d1246995cb21f81db13f097c0ea04433fcc3782281a795c2615697355139d12"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Materials/SM_Stone_Medium_A.mat",
+    "size": 2006,
+    "sha256": "b316fde705e29fe12021aa18776c928246b1e658cea40c085f51324ffbc1e8e8"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Materials/SM_Stone_Small_A.mat",
+    "size": 2005,
+    "sha256": "ba3a034f585c5cc7104f6b4bfb31a2a0df73ef116a3247f19867f6bf39c2d107"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Materials/SoftScene.mat",
+    "size": 859,
+    "sha256": "fcdaa971da22f32c73bf0a5ce9603bc70f9a574c2d8fcedb25243212bdcf3979"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Materials/well.mat",
+    "size": 1993,
+    "sha256": "655b7cc625859baa5b90fa551bc765b9fc8daa60d14621c637683147d6062208"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Materials/well_Far.mat",
+    "size": 1186,
+    "sha256": "8e2fc8eb9a1ca46103ade2d21065f7d284a96fc5a596ed8cf0da2c8454ff0c0a"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Models/GardenDaisies_A_LOD0.fbx",
+    "size": 39036,
+    "sha256": "874f64dfde644ef379f2a33d2dbb0a50d2be2c502d76bcccb4befc0cf1887ba1"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Models/GardenDaisies_A_LOD1.fbx",
+    "size": 31980,
+    "sha256": "012145b4b0c28d1abbfae7300638033fd65e181d5b08f8c3c6a4358f0bbe67b4"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Models/GardenDaisies_A_LOD2.fbx",
+    "size": 28076,
+    "sha256": "374ac6ae11a7b933e2ad2779b15ab9c54b11fdef5c6a30cbdc46937b4034960f"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Models/GardenLupins_A_LOD0.fbx",
+    "size": 58364,
+    "sha256": "57c45e926c876efe7381f00915456a8f875ec1b1d1f05b5af3a6926e019428f3"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Models/GardenLupins_A_LOD1.fbx",
+    "size": 38076,
+    "sha256": "fc2b9517fabb0e0b9f37ab173d33486ea6c0d6793582f4a506164fead6523f5d"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Models/GardenLupins_A_LOD2.fbx",
+    "size": 26988,
+    "sha256": "9bd99722cc47e50e4aaaa6ef26a709ab94420c49c10f5cb629393e3b84c5f254"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Models/GardenShrub_A_LOD0.fbx",
+    "size": 47500,
+    "sha256": "327681486f6613bfc52e8bd4a4c2b39190c5ae51f1c32c82c4ef6067efcf3371"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Models/GardenShrub_A_LOD1.fbx",
+    "size": 33324,
+    "sha256": "e524fb15380cd9d37d4ad2915542b305253e0d35a323e13eeaf230716d287bb5"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Models/GardenShrub_A_LOD2.fbx",
+    "size": 26316,
+    "sha256": "5d3e9e6ebe816bb6ddd042c16010264b3c4520de07a2e0ee5d5eb2cb75a7eb57"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Models/house_LOD0.fbx",
+    "size": 5303756,
+    "sha256": "429e4efc093c2428929751fee3eb84de080f2cb2f6ae5769e595bc2c927ccac5"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Models/house_LOD1.fbx",
+    "size": 2369964,
+    "sha256": "844663261869c7ec488a088b9fa81514f121f59b1effb288e0eaa945cd5597e4"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Models/house_LOD2.fbx",
+    "size": 1038076,
+    "sha256": "3f4638a58d47e50363fef67a4a508c7bf5d029960b39d89fa8af80ec34074529"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Prefabs/barrel.prefab",
+    "size": 13642,
+    "sha256": "05fc9c156abdd04826dd143485abd051389cc5772cf68920b1ca8160c9936410"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Prefabs/bench.prefab",
+    "size": 13634,
+    "sha256": "66e53ca5c3f18219e376e7fa50ec29e96072dd78c75c020a93ef20133e3a8f76"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Prefabs/crate.prefab",
+    "size": 13646,
+    "sha256": "cc1b5a7550ff0a2f511d70b56ff16d69f8672b889d76befce43708e66224ff00"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Prefabs/fence.prefab",
+    "size": 13649,
+    "sha256": "6c702a132b6e17a49385a45579297b6cddadd3450f4b8b95a70877951fe8cbe5"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Prefabs/GardenDaisies_A.prefab",
+    "size": 13070,
+    "sha256": "0238ac91e2023d7bc9c25d5198df3f9e999fd00780024f2281222af29d9b5ca6"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Prefabs/GardenLupins_A.prefab",
+    "size": 13072,
+    "sha256": "d8b369f9d2423c3f202500e1e38f27f12aefa1a4ae747202020096870a7f09b5"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Prefabs/GardenShrub_A.prefab",
+    "size": 13040,
+    "sha256": "63927a171f9c73957a2994f4237085270953c147d536f1b938e9dd8bcd21a817"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Prefabs/house.prefab",
+    "size": 13642,
+    "sha256": "40cde4d365de781143e44097e06a76807b9b4e917754aa3081fafd6ece679414"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Prefabs/oak.prefab",
+    "size": 16788,
+    "sha256": "8dedc4b6c98af7375218a1c4d3958ee9c37c474bd82bae94e6abae19d35bdcd2"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Prefabs/SM_ArcherTower_A.prefab",
+    "size": 14879,
+    "sha256": "a08fc6b0b6f103cae67a37eb7fa6b6e376a65f3adf6d8f13f9df58cf44490dac"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Prefabs/SM_FlowerCluster_A.prefab",
+    "size": 5730,
+    "sha256": "4bb5379c8085f2ac9715298bdd1a046b9034af3c8a8c79fa634a1f1146a98ff8"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Prefabs/SM_FlowerCluster_B.prefab",
+    "size": 5727,
+    "sha256": "d133f309a20edec00c6ddfc0c9e097fd924302d3c8b653c977890b1abf64011c"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Prefabs/SM_LeafCluster_Small_A.prefab",
+    "size": 5736,
+    "sha256": "cb915333c486c7f1006dee5a87a659138c32ad337909a5bad941c83f807e099b"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Prefabs/SM_Stone_Medium_A.prefab",
+    "size": 5748,
+    "sha256": "009066152ea2145a4d531c1f689c4aaafd2406b8cdd5a5dbcdb298b109e3bfc8"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Prefabs/SM_Stone_Small_A.prefab",
+    "size": 5755,
+    "sha256": "065afcd03eed0fe2ec3206cbacc9fe8b3ca1077caa350aca809292ad69d4026c"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Prefabs/SM_Wall_Gatehouse_A.prefab",
+    "size": 9996,
+    "sha256": "aa4bbd71bc261f9684c8cb77348fdb6b285b22f1a016d40b12d0dc2d10c40633"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Prefabs/SM_Wall_GateLeaf_Left_A.prefab",
+    "size": 11605,
+    "sha256": "87058c712301fba3ce178c8d768f0a9bc82f4af95938084a9b01a25d1b9fb811"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Prefabs/SM_Wall_GateLeaf_Right_A.prefab",
+    "size": 11592,
+    "sha256": "32015d061aaa1076dd3b16ae633e2bbc8e284c11b3b464ee1c7110be266a0562"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Prefabs/SM_Wall_Stone_2m_A.prefab",
+    "size": 8335,
+    "sha256": "3027ac0129a98b0e8e0fc1feead0db2b8e1347292ca77993e049de1366c98c5c"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Prefabs/SM_Wall_Stone_Pillar_A.prefab",
+    "size": 8338,
+    "sha256": "170792d4f4be47ec892d70252a797470ad08d64c0a0317f407b98141ba99441e"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Prefabs/well.prefab",
+    "size": 13638,
+    "sha256": "a38b5827d66d884b7c5291b41d9dde8305c79ffe0e839414585fe2aa9d3a3c30"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Textures/DirtPath_A_AO.png",
+    "size": 1135296,
+    "sha256": "5392116c6894ff3fce25881d8aca78e6c9fc11d361783258c5cb49592f77e629"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Textures/DirtPath_A_Height.png",
+    "size": 1114199,
+    "sha256": "f4e79184ed56449b0ab4a089490cccb4c79837850ec5d03d7bb2903a2e3ee592"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Textures/DirtPath_A_Normal.png",
+    "size": 3771487,
+    "sha256": "a11782765012782ee25d5fcc23871f357cf1600cb49750364035828fb9322520"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Textures/GardenPalette.png",
+    "size": 458,
+    "sha256": "dbfb75e5390058e2d8226630a3ad2eb0dac892edd1b6ff12441ac61ebe48603d"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Textures/Grass_Base_A_AO.png",
+    "size": 750088,
+    "sha256": "d141b0d959d12f9e579e2e7528bd5b16c3a566a7cccf39997af27341a89364fa"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Textures/Grass_Base_A_Height.png",
+    "size": 729977,
+    "sha256": "1ac3ac0689d59f1ce2383f46aa530d8d45404ef407759aa67cc2179edef1a8ef"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Textures/Grass_Base_A_Normal.png",
+    "size": 2276608,
+    "sha256": "583166ef4ab81fa814b89eef4e460aa6caa4d08062eda11c8d365ce8140a1e17"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Textures/Grass_MeadowSoft_BaseColor.png",
+    "size": 3039650,
+    "sha256": "e6aefb5e0253b9ddc0c48b83a26b8c1113ad859eff69c651d65f71f4b2122b6c"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Textures/house_BaseColor.png",
+    "size": 10096561,
+    "sha256": "706058f8cd6c2ab02e721011049d85528ac84911bea07bdb637f103b1d1f6f3e"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Textures/barrel_BaseColor.png",
+    "size": 1015737,
+    "sha256": "aa21a147108c498d204341269b43a4571956ad1434f6101f7c3a7f1d0c3937a3"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Textures/bench_BaseColor.png",
+    "size": 1311330,
+    "sha256": "39521c55090b8b0078564d31200664343c4cbeeab7641247e3625ff8cae902b2"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Textures/crate_BaseColor.png",
+    "size": 1481545,
+    "sha256": "24e4327d6081064bbdd84cd70b6fc90db9db56064f1fb463b5a824e1bab57a69"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Textures/DirtGround_A_BaseColor.png",
+    "size": 2948475,
+    "sha256": "b15309028955216c0a7ae7e5805d87f4b7e4cf0514365f136a450e63182f2971"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Textures/DirtPath_A_BaseColor.png",
+    "size": 3290806,
+    "sha256": "19fda5d6e578d522eec73c5eb2b624e630189a0cfa6b656de3d90115200eba93"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Textures/DoorWood_A_BaseColor.png",
+    "size": 3146694,
+    "sha256": "7446b60538b2f178c3e6381f6569c9408c6b38a0eb048a0b8ac5bf1d0fb215ff"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Textures/fence_BaseColor.png",
+    "size": 1206729,
+    "sha256": "29fb0f43caba6ff55bb2fe31b989b8e4ffb50041067927f3a8008b3c1201491c"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Textures/Grass_Base_A_BaseColor.png",
+    "size": 1895393,
+    "sha256": "881c92e2d59749b8abef1aaad2fcef1ecab100ea365672bafada42e548fe86bc"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Textures/house_BaseColor.png",
+    "size": 5916871,
+    "sha256": "baa3d168629e33181be2e3b4dd90fe14fc111cf5b9fc225e38da872f7b61df2d"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Textures/material-bindings.json",
+    "size": 1418,
+    "sha256": "27c99971370afbd88b43cef9f77169d68ec0b14b9e18c772c00d06ae9820c06c"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Textures/oak_BaseColor.png",
+    "size": 3446048,
+    "sha256": "e788dada610351e46b1f97dba32321bb92e044042a4c9c84b8dae0bf85423744"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Textures/RoofTile_BaseColor.png",
+    "size": 3282491,
+    "sha256": "c53f52aa744443c6830f0505d1d640f5796456d1f29594192bd291e0aaaed0bd"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Textures/T_Foliage_BaseColor.png",
+    "size": 1867186,
+    "sha256": "204b80e1779330ae290a94d3a8c9e50923aa84683238fcff28848a8faf9ebfb9"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Textures/T_Oak_Kit_Palette.png",
+    "size": 435,
+    "sha256": "323e3e1435741a35e7957e16134f969b214e3b89b747000bde9ebb050e873e2e"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Textures/T_WallStoneSurface_A_BaseColor.png",
+    "size": 2999973,
+    "sha256": "651415fd08c0f96a875e8cd616d1cf43bf5a0765c2cd20e0be057d33aa95c60b"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Textures/well_BaseColor.png",
+    "size": 1440135,
+    "sha256": "626e1d3f0dbbec1e5ab201438ddd4e189837ce20304780d312d6c9594a8fecd2"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Textures/Water/Water_BaseColor_A.png",
+    "size": 222516,
+    "sha256": "214b88742cb9174d5b1b1ea5bd8c3f843b73e44209215e978c2af4b739bae892"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Textures/Water/Water_MasksPacked_A.png",
+    "size": 1628699,
+    "sha256": "7f93fbe0a47bb3c930269f76da47058d4ef708d29f71d7e06a4bf206b2cdf3b0"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Textures/Water/Water_NormalDetail_A.png",
+    "size": 1550802,
+    "sha256": "a70e1064f6d0c81649ab31418069185b1e07a5c1d2997a75d1c5ccb50341d2ab"
+  },
+  {
+    "path": "Assets/_Game/Art/Imported/TerrainStarter_v001/Textures/Water/Water_Normal_A.png",
+    "size": 194377,
+    "sha256": "b659780d50d327f03f053989839c6e89f0abe0b4fd2792f982ecaf0a8ef7f4c5"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Quaternius_MeadowLibrary.asset",
+    "size": 26644,
+    "sha256": "6dac660622a580ec8a5a736ee53f86309af45a568bf650bdca641d1f5f5818cd"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Materials/Q_Bark_DeadTree.mat",
+    "size": 2057,
+    "sha256": "6ac9bb5139a60e50ca8f31382ecfee008566c7c9bb9eb746b497a5904cb65dc8"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Materials/Q_Bark_NormalTree.mat",
+    "size": 2059,
+    "sha256": "9af4ec72dc9bb594110b95aa1df899041a7484b8e996daaebb8db3881cf4e0bb"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Materials/Q_Bark_TwistedTree.mat",
+    "size": 2060,
+    "sha256": "2e6d423522912476e457d5eeee24d8b5b05a2169727d89b1a364c0f9450429b4"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Materials/Q_Flowers.mat",
+    "size": 2039,
+    "sha256": "a1dc3ff0fe90a626a772ca450a8b477a3bd5a341c12817cbe73c7f074c688237"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Materials/Q_Grass.mat",
+    "size": 2037,
+    "sha256": "a461c425d4d0605cea5fc52a06d33652708f7714760c9bc3547707b9dec17328"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Materials/Q_Leaves.mat",
+    "size": 2038,
+    "sha256": "d579f1fbcdaf32d25cb84cfe73c45e260172af9a4d38c109430b241361d0e85f"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Materials/Q_Leaves_NormalTree.mat",
+    "size": 2049,
+    "sha256": "2a12d3f88e5e4806727761da9d8c6815d77c52e371403ae7f49076aa4c9a5665"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Materials/Q_Leaves_NormalTree_Autumn.mat",
+    "size": 2065,
+    "sha256": "c4fdc0e96c200cc180dc19fe569afb20616959b98cd254c5d216994ca290fe24"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Materials/Q_Leaves_Pine.mat",
+    "size": 2043,
+    "sha256": "408ae57bdd9dbd2accdac2a7e98b780961de466e98b3ccddcce98a62d7cce3d8"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Materials/Q_Leaves_TwistedTree.mat",
+    "size": 2050,
+    "sha256": "df87dfc615c0155a586203ff7c358b85c82a1fcb56175c5d5adcc13061ad3731"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Materials/Q_Mushrooms.mat",
+    "size": 2041,
+    "sha256": "0632f7ca6997f7847302fc07b8971eb4c643786778306bf9bb723b5692605858"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Materials/Q_PathRocks.mat",
+    "size": 1998,
+    "sha256": "3419963b1659bb07a7e9455d5768a22c0d5b840fefcdf01add93383d18c1e770"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Materials/Q_Rocks.mat",
+    "size": 1994,
+    "sha256": "00db9b4e96ce3496b927e6c01bb7e8501fc4c496fa7d960f9c46c80597d8c1c9"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Meshes/Bush_Common.asset",
+    "size": 187058,
+    "sha256": "0907a21e06051eb24a6d0bd62ce6048340491e5abfaba8e301c1bc690c33780b"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Meshes/Bush_Common_Flowers.asset",
+    "size": 293311,
+    "sha256": "0237d8e16c9955c23df25383d63f73388881da3a468c1649d53a934a7290e76b"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Meshes/Clover_1.asset",
+    "size": 37087,
+    "sha256": "ea55a4cf301659342e1f92c3c150df3b88f6a33e51618ee0026c4a526f6c2ff3"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Meshes/Clover_2.asset",
+    "size": 58161,
+    "sha256": "e4021ec01864064c751853fb5059ab961810cfbf24a6188ffca2c1697da75ff2"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Meshes/CommonTree_1.asset",
+    "size": 980801,
+    "sha256": "3b3a5c1913a523f6f775d9cd5a1de84a7d70b553b96917e3b1e9b2837ca341ba"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Meshes/CommonTree_2.asset",
+    "size": 860667,
+    "sha256": "7b5e2e1b5cd9a39593e60c65c32a24896ec600e3522ff1209cccb4d7781edc31"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Meshes/CommonTree_3.asset",
+    "size": 602438,
+    "sha256": "17a7093547844005878a8e4aa1d835542ad115cac2139e306ffc2a7a318fd81a"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Meshes/CommonTree_4.asset",
+    "size": 594037,
+    "sha256": "c0ccb1ccf41bf5182d85236ae34abc1fb9177907ec3325947f83b4c330ce9bf0"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Meshes/CommonTree_5.asset",
+    "size": 506912,
+    "sha256": "bf88b1d118f5514530e4c7e598eb751daf8d7b5992563860b1a4d321a1da86dd"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Meshes/DeadTree_1.asset",
+    "size": 879109,
+    "sha256": "9a12e5a825f8e4114150fc4fd5501675a8e1a1b0fbbc82a5fb28492adbdb2ad9"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Meshes/DeadTree_2.asset",
+    "size": 931341,
+    "sha256": "7cc47f40adc3d6e83e4391a1db961f464263ee0b942b34c83c5cb227fd262bed"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Meshes/DeadTree_3.asset",
+    "size": 705747,
+    "sha256": "7ab079188acbaba36c0ff215478a35b8a7e8c46992266d6bf69c9fbefb77318e"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Meshes/DeadTree_4.asset",
+    "size": 694463,
+    "sha256": "745dd45d0067bd7b6518d8bac29ebf1174911a20cf63dcff8af35f1e8e96fbb4"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Meshes/DeadTree_5.asset",
+    "size": 699771,
+    "sha256": "33303f902ea3667e05746c7a04aa29b5824536a325e0bbe817500e7e4a4cfdce"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Meshes/Fern_1.asset",
+    "size": 31918,
+    "sha256": "559d2040b0329a86c2bfaba533326d320d14d64d8a939d30ba770e0b7a5d1ba5"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Meshes/Flower_3_Group.asset",
+    "size": 74153,
+    "sha256": "331c5262320183a453d976db7338e6e063bfa7a46b3a992906b5c5733b568b14"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Meshes/Flower_3_Single.asset",
+    "size": 30982,
+    "sha256": "bc61a033680b268f026e774a5b4619f99ca71f4597416ae7bdc16ef6e8285cc6"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Meshes/Flower_4_Group.asset",
+    "size": 153224,
+    "sha256": "deacddf6cd92fdeb31474592ee1d1b1d376ab6cec0a536b46c4a8f83f2526a60"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Meshes/Flower_4_Single.asset",
+    "size": 60963,
+    "sha256": "58e256f99cd9a1346592697a0e176f3c315ec95ed2838f84a3cb12142933e3fc"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Meshes/Grass_Common_Short.asset",
+    "size": 20079,
+    "sha256": "c374e1946e7b8b8352e6d2a5f61bc3022f3a88909c8320bb109913d8b6a8f68f"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Meshes/Grass_Common_Tall.asset",
+    "size": 36495,
+    "sha256": "489f0619505e30405d7e75553778b1bdb99c125f3040da3f7bdb06e43f225ccc"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Meshes/Grass_Wispy_Short.asset",
+    "size": 67250,
+    "sha256": "22d461b272f67db04c00eed32660455a3ee42b960e42b822b3bdc758ac16e868"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Meshes/Grass_Wispy_Tall.asset",
+    "size": 83245,
+    "sha256": "02289c90e09caabd45ad8d5d34f2c885e7bc7a0d270968cfc3f15e0af34261a0"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Meshes/Mushroom_Common.asset",
+    "size": 67336,
+    "sha256": "fb2624f022b26c780476dcc3d81fa28f6f36c229d5c98dfe8ad9e66ce3541760"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Meshes/Pebble_Round_1.asset",
+    "size": 16321,
+    "sha256": "ee853229f420bd0d36a406cc54052210f53de25f3a6d21e3c9671a5bfebbfcbc"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Meshes/Pebble_Round_2.asset",
+    "size": 15191,
+    "sha256": "ab36337defbabd12678f267e8451490f88313b93e2aa58db5d347168d5ea19b7"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Meshes/Pebble_Round_3.asset",
+    "size": 15391,
+    "sha256": "fd82b316fb96b2b684413a225c7def3ec905a43b526dbbaf1e17fa517134c333"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Meshes/Pebble_Round_4.asset",
+    "size": 17639,
+    "sha256": "be891965b115df90c88421986c536a82a6965bf2b8f1004b7c9ee71abcfede9e"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Meshes/Pebble_Round_5.asset",
+    "size": 18993,
+    "sha256": "17a5c39242947a2ab727eaebc677dafde229ee705a0eb9fb2d302acfb049daf2"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Meshes/Pebble_Square_1.asset",
+    "size": 20868,
+    "sha256": "e0f32adba48e61e36c4d1246c8794fed7aa2420a00972f6b9aad37ddf63d5e0e"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Meshes/Pebble_Square_2.asset",
+    "size": 17738,
+    "sha256": "0d18d93c39631be4e16c8dc711a445dc481176df652557c18139f6196968a10f"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Meshes/Pebble_Square_3.asset",
+    "size": 13618,
+    "sha256": "723fe2f1f05c7c456f0aa090a203c6149433bc3945ba39ece39b7673c8907a32"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Meshes/Pebble_Square_4.asset",
+    "size": 12512,
+    "sha256": "6cd8c8ddc6f93753ee49c854286a08aeb35fd1a259d35951533fc8d1e074633a"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Meshes/Pebble_Square_5.asset",
+    "size": 16642,
+    "sha256": "9b004a880e47782eed3bb3fc5f250676de2f7aca0c07c30cd3bc44dd939b8a71"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Meshes/Pebble_Square_6.asset",
+    "size": 15886,
+    "sha256": "5095d13f1aa7eac516ec42e57bc8714e1cbae070ed3d262436a7941b2d9fbbc8"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Meshes/Pine_1.asset",
+    "size": 522263,
+    "sha256": "27a833a0bea7b170ee70d1d6623f7b04cb5906188098ce280292d37091bd5a18"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Meshes/Pine_2.asset",
+    "size": 483402,
+    "sha256": "1919d7dfc385f7c988f57392953efba387db8b48bd671ba6699bef5915c1ff63"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Meshes/Pine_3.asset",
+    "size": 593539,
+    "sha256": "1adf322f55a832aca0e5bf4136723e5dc725f1cf4150d869c83d32a75959801c"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Meshes/Pine_4.asset",
+    "size": 453878,
+    "sha256": "fc55bba69c6070f0e1c12f006151995cb416fc6dcd365425e0c845341a72981c"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Meshes/Pine_5.asset",
+    "size": 213556,
+    "sha256": "ae5398cf5cf356650a8be037192c38b44bbd4839de6f0e2cec2b1d406ea63235"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Meshes/Plant_1.asset",
+    "size": 17042,
+    "sha256": "cda15e659ee1fbc0bab3255772c99205e2fa30cd669cfcea4966f4188e8ea506"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Meshes/Plant_1_Big.asset",
+    "size": 44096,
+    "sha256": "7738e3c9acf7adc93a6fcf863325059734f63dbf73a0091f3bc1c80a140674ab"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Meshes/Plant_7.asset",
+    "size": 9268,
+    "sha256": "e78b60b174b7ea208c1e24439c7ae8a66be332ddafab8397462d2d52118bb478"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Meshes/Plant_7_Big.asset",
+    "size": 16924,
+    "sha256": "19733bf520434e09ce45e2e7b01e3ab3bc7b2385272deb91f703f37c3b03c1be"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Meshes/Rock_Medium_1.asset",
+    "size": 41280,
+    "sha256": "80abdf0a91bfd334b71a734fec249208a0abba3db1e26aa81e75c3eaeab71237"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Meshes/Rock_Medium_2.asset",
+    "size": 30337,
+    "sha256": "2486bc1e4cd4b375b1325085fb88d7c54f11f3084777a33cf06fbc949e4579fb"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Meshes/Rock_Medium_3.asset",
+    "size": 60784,
+    "sha256": "7722b177cd460c7773dc31150f5f9122f9c373045166852f8e68f77e721840fd"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Meshes/TwistedTree_1.asset",
+    "size": 1466860,
+    "sha256": "ff9e78e887d21346ff3fa67fa760617a345129dbbb07f43e5bf2205838b49820"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Meshes/TwistedTree_2.asset",
+    "size": 1355909,
+    "sha256": "36646cd861575e16c75fffb23030b1a2e76355daa6ac0161cfac1e63e9ed9376"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Meshes/TwistedTree_3.asset",
+    "size": 1563110,
+    "sha256": "48101d1e1333177b3c143751271d5816cccb5fc05fb450aa19854dd0dd333c38"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Meshes/TwistedTree_4.asset",
+    "size": 1520445,
+    "sha256": "553dc8cee06012baa19ef98526a36fad808a699b2febf4171e462dd9916a53b7"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Meshes/TwistedTree_5.asset",
+    "size": 1617085,
+    "sha256": "a32d5a15e191cf0e931b9d48564181ee3be4b109aa38484f5bd95d3443718d1e"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Prefabs/CommonTree_1.prefab",
+    "size": 2711,
+    "sha256": "8a4b06ec4e1139e0a1d03eb569f541ead01a82ff55a874046a6d8b003eb82e04"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Prefabs/CommonTree_1_Autumn.prefab",
+    "size": 2714,
+    "sha256": "f0acb3cc8ce1b14b194d23742f8a8718c64aa778b2c91e547171782c51e118cd"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Prefabs/CommonTree_2.prefab",
+    "size": 2711,
+    "sha256": "abdde8a1766c66c1a31f1b24b1c6b30d48ceac91ef9f80ffd46503bf99c125a1"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Prefabs/CommonTree_2_Autumn.prefab",
+    "size": 2716,
+    "sha256": "40906a7251d8e2240b91157de26fdbf6e61a902230281ad5a2d873eb56f2edcd"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Prefabs/CommonTree_3.prefab",
+    "size": 2707,
+    "sha256": "10725c2cfcf8350bcb11a68f8f3fc2c833da71d71cac42a50becf61b549ee2b0"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Prefabs/CommonTree_3_Autumn.prefab",
+    "size": 2718,
+    "sha256": "0c3f3f7948535e3903a390fe59531bec5c021d77839a68526c28df34f36e009b"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Prefabs/CommonTree_4.prefab",
+    "size": 2711,
+    "sha256": "d4d514263bcbf816de6747860454874217775f0f100b5f8ce75f786ab3316b1c"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Prefabs/CommonTree_4_Autumn.prefab",
+    "size": 2708,
+    "sha256": "7c7162927182447a3279c1720613042155a2347dbc722e64134692c16389106d"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Prefabs/CommonTree_5.prefab",
+    "size": 2709,
+    "sha256": "50918d639c22625a5671e6c4464a3102e1f687e3341e36a5665220aecdc682f0"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Prefabs/CommonTree_5_Autumn.prefab",
+    "size": 2718,
+    "sha256": "77d80eedee668f738dc3aa67d29aff86976c9892cab37c65cb7968f2f73c9afc"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Prefabs/DeadTree_1.prefab",
+    "size": 2638,
+    "sha256": "0e78a7ab0af9922bfee9f6aef0c785b4d98200df57bcc23eb1a4e85306c1145c"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Prefabs/DeadTree_2.prefab",
+    "size": 2638,
+    "sha256": "0f1e0eaa6e1501e12e7f8c3ffa2069a100b68a828789b0dc062b4517d8d306ae"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Prefabs/DeadTree_3.prefab",
+    "size": 2636,
+    "sha256": "3532eda35d2f28f2719270c84fe83f1e60ffc51a274781068e80fa2cdec542ba"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Prefabs/DeadTree_4.prefab",
+    "size": 2638,
+    "sha256": "f42ca1ebb2cb0293665565aa6a0cce0cde7e055327506f9cb9359f20d8f27a14"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Prefabs/DeadTree_5.prefab",
+    "size": 2634,
+    "sha256": "89db2fae648fc2e73daa14c510123aaa25f8358c884dcbce24ff7fec3aa48f50"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Prefabs/Pine_1.prefab",
+    "size": 2703,
+    "sha256": "c28f3b44a1ed4119a15d2ea721065cfbdb655a2a3f0c392dec01978eef89d1ed"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Prefabs/Pine_2.prefab",
+    "size": 2703,
+    "sha256": "739943130994ae3a6c52e77af982131d6e6bf77bfbf06d9e26ba49d9c894fbdf"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Prefabs/Pine_3.prefab",
+    "size": 2703,
+    "sha256": "843bd8d12b2446717713efd9ea17c5e846fbfae72749bd380e3089278df6ac24"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Prefabs/Pine_4.prefab",
+    "size": 2703,
+    "sha256": "d1aad125b9160a917ad66331ed65103c51920d4b50e004be5ccd73f5f2db8d4c"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Prefabs/Pine_5.prefab",
+    "size": 2705,
+    "sha256": "9c6e67c621277adf7511a1f7f2de130e18e5fede1e55143a25429c6ede5da352"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Prefabs/TwistedTree_1.prefab",
+    "size": 2712,
+    "sha256": "642b05befaa147cd46580c1ba9a28f52b6a6451b716d8466a304a345a6d87ca9"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Prefabs/TwistedTree_2.prefab",
+    "size": 2712,
+    "sha256": "00e80809403cf43cebea797092044635281c9ebbb8d3cab43404534b491e7e6f"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Prefabs/TwistedTree_3.prefab",
+    "size": 2712,
+    "sha256": "9764c306bea1d3dc91a6fea47317cde7c087ea5858c04280b4fa0d3ec1be8d3d"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Prefabs/TwistedTree_4.prefab",
+    "size": 2708,
+    "sha256": "75119275a0488f719075c660db3b60d4cf010fc19c130de882ceff18988fc673"
+  },
+  {
+    "path": "Assets/_Game/Art/QuaterniusMeadow/Prefabs/TwistedTree_5.prefab",
+    "size": 2712,
+    "sha256": "598b525efc43e99d334a6c29c26bcc48d1bcf5e39e0b0c5a038c9ad5289dbddb"
+  },
+  {
+    "path": "Assets/_Game/Art/RiverCliffs/double.c/BaseColor.png",
+    "size": 26425062,
+    "sha256": "5ca9d46c131deabc305a79bb637be9fea94a0a9e4a57a10cec4a3e05d1f61039"
+  },
+  {
+    "path": "Assets/_Game/Art/RiverCliffs/double.c/LOD0.fbx",
+    "size": 226316,
+    "sha256": "41ebe13f8db697cf2a280e5576a4d847b386024cbe8db608567cb00944720490"
+  },
+  {
+    "path": "Assets/_Game/Art/RiverCliffs/double.c/LOD1.fbx",
+    "size": 124284,
+    "sha256": "76f5d5e2a56c0d81ba8a983ea433f870b5ddc81b59beb6634244d868cb865497"
+  },
+  {
+    "path": "Assets/_Game/Art/RiverCliffs/double.c/LOD2.fbx",
+    "size": 57788,
+    "sha256": "381ff5d47181e07315e37cf31bdac262b9702eb19357a3a322a24df4cfefab59"
+  },
+  {
+    "path": "Assets/_Game/Art/RiverCliffs/double.c/Normal.png",
+    "size": 5015966,
+    "sha256": "93b5097b49d1f81c05a065d61f123e9a9e758025bd6451edbe41bf5a0b5bdea4"
+  },
+  {
+    "path": "Assets/_Game/Art/RiverCliffs/double.c/RiverCliff.prefab",
+    "size": 9897,
+    "sha256": "fd41a1f4245b93c92631dc3e9f35cbb4987dfe86c2d848535152ff4979b57c15"
+  },
+  {
+    "path": "Assets/_Game/Art/RiverCliffs/double.c/StaticCliff.mat",
+    "size": 2056,
+    "sha256": "a95ff9b9ccc9c0abd6b058f0af3a0251133ef21044a5fec98e4ba44adf14bb3e"
+  },
+  {
+    "path": "Assets/_Game/Art/RiverCliffs/long.a/BaseColor.png",
+    "size": 16767221,
+    "sha256": "31a3d0420cb152593fcf0449c91e62d1cccc79910f6e8457a65184028a5d7fbb"
+  },
+  {
+    "path": "Assets/_Game/Art/RiverCliffs/long.a/LOD0.fbx",
+    "size": 167628,
+    "sha256": "b0350bbb461a175f9e6fe5ce46720dfa76b089bbc7e6a1e9a2f2ed18de51535d"
+  },
+  {
+    "path": "Assets/_Game/Art/RiverCliffs/long.a/LOD1.fbx",
+    "size": 92220,
+    "sha256": "8b5821de27cb822fd71d397da67a7701e7481655e51613059f70f80bcede4131"
+  },
+  {
+    "path": "Assets/_Game/Art/RiverCliffs/long.a/LOD2.fbx",
+    "size": 75148,
+    "sha256": "6e541ba38e24d6fe3a5b7c923b0e1a5c2631edd1b833b041c0ace7eb41a522b0"
+  },
+  {
+    "path": "Assets/_Game/Art/RiverCliffs/long.a/Normal.png",
+    "size": 1109390,
+    "sha256": "1aacd28f8ab7d1a7f0e87810c4339fb1349ee2f8a5b12ab9e6f1f5b48e9b471d"
+  },
+  {
+    "path": "Assets/_Game/Art/RiverCliffs/long.a/RiverCliff.prefab",
+    "size": 9905,
+    "sha256": "eb46c3166959673bfef4e628ee2cff7bd46da8eb95c0dd73dad736c82857b542"
+  },
+  {
+    "path": "Assets/_Game/Art/RiverCliffs/long.a/StaticCliff.mat",
+    "size": 2056,
+    "sha256": "eb115cb7e692ef07492b148d97b6b76d61dfaa4e86c8bdf4a383f2d6cd4854bc"
+  },
+  {
+    "path": "Assets/_Game/Art/RiverCliffs/narrow.b/BaseColor.png",
+    "size": 24092932,
+    "sha256": "f841eaa8ab69fce2afdf5f765631612fda4334f536d3b0433e572eca74466388"
+  },
+  {
+    "path": "Assets/_Game/Art/RiverCliffs/narrow.b/LOD0.fbx",
+    "size": 180460,
+    "sha256": "1b70ac48d68389ce104a825821ffaa991eb256b2375e1b036477dd54b663aba2"
+  },
+  {
+    "path": "Assets/_Game/Art/RiverCliffs/narrow.b/LOD1.fbx",
+    "size": 101196,
+    "sha256": "33eadbe41c05df7f1e31c1b9944f8695ced85b54c05a9a94f5b74654132c1ab9"
+  },
+  {
+    "path": "Assets/_Game/Art/RiverCliffs/narrow.b/LOD2.fbx",
+    "size": 50620,
+    "sha256": "05fe3633d22eab0faf2a843355eef4a32d5dc6f90b2c3109172fea4ac6e8392c"
+  },
+  {
+    "path": "Assets/_Game/Art/RiverCliffs/narrow.b/Normal.png",
+    "size": 5434671,
+    "sha256": "92c60fe71fb727134c3b2bb5960447ff2479e139020a64d14af733e3bb01d3e5"
+  },
+  {
+    "path": "Assets/_Game/Art/RiverCliffs/narrow.b/RiverCliff.prefab",
+    "size": 9914,
+    "sha256": "3024b16e22de7a46d3e10ef622f3796f6dea65e78bacf69fcf7906406d66987a"
+  },
+  {
+    "path": "Assets/_Game/Art/RiverCliffs/narrow.b/StaticCliff.mat",
+    "size": 2056,
+    "sha256": "ec7a540d6b639f382bce0e85f862f323cddae9a0516ef1057bd2d7041361846f"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/InnerverseStarter_20261023/Study_Ground.asset",
+    "size": 849111,
+    "sha256": "df915b2ab94752566a4104c6464d89360ea88e5d7ae16499fc2fbc4ccbc75206"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/InnerverseStarter_20261023/Study_UNS_Bush_Leaves.mat",
+    "size": 2075,
+    "sha256": "70916dc8f16e993ebe9c5f9469b908188712111791f566afb28cd679c0467b53"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/InnerverseStarter_20261023/Study_UNS_Color_Palette.mat",
+    "size": 2010,
+    "sha256": "7e03782de44aed14833b7b1caae25f091665cb298aa8d7f43bd0805591c3df71"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/InnerverseStarter_20261023/Study_UNS_Flower.mat",
+    "size": 2070,
+    "sha256": "32ae1533b8e7451dc7242cb8ae6fc70cc21db87aa7d20f492fccd3955d8cfd4d"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/InnerverseStarter_20261023/Study_UNS_Flower_Leaf.mat",
+    "size": 2075,
+    "sha256": "4a6391a82bbda995080d34997003a57ffb4cf45210b40a039de6a8491c867481"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/InnerverseStarter_20261023/Study_UNS_Grass.mat",
+    "size": 1783,
+    "sha256": "48cd12a69c10f2b67895ae9b2aa11ec72800bd534fd01e07898f167f74853840"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/InnerverseStarter_20261023/Study_UNS_MeshTerrain.mat",
+    "size": 2780,
+    "sha256": "5f37b28374e478c5af94a876cfdb5e92c9a8c6612ee00fbe40c7989cec361f8c"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/InnerverseStarter_20261023/Study_UNS_Spruce_Tree_Branch.mat",
+    "size": 2082,
+    "sha256": "14aae2ebb874a628ada6241f5cf4ca3600d3029f947853021b90c3fed3d56e47"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/Meadow_20261025/Interaction_Proxy.mat",
+    "size": 1958,
+    "sha256": "bc19d5330e64ac41d05e73c03ea2fda213abffd68ef1b6834c65f34caa3eb841"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/Meadow_20261025/Meadow_AuthoredMask.asset",
+    "size": 1049617,
+    "sha256": "b053af9e8da1e970efa3fc298a2d872a8d9ba815d963d94f6088c0a5786bb579"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/Meadow_20261025/Meadow_AuthoredSurface.asset",
+    "size": 3729,
+    "sha256": "7da204ce9b04c74a1409d16883c731f0e6b6645872c2479cddd915e4c8e5ca9f"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/Meadow_20261025/Meadow_Blades.mat",
+    "size": 2336,
+    "sha256": "090178925ed66f7cbd61596f7adcacb2688d54f4d1707a2031ac9636594f8ed6"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/Meadow_20261025/Meadow_Blades_LOD0.asset",
+    "size": 28290,
+    "sha256": "5158756b83e59fbd3ce09e784432588f4246a9ea1f2c9219c646f074cdd66c25"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/Meadow_20261025/Meadow_Blades_LOD1.asset",
+    "size": 17921,
+    "sha256": "8fe509e5ac62d98953d7109fceb478c25a8afd68f848c22582986309ce1737bf"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/Meadow_20261025/Meadow_Blades_LOD2.asset",
+    "size": 9518,
+    "sha256": "5ed586f94568b104b0d2513292eb7b76272ce43ceec405dcffe8a67ac544275e"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/Meadow_20261025/Meadow_Blades_LOD3.asset",
+    "size": 5914,
+    "sha256": "a63b0779bc049c7537375468387853425cc81a84ee17d9979a3ba856b64142c1"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/Meadow_20261025/Meadow_BrushPreview.mat",
+    "size": 1856,
+    "sha256": "22aabf0f49680e8e9c4ff95b670c88dbafefa758e157a09640be1c6888ac85ca"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/Meadow_20261025/Meadow_ExistingGrass.mat",
+    "size": 2373,
+    "sha256": "150e9c9be06d2a9da7df1b9ddde45fe0c466ad47f414f7dcbf13fd682405d107"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/Meadow_20261025/Meadow_Grade.asset",
+    "size": 21356,
+    "sha256": "1f5734fa8ad2537170158dd2e29d98f0a59c94934831535c3070fca12898158c"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/Meadow_20261025/Meadow_Ground.asset",
+    "size": 5348832,
+    "sha256": "721fc48bebf0c23f04928c9c0f9a1ae9acba7ffa23673f416b644cc64230cd7d"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/Meadow_20261025/Meadow_Ground.mat",
+    "size": 4486,
+    "sha256": "193bcc49cd8016cec8b277cb5f302f98b5d64bfd6820f43e7a48261045583913"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/Meadow_20261025/Meadow_InstanceData.asset",
+    "size": 6048082,
+    "sha256": "2d4be2ac7bfafe240735240cd017f0587149b1414621f0203c39381c1a4e4fa4"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/Meadow_20261025/Meadow_ScatterLibrary.asset",
+    "size": 40566,
+    "sha256": "5106ef998124d26208b8fc29d938f2480844104a97750bdfe9bf9e2e787a6475"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/Meadow_20261025/Meadow_URP.asset",
+    "size": 4772,
+    "sha256": "8cbba5b33445c84226ec0b31c3a10a96a00d3fa16a171051cadc54b515e91d27"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/Meadow_20261025/Pass03_BaselineGrass.asset",
+    "size": 6048083,
+    "sha256": "d2438ed4e32aaa79787bd104989a1d77758c310e8fab03677dc87af7a3277ea9"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/Meadow_20261025/Pass03_Before_LOD0.asset",
+    "size": 28290,
+    "sha256": "30a15dc3de774a4b21be578dfaa32061004e28c5f5d2aa42e5e920b9c608bbd4"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/Meadow_20261025/Pass03_Before_LOD1.asset",
+    "size": 17921,
+    "sha256": "bb72efb96988ac46cadf5bf43c25cc5f0d6c508aa587688ad96a974cb134bb82"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/Meadow_20261025/Pass03_Before_LOD2.asset",
+    "size": 9517,
+    "sha256": "5b7337fa8db4d39e4a6c2e2961b2d5e860becfa11790efd3f365ae87eb2b1cf9"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/Meadow_20261025/Pass03_Before_LOD3.asset",
+    "size": 5912,
+    "sha256": "a80b15f93cbe9e426810630ce4bd4ea71591fd212ce7a43eba402eb4ca288d54"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/Meadow_20261025/FlowerKit/FlowerCluster_A.mat",
+    "size": 2002,
+    "sha256": "270d5299c0a23409d63e86f9ed92d4faf77d8f9c1f2af69d0cf7cceab04c588e"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/Meadow_20261025/FlowerKit/FlowerCluster_A_LOD0.asset",
+    "size": 50628,
+    "sha256": "4e74011b0f186786fdb2dc71c703ddaf3cef4d27cba9018e93cf175c42496e4c"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/Meadow_20261025/FlowerKit/FlowerCluster_A_LOD1.asset",
+    "size": 37818,
+    "sha256": "f6c0c39143a4732dfcb79db6cc0be8f18146684d1b84922eb9f35d378a8ce483"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/Meadow_20261025/FlowerKit/FlowerCluster_A_LOD2.asset",
+    "size": 23150,
+    "sha256": "8f403b6fd414cac69397127aa9aef91f12ef7b80f2d442e2add888a9d365a975"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/Meadow_20261025/FlowerKit/FlowerCluster_B.mat",
+    "size": 2002,
+    "sha256": "fafd5bffe2da8321120b461b3164ae5f636266c30919ac0d2cf1dec60a86b7d2"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/Meadow_20261025/FlowerKit/FlowerCluster_B_LOD0.asset",
+    "size": 108226,
+    "sha256": "bdcf9436fda9977e4b400e8b36eb7aac842a47d9930da0bc80b6539cd46a83ab"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/Meadow_20261025/FlowerKit/FlowerCluster_B_LOD1.asset",
+    "size": 77754,
+    "sha256": "b1351b69497116891b93bc1fcb86ec075037dad7601e0811ed9c188193845e5a"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/Meadow_20261025/FlowerKit/FlowerCluster_B_LOD2.asset",
+    "size": 47897,
+    "sha256": "6835b4469a81bfeb546c5e97e8bfe731f97176238c794aef8cb39d122d74b2d9"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/Meadow_20261025/Scatter/Scatter_UNS_Color_Palette.mat",
+    "size": 2012,
+    "sha256": "5ccc4eecf12cb9d537a8305bbae9d584af57109df74535cc1cd64c83d60e5907"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/Meadow_20261025/Scatter/Scatter_UNS_Flower.mat",
+    "size": 2060,
+    "sha256": "44eaf83da47b9b89058b4150b1ef57aa71e437c539a836660e9f3a693f048483"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/Meadow_20261025/Scatter/Scatter_UNS_Flower_Leaf.mat",
+    "size": 2065,
+    "sha256": "d790440cc4f1f824a83dbdb3685938a2f2a984d44b0ba0a4df351bb3a85e7c2b"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/Meadow_20261025/Scatter/UNS_Branch_LOD0.asset",
+    "size": 39518,
+    "sha256": "10805ae2f181301f157107fc808e5a035689d0a1697f978c01f491155557cdcb"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/Meadow_20261025/Scatter/UNS_Branch_LOD1.asset",
+    "size": 26113,
+    "sha256": "47a2ab3ca8aef836d9a9c231ce243bcfa0f5a3c4a1b8ef29cb8b894b26f6515b"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/Meadow_20261025/Scatter/UNS_Branch_LOD2.asset",
+    "size": 13426,
+    "sha256": "5b0d32c69b45015efdcc29de082b3009fd954eefc17fd97bf8825dd73dd920fb"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/Meadow_20261025/Scatter/UNS_Branch_LOD3.asset",
+    "size": 11526,
+    "sha256": "6877352689feb891481fa09c5ca02dbdf6062a62957d8b69f1d4d8633229dfcd"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/Meadow_20261025/Scatter/UNS_Flower_LOD0.asset",
+    "size": 19890,
+    "sha256": "2f6b609cba919590aa3daddcbf66b899a55d88f23f87180c9653d6d35b77e326"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/Meadow_20261025/Scatter/UNS_Flower_LOD1.asset",
+    "size": 13780,
+    "sha256": "76168904f244d0444d4f5e3b4e48d0ba4d27d8fa2ae6171af40d610a6062c819"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/Meadow_20261025/Scatter/UNS_Flower_LOD2.asset",
+    "size": 13900,
+    "sha256": "096a9e0f5fcc1a13448e020dca621d2dd9caf333d954737c4f1222f8887a52a8"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/Meadow_20261025/Scatter/UNS_Flower_LOD3.asset",
+    "size": 11511,
+    "sha256": "595ecef4c98bdc9af39d82f2a03071c79fdd8870a8083691d4f8af87e0f50418"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/Meadow_20261025/Scatter/UNS_Mushroom_Patch_LOD0.asset",
+    "size": 53399,
+    "sha256": "26f26b9aa34c7cbefcbd0a5d13998456fe3e7c57ac241a51475eabc23be3e8b7"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/Meadow_20261025/Scatter/UNS_Mushroom_Patch_LOD1.asset",
+    "size": 36823,
+    "sha256": "c76322cee1ab2a27559635da6d9a4452f0a62022a69f75107dd398d5e52e6c14"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/Meadow_20261025/Scatter/UNS_Mushroom_Patch_LOD2.asset",
+    "size": 25149,
+    "sha256": "c7acf7cf3fa934f8f9a224de49bde5750cb1c08632583f481a172ef05cdc309e"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/Meadow_20261025/Scatter/UNS_Mushroom_Patch_LOD3.asset",
+    "size": 18558,
+    "sha256": "425d29aed2967c86d32fb2f2079a699cc97f7b261de503e8d639c886929fcec5"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/Meadow_20261025/Scatter/UNS_Tiny_Rock_01_LOD0.asset",
+    "size": 27015,
+    "sha256": "f11c87c2f4bb45600502dfbdb87a422aa9122669831198f21b777a5c85630efc"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/Meadow_20261025/Scatter/UNS_Tiny_Rock_01_LOD1.asset",
+    "size": 17153,
+    "sha256": "f0bf11de8f554e16b1a36a6798fd2ef3261a832aa128fbaa905732196310a969"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/Meadow_20261025/Scatter/UNS_Tiny_Rock_01_LOD2.asset",
+    "size": 11895,
+    "sha256": "34731a529959db4c0ceec0dc37ec7b3f60ab6d870ad9c2a7091d7fec57f31f0e"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/Meadow_20261025/Scatter/UNS_Tiny_Rock_01_LOD3.asset",
+    "size": 8680,
+    "sha256": "b8cf056d6de67d0b40939c2811424c9c896a644a40c36aa137a95dcff5403fb6"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/Meadow_20261025/Scatter/UNS_Tiny_Rock_02_LOD0.asset",
+    "size": 28600,
+    "sha256": "74e67488a966dabd010ac1190f26f57428ac6e68a7b974f7749334224f8ef4e5"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/Meadow_20261025/Scatter/UNS_Tiny_Rock_02_LOD1.asset",
+    "size": 17466,
+    "sha256": "2899bd6100805c58e41c05c76cfa6b652e3a3c3bfd4bf54e4ee312e7e0772db4"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/Meadow_20261025/Scatter/UNS_Tiny_Rock_02_LOD2.asset",
+    "size": 11513,
+    "sha256": "f8d85d03ed1c2609f5c8bb8b49183facd2244d288facb6e19efe3fc8dc5d24af"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/Meadow_20261025/Scatter/UNS_Tiny_Rock_02_LOD3.asset",
+    "size": 7908,
+    "sha256": "e9710fcf3983d31ea0c7089bc93386418b87c1d086bd26fa1ca5e765823c84fc"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/Oak_A_Study.prefab",
+    "size": 12141,
+    "sha256": "1615e8359d7d1a2791d1c83a8e7bf63115d0b7e1142f515792316a8900dac077"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/Oak_Bark.mat",
+    "size": 2062,
+    "sha256": "02700fd5c2267736bd510576f3b63f87f08501a648c34f74e46fcb028e51d74f"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/Oak_B_Study.prefab",
+    "size": 12139,
+    "sha256": "2a69d9027e207b53ba8da88f7b0469a8ebea96aabbedfd1b1faa3664d8e23891"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/Oak_C_Study.prefab",
+    "size": 12142,
+    "sha256": "63fc5c003dc60a7e0dea7573b166044dabc2ccb6e444b072a3ec1247d5733166"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/Oak_D_Study.prefab",
+    "size": 12134,
+    "sha256": "9d0b4641cae41f4c777cfb66b5febd323efeecccf39dc353ad87b005418fb426"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/Oak_Leaves.mat",
+    "size": 2229,
+    "sha256": "f62225f95584419e488dd0ca02d5560e72b736d15c895ae5fbcf5c8686f33c4c"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/Valley_SnowCoverage.asset",
+    "size": 700092,
+    "sha256": "721db02bf6c09f3460b2cb5b0a708d40f5fef32c5c01a6eae7164bffa7a0350d"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/OakKit/SM_Tree_Oak_A.fbx",
+    "size": 522300,
+    "sha256": "a2a9ec3fcfa73a15e6290a70895e9b87bc1e4c83cd34927f972511f5903396ca"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/OakKit/SM_Tree_Oak_A_LOD1.fbx",
+    "size": 316268,
+    "sha256": "5771945580230fa2c01388402eea760d66f2f17e482203991a66883d4e1b8e61"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/OakKit/SM_Tree_Oak_A_LOD2.fbx",
+    "size": 174332,
+    "sha256": "8a955a6fb28ce7aef7b2f37fb247010697dadf92ce5e4e4a6e8ab156b5d2f3fd"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/OakKit/SM_Tree_Oak_B.fbx",
+    "size": 528316,
+    "sha256": "ae0a9da88291f2c5b37c1c9a5c2b019e18597a736de0cc83822c51388cf0e599"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/OakKit/SM_Tree_Oak_B_LOD1.fbx",
+    "size": 319788,
+    "sha256": "776fb41993b7a7af3f67f159a5f663698a1f47b8ce78cbcb165bfa9c19aa3dd2"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/OakKit/SM_Tree_Oak_B_LOD2.fbx",
+    "size": 183276,
+    "sha256": "13757aed6595f4c7e88a893fe16576341c45946b64a54cc4612e6da26aa3f5cc"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/OakKit/SM_Tree_Oak_C.fbx",
+    "size": 527932,
+    "sha256": "0f9920558c2c1a2b069d9cfee5f9ebc64ebc7956d08ca41f05147ed6fa8b57a3"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/OakKit/SM_Tree_Oak_C_LOD1.fbx",
+    "size": 319452,
+    "sha256": "1513681404a0d775b3a1b47d0bf80cb79d30c819232189adbb1a587369a52fb1"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/OakKit/SM_Tree_Oak_C_LOD2.fbx",
+    "size": 183068,
+    "sha256": "bf2b8aea848c0b5c01059d94440206191d76ac9dedb922591429e61a3e10b1e8"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/OakKit/SM_Tree_Oak_D.fbx",
+    "size": 528508,
+    "sha256": "81c11125469599d6881d8a15b62d6dc0deedc3f53b90528835b863fc6abadc47"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/OakKit/SM_Tree_Oak_D_LOD1.fbx",
+    "size": 319676,
+    "sha256": "112ef54167df058b29530d729c9a801b1a65512a543f43e2d4dddc03a1e7a067"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/OakKit/SM_Tree_Oak_D_LOD2.fbx",
+    "size": 183244,
+    "sha256": "5f6b3812db370a30b32bdb49bb6d17fc1ca91ae6580ddd7d517e2b0ddefb3939"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/OakKit/Textures/T_Foliage_AO.png",
+    "size": 1810088,
+    "sha256": "7da622f1a1d1db12440e9283217d38227d035b1ed173580d29df1d076d43fa5d"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/OakKit/Textures/T_Foliage_BaseColor.png",
+    "size": 1867186,
+    "sha256": "204b80e1779330ae290a94d3a8c9e50923aa84683238fcff28848a8faf9ebfb9"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/OakKit/Textures/T_Foliage_Normal.png",
+    "size": 2221894,
+    "sha256": "074480daf1a9a74bbc5ea47d504102b0b46c91deaa7f4f811ae4312ef738ebca"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/OakKit/Textures/T_Foliage_Opacity.png",
+    "size": 1006023,
+    "sha256": "9f8a1c8f2ba03ffb6d29e053eb2237890728ceb4139455bbfcc551ec91a78c6b"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/OakKit/Textures/T_Oak_Bark_A_BaseColor.png",
+    "size": 81073,
+    "sha256": "de5becfcc09d71297ffbe60f80e995bf803a51551b387a9846d74e85219d5f20"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/OakKit/Textures/T_Oak_Bark_A_Normal.png",
+    "size": 68948,
+    "sha256": "dd9ac2a8df14e927d27347264da70733f48b519fe23bc1b8a50804714078af52"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/Textures/Ground_ao.png",
+    "size": 656265,
+    "sha256": "e64bce42c49bad4dddd4a0457414236c166dcbef5444b2b035e745e95550a6d0"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/Textures/Ground_diffuseOriginal.png",
+    "size": 1553884,
+    "sha256": "4956f9e7f2ef112f8a626033fcde7c370af2b5a31087783b7bdc5c490eebeef2"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/Textures/Ground_height.png",
+    "size": 284328,
+    "sha256": "e0bd9a98e464b8605fc3954634b7de08d1ae4b0e929b52f8a8f140e9573612bd"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/Textures/Ground_normal.png",
+    "size": 1052478,
+    "sha256": "e1e353bf05b7f39e7fbe9f4cf819614404d22de129263be5d0590d2c4b328106"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/Textures/Path_ao.png",
+    "size": 635475,
+    "sha256": "1c15fae360123838463de0523ccee4e8fdcc9c25c196c79ad6208f549b6210ae"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/Textures/Path_diffuseOriginal.png",
+    "size": 1688971,
+    "sha256": "6548709998148e0beafed789f1761738cf1459085f62b1ebdfc68058c7daf898"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/Textures/Path_normal.png",
+    "size": 1164477,
+    "sha256": "4dc34287cab6f805426bf74f77b79b8defe035d4808d3e70cf60220de3add8c3"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/Textures/Rock_BaseColor.png",
+    "size": 1732796,
+    "sha256": "aa9166741ba3bca8019c55ee1b2bcd7882c6368d10863abf3aba5dbabc6e4c8f"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/Textures/Snow_ao.png",
+    "size": 518188,
+    "sha256": "492523cd595d37ecfde41d5eae89dd859724305931e0880a75f7bba95f5b835f"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/Textures/Snow_diffuseOriginal.png",
+    "size": 1577205,
+    "sha256": "260263b65f898e6e09f54a964a5d0f175123258552d240b0b3bc04bdf81b9790"
+  },
+  {
+    "path": "Assets/_Game/Art/Studies/ValleyArt_Pass03/Textures/Snow_normal.png",
+    "size": 833248,
+    "sha256": "529e8658493eceb2eeceefd2e0d210748ab9608853f3459654b7f16e53455ba0"
+  }
+]

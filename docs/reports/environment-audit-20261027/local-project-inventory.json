@@ -1,0 +1,87 @@
+[
+  {
+    "path": "E:\\Games_Develop\\Little-Castle",
+    "unity": "m_EditorVersion: 6000.5.5f1",
+    "branch": "codex/concept-world-pass-2026-10-09",
+    "head": "e6a02df6f57461df9cd7cf853e8e9d62b776d71a",
+    "status_lines": 127,
+    "urp": "17.5.0",
+    "markers": {
+      "Assets/_Game/Shaders/Terrain/LC_Terrain.shader": "27ae34322162",
+      "Assets/_Game/Shaders/Surface/LC_StylizedLit.shader": "f2b325f394fb",
+      "Assets/_Game/Scripts/World/Rendering/StylizedLightingGlobals.cs": "3fbc66c431d5"
+    }
+  },
+  {
+    "path": "E:\\Games_Develop\\Little-Castle_BrushFoundation_20261027",
+    "unity": "m_EditorVersion: 6000.5.5f1",
+    "branch": "codex/unified-map-tools-20261027",
+    "head": "4cc63820347bab7da3b944fe76875eca00c8f107",
+    "status_lines": 375,
+    "urp": "17.5.0",
+    "markers": {
+      "Assets/_Game/Scripts/World/Runtime/MapTools.cs": "1c34e5710fc7",
+      "Assets/_Game/Editor/MapAuthoringWindow.cs": "8c378981888a",
+      "Assets/_Game/Scripts/World/Rendering/MapRiverPresentation.cs": "6810c36469c6",
+      "Assets/_Game/Shaders/Terrain/LC_Terrain.shader": "4cd996511793",
+      "Assets/_Game/Shaders/Surface/LC_StylizedLit.shader": "426d0b2c5249",
+      "Assets/_Game/Scripts/World/Rendering/StylizedLightingGlobals.cs": "97cc50bb324c"
+    }
+  },
+  {
+    "path": "E:\\Games_Develop\\Little-Castle_cliffkit",
+    "unity": "m_EditorVersion: 6000.5.5f1",
+    "branch": "codex/cliff-master-v003-intake-2026-10-11",
+    "head": "ba063000b7efae0cd72d887cfd0417fd0dee8789",
+    "status_lines": 0,
+    "urp": null,
+    "markers": {
+      "Assets/_Game/Shaders/Terrain/LC_Terrain.shader": "b1bbcce7982f",
+      "Assets/_Game/Shaders/Surface/LC_StylizedLit.shader": "8461814513a8",
+      "Assets/_Game/Scripts/World/Rendering/StylizedLightingGlobals.cs": "f77d6c40084a"
+    }
+  },
+  {
+    "path": "E:\\Games_Develop\\Little-Castle_LightingIntegration_20261025",
+    "unity": "m_EditorVersion: 6000.5.5f1",
+    "branch": null,
+    "head": null,
+    "status_lines": null,
+    "urp": "17.5.0",
+    "markers": {
+      "Assets/_Game/Shaders/Terrain/LC_Terrain.shader": "637d643296e1",
+      "Assets/_Game/Shaders/Surface/LC_StylizedLit.shader": "e73d877e4822",
+      "Assets/_Game/Scripts/World/Rendering/StylizedLightingGlobals.cs": "36ba268fc742"
+    }
+  },
+  {
+    "path": "E:\\Games_Develop\\Little-Castle_RiverBanks_20261026",
+    "unity": "m_EditorVersion: 6000.5.5f1",
+    "branch": "codex/river-bank-generation-20261026",
+    "head": "6a7d58c467fc6f292b359ad14b7d614df41eb6b1",
+    "status_lines": 0,
+    "urp": "17.5.0",
+    "markers": {
+      "Assets/_Game/Editor/MapAuthoringWindow.cs": "ac0c5f244f0e",
+      "Assets/_Game/Scripts/World/Rendering/MapRiverPresentation.cs": "f44bcecb6821",
+      "Assets/_Game/Shaders/Terrain/LC_Terrain.shader": "4cd996511793",
+      "Assets/_Game/Shaders/Surface/LC_StylizedLit.shader": "426d0b2c5249",
+      "Assets/_Game/Scripts/World/Rendering/StylizedLightingGlobals.cs": "97cc50bb324c"
+    }
+  },
+  {
+    "path": "E:\\Games_Develop\\Little-Castle_URP_20261024",
+    "unity": "m_EditorVersion: 6000.5.5f1",
+    "branch": null,
+    "head": null,
+    "status_lines": null,
+    "urp": "17.5.0",
+    "markers": {
+      "Assets/_Game/Editor/MapAuthoringWindow.cs": "9747de31cff5",
+      "Assets/_Game/Scripts/World/Rendering/MapRiverPresentation.cs": "6810c36469c6",
+      "Assets/_Game/Shaders/Terrain/LC_Terrain.shader": "4cd996511793",
+      "Assets/_Game/Shaders/Surface/LC_StylizedLit.shader": "426d0b2c5249",
+      "Assets/_Game/Scripts/World/Rendering/StylizedLightingGlobals.cs": "97cc50bb324c"
+    }
+  }
+]

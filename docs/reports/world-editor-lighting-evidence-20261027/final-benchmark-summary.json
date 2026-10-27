@@ -1,0 +1,62 @@
+[
+  {
+    "case": "far-day-ao",
+    "frames": 600,
+    "wall_median_ms": 1.3859499999999692,
+    "wall_p95_ms": 2.5092999999998256,
+    "cpu_median_ms": 1.3893499999999999,
+    "gpu_median_ms": 0.521216,
+    "gpu_samples": 474,
+    "gc_available": false,
+    "environment": "600 ordinary rendered camera frames; 120 warmup; no PNG/readback during measurement.\nCPU timing samples=600; GPU timing samples=474; GC recorder=False\nBatchMode=False; focused=True; GPU=NVIDIA GeForce RTX 4070 Ti SUPER; API=Direct3D12\nDistance=115; hour=12; AO=True; resolution=1600x900; grassPatches=105; clumps=12705; triangles=101640; grassDraws=26\nGPU/CPU zero timings mean unavailable, not zero cost.\n",
+    "result": "PASS automated checks; visual acceptance remains manual.\n"
+  },
+  {
+    "case": "mid-day-ao",
+    "frames": 600,
+    "wall_median_ms": 1.2903999999998028,
+    "wall_p95_ms": 4.292199999999191,
+    "cpu_median_ms": 1.2959,
+    "gpu_median_ms": 0.667648,
+    "gpu_samples": 460,
+    "gc_available": false,
+    "environment": "600 ordinary rendered camera frames; 120 warmup; no PNG/readback during measurement.\nCPU timing samples=600; GPU timing samples=460; GC recorder=False\nBatchMode=False; focused=True; GPU=NVIDIA GeForce RTX 4070 Ti SUPER; API=Direct3D12\nDistance=35; hour=12; AO=True; resolution=1600x900; grassPatches=76; clumps=9196; triangles=434632; grassDraws=19\nGPU/CPU zero timings mean unavailable, not zero cost.\n",
+    "result": "PASS automated checks; visual acceptance remains manual.\n"
+  },
+  {
+    "case": "mid-day-no-ao",
+    "frames": 600,
+    "wall_median_ms": 1.2876999999997807,
+    "wall_p95_ms": 2.29820000000025,
+    "cpu_median_ms": 1.2927499999999998,
+    "gpu_median_ms": 0.463872,
+    "gpu_samples": 470,
+    "gc_available": false,
+    "environment": "600 ordinary rendered camera frames; 120 warmup; no PNG/readback during measurement.\nCPU timing samples=600; GPU timing samples=470; GC recorder=False\nBatchMode=False; focused=True; GPU=NVIDIA GeForce RTX 4070 Ti SUPER; API=Direct3D12\nDistance=35; hour=12; AO=False; resolution=1600x900; grassPatches=76; clumps=9196; triangles=434632; grassDraws=19\nGPU/CPU zero timings mean unavailable, not zero cost.\n",
+    "result": "PASS automated checks; visual acceptance remains manual.\n"
+  },
+  {
+    "case": "mid-night-ao",
+    "frames": 600,
+    "wall_median_ms": 1.2439500000001047,
+    "wall_p95_ms": 2.6349000000003286,
+    "cpu_median_ms": 1.2507,
+    "gpu_median_ms": 0.618496,
+    "gpu_samples": 478,
+    "gc_available": false,
+    "environment": "600 ordinary rendered camera frames; 120 warmup; no PNG/readback during measurement.\nCPU timing samples=600; GPU timing samples=478; GC recorder=False\nBatchMode=False; focused=True; GPU=NVIDIA GeForce RTX 4070 Ti SUPER; API=Direct3D12\nDistance=35; hour=1; AO=True; resolution=1600x900; grassPatches=76; clumps=9196; triangles=434632; grassDraws=19\nGPU/CPU zero timings mean unavailable, not zero cost.\n",
+    "result": "PASS automated checks; visual acceptance remains manual.\n"
+  },
+  {
+    "case": "near-day-ao",
+    "frames": 600,
+    "wall_median_ms": 1.1422500000000113,
+    "wall_p95_ms": 2.1322000000001395,
+    "cpu_median_ms": 1.14485,
+    "gpu_median_ms": 0.47616,
+    "gpu_samples": 488,
+    "gc_available": false,
+    "environment": "600 ordinary rendered camera frames; 120 warmup; no PNG/readback during measurement.\nCPU timing samples=600; GPU timing samples=488; GC recorder=False\nBatchMode=False; focused=True; GPU=NVIDIA GeForce RTX 4070 Ti SUPER; API=Direct3D12\nDistance=11; hour=12; AO=True; resolution=1600x900; grassPatches=28; clumps=3388; triangles=325248; grassDraws=8\nGPU/CPU zero timings mean unavailable, not zero cost.\n",
+    "result": "PASS automated checks; visual acceptance remains manual.\n"
+  }
+]

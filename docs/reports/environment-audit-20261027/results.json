@@ -1,0 +1,244 @@
+{
+  "date": "2026-10-27",
+  "sourceSha": "1626fcc33c6ba1fb381e070988851265d6e76240",
+  "brushSha": "4cc63820347bab7da3b944fe76875eca00c8f107",
+  "projectPath": "E:/Games_Develop/Research/EnvironmentAudit_20261027/Probe",
+  "unity": "6000.5.5f1",
+  "urp": "17.5.0",
+  "productionFilesChanged": false,
+  "originalSourcePreservedIn": "raw",
+  "csharpCompilation": "PASS",
+  "raw": {
+    "file": "raw-test-results.xml",
+    "total": 17,
+    "passed": 9,
+    "failed": 8,
+    "cases": [
+      {
+        "name": "DirtyRegion_CoversBilinearSupport",
+        "class": "LittleCastle.Tests.DiagnosticEdgeTests",
+        "status": "FAIL",
+        "message": "  changed sample outside dirty region\n  Expected: True\n  But was:  False\n"
+      },
+      {
+        "name": "ErasedTile_IsReclaimed",
+        "class": "LittleCastle.Tests.DiagnosticEdgeTests",
+        "status": "FAIL",
+        "message": "  zero tile remains allocated and saved\n  Expected: True\n  But was:  False\n"
+      },
+      {
+        "name": "LargeNegativeCell_DoesNotIndexOutsideTile",
+        "class": "LittleCastle.Tests.DiagnosticEdgeTests",
+        "status": "FAIL",
+        "message": "  Expected: No Exception to be thrown\n  But was:  <System.IndexOutOfRangeException: Index was outside the bounds of the array.\n  at LittleCastle.World.Environment.SparseWorldFloatField.SetCell (System.Int32 cellX, System.Int32 cellZ, System.Single amount) [0x00070] in E:\\Games_Develop\\Research\\EnvironmentAudit_20261027\\Probe\\Assets\\Runtime\\EnvironmentFields.cs:101 \n  at LittleCastle.Tests.DiagnosticEdgeTests+<>c__DisplayClass7_0.<LargeNegativeCell_DoesNotIndexOutsideTile>b__0 () [0x00000] in E:\\Games_Develop\\Research\\EnvironmentAudit_20261027\\Probe\\Assets\\Tests\\Editor\\DiagnosticEdgeTests.cs:15 \n  at NUnit.Framework.Constraints.ThrowsConstraint+VoidInvocationDescriptor.Invoke () [0x00001] in <8b63e8ac0a4746599ed207982825ae6c>:0 \n  at NUnit.Framework.Constraints.ThrowsConstraint+ExceptionInterceptor.Intercept (System.Object invocation) [0x00050] in <8b63e8ac0a4746599ed207982825ae6c>:0 >\n"
+      },
+      {
+        "name": "MalformedSecondField_AtomicImport",
+        "class": "LittleCastle.Tests.DiagnosticEdgeTests",
+        "status": "PASS",
+        "message": null
+      },
+      {
+        "name": "NegativeTileBoundaries_RoundTrip",
+        "class": "LittleCastle.Tests.DiagnosticEdgeTests",
+        "status": "PASS",
+        "message": null
+      },
+      {
+        "name": "NonFiniteHardness_RejectedBeforeMutation",
+        "class": "LittleCastle.Tests.DiagnosticEdgeTests",
+        "status": "FAIL",
+        "message": "  Expected: 0\n  But was:  1\n"
+      },
+      {
+        "name": "Save_RestoresWeatherDriverState",
+        "class": "LittleCastle.Tests.DiagnosticEdgeTests",
+        "status": "FAIL",
+        "message": "  Expected: 0.75f\n  But was:  0.0f\n"
+      },
+      {
+        "name": "Smooth_DoesNotCreateThirdSummerTheme",
+        "class": "LittleCastle.Tests.DiagnosticEdgeTests",
+        "status": "FAIL",
+        "message": "  selected-theme-only blur creates summer rather than transferring weight to neighbor theme\n  Expected: 0.0d +/- 1.0000000000000001E-05d\n  But was:  0.5d\n"
+      },
+      {
+        "name": "TinyWeatherStep_IsNotDiscarded",
+        "class": "LittleCastle.Tests.DiagnosticEdgeTests",
+        "status": "FAIL",
+        "message": "  per-step epsilon loses accumulation\n  Expected: greater than 0.0f\n  But was:  0.0f\n"
+      },
+      {
+        "name": "AuthoredSnapshot_SurvivesUnitySerializedFieldRoundTrip",
+        "class": "LittleCastle.Tests.EnvironmentBiomeSnowTests",
+        "status": "PASS",
+        "message": null
+      },
+      {
+        "name": "BiomePainter_OverlaysDoNotAlterBaseEcology_AndEmitOneRegion",
+        "class": "LittleCastle.Tests.EnvironmentBiomeSnowTests",
+        "status": "PASS",
+        "message": null
+      },
+      {
+        "name": "CorruptSnapshot_DoesNotOverwritePreviousValidField",
+        "class": "LittleCastle.Tests.EnvironmentBiomeSnowTests",
+        "status": "PASS",
+        "message": null
+      },
+      {
+        "name": "PaintHardness_ControlsSoftBorder_WithoutChangingWorldMetreRadius",
+        "class": "LittleCastle.Tests.EnvironmentBiomeSnowTests",
+        "status": "PASS",
+        "message": null
+      },
+      {
+        "name": "SmoothBrush_UsesOriginalNeighborsAndSoftensSharpPeak",
+        "class": "LittleCastle.Tests.EnvironmentBiomeSnowTests",
+        "status": "PASS",
+        "message": null
+      },
+      {
+        "name": "SnapshotRoundTrip_PreservesThemesAndSnow",
+        "class": "LittleCastle.Tests.EnvironmentBiomeSnowTests",
+        "status": "FAIL",
+        "message": "  Expected: 1.0d +/- 9.9999997473787516E-06d\n  But was:  0.85644501447677612d\n"
+      },
+      {
+        "name": "SnowField_AccumulatesAndCanMeltWithoutRepaintingBiome",
+        "class": "LittleCastle.Tests.EnvironmentBiomeSnowTests",
+        "status": "PASS",
+        "message": null
+      },
+      {
+        "name": "SparseField_PreservesNegativeCoordinatesAndBilinearTileSeam",
+        "class": "LittleCastle.Tests.EnvironmentBiomeSnowTests",
+        "status": "PASS",
+        "message": null
+      }
+    ]
+  },
+  "correctedDiagnostic": {
+    "file": "diagnostic-corrected-test-results.xml",
+    "total": 17,
+    "passed": 10,
+    "failed": 7,
+    "cases": [
+      {
+        "name": "DirtyRegion_CoversBilinearSupport",
+        "class": "LittleCastle.Tests.DiagnosticEdgeTests",
+        "status": "FAIL",
+        "message": "  changed sample outside dirty region\n  Expected: True\n  But was:  False\n"
+      },
+      {
+        "name": "ErasedTile_IsReclaimed",
+        "class": "LittleCastle.Tests.DiagnosticEdgeTests",
+        "status": "FAIL",
+        "message": "  zero tile remains allocated and saved\n  Expected: True\n  But was:  False\n"
+      },
+      {
+        "name": "LargeNegativeCell_DoesNotIndexOutsideTile",
+        "class": "LittleCastle.Tests.DiagnosticEdgeTests",
+        "status": "FAIL",
+        "message": "  Expected: No Exception to be thrown\n  But was:  <System.IndexOutOfRangeException: Index was outside the bounds of the array.\n  at LittleCastle.World.Environment.SparseWorldFloatField.SetCell (System.Int32 cellX, System.Int32 cellZ, System.Single amount) [0x00070] in E:\\Games_Develop\\Research\\EnvironmentAudit_20261027\\Probe\\Assets\\Runtime\\EnvironmentFields.cs:101 \n  at LittleCastle.Tests.DiagnosticEdgeTests+<>c__DisplayClass7_0.<LargeNegativeCell_DoesNotIndexOutsideTile>b__0 () [0x00000] in E:\\Games_Develop\\Research\\EnvironmentAudit_20261027\\Probe\\Assets\\Tests\\Editor\\DiagnosticEdgeTests.cs:15 \n  at NUnit.Framework.Constraints.ThrowsConstraint+VoidInvocationDescriptor.Invoke () [0x00001] in <8b63e8ac0a4746599ed207982825ae6c>:0 \n  at NUnit.Framework.Constraints.ThrowsConstraint+ExceptionInterceptor.Intercept (System.Object invocation) [0x00050] in <8b63e8ac0a4746599ed207982825ae6c>:0 >\n"
+      },
+      {
+        "name": "MalformedSecondField_AtomicImport",
+        "class": "LittleCastle.Tests.DiagnosticEdgeTests",
+        "status": "PASS",
+        "message": null
+      },
+      {
+        "name": "NegativeTileBoundaries_RoundTrip",
+        "class": "LittleCastle.Tests.DiagnosticEdgeTests",
+        "status": "PASS",
+        "message": null
+      },
+      {
+        "name": "NonFiniteHardness_RejectedBeforeMutation",
+        "class": "LittleCastle.Tests.DiagnosticEdgeTests",
+        "status": "FAIL",
+        "message": "  Expected: 0\n  But was:  1\n"
+      },
+      {
+        "name": "Save_RestoresWeatherDriverState",
+        "class": "LittleCastle.Tests.DiagnosticEdgeTests",
+        "status": "FAIL",
+        "message": "  Expected: 0.75f\n  But was:  0.0f\n"
+      },
+      {
+        "name": "Smooth_DoesNotCreateThirdSummerTheme",
+        "class": "LittleCastle.Tests.DiagnosticEdgeTests",
+        "status": "FAIL",
+        "message": "  selected-theme-only blur creates summer rather than transferring weight to neighbor theme\n  Expected: 0.0d +/- 1.0000000000000001E-05d\n  But was:  0.5d\n"
+      },
+      {
+        "name": "TinyWeatherStep_IsNotDiscarded",
+        "class": "LittleCastle.Tests.DiagnosticEdgeTests",
+        "status": "FAIL",
+        "message": "  per-step epsilon loses accumulation\n  Expected: greater than 0.0f\n  But was:  0.0f\n"
+      },
+      {
+        "name": "AuthoredSnapshot_SurvivesUnitySerializedFieldRoundTrip",
+        "class": "LittleCastle.Tests.EnvironmentBiomeSnowTests",
+        "status": "PASS",
+        "message": null
+      },
+      {
+        "name": "BiomePainter_OverlaysDoNotAlterBaseEcology_AndEmitOneRegion",
+        "class": "LittleCastle.Tests.EnvironmentBiomeSnowTests",
+        "status": "PASS",
+        "message": null
+      },
+      {
+        "name": "CorruptSnapshot_DoesNotOverwritePreviousValidField",
+        "class": "LittleCastle.Tests.EnvironmentBiomeSnowTests",
+        "status": "PASS",
+        "message": null
+      },
+      {
+        "name": "PaintHardness_ControlsSoftBorder_WithoutChangingWorldMetreRadius",
+        "class": "LittleCastle.Tests.EnvironmentBiomeSnowTests",
+        "status": "PASS",
+        "message": null
+      },
+      {
+        "name": "SmoothBrush_UsesOriginalNeighborsAndSoftensSharpPeak",
+        "class": "LittleCastle.Tests.EnvironmentBiomeSnowTests",
+        "status": "PASS",
+        "message": null
+      },
+      {
+        "name": "SnapshotRoundTrip_PreservesThemesAndSnow",
+        "class": "LittleCastle.Tests.EnvironmentBiomeSnowTests",
+        "status": "PASS",
+        "message": null
+      },
+      {
+        "name": "SnowField_AccumulatesAndCanMeltWithoutRepaintingBiome",
+        "class": "LittleCastle.Tests.EnvironmentBiomeSnowTests",
+        "status": "PASS",
+        "message": null
+      },
+      {
+        "name": "SparseField_PreservesNegativeCoordinatesAndBilinearTileSeam",
+        "class": "LittleCastle.Tests.EnvironmentBiomeSnowTests",
+        "status": "PASS",
+        "message": null
+      }
+    ]
+  },
+  "probeOnlyCorrection": "SnapshotRoundTrip compares restored theme weight to captured themeBefore, not literal 1 at off-centre soft brush point. No runtime source edits.",
+  "notRun": [
+    "GPU shader variant compilation/visual validation",
+    "Player build/profiling",
+    "Representative 2/8/16 player performance",
+    "Production brush/save/streaming integration",
+    "Live SceneView drag/Undo UX",
+    "External snow package research/import"
+  ],
+  "diagnosticContracts": {
+    "Smooth_DoesNotCreateThirdSummerTheme": "Future joint-theme blending contract; existing implementation explicitly smooths only selected layer",
+    "Save_RestoresWeatherDriverState": "Future complete-game-save contract; field-only ExportJson does not claim weather/settings serialization"
+  }
+}
