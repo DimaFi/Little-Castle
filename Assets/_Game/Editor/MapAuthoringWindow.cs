@@ -40,6 +40,7 @@ namespace LittleCastle.Editor
         static void Open()
         {
             var window=GetWindow<MapAuthoringWindow>("World Editor");
+            window.titleContent=new GUIContent("World Editor");
             if(window.session==null)window.ConnectSceneMap();
         }
         void ConnectSceneMap()
@@ -47,7 +48,7 @@ namespace LittleCastle.Editor
             var painter=FindAnyObjectByType<MeadowSurfacePainter>();
             if(painter&&painter.source)Connect(painter.source);
         }
-        void OnEnable(){SceneView.duringSceneGui+=SceneGUI;EditorApplication.playModeStateChanged+=PlayState;EditorApplication.update+=Tick;}
+        void OnEnable(){titleContent=new GUIContent("World Editor");SceneView.duringSceneGui+=SceneGUI;EditorApplication.playModeStateChanged+=PlayState;EditorApplication.update+=Tick;}
         void OnDisable(){tools?.Cancel();if(session!=null)session.Changed-=Changed;SceneView.duringSceneGui-=SceneGUI;EditorApplication.playModeStateChanged-=PlayState;EditorApplication.update-=Tick;RestorePreview();if(preview)DestroyImmediate(preview);}
         void Tick(){if(!EditorApplication.isPlaying){TickTools();terrainPreview?.FlushColliderBudget(2);var riverView=SceneView.lastActiveSceneView;if(riverView&&riverView.camera)riverPreview?.Tick(riverView.camera.transform.position);if(treePreview!=null){var view=SceneView.lastActiveSceneView;treePreview.Tick(view&&view.camera?view.camera.transform.position:Vector3.zero);}}}
         void PlayState(PlayModeStateChange state){tools?.Cancel();pointerHeld=false;if(state==PlayModeStateChange.ExitingEditMode)RestorePreview();if(state==PlayModeStateChange.EnteredEditMode&&preview)BindScenePreview();}
