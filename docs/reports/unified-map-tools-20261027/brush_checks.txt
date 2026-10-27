@@ -1,0 +1,9 @@
+PASS saved editor preview and runtime authored mask share identical rasterization.
+PASS road raises coverage and suppresses grass in negative world coordinates.
+PASS reset and JSON roundtrip reproduce mask byte-for-byte.
+PASS meadow restores grass and removes painted road.
+PASS repeated meadow stroke keeps identical scatter placements and count.
+PASS erase and undo restore vegetation coverage.
+PASS redo restores erase; second undo restores identical mask; small edit updates local pixels and at most4 regions.
+PASS old JSON defaults to Mixed; flower profile excludes debris; profile JSON replays identical placements.
+PASS painter teardown restores persistent authored mask on all materials.

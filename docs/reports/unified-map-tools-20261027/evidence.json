@@ -3,16 +3,16 @@
   "pipeline": "URP 17.5.0 (local fixture)",
   "date": "2026-10-27",
   "source_checkpoint": "d2094da",
-  "implementation_commit": "88ebdd70909b7977ffa433dce498f40ceaa23d46",
+  "implementation_commit": "cd196bad51daa59fac5f21a58cbdc7efebe22925",
   "editmode": {
-    "total": "242",
-    "passed": "240",
+    "total": "243",
+    "passed": "241",
     "failed": "2",
     "skipped": "0",
-    "duration": "21,6715758",
+    "duration": "21,885874",
     "map_cases": {
-      "total": 61,
-      "passed": 61
+      "total": 62,
+      "passed": 62
     },
     "failures": [
       {
@@ -23,20 +23,27 @@
         "name": "LittleCastle.Tests.UrpPreviewQualityTests.RuntimeQuality_ChangesCloneAndRestoresSlotWithoutChangingSharedAsset",
         "message": "  Expected: False\n  But was:  True\n"
       }
-    ]
+    ],
+    "source_file": "verified-editmode.xml"
   },
-  "local_data_scale_measurement": "4096 logical tree records; local radius 12 m command: 2,699 ms (Editor, no renderer). No full forest rendering claim.\n",
+  "local_data_scale_measurement": "4096 logical tree records; local radius 12 m command: 3,458 ms (Editor, no renderer). No full forest rendering claim.\n",
   "playmode": {
     "total": "14",
     "passed": "14",
     "failed": "0",
     "skipped": "0",
-    "duration": "92,6708943",
+    "duration": "92,9879848",
     "map_cases": {
       "total": 7,
       "passed": 7
     },
-    "failures": []
+    "failures": [],
+    "source_file": "verified-playmode.xml"
   },
-  "sceneview": "PASS SceneView MouseDown/Drag/Up at size=12; points=15; radius=3 world metres\nPASS SceneView MouseDown/Drag/Up at size=90; points=15; radius=3 world metres\nPASS SceneView MouseDown/Drag/Up at size=1200; points=15; radius=3 world metres\nPASS same SceneView adapter applies height brush; changed nodes=332\nPASS SceneView height Undo/Redo exact save replay\nPASS author JSON reopen preserves baked height and strokes\n"
+  "sceneview": "PASS SceneView MouseDown/Drag/Up at size=12; points=15; radius=3 world metres\nPASS SceneView MouseDown/Drag/Up at size=90; points=15; radius=3 world metres\nPASS SceneView MouseDown/Drag/Up at size=1200; points=15; radius=3 world metres\nPASS same SceneView adapter applies height brush; changed nodes=332\nPASS SceneView height Undo/Redo exact save replay\nPASS author JSON reopen preserves baked height and strokes\n",
+  "player_build": "Succeeded; errors=0; warnings=1\n",
+  "player_checks": "PASS saved editor preview and runtime authored mask share identical rasterization.\nPASS road raises coverage and suppresses grass in negative world coordinates.\nPASS reset and JSON roundtrip reproduce mask byte-for-byte.\nPASS meadow restores grass and removes painted road.\nPASS repeated meadow stroke keeps identical scatter placements and count.\nPASS erase and undo restore vegetation coverage.\nPASS redo restores erase; second undo restores identical mask; small edit updates local pixels and at most4 regions.\nPASS old JSON defaults to Mixed; flower profile excludes debris; profile JSON replays identical placements.\nPASS painter teardown restores persistent authored mask on all materials.\n",
+  "player_metadata": "Unity=6000.5.5f1\nGPU=NVIDIA GeForce RTX 4070 Ti SUPER\nGraphicsAPI=Direct3D12\nResolution=1600x900\nCPU=12th Gen Intel(R) Core(TM) i7-12700F\nMSAA=4\nDevelopment=False; FrameTimingStats=True; GCcounterAvailable=False\nVSync off during timing; no PNG readback or CSV formatting during timing; 180 frames/mode after45frames and>=.65s warmup. GC includes entire scene, not an isolated renderer assertion.\nModes:0=meadow renderer off (existing accents and scene retained),1=grass no wind,2=wind,3=interaction,4=forceLOD0,5=look away.\nErrors:\n",
+  "window_title": "World Editor",
+  "menu": "Little Castle/Map/World Editor"
 }

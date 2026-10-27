@@ -5,6 +5,10 @@
 
 ## Результат
 
+Окно и пункт меню называются **World Editor**. Инструкция самостоятельной
+проверки: `docs/workflows/test-world-editor-ru.md`. База текущей сцены
+подключается при открытии окна автоматически.
+
 Существующие луг/дорожка/стирание, подъём/опускание, роща, одиночные операции
 деревьев и контрольные точки рек подключены к одному runtime API инструментов.
 Оба интерфейса используют общие lifecycle, world-space настройки, выбор
@@ -29,8 +33,8 @@ authoritative surface query, общий falloff/контур и batch регио
 Не перезаписывались исторические отчёты и Player других этапов.
 
 - Unity **6000.5.5f1**, Direct3D12 для графических проверок; URP **17.5.0**.
-- Профильные EditMode: **61/61 Passed** в полном финальном прогоне.
-  Включают 22 новых случая: общий lifecycle трёх surface modes, hold/cancel,
+- Профильные EditMode: **62/62 Passed** в полном финальном прогоне.
+  Включают 23 новых случая: общий lifecycle трёх surface modes, hold/cancel,
   права, zero strength, настройки штриха, long-drag budget/endpoint, falloff,
   negative borders, локальные события, старый fingerprint, save replay,
   4096 логических деревьев, настоящий preset asset reload и runtime dependencies.
@@ -50,10 +54,18 @@ authoritative surface query, общий falloff/контур и batch регио
   zoom проверены на существующей Meadow-сцене. Native drag automation не
   использован как единственное доказательство: его события отдельно проверены
   через реальный Unity SceneView event adapter.
+- Отдельный Release Player `Player/Meadow_UnifiedTools.exe`: сборка Succeeded,
+  **0 ошибок / 1 прежнее obsolete API warning** в LocalSandboxController.
+  Автоматические проверки покрытия: **9/9 PASS**, `Errors` в Player report пуст.
+  Кадры 01_meadow и 02_close просмотрены. Это существующая Meadow-сцена,
+  без регенерации источников, смены шейдеров или визуального редизайна.
+  RTX 4070 Ti SUPER, i7-12700F, D3D12, 1600×900, MSAA4.
+  Release GC recorder недоступен; нули GC/GPU CSV не объявляются замером
+  отсутствия аллокаций или нулевого GPU времени.
 
 Полный PlayMode: **14/14 Passed**, включая существующий finite-map streaming сценарий.
 
-Полный EditMode: **242 total / 240 Passed / 2 Failed**. Два непрофильных сбоя:
+Полный EditMode: **243 total / 241 Passed / 2 Failed**. Два непрофильных сбоя:
 
 1. `ConceptMaterialAndCatalogReferenceRealApprovedAssets` — старый concept
    material ссылается на локальную `TerrainStarter_v001/T_Oak_Kit_Palette.png`.
@@ -67,13 +79,15 @@ authoritative surface query, общий falloff/контур и batch регио
 
 ## Нагрузка и ограничения
 
-Радиус 12 м с **4096** исходными tree records: **2.699 мс** на локальную data
+Радиус 12 м с **4096** исходными tree records: **3.458 мс** на локальную data
 операцию в Editor (один замер; без отрисовки леса). ID и число деревьев
 сохраняются после height Undo/Redo. Это не GPU/FPS benchmark большой карты.
 Тест большой поверхности подтверждает обновление только резидентных tiles,
 неизменность удалённого tile и отсутствие whole-map allocation.
 
-Во время непрерывного ввода — максимум 32 dabs за tick, 15 Hz. Height radius
+Во время непрерывного ввода — максимум 32 dabs за tick, 15 Hz и sampling budget
+4 мс между dabs. Стоимость зависимых представлений/уведомлений в этот лимит не входит.
+Commit/Undo/Redo/Cancel сохраняют точный набор регионов длинного штриха. Height radius
 ограничен размером lattice; старый диапазон до 32 м сохранён и на мелкой сетке.
 Единичная операция большого радиуса всё ещё синхронная. Явные Save/смена tool
 могут дождаться оставшегося пути. Точное время на огромной карте и слабом GPU

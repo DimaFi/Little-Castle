@@ -2,6 +2,16 @@
 
 This file defines rules for AI coding agents working in this repository.
 
+## Unified map tools — 2026-10-27
+
+Before extending manual map tools, read `docs/architecture/unified-map-tools.md`
+and `docs/workflows/add-map-brush-ru.md`. Existing surface, height, grove, tree
+click and river-point tools use `MapToolRegistry` / `MapToolController` over
+`MapEditSession`. Register modules instead of adding independent mouse loops.
+One height/object revision may emit several chunk-local `Changed` events; do
+not suppress later regions solely because the revision number is unchanged.
+Biome/snow PR #79 and the new river-bank branch remain separate work.
+
 ## Map authoring / lighting coordination — 2026-10-25
 
 Before continuing map tools, read

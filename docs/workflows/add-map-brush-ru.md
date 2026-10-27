@@ -36,7 +36,7 @@ registry.Register(new MapSurfaceTool("surface.path-preview", "Дорожка", t
 surface position и добавления control point. River Apply остаётся собственной
 командой, поскольку draft из нескольких кликов не является круглым штрихом.
 
-В окне `Little Castle → Map → Surface Authoring` можно сохранить профиль кисти
+В окне `Little Castle → Map → World Editor` можно сохранить профиль кисти
 в `.asset` и применить его. Профиль хранит tool ID и общие параметры; данные
 библиотеки растений/геометрия реки принадлежат своим каталогам и draft.
 Новый ScriptableObject-компонент размещайте в файле с совпадающим именем класса.

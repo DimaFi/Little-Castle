@@ -95,6 +95,10 @@ material contracts прочитаны. Меши/материалы/ветер н
 `Changed`. Внутри scope события режутся по 32 м регионам, повторные события
 одного региона объединяются, kinds складываются, committed событие заменяет
 preview-флаг. Разнесённые регионы не объединяются в одну огромную территорию.
+Commit/Undo/Redo/Cancel из controller выводят dirty regions из отдельных
+изменённых samples/segments/instances, сохраняя узкий коридор диагонального
+штриха вместо его огромного bounding rectangle. Специальные river-команды
+сохраняют существующий bounds contract.
 Подписчики terrain/trees/scatter/CPU/GPU mask уже получают эти события.
 Прямые вызовы session сохраняют прежнюю синхронную семантику.
 Полная карта/освещение/nav не регенерируются. Это готовая точка подписки для
@@ -102,7 +106,7 @@ preview-флаг. Разнесённые регионы не объединяю�
 
 ## Ввод, камера и границы нагрузки
 
-SceneView использует существующее окно `Little Castle → Map → Surface Authoring`.
+SceneView использует существующее окно `Little Castle → Map → World Editor`.
 Registry формирует выбор инструментов; галерея деревьев и river drafts сохранены.
 Alt/ПКМ/СКМ/колесо остаются навигацией. Frame Map использует SceneView.Frame.
 Радиус никак не вычисляется из pixels, FOV или zoom.
@@ -114,7 +118,8 @@ Ctrl/Cmd+Z отменяет активный штрих либо последн�
 Обычная игровая камера сохраняет defaults. Только Meadow вызывает opt-in
 `ConfigureAuthoringRange`; рисование не отключает её pan/zoom.
 
-Обычный Tick ограничен 15 Hz и 32 dabs. Spacing = max(0.15 м, radius/4).
+Обычный Tick ограничен 15 Hz, 32 dabs и 4 мс sampling-работы. Лимит времени
+проверяется между dabs; уведомления/mesh upload имеют собственную стоимость. Spacing = max(0.15 м, radius/4).
 Длинный drag дорабатывается следующими ticks после MouseUp, без потери конца.
 Явное сохранение/смена инструмента завершает оставшийся путь перед commit.
 Радиус surface/grove до 128 м; terrain до min(128,max(32,64×height spacing)), чтобы
