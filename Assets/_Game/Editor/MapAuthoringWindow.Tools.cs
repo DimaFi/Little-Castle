@@ -107,7 +107,7 @@ namespace LittleCastle.Editor
             if(e.type==EventType.KeyDown&&e.keyCode==KeyCode.Escape)
             {tools.Cancel();pointerHeld=false;riverTools.mode=0;treeTool=0;e.Use();return;}
             if(e.type==EventType.KeyDown&&(e.control||e.command)&&(e.keyCode==KeyCode.Z||e.keyCode==KeyCode.Y))
-            {bool pending=tools.Active;tools.Cancel();pointerHeld=false;if(e.keyCode==KeyCode.Y||e.shift)session.Redo();else if(!pending)session.Undo();e.Use();return;}
+            {pointerHeld=false;if(e.keyCode==KeyCode.Y||e.shift)tools.Redo();else tools.Undo();e.Use();return;}
             if(e.alt||e.button==1||e.button==2)
             {if(pointerHeld){tools.Release();pointerHeld=false;}return;}
             if(e.type==EventType.Layout)HandleUtility.AddDefaultControl(GUIUtility.GetControlID(FocusType.Passive));

@@ -64,7 +64,7 @@ namespace LittleCastle.World
         void CancelHeightStroke()
         {
             if(pendingHeights==null)return;foreach(var c in pendingHeights.Values)heightField.Set(c.x,c.z,c.before);
-            var dirty=pendingHeightBounds;pendingHeights=null;pendingHeightBounds=default;if(dirty.width>0)HeightRevision++;InvalidateComposedHeight(dirty);Notify(dirty,false,MapChangeKind.Height);
+            var dirty=pendingHeightBounds;var changes=pendingHeights;pendingHeights=null;pendingHeightBounds=default;if(dirty.width>0)HeightRevision++;InvalidateComposedHeight(dirty);if(notificationDepth>0)NotifyHeightRegions(changes.Values,false);else Notify(dirty,false,MapChangeKind.Height);
         }
         Rect HeightEditsBounds(List<MapHeightSample> values)
         {

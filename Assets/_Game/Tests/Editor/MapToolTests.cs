@@ -46,8 +46,8 @@ namespace LittleCastle.Tests
         {
             var s=new MapEditSession(Map());var c=Controller(s,"surface.road");c.context.settings.radius=1;
             c.Begin(Pointer(-100,0),0);c.Move(Pointer(100,0));c.Release();
-            c.Tick(1);Assert.That(c.Active,Is.True);Assert.That(s.QuerySurface(new Rect(-256,-1,512,2))[0].points.Count,Is.EqualTo(33));
-            for(int i=2;i<40&&c.Active;i++)c.Tick(i);
+            c.Tick(1);Assert.That(c.Active,Is.True);Assert.That(s.QuerySurface(new Rect(-256,-1,512,2))[0].points.Count,Is.InRange(2,33));
+            for(int i=2;i<1000&&c.Active;i++)c.Tick(i);
             Assert.That(c.Active,Is.False);var points=s.ExportEdits().strokes[0].points;
             Assert.That(points[points.Count-1],Is.EqualTo(new Vector2(100,0)));for(int i=1;i<points.Count;i++)Assert.That(Vector2.Distance(points[i-1],points[i]),Is.LessThanOrEqualTo(.251f));
         }

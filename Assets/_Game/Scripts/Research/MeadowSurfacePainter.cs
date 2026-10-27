@@ -132,8 +132,8 @@ namespace LittleCastle.Research
                 scatter=!isRoad&&!erase&&populatePlants,scatterProfile=currentProfile,radius=brushRadius,strength=strength,density=density});
         }
         public void AddStroke(SurfacePaintStroke stroke)=>Session.AddStroke(stroke);
-        public void Undo(){try{if(tools!=null&&tools.Active){tools.Cancel();return;}Session.Undo();}catch(Exception e){status=e.Message;}}
-        public void Redo(){try{tools?.Cancel();Session.Redo();}catch(Exception e){status=e.Message;}}
+        public void Undo(){try{tools.Undo();}catch(Exception e){status=e.Message;}}
+        public void Redo(){try{tools.Redo();}catch(Exception e){status=e.Message;}}
         public void ResetEdits(){try{tools?.Cancel();Session.ClearEdits();}catch(Exception e){status=e.Message;}}
         public void SaveEdits()
         {

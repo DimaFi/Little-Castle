@@ -157,7 +157,7 @@ namespace LittleCastle.World
             try{CheckAccess(stroke);}catch{Notify(StrokeBounds(stroke));throw;}
             Execute(new Command{added=new List<SurfacePaintStroke>{stroke},bounds=StrokeBounds(stroke)});
         }
-        public void CancelStroke(){CancelTreeBrush();CancelHeightStroke();if(pending==null)return;var dirty=StrokeBounds(pending);pending=null;Notify(dirty);}
+        public void CancelStroke(){CancelTreeBrush();CancelHeightStroke();if(pending==null)return;var stroke=pending;pending=null;if(notificationDepth>0)NotifyStrokeRegions(stroke,false);else Notify(StrokeBounds(stroke));}
         public void AddStroke(SurfacePaintStroke value)
         {
             var s=Clone(value);CheckAccess(s);ValidateStroke(s);
@@ -199,7 +199,7 @@ namespace LittleCastle.World
             foreach(var change in command.rivers){var r=reverse?change.before:change.after;SetRiver((change.before??change.after).id,r);}foreach(var change in command.sections){var r=reverse?change.before:change.after;long id=(change.before??change.after).id;rockSections.Remove(id);if(r!=null)rockSections.Add(id,r);}
             if(command.rivers.Count>0||command.sections.Count>0){RiverRevision++;HeightRevision++;}
             if((command.kind&MapChangeKind.Height)!=0)InvalidateComposedHeight(command.bounds);
-            Notify(command.bounds,false,command.kind);
+            NotifyCommand(command);
         }
         void RemoveFromIndex(SurfacePaintStroke stroke)
         {

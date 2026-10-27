@@ -105,7 +105,7 @@ namespace LittleCastle.Editor
             scatter=EditorGUILayout.Toggle("Цветы и мелочь",scatter);
             profile=(MeadowScatterProfile)EditorGUILayout.Popup("Группа мелочи",(int)profile,MeadowScatterProfiles.Names);
             EditorGUILayout.BeginHorizontal();
-            if(GUILayout.Button("Отменить")){bool pending=tools.Active;tools.Cancel();pointerHeld=false;if(!pending)session.Undo();}if(GUILayout.Button("Повторить")){tools.Cancel();pointerHeld=false;session.Redo();}
+            if(GUILayout.Button("Отменить")){tools.Undo();pointerHeld=false;}if(GUILayout.Button("Повторить")){tools.Redo();pointerHeld=false;}
             EditorGUILayout.EndHorizontal();
             if(GUILayout.Button("Сохранить карту JSON…"))Run(()=>
             {

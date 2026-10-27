@@ -101,6 +101,7 @@ namespace LittleCastle.World
     {
         public const float Interval=1f/15;
         public const int MaximumDabsPerTick=32;
+        public const double SamplingBudgetMilliseconds=4;
         public readonly MapToolRegistry registry;
         public readonly MapToolContext context;
         public IMapTool Selected {get;private set;}
@@ -135,11 +136,12 @@ namespace LittleCastle.World
                 using(context.session.BatchNotifications())
                 {
                     float step=Mathf.Max(.15f,context.settings.radius*.25f);
-                    int count=0;
+                    int count=0;long started=System.Diagnostics.Stopwatch.GetTimestamp();
                     while(Vector2.Distance(last.position,target.position)>.0001f&&count++<MaximumDabsPerTick)
                     {
                         var p=Vector2.MoveTowards(last.position,target.position,step);
                         last=new MapToolPointer(target.ray,true,p);Selected.Apply(context,last,Interval);
+                        if((System.Diagnostics.Stopwatch.GetTimestamp()-started)*1000.0/System.Diagnostics.Stopwatch.Frequency>=SamplingBudgetMilliseconds)break;
                     }
                     if(count==0&&Selected.RepeatAtRest&&!Finishing)Selected.Apply(context,last,Interval);
                     if(Finishing&&(last.position-target.position).sqrMagnitude<.000001f)Complete();
@@ -148,7 +150,9 @@ namespace LittleCastle.World
             catch{Cancel();throw;}
         }
         public void Release(){if(!Active)return;Finishing=true;if((last.position-target.position).sqrMagnitude<.000001f)Complete();}
-        public void Cancel(){if(Active)Finish(true);}
+        public void Cancel(){if(Active)using(context.session.BatchNotifications())Finish(true);}
+        public void Undo(){if(Active){Cancel();return;}using(context.session.BatchNotifications())context.session.Undo();}
+        public void Redo(){Cancel();using(context.session.BatchNotifications())context.session.Redo();}
         /// <summary>Explicit save/tool change drains the remaining path before committing. Normal pointer release is budgeted by Tick.</summary>
         public void Complete()
         {

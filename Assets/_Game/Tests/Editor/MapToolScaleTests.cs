@@ -31,5 +31,13 @@ namespace LittleCastle.Tests
             foreach(var change in changes)Assert.That(Mathf.Abs(change.bounds.center.x-change.bounds.center.y),Is.LessThan(34));
             c.Cancel();
         }
+        [Test] public void MapTools_DiagonalCommitUndoRedoAndCancelNotifyCorridorOnly()
+        {
+            var s=new MapEditSession(new MapAuthoringDocument{mapId="diagonal-history",bounds=new Vector4(-256,-256,512,512)});
+            var c=new MapToolController(s,MapToolRegistry.ExistingBrushes());c.Select("surface.road");c.context.settings.radius=2;
+            s.Changed+=change=>Assert.That(Mathf.Abs(change.bounds.center.x-change.bounds.center.y),Is.LessThan(34),"History/cancel must not expand a thin corridor to its complete rectangle");
+            c.Begin(new MapToolPointer(default,true,new Vector2(-100,-100)),0);c.Move(new MapToolPointer(default,true,new Vector2(100,100)));c.Complete();
+            c.Undo();c.Redo();c.Begin(new MapToolPointer(default,true,new Vector2(-100,-100)),0);c.Move(new MapToolPointer(default,true,new Vector2(100,100)));c.Tick(1);c.Cancel();
+        }
     }
 }

@@ -111,7 +111,7 @@ namespace LittleCastle.World
         void CancelTreeBrush()
         {
             if(treeBrush==null)return;var command=treeBrush;treeBrush=null;activePack=null;brushCells.Clear();
-            foreach(var change in command.treeChanges)SetTree(change.after.stableId,change.before);Notify(command.bounds,false,MapChangeKind.Objects);
+            foreach(var change in command.treeChanges)SetTree(change.after.stableId,change.before);NotifyCommand(command);
         }
         static Command TreeCommand(MapEditAccess required)=>new Command{kind=MapChangeKind.Objects,treeAccess=required};
         void CheckTreeCommandAccess(Command c)
