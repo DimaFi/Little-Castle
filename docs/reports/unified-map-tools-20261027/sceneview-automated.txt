@@ -1,0 +1,6 @@
+PASS SceneView MouseDown/Drag/Up at size=12; points=15; radius=3 world metres
+PASS SceneView MouseDown/Drag/Up at size=90; points=15; radius=3 world metres
+PASS SceneView MouseDown/Drag/Up at size=1200; points=15; radius=3 world metres
+PASS same SceneView adapter applies height brush; changed nodes=332
+PASS SceneView height Undo/Redo exact save replay
+PASS author JSON reopen preserves baked height and strokes

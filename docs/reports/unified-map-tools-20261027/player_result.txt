@@ -1,0 +1,10 @@
+Unity=6000.5.5f1
+GPU=NVIDIA GeForce RTX 4070 Ti SUPER
+GraphicsAPI=Direct3D12
+Resolution=1600x900
+CPU=12th Gen Intel(R) Core(TM) i7-12700F
+MSAA=4
+Development=False; FrameTimingStats=True; GCcounterAvailable=False
+VSync off during timing; no PNG readback or CSV formatting during timing; 180 frames/mode after45frames and>=.65s warmup. GC includes entire scene, not an isolated renderer assertion.
+Modes:0=meadow renderer off (existing accents and scene retained),1=grass no wind,2=wind,3=interaction,4=forceLOD0,5=look away.
+Errors:

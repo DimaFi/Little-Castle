@@ -19,7 +19,8 @@ namespace LittleCastle.World
             WorldChunkData chunk,
             WorldSpawnCatalog catalog,
             Vector3 chunkWorldOrigin,
-            WorldRuntimeDeltaState runtimeDelta = null)
+            WorldRuntimeDeltaState runtimeDelta = null,
+            float chunkWorldSize = 0)
         {
             if (chunkRoot == null ||
                 chunk == null ||
@@ -29,6 +30,7 @@ namespace LittleCastle.World
             }
 
             int created = 0;
+            var instanced = new List<WorldSpawnData>();
 
             for (int i = 0;
                  i < chunk.Spawns.Count;
@@ -44,6 +46,7 @@ namespace LittleCastle.World
                     continue;
                 }
 
+                if(IsInstanced(catalog,spawn)) {instanced.Add(spawn);continue;}
                 if (TryCreateSpawn(
                         chunkRoot,
                         catalog,
@@ -72,6 +75,8 @@ namespace LittleCastle.World
                         runtimeEntities[i]
                             .ToSpawnData();
 
+                    if(IsInstanced(catalog,runtimeSpawn)){instanced.Add(runtimeSpawn);continue;}
+
                     if (TryCreateSpawn(
                             chunkRoot,
                             catalog,
@@ -84,7 +89,21 @@ namespace LittleCastle.World
                 }
             }
 
+            if(catalog.groundCoverLibrary)
+            {
+                var renderer=chunkRoot.GetComponent<LittleCastle.Rendering.MeadowScatterRenderer>();
+                if(!renderer)renderer=chunkRoot.gameObject.AddComponent<LittleCastle.Rendering.MeadowScatterRenderer>();
+                renderer.InitializeSpawns(catalog.groundCoverLibrary,instanced,chunk,chunkWorldSize);
+                created+=renderer.authoredInstances;
+            }
             return created;
+        }
+
+        static bool IsInstanced(WorldSpawnCatalog catalog,WorldSpawnData spawn)
+        {
+            if(!catalog.groundCoverLibrary||catalog.groundCoverLibrary.prototypes==null)return false;
+            foreach(var p in catalog.groundCoverLibrary.prototypes)if(p!=null&&p.stableId==spawn.archetypeId)return true;
+            return false;
         }
 
         private static bool TryCreateSpawn(

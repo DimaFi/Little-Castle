@@ -10,6 +10,8 @@ namespace LittleCastle.World
     public sealed class WorldSaveState
     {
         public WorldSaveMetadata metadata;
+        // Optional handmade-map delta; old generated-world saves leave this null.
+        public MapEditSave mapEdits;
         public WorldRuntimeDeltaState runtimeDelta =
             new WorldRuntimeDeltaState();
 

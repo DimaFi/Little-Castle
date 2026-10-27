@@ -176,7 +176,7 @@ namespace LittleCastle.World
                    Mathf.Min(a.y, b.y) - padding <= maxZ;
         }
 
-        private static float DistanceToSegment(
+        public static float DistanceToSegment(
             Vector2 point, Vector2 a, Vector2 b, out float t)
         {
             Vector2 ab = b - a;
@@ -187,7 +187,7 @@ namespace LittleCastle.World
             return (point - (a + ab * t)).magnitude;
         }
 
-        private static float SoftCorridor(
+        public static float SoftCorridor(
             float distance, float innerRadius, float falloff)
         {
             if (distance <= innerRadius)

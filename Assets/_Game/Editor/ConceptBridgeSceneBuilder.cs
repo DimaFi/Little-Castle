@@ -271,7 +271,7 @@ namespace LittleCastle.Editor
             try
             {
                 camera.targetTexture = target;
-                camera.Render();
+                LittleCastle.Rendering.CameraCaptureCompatibility.Render(camera, target);
                 RenderTexture.active = target;
                 image.ReadPixels(new Rect(0, 0, 1440, 1000), 0, 0);
                 image.Apply();

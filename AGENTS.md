@@ -2,6 +2,26 @@
 
 This file defines rules for AI coding agents working in this repository.
 
+## Unified map tools — 2026-10-27
+
+Before extending manual map tools, read `docs/architecture/unified-map-tools.md`
+and `docs/workflows/add-map-brush-ru.md`. Existing surface, height, grove, tree
+click and river-point tools use `MapToolRegistry` / `MapToolController` over
+`MapEditSession`. Register modules instead of adding independent mouse loops.
+One height/object revision may emit several chunk-local `Changed` events; do
+not suppress later regions solely because the revision number is unchanged.
+Biome/snow PR #79 and the new river-bank branch remain separate work.
+
+## Map authoring / lighting coordination — 2026-10-25
+
+Before continuing map tools, read
+`docs/handoffs/map-authoring-coordination-20261025-ru.md` and its canonical plan
+in the main Little-Castle project. Current scope is manual map authoring: shared
+surface tools/save, bounded terrain editing, then Oak A/B/C/D placement; rivers
+follow. Shared shaders, lighting globals and URP profiles are reserved for a
+separate lighting integration copy during parallel work. Do not overwrite that
+work or reset the user's open Meadow Player edits.
+
 ## FIRST PROJECT PREFLIGHT — foliage model/shader compatibility
 
 This is the first rendering/model compatibility check for any coding agent
