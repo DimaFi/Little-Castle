@@ -150,7 +150,8 @@ GPU timing доступен для 407–444 из 600 кадров, GC recorder 
 отдельной реализации и проверок. Этапы 2+ автоматически не начинались.
 
 Папка Main и Git-ветка main — разные вещи. Работа выполнена в основной папке
-на ветке `codex/world-editor-lighting-integration-20261027`. Draft PR готовится
+на ветке `codex/world-editor-lighting-integration-20261027`.
+Создан [Draft PR #81](https://github.com/DimaFi/Little-Castle/pull/81)
 к исходной ветке этого локального проекта
 `codex/concept-world-pass-2026-10-09`; автоматического merge в GitHub main нет.
 Публичный source PR не включает сырую лицензируемую библиотеку моделей:
