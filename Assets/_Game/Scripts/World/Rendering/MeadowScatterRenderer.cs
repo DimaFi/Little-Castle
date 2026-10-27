@@ -282,7 +282,7 @@ namespace LittleCastle.Rendering
             foreach (var stroke in strokes)
             {
                 if (stroke == null || stroke.points == null || stroke.points.Count == 0) continue;
-                float radius = Mathf.Clamp(stroke.radius, .1f, 8);
+                float radius = Mathf.Clamp(stroke.radius, .1f, 128);
                 Vector2 min = stroke.points[0], max = min;
                 bool finite = true;
                 foreach (Vector2 p in stroke.points)
@@ -310,7 +310,7 @@ namespace LittleCastle.Rendering
                 if (distance >= region.radius) continue;
                 if (region.stroke.road || region.stroke.erase || !region.stroke.scatter) return 0;
                 profile = NormalizeProfile(region.stroke.scatterProfile);
-                return (1 - Mathf.SmoothStep(0, 1, Mathf.InverseLerp(region.radius * .62f, region.radius, distance)))*region.stroke.density;
+                return MapBrushFalloff.Weight(distance,region.radius,region.stroke.brushSoftness==0?.38f:region.stroke.brushSoftness-.001f)*region.stroke.density;
             }
             return 0;
         }

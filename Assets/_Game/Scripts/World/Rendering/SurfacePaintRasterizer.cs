@@ -43,7 +43,7 @@ namespace LittleCastle.Rendering
             {
                 var point=new Vector2(bounds.x+(x+.5f)*bounds.z/width,bounds.y+(y+.5f)*bounds.w/height);
                 float distance=ChunkTerrainVertexMasks.DistanceToSegment(point,a,b,out _);
-                float coverage=ChunkTerrainVertexMasks.SoftCorridor(distance,r*.62f,r*.38f)*s.strength;int i=(y*width+x)*2;
+                float coverage=MapBrushFalloff.SurfaceWeight(s,distance);int i=(y*width+x)*2;
                 if(!s.erase)data[i]=(byte)Mathf.RoundToInt((s.road?Mathf.Max(data[i]/255f,coverage):Mathf.Min(data[i]/255f,1-coverage))*255);
                 data[i+1]=(byte)Mathf.RoundToInt((s.road||s.erase?Mathf.Min(data[i+1]/255f,1-coverage):Mathf.Max(data[i+1]/255f,coverage))*255);
             }

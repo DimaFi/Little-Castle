@@ -9,7 +9,7 @@ using UnityEngine.EventSystems;
 namespace LittleCastle.Research
 {
     /// <summary>Study front-end for the same stroke format used by authored paths and runtime edits.</summary>
-    public sealed class MeadowSurfacePainter : MonoBehaviour
+    public sealed partial class MeadowSurfacePainter : MonoBehaviour
     {
         public SurfacePaintData source;
         public Camera studyCamera;
@@ -20,7 +20,7 @@ namespace LittleCastle.Research
         public bool erase,populatePlants=true;
         public MeadowScatterProfile currentProfile=MeadowScatterProfile.Mixed;
         public MeadowScatterRenderer scatterRenderer;
-        [Range(.3f,4)] public float radius=1.5f;
+        [Range(.5f,128)] public float radius=1.5f;
         [Range(0,1)] public float strength=1,density=1;
         public float stampsPerSecond=15;
         public string status="";
@@ -41,18 +41,18 @@ namespace LittleCastle.Research
         public float treeScale=1,treeYaw,treeBrushSpacing=6,treeBrushDensity=.7f;
         public int treeBrushSeed=1729;
         public long selectedTree;
-        bool treeClickHeld;
+
         int treeCancelFrame=-1;
         public bool ShouldQuitOnEscape=>treeTool==0&&treeCancelFrame!=Time.frameCount&&!(GetComponent<MapRiverRuntimeTool>() is MapRiverRuntimeTool rt&&(rt.Active||rt.LastEscapeFrame==Time.frameCount));
         public int lastUpdatedPixels {get;private set;}
         public bool regionalGpuUpload {get;private set;}
         Texture2D uploadTile;
         byte[] pixels;
-        
-        Vector2 last;
-        bool held;
-        float nextStamp;
-        
+
+
+
+
+
         LineRenderer cursor;
         Material cursorMaterial;
         struct Binding {public Material material;public Texture texture;public Vector4 bounds;public bool keyword;public float enabled;}
@@ -67,7 +67,9 @@ namespace LittleCastle.Research
             var ground=FindGround(terrainMaterial);
             treeCatalog=treeCatalog?treeCatalog:MapTreeCatalog.Default;
             var document=CreateDocument(source,ground,treeCatalog);
-            Session=new MapEditSession(document,allowedTools);
+            Session=new MapEditSession(document,allowedTools);InitializeTools();
+            if(studyCamera&&studyCamera.TryGetComponent<LittleCastle.CameraSystem.StrategyCameraController>(out var authoringCamera))
+                authoringCamera.ConfigureAuthoringRange(Mathf.Max(source.bounds.z,source.bounds.w)*2);
             if(ground)TerrainView=new MapTerrainPresentation(Session,ground,FindAnyObjectByType<MeadowGrassRenderer>(),FindAnyObjectByType<InnerverseGrassStudy>(),scatterRenderer);
             var rockCatalog=MapRockCatalog.Default;if(rockCatalog){RiverView=new MapRiverPresentation(Session,rockCatalog);gameObject.AddComponent<MapRiverRuntimeTool>().Connect(this);}
             if(treeCatalog){Session.RegisterTreeCatalog(treeCatalog.Definitions,treeCatalog.packs);TreeView=new MapTreePresentation(Session,treeCatalog);}
@@ -86,6 +88,7 @@ namespace LittleCastle.Research
         }
         void OnDestroy()
         {
+            tools?.Cancel();
             if(Session!=null)Session.Changed-=OnMapChanged;
             RiverView?.Dispose();RiverView=null;TreeView?.Dispose();TreeView=null;TerrainView?.Dispose();TerrainView=null;
             if(uploadTile)Destroy(uploadTile);
@@ -101,27 +104,6 @@ namespace LittleCastle.Research
         {
             material.SetTexture("_SurfacePaint",texture);material.SetVector("_SurfacePaintBounds",new Vector4(bounds.x,bounds.y,1/bounds.z,1/bounds.w));material.EnableKeyword("_LC_SURFACE_PAINT");material.SetFloat("_UseSurfacePaint",1);
         }
-        void Update()
-        {
-            if(cursor)cursor.enabled=false;
-            Session.Access=playerMode?allowedTools&MapEditAccess.Player:allowedTools;
-            if(GetComponent<MapRiverRuntimeTool>() is MapRiverRuntimeTool riverTool&&riverTool.Active)return;
-            if(treeTool!=0){UpdateTreeTool();return;}
-            if(!painting){EndStroke();return;}
-            if(Input.GetKey(KeyCode.LeftControl)||Input.GetKey(KeyCode.RightControl))
-            {if(Input.GetKeyDown(KeyCode.Z))Undo();if(Input.GetKeyDown(KeyCode.Y))Redo();}
-            if(Input.mousePosition.x>320*Mathf.Clamp(Screen.width/1600f,.85f,1.3f)&&RaycastGround(studyCamera.ScreenPointToRay(Input.mousePosition),out var hover))
-            {cursor.enabled=true;for(int i=0;i<48;i++){float a=i*Mathf.PI*2/48;float x=hover.point.x+Mathf.Cos(a)*radius,z=hover.point.z+Mathf.Sin(a)*radius;cursor.SetPosition(i,new Vector3(x,Session.SampleHeight(x,z)+.05f,z));}}
-            if(Input.GetMouseButtonUp(0))EndStroke();
-            if(!Input.GetMouseButton(0))return;
-            if(Input.mousePosition.x<320*Mathf.Clamp(Screen.width/1600f,.85f,1.3f)){EndStroke();return;}
-            if(EventSystem.current && EventSystem.current.IsPointerOverGameObject()){EndStroke();return;}
-            if(Time.unscaledTime<nextStamp)return;nextStamp=Time.unscaledTime+1/Mathf.Max(1,stampsPerSecond);
-            if(!RaycastGround(studyCamera.ScreenPointToRay(Input.mousePosition),out var hit))return;
-            Vector2 p=new Vector2(hit.point.x,hit.point.z);if(p.x<source.bounds.x||p.x>source.bounds.x+source.bounds.z||p.y<source.bounds.y||p.y>source.bounds.y+source.bounds.w)return;
-            try{if(!held){BeginStroke(road,radius);last=p;held=true;}else if(!sculpting&&Vector2.SqrMagnitude(p-last)<.025f)return;
-                if(sculpting)Session.AppendHeightPoint(p);else Session.AppendPoint(p);last=p;}catch(Exception error){Session.CancelStroke();held=false;status=error.Message;}
-        }
         void LateUpdate(){if(RiverView!=null&&studyCamera)RiverView.Tick(studyCamera.transform.position);TerrainView?.FlushColliderBudget(2);if(TreeView!=null&&studyCamera)TreeView.Tick(studyCamera.transform.position);}
         public static MeshFilter FindGround(Material material)
         {
@@ -136,37 +118,13 @@ namespace LittleCastle.Research
             catalog=catalog?catalog:MapTreeCatalog.Default;if(!data.hasTreeBase&&catalog)catalog.ImportSceneBase(document,ground);
             return document;
         }
-        public bool RaycastGround(Ray ray,out RaycastHit hit)=>TerrainView!=null?TerrainView.Raycast(ray,out hit,300):Physics.Raycast(ray,out hit,300);
-        void UpdateTreeTool()
-        {
-            if(!treeCatalog||treeCatalog.entries.Length==0){CancelTreeTool();return;}selectedTreeSource=Mathf.Clamp(selectedTreeSource,0,treeCatalog.entries.Length-1);
-            if(Input.GetKeyDown(KeyCode.Escape)||Input.GetMouseButtonDown(1)){CancelTreeTool();return;}
-            if(Input.GetMouseButtonUp(0)){treeClickHeld=false;EndStroke();}
-            if(!studyCamera||Input.mousePosition.x<320*Mathf.Clamp(Screen.width/1600f,.85f,1.3f))return;
-            if(EventSystem.current&&EventSystem.current.IsPointerOverGameObject())return;
-            Ray ray=studyCamera.ScreenPointToRay(Input.mousePosition);
-            if(treeTool==3&&Input.GetMouseButtonDown(0)){if(TreeView!=null&&TreeView.Pick(ray,out long id)){selectedTree=id;var r=Session.GetTree(id);int source=Array.FindIndex(treeCatalog.entries,e=>e.definition.archetypeId==r.archetypeId);if(source>=0)selectedTreeSource=source;treeYaw=r.yawDegrees;treeScale=r.uniformScale;}return;}
-            if(!RaycastGround(ray,out var hit))return;Vector2 p=new Vector2(hit.point.x,hit.point.z);
-            if(cursor){cursor.enabled=true;float ring=treeTool==2?radius:2;for(int i=0;i<48;i++){float a=i*Mathf.PI*2/48;float x=p.x+Mathf.Cos(a)*ring,z=p.y+Mathf.Sin(a)*ring;cursor.SetPosition(i,new Vector3(x,Session.SampleHeight(x,z)+.05f,z));}}
-            try
-            {
-                if(treeTool==1&&Input.GetMouseButtonDown(0))selectedTree=Session.PlaceTree(treeCatalog.entries[selectedTreeSource].definition.archetypeId,p,treeYaw,treeScale);
-                if(treeTool==4&&Input.GetMouseButtonDown(0)&&Session.HasTree(selectedTree)){Session.TransformTree(selectedTree,p,treeYaw,treeScale);treeTool=3;}
-                if(treeTool==2&&Input.GetMouseButton(0)&&Time.unscaledTime>=nextStamp)
-                {
-                    nextStamp=Time.unscaledTime+1/Mathf.Max(1,stampsPerSecond);
-                    if(!treeClickHeld){Session.BeginTreeBrush(treeCatalog.packs[selectedTreePack].id,radius,treeBrushDensity,treeBrushSpacing,treeBrushSeed);treeClickHeld=true;}
-                    Session.AppendTreeBrush(p);
-                }
-            }
-            catch(Exception e){status=e.Message;Session.CancelStroke();treeClickHeld=false;}
-        }
-        public void SetTreeTool(int mode){EndStroke();painting=false;treeTool=mode;treeClickHeld=false;}
-        public void CancelTreeTool(){Session.CancelStroke();treeTool=0;treeClickHeld=false;treeCancelFrame=Time.frameCount;}
+        public bool RaycastGround(Ray ray,out RaycastHit hit)=>MapSurfaceQuery.Raycast(Session,ray,out hit);
+        public void SetTreeTool(int mode){EndStroke();painting=false;treeTool=mode;}
+        public void CancelTreeTool(){tools?.Cancel();Session.CancelStroke();treeTool=0;treeCancelFrame=Time.frameCount;}
         public void ApplySelectedTreeTransform(){try{if(Session.HasTree(selectedTree)){var r=Session.GetTree(selectedTree);Session.TransformTree(selectedTree,r.position,treeYaw,treeScale);}}catch(Exception e){status=e.Message;}}
         public void DeleteSelectedTree(){try{if(Session.HasTree(selectedTree))Session.DeleteTree(selectedTree);selectedTree=0;}catch(Exception e){status=e.Message;}}
         void OnApplicationFocus(bool focus){if(!focus)EndStroke();}
-        public void EndStroke(){held=false;treeClickHeld=false;Session?.CommitStroke();}
+        public void EndStroke(){tools?.Complete();Session?.CommitStroke();}
         public void BeginStroke(bool isRoad,float brushRadius)
         {
             if(sculpting){Session.BeginHeightStroke(brushRadius,(lowerTerrain?-1:1)*terrainMetresPerSecond/Mathf.Max(1,stampsPerSecond));return;}
@@ -174,9 +132,9 @@ namespace LittleCastle.Research
                 scatter=!isRoad&&!erase&&populatePlants,scatterProfile=currentProfile,radius=brushRadius,strength=strength,density=density});
         }
         public void AddStroke(SurfacePaintStroke stroke)=>Session.AddStroke(stroke);
-        public void Undo(){held=false;try{Session.Undo();}catch(Exception e){status=e.Message;}}
-        public void Redo(){held=false;try{Session.Redo();}catch(Exception e){status=e.Message;}}
-        public void ResetEdits(){held=false;try{Session.ClearEdits();}catch(Exception e){status=e.Message;}}
+        public void Undo(){try{if(tools!=null&&tools.Active){tools.Cancel();return;}Session.Undo();}catch(Exception e){status=e.Message;}}
+        public void Redo(){try{tools?.Cancel();Session.Redo();}catch(Exception e){status=e.Message;}}
+        public void ResetEdits(){try{tools?.Cancel();Session.ClearEdits();}catch(Exception e){status=e.Message;}}
         public void SaveEdits()
         {
             try{EndStroke();string temporary=SavePath+".tmp";File.WriteAllText(temporary,ExportJson());
@@ -191,7 +149,7 @@ namespace LittleCastle.Research
             }catch(Exception error){status="Не удалось загрузить: "+error.Message;}
         }
         public string ExportJson(){EndStroke();return Session.ExportJson();}
-        public void LoadJson(string json){Session.LoadJson(json);held=false;}
+        public void LoadJson(string json){tools?.Cancel();Session.LoadJson(json);}
         public static byte[] BuildAuthoredPixels(SurfacePaintData data)
         {
             var result=new byte[Resolution*Resolution*2];

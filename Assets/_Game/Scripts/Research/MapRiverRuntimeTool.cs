@@ -16,16 +16,8 @@ namespace LittleCastle.Research
         public bool Active=>open&&state.mode!=0;
         public int LastEscapeFrame {get;private set;}=-1;
         public void Connect(MeadowSurfacePainter owner){painter=owner;}
-        void Update()
-        {
-            if(!painter||painter.Session==null)return;
-            if((painter.Session.Access&MapEditAccess.Rivers)==0){state.mode=0;open=false;return;}
-            if(!Active)return;
-            if(Input.GetKeyDown(KeyCode.Escape)){state.mode=0;LastEscapeFrame=Time.frameCount;return;}
-            if(Input.mousePosition.x<330||Input.mousePosition.x>Screen.width-360||EventSystem.current&&EventSystem.current.IsPointerOverGameObject())return;
-            if(Input.GetMouseButtonDown(0)&&painter.RaycastGround(painter.studyCamera.ScreenPointToRay(Input.mousePosition),out var hit))
-                state.Click(painter.Session,new Vector2(hit.point.x,hit.point.z));
-        }
+        public void Cancel(){state.mode=0;LastEscapeFrame=Time.frameCount;}
+        public void Click(Vector2 point)=>state.Click(painter.Session,point);
         void OnGUI()
         {
             if(!painter||painter.Session==null||(painter.Session.Access&MapEditAccess.Rivers)==0||Array.IndexOf(Environment.GetCommandLineArgs(),"-meadowCapture")>=0)return;

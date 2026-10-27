@@ -10,10 +10,11 @@ namespace LittleCastle.World
         struct HeightChange {public int x,z;public float before,after;}
         MapHeightField heightField;
         Dictionary<ChunkCoordinate,HeightChange> pendingHeights;
-        float heightRadius,heightStep;
+        float heightRadius,heightStep,heightSoftness=1;
         Rect pendingHeightBounds;
         public long HeightRevision {get;private set;}
         public MapHeightFieldData HeightSettings=>Clone(heightField.Definition);
+        public Vector2 HeightOrigin=>heightField.Definition.origin;
         public float HeightSpacing=>heightField.Definition.spacing;
         public float MinimumHeight=>heightField.Definition.minimumHeight;
         public float MaximumHeight=>heightField.Definition.maximumHeight;
@@ -25,11 +26,11 @@ namespace LittleCastle.World
             CommitStroke();var result=ExportAuthored();result.surface.strokes.AddRange(ExportEdits().strokes);result.heightField=heightField.Bake();result.trees=ExportTrees();result.rivers=ExportRivers();result.rockSections=ExportRockSections();return result;
         }
         void RequireTerrainAccess(){if((Access&MapEditAccess.Terrain)==0)throw new UnauthorizedAccessException("Terrain editing is disabled for this role.");}
-        public void BeginHeightStroke(float radius,float deltaPerStamp)
+        public void BeginHeightStroke(float radius,float deltaPerStamp,float softness=1)
         {
-            RequireTerrainAccess();if(!Finite(radius)||radius<.5f||radius>32||!Finite(deltaPerStamp)||Mathf.Abs(deltaPerStamp)>2||deltaPerStamp==0)
+            RequireTerrainAccess();if(!Finite(radius)||radius<.5f||radius>Mathf.Min(128,Mathf.Max(32,HeightSpacing*64))||!Finite(softness)||softness<0||softness>1||!Finite(deltaPerStamp)||Mathf.Abs(deltaPerStamp)>2||deltaPerStamp==0)
                 throw new InvalidDataException("Invalid terrain brush radius/strength.");
-            CommitStroke();pendingHeights=new Dictionary<ChunkCoordinate,HeightChange>();heightRadius=radius;heightStep=deltaPerStamp;pendingHeightBounds=default;
+            CommitStroke();pendingHeights=new Dictionary<ChunkCoordinate,HeightChange>();heightRadius=radius;heightStep=deltaPerStamp;heightSoftness=softness;pendingHeightBounds=default;
         }
         public void AppendHeightPoint(Vector2 center)
         {
@@ -43,7 +44,7 @@ namespace LittleCastle.World
                 bool blocked=false;foreach(var area in heightField.Definition.protectedAreas)
                 {var padded=area;padded.xMin-=HeightSpacing;padded.yMin-=HeightSpacing;padded.xMax+=HeightSpacing;padded.yMax+=HeightSpacing;if(padded.Contains(p)){blocked=true;break;}}
                 if(blocked)continue;
-                float before=heightField.Sample(x,z),after=Mathf.Clamp(before+heightStep*(1-Mathf.SmoothStep(0,1,distance/heightRadius)),MinimumHeight,MaximumHeight);
+                float before=heightField.Sample(x,z),after=Mathf.Clamp(before+heightStep*MapBrushFalloff.Weight(distance,heightRadius,heightSoftness),MinimumHeight,MaximumHeight);
                 if(before==after)continue;var key=new ChunkCoordinate(x,z);
                 if(!pendingHeights.TryGetValue(key,out var change))change=new HeightChange{x=x,z=z,before=before};
                 change.after=after;pendingHeights[key]=change;heightField.Set(x,z,after);

@@ -72,34 +72,36 @@ namespace LittleCastle.World
             CommitStroke();RequireTreeAccess(MapEditAccess.TreeEdit);var before=GetTreeOwned(id);CheckTreeEditable(before);
             var command=TreeCommand(MapEditAccess.TreeEdit);command.treeChanges.Add(new TreeChange{before=before});command.bounds=TreeBounds(before);Execute(command);
         }
-        public void BeginTreeBrush(string packId,float radius,float density,float spacing,int seed,string transactionId=null)
+        public void BeginTreeBrush(string packId,float radius,float density,float spacing,int seed,string transactionId=null,float softness=0)
         {
             CommitStroke();RequireTreeAccess(MapEditAccess.TreeBrush);
             if(!treePacks.TryGetValue(packId,out var pack))throw new InvalidDataException("Unknown tree pack.");
             if(pack.authorOnly&&!AuthorTools)throw new UnauthorizedAccessException("This tree pack is reserved for the author.");
             foreach(var member in pack.entries)if(member.weight>0)RequireTreeDefinition(member.archetypeId,out _);
-            if(!Finite(radius)||radius<1||radius>32||!Finite(density)||density<0||density>1||!Finite(spacing)||spacing<2||spacing>16)throw new InvalidDataException("Invalid tree brush settings.");
-            activePack=Clone(pack);treeBrushRadius=radius;treeDensity=density;treeSpacing=spacing;treeSeed=seed;brushId=transactionId??Guid.NewGuid().ToString("N");brushCells.Clear();
+            if(!Finite(radius)||radius<1||radius>128||!Finite(softness)||softness<0||softness>1||!Finite(density)||density<0||density>1||!Finite(spacing)||spacing<2||spacing>16)throw new InvalidDataException("Invalid tree brush settings.");
+            activePack=Clone(pack);treeBrushRadius=radius;treeSoftness=softness;treeDensity=density;treeSpacing=spacing;treeSeed=seed;brushId=transactionId??Guid.NewGuid().ToString("N");brushCells.Clear();
             treeBrush=TreeCommand(MapEditAccess.TreeBrush|(pack.authorOnly?MapEditAccess.Author:MapEditAccess.None));
         }
+        float treeSoftness;
         public int AppendTreeBrush(Vector2 center)
         {
-            if(treeBrush==null)throw new InvalidOperationException("Begin a tree brush first.");CheckTreeCommandAccess(treeBrush);ValidatePoint(center);int count=0;
+            if(treeBrush==null)throw new InvalidOperationException("Begin a tree brush first.");CheckTreeCommandAccess(treeBrush);ValidatePoint(center);int count=0;Rect dirty=default;
             for(int z=Mathf.FloorToInt((center.y-treeBrushRadius)/treeSpacing);z<=Mathf.FloorToInt((center.y+treeBrushRadius)/treeSpacing);z++)
             for(int x=Mathf.FloorToInt((center.x-treeBrushRadius)/treeSpacing);x<=Mathf.FloorToInt((center.x+treeBrushRadius)/treeSpacing);x++)
             {
                 var cell=new ChunkCoordinate(x,z);if(brushCells.Contains(cell))continue;
                 var p=new Vector2((x+.2f+TreeHash01(x,z,0)*.6f)*treeSpacing,(z+.2f+TreeHash01(x,z,1)*.6f)*treeSpacing);
-                if((p-center).sqrMagnitude>treeBrushRadius*treeBrushRadius)continue;brushCells.Add(cell);
-                if(TreeHash01(x,z,2)>=treeDensity)continue;
+                if((p-center).sqrMagnitude>treeBrushRadius*treeBrushRadius)continue;
+                if(TreeHash01(x,z,2)>=treeDensity*MapBrushFalloff.Weight(Vector2.Distance(p,center),treeBrushRadius,treeSoftness))continue;
+                brushCells.Add(cell);
                 float total=0;foreach(var e in activePack.entries)total+=e.weight;float pick=TreeHash01(x,z,3)*total;MapTreeDefinition definition=null;
                 foreach(var entry in activePack.entries){pick-=entry.weight;if(entry.weight>0&&pick<=0){RequireTreeDefinition(entry.archetypeId,out definition);break;}}if(definition==null)continue;
                 long id=MapObjectIds.FromKey(MapId+"/"+brushId+"/"+x+"/"+z);if(trees.ContainsKey(id)||baseTrees.ContainsKey(id))continue;
                 var record=CreateTree(definition,id,p,TreeHash01(x,z,4)*360,Mathf.Lerp(definition.minimumScale,definition.maximumScale,TreeHash01(x,z,5)));
                 if(!PlacementAllowed(record,definition,0,out _))continue;
-                SetTree(id,record);treeBrush.treeChanges.Add(new TreeChange{after=record});treeBrush.bounds=Union(treeBrush.bounds,TreeBounds(record));count++;
+                SetTree(id,record);treeBrush.treeChanges.Add(new TreeChange{after=record});treeBrush.bounds=Union(treeBrush.bounds,TreeBounds(record));dirty=Union(dirty,TreeBounds(record));count++;
             }
-            if(count>0)Notify(treeBrush.bounds,true,MapChangeKind.Objects);return count;
+            if(count>0)Notify(dirty,true,MapChangeKind.Objects);return count;
         }
         void CommitTreeBrush()
         {
@@ -140,7 +142,7 @@ namespace LittleCastle.World
                 foreach(var stroke in strokes)
                 {
                     float distance=float.PositiveInfinity;for(int i=0;i<stroke.points.Count;i++)distance=Mathf.Min(distance,ChunkTerrainVertexMasks.DistanceToSegment(point,stroke.points[Mathf.Max(0,i-1)],stroke.points[i],out _));
-                    float cover=ChunkTerrainVertexMasks.SoftCorridor(distance,stroke.radius*.62f,stroke.radius*.38f)*stroke.strength;
+                    float cover=MapBrushFalloff.SurfaceWeight(stroke,distance);
                     if(!stroke.erase)road=stroke.road?Mathf.Max(road,cover):Mathf.Min(road,1-cover);
                 }
                 if(road>.15f){reason="Road clearance blocks this position.";return false;}

@@ -18,7 +18,6 @@ namespace LittleCastle.Rendering
         readonly List<long> removals=new List<long>();
         bool dirty=true;
         float nextRefresh;
-        long objectRevision=-1,heightRevision=-1;
         public float maximumDistance=120,colliderDistance=28;
         public int maximumResident=96,creationBudget=8;
         public int ResidentCount=>views.Count;
@@ -61,11 +60,11 @@ namespace LittleCastle.Rendering
         }
         void Changed(MapRegionChange change)
         {
-            bool objects=(change.kind&MapChangeKind.Objects)!=0&&objectRevision!=session.TreeRevision;
-            bool height=(change.kind&MapChangeKind.Height)!=0&&heightRevision!=session.HeightRevision;
+            bool objects=(change.kind&MapChangeKind.Objects)!=0;
+            bool height=(change.kind&MapChangeKind.Height)!=0;
             if(!objects&&!height&&(change.kind&MapChangeKind.Rivers)==0)return;
             if((change.kind&MapChangeKind.Rivers)!=0)dirty=true;
-            if(objects){objectRevision=session.TreeRevision;dirty=true;}if(height)heightRevision=session.HeightRevision;
+            if(objects)dirty=true;
             removals.Clear();
             foreach(var pair in views)
             {

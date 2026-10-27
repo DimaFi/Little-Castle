@@ -59,7 +59,6 @@ namespace LittleCastle.Rendering
         readonly MeadowScatterRenderer scatter;
         readonly Func<float,float,float> previousHeightSampler;
         readonly int columns,rows;
-        long appliedRevision;
         readonly Dictionary<int,float[]> baseGrassHeights=new Dictionary<int,float[]>();
         readonly Dictionary<int,Vector3[]> baseGrassNormals=new Dictionary<int,Vector3[]>();
         readonly HashSet<Collider> ownedColliders=new HashSet<Collider>();
@@ -133,8 +132,8 @@ namespace LittleCastle.Rendering
         }
         void Changed(MapRegionChange change)
         {
-            if((change.kind&MapChangeKind.Height)==0||appliedRevision==session.HeightRevision)return;
-            appliedRevision=session.HeightRevision;
+            // One revision can now arrive as several disjoint chunk-local notifications.
+            if((change.kind&MapChangeKind.Height)==0)return;
             LastTerrainChunks=0;
             foreach(var chunk in chunks)if(chunk.bounds.Overlaps(change.bounds))
             {UpdateChunk(chunk);LastTerrainChunks++;if(queued.Add(chunk))collisionQueue.Enqueue(chunk);}

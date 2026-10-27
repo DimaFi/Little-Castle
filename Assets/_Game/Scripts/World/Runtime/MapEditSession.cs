@@ -254,7 +254,7 @@ namespace LittleCastle.World
         static Rect Union(Rect a,Rect b)=>a.width<=0?b:b.width<=0?a:Rect.MinMaxRect(Mathf.Min(a.xMin,b.xMin),Mathf.Min(a.yMin,b.yMin),Mathf.Max(a.xMax,b.xMax),Mathf.Max(a.yMax,b.yMax));
         static Rect DocumentBounds(List<SurfacePaintStroke> list){Rect r=default;foreach(var s in list)r=Union(r,StrokeBounds(s));return r;}
         Rect AllEditBounds()=>Union(DocumentBounds(edits),StrokeBounds(pending));
-        void Notify(Rect dirty,bool preview=false,MapChangeKind kind=MapChangeKind.Surface|MapChangeKind.Decoration){if(dirty.width>0)Changed?.Invoke(new MapRegionChange(dirty,preview,kind));}
+        void Notify(Rect dirty,bool preview=false,MapChangeKind kind=MapChangeKind.Surface|MapChangeKind.Decoration){if(dirty.width>0)QueueNotification(new MapRegionChange(dirty,preview,kind));}
         void ValidateDocument(SurfacePaintDocument d)
         {
             if(d==null||d.version!=1||d.strokes==null||d.strokes.Count>100000)throw new InvalidDataException("Unknown surface document.");
@@ -266,8 +266,9 @@ namespace LittleCastle.World
         }
         static void ValidateSettings(SurfacePaintStroke s)
         {
-            if(s==null||string.IsNullOrWhiteSpace(s.id)||s.id.Length>128||!Finite(s.radius)||s.radius<.1f||s.radius>8||
+            if(s==null||string.IsNullOrWhiteSpace(s.id)||s.id.Length>128||!Finite(s.radius)||s.radius<.1f||s.radius>128||
                 !Finite(s.strength)||s.strength<0||s.strength>1||!Finite(s.density)||s.density<0||s.density>1||
+                !Finite(s.brushSoftness)||s.brushSoftness<0||s.brushSoftness>1.0011f||
                 (int)s.scatterProfile<0||(int)s.scatterProfile>=MeadowScatterProfiles.Count)throw new InvalidDataException("Invalid surface stroke.");
         }
         void ValidatePoint(Vector2 p)
@@ -276,6 +277,6 @@ namespace LittleCastle.World
         static T Clone<T>(T value)=>JsonUtility.FromJson<T>(JsonUtility.ToJson(value));
         static List<SurfacePaintStroke> Copy(List<SurfacePaintStroke> values){var r=new List<SurfacePaintStroke>(values.Count);foreach(var s in values)r.Add(Clone(s));return r;}
         static string Fingerprint<T>(T d)
-        { ulong h=14695981039346656037UL;foreach(char c in JsonUtility.ToJson(d)){h^=c;h=unchecked(h*1099511628211UL);}return h.ToString("x16"); }
+        { ulong h=14695981039346656037UL;foreach(char c in System.Text.RegularExpressions.Regex.Replace(JsonUtility.ToJson(d), @",""brushSoftness"":0(?:\.0)?(?=[,}])", "")){h^=c;h=unchecked(h*1099511628211UL);}return h.ToString("x16"); }
     }
 }

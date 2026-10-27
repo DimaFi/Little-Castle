@@ -35,6 +35,7 @@ namespace LittleCastle.Rendering
         public bool erase;
         public float radius=1.5f;
         public float strength=1;
+        public float brushSoftness; // 0 = legacy; otherwise softness + .001
         public float density=1;
         public List<Vector2> points=new List<Vector2>();
         public LittleCastle.World.WorldRoadData ToRoadData()
