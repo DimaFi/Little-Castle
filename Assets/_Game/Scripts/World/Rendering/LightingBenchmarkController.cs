@@ -60,7 +60,7 @@ namespace LittleCastle.World
             previousVsync = QualitySettings.vSyncCount;
             previousTarget = Application.targetFrameRate;
             previousBackground = Application.runInBackground;
-            string[] args = Environment.GetCommandLineArgs();
+            string[] args = System.Environment.GetCommandLineArgs();
             automated = args.Contains("-lightingBenchmark") || args.Contains("-lightingCapture");
             output = Path.GetFullPath(Argument(args, "-lightingOutput", Path.Combine(Application.dataPath, "../Captures")));
             Directory.CreateDirectory(output);

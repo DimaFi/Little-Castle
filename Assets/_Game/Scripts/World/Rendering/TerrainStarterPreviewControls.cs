@@ -55,17 +55,17 @@ namespace LittleCastle.World
             oldAA=QualitySettings.antiAliasing;
             oldShadows=QualitySettings.shadows; oldShadowResolution=QualitySettings.shadowResolution;
             oldPixelLights=QualitySettings.pixelLightCount; oldCascades=QualitySettings.shadowCascades;
-            qa=Array.IndexOf(Environment.GetCommandLineArgs(),"-starterQA")>=0;
-            visualQA=Array.IndexOf(Environment.GetCommandLineArgs(),"-starterVisual")>=0;
-            low=Array.IndexOf(Environment.GetCommandLineArgs(),"-starterLow")>=0;
-            quality=low ? PreviewQuality.Low : Array.IndexOf(Environment.GetCommandLineArgs(),"-starterUltra")>=0 ? PreviewQuality.Ultra :
-                Array.IndexOf(Environment.GetCommandLineArgs(),"-starterHigh")>=0 ? PreviewQuality.High : PreviewQuality.Medium;
+            qa=Array.IndexOf(System.Environment.GetCommandLineArgs(),"-starterQA")>=0;
+            visualQA=Array.IndexOf(System.Environment.GetCommandLineArgs(),"-starterVisual")>=0;
+            low=Array.IndexOf(System.Environment.GetCommandLineArgs(),"-starterLow")>=0;
+            quality=low ? PreviewQuality.Low : Array.IndexOf(System.Environment.GetCommandLineArgs(),"-starterUltra")>=0 ? PreviewQuality.Ultra :
+                Array.IndexOf(System.Environment.GetCommandLineArgs(),"-starterHigh")>=0 ? PreviewQuality.High : PreviewQuality.Medium;
             urpQuality=UrpPreviewQualityOverride.Create(quality);
-            stackOff=Array.IndexOf(Environment.GetCommandLineArgs(),"-starterStackOff")>=0;
-            aoOff=Array.IndexOf(Environment.GetCommandLineArgs(),"-starterAOOff")>=0;
-            dofOff=Array.IndexOf(Environment.GetCommandLineArgs(),"-starterDOFOff")>=0;
-            filterOff=Array.IndexOf(Environment.GetCommandLineArgs(),"-starterFilterOff")>=0;
-            terrainOff=Array.IndexOf(Environment.GetCommandLineArgs(),"-starterTerrainOff")>=0;
+            stackOff=Array.IndexOf(System.Environment.GetCommandLineArgs(),"-starterStackOff")>=0;
+            aoOff=Array.IndexOf(System.Environment.GetCommandLineArgs(),"-starterAOOff")>=0;
+            dofOff=Array.IndexOf(System.Environment.GetCommandLineArgs(),"-starterDOFOff")>=0;
+            filterOff=Array.IndexOf(System.Environment.GetCommandLineArgs(),"-starterFilterOff")>=0;
+            terrainOff=Array.IndexOf(System.Environment.GetCommandLineArgs(),"-starterTerrainOff")>=0;
             if(qa) {
                 draws=RenderCounter("Draw Calls Count","Draw Calls");
                 batches=RenderCounter("Batches Count","Batches");

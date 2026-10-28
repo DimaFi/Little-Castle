@@ -23,7 +23,7 @@ namespace LittleCastle.World
         public Vector3 SampleNormal(float x,float z)=>new Vector3(SampleHeight(x-HeightSpacing,z)-SampleHeight(x+HeightSpacing,z),2*HeightSpacing,SampleHeight(x,z-HeightSpacing)-SampleHeight(x,z+HeightSpacing)).normalized;
         public MapAuthoringDocument ExportMap()
         {
-            CommitStroke();var result=ExportAuthored();result.surface.strokes.AddRange(ExportEdits().strokes);result.heightField=heightField.Bake();result.trees=ExportTrees();result.rivers=ExportRivers();result.rockSections=ExportRockSections();return result;
+            CommitStroke();var result=ExportAuthored();result.surface.strokes.AddRange(ExportEdits().strokes);result.heightField=heightField.Bake();result.trees=ExportTrees();result.rivers=ExportRivers();result.rockSections=ExportRockSections();result.environment=ExportEnvironment();return result;
         }
         void RequireTerrainAccess(){if((Access&MapEditAccess.Terrain)==0)throw new UnauthorizedAccessException("Terrain editing is disabled for this role.");}
         public void BeginHeightStroke(float radius,float deltaPerStamp,float softness=1)

@@ -15,7 +15,7 @@ namespace LittleCastle.Rendering
     }
     public static class MeadowScatterProfiles
     {
-        public static readonly string[] Names={"Смешанный","Цветы","Лесная мелочь","Трава","Камни","Подлесок"};
+        public static readonly string[] Names={"РЎРјРµС€Р°РЅРЅС‹Р№","Р¦РІРµС‚С‹","Р›РµСЃРЅР°СЏ РјРµР»РѕС‡СЊ","РўСЂР°РІР°","РљР°РјРЅРё","РџРѕРґР»РµСЃРѕРє"};
         public const int Count=6;
     }
 
@@ -54,6 +54,8 @@ namespace LittleCastle.Rendering
         // An explicit marker distinguishes that empty default from an authored base.
         public bool hasHeightBase;
         public bool hasTreeBase;
+        public bool hasEnvironmentBase;
+        public LittleCastle.World.Environment.MapEnvironmentData environment;
         public List<LittleCastle.World.MapRiverRecord> rivers=new List<LittleCastle.World.MapRiverRecord>();
         public List<LittleCastle.World.MapRockSection> rockSections=new List<LittleCastle.World.MapRockSection>();
         public List<LittleCastle.World.MapTreeInstance> treeInstances=new List<LittleCastle.World.MapTreeInstance>();

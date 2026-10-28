@@ -11,7 +11,7 @@ namespace LittleCastle.World
         readonly List<MapRegionChange> dispatchChanges=new List<MapRegionChange>();
         void NotifyCommand(Command command)
         {
-            if(notificationDepth==0||command.rivers.Count>0||command.sections.Count>0){Notify(command.bounds,false,command.kind);return;}
+            if(notificationDepth==0||command.rivers.Count>0||command.sections.Count>0||command.environment.Count>0||command.environmentSettingsBefore!=null){Notify(command.bounds,false,command.kind);return;}
             foreach(var stroke in command.added)NotifyStrokeRegions(stroke,false);
             foreach(var stroke in command.removed)NotifyStrokeRegions(stroke,false);
             NotifyHeightRegions(command.heights,false);

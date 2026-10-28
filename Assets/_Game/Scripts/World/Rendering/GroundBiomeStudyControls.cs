@@ -42,7 +42,7 @@ namespace LittleCastle.World
         {
             SetView(0);
             if (baselineTerrain) ApplyComparison(3);
-            string[] args = Environment.GetCommandLineArgs();
+            string[] args = System.Environment.GetCommandLineArgs();
             int index = Array.IndexOf(args, "-groundCapture");
             if (index < 0 || index + 1 >= args.Length) yield break;
             capture = true; showUI = false;

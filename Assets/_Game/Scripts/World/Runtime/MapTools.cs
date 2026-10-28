@@ -59,6 +59,8 @@ namespace LittleCastle.World
         public MeadowScatterProfile scatterProfile;
         public string treePackId;
         public int seed=1729;
+        public int environmentThemeId=3;
+        public MapEnvironmentBrushMode environmentMode=MapEnvironmentBrushMode.Add;
         public MapToolContext(MapEditSession session){this.session=session??throw new ArgumentNullException(nameof(session));}
     }
 
@@ -92,6 +94,7 @@ namespace LittleCastle.World
         {
             var r=new MapToolRegistry();r.Register(new MapSurfaceTool("surface.road","Дорожка",true,false));
             r.Register(new MapSurfaceTool("surface.meadow","Луг",false,false));r.Register(new MapSurfaceTool("surface.erase","Стереть траву",false,true));
+            r.Register(new MapEnvironmentTool(false));r.Register(new MapEnvironmentTool(true));
             r.Register(new MapHeightTool(false));r.Register(new MapHeightTool(true));r.Register(new MapGroveTool());return r;
         }
     }
