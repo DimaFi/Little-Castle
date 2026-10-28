@@ -12,7 +12,7 @@ namespace LittleCastle.World
         {
             public int x,z;
             public List<ThemeLayerSnapshot> beforeThemes,afterThemes;
-            public ScalarTileSnapshot beforeSnow,afterSnow;
+            public ScalarTileSnapshot beforeSnow,afterSnow,beforeClear,afterClear;
         }
         sealed class EnvironmentStroke
         {
@@ -25,6 +25,7 @@ namespace LittleCastle.World
         bool applyingEnvironment;
         public BiomeInfluenceField EnvironmentThemes {get;private set;}
         public SnowAccumulationField EnvironmentSnow {get;private set;}
+        SnowAccumulationField environmentSnowClear;
         MapEnvironmentSettings environmentSettings;
         public MapEnvironmentSettings EnvironmentSettings=>Clone(environmentSettings);
         public long EnvironmentRevision {get;private set;}
@@ -38,9 +39,11 @@ namespace LittleCastle.World
             var data=ValidateEnvironment(authored.environment);
             EnvironmentThemes=new BiomeInfluenceField(data.cellSize,data.tileResolution);
             EnvironmentSnow=new SnowAccumulationField(data.cellSize,data.tileResolution);
+            environmentSnowClear=new SnowAccumulationField(data.cellSize,data.tileResolution);
             RestoreEnvironment(data);
             EnvironmentThemes.Changed+=r=>EnvironmentFieldChanged(r,MapChangeKind.Biomes);
             EnvironmentSnow.Changed+=r=>EnvironmentFieldChanged(r,MapChangeKind.Snow);
+            environmentSnowClear.Changed+=r=>EnvironmentFieldChanged(r,MapChangeKind.Snow);
         }
         void EnvironmentFieldChanged(Rect area,MapChangeKind kind)
         {
@@ -50,20 +53,21 @@ namespace LittleCastle.World
         }
         public MapEnvironmentData ExportEnvironment()=>new MapEnvironmentData{
             cellSize=EnvironmentThemes.CellSize,tileResolution=EnvironmentThemes.TileResolution,
-            themes=EnvironmentThemes.Capture(),snow=EnvironmentSnow.Capture(),settings=Clone(environmentSettings)};
+            themes=EnvironmentThemes.Capture(),snow=EnvironmentSnow.Capture(),snowClear=environmentSnowClear.Capture(),settings=Clone(environmentSettings)};
         MapEnvironmentData ValidateEnvironment(MapEnvironmentData source)
         {
             var d=source==null?new MapEnvironmentData():Clone(source);
             if(d.version!=1||d.cellSize!=.5f||d.tileResolution!=16||d.themes==null||d.snow==null||d.themes.Count>256||d.snow.Count>65536)
                 throw new InvalidDataException("Unsupported environment grid or version.");
+            d.snowClear=d.snowClear??new List<ScalarTileSnapshot>();
             ValidateEnvironmentSettings(d.settings);
-            int count=d.snow.Count;foreach(var layer in d.themes){if(layer==null||layer.tiles==null)throw new InvalidDataException("Missing biome layer.");count+=layer.tiles.Count;}
+            int count=d.snow.Count+d.snowClear.Count;foreach(var layer in d.themes){if(layer==null||layer.tiles==null)throw new InvalidDataException("Missing biome layer.");count+=layer.tiles.Count;}
             if(count>65536)throw new InvalidDataException("Environment tile limit exceeded.");
-            foreach(var tile in d.snow)ValidateEnvironmentTile(tile);
+            foreach(var tile in d.snow)ValidateEnvironmentTile(tile);foreach(var tile in d.snowClear)ValidateEnvironmentTile(tile);
             foreach(var layer in d.themes)foreach(var tile in layer.tiles)ValidateEnvironmentTile(tile);
             // Validate all weights/duplicates/normalization before mutating a live session.
             var b=new BiomeInfluenceField(d.cellSize,d.tileResolution);b.Restore(d.themes);
-            var s=new SnowAccumulationField(d.cellSize,d.tileResolution);s.Restore(d.snow);
+            var s=new SnowAccumulationField(d.cellSize,d.tileResolution);s.Restore(d.snow);s.Restore(d.snowClear);
             return d;
         }
         void ValidateEnvironmentTile(ScalarTileSnapshot tile)
@@ -82,7 +86,7 @@ namespace LittleCastle.World
         void RestoreEnvironment(MapEnvironmentData data)
         {
             applyingEnvironment=true;
-            try{EnvironmentThemes.Restore(data.themes);EnvironmentSnow.Restore(data.snow);environmentSettings=Clone(data.settings);}
+            try{EnvironmentThemes.Restore(data.themes);EnvironmentSnow.Restore(data.snow);environmentSnowClear.Restore(data.snowClear);environmentSettings=Clone(data.settings);}
             finally{applyingEnvironment=false;}
             EnvironmentRevision++;
         }
@@ -101,9 +105,9 @@ namespace LittleCastle.World
                 throw new InvalidDataException("Invalid environment brush.");
             foreach(var key in EnvironmentThemes.GetAffectedTiles(center,radius))
                 if(!stroke.tiles.ContainsKey(key))stroke.tiles.Add(key,new EnvironmentTileChange{x=key.x,z=key.z,
-                    beforeThemes=stroke.snow?null:EnvironmentThemes.CaptureTile(key.x,key.z),beforeSnow=stroke.snow?EnvironmentSnow.CaptureTile(key.x,key.z):null});
+                    beforeThemes=stroke.snow?null:EnvironmentThemes.CaptureTile(key.x,key.z),beforeSnow=stroke.snow?EnvironmentSnow.CaptureTile(key.x,key.z):null,beforeClear=stroke.snow?environmentSnowClear.CaptureTile(key.x,key.z):null});
             stroke.bounds=Union(stroke.bounds,new Rect(center.x-radius-.5f,center.y-radius-.5f,2*radius+1,2*radius+1));
-            if(stroke.snow)EnvironmentSnow.Paint(center,radius,stroke.erase?-strength:strength,1-softness,EnvironmentBounds);
+            if(stroke.snow){EnvironmentSnow.Paint(center,radius,stroke.erase?-strength:strength,1-softness,EnvironmentBounds);environmentSnowClear.Paint(center,radius,stroke.erase?strength:-strength,1-softness,EnvironmentBounds);}
             else if(stroke.smooth)EnvironmentThemes.Smooth(center,radius,stroke.theme,strength,1-softness,EnvironmentBounds);
             else EnvironmentThemes.Paint(center,radius,stroke.erase?EnvironmentThemeIds.Summer:stroke.theme,strength,1-softness,EnvironmentBounds);
         }
@@ -115,17 +119,17 @@ namespace LittleCastle.World
             var command=new Command{bounds=stroke.bounds,kind=stroke.snow?MapChangeKind.Snow:MapChangeKind.Biomes};
             foreach(var tile in stroke.tiles.Values){
                 tile.afterThemes=stroke.snow?null:EnvironmentThemes.CaptureTile(tile.x,tile.z);
-                tile.afterSnow=stroke.snow?EnvironmentSnow.CaptureTile(tile.x,tile.z):null;
-                if(JsonUtility.ToJson(new TileComparison{themes=tile.beforeThemes,snow=tile.beforeSnow})!=JsonUtility.ToJson(new TileComparison{themes=tile.afterThemes,snow=tile.afterSnow}))command.environment.Add(tile);
+                tile.afterSnow=stroke.snow?EnvironmentSnow.CaptureTile(tile.x,tile.z):null;tile.afterClear=stroke.snow?environmentSnowClear.CaptureTile(tile.x,tile.z):null;
+                if(JsonUtility.ToJson(new TileComparison{themes=tile.beforeThemes,snow=tile.beforeSnow,clear=tile.beforeClear})!=JsonUtility.ToJson(new TileComparison{themes=tile.afterThemes,snow=tile.afterSnow,clear=tile.afterClear}))command.environment.Add(tile);
             }
             if(command.environment.Count>0)Execute(command);
         }
-        [Serializable] sealed class TileComparison {public List<ThemeLayerSnapshot> themes;public ScalarTileSnapshot snow;}
+        [Serializable] sealed class TileComparison {public List<ThemeLayerSnapshot> themes;public ScalarTileSnapshot snow,clear;}
         void CancelEnvironmentStroke()
         {
             var stroke=environmentStroke;if(stroke==null)return;environmentStroke=null;
             applyingEnvironment=true;try{foreach(var tile in stroke.tiles.Values)
-                if(stroke.snow)EnvironmentSnow.RestoreTile(tile.x,tile.z,tile.beforeSnow);else EnvironmentThemes.RestoreTile(tile.x,tile.z,tile.beforeThemes);}
+                if(stroke.snow){EnvironmentSnow.RestoreTile(tile.x,tile.z,tile.beforeSnow);environmentSnowClear.RestoreTile(tile.x,tile.z,tile.beforeClear);}else EnvironmentThemes.RestoreTile(tile.x,tile.z,tile.beforeThemes);}
             finally{applyingEnvironment=false;}
             EnvironmentRevision++;Notify(stroke.bounds,false,stroke.snow?MapChangeKind.Snow:MapChangeKind.Biomes);
         }
@@ -135,7 +139,7 @@ namespace LittleCastle.World
             applyingEnvironment=true;
             try{foreach(var tile in command.environment){
                 if((command.kind&MapChangeKind.Biomes)!=0)EnvironmentThemes.RestoreTile(tile.x,tile.z,reverse?tile.beforeThemes:tile.afterThemes);
-                if((command.kind&MapChangeKind.Snow)!=0)EnvironmentSnow.RestoreTile(tile.x,tile.z,reverse?tile.beforeSnow:tile.afterSnow);
+                if((command.kind&MapChangeKind.Snow)!=0){EnvironmentSnow.RestoreTile(tile.x,tile.z,reverse?tile.beforeSnow:tile.afterSnow);environmentSnowClear.RestoreTile(tile.x,tile.z,reverse?tile.beforeClear:tile.afterClear);}
             }
             if(command.environmentSettingsBefore!=null)environmentSettings=Clone(reverse?command.environmentSettingsBefore:command.environmentSettingsAfter);}
             finally{applyingEnvironment=false;}
@@ -147,6 +151,12 @@ namespace LittleCastle.World
             RequireEnvironmentAccess(true);ValidateEnvironmentSettings(value);CommitStroke();
             if(JsonUtility.ToJson(value)==JsonUtility.ToJson(environmentSettings))return;
             Execute(new Command{bounds=EnvironmentBounds,kind=MapChangeKind.Snow,environmentSettingsBefore=Clone(environmentSettings),environmentSettingsAfter=Clone(value)});
+        }
+        public float SampleEnvironmentSnow(float x,float z)
+        {
+            float coverage=EnvironmentSnow.Sample(x,z);
+            if(environmentSettings.winterSnowPreview)coverage=Mathf.Max(coverage,EnvironmentThemes.Sample(EnvironmentThemeIds.Winter,x,z));
+            return Mathf.Clamp01(coverage*(1-environmentSnowClear.Sample(x,z))*environmentSettings.snowAmount);
         }
         public void AdvanceLocalSnow(float seconds,Rect area)
         {
@@ -176,16 +186,24 @@ namespace LittleCastle.World
         {
             if(!HasEnvironmentEdits)return;
             var target=new MapEditSession(ExportAuthored());
+            bool biomesChanged=JsonUtility.ToJson(new EnvironmentFieldSnapshot{themes=EnvironmentThemes.Capture()})!=JsonUtility.ToJson(new EnvironmentFieldSnapshot{themes=target.EnvironmentThemes.Capture()});
+            bool snowChanged=JsonUtility.ToJson(new EnvironmentFieldSnapshot{snow=EnvironmentSnow.Capture()})!=JsonUtility.ToJson(new EnvironmentFieldSnapshot{snow=target.EnvironmentSnow.Capture()});
+            bool clearingChanged=JsonUtility.ToJson(new EnvironmentFieldSnapshot{snow=environmentSnowClear.Capture()})!=JsonUtility.ToJson(new EnvironmentFieldSnapshot{snow=target.environmentSnowClear.Capture()});
+            snowChanged|=clearingChanged;
+            bool settingsChanged=JsonUtility.ToJson(environmentSettings)!=JsonUtility.ToJson(target.EnvironmentSettings);
             var keys=new HashSet<ChunkCoordinate>();
-            foreach(var layer in EnvironmentThemes.Capture())foreach(var t in layer.tiles)keys.Add(new ChunkCoordinate(t.tileX,t.tileZ));
-            foreach(var layer in target.EnvironmentThemes.Capture())foreach(var t in layer.tiles)keys.Add(new ChunkCoordinate(t.tileX,t.tileZ));
-            foreach(var t in EnvironmentSnow.Capture())keys.Add(new ChunkCoordinate(t.tileX,t.tileZ));
+            if(biomesChanged){foreach(var layer in EnvironmentThemes.Capture())foreach(var t in layer.tiles)keys.Add(new ChunkCoordinate(t.tileX,t.tileZ));
+            foreach(var layer in target.EnvironmentThemes.Capture())foreach(var t in layer.tiles)keys.Add(new ChunkCoordinate(t.tileX,t.tileZ));}
+            if(snowChanged){foreach(var t in EnvironmentSnow.Capture())keys.Add(new ChunkCoordinate(t.tileX,t.tileZ));
             foreach(var t in target.EnvironmentSnow.Capture())keys.Add(new ChunkCoordinate(t.tileX,t.tileZ));
+            foreach(var t in environmentSnowClear.Capture())keys.Add(new ChunkCoordinate(t.tileX,t.tileZ));foreach(var t in target.environmentSnowClear.Capture())keys.Add(new ChunkCoordinate(t.tileX,t.tileZ));}
             foreach(var key in keys)command.environment.Add(new EnvironmentTileChange{x=key.x,z=key.z,
                 beforeThemes=EnvironmentThemes.CaptureTile(key.x,key.z),afterThemes=target.EnvironmentThemes.CaptureTile(key.x,key.z),
-                beforeSnow=EnvironmentSnow.CaptureTile(key.x,key.z),afterSnow=target.EnvironmentSnow.CaptureTile(key.x,key.z)});
-            command.environmentSettingsBefore=Clone(environmentSettings);command.environmentSettingsAfter=target.EnvironmentSettings;
-            command.kind|=MapChangeKind.Biomes|MapChangeKind.Snow;command.bounds=Union(command.bounds,EnvironmentBounds);
+                beforeSnow=EnvironmentSnow.CaptureTile(key.x,key.z),afterSnow=target.EnvironmentSnow.CaptureTile(key.x,key.z),beforeClear=environmentSnowClear.CaptureTile(key.x,key.z),afterClear=target.environmentSnowClear.CaptureTile(key.x,key.z)});
+            if(settingsChanged){command.environmentSettingsBefore=Clone(environmentSettings);command.environmentSettingsAfter=target.EnvironmentSettings;}
+            if(biomesChanged)command.kind|=MapChangeKind.Biomes;
+            if(snowChanged||settingsChanged)command.kind|=MapChangeKind.Snow;
+            command.bounds=Union(command.bounds,EnvironmentBounds);
         }
         [Serializable] sealed class LegacyFeatureBase
         {

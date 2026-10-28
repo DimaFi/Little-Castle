@@ -47,13 +47,27 @@ namespace LittleCastle.Tests
         [Test] public void BiomeReplicaDoesNotSynchronizeLocalSnowOrWeatherAndRejectsStaleState()
         {
             var host=Session();var client=Session();Paint(client,new Vector2(16,16),true);var settings=client.EnvironmentSettings;settings.winterSnowPreview=false;client.SetEnvironmentSettings(settings);
-            string snow=JsonUtility.ToJson(client.ExportEnvironment().snow);Paint(host,Vector2.zero);client.ApplyBiomeSnapshot(host.ExportBiomeSnapshot());
-            Assert.That(client.EnvironmentThemes.Sample(3,0,0),Is.GreaterThan(.9));Assert.That(JsonUtility.ToJson(client.ExportEnvironment().snow),Is.EqualTo(snow));Assert.That(client.EnvironmentSettings.winterSnowPreview,Is.False);
+            float snow=client.EnvironmentSnow.Sample(16,16);Assert.That(snow,Is.GreaterThan(.9f));Paint(host,Vector2.zero);client.ApplyBiomeSnapshot(host.ExportBiomeSnapshot());
+            Assert.That(client.EnvironmentThemes.Sample(3,0,0),Is.GreaterThan(.9));Assert.That(client.EnvironmentSnow.Sample(16,16),Is.EqualTo(snow));Assert.That(client.EnvironmentSettings.winterSnowPreview,Is.False);
             var stale=host.ExportBiomeSnapshot();stale.revision=-1;Assert.Throws<InvalidDataException>(()=>client.ApplyBiomeSnapshot(stale));
         }
         [Test] public void PlayerCannotUseDeveloperEnvironmentBrushes()
         {
             var s=new MapEditSession(Map(),MapEditAccess.Player);Assert.Throws<UnauthorizedAccessException>(()=>s.BeginEnvironmentStroke(3));Assert.Throws<UnauthorizedAccessException>(()=>s.BeginEnvironmentStroke(3,true));
+        }
+        [Test] public void SnowEraserClearsWinterPreviewAndPersistsWithoutChangingBiome()
+        {
+            var s=Session();Paint(s,Vector2.zero);Assert.That(s.SampleEnvironmentSnow(0,0),Is.GreaterThan(.9));
+            long revision=s.BiomeRevision;s.BeginEnvironmentStroke(3,true,true);s.ApplyEnvironmentBrush(Vector2.zero,3,1,.2f);s.CommitStroke();
+            Assert.That(s.SampleEnvironmentSnow(0,0),Is.Zero);Assert.That(s.EnvironmentThemes.Sample(3,0,0),Is.GreaterThan(.9));Assert.That(s.BiomeRevision,Is.EqualTo(revision));
+            var loaded=Session();loaded.LoadJson(s.ExportJson());Assert.That(loaded.SampleEnvironmentSnow(0,0),Is.Zero);
+            s.Undo();Assert.That(s.SampleEnvironmentSnow(0,0),Is.GreaterThan(.9));s.Redo();Assert.That(s.SampleEnvironmentSnow(0,0),Is.Zero);
+        }
+        [TestCase(false)] [TestCase(true)] public void ClearAndUndoRequireOnlyTheEditedEnvironmentDomain(bool snow)
+        {
+            var s=new MapEditSession(Map(),snow?MapEditAccess.Snow:MapEditAccess.Biomes);Paint(s,Vector2.zero,snow);
+            Assert.DoesNotThrow(()=>s.ClearEdits());Assert.That(s.EnvironmentThemes.Sample(3,0,0),Is.Zero);Assert.That(s.EnvironmentSnow.Sample(0,0),Is.Zero);
+            s.Undo();Assert.That(snow?s.EnvironmentSnow.Sample(0,0):s.EnvironmentThemes.Sample(3,0,0),Is.GreaterThan(.9));
         }
         [Test] public void NotificationsAreRegionalAndDoNotRegenerateTerrain()
         {
@@ -66,6 +80,17 @@ namespace LittleCastle.Tests
         {
             var s=Session();var controller=new MapToolController(s,MapToolRegistry.ExistingBrushes());controller.Select("environment.biome");controller.context.settings.radius=4;
             controller.Begin(new MapToolPointer(new Ray(),true,Vector2.zero),0);controller.Complete();Assert.That(s.EnvironmentThemes.Sample(3,0,0),Is.GreaterThan(.9));s.Undo();Assert.That(s.EnvironmentThemes.Capture(),Is.Empty);
+        }
+        [Test] public void LegacyV5FingerprintAndSurfaceSaveRemainLoadable()
+        {
+            var map=Map();string oldJson=JsonUtility.ToJson(map);
+            int field=oldJson.LastIndexOf(",\"environment\":",StringComparison.Ordinal);
+            Assert.That(field,Is.GreaterThan(0));oldJson=oldJson.Substring(0,field)+"}";
+            ulong hash=14695981039346656037UL;foreach(char c in oldJson){hash^=c;hash=unchecked(hash*1099511628211UL);}
+            var save=new MapEditSave{version=5,mapId=map.mapId,baseRevision=map.revision,baseFingerprint=hash.ToString("x16")};
+            save.surface.strokes.Add(new Rendering.SurfacePaintStroke{id="legacy-path",points=new List<Vector2>{Vector2.zero}});
+            var s=new MapEditSession(map);Paint(s,Vector2.zero);s.LoadSave(save);
+            Assert.That(s.ExportEdits().strokes.Count,Is.EqualTo(1));Assert.That(s.EnvironmentThemes.Capture(),Is.Empty);
         }
     }
 }

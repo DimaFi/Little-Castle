@@ -52,6 +52,7 @@ Shader "Little Castle/Terrain/LC Terrain"
         _WetnessStrength ("Vertex G Wetness Strength", Range(0,1)) = 0.35
 
         [Toggle] _UseSnow ("Use Authored Snow Coverage", Float) = 0
+        _SnowAcceptance ("Environment Snow Acceptance", Range(0,1)) = 1
         _SnowControl ("Snow Coverage (R, Linear)", 2D) = "black" {}
         _SnowMapBounds ("Snow Map Origin XZ / Inverse Size XZ", Vector) = (0,0,0.01,0.01)
         _SnowTex ("Snow Base Color", 2D) = "white" {}
@@ -90,6 +91,7 @@ Shader "Little Castle/Terrain/LC Terrain"
         #include "../Surface/LC_LightingCommon.hlsl"
         #include "../Surface/LC_GroundPalette.cginc"
         #include "../Surface/LC_SurfacePaint.hlsl"
+        #include "../Surface/LC_EnvironmentAppearance.hlsl"
 
         TEXTURE2D(_GrassTex); SAMPLER(sampler_GrassTex);
         TEXTURE2D(_DirtTex); SAMPLER(sampler_DirtTex);
@@ -138,6 +140,7 @@ Shader "Little Castle/Terrain/LC Terrain"
             float _PathEdgeSharpness;
             float _WetnessStrength;
             float _UseSnow;
+            float _SnowAcceptance;
             float4 _SnowMapBounds;
             float4 _SnowColor;
             float _SnowTiling;
@@ -329,17 +332,25 @@ Shader "Little Castle/Terrain/LC Terrain"
             [branch] if (_UseSnow > .5h)
             {
                 float2 controlUV = (i.worldPosition.xz - _SnowMapBounds.xy) * _SnowMapBounds.zw;
-                half coverage = SAMPLE_TEXTURE2D(_SnowControl, sampler_SnowControl, controlUV).r;
+                half coverage = 0;
+                if (all(_SnowMapBounds.zw > 0) && all(controlUV >= 0) && all(controlUV <= 1))
+                    coverage = saturate(SAMPLE_TEXTURE2D(_SnowControl, sampler_SnowControl, controlUV).r);
                 half edge = (LCGroundNoise(i.worldPosition.xz * .52) - .5h) * .7h +
                     (LCGroundNoise(i.worldPosition.xz * 1.83 + 9.7) - .5h) * .3h;
                 // Endpoints remain clean. Existing RGBA vertex-mask contracts are untouched.
                 coverage += edge * _SnowEdgeNoise * 4 * coverage * (1 - coverage);
-                snowWeight = smoothstep(.34h, .66h, coverage) * smoothstep(.35h, .82h, normal.y);
+                snowWeight = smoothstep(.34h, .66h, coverage) * smoothstep(.35h, .82h, normal.y) * saturate(_SnowAcceptance);
                 half3 snowSample = SAMPLE_TEXTURE2D(_SnowTex, sampler_SnowTex, i.worldPosition.xz * _SnowTiling).rgb;
                 half snowValue = clamp(dot(snowSample, half3(.2126,.7152,.0722)) / .76h, .82h, 1.12h);
                 snowAlbedo *= lerp(1, snowValue, .42h);
-                surfaceDetail *= 1 - snowWeight * _SnowSurfaceFlattening;
             }
+            // Combine authored snow with the resident local environment field before
+            // normals/AO/lighting. Neither source can create snow from zero coverage.
+            half environmentSnow = LCEnvironmentSnow(i.worldPosition, normal, _SnowAcceptance);
+            snowWeight = max(snowWeight, environmentSnow);
+            snowAlbedo = lerp(snowAlbedo, _LC_EnvironmentSnowColor.rgb,
+                environmentSnow / max(.001h, snowWeight));
+            surfaceDetail *= 1 - snowWeight * _SnowSurfaceFlattening;
             half meadowPatch=LCMeadowPatch(i.worldPosition.xz);
             [branch] if(_GroundPalette>.001h) {
                 half meadowValue=clamp(dot(grassSample,half3(.2126,.7152,.0722))/.38h,.65h,1.35h);
@@ -400,6 +411,7 @@ Shader "Little Castle/Terrain/LC Terrain"
                         i.vertexColor.g *
                         _WetnessStrength),
                     _UseVertexMasks);
+            wetness=max(wetness,saturate(i.riverSurface.y)*.35h);
 
             half dirtWeight =
                 saturate(
@@ -469,7 +481,6 @@ Shader "Little Castle/Terrain/LC Terrain"
             half sandWeight=saturate(i.riverSurface.x)*_RiverSandStrength;
             half3 sand=_RiverSandColor.rgb*lerp(half3(1,1,1),clamp(dirtSample/half3(.53,.37,.22),.7h,1.3h),.3h);
             albedo=lerp(albedo,sand,sandWeight*(1-pathMask*.8h));
-            wetness=max(wetness,saturate(i.riverSurface.y)*.35h);
 
             half macro =
                 MacroVariation(
@@ -489,6 +500,7 @@ Shader "Little Castle/Terrain/LC Terrain"
                     wetness);
 
             // A used path remains visible through winter; damp margins expose the soil.
+            albedo *= LCEnvironmentTint(i.worldPosition);
             albedo = lerp(albedo, snowAlbedo, snowWeight);
 
             half3 sunDirection =

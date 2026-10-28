@@ -61,6 +61,7 @@ namespace LittleCastle.Editor
             if((tool.Controls&MapToolControls.Strength)!=0)strength=EditorGUILayout.Slider("Сила",strength,0,1);
             if((tool.Controls&MapToolControls.Softness)!=0)softness=EditorGUILayout.Slider("Мягкость края",softness,0,1);
             if(sculpting)terrainRate=EditorGUILayout.Slider("Метры в секунду",terrainRate,.1f,4);
+            if(toolCategory==4)DrawEnvironmentTools();
         }
         void ConfigureTools()
         {
@@ -69,6 +70,7 @@ namespace LittleCastle.Editor
             tools.Select(CurrentToolId);
             if(tools.Active)return;
             var c=tools.context;c.settings.radius=Mathf.Clamp(radius,treeTool==2?1:.5f,tools.Selected.MaximumRadius(session));
+            c.environmentThemeId=environmentThemeId;c.environmentMode=environmentMode;
             c.settings.strength=strength;c.settings.softness=softness;c.density=treeTool==2?treeDensity:density;
             c.scatter=CurrentToolId=="vegetation.flowers"||scatter;c.scatterProfile=profile;c.terrainRate=terrainRate;c.treeSpacing=treeSpacing;c.seed=treeSeed;
             if(treeCatalog&&treeCatalog.packs.Length>0)c.treePackId=treeCatalog.packs[Mathf.Clamp(selectedTreePack,0,treeCatalog.packs.Length-1)].id;

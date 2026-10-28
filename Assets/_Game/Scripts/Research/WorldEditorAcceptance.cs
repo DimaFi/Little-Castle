@@ -17,7 +17,7 @@ namespace LittleCastle.Acceptance
 {
     // Scene-owned adapter. Normal authoring does not execute acceptance or alter time.
     [DefaultExecutionOrder(500)]
-    public sealed class WorldEditorAcceptance : MonoBehaviour
+    public sealed partial class WorldEditorAcceptance : MonoBehaviour
     {
         public Camera camera;
         public WorldTimeSystem clock;
@@ -38,7 +38,7 @@ namespace LittleCastle.Acceptance
         }
         void Pose(float distance)
         {
-            var args=Environment.GetCommandLineArgs();
+            var args=System.Environment.GetCommandLineArgs();
             var focus=new Vector3(ReadFloat(args,"-weFocusX",-4),.25f,ReadFloat(args,"-weFocusZ",5));
             // Begin at the same settled ground focus for every AO pair. Otherwise
             // the rig's ground smoothing makes the first/second view differ.
@@ -59,7 +59,7 @@ namespace LittleCastle.Acceptance
         {if(type==LogType.Error||type==LogType.Exception||type==LogType.Assert)errors+=message+"\n"+stack+"\n";}
         IEnumerator Start()
         {
-            var args=Environment.GetCommandLineArgs();int at=Array.IndexOf(args,"-weAccept");
+            var args=System.Environment.GetCommandLineArgs();int at=Array.IndexOf(args,"-weAccept");
             benchmark=Array.IndexOf(args,"-weBenchmark")>=0;if(benchmark)at=Array.IndexOf(args,"-weBenchmark");
             if(at<0)yield break;
             if(at+1>=args.Length)throw new ArgumentException("Explicit isolated acceptance output required.");
@@ -94,9 +94,10 @@ namespace LittleCastle.Acceptance
             foreach(var b in FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None))
                 Require(!(b is LightingMeadowReview||b is SpatialIndirectStudyReview),"Review driver present: disabled components still run Awake.");
             if(benchmark){yield return Benchmark();yield break;}
+            if(Array.IndexOf(System.Environment.GetCommandLineArgs(),"-weEnvironmentChecks")>=0){yield return EnvironmentChecks();yield break;}
             // Capture an already authored map without adding diagnostic edits or touching user saves.
-            if(Array.IndexOf(Environment.GetCommandLineArgs(),"-weExistingMap")<0)BrushChecks();
-            if(Array.IndexOf(Environment.GetCommandLineArgs(),"-weRiverChecks")>=0)yield return RiverChecks();
+            if(Array.IndexOf(System.Environment.GetCommandLineArgs(),"-weExistingMap")<0)BrushChecks();
+            if(Array.IndexOf(System.Environment.GetCommandLineArgs(),"-weRiverChecks")>=0)yield return RiverChecks();
             rows.Add("name,hour,distance,ao,cameraX,cameraY,cameraZ,shadowDistance,fogStart,fogEnd");
             foreach(float hour in new[]{12f,18.5f,1f})foreach(float distance in new[]{11f,35f,115f})foreach(bool useAO in new[]{false,true})
             {
@@ -211,7 +212,7 @@ namespace LittleCastle.Acceptance
         }
         IEnumerator Benchmark()
         {
-            var args=Environment.GetCommandLineArgs();
+            var args=System.Environment.GetCommandLineArgs();
             float distance=ReadFloat(args,"-weDistance",35),hour=ReadFloat(args,"-weHour",12);
             bool useAO=ReadFloat(args,"-weAO",1)>0;
             QualitySettings.renderPipeline=useAO?ao:hdr;SetHour(hour);Pose(distance);

@@ -9,6 +9,15 @@ namespace LittleCastle.Research
     public sealed partial class MeadowSurfacePainter
     {
         public float brushSoftness=.38f;
+        public string environmentToolId="";
+        public int environmentThemeId=3;
+        public MapEnvironmentBrushMode environmentMode;
+        public void SetEnvironmentTool(string id)
+        {
+            if(!string.IsNullOrEmpty(id)&&id!="environment.biome"&&id!="environment.snow")throw new ArgumentException("Unknown environment tool.",nameof(id));
+            EndStroke();treeTool=0;sculpting=false;road=false;erase=false;
+            environmentToolId=id;painting=!string.IsNullOrEmpty(id);
+        }
         MapToolController tools;
         readonly Vector3[] brushOutline=new Vector3[49];
         public MapToolController Tools=>tools;
@@ -39,7 +48,7 @@ namespace LittleCastle.Research
             if(Input.GetKeyDown(KeyCode.Escape)){tools.Cancel();if(riverActive)river.Cancel();else CancelTreeTool();return;}
             if(Input.GetKey(KeyCode.LeftControl)||Input.GetKey(KeyCode.RightControl))
             {if(Input.GetKeyDown(KeyCode.Z)){Undo();return;}if(Input.GetKeyDown(KeyCode.Y)){Redo();return;}}
-            string id=riverActive?"river.points":treeTool==1?"tree.place":treeTool==2?"vegetation.grove":treeTool==3?"tree.pick":treeTool==4?"tree.move":sculpting?(lowerTerrain?"terrain.lower":"terrain.raise"):erase?"surface.erase":road?"surface.road":"surface.meadow";
+            string id=riverActive?"river.points":treeTool==1?"tree.place":treeTool==2?"vegetation.grove":treeTool==3?"tree.pick":treeTool==4?"tree.move":!string.IsNullOrEmpty(environmentToolId)?environmentToolId:sculpting?(lowerTerrain?"terrain.lower":"terrain.raise"):erase?"surface.erase":road?"surface.road":"surface.meadow";
             try
             {
                 if(tools.Selected==null||tools.Selected.Id!=id)brushSoftness=id.StartsWith("terrain.")?1:id=="vegetation.grove"?0:.38f;
@@ -53,6 +62,7 @@ namespace LittleCastle.Research
                 if(!tools.Active)
                 {
                     var c=tools.context;c.settings.radius=Mathf.Clamp(radius,treeTool==2?1:.5f,tools.Selected.MaximumRadius(Session));
+                    c.environmentThemeId=environmentThemeId;c.environmentMode=environmentMode;
                     c.settings.strength=strength;c.settings.softness=brushSoftness;c.density=treeTool==2?treeBrushDensity:density;
                     c.terrainRate=terrainMetresPerSecond;c.scatter=populatePlants;c.scatterProfile=currentProfile;c.treeSpacing=treeBrushSpacing;c.seed=treeBrushSeed;
                     if(treeCatalog&&treeCatalog.packs.Length>0)c.treePackId=treeCatalog.packs[Mathf.Clamp(selectedTreePack,0,treeCatalog.packs.Length-1)].id;

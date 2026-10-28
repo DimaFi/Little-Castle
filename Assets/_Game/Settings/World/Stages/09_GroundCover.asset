@@ -16,3 +16,5 @@ MonoBehaviour:
   densityMultiplier: 1
   forestSuppression: 0.55
   moistureInfluence: 0.25
+  respectGrassPlacementBlocks: 1
+  fadeGrassOnSteepSlopes: 1

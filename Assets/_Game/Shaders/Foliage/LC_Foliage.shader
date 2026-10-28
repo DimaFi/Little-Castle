@@ -7,6 +7,7 @@ Shader "Little Castle/Foliage/LC Foliage"
         _OpacityMap ("Opacity Map", 2D) = "white" {}
         _OpacityMapStrength ("Separate Opacity Strength", Range(0,1)) = 0
         _Color ("Tint", Color) = (1,1,1,1)
+        _SnowAcceptance ("Environment Snow Acceptance", Range(0,1)) = 1
         _TextureDetail ("Texture Detail Strength", Range(0,1)) = 1
         _CanopyNormalBlend ("Canopy Volume Normal Blend", Range(0,1)) = 0
         _CanopyCenter ("Local Canopy Center", Vector) = (0,4.6,0,0)

@@ -7,7 +7,7 @@ namespace LittleCastle.Research
 {
     public sealed partial class MeadowPreview
     {
-        static readonly string[] AuthoringSections={"Рельеф","Покрытие","Растительность","Реки"};
+        static readonly string[] AuthoringSections={"Рельеф","Покрытие","Растительность","Реки","Биомы и снег"};
         static readonly string[] PlantSections={"Цветы и мелочь","Деревья","Рощи"};
         int authoringSection=1,plantSection;
         bool authoringViewOptions,authoringDiagnostics;
@@ -69,6 +69,7 @@ namespace LittleCastle.Research
                     using(new GUILayout.HorizontalScope())
                     {if(GUILayout.Button("Луг"))ArmAuthoringBrush("surface.meadow");if(GUILayout.Button("Убрать траву"))ArmAuthoringBrush("surface.erase");}
                 }
+                else if(authoringSection==4)DrawAuthoringEnvironment();
                 else DrawAuthoringPlants();
                 bool availableGrove=painter.treeCatalog&&painter.treeCatalog.packs.Length>0&&!painter.playerMode;
                 if(authoringSection!=2||plantSection==0||plantSection==2&&availableGrove)
@@ -77,10 +78,10 @@ namespace LittleCastle.Research
                     bool next=GUILayout.Toggle(enabled,"Инструмент активен · ЛКМ по земле");
                     if(next!=enabled)
                     {
-                        if(next){if(authoringSection==2&&plantSection==2)painter.SetTreeTool(2);else ArmAuthoringBrush(authoringSection==0?(painter.lowerTerrain?"terrain.lower":"terrain.raise"):authoringSection==1&&painter.road?"surface.road":authoringSection==1&&painter.erase?"surface.erase":"surface.meadow");}
+                        if(next){if(authoringSection==2&&plantSection==2)painter.SetTreeTool(2);else ArmAuthoringBrush(authoringSection==4?(string.IsNullOrEmpty(painter.environmentToolId)?"environment.biome":painter.environmentToolId):authoringSection==0?(painter.lowerTerrain?"terrain.lower":"terrain.raise"):authoringSection==1&&painter.road?"surface.road":authoringSection==1&&painter.erase?"surface.erase":"surface.meadow");}
                         else{painter.EndStroke();painter.painting=false;painter.SetTreeTool(0);}
                     }
-                    GUILayout.Label("Активно: "+(painter.treeTool==2?"Роща":painter.sculpting?(painter.lowerTerrain?"Опустить землю":"Поднять землю"):painter.road?"Дорожка":painter.erase?"Удаление травы":authoringSection==2&&plantSection==0?ProfileNames[(int)painter.currentProfile]:"Луг и растительность"),authoringWrap);
+                    GUILayout.Label("Активно: "+(authoringSection==4?(painter.environmentToolId=="environment.snow"?"Снег":"Биом"):painter.treeTool==2?"Роща":painter.sculpting?(painter.lowerTerrain?"Опустить землю":"Поднять землю"):painter.road?"Дорожка":painter.erase?"Удаление травы":authoringSection==2&&plantSection==0?ProfileNames[(int)painter.currentProfile]:"Луг и растительность"),authoringWrap);
                     float minimum=painter.treeTool==2?1:.5f;
                     float maximum=painter.sculpting?Mathf.Min(128,Mathf.Max(32,painter.Session.HeightSpacing*64)):128;
                     painter.radius=AuthoringSlider("Радиус, м",painter.radius,minimum,maximum);
@@ -120,6 +121,7 @@ namespace LittleCastle.Research
         void ChangeAuthoringSection(int section)
         {
             painter.EndStroke();painter.painting=false;painter.SetTreeTool(0);painter.sculpting=section==0;
+            painter.environmentToolId=section==4?"environment.biome":"";
             authoringSection=section;panelScroll=Vector2.zero;
             if(authoringRivers){if(section==3)authoringRivers.OpenTools();else authoringRivers.CloseTools();}
             if(section==1){painter.road=true;painter.erase=false;}
@@ -136,6 +138,7 @@ namespace LittleCastle.Research
         void ArmAuthoringBrush(string id)
         {
             painter.EndStroke();if(authoringRivers)authoringRivers.CloseTools();painter.SetTreeTool(0);
+            painter.environmentToolId=id.StartsWith("environment.")?id:"";
             painter.sculpting=id.StartsWith("terrain.");painter.lowerTerrain=id=="terrain.lower";
             painter.road=id=="surface.road";painter.erase=id=="surface.erase";painter.painting=true;
             free=true;studyCamera.GetComponent<StrategyCameraController>().enabled=true;
@@ -187,6 +190,42 @@ namespace LittleCastle.Research
                 if(GUILayout.Button("Удалить выбранное дерево"))painter.DeleteSelectedTree();
             }
             if(painter.treeTool!=0&&GUILayout.Button("Закончить работу с деревьями"))painter.SetTreeTool(0);
+        }
+        static readonly string[] AuthoringEnvironmentThemes={"Лето","Зачарованный лес","Эльфийский лес","Зима"};
+        static readonly string[] AuthoringEnvironmentModes={"Добавить","Стереть","Сгладить"};
+        static readonly string[] AuthoringSnowModes={"Добавить","Стереть"};
+        void DrawAuthoringEnvironment()
+        {
+            using(new GUILayout.HorizontalScope())
+            {
+                if(GUILayout.Button("Биом"))ArmAuthoringBrush("environment.biome");
+                if(GUILayout.Button("Снег"))ArmAuthoringBrush("environment.snow");
+            }
+            bool snow=painter.environmentToolId=="environment.snow";
+            bool previousEnabled=GUI.enabled;GUI.enabled=previousEnabled&&!(painter.Tools?.Active??false);
+            if(!snow)painter.environmentThemeId=GUILayout.SelectionGrid(Mathf.Clamp(painter.environmentThemeId,0,3),AuthoringEnvironmentThemes,2,GUILayout.Width(268));
+            painter.environmentMode=(MapEnvironmentBrushMode)GUILayout.SelectionGrid(Mathf.Clamp((int)painter.environmentMode,0,snow?1:2),snow?AuthoringSnowModes:AuthoringEnvironmentModes,1,GUILayout.Width(268));
+            GUI.enabled=previousEnabled;
+            GUILayout.Label("Один штрих — одна отмена. Снег хранится отдельно от биома.",authoringWrap);
+            var current=painter.Session.EnvironmentSettings;
+            var edited=new LittleCastle.World.Environment.MapEnvironmentSettings{
+                snowAmount=current.snowAmount,winterSnowPreview=current.winterSnowPreview,
+                simulateWeather=current.simulateWeather,snowfallIntensity=current.snowfallIntensity,
+                accumulationPerSecond=current.accumulationPerSecond,meltingPerSecond=current.meltingPerSecond};
+            edited.snowAmount=AuthoringSlider("Количество снега",edited.snowAmount,0,1);
+            edited.winterSnowPreview=GUILayout.Toggle(edited.winterSnowPreview,"Снег зимнего биома");
+            edited.simulateWeather=GUILayout.Toggle(edited.simulateWeather,"Симуляция погоды");
+            edited.snowfallIntensity=AuthoringSlider("Снегопад",edited.snowfallIntensity,0,1);
+            edited.accumulationPerSecond=AuthoringSlider("Накопление в секунду",edited.accumulationPerSecond,0,1);
+            edited.meltingPerSecond=AuthoringSlider("Таяние в секунду",edited.meltingPerSecond,0,1);
+            if(edited.snowAmount!=current.snowAmount||edited.winterSnowPreview!=current.winterSnowPreview||
+                edited.simulateWeather!=current.simulateWeather||edited.snowfallIntensity!=current.snowfallIntensity||
+                edited.accumulationPerSecond!=current.accumulationPerSecond||edited.meltingPerSecond!=current.meltingPerSecond)
+            {
+                painter.EndStroke();
+                try{painter.Session.SetEnvironmentSettings(edited);}
+                catch(System.Exception error){painter.status=error.Message;}
+            }
         }
         void DrawAuthoringView()
         {

@@ -4,12 +4,14 @@
 #include "LC_VegetationURPCommon.hlsl"
 #include "../Surface/LC_GroundPalette.cginc"
 #include "../Surface/LC_SurfacePaint.hlsl"
+#include "../Surface/LC_EnvironmentAppearance.hlsl"
 
 // Identical material layout in every pass (SRP Batcher).
 CBUFFER_START(UnityPerMaterial)
     float4 _MainTex_ST;
     half _OpacityMapStrength;
     half4 _Color;
+    half _SnowAcceptance;
     half4 _RootColor;
     half4 _TipColor;
     half _Cutoff;
@@ -380,6 +382,9 @@ half4 frag(
         alphaSample.rgb *
         variation;
     albedo*=lerp(half3(1,1,1),_DryColor.rgb/max(_Color.rgb,.01h),i.meadowPatch*.5h);
+    // Use the mesh normal before the lighting-only upward bias, even at far LOD.
+    albedo = LCEnvironmentAlbedo(albedo, i.worldPosition,
+        normalize(i.worldNormal), _SnowAcceptance);
 
     half faceSign =
         IS_FRONT_VFACE(facing, 1.0h, -1.0h);

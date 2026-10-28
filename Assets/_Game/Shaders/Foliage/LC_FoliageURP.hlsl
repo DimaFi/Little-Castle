@@ -2,6 +2,7 @@
 #define LC_FOLIAGE_URP_INCLUDED
 
 #include "LC_VegetationURPCommon.hlsl"
+#include "../Surface/LC_EnvironmentAppearance.hlsl"
 
 // Identical material layout in every pass (SRP Batcher).
 CBUFFER_START(UnityPerMaterial)
@@ -11,6 +12,7 @@ CBUFFER_START(UnityPerMaterial)
     float4 _MainTex_ST;
     half _OpacityMapStrength;
     half4 _Color;
+    half _SnowAcceptance;
     half _Cutoff;
     half _BumpScale;
     half _OcclusionStrength;
@@ -61,6 +63,7 @@ struct v2f
     half3 worldBitangent : TEXCOORD4;
     half variation : TEXCOORD5;
     half fogCoord : TEXCOORD6;
+    half3 geometricNormalWS : TEXCOORD7; // unaffected by artistic canopy/normal-map lighting
     UNITY_VERTEX_INPUT_INSTANCE_ID
     UNITY_VERTEX_OUTPUT_STEREO
 };
@@ -198,6 +201,7 @@ v2f vert(appdata v)
     o.pos = TransformWorldToHClip(o.worldPosition);
     o.uv = TRANSFORM_TEX(v.uv, _MainTex);
     o.worldNormal = TransformObjectToWorldNormal(v.normal);
+    o.geometricNormalWS = o.worldNormal;
     float3 canopyDirection = normalize(v.vertex.xyz - _CanopyCenter.xyz + float3(0, .0001, 0));
     o.worldNormal = normalize(lerp(o.worldNormal,
         TransformObjectToWorldNormal(canopyDirection), _CanopyNormalBlend));
@@ -307,6 +311,9 @@ half4 frag(
         lerp(half3(0.65h,0.65h,0.65h), baseSample.rgb, _TextureDetail) *
         _Color.rgb *
         variation;
+
+    albedo = LCEnvironmentAlbedo(albedo, i.worldPosition,
+        normalize(i.geometricNormalWS), _SnowAcceptance);
 
     half faceSign =
         IS_FRONT_VFACE(facing, 1.0h, -1.0h);

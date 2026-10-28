@@ -3454,7 +3454,7 @@ MonoBehaviour:
   density: 1
   stampsPerSecond: 15
   status: 
-  allowedTools: 511
+  allowedTools: 2047
   riverCatalogOverride: {fileID: 11400000, guid: 6510f8fcb7a81e74a88f8c885ccafb6e, type: 2}
   waterOnlyRivers: 1
   sculpting: 0

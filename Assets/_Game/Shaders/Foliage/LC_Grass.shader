@@ -6,6 +6,7 @@ Shader "Little Castle/Foliage/LC Grass"
         _OpacityMap ("Opacity Map", 2D) = "white" {}
         _OpacityMapStrength ("Separate Opacity Strength", Range(0,1)) = 0
         _Color ("Middle Color", Color) = (0.38,0.64,0.24,1)
+        _SnowAcceptance ("Environment Snow Acceptance", Range(0,1)) = 1
         _RootColor ("Root Color", Color) = (0.18,0.32,0.12,1)
         _TipColor ("Tip Color", Color) = (0.62,0.82,0.34,1)
         _Cutoff ("Alpha Cutoff", Range(0,1)) = 0.42

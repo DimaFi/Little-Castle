@@ -59,7 +59,8 @@ namespace LittleCastle.Research
         Material cursorMaterial;
         struct Binding {public Material material;public Texture texture;public Vector4 bounds;public bool keyword;public float enabled;}
         Binding[] previousBindings;
-        string SavePath=>Path.Combine(Application.persistentDataPath,"meadow-map-edits-v5.json");
+        string SavePath=>Path.Combine(Application.persistentDataPath,"meadow-map-edits-v6.json");
+        string V5SavePath=>Path.Combine(Application.persistentDataPath,"meadow-map-edits-v5.json");
         string V4SavePath=>Path.Combine(Application.persistentDataPath,"meadow-map-edits-v4.json");
         string V3SavePath=>Path.Combine(Application.persistentDataPath,"meadow-map-edits-v3.json");
         string V2SavePath=>Path.Combine(Application.persistentDataPath,"meadow-map-edits-v2.json");
@@ -76,6 +77,7 @@ namespace LittleCastle.Research
             var rockCatalog=riverCatalogOverride?riverCatalogOverride:MapRockCatalog.Default;
             if(rockCatalog){RiverView=new MapRiverPresentation(Session,rockCatalog,waterOnlyRivers);var riverTool=gameObject.AddComponent<MapRiverRuntimeTool>();riverTool.Connect(this);riverTool.ConfigureWaterOnly(waterOnlyRivers);}
             if(treeCatalog){Session.RegisterTreeCatalog(treeCatalog.Definitions,treeCatalog.packs);TreeView=new MapTreePresentation(Session,treeCatalog);}
+            InitializeEnvironmentPresentation();
             mask=new Texture2D(Resolution,Resolution,TextureFormat.RG16,false,true){name="Derived road and meadow mask · not save state",filterMode=FilterMode.Bilinear,wrapMode=TextureWrapMode.Clamp};
             pixels=new byte[Resolution*Resolution*2];
             cursor=new GameObject("Single brush footprint preview").AddComponent<LineRenderer>();cursor.transform.SetParent(transform,false);cursor.loop=true;cursor.positionCount=48;cursor.widthMultiplier=.035f;cursor.useWorldSpace=true;cursor.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;cursor.receiveShadows=false;cursorMaterial=new Material(brushMaterial);cursor.sharedMaterial=cursorMaterial;cursor.enabled=false;
@@ -93,6 +95,7 @@ namespace LittleCastle.Research
         {
             tools?.Cancel();
             if(Session!=null)Session.Changed-=OnMapChanged;
+            DisposeEnvironmentPresentation();
             RiverView?.Dispose();RiverView=null;TreeView?.Dispose();TreeView=null;TerrainView?.Dispose();TerrainView=null;
             if(uploadTile)Destroy(uploadTile);
             if(previousBindings!=null)foreach(var state in previousBindings)
@@ -107,7 +110,7 @@ namespace LittleCastle.Research
         {
             material.SetTexture("_SurfacePaint",texture);material.SetVector("_SurfacePaintBounds",new Vector4(bounds.x,bounds.y,1/bounds.z,1/bounds.w));material.EnableKeyword("_LC_SURFACE_PAINT");material.SetFloat("_UseSurfacePaint",1);
         }
-        void LateUpdate(){if(RiverView!=null&&studyCamera)RiverView.Tick(studyCamera.transform.position);TerrainView?.FlushColliderBudget(2);if(TreeView!=null&&studyCamera)TreeView.Tick(studyCamera.transform.position);}
+        void LateUpdate(){TickEnvironmentPresentation();if(RiverView!=null&&studyCamera)RiverView.Tick(studyCamera.transform.position);TerrainView?.FlushColliderBudget(2);if(TreeView!=null&&studyCamera)TreeView.Tick(studyCamera.transform.position);}
         public static MeshFilter FindGround(Material material)
         {
             if(!material)return null;
@@ -147,7 +150,7 @@ namespace LittleCastle.Research
         }
         public void LoadEdits()
         {
-            try{string path=File.Exists(SavePath)?SavePath:File.Exists(V4SavePath)?V4SavePath:File.Exists(V3SavePath)?V3SavePath:File.Exists(V2SavePath)?V2SavePath:LegacySavePath;if(!File.Exists(path)){status="Сохранения пока нет";return;}
+            try{string path=File.Exists(SavePath)?SavePath:File.Exists(V5SavePath)?V5SavePath:File.Exists(V4SavePath)?V4SavePath:File.Exists(V3SavePath)?V3SavePath:File.Exists(V2SavePath)?V2SavePath:LegacySavePath;if(!File.Exists(path)){status="Сохранения пока нет";return;}
                 LoadJson(File.ReadAllText(path));status="Изменения загружены";
             }catch(Exception error){status="Не удалось загрузить: "+error.Message;}
         }

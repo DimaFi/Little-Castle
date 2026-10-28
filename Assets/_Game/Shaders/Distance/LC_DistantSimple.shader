@@ -17,6 +17,7 @@ Shader "Little Castle/Distance/LC Distant Simple"
         _TopLightStrength ("Cheap Sun Shape", Range(0,1)) = 0.28
         _AmbientStrength ("Ambient Strength", Range(0,2)) = 1
         _NightDesaturate ("Night Desaturate", Range(0,1)) = 0.12
+        _SnowAcceptance ("Environment Snow Acceptance", Range(0,1)) = 1
     }
 
     SubShader
@@ -48,6 +49,8 @@ Shader "Little Castle/Distance/LC Distant Simple"
 
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 
+            #include "../Surface/LC_EnvironmentAppearance.hlsl"
+
             TEXTURE2D(_MainTex); SAMPLER(sampler_MainTex);
 
             // Shared presentation globals stay outside the material buffer.
@@ -64,6 +67,7 @@ Shader "Little Castle/Distance/LC Distant Simple"
                 half _AmbientStrength;
                 half _NightDesaturate;
                 half _Cull;
+                half _SnowAcceptance;
             CBUFFER_END
 
             half4 _LC_SunDirection;
@@ -90,6 +94,8 @@ Shader "Little Castle/Distance/LC Distant Simple"
                 half3 worldNormal : TEXCOORD1;
 
                 float fogCoord : TEXCOORD2;
+                float3 worldPosition : TEXCOORD3;
+                half3 geometricNormal : TEXCOORD4;
 
                 UNITY_VERTEX_INPUT_INSTANCE_ID
                 UNITY_VERTEX_OUTPUT_STEREO
@@ -105,6 +111,8 @@ Shader "Little Castle/Distance/LC Distant Simple"
 
                 VertexPositionInputs positions = GetVertexPositionInputs(v.vertex.xyz);
                 o.position = positions.positionCS;
+                o.worldPosition = positions.positionWS;
+                o.geometricNormal = TransformObjectToWorldNormal(v.normal);
 
                 o.uv =
                     TRANSFORM_TEX(
@@ -193,6 +201,8 @@ Shader "Little Castle/Distance/LC Distant Simple"
                     _LC_SunColor.rgb *
                     cheapSun *
                     _TopLightStrength;
+
+                baseSample.rgb = LCEnvironmentAlbedo(baseSample.rgb, i.worldPosition, i.geometricNormal, _SnowAcceptance);
 
                 half luminance =
                     dot(

@@ -62,7 +62,7 @@ namespace LittleCastle.Editor
             AssemblyReloadEvents.beforeAssemblyReload-=CheckpointSession;EditorApplication.delayCall-=RestoreWindowSession;
             RestorePreview();if(preview)DestroyImmediate(preview);
         }
-        void Tick(){if(!EditorApplication.isPlaying){ConfigureWaterPreviewCameras();TickTools();terrainPreview?.FlushColliderBudget(2);var riverView=SceneView.lastActiveSceneView;if(riverView&&riverView.camera)riverPreview?.Tick(riverView.camera.transform.position);if(treePreview!=null){var view=SceneView.lastActiveSceneView;treePreview.Tick(view&&view.camera?view.camera.transform.position:Vector3.zero);}}}
+        void Tick(){if(!EditorApplication.isPlaying){ConfigureWaterPreviewCameras();TickTools();TickEnvironmentPreview();terrainPreview?.FlushColliderBudget(2);var riverView=SceneView.lastActiveSceneView;if(riverView&&riverView.camera)riverPreview?.Tick(riverView.camera.transform.position);if(treePreview!=null){var view=SceneView.lastActiveSceneView;treePreview.Tick(view&&view.camera?view.camera.transform.position:Vector3.zero);}}}
         void PlayState(PlayModeStateChange state)
         {
             if(state==PlayModeStateChange.ExitingEditMode){CheckpointSession();RestorePreview();}
@@ -72,6 +72,7 @@ namespace LittleCastle.Editor
         {RestorePreview();EditorApplication.delayCall+=()=>{if(this&&session!=null&&preview&&!EditorApplication.isPlaying)BindScenePreview();};}
         internal void RestorePreview()
         {
+            RestoreEnvironmentPreview();
             RestoreScatterPreview();
             RestoreWaterPreviewCameras();
             foreach(var pair in rendererBindings)if(pair.Key)pair.Key.SetPropertyBlock(pair.Value);
@@ -99,6 +100,7 @@ namespace LittleCastle.Editor
             foreach(var grass in FindObjectsByType<MeadowGrassRenderer>())if(grass.material==painter.grassMaterial){grassBindings.Add(grass,grass.surfaceOverrides);grass.surfaceOverrides=properties;}
             foreach(var accent in FindObjectsByType<InnerverseGrassStudy>())if(accent.grassMaterial==painter.accentMaterial){accentBindings.Add(accent,accent.surfaceOverrides);accent.surfaceOverrides=properties;}
             BindScatterPreview(painter);
+            BindEnvironmentPreview(painter);
         }
         internal void Connect(SurfacePaintData data)
         {

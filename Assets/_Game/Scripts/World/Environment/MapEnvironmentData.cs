@@ -20,6 +20,7 @@ namespace LittleCastle.World.Environment
         public int tileResolution=16;
         public List<ThemeLayerSnapshot> themes=new List<ThemeLayerSnapshot>();
         public List<ScalarTileSnapshot> snow=new List<ScalarTileSnapshot>();
+        public List<ScalarTileSnapshot> snowClear=new List<ScalarTileSnapshot>();
         public MapEnvironmentSettings settings=new MapEnvironmentSettings();
     }
     /// <summary>Transport data only. Local snow and weather never enter a biome replica.</summary>

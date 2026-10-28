@@ -11,7 +11,7 @@ namespace LittleCastle.Editor
 {
     public sealed partial class MapAuthoringWindow
     {
-        static readonly string[] CategoryNames={"Рельеф","Покрытие","Растительность","Реки"};
+        static readonly string[] CategoryNames={"Рельеф","Покрытие","Растительность","Реки","Биомы и снег"};
         [SerializeField] int toolCategory=1;
         [SerializeField] string activeToolId="surface.road";
         [SerializeField] bool showHeightLimits,showBrushPreset,showPreview;
@@ -55,7 +55,7 @@ namespace LittleCastle.Editor
             int category=GUILayout.Toolbar(toolCategory,CategoryNames);
             if(category!=toolCategory)
             {
-                string id=category==0?"terrain.raise":category==1?"surface.road":category==2?"vegetation.flowers":"river.points";
+                string id=category==0?"terrain.raise":category==1?"surface.road":category==2?"vegetation.flowers":category==3?"river.points":"environment.biome";
                 SetTool(id);
             }
             var ids=new List<string>();var names=new List<string>();int selected=0;
@@ -79,6 +79,7 @@ namespace LittleCastle.Editor
         {
             if(tool.Id.StartsWith("terrain.",StringComparison.Ordinal)||tool.Category=="Рельеф")return 0;
             if(tool.Id.StartsWith("river.",StringComparison.Ordinal))return 3;
+            if(tool.Id.StartsWith("environment.",StringComparison.Ordinal))return 4;
             if(tool.Id.StartsWith("tree.",StringComparison.Ordinal)||tool.Id.StartsWith("vegetation.",StringComparison.Ordinal)||tool.Category=="Растительность")return 2;
             return 1;
         }
@@ -234,6 +235,7 @@ namespace LittleCastle.Editor
             if(mask&&(mask.width!=Resolution||mask.height!=Resolution||mask.format!=TextureFormat.RG16))throw new InvalidDataException("Expected 512x512 RG16 authored mask.");
             RestorePreview();Undo.RecordObject(source,"Apply authored map surface and heights");
             source.authored=map.surface;source.heightField=map.heightField;source.hasHeightBase=true;source.treeInstances=map.trees;source.hasTreeBase=true;
+            source.environment=map.environment;source.hasEnvironmentBase=true;
             source.rivers=map.rivers;source.rockSections=map.rockSections;source.placementExclusions=map.placementExclusions;source.revision++;
             EditorUtility.SetDirty(source);AssetDatabase.SaveAssetIfDirty(source);
             if(mask)

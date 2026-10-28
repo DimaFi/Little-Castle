@@ -6,6 +6,7 @@ Shader "Little Castle/Surface/LC Stylized Lit"
         [Enum(UnityEngine.Rendering.CullMode)] _Cull ("Cull", Float) = 2
         _MainTex ("Base Color", 2D) = "white" {}
         _Color ("Tint", Color) = (1,1,1,1)
+        _SnowAcceptance ("Environment Snow Acceptance", Range(0,1)) = 1
 
         [Normal] _BumpMap ("Normal Map", 2D) = "bump" {}
         _BumpScale ("Normal Strength", Range(0,2)) = 1
@@ -50,10 +51,12 @@ Shader "Little Castle/Surface/LC Stylized Lit"
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
         #include "LC_LightingCommon.hlsl"
+        #include "LC_EnvironmentAppearance.hlsl"
 
         CBUFFER_START(UnityPerMaterial)
             float4 _MainTex_ST;
             half4 _Color;
+            half _SnowAcceptance;
             half4 _EmissionColor;
             half _Cull;
             half _BumpScale;
@@ -222,6 +225,8 @@ Shader "Little Castle/Surface/LC Stylized Lit"
                 UNITY_SETUP_INSTANCE_ID(input);
                 UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
                 half4 albedo = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, input.uv) * _Color;
+                albedo.rgb = LCEnvironmentAlbedo(albedo.rgb, input.positionWS,
+                    normalize(input.normalWS), _SnowAcceptance);
                 half3 normal = LCEvaluateNormal(input);
                 half3 viewDirection = GetWorldSpaceNormalizeViewDir(input.positionWS);
                 half3 sunDirection = SafeNormalize(_LC_SunDirection.xyz);
