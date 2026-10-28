@@ -8,6 +8,7 @@ namespace LittleCastle.Editor
     {
         MapRiverPresentation riverPreview;
         MapRiverToolState riverTools=new MapRiverToolState();
+        GUIStyle riverWrappedLabel,riverWrappedButton,riverWrappedBox;
         void ConfigureRiverProfile()
         {
             var painter=FindAnyObjectByType<MeadowSurfacePainter>();
@@ -23,7 +24,16 @@ namespace LittleCastle.Editor
                 {riverTools=new MapRiverToolState();ConfigureRiverProfile();brush=false;SceneView.RepaintAll();}
             }
             int revision=riverTools.ModeRevision,mode=riverTools.mode;
-            riverTools.Draw(session,false);
+            riverWrappedLabel??=new GUIStyle(GUI.skin.label){wordWrap=true};
+            riverWrappedButton??=new GUIStyle(GUI.skin.button){wordWrap=true};
+            riverWrappedBox??=new GUIStyle(GUI.skin.box){wordWrap=true};
+            var label=GUI.skin.label;var button=GUI.skin.button;var box=GUI.skin.box;
+            try
+            {
+                GUI.skin.label=riverWrappedLabel;GUI.skin.button=riverWrappedButton;GUI.skin.box=riverWrappedBox;
+                riverTools.Draw(session,false);
+            }
+            finally{GUI.skin.label=label;GUI.skin.button=button;GUI.skin.box=box;}
             if(riverTools.ModeRevision!=revision||riverTools.mode!=mode)
             {
                 if(riverTools.mode!=0)SetTool("river.points");

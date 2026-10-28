@@ -52,7 +52,8 @@ namespace LittleCastle.Editor
 
         void DrawToolSelection()
         {
-            int category=GUILayout.Toolbar(toolCategory,CategoryNames);
+            int columns=Mathf.Clamp(Mathf.FloorToInt((position.width-16)/135),1,CategoryNames.Length);
+            int category=GUILayout.SelectionGrid(toolCategory,CategoryNames,columns,EditorStyles.miniButton);
             if(category!=toolCategory)
             {
                 string id=category==0?"terrain.raise":category==1?"surface.road":category==2?"vegetation.flowers":category==3?"river.points":"environment.biome";
