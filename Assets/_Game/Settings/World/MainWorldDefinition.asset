@@ -15,6 +15,8 @@ MonoBehaviour:
   worldId: little_castle_main
   generationSettings: {fileID: 11400000, guid: 32ce7b343545b2b4592cf3e6effb584c, type: 2}
   macroPlannerSettings: {fileID: 11400000, guid: 7f40fe41f9c76c14ab44016f76e8bbc1, type: 2}
+  mapRules: {fileID: 0}
+  startFairnessSettings: {fileID: 0}
   timeSettings: {fileID: 11400000, guid: 6e904db17fc89da2c16508c3a47bfd96, type: 2}
   streamingSettings: {fileID: 11400000, guid: 45373cc45fecd4d4781713d780db54eb, type: 2}
   spawnCatalog: {fileID: 11400000, guid: f2304c96a4055994e8c4faca6552eb2c, type: 2}

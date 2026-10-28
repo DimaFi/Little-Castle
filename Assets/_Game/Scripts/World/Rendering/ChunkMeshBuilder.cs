@@ -10,6 +10,19 @@ namespace LittleCastle.World
     {
         public static Mesh Build(WorldChunkData chunk, float chunkWorldSize)
         {
+            return Build(chunk, chunkWorldSize, null, false);
+        }
+
+        /// <summary>
+        /// Optional concept-only vertex masks. The existing two-argument
+        /// path keeps its old behavior and avoids extra allocations.
+        /// </summary>
+        public static Mesh Build(
+            WorldChunkData chunk,
+            float chunkWorldSize,
+            MacroWorldPlan plan,
+            bool useVertexMasks)
+        {
             int samples = chunk.SamplesPerSide;
             int cells = chunk.CellsPerSide;
             float cellSize = chunkWorldSize / cells;
@@ -67,6 +80,10 @@ namespace LittleCastle.World
             mesh.triangles = triangles;
             mesh.RecalculateNormals();
             mesh.RecalculateBounds();
+
+            if (useVertexMasks)
+                mesh.colors32 = ChunkTerrainVertexMasks.Build(
+                    chunk, chunkWorldSize, plan);
 
             return mesh;
         }

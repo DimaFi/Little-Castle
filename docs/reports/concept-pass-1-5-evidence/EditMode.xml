@@ -1,0 +1,1217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="175" result="Passed" total="175" passed="175" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:09:01Z" duration="20,5893353">
+  <test-suite type="TestSuite" id="1000" name="Little-Castle" fullname="Little-Castle" runstate="Runnable" testcasecount="175" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:09:01Z" duration="20.589335" total="175" passed="175" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1217" name="LittleCastle.Tests.EditMode.dll" fullname="E:/Games_Develop/Little-Castle/Library/ScriptAssemblies/LittleCastle.Tests.EditMode.dll" runstate="Runnable" testcasecount="175" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:09:01Z" duration="20.581322" total="175" passed="175" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="32880" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1218" name="LittleCastle" fullname="LittleCastle" runstate="Runnable" testcasecount="175" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:09:01Z" duration="20.581015" total="175" passed="175" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1219" name="Tests" fullname="LittleCastle.Tests" runstate="Runnable" testcasecount="175" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:09:01Z" duration="20.579569" total="175" passed="175" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestFixture" id="1001" name="BridgeAwareRoutingTests" fullname="LittleCastle.Tests.BridgeAwareRoutingTests" classname="LittleCastle.Tests.BridgeAwareRoutingTests" runstate="Runnable" testcasecount="17" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:08:40Z" duration="0.082480" total="17" passed="17" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1017" name="Backbone_ConnectsRuinToExistingSettlementGraphWithoutChangingLegacyEdges" fullname="LittleCastle.Tests.BridgeAwareRoutingTests.Backbone_ConnectsRuinToExistingSettlementGraphWithoutChangingLegacyEdges" methodname="Backbone_ConnectsRuinToExistingSettlementGraphWithoutChangingLegacyEdges" classname="LittleCastle.Tests.BridgeAwareRoutingTests" runstate="Runnable" seed="2062869493" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:08:40Z" duration="0.028426" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1018" name="Backbone_IsStableAcrossFeatureInsertionOrder" fullname="LittleCastle.Tests.BridgeAwareRoutingTests.Backbone_IsStableAcrossFeatureInsertionOrder" methodname="Backbone_IsStableAcrossFeatureInsertionOrder" classname="LittleCastle.Tests.BridgeAwareRoutingTests" runstate="Runnable" seed="58286982" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:08:40Z" duration="0.004196" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1019" name="Backbone_RespectsMaximumDistanceAndReportsImpossibleGraph" fullname="LittleCastle.Tests.BridgeAwareRoutingTests.Backbone_RespectsMaximumDistanceAndReportsImpossibleGraph" methodname="Backbone_RespectsMaximumDistanceAndReportsImpossibleGraph" classname="LittleCastle.Tests.BridgeAwareRoutingTests" runstate="Runnable" seed="2009271506" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:08:40Z" duration="0.000598" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1008" name="Connectivity_DetectsMissingRealizedRoadAndDisconnectedFeature" fullname="LittleCastle.Tests.BridgeAwareRoutingTests.Connectivity_DetectsMissingRealizedRoadAndDisconnectedFeature" methodname="Connectivity_DetectsMissingRealizedRoadAndDisconnectedFeature" classname="LittleCastle.Tests.BridgeAwareRoutingTests" runstate="Runnable" seed="1464420836" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:08:40Z" duration="0.003141" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-suite type="ParameterizedMethod" id="1016" name="Connectivity_HandlesDifferentFeatureCountsAndSeeds" fullname="LittleCastle.Tests.BridgeAwareRoutingTests.Connectivity_HandlesDifferentFeatureCountsAndSeeds" classname="LittleCastle.Tests.BridgeAwareRoutingTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:08:40Z" duration="0.003557" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1013" name="Connectivity_HandlesDifferentFeatureCountsAndSeeds(2,12345)" fullname="LittleCastle.Tests.BridgeAwareRoutingTests.Connectivity_HandlesDifferentFeatureCountsAndSeeds(2,12345)" methodname="Connectivity_HandlesDifferentFeatureCountsAndSeeds" classname="LittleCastle.Tests.BridgeAwareRoutingTests" runstate="Runnable" seed="1454507313" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:08:40Z" duration="0.001025" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1014" name="Connectivity_HandlesDifferentFeatureCountsAndSeeds(8,-12345)" fullname="LittleCastle.Tests.BridgeAwareRoutingTests.Connectivity_HandlesDifferentFeatureCountsAndSeeds(8,-12345)" methodname="Connectivity_HandlesDifferentFeatureCountsAndSeeds" classname="LittleCastle.Tests.BridgeAwareRoutingTests" runstate="Runnable" seed="19259352" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:08:40Z" duration="0.000594" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1015" name="Connectivity_HandlesDifferentFeatureCountsAndSeeds(16,777)" fullname="LittleCastle.Tests.BridgeAwareRoutingTests.Connectivity_HandlesDifferentFeatureCountsAndSeeds(16,777)" methodname="Connectivity_HandlesDifferentFeatureCountsAndSeeds" classname="LittleCastle.Tests.BridgeAwareRoutingTests" runstate="Runnable" seed="1842628265" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:08:40Z" duration="0.000108" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-case id="1007" name="Connectivity_NonfixedSiteDoesNotServeFixedCrossing" fullname="LittleCastle.Tests.BridgeAwareRoutingTests.Connectivity_NonfixedSiteDoesNotServeFixedCrossing" methodname="Connectivity_NonfixedSiteDoesNotServeFixedCrossing" classname="LittleCastle.Tests.BridgeAwareRoutingTests" runstate="Runnable" seed="1951073215" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:08:40Z" duration="0.002553" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1006" name="Connectivity_RejectsFixedSiteWithDeckAlongRiver" fullname="LittleCastle.Tests.BridgeAwareRoutingTests.Connectivity_RejectsFixedSiteWithDeckAlongRiver" methodname="Connectivity_RejectsFixedSiteWithDeckAlongRiver" classname="LittleCastle.Tests.BridgeAwareRoutingTests" runstate="Runnable" seed="1591347554" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:08:40Z" duration="0.000292" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1004" name="Connectivity_RejectsOrphanSiteNotOnRealPolyline" fullname="LittleCastle.Tests.BridgeAwareRoutingTests.Connectivity_RejectsOrphanSiteNotOnRealPolyline" methodname="Connectivity_RejectsOrphanSiteNotOnRealPolyline" classname="LittleCastle.Tests.BridgeAwareRoutingTests" runstate="Runnable" seed="603950480" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:08:40Z" duration="0.000224" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1005" name="Connectivity_RejectsRoadOverlappingRiverCenterline" fullname="LittleCastle.Tests.BridgeAwareRoutingTests.Connectivity_RejectsRoadOverlappingRiverCenterline" methodname="Connectivity_RejectsRoadOverlappingRiverCenterline" classname="LittleCastle.Tests.BridgeAwareRoutingTests" runstate="Runnable" seed="1841318108" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:08:40Z" duration="0.000369" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1003" name="Connectivity_ReportsUnsupportedCrossingAndMissingMinimum" fullname="LittleCastle.Tests.BridgeAwareRoutingTests.Connectivity_ReportsUnsupportedCrossingAndMissingMinimum" methodname="Connectivity_ReportsUnsupportedCrossingAndMissingMinimum" classname="LittleCastle.Tests.BridgeAwareRoutingTests" runstate="Runnable" seed="1139686257" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:08:40Z" duration="0.000247" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1002" name="Connectivity_ValidFixedCrossingAndNegativeCoordinates" fullname="LittleCastle.Tests.BridgeAwareRoutingTests.Connectivity_ValidFixedCrossingAndNegativeCoordinates" methodname="Connectivity_ValidFixedCrossingAndNegativeCoordinates" classname="LittleCastle.Tests.BridgeAwareRoutingTests" runstate="Runnable" seed="195209407" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:08:40Z" duration="0.000334" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1012" name="GuidedBridgeAnchors_ChooseStablePerpendicularCrossing" fullname="LittleCastle.Tests.BridgeAwareRoutingTests.GuidedBridgeAnchors_ChooseStablePerpendicularCrossing" methodname="GuidedBridgeAnchors_ChooseStablePerpendicularCrossing" classname="LittleCastle.Tests.BridgeAwareRoutingTests" runstate="Runnable" seed="1533363046" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:08:40Z" duration="0.005112" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1010" name="Recovery_BoundedFailureDoesNotInventRoadOrResource" fullname="LittleCastle.Tests.BridgeAwareRoutingTests.Recovery_BoundedFailureDoesNotInventRoadOrResource" methodname="Recovery_BoundedFailureDoesNotInventRoadOrResource" classname="LittleCastle.Tests.BridgeAwareRoutingTests" runstate="Runnable" seed="1847009627" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:08:40Z" duration="0.003228" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1011" name="Recovery_ExhaustsConfiguredSearchesAtIncompatibleRiver" fullname="LittleCastle.Tests.BridgeAwareRoutingTests.Recovery_ExhaustsConfiguredSearchesAtIncompatibleRiver" methodname="Recovery_ExhaustsConfiguredSearchesAtIncompatibleRiver" classname="LittleCastle.Tests.BridgeAwareRoutingTests" runstate="Runnable" seed="819920872" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:08:40Z" duration="0.014944" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1009" name="Recovery_IsDeterministicAndRetainsMissingLogicalConnection" fullname="LittleCastle.Tests.BridgeAwareRoutingTests.Recovery_IsDeterministicAndRetainsMissingLogicalConnection" methodname="Recovery_IsDeterministicAndRetainsMissingLogicalConnection" classname="LittleCastle.Tests.BridgeAwareRoutingTests" runstate="Runnable" seed="573689491" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:08:40Z" duration="0.001970" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1020" name="BridgeCrossingPresentationTests" fullname="LittleCastle.Tests.BridgeCrossingPresentationTests" classname="LittleCastle.Tests.BridgeCrossingPresentationTests" runstate="Runnable" testcasecount="7" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:08:40Z" duration="0.003911" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1027" name="DeckHeight_FollowsCrownAndStopsOutsideWalkableCorridor" fullname="LittleCastle.Tests.BridgeCrossingPresentationTests.DeckHeight_FollowsCrownAndStopsOutsideWalkableCorridor" methodname="DeckHeight_FollowsCrownAndStopsOutsideWalkableCorridor" classname="LittleCastle.Tests.BridgeCrossingPresentationTests" runstate="Runnable" seed="1588128907" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:08:40Z" duration="0.000786" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1026" name="ProtectedWaterSurface_OnlyCoversBridgeChannel" fullname="LittleCastle.Tests.BridgeCrossingPresentationTests.ProtectedWaterSurface_OnlyCoversBridgeChannel" methodname="ProtectedWaterSurface_OnlyCoversBridgeChannel" classname="LittleCastle.Tests.BridgeCrossingPresentationTests" runstate="Runnable" seed="634702373" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:08:40Z" duration="0.000475" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-suite type="ParameterizedMethod" id="1025" name="RotatedWorldSockets_RoundTripAgainstAuthoredOffsets" fullname="LittleCastle.Tests.BridgeCrossingPresentationTests.RotatedWorldSockets_RoundTripAgainstAuthoredOffsets" classname="LittleCastle.Tests.BridgeCrossingPresentationTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:08:40Z" duration="0.001687" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1021" name="RotatedWorldSockets_RoundTripAgainstAuthoredOffsets(0.0f)" fullname="LittleCastle.Tests.BridgeCrossingPresentationTests.RotatedWorldSockets_RoundTripAgainstAuthoredOffsets(0.0f)" methodname="RotatedWorldSockets_RoundTripAgainstAuthoredOffsets" classname="LittleCastle.Tests.BridgeCrossingPresentationTests" runstate="Runnable" seed="2091340817" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:08:40Z" duration="0.001090" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1022" name="RotatedWorldSockets_RoundTripAgainstAuthoredOffsets(37.0f)" fullname="LittleCastle.Tests.BridgeCrossingPresentationTests.RotatedWorldSockets_RoundTripAgainstAuthoredOffsets(37.0f)" methodname="RotatedWorldSockets_RoundTripAgainstAuthoredOffsets" classname="LittleCastle.Tests.BridgeCrossingPresentationTests" runstate="Runnable" seed="540104213" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:08:40Z" duration="0.000083" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1023" name="RotatedWorldSockets_RoundTripAgainstAuthoredOffsets(90.0f)" fullname="LittleCastle.Tests.BridgeCrossingPresentationTests.RotatedWorldSockets_RoundTripAgainstAuthoredOffsets(90.0f)" methodname="RotatedWorldSockets_RoundTripAgainstAuthoredOffsets" classname="LittleCastle.Tests.BridgeCrossingPresentationTests" runstate="Runnable" seed="1379083508" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:08:40Z" duration="0.000055" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1024" name="RotatedWorldSockets_RoundTripAgainstAuthoredOffsets(180.0f)" fullname="LittleCastle.Tests.BridgeCrossingPresentationTests.RotatedWorldSockets_RoundTripAgainstAuthoredOffsets(180.0f)" methodname="RotatedWorldSockets_RoundTripAgainstAuthoredOffsets" classname="LittleCastle.Tests.BridgeCrossingPresentationTests" runstate="Runnable" seed="2090955528" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:08:40Z" duration="0.000059" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-case id="1028" name="UnsupportedSite_DoesNotGeneratePhantomWaterSockets" fullname="LittleCastle.Tests.BridgeCrossingPresentationTests.UnsupportedSite_DoesNotGeneratePhantomWaterSockets" methodname="UnsupportedSite_DoesNotGeneratePhantomWaterSockets" classname="LittleCastle.Tests.BridgeCrossingPresentationTests" runstate="Runnable" seed="891089119" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:08:40Z" duration="0.000231" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1029" name="BridgeStonePrefabTests" fullname="LittleCastle.Tests.BridgeStonePrefabTests" classname="LittleCastle.Tests.BridgeStonePrefabTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:08:40Z" duration="0.031786" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1031" name="AuthoredLODGroups_UseReviewedTriangleCountsAndCheapFarTier" fullname="LittleCastle.Tests.BridgeStonePrefabTests.AuthoredLODGroups_UseReviewedTriangleCountsAndCheapFarTier" methodname="AuthoredLODGroups_UseReviewedTriangleCountsAndCheapFarTier" classname="LittleCastle.Tests.BridgeStonePrefabTests" runstate="Runnable" seed="1494682919" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:08:40Z" duration="0.008926" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1030" name="ConceptCatalog_ResolvesOnlyRealFixedBridgePrefab" fullname="LittleCastle.Tests.BridgeStonePrefabTests.ConceptCatalog_ResolvesOnlyRealFixedBridgePrefab" methodname="ConceptCatalog_ResolvesOnlyRealFixedBridgePrefab" classname="LittleCastle.Tests.BridgeStonePrefabTests" runstate="Runnable" seed="364856016" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:08:40Z" duration="0.015179" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1033" name="NearCollisionBudget_TogglesWithoutMaterialClones" fullname="LittleCastle.Tests.BridgeStonePrefabTests.NearCollisionBudget_TogglesWithoutMaterialClones" methodname="NearCollisionBudget_TogglesWithoutMaterialClones" classname="LittleCastle.Tests.BridgeStonePrefabTests" runstate="Runnable" seed="706730366" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:08:40Z" duration="0.004900" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1032" name="Prefab_HasNearCollisionAndNoDuplicateWaterOrTerrain" fullname="LittleCastle.Tests.BridgeStonePrefabTests.Prefab_HasNearCollisionAndNoDuplicateWaterOrTerrain" methodname="Prefab_HasNearCollisionAndNoDuplicateWaterOrTerrain" classname="LittleCastle.Tests.BridgeStonePrefabTests" runstate="Runnable" seed="1638592117" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:08:40Z" duration="0.001967" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1034" name="ChunkTerrainNormalSeamTests" fullname="LittleCastle.Tests.ChunkTerrainNormalSeamTests" classname="LittleCastle.Tests.ChunkTerrainNormalSeamTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:08:40Z" duration="0.024034" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1038" name="ActualHeightCrack_CannotBeHiddenByVisualNormalWeld" fullname="LittleCastle.Tests.ChunkTerrainNormalSeamTests.ActualHeightCrack_CannotBeHiddenByVisualNormalWeld" methodname="ActualHeightCrack_CannotBeHiddenByVisualNormalWeld" classname="LittleCastle.Tests.ChunkTerrainNormalSeamTests" runstate="Runnable" seed="229740329" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:08:40Z" duration="0.009611" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1036" name="FourWayNegativeCorner_IsIdenticalAfterAnyChunkLoadOrder" fullname="LittleCastle.Tests.ChunkTerrainNormalSeamTests.FourWayNegativeCorner_IsIdenticalAfterAnyChunkLoadOrder" methodname="FourWayNegativeCorner_IsIdenticalAfterAnyChunkLoadOrder" classname="LittleCastle.Tests.ChunkTerrainNormalSeamTests" runstate="Runnable" seed="325744428" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:08:40Z" duration="0.004237" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1037" name="NormalStitch_NeverChangesMeshHeightsTopologyOrColorMasks" fullname="LittleCastle.Tests.ChunkTerrainNormalSeamTests.NormalStitch_NeverChangesMeshHeightsTopologyOrColorMasks" methodname="NormalStitch_NeverChangesMeshHeightsTopologyOrColorMasks" classname="LittleCastle.Tests.ChunkTerrainNormalSeamTests" runstate="Runnable" seed="1539511911" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:08:40Z" duration="0.002782" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1039" name="PartialOrDifferentProfileNeighbour_DoesNotFakeMatchingSurface" fullname="LittleCastle.Tests.ChunkTerrainNormalSeamTests.PartialOrDifferentProfileNeighbour_DoesNotFakeMatchingSurface" methodname="PartialOrDifferentProfileNeighbour_DoesNotFakeMatchingSurface" classname="LittleCastle.Tests.ChunkTerrainNormalSeamTests" runstate="Runnable" seed="1939692879" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:08:40Z" duration="0.000961" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1035" name="WestEastBoundary_UsesIdenticalCenteredNormalsOnNegativeSeam" fullname="LittleCastle.Tests.ChunkTerrainNormalSeamTests.WestEastBoundary_UsesIdenticalCenteredNormalsOnNegativeSeam" methodname="WestEastBoundary_UsesIdenticalCenteredNormalsOnNegativeSeam" classname="LittleCastle.Tests.ChunkTerrainNormalSeamTests" runstate="Runnable" seed="1086050045" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:08:40Z" duration="0.000566" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1040" name="ChunkTerrainVertexMaskTests" fullname="LittleCastle.Tests.ChunkTerrainVertexMaskTests" classname="LittleCastle.Tests.ChunkTerrainVertexMaskTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:08:40Z" duration="0.047275" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1045" name="EmptyMacroMask_ReturnsOpaqueNeutralVertexColors" fullname="LittleCastle.Tests.ChunkTerrainVertexMaskTests.EmptyMacroMask_ReturnsOpaqueNeutralVertexColors" methodname="EmptyMacroMask_ReturnsOpaqueNeutralVertexColors" classname="LittleCastle.Tests.ChunkTerrainVertexMaskTests" runstate="Runnable" seed="918454925" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:08:40Z" duration="0.006816" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1044" name="MaskedConceptMaterial_DoesNotEnableMasksInLegacyMaterial" fullname="LittleCastle.Tests.ChunkTerrainVertexMaskTests.MaskedConceptMaterial_DoesNotEnableMasksInLegacyMaterial" methodname="MaskedConceptMaterial_DoesNotEnableMasksInLegacyMaterial" classname="LittleCastle.Tests.ChunkTerrainVertexMaskTests" runstate="Runnable" seed="726315242" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:08:40Z" duration="0.033000" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1042" name="MeshBuild_IsLegacyTransparentUntilExplicitlyEnabled" fullname="LittleCastle.Tests.ChunkTerrainVertexMaskTests.MeshBuild_IsLegacyTransparentUntilExplicitlyEnabled" methodname="MeshBuild_IsLegacyTransparentUntilExplicitlyEnabled" classname="LittleCastle.Tests.ChunkTerrainVertexMaskTests" runstate="Runnable" seed="2145210024" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:08:40Z" duration="0.004409" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1043" name="RiverProfile_WidensBankOnlyDownstream" fullname="LittleCastle.Tests.ChunkTerrainVertexMaskTests.RiverProfile_WidensBankOnlyDownstream" methodname="RiverProfile_WidensBankOnlyDownstream" classname="LittleCastle.Tests.ChunkTerrainVertexMaskTests" runstate="Runnable" seed="723182784" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:08:40Z" duration="0.000864" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1041" name="RoadAndRiverMasks_AreContinuousAcrossNegativeChunkBoundary" fullname="LittleCastle.Tests.ChunkTerrainVertexMaskTests.RoadAndRiverMasks_AreContinuousAcrossNegativeChunkBoundary" methodname="RoadAndRiverMasks_AreContinuousAcrossNegativeChunkBoundary" classname="LittleCastle.Tests.ChunkTerrainVertexMaskTests" runstate="Runnable" seed="1154497736" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:08:40Z" duration="0.001202" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1046" name="ConceptLandscapeDiagnosticsTests" fullname="LittleCastle.Tests.ConceptLandscapeDiagnosticsTests" classname="LittleCastle.Tests.ConceptLandscapeDiagnosticsTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:08:40Z" duration="0.010368" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1051" name="NegativeGridBorder_GivesIdenticalAbsoluteWorldSamples" fullname="LittleCastle.Tests.ConceptLandscapeDiagnosticsTests.NegativeGridBorder_GivesIdenticalAbsoluteWorldSamples" methodname="NegativeGridBorder_GivesIdenticalAbsoluteWorldSamples" classname="LittleCastle.Tests.ConceptLandscapeDiagnosticsTests" runstate="Runnable" seed="410751279" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:08:40Z" duration="0.001728" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-suite type="ParameterizedMethod" id="1050" name="StylizedSampler_MultipleWorldSpansRemainFiniteAndDeterministic" fullname="LittleCastle.Tests.ConceptLandscapeDiagnosticsTests.StylizedSampler_MultipleWorldSpansRemainFiniteAndDeterministic" classname="LittleCastle.Tests.ConceptLandscapeDiagnosticsTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:08:40Z" duration="0.008015" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1047" name="StylizedSampler_MultipleWorldSpansRemainFiniteAndDeterministic(12345,2048.0f)" fullname="LittleCastle.Tests.ConceptLandscapeDiagnosticsTests.StylizedSampler_MultipleWorldSpansRemainFiniteAndDeterministic(12345,2048.0f)" methodname="StylizedSampler_MultipleWorldSpansRemainFiniteAndDeterministic" classname="LittleCastle.Tests.ConceptLandscapeDiagnosticsTests" runstate="Runnable" seed="1421733967" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:08:40Z" duration="0.003742" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1048" name="StylizedSampler_MultipleWorldSpansRemainFiniteAndDeterministic(54321,4096.0f)" fullname="LittleCastle.Tests.ConceptLandscapeDiagnosticsTests.StylizedSampler_MultipleWorldSpansRemainFiniteAndDeterministic(54321,4096.0f)" methodname="StylizedSampler_MultipleWorldSpansRemainFiniteAndDeterministic" classname="LittleCastle.Tests.ConceptLandscapeDiagnosticsTests" runstate="Runnable" seed="25064709" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:08:40Z" duration="0.001947" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1049" name="StylizedSampler_MultipleWorldSpansRemainFiniteAndDeterministic(-10101,6144.0f)" fullname="LittleCastle.Tests.ConceptLandscapeDiagnosticsTests.StylizedSampler_MultipleWorldSpansRemainFiniteAndDeterministic(-10101,6144.0f)" methodname="StylizedSampler_MultipleWorldSpansRemainFiniteAndDeterministic" classname="LittleCastle.Tests.ConceptLandscapeDiagnosticsTests" runstate="Runnable" seed="918996482" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:08:40Z" duration="0.001931" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+          </test-suite>
+          <test-suite type="TestFixture" id="1052" name="ConceptNaturalVegetationTests" fullname="LittleCastle.Tests.ConceptNaturalVegetationTests" classname="LittleCastle.Tests.ConceptNaturalVegetationTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:08:40Z" duration="0.010079" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1057" name="ConceptOnlyYamlFlags_AreEnabledWhileMainPresetsStayLegacy" fullname="LittleCastle.Tests.ConceptNaturalVegetationTests.ConceptOnlyYamlFlags_AreEnabledWhileMainPresetsStayLegacy" methodname="ConceptOnlyYamlFlags_AreEnabledWhileMainPresetsStayLegacy" classname="LittleCastle.Tests.ConceptNaturalVegetationTests" runstate="Runnable" seed="573842299" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:08:40Z" duration="0.003460" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1054" name="GroundCover_LegacyWithoutFlagsRetainsPreviousBehavior" fullname="LittleCastle.Tests.ConceptNaturalVegetationTests.GroundCover_LegacyWithoutFlagsRetainsPreviousBehavior" methodname="GroundCover_LegacyWithoutFlagsRetainsPreviousBehavior" classname="LittleCastle.Tests.ConceptNaturalVegetationTests" runstate="Runnable" seed="104927808" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:08:40Z" duration="0.001014" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1053" name="GroundCover_RespectsRealPlacementClearanceAndSlopeOnlyWhenOptedIn" fullname="LittleCastle.Tests.ConceptNaturalVegetationTests.GroundCover_RespectsRealPlacementClearanceAndSlopeOnlyWhenOptedIn" methodname="GroundCover_RespectsRealPlacementClearanceAndSlopeOnlyWhenOptedIn" classname="LittleCastle.Tests.ConceptNaturalVegetationTests" runstate="Runnable" seed="1951461096" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:08:40Z" duration="0.001075" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1056" name="Scatter_DecorativeRocksShiftToExposedRockWithoutAddingSpawns" fullname="LittleCastle.Tests.ConceptNaturalVegetationTests.Scatter_DecorativeRocksShiftToExposedRockWithoutAddingSpawns" methodname="Scatter_DecorativeRocksShiftToExposedRockWithoutAddingSpawns" classname="LittleCastle.Tests.ConceptNaturalVegetationTests" runstate="Runnable" seed="1240586725" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:08:40Z" duration="0.002424" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1055" name="Scatter_TreesStayOnNaturalGroundWithoutChangingStableIds" fullname="LittleCastle.Tests.ConceptNaturalVegetationTests.Scatter_TreesStayOnNaturalGroundWithoutChangingStableIds" methodname="Scatter_TreesStayOnNaturalGroundWithoutChangingStableIds" classname="LittleCastle.Tests.ConceptNaturalVegetationTests" runstate="Runnable" seed="563626782" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:08:40Z" duration="0.000969" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1058" name="ConceptSceneIntegrationTests" fullname="LittleCastle.Tests.ConceptSceneIntegrationTests" classname="LittleCastle.Tests.ConceptSceneIntegrationTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:08:40Z" duration="0.026118" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1060" name="ConceptMaterialAndCatalogReferenceRealApprovedAssets" fullname="LittleCastle.Tests.ConceptSceneIntegrationTests.ConceptMaterialAndCatalogReferenceRealApprovedAssets" methodname="ConceptMaterialAndCatalogReferenceRealApprovedAssets" classname="LittleCastle.Tests.ConceptSceneIntegrationTests" runstate="Runnable" seed="1434935433" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:08:40Z" duration="0.013905" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1059" name="SavedStreamingSceneHasPersistentDefinitionAndNoBakedChunks" fullname="LittleCastle.Tests.ConceptSceneIntegrationTests.SavedStreamingSceneHasPersistentDefinitionAndNoBakedChunks" methodname="SavedStreamingSceneHasPersistentDefinitionAndNoBakedChunks" classname="LittleCastle.Tests.ConceptSceneIntegrationTests" runstate="Runnable" seed="329227512" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:08:40Z" duration="0.011609" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1061" name="ConceptVillageFootprintTests" fullname="LittleCastle.Tests.ConceptVillageFootprintTests" classname="LittleCastle.Tests.ConceptVillageFootprintTests" runstate="Runnable" testcasecount="6" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:08:41Z" duration="0.001709" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1062" name="IsSupportedFootprint_AcceptsFiveFiniteSamplesWithinSpread" fullname="LittleCastle.Tests.ConceptVillageFootprintTests.IsSupportedFootprint_AcceptsFiveFiniteSamplesWithinSpread" methodname="IsSupportedFootprint_AcceptsFiveFiniteSamplesWithinSpread" classname="LittleCastle.Tests.ConceptVillageFootprintTests" runstate="Runnable" seed="671134353" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:08:40Z" duration="0.000273" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1065" name="IsSupportedFootprint_AcceptsInclusiveMaximumBoundary" fullname="LittleCastle.Tests.ConceptVillageFootprintTests.IsSupportedFootprint_AcceptsInclusiveMaximumBoundary" methodname="IsSupportedFootprint_AcceptsInclusiveMaximumBoundary" classname="LittleCastle.Tests.ConceptVillageFootprintTests" runstate="Runnable" seed="222507577" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:08:40Z" duration="0.000115" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1064" name="IsSupportedFootprint_RejectsInfiniteSample" fullname="LittleCastle.Tests.ConceptVillageFootprintTests.IsSupportedFootprint_RejectsInfiniteSample" methodname="IsSupportedFootprint_RejectsInfiniteSample" classname="LittleCastle.Tests.ConceptVillageFootprintTests" runstate="Runnable" seed="1482309815" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:08:40Z" duration="0.000086" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1063" name="IsSupportedFootprint_RejectsNaNSample" fullname="LittleCastle.Tests.ConceptVillageFootprintTests.IsSupportedFootprint_RejectsNaNSample" methodname="IsSupportedFootprint_RejectsNaNSample" classname="LittleCastle.Tests.ConceptVillageFootprintTests" runstate="Runnable" seed="1972969175" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:08:40Z" duration="0.000079" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1066" name="IsSupportedFootprint_RejectsSpreadAboveMaximum" fullname="LittleCastle.Tests.ConceptVillageFootprintTests.IsSupportedFootprint_RejectsSpreadAboveMaximum" methodname="IsSupportedFootprint_RejectsSpreadAboveMaximum" classname="LittleCastle.Tests.ConceptVillageFootprintTests" runstate="Runnable" seed="803491755" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:08:40Z" duration="0.000066" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1067" name="IsSupportedFootprint_RejectsUnsafeArguments" fullname="LittleCastle.Tests.ConceptVillageFootprintTests.IsSupportedFootprint_RejectsUnsafeArguments" methodname="IsSupportedFootprint_RejectsUnsafeArguments" classname="LittleCastle.Tests.ConceptVillageFootprintTests" runstate="Runnable" seed="503926920" result="Passed" start-time="2026-10-09 13:08:40Z" end-time="2026-10-09 13:08:41Z" duration="0.000153" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1068" name="ConceptWorldPerformanceTests" fullname="LittleCastle.Tests.ConceptWorldPerformanceTests" classname="LittleCastle.Tests.ConceptWorldPerformanceTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.001751" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1070" name="ConceptProfile_DoesNotRequestFullFiniteMapAtStartup" fullname="LittleCastle.Tests.ConceptWorldPerformanceTests.ConceptProfile_DoesNotRequestFullFiniteMapAtStartup" methodname="ConceptProfile_DoesNotRequestFullFiniteMapAtStartup" classname="LittleCastle.Tests.ConceptWorldPerformanceTests" runstate="Runnable" seed="734434163" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.000288" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1069" name="ConceptProfile_HasHalfMeterGridAndFiniteChunkBudgets" fullname="LittleCastle.Tests.ConceptWorldPerformanceTests.ConceptProfile_HasHalfMeterGridAndFiniteChunkBudgets" methodname="ConceptProfile_HasHalfMeterGridAndFiniteChunkBudgets" classname="LittleCastle.Tests.ConceptWorldPerformanceTests" runstate="Runnable" seed="814932378" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.001052" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1071" name="ConceptWorldProfileTests" fullname="LittleCastle.Tests.ConceptWorldProfileTests" classname="LittleCastle.Tests.ConceptWorldProfileTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.201270" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1072" name="ConceptProfile_IsIsolatedAndOrdered" fullname="LittleCastle.Tests.ConceptWorldProfileTests.ConceptProfile_IsIsolatedAndOrdered" methodname="ConceptProfile_IsIsolatedAndOrdered" classname="LittleCastle.Tests.ConceptWorldProfileTests" runstate="Runnable" seed="945136869" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.003773" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1073" name="ConceptProfile_NegativeBordersAndDeterminism" fullname="LittleCastle.Tests.ConceptWorldProfileTests.ConceptProfile_NegativeBordersAndDeterminism" methodname="ConceptProfile_NegativeBordersAndDeterminism" classname="LittleCastle.Tests.ConceptWorldProfileTests" runstate="Runnable" seed="2094785416" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.197019" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1074" name="FiniteSessionMapAndFogTests" fullname="LittleCastle.Tests.FiniteSessionMapAndFogTests" classname="LittleCastle.Tests.FiniteSessionMapAndFogTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.004457" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1077" name="FogOfWar_TransitionsFromHiddenToVisibleToExplored" fullname="LittleCastle.Tests.FiniteSessionMapAndFogTests.FogOfWar_TransitionsFromHiddenToVisibleToExplored" methodname="FogOfWar_TransitionsFromHiddenToVisibleToExplored" classname="LittleCastle.Tests.FiniteSessionMapAndFogTests" runstate="Runnable" seed="269215767" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.001036" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1075" name="MapRules_RejectPresetThatIsTooSmallForPlayerCount" fullname="LittleCastle.Tests.FiniteSessionMapAndFogTests.MapRules_RejectPresetThatIsTooSmallForPlayerCount" methodname="MapRules_RejectPresetThatIsTooSmallForPlayerCount" classname="LittleCastle.Tests.FiniteSessionMapAndFogTests" runstate="Runnable" seed="1591695561" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.001197" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1078" name="PlayableBounds_CanClampCameraOrMovementTarget" fullname="LittleCastle.Tests.FiniteSessionMapAndFogTests.PlayableBounds_CanClampCameraOrMovementTarget" methodname="PlayableBounds_CanClampCameraOrMovementTarget" classname="LittleCastle.Tests.FiniteSessionMapAndFogTests" runstate="Runnable" seed="1452287272" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.000513" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1076" name="SessionMap_HasSeparatePlayableAndVisualBounds" fullname="LittleCastle.Tests.FiniteSessionMapAndFogTests.SessionMap_HasSeparatePlayableAndVisualBounds" methodname="SessionMap_HasSeparatePlayableAndVisualBounds" classname="LittleCastle.Tests.FiniteSessionMapAndFogTests" runstate="Runnable" seed="902097176" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.000763" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1079" name="FixedBridgeGenerationTests" fullname="LittleCastle.Tests.FixedBridgeGenerationTests" classname="LittleCastle.Tests.FixedBridgeGenerationTests" runstate="Runnable" testcasecount="10" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.012618" total="10" passed="10" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1084" name="FixedPlanner_GentleRiverCornerGetsOneBridgeButSharpCornerRejectsRoad" fullname="LittleCastle.Tests.FixedBridgeGenerationTests.FixedPlanner_GentleRiverCornerGetsOneBridgeButSharpCornerRejectsRoad" methodname="FixedPlanner_GentleRiverCornerGetsOneBridgeButSharpCornerRejectsRoad" classname="LittleCastle.Tests.FixedBridgeGenerationTests" runstate="Runnable" seed="200470531" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.003745" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1081" name="FixedPlanner_IsDeterministicUsesAuthoredElevationAndNoStretch" fullname="LittleCastle.Tests.FixedBridgeGenerationTests.FixedPlanner_IsDeterministicUsesAuthoredElevationAndNoStretch" methodname="FixedPlanner_IsDeterministicUsesAuthoredElevationAndNoStretch" classname="LittleCastle.Tests.FixedBridgeGenerationTests" runstate="Runnable" seed="1652257060" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.000667" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1082" name="FixedPlanner_RejectsBadWidthAngleGradeAndMixedRoadAtomically" fullname="LittleCastle.Tests.FixedBridgeGenerationTests.FixedPlanner_RejectsBadWidthAngleGradeAndMixedRoadAtomically" methodname="FixedPlanner_RejectsBadWidthAngleGradeAndMixedRoadAtomically" classname="LittleCastle.Tests.FixedBridgeGenerationTests" runstate="Runnable" seed="1589119537" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.000540" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1085" name="FixedPlanner_RejectsOverlappingSitesWithoutLeavingOrphanRoads" fullname="LittleCastle.Tests.FixedBridgeGenerationTests.FixedPlanner_RejectsOverlappingSitesWithoutLeavingOrphanRoads" methodname="FixedPlanner_RejectsOverlappingSitesWithoutLeavingOrphanRoads" classname="LittleCastle.Tests.FixedBridgeGenerationTests" runstate="Runnable" seed="727611311" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.000853" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1083" name="FixedPlanner_RejectsRoadRunningAlongRiverWithAndWithoutTerrain" fullname="LittleCastle.Tests.FixedBridgeGenerationTests.FixedPlanner_RejectsRoadRunningAlongRiverWithAndWithoutTerrain" methodname="FixedPlanner_RejectsRoadRunningAlongRiverWithAndWithoutTerrain" classname="LittleCastle.Tests.FixedBridgeGenerationTests" runstate="Runnable" seed="1863899222" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.000655" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1080" name="FixedProfile_MatchesV002ContractAndYawAxes" fullname="LittleCastle.Tests.FixedBridgeGenerationTests.FixedProfile_MatchesV002ContractAndYawAxes" methodname="FixedProfile_MatchesV002ContractAndYawAxes" classname="LittleCastle.Tests.FixedBridgeGenerationTests" runstate="Runnable" seed="1308689259" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.000704" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1086" name="LegacyPlanner_OptOutKeepsRoadsSpansAndDataDefaults" fullname="LittleCastle.Tests.FixedBridgeGenerationTests.LegacyPlanner_OptOutKeepsRoadsSpansAndDataDefaults" methodname="LegacyPlanner_OptOutKeepsRoadsSpansAndDataDefaults" classname="LittleCastle.Tests.FixedBridgeGenerationTests" runstate="Runnable" seed="975449591" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.000934" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1089" name="Projection_LegacySiteStillSamplesTerrainAndKeepsOffset" fullname="LittleCastle.Tests.FixedBridgeGenerationTests.Projection_LegacySiteStillSamplesTerrainAndKeepsOffset" methodname="Projection_LegacySiteStillSamplesTerrainAndKeepsOffset" classname="LittleCastle.Tests.FixedBridgeGenerationTests" runstate="Runnable" seed="1881793752" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.001299" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1088" name="Projection_UsesAuthoredRootScaleOneAndReservesRotatedSupport" fullname="LittleCastle.Tests.FixedBridgeGenerationTests.Projection_UsesAuthoredRootScaleOneAndReservesRotatedSupport" methodname="Projection_UsesAuthoredRootScaleOneAndReservesRotatedSupport" classname="LittleCastle.Tests.FixedBridgeGenerationTests" runstate="Runnable" seed="1488029703" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.001386" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1087" name="TerrainStamp_IsDeterministicAndSeamlessAcrossNegativeChunks" fullname="LittleCastle.Tests.FixedBridgeGenerationTests.TerrainStamp_IsDeterministicAndSeamlessAcrossNegativeChunks" methodname="TerrainStamp_IsDeterministicAndSeamlessAcrossNegativeChunks" classname="LittleCastle.Tests.FixedBridgeGenerationTests" runstate="Runnable" seed="67474009" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.000620" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1090" name="NightLightingRuntimeTests" fullname="LittleCastle.Tests.NightLightingRuntimeTests" classname="LittleCastle.Tests.NightLightingRuntimeTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.006528" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1091" name="NightLightEmitter_FadesInAndOutWithoutInstantPop" fullname="LittleCastle.Tests.NightLightingRuntimeTests.NightLightEmitter_FadesInAndOutWithoutInstantPop" methodname="NightLightEmitter_FadesInAndOutWithoutInstantPop" classname="LittleCastle.Tests.NightLightingRuntimeTests" runstate="Runnable" seed="208244608" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.002743" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1092" name="NightLightPoolVisual_UsesPropertyBlockWithoutMaterialClone" fullname="LittleCastle.Tests.NightLightingRuntimeTests.NightLightPoolVisual_UsesPropertyBlockWithoutMaterialClone" methodname="NightLightPoolVisual_UsesPropertyBlockWithoutMaterialClone" classname="LittleCastle.Tests.NightLightingRuntimeTests" runstate="Runnable" seed="1434397801" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.003290" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1093" name="ProductionCrownClearanceTests" fullname="LittleCastle.Tests.ProductionCrownClearanceTests" classname="LittleCastle.Tests.ProductionCrownClearanceTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.002813" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1094" name="OptInClearanceBlocksOnlyTreesOutsideLegacyRoadRadius" fullname="LittleCastle.Tests.ProductionCrownClearanceTests.OptInClearanceBlocksOnlyTreesOutsideLegacyRoadRadius" methodname="OptInClearanceBlocksOnlyTreesOutsideLegacyRoadRadius" classname="LittleCastle.Tests.ProductionCrownClearanceTests" runstate="Runnable" seed="1724477283" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.002220" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1095" name="RealizedRoadConnectivityRepairTests" fullname="LittleCastle.Tests.RealizedRoadConnectivityRepairTests" classname="LittleCastle.Tests.RealizedRoadConnectivityRepairTests" runstate="Runnable" testcasecount="6" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.018775" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1096" name="Repair_CleansRejectedLogicalEdgeAfterAlternativeConnectsGraph" fullname="LittleCastle.Tests.RealizedRoadConnectivityRepairTests.Repair_CleansRejectedLogicalEdgeAfterAlternativeConnectsGraph" methodname="Repair_CleansRejectedLogicalEdgeAfterAlternativeConnectsGraph" classname="LittleCastle.Tests.RealizedRoadConnectivityRepairTests" runstate="Runnable" seed="2829077" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.008390" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1100" name="Repair_DoesNotRemoveMaterializedRoadWithRejectedId" fullname="LittleCastle.Tests.RealizedRoadConnectivityRepairTests.Repair_DoesNotRemoveMaterializedRoadWithRejectedId" methodname="Repair_DoesNotRemoveMaterializedRoadWithRejectedId" classname="LittleCastle.Tests.RealizedRoadConnectivityRepairTests" runstate="Runnable" seed="1063937554" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.003053" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1101" name="Repair_MatchingIdWithWrongEndpointsDoesNotConnectComponents" fullname="LittleCastle.Tests.RealizedRoadConnectivityRepairTests.Repair_MatchingIdWithWrongEndpointsDoesNotConnectComponents" methodname="Repair_MatchingIdWithWrongEndpointsDoesNotConnectComponents" classname="LittleCastle.Tests.RealizedRoadConnectivityRepairTests" runstate="Runnable" seed="909098715" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.002670" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1099" name="Repair_NonStrictModePreservesRejectedLogicalEdge" fullname="LittleCastle.Tests.RealizedRoadConnectivityRepairTests.Repair_NonStrictModePreservesRejectedLogicalEdge" methodname="Repair_NonStrictModePreservesRejectedLogicalEdge" classname="LittleCastle.Tests.RealizedRoadConnectivityRepairTests" runstate="Runnable" seed="1068741191" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.001142" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1097" name="Repair_RespectsMaximumDistanceWithoutInventingConnections" fullname="LittleCastle.Tests.RealizedRoadConnectivityRepairTests.Repair_RespectsMaximumDistanceWithoutInventingConnections" methodname="Repair_RespectsMaximumDistanceWithoutInventingConnections" classname="LittleCastle.Tests.RealizedRoadConnectivityRepairTests" runstate="Runnable" seed="980184985" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.001105" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1098" name="Repair_ZeroBudgetAndRejectedCandidatesStayExplicitFailures" fullname="LittleCastle.Tests.RealizedRoadConnectivityRepairTests.Repair_ZeroBudgetAndRejectedCandidatesStayExplicitFailures" methodname="Repair_ZeroBudgetAndRejectedCandidatesStayExplicitFailures" classname="LittleCastle.Tests.RealizedRoadConnectivityRepairTests" runstate="Runnable" seed="1777416673" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.001088" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1102" name="RiverBendEnvelopeTests" fullname="LittleCastle.Tests.RiverBendEnvelopeTests" classname="LittleCastle.Tests.RiverBendEnvelopeTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.010056" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1105" name="AnySegmentEnvelope_RepeatedPointIsDeterministicAcrossNegativeBorder" fullname="LittleCastle.Tests.RiverBendEnvelopeTests.AnySegmentEnvelope_RepeatedPointIsDeterministicAcrossNegativeBorder" methodname="AnySegmentEnvelope_RepeatedPointIsDeterministicAcrossNegativeBorder" classname="LittleCastle.Tests.RiverBendEnvelopeTests" runstate="Runnable" seed="221230806" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.004510" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1104" name="LegacyNearestOnly_DefaultRetainsKnownUniformOutput" fullname="LittleCastle.Tests.RiverBendEnvelopeTests.LegacyNearestOnly_DefaultRetainsKnownUniformOutput" methodname="LegacyNearestOnly_DefaultRetainsKnownUniformOutput" classname="LittleCastle.Tests.RiverBendEnvelopeTests" runstate="Runnable" seed="1614681857" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.000827" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1106" name="OnlyIsolatedConceptCarvingOptsIntoAnySegmentEnvelope" fullname="LittleCastle.Tests.RiverBendEnvelopeTests.OnlyIsolatedConceptCarvingOptsIntoAnySegmentEnvelope" methodname="OnlyIsolatedConceptCarvingOptsIntoAnySegmentEnvelope" classname="LittleCastle.Tests.RiverBendEnvelopeTests" runstate="Runnable" seed="905728431" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.000298" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1103" name="SharpBend_WiderAdjacentSegmentContributesWhenEnabled" fullname="LittleCastle.Tests.RiverBendEnvelopeTests.SharpBend_WiderAdjacentSegmentContributesWhenEnabled" methodname="SharpBend_WiderAdjacentSegmentContributesWhenEnabled" classname="LittleCastle.Tests.RiverBendEnvelopeTests" runstate="Runnable" seed="1326436708" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.003631" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1107" name="RiverSourceFallbackTests" fullname="LittleCastle.Tests.RiverSourceFallbackTests" classname="LittleCastle.Tests.RiverSourceFallbackTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.014918" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1108" name="DisabledFallback_PreservesLegacyOutputExactly" fullname="LittleCastle.Tests.RiverSourceFallbackTests.DisabledFallback_PreservesLegacyOutputExactly" methodname="DisabledFallback_PreservesLegacyOutputExactly" classname="LittleCastle.Tests.RiverSourceFallbackTests" runstate="Runnable" seed="988529618" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.007917" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1110" name="Fallback_AttemptBudgetCapsCandidateProbesAndTraces" fullname="LittleCastle.Tests.RiverSourceFallbackTests.Fallback_AttemptBudgetCapsCandidateProbesAndTraces" methodname="Fallback_AttemptBudgetCapsCandidateProbesAndTraces" classname="LittleCastle.Tests.RiverSourceFallbackTests" runstate="Runnable" seed="48178204" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.001710" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1112" name="Fallback_CanFormRealDownhillRiverWhenOrdinarySourcesMiss" fullname="LittleCastle.Tests.RiverSourceFallbackTests.Fallback_CanFormRealDownhillRiverWhenOrdinarySourcesMiss" methodname="Fallback_CanFormRealDownhillRiverWhenOrdinarySourcesMiss" classname="LittleCastle.Tests.RiverSourceFallbackTests" runstate="Runnable" seed="1352148100" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.000894" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1111" name="Fallback_FlatTerrainDoesNotInventRiver" fullname="LittleCastle.Tests.RiverSourceFallbackTests.Fallback_FlatTerrainDoesNotInventRiver" methodname="Fallback_FlatTerrainDoesNotInventRiver" classname="LittleCastle.Tests.RiverSourceFallbackTests" runstate="Runnable" seed="2058200329" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.001338" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1109" name="Fallback_IsRepeatableAcrossNegativeCoordinates" fullname="LittleCastle.Tests.RiverSourceFallbackTests.Fallback_IsRepeatableAcrossNegativeCoordinates" methodname="Fallback_IsRepeatableAcrossNegativeCoordinates" classname="LittleCastle.Tests.RiverSourceFallbackTests" runstate="Runnable" seed="1767999199" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.000969" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1113" name="RiverWaterPresentationTests" fullname="LittleCastle.Tests.RiverWaterPresentationTests" classname="LittleCastle.Tests.RiverWaterPresentationTests" runstate="Runnable" testcasecount="10" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.070964" total="10" passed="10" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1122" name="ConceptChunk_ReportsMeshSizeAndBuildTime" fullname="LittleCastle.Tests.RiverWaterPresentationTests.ConceptChunk_ReportsMeshSizeAndBuildTime" methodname="ConceptChunk_ReportsMeshSizeAndBuildTime" classname="LittleCastle.Tests.RiverWaterPresentationTests" runstate="Runnable" seed="885562231" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.007236" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[River water concept 64m/32-cell chunk: 4224 vertices, 1408 triangles, 5,884 ms build
+]]></output>
+            </test-case>
+            <test-suite type="ParameterizedMethod" id="1119" name="FixedBridgeCore_UsesContractWaterHeightAtYaw" fullname="LittleCastle.Tests.RiverWaterPresentationTests.FixedBridgeCore_UsesContractWaterHeightAtYaw" classname="LittleCastle.Tests.RiverWaterPresentationTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.017474" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1115" name="FixedBridgeCore_UsesContractWaterHeightAtYaw(0.0f)" fullname="LittleCastle.Tests.RiverWaterPresentationTests.FixedBridgeCore_UsesContractWaterHeightAtYaw(0.0f)" methodname="FixedBridgeCore_UsesContractWaterHeightAtYaw" classname="LittleCastle.Tests.RiverWaterPresentationTests" runstate="Runnable" seed="1670918273" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.004061" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1116" name="FixedBridgeCore_UsesContractWaterHeightAtYaw(37.0f)" fullname="LittleCastle.Tests.RiverWaterPresentationTests.FixedBridgeCore_UsesContractWaterHeightAtYaw(37.0f)" methodname="FixedBridgeCore_UsesContractWaterHeightAtYaw" classname="LittleCastle.Tests.RiverWaterPresentationTests" runstate="Runnable" seed="116074171" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.003590" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1117" name="FixedBridgeCore_UsesContractWaterHeightAtYaw(90.0f)" fullname="LittleCastle.Tests.RiverWaterPresentationTests.FixedBridgeCore_UsesContractWaterHeightAtYaw(90.0f)" methodname="FixedBridgeCore_UsesContractWaterHeightAtYaw" classname="LittleCastle.Tests.RiverWaterPresentationTests" runstate="Runnable" seed="1035223586" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.003462" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1118" name="FixedBridgeCore_UsesContractWaterHeightAtYaw(180.0f)" fullname="LittleCastle.Tests.RiverWaterPresentationTests.FixedBridgeCore_UsesContractWaterHeightAtYaw(180.0f)" methodname="FixedBridgeCore_UsesContractWaterHeightAtYaw" classname="LittleCastle.Tests.RiverWaterPresentationTests" runstate="Runnable" seed="406391867" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.004739" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-case id="1120" name="FixedBridgeOnNegativeSeam_KeepsCanonicalWaterHeight" fullname="LittleCastle.Tests.RiverWaterPresentationTests.FixedBridgeOnNegativeSeam_KeepsCanonicalWaterHeight" methodname="FixedBridgeOnNegativeSeam_KeepsCanonicalWaterHeight" classname="LittleCastle.Tests.RiverWaterPresentationTests" runstate="Runnable" seed="990347849" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.006129" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1124" name="FixedSiteWithoutMatchingRiver_DoesNotInventWater" fullname="LittleCastle.Tests.RiverWaterPresentationTests.FixedSiteWithoutMatchingRiver_DoesNotInventWater" methodname="FixedSiteWithoutMatchingRiver_DoesNotInventWater" classname="LittleCastle.Tests.RiverWaterPresentationTests" runstate="Runnable" seed="145371294" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.000307" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1121" name="Mesh_IsFiniteWithinChunkAndHasValidTriangles" fullname="LittleCastle.Tests.RiverWaterPresentationTests.Mesh_IsFiniteWithinChunkAndHasValidTriangles" methodname="Mesh_IsFiniteWithinChunkAndHasValidTriangles" classname="LittleCastle.Tests.RiverWaterPresentationTests" runstate="Runnable" seed="1029145010" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.016761" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1114" name="NegativeChunkSeam_UsesIdenticalWorldWaterVertices" fullname="LittleCastle.Tests.RiverWaterPresentationTests.NegativeChunkSeam_UsesIdenticalWorldWaterVertices" methodname="NegativeChunkSeam_UsesIdenticalWorldWaterVertices" classname="LittleCastle.Tests.RiverWaterPresentationTests" runstate="Runnable" seed="1192958589" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.008195" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1123" name="Presenter_CombinesOverlappingRiversAndReleasesOwnedMesh" fullname="LittleCastle.Tests.RiverWaterPresentationTests.Presenter_CombinesOverlappingRiversAndReleasesOwnedMesh" methodname="Presenter_CombinesOverlappingRiversAndReleasesOwnedMesh" classname="LittleCastle.Tests.RiverWaterPresentationTests" runstate="Runnable" seed="921978348" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.013770" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1125" name="StylizedLandformTests" fullname="LittleCastle.Tests.StylizedLandformTests" classname="LittleCastle.Tests.StylizedLandformTests" runstate="Runnable" testcasecount="6" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.154868" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1130" name="DefaultPreset_HasBroadBuildableGroundAndControlledScarps" fullname="LittleCastle.Tests.StylizedLandformTests.DefaultPreset_HasBroadBuildableGroundAndControlledScarps" methodname="DefaultPreset_HasBroadBuildableGroundAndControlledScarps" classname="LittleCastle.Tests.StylizedLandformTests" runstate="Runnable" seed="1260342150" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.102008" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[Stylized landforms seed=7: buildable=96,7%, largestBuildable=90,3%, plain=68,6%, highland=9,0%, scarp=1,4%, steep=0,2%, finite=True
+Stylized landforms seed=12345: buildable=99,1%, largestBuildable=99,1%, plain=89,2%, highland=5,1%, scarp=1,0%, steep=0,0%, finite=True
+Stylized landforms seed=86420: buildable=99,7%, largestBuildable=99,7%, plain=46,2%, highland=1,5%, scarp=0,1%, steep=0,0%, finite=True
+Stylized landforms seed=-170031: buildable=100,0%, largestBuildable=100,0%, plain=74,9%, highland=0,0%, scarp=0,0%, steep=0,0%, finite=True
+Stylized landforms four-seed average: buildable=98,9%, largestBuildable=97,3%, plain=69,7%, highland=3,9%, scarp=0,6%, steep=0,0%.
+]]></output>
+            </test-case>
+            <test-case id="1131" name="DefaultPreset_ReportsFiniteMapScaleImplications" fullname="LittleCastle.Tests.StylizedLandformTests.DefaultPreset_ReportsFiniteMapScaleImplications" methodname="DefaultPreset_ReportsFiniteMapScaleImplications" classname="LittleCastle.Tests.StylizedLandformTests" runstate="Runnable" seed="1730734874" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.020247" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[Stylized landforms 2-player 2048 m sample: buildable=99,5%, largestBuildable=99,5%, plain=96,0%, highland=0,8%, scarp=0,0%, steep=0,0%, finite=True
+Stylized landforms 8-player 4096 m sample: buildable=99,0%, largestBuildable=99,0%, plain=80,1%, highland=6,3%, scarp=1,7%, steep=0,0%, finite=True
+Stylized landforms 16-player 6144 m sample: buildable=99,7%, largestBuildable=99,7%, plain=76,8%, highland=5,8%, scarp=2,0%, steep=0,0%, finite=True
+]]></output>
+            </test-case>
+            <test-case id="1129" name="DisabledMode_PreservesLegacyLayeredTerrainFormula" fullname="LittleCastle.Tests.StylizedLandformTests.DisabledMode_PreservesLegacyLayeredTerrainFormula" methodname="DisabledMode_PreservesLegacyLayeredTerrainFormula" classname="LittleCastle.Tests.StylizedLandformTests" runstate="Runnable" seed="2091201577" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.007060" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1128" name="OptInStage_AgreesAcrossNegativeAndPositiveChunkBorders" fullname="LittleCastle.Tests.StylizedLandformTests.OptInStage_AgreesAcrossNegativeAndPositiveChunkBorders" methodname="OptInStage_AgreesAcrossNegativeAndPositiveChunkBorders" classname="LittleCastle.Tests.StylizedLandformTests" runstate="Runnable" seed="322139061" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.022682" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1126" name="PureSampler_IsExactForSameSeed_AndChangesForAnotherSeed" fullname="LittleCastle.Tests.StylizedLandformTests.PureSampler_IsExactForSameSeed_AndChangesForAnotherSeed" methodname="PureSampler_IsExactForSameSeed_AndChangesForAnotherSeed" classname="LittleCastle.Tests.StylizedLandformTests" runstate="Runnable" seed="1604558352" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.000456" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1127" name="PureSampler_ProducesFiniteHeightsAndMasks" fullname="LittleCastle.Tests.StylizedLandformTests.PureSampler_ProducesFiniteHeightsAndMasks" methodname="PureSampler_ProducesFiniteHeightsAndMasks" classname="LittleCastle.Tests.StylizedLandformTests" runstate="Runnable" seed="650501808" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.001111" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1132" name="StylizedRenderingContractTests" fullname="LittleCastle.Tests.StylizedRenderingContractTests" classname="LittleCastle.Tests.StylizedRenderingContractTests" runstate="Runnable" testcasecount="21" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.018967" total="21" passed="21" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1155" name="ColorSpace_IsExplicitlyVisibleToReview" fullname="LittleCastle.Tests.StylizedRenderingContractTests.ColorSpace_IsExplicitlyVisibleToReview" methodname="ColorSpace_IsExplicitlyVisibleToReview" classname="LittleCastle.Tests.StylizedRenderingContractTests" runstate="Runnable" seed="1634738292" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.000201" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-suite type="ParameterizedMethod" id="1154" name="DefaultRenderingMaterials_Exist" fullname="LittleCastle.Tests.StylizedRenderingContractTests.DefaultRenderingMaterials_Exist" classname="LittleCastle.Tests.StylizedRenderingContractTests" runstate="Runnable" testcasecount="9" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.003651" total="9" passed="9" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1145" name="DefaultRenderingMaterials_Exist(&quot;Assets/_Game/Materials/StylizedDayNightSky.mat&quot;)" fullname="LittleCastle.Tests.StylizedRenderingContractTests.DefaultRenderingMaterials_Exist(&quot;Assets/_Game/Materials/StylizedDayNightSky.mat&quot;)" methodname="DefaultRenderingMaterials_Exist" classname="LittleCastle.Tests.StylizedRenderingContractTests" runstate="Runnable" seed="206206005" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.000666" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1146" name="DefaultRenderingMaterials_Exist(&quot;Assets/_Game/Materials/Shared/LC_StylizedLit_Default.mat&quot;)" fullname="LittleCastle.Tests.StylizedRenderingContractTests.DefaultRenderingMaterials_Exist(&quot;Assets/_Game/Materials/Shared/LC_StylizedLit_Default.mat&quot;)" methodname="DefaultRenderingMaterials_Exist" classname="LittleCastle.Tests.StylizedRenderingContractTests" runstate="Runnable" seed="1311301689" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.000360" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1147" name="DefaultRenderingMaterials_Exist(&quot;Assets/_Game/Materials/Shared/LC_Foliage_Default.mat&quot;)" fullname="LittleCastle.Tests.StylizedRenderingContractTests.DefaultRenderingMaterials_Exist(&quot;Assets/_Game/Materials/Shared/LC_Foliage_Default.mat&quot;)" methodname="DefaultRenderingMaterials_Exist" classname="LittleCastle.Tests.StylizedRenderingContractTests" runstate="Runnable" seed="1332950078" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.000360" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1148" name="DefaultRenderingMaterials_Exist(&quot;Assets/_Game/Materials/Shared/LC_Grass_Default.mat&quot;)" fullname="LittleCastle.Tests.StylizedRenderingContractTests.DefaultRenderingMaterials_Exist(&quot;Assets/_Game/Materials/Shared/LC_Grass_Default.mat&quot;)" methodname="DefaultRenderingMaterials_Exist" classname="LittleCastle.Tests.StylizedRenderingContractTests" runstate="Runnable" seed="1054106409" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.000292" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1149" name="DefaultRenderingMaterials_Exist(&quot;Assets/_Game/Materials/Material_terrain/LC_Terrain_Default.mat&quot;)" fullname="LittleCastle.Tests.StylizedRenderingContractTests.DefaultRenderingMaterials_Exist(&quot;Assets/_Game/Materials/Material_terrain/LC_Terrain_Default.mat&quot;)" methodname="DefaultRenderingMaterials_Exist" classname="LittleCastle.Tests.StylizedRenderingContractTests" runstate="Runnable" seed="1902306286" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.000077" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1150" name="DefaultRenderingMaterials_Exist(&quot;Assets/_Game/Materials/Shared/LC_NightLightPool_Default.mat&quot;)" fullname="LittleCastle.Tests.StylizedRenderingContractTests.DefaultRenderingMaterials_Exist(&quot;Assets/_Game/Materials/Shared/LC_NightLightPool_Default.mat&quot;)" methodname="DefaultRenderingMaterials_Exist" classname="LittleCastle.Tests.StylizedRenderingContractTests" runstate="Runnable" seed="1058713997" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.000262" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1151" name="DefaultRenderingMaterials_Exist(&quot;Assets/_Game/Materials/Shared/LC_EmissiveGlow_Default.mat&quot;)" fullname="LittleCastle.Tests.StylizedRenderingContractTests.DefaultRenderingMaterials_Exist(&quot;Assets/_Game/Materials/Shared/LC_EmissiveGlow_Default.mat&quot;)" methodname="DefaultRenderingMaterials_Exist" classname="LittleCastle.Tests.StylizedRenderingContractTests" runstate="Runnable" seed="2109328778" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.000261" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1152" name="DefaultRenderingMaterials_Exist(&quot;Assets/_Game/Materials/Shared/LC_Wheat_Mature.mat&quot;)" fullname="LittleCastle.Tests.StylizedRenderingContractTests.DefaultRenderingMaterials_Exist(&quot;Assets/_Game/Materials/Shared/LC_Wheat_Mature.mat&quot;)" methodname="DefaultRenderingMaterials_Exist" classname="LittleCastle.Tests.StylizedRenderingContractTests" runstate="Runnable" seed="1672127095" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.000264" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1153" name="DefaultRenderingMaterials_Exist(&quot;Assets/_Game/Materials/Shared/LC_DistantSimple_Default.mat&quot;)" fullname="LittleCastle.Tests.StylizedRenderingContractTests.DefaultRenderingMaterials_Exist(&quot;Assets/_Game/Materials/Shared/LC_DistantSimple_Default.mat&quot;)" methodname="DefaultRenderingMaterials_Exist" classname="LittleCastle.Tests.StylizedRenderingContractTests" runstate="Runnable" seed="1171077780" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.000306" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="ParameterizedMethod" id="1144" name="SharedShaders_ExistAndExposeRequiredProperties" fullname="LittleCastle.Tests.StylizedRenderingContractTests.SharedShaders_ExistAndExposeRequiredProperties" classname="LittleCastle.Tests.StylizedRenderingContractTests" runstate="Runnable" testcasecount="11" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.014280" total="11" passed="11" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1133" name="SharedShaders_ExistAndExposeRequiredProperties(&quot;Little Castle/Sky/Stylized Day Night&quot;,&quot;_SunDirection&quot;,&quot;_MoonDirection&quot;,&quot;_Daylight&quot;)" fullname="LittleCastle.Tests.StylizedRenderingContractTests.SharedShaders_ExistAndExposeRequiredProperties(&quot;Little Castle/Sky/Stylized Day Night&quot;,&quot;_SunDirection&quot;,&quot;_MoonDirection&quot;,&quot;_Daylight&quot;)" methodname="SharedShaders_ExistAndExposeRequiredProperties" classname="LittleCastle.Tests.StylizedRenderingContractTests" runstate="Runnable" seed="1723418826" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.000618" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1134" name="SharedShaders_ExistAndExposeRequiredProperties(&quot;Little Castle/Surface/LC Stylized Lit&quot;,&quot;_MainTex&quot;,&quot;_BumpMap&quot;,&quot;_EmissionNightStrength&quot;)" fullname="LittleCastle.Tests.StylizedRenderingContractTests.SharedShaders_ExistAndExposeRequiredProperties(&quot;Little Castle/Surface/LC Stylized Lit&quot;,&quot;_MainTex&quot;,&quot;_BumpMap&quot;,&quot;_EmissionNightStrength&quot;)" methodname="SharedShaders_ExistAndExposeRequiredProperties" classname="LittleCastle.Tests.StylizedRenderingContractTests" runstate="Runnable" seed="388285079" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.007171" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1135" name="SharedShaders_ExistAndExposeRequiredProperties(&quot;Little Castle/Surface/LC Stylized Lit&quot;,&quot;_RoughnessMap&quot;,&quot;_LocalLightStrength&quot;,&quot;_EmissionMap&quot;)" fullname="LittleCastle.Tests.StylizedRenderingContractTests.SharedShaders_ExistAndExposeRequiredProperties(&quot;Little Castle/Surface/LC Stylized Lit&quot;,&quot;_RoughnessMap&quot;,&quot;_LocalLightStrength&quot;,&quot;_EmissionMap&quot;)" methodname="SharedShaders_ExistAndExposeRequiredProperties" classname="LittleCastle.Tests.StylizedRenderingContractTests" runstate="Runnable" seed="1830575787" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.000220" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1136" name="SharedShaders_ExistAndExposeRequiredProperties(&quot;Little Castle/Foliage/LC Foliage&quot;,&quot;_CrownSway&quot;,&quot;_VertexWave&quot;,&quot;_LeafFlutter&quot;)" fullname="LittleCastle.Tests.StylizedRenderingContractTests.SharedShaders_ExistAndExposeRequiredProperties(&quot;Little Castle/Foliage/LC Foliage&quot;,&quot;_CrownSway&quot;,&quot;_VertexWave&quot;,&quot;_LeafFlutter&quot;)" methodname="SharedShaders_ExistAndExposeRequiredProperties" classname="LittleCastle.Tests.StylizedRenderingContractTests" runstate="Runnable" seed="1358284154" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.000581" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1137" name="SharedShaders_ExistAndExposeRequiredProperties(&quot;Little Castle/Foliage/LC Foliage&quot;,&quot;_OpacityMap&quot;,&quot;_UseHeightWindMask&quot;,&quot;_TransmissionStrength&quot;)" fullname="LittleCastle.Tests.StylizedRenderingContractTests.SharedShaders_ExistAndExposeRequiredProperties(&quot;Little Castle/Foliage/LC Foliage&quot;,&quot;_OpacityMap&quot;,&quot;_UseHeightWindMask&quot;,&quot;_TransmissionStrength&quot;)" methodname="SharedShaders_ExistAndExposeRequiredProperties" classname="LittleCastle.Tests.StylizedRenderingContractTests" runstate="Runnable" seed="1169999162" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.000135" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1138" name="SharedShaders_ExistAndExposeRequiredProperties(&quot;Little Castle/Foliage/LC Grass&quot;,&quot;_GustStrength&quot;,&quot;_MicroFlutter&quot;,&quot;_TransmissionStrength&quot;)" fullname="LittleCastle.Tests.StylizedRenderingContractTests.SharedShaders_ExistAndExposeRequiredProperties(&quot;Little Castle/Foliage/LC Grass&quot;,&quot;_GustStrength&quot;,&quot;_MicroFlutter&quot;,&quot;_TransmissionStrength&quot;)" methodname="SharedShaders_ExistAndExposeRequiredProperties" classname="LittleCastle.Tests.StylizedRenderingContractTests" runstate="Runnable" seed="1777133859" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.000454" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1139" name="SharedShaders_ExistAndExposeRequiredProperties(&quot;Little Castle/Foliage/LC Grass&quot;,&quot;_OpacityMap&quot;,&quot;_GustStrength&quot;,&quot;_MicroFlutter&quot;)" fullname="LittleCastle.Tests.StylizedRenderingContractTests.SharedShaders_ExistAndExposeRequiredProperties(&quot;Little Castle/Foliage/LC Grass&quot;,&quot;_OpacityMap&quot;,&quot;_GustStrength&quot;,&quot;_MicroFlutter&quot;)" methodname="SharedShaders_ExistAndExposeRequiredProperties" classname="LittleCastle.Tests.StylizedRenderingContractTests" runstate="Runnable" seed="937658878" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.000117" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1140" name="SharedShaders_ExistAndExposeRequiredProperties(&quot;Little Castle/Terrain/LC Terrain&quot;,&quot;_GrassTex&quot;,&quot;_MacroStrength&quot;,&quot;_UseVertexMasks&quot;)" fullname="LittleCastle.Tests.StylizedRenderingContractTests.SharedShaders_ExistAndExposeRequiredProperties(&quot;Little Castle/Terrain/LC Terrain&quot;,&quot;_GrassTex&quot;,&quot;_MacroStrength&quot;,&quot;_UseVertexMasks&quot;)" methodname="SharedShaders_ExistAndExposeRequiredProperties" classname="LittleCastle.Tests.StylizedRenderingContractTests" runstate="Runnable" seed="1683356382" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.000547" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1141" name="SharedShaders_ExistAndExposeRequiredProperties(&quot;Little Castle/Effects/LC Night Light Pool&quot;,&quot;_Intensity&quot;,&quot;_NightThreshold&quot;,&quot;_FlickerStrength&quot;)" fullname="LittleCastle.Tests.StylizedRenderingContractTests.SharedShaders_ExistAndExposeRequiredProperties(&quot;Little Castle/Effects/LC Night Light Pool&quot;,&quot;_Intensity&quot;,&quot;_NightThreshold&quot;,&quot;_FlickerStrength&quot;)" methodname="SharedShaders_ExistAndExposeRequiredProperties" classname="LittleCastle.Tests.StylizedRenderingContractTests" runstate="Runnable" seed="1282651911" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.000175" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1142" name="SharedShaders_ExistAndExposeRequiredProperties(&quot;Little Castle/Effects/LC Emissive Glow&quot;,&quot;_MainTex&quot;,&quot;_NightStrength&quot;,&quot;_FlickerStrength&quot;)" fullname="LittleCastle.Tests.StylizedRenderingContractTests.SharedShaders_ExistAndExposeRequiredProperties(&quot;Little Castle/Effects/LC Emissive Glow&quot;,&quot;_MainTex&quot;,&quot;_NightStrength&quot;,&quot;_FlickerStrength&quot;)" methodname="SharedShaders_ExistAndExposeRequiredProperties" classname="LittleCastle.Tests.StylizedRenderingContractTests" runstate="Runnable" seed="677998038" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.000097" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1143" name="SharedShaders_ExistAndExposeRequiredProperties(&quot;Little Castle/Distance/LC Distant Simple&quot;,&quot;_MainTex&quot;,&quot;_UseAlphaClip&quot;,&quot;_TopLightStrength&quot;)" fullname="LittleCastle.Tests.StylizedRenderingContractTests.SharedShaders_ExistAndExposeRequiredProperties(&quot;Little Castle/Distance/LC Distant Simple&quot;,&quot;_MainTex&quot;,&quot;_UseAlphaClip&quot;,&quot;_TopLightStrength&quot;)" methodname="SharedShaders_ExistAndExposeRequiredProperties" classname="LittleCastle.Tests.StylizedRenderingContractTests" runstate="Runnable" seed="2141037838" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.001688" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+          </test-suite>
+          <test-suite type="TestFixture" id="1156" name="TerrainStarterPlanTests" fullname="LittleCastle.Tests.TerrainStarterPlanTests" classname="LittleCastle.Tests.TerrainStarterPlanTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.018322" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1158" name="NegativeChunkBorderMatchesHeightNormalAndRoadMask" fullname="LittleCastle.Tests.TerrainStarterPlanTests.NegativeChunkBorderMatchesHeightNormalAndRoadMask" methodname="NegativeChunkBorderMatchesHeightNormalAndRoadMask" classname="LittleCastle.Tests.TerrainStarterPlanTests" runstate="Runnable" seed="1116850047" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.015863" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1157" name="SeedReproducesScatterAndReservesHouseFootprints" fullname="LittleCastle.Tests.TerrainStarterPlanTests.SeedReproducesScatterAndReservesHouseFootprints" methodname="SeedReproducesScatterAndReservesHouseFootprints" classname="LittleCastle.Tests.TerrainStarterPlanTests" runstate="Runnable" seed="229372970" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.001769" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1159" name="TerrainSurfaceBroadPhaseTests" fullname="LittleCastle.Tests.TerrainSurfaceBroadPhaseTests" classname="LittleCastle.Tests.TerrainSurfaceBroadPhaseTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.008672" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1161" name="BroadPhase_DistantSegmentsDoNotRejectWidthEdge" fullname="LittleCastle.Tests.TerrainSurfaceBroadPhaseTests.BroadPhase_DistantSegmentsDoNotRejectWidthEdge" methodname="BroadPhase_DistantSegmentsDoNotRejectWidthEdge" classname="LittleCastle.Tests.TerrainSurfaceBroadPhaseTests" runstate="Runnable" seed="1065405999" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.004947" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1162" name="BroadPhase_LegacyNominalRiverKeepsDegeneratePointSegment" fullname="LittleCastle.Tests.TerrainSurfaceBroadPhaseTests.BroadPhase_LegacyNominalRiverKeepsDegeneratePointSegment" methodname="BroadPhase_LegacyNominalRiverKeepsDegeneratePointSegment" classname="LittleCastle.Tests.TerrainSurfaceBroadPhaseTests" runstate="Runnable" seed="1562569152" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.000869" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1160" name="BroadPhase_MatchesLegacyForPriorityAndSharpBend" fullname="LittleCastle.Tests.TerrainSurfaceBroadPhaseTests.BroadPhase_MatchesLegacyForPriorityAndSharpBend" methodname="BroadPhase_MatchesLegacyForPriorityAndSharpBend" classname="LittleCastle.Tests.TerrainSurfaceBroadPhaseTests" runstate="Runnable" seed="907586983" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.001877" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1163" name="OnlyIsolatedConceptSurfaceEnablesBroadPhase" fullname="LittleCastle.Tests.TerrainSurfaceBroadPhaseTests.OnlyIsolatedConceptSurfaceEnablesBroadPhase" methodname="OnlyIsolatedConceptSurfaceEnablesBroadPhase" classname="LittleCastle.Tests.TerrainSurfaceBroadPhaseTests" runstate="Runnable" seed="2137136001" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.000271" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1164" name="TerrainSurfaceVariableWidthTests" fullname="LittleCastle.Tests.TerrainSurfaceVariableWidthTests" classname="LittleCastle.Tests.TerrainSurfaceVariableWidthTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.002506" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1166" name="OnlyIsolatedConceptSurfaceOptsIntoVariableWidth" fullname="LittleCastle.Tests.TerrainSurfaceVariableWidthTests.OnlyIsolatedConceptSurfaceOptsIntoVariableWidth" methodname="OnlyIsolatedConceptSurfaceOptsIntoVariableWidth" classname="LittleCastle.Tests.TerrainSurfaceVariableWidthTests" runstate="Runnable" seed="2001550608" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.000234" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1165" name="Riverbed_UsesWideDownstreamProfileOnlyWhenEnabled" fullname="LittleCastle.Tests.TerrainSurfaceVariableWidthTests.Riverbed_UsesWideDownstreamProfileOnlyWhenEnabled" methodname="Riverbed_UsesWideDownstreamProfileOnlyWhenEnabled" classname="LittleCastle.Tests.TerrainSurfaceVariableWidthTests" runstate="Runnable" seed="1675771558" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.001760" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1167" name="WallPathLayoutTests" fullname="LittleCastle.Tests.WallPathLayoutTests" classname="LittleCastle.Tests.WallPathLayoutTests" runstate="Runnable" testcasecount="8" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.010294" total="8" passed="8" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1174" name="AutomaticWallTowers_AreDeterministic" fullname="LittleCastle.Tests.WallPathLayoutTests.AutomaticWallTowers_AreDeterministic" methodname="AutomaticWallTowers_AreDeterministic" classname="LittleCastle.Tests.WallPathLayoutTests" runstate="Runnable" seed="688629260" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.003951" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1171" name="ClosedWall_ProducesContinuousLoop" fullname="LittleCastle.Tests.WallPathLayoutTests.ClosedWall_ProducesContinuousLoop" methodname="ClosedWall_ProducesContinuousLoop" classname="LittleCastle.Tests.WallPathLayoutTests" runstate="Runnable" seed="1350048049" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.001626" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1170" name="CurvedWall_ChangesYawAcrossSections" fullname="LittleCastle.Tests.WallPathLayoutTests.CurvedWall_ChangesYawAcrossSections" methodname="CurvedWall_ChangesYawAcrossSections" classname="LittleCastle.Tests.WallPathLayoutTests" runstate="Runnable" seed="219208363" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.000495" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1169" name="SectionIds_AreStableForSameWallAndIndex" fullname="LittleCastle.Tests.WallPathLayoutTests.SectionIds_AreStableForSameWallAndIndex" methodname="SectionIds_AreStableForSameWallAndIndex" classname="LittleCastle.Tests.WallPathLayoutTests" runstate="Runnable" seed="2132210265" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.000171" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1172" name="SelfCrossingPath_IsRejected" fullname="LittleCastle.Tests.WallPathLayoutTests.SelfCrossingPath_IsRejected" methodname="SelfCrossingPath_IsRejected" classname="LittleCastle.Tests.WallPathLayoutTests" runstate="Runnable" seed="1836755291" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.001288" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1173" name="SharpCorner_ProducesHardTurnInsteadOfRoundedCorner" fullname="LittleCastle.Tests.WallPathLayoutTests.SharpCorner_ProducesHardTurnInsteadOfRoundedCorner" methodname="SharpCorner_ProducesHardTurnInsteadOfRoundedCorner" classname="LittleCastle.Tests.WallPathLayoutTests" runstate="Runnable" seed="1467613049" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.000361" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1175" name="SharpCorners_AreAllowedByPlacementValidator" fullname="LittleCastle.Tests.WallPathLayoutTests.SharpCorners_AreAllowedByPlacementValidator" methodname="SharpCorners_AreAllowedByPlacementValidator" classname="LittleCastle.Tests.WallPathLayoutTests" runstate="Runnable" seed="1513110516" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.000926" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1168" name="StraightWall_ProducesOrderedRigidSections" fullname="LittleCastle.Tests.WallPathLayoutTests.StraightWall_ProducesOrderedRigidSections" methodname="StraightWall_ProducesOrderedRigidSections" classname="LittleCastle.Tests.WallPathLayoutTests" runstate="Runnable" seed="1040818785" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.000393" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1176" name="WorldGenerationCooperativeTests" fullname="LittleCastle.Tests.WorldGenerationCooperativeTests" classname="LittleCastle.Tests.WorldGenerationCooperativeTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.005131" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1178" name="ChunkCache_CanStorePrefetchedDataWithoutPinning" fullname="LittleCastle.Tests.WorldGenerationCooperativeTests.ChunkCache_CanStorePrefetchedDataWithoutPinning" methodname="ChunkCache_CanStorePrefetchedDataWithoutPinning" classname="LittleCastle.Tests.WorldGenerationCooperativeTests" runstate="Runnable" seed="704323506" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.002281" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1177" name="IncrementalGeneration_RunsAtMostOneStagePerStep" fullname="LittleCastle.Tests.WorldGenerationCooperativeTests.IncrementalGeneration_RunsAtMostOneStagePerStep" methodname="IncrementalGeneration_RunsAtMostOneStagePerStep" classname="LittleCastle.Tests.WorldGenerationCooperativeTests" runstate="Runnable" seed="920781841" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.001486" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1179" name="PrefetchRadius_ExtendsBeyondVisibleRadius" fullname="LittleCastle.Tests.WorldGenerationCooperativeTests.PrefetchRadius_ExtendsBeyondVisibleRadius" methodname="PrefetchRadius_ExtendsBeyondVisibleRadius" classname="LittleCastle.Tests.WorldGenerationCooperativeTests" runstate="Runnable" seed="1264167447" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:41Z" duration="0.000580" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1180" name="WorldGenerationIntegrationTests" fullname="LittleCastle.Tests.WorldGenerationIntegrationTests" classname="LittleCastle.Tests.WorldGenerationIntegrationTests" runstate="Runnable" testcasecount="7" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:59Z" duration="18.280289" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1185" name="ChunkCache_PinUnpinLruAndRuntimeDeltaSurviveRegeneration" fullname="LittleCastle.Tests.WorldGenerationIntegrationTests.ChunkCache_PinUnpinLruAndRuntimeDeltaSurviveRegeneration" methodname="ChunkCache_PinUnpinLruAndRuntimeDeltaSurviveRegeneration" classname="LittleCastle.Tests.WorldGenerationIntegrationTests" runstate="Runnable" seed="663974430" result="Passed" start-time="2026-10-09 13:08:41Z" end-time="2026-10-09 13:08:42Z" duration="0.960558" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1187" name="ChunkGeneration_PerformanceSanity" fullname="LittleCastle.Tests.WorldGenerationIntegrationTests.ChunkGeneration_PerformanceSanity" methodname="ChunkGeneration_PerformanceSanity" classname="LittleCastle.Tests.WorldGenerationIntegrationTests" runstate="Runnable" seed="471007261" result="Passed" start-time="2026-10-09 13:08:42Z" end-time="2026-10-09 13:08:43Z" duration="1.149416" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[Chunk generation timing (Editor): median=37,81 ms, max=38,76 ms.
+]]></output>
+            </test-case>
+            <test-case id="1181" name="Configuration_IsValidAndUsesExpectedPipelineOrder" fullname="LittleCastle.Tests.WorldGenerationIntegrationTests.Configuration_IsValidAndUsesExpectedPipelineOrder" methodname="Configuration_IsValidAndUsesExpectedPipelineOrder" classname="LittleCastle.Tests.WorldGenerationIntegrationTests" runstate="Runnable" seed="1104921301" result="Passed" start-time="2026-10-09 13:08:43Z" end-time="2026-10-09 13:08:43Z" duration="0.003645" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1183" name="EnvironmentSpawnsAndResources_ArePopulatedAndStable" fullname="LittleCastle.Tests.WorldGenerationIntegrationTests.EnvironmentSpawnsAndResources_ArePopulatedAndStable" methodname="EnvironmentSpawnsAndResources_ArePopulatedAndStable" classname="LittleCastle.Tests.WorldGenerationIntegrationTests" runstate="Runnable" seed="48086072" result="Passed" start-time="2026-10-09 13:08:43Z" end-time="2026-10-09 13:08:47Z" duration="3.863775" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[WORLD_VERIFY environment spawns=300, deposits=1, biomes=4, forestRange=0,000..0,563
+]]></output>
+            </test-case>
+            <test-case id="1182" name="Generation_IsDeterministicSeamlessAndSupportsNegativeCoordinates" fullname="LittleCastle.Tests.WorldGenerationIntegrationTests.Generation_IsDeterministicSeamlessAndSupportsNegativeCoordinates" methodname="Generation_IsDeterministicSeamlessAndSupportsNegativeCoordinates" classname="LittleCastle.Tests.WorldGenerationIntegrationTests" runstate="Runnable" seed="90824778" result="Passed" start-time="2026-10-09 13:08:47Z" end-time="2026-10-09 13:08:49Z" duration="2.426748" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1184" name="MacroPlan_RiversRoadsBridgesAndCarvingRemainConsistent" fullname="LittleCastle.Tests.WorldGenerationIntegrationTests.MacroPlan_RiversRoadsBridgesAndCarvingRemainConsistent" methodname="MacroPlan_RiversRoadsBridgesAndCarvingRemainConsistent" classname="LittleCastle.Tests.WorldGenerationIntegrationTests" runstate="Runnable" seed="475702811" result="Passed" start-time="2026-10-09 13:08:49Z" end-time="2026-10-09 13:08:56Z" duration="6.255872" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[Macro totals: rivers=60, confluences=11, roads=54, bridges=17.
+]]></output>
+            </test-case>
+            <test-case id="1186" name="Streamer_LoadsNearestFirstUnloadsCleansMeshesAndKeepsChunksStationary" fullname="LittleCastle.Tests.WorldGenerationIntegrationTests.Streamer_LoadsNearestFirstUnloadsCleansMeshesAndKeepsChunksStationary" methodname="Streamer_LoadsNearestFirstUnloadsCleansMeshesAndKeepsChunksStationary" classname="LittleCastle.Tests.WorldGenerationIntegrationTests" runstate="Runnable" seed="401491711" result="Passed" start-time="2026-10-09 13:08:56Z" end-time="2026-10-09 13:08:59Z" duration="3.619126" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[Legacy radius-based WorldStreamer focus is approaching the edge of its fixed MacroWorldPlan. Remaining macro chunks: 0. Configure WorldMapRules and a finite session map for production matches.
+]]></output>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1188" name="WorldRouteEndpointTests" fullname="LittleCastle.Tests.WorldRouteEndpointTests" classname="LittleCastle.Tests.WorldRouteEndpointTests" runstate="Runnable" testcasecount="6" result="Passed" start-time="2026-10-09 13:08:59Z" end-time="2026-10-09 13:08:59Z" duration="0.004858" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="ParameterizedMethod" id="1195" name="EndpointTolerance_AllowsNumericDriftButNotARealGap" fullname="LittleCastle.Tests.WorldRouteEndpointTests.EndpointTolerance_AllowsNumericDriftButNotARealGap" classname="LittleCastle.Tests.WorldRouteEndpointTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-10-09 13:08:59Z" end-time="2026-10-09 13:08:59Z" duration="0.001032" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1193" name="EndpointTolerance_AllowsNumericDriftButNotARealGap(0.05f,True)" fullname="LittleCastle.Tests.WorldRouteEndpointTests.EndpointTolerance_AllowsNumericDriftButNotARealGap(0.05f,True)" methodname="EndpointTolerance_AllowsNumericDriftButNotARealGap" classname="LittleCastle.Tests.WorldRouteEndpointTests" runstate="Runnable" seed="358073312" result="Passed" start-time="2026-10-09 13:08:59Z" end-time="2026-10-09 13:08:59Z" duration="0.000649" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1194" name="EndpointTolerance_AllowsNumericDriftButNotARealGap(0.2f,False)" fullname="LittleCastle.Tests.WorldRouteEndpointTests.EndpointTolerance_AllowsNumericDriftButNotARealGap(0.2f,False)" methodname="EndpointTolerance_AllowsNumericDriftButNotARealGap" classname="LittleCastle.Tests.WorldRouteEndpointTests" runstate="Runnable" seed="2127072548" result="Passed" start-time="2026-10-09 13:08:59Z" end-time="2026-10-09 13:08:59Z" duration="0.000101" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="ParameterizedMethod" id="1191" name="MatchingEndpoints_AreConnectedInEitherCenterlineDirection" fullname="LittleCastle.Tests.WorldRouteEndpointTests.MatchingEndpoints_AreConnectedInEitherCenterlineDirection" classname="LittleCastle.Tests.WorldRouteEndpointTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-10-09 13:08:59Z" end-time="2026-10-09 13:08:59Z" duration="0.000566" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1189" name="MatchingEndpoints_AreConnectedInEitherCenterlineDirection(False)" fullname="LittleCastle.Tests.WorldRouteEndpointTests.MatchingEndpoints_AreConnectedInEitherCenterlineDirection(False)" methodname="MatchingEndpoints_AreConnectedInEitherCenterlineDirection" classname="LittleCastle.Tests.WorldRouteEndpointTests" runstate="Runnable" seed="834847762" result="Passed" start-time="2026-10-09 13:08:59Z" end-time="2026-10-09 13:08:59Z" duration="0.000294" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1190" name="MatchingEndpoints_AreConnectedInEitherCenterlineDirection(True)" fullname="LittleCastle.Tests.WorldRouteEndpointTests.MatchingEndpoints_AreConnectedInEitherCenterlineDirection(True)" methodname="MatchingEndpoints_AreConnectedInEitherCenterlineDirection" classname="LittleCastle.Tests.WorldRouteEndpointTests" runstate="Runnable" seed="674689309" result="Passed" start-time="2026-10-09 13:08:59Z" end-time="2026-10-09 13:08:59Z" duration="0.000056" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-case id="1192" name="MatchingIdOnUnrelatedGeometry_IsNotConnectivity" fullname="LittleCastle.Tests.WorldRouteEndpointTests.MatchingIdOnUnrelatedGeometry_IsNotConnectivity" methodname="MatchingIdOnUnrelatedGeometry_IsNotConnectivity" classname="LittleCastle.Tests.WorldRouteEndpointTests" runstate="Runnable" seed="1814479742" result="Passed" start-time="2026-10-09 13:08:59Z" end-time="2026-10-09 13:08:59Z" duration="0.000182" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1196" name="NonFiniteInteriorPoint_CannotProduceValidConnectivity" fullname="LittleCastle.Tests.WorldRouteEndpointTests.NonFiniteInteriorPoint_CannotProduceValidConnectivity" methodname="NonFiniteInteriorPoint_CannotProduceValidConnectivity" classname="LittleCastle.Tests.WorldRouteEndpointTests" runstate="Runnable" seed="1913599938" result="Passed" start-time="2026-10-09 13:08:59Z" end-time="2026-10-09 13:08:59Z" duration="0.000242" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1197" name="WorldRuntimeReplicationTests" fullname="LittleCastle.Tests.WorldRuntimeReplicationTests" classname="LittleCastle.Tests.WorldRuntimeReplicationTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-10-09 13:08:59Z" end-time="2026-10-09 13:08:59Z" duration="0.007496" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1198" name="ChunkSnapshot_RoundTripsAuthoritativeChanges" fullname="LittleCastle.Tests.WorldRuntimeReplicationTests.ChunkSnapshot_RoundTripsAuthoritativeChanges" methodname="ChunkSnapshot_RoundTripsAuthoritativeChanges" classname="LittleCastle.Tests.WorldRuntimeReplicationTests" runstate="Runnable" seed="946942710" result="Passed" start-time="2026-10-09 13:08:59Z" end-time="2026-10-09 13:08:59Z" duration="0.005756" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1200" name="InformationMode_FullMapReceivesLiveState_FogNeedsVisibility" fullname="LittleCastle.Tests.WorldRuntimeReplicationTests.InformationMode_FullMapReceivesLiveState_FogNeedsVisibility" methodname="InformationMode_FullMapReceivesLiveState_FogNeedsVisibility" classname="LittleCastle.Tests.WorldRuntimeReplicationTests" runstate="Runnable" seed="2028818826" result="Passed" start-time="2026-10-09 13:08:59Z" end-time="2026-10-09 13:08:59Z" duration="0.000190" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1199" name="OlderChunkSnapshot_DoesNotOverwriteNewerClientState" fullname="LittleCastle.Tests.WorldRuntimeReplicationTests.OlderChunkSnapshot_DoesNotOverwriteNewerClientState" methodname="OlderChunkSnapshot_DoesNotOverwriteNewerClientState" classname="LittleCastle.Tests.WorldRuntimeReplicationTests" runstate="Runnable" seed="1027329874" result="Passed" start-time="2026-10-09 13:08:59Z" end-time="2026-10-09 13:08:59Z" duration="0.000271" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1201" name="SimulationLod_UsesNearestPlayerInterest" fullname="LittleCastle.Tests.WorldRuntimeReplicationTests.SimulationLod_UsesNearestPlayerInterest" methodname="SimulationLod_UsesNearestPlayerInterest" classname="LittleCastle.Tests.WorldRuntimeReplicationTests" runstate="Runnable" seed="476996761" result="Passed" start-time="2026-10-09 13:08:59Z" end-time="2026-10-09 13:08:59Z" duration="0.000769" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1202" name="WorldStartFairnessTests" fullname="LittleCastle.Tests.WorldStartFairnessTests" classname="LittleCastle.Tests.WorldStartFairnessTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-10-09 13:08:59Z" end-time="2026-10-09 13:09:01Z" duration="1.474871" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1203" name="StartPlanner_IsDeterministicAndKeepsStartsSeparated" fullname="LittleCastle.Tests.WorldStartFairnessTests.StartPlanner_IsDeterministicAndKeepsStartsSeparated" methodname="StartPlanner_IsDeterministicAndKeepsStartsSeparated" classname="LittleCastle.Tests.WorldStartFairnessTests" runstate="Runnable" seed="730426588" result="Passed" start-time="2026-10-09 13:08:59Z" end-time="2026-10-09 13:09:01Z" duration="1.474509" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1204" name="WorldStartLayoutTests" fullname="LittleCastle.Tests.WorldStartLayoutTests" classname="LittleCastle.Tests.WorldStartLayoutTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-10-09 13:09:01Z" end-time="2026-10-09 13:09:01Z" duration="0.002346" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1205" name="PolygonRing_ThreePlayers_ProducesTriangleLikeTargets" fullname="LittleCastle.Tests.WorldStartLayoutTests.PolygonRing_ThreePlayers_ProducesTriangleLikeTargets" methodname="PolygonRing_ThreePlayers_ProducesTriangleLikeTargets" classname="LittleCastle.Tests.WorldStartLayoutTests" runstate="Runnable" seed="348013056" result="Passed" start-time="2026-10-09 13:09:01Z" end-time="2026-10-09 13:09:01Z" duration="0.000611" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1206" name="RadialStar_AlternatesInnerAndOuterRadius" fullname="LittleCastle.Tests.WorldStartLayoutTests.RadialStar_AlternatesInnerAndOuterRadius" methodname="RadialStar_AlternatesInnerAndOuterRadius" classname="LittleCastle.Tests.WorldStartLayoutTests" runstate="Runnable" seed="1410355595" result="Passed" start-time="2026-10-09 13:09:01Z" end-time="2026-10-09 13:09:01Z" duration="0.000523" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1207" name="SessionMapFactory_ClonesHostStartOptions" fullname="LittleCastle.Tests.WorldStartLayoutTests.SessionMapFactory_ClonesHostStartOptions" methodname="SessionMapFactory_ClonesHostStartOptions" classname="LittleCastle.Tests.WorldStartLayoutTests" runstate="Runnable" seed="1400647955" result="Passed" start-time="2026-10-09 13:09:01Z" end-time="2026-10-09 13:09:01Z" duration="0.000449" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1208" name="WorldStreamingOptimizationTests" fullname="LittleCastle.Tests.WorldStreamingOptimizationTests" classname="LittleCastle.Tests.WorldStreamingOptimizationTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-10-09 13:09:01Z" end-time="2026-10-09 13:09:01Z" duration="0.002461" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1209" name="ColliderRadius_IsClampedToVisibleLoadRadius" fullname="LittleCastle.Tests.WorldStreamingOptimizationTests.ColliderRadius_IsClampedToVisibleLoadRadius" methodname="ColliderRadius_IsClampedToVisibleLoadRadius" classname="LittleCastle.Tests.WorldStreamingOptimizationTests" runstate="Runnable" seed="699657961" result="Passed" start-time="2026-10-09 13:09:01Z" end-time="2026-10-09 13:09:01Z" duration="0.000459" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1210" name="StreamedChunkView_CanEnableAndDisableTerrainCollider" fullname="LittleCastle.Tests.WorldStreamingOptimizationTests.StreamedChunkView_CanEnableAndDisableTerrainCollider" methodname="StreamedChunkView_CanEnableAndDisableTerrainCollider" classname="LittleCastle.Tests.WorldStreamingOptimizationTests" runstate="Runnable" seed="1592192059" result="Passed" start-time="2026-10-09 13:09:01Z" end-time="2026-10-09 13:09:01Z" duration="0.001212" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1211" name="VisualOnlyChunk_NeverEnablesTerrainCollider" fullname="LittleCastle.Tests.WorldStreamingOptimizationTests.VisualOnlyChunk_NeverEnablesTerrainCollider" methodname="VisualOnlyChunk_NeverEnablesTerrainCollider" classname="LittleCastle.Tests.WorldStreamingOptimizationTests" runstate="Runnable" seed="2111501923" result="Passed" start-time="2026-10-09 13:09:01Z" end-time="2026-10-09 13:09:01Z" duration="0.000287" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1212" name="WorldTimeTests" fullname="LittleCastle.Tests.WorldTimeTests" classname="LittleCastle.Tests.WorldTimeTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-10-09 13:09:01Z" end-time="2026-10-09 13:09:01Z" duration="0.002616" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1213" name="DayWindow_TakesSixRealMinutes" fullname="LittleCastle.Tests.WorldTimeTests.DayWindow_TakesSixRealMinutes" methodname="DayWindow_TakesSixRealMinutes" classname="LittleCastle.Tests.WorldTimeTests" runstate="Runnable" seed="917417838" result="Passed" start-time="2026-10-09 13:09:01Z" end-time="2026-10-09 13:09:01Z" duration="0.000914" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1215" name="NightRate_StaysContinuousAcrossMidnight" fullname="LittleCastle.Tests.WorldTimeTests.NightRate_StaysContinuousAcrossMidnight" methodname="NightRate_StaysContinuousAcrossMidnight" classname="LittleCastle.Tests.WorldTimeTests" runstate="Runnable" seed="250917454" result="Passed" start-time="2026-10-09 13:09:01Z" end-time="2026-10-09 13:09:01Z" duration="0.000185" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1214" name="NightWindow_TakesNinetyRealSeconds" fullname="LittleCastle.Tests.WorldTimeTests.NightWindow_TakesNinetyRealSeconds" methodname="NightWindow_TakesNinetyRealSeconds" classname="LittleCastle.Tests.WorldTimeTests" runstate="Runnable" seed="177468872" result="Passed" start-time="2026-10-09 13:09:01Z" end-time="2026-10-09 13:09:01Z" duration="0.000207" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1216" name="State_CanBeRestored" fullname="LittleCastle.Tests.WorldTimeTests.State_CanBeRestored" methodname="State_CanBeRestored" classname="LittleCastle.Tests.WorldTimeTests" runstate="Runnable" seed="1842417634" result="Passed" start-time="2026-10-09 13:09:01Z" end-time="2026-10-09 13:09:01Z" duration="0.000220" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[Saving results to: E:/Games_Develop/verification/concept-pass-EditMode-release.xml
+]]></output>
+            </test-case>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

@@ -34,6 +34,7 @@ Shader "Little Castle/Sky/Stylized Day Night"
             "Queue" = "Background"
             "RenderType" = "Background"
             "PreviewType" = "Skybox"
+            "RenderPipeline" = "UniversalPipeline"
         }
 
         Cull Off
@@ -42,50 +43,61 @@ Shader "Little Castle/Sky/Stylized Day Night"
 
         Pass
         {
-            CGPROGRAM
+            Name "SKYBOX"
+
+            HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-            #pragma target 3.0
+            #pragma target 3.5
+            #pragma multi_compile_instancing
 
-            #include "UnityCG.cginc"
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 
             struct appdata
             {
                 float4 vertex : POSITION;
+                UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
             struct v2f
             {
                 float4 position : SV_POSITION;
                 float3 worldDir : TEXCOORD0;
+                UNITY_VERTEX_OUTPUT_STEREO
             };
 
-            float4 _ZenithColor;
-            float4 _HorizonColor;
-            float4 _LowerSkyColor;
-            float4 _TwilightColor;
-            float4 _SunColor;
-            float4 _MoonColor;
-            float4 _StarColor;
+            CBUFFER_START(UnityPerMaterial)
+                float4 _ZenithColor;
+                float4 _HorizonColor;
+                float4 _LowerSkyColor;
+                float4 _TwilightColor;
+                float4 _SunColor;
+                float4 _MoonColor;
+                float4 _StarColor;
 
-            float4 _SunDirection;
-            float4 _MoonDirection;
+                float4 _SunDirection;
+                float4 _MoonDirection;
 
-            float _SunSize;
-            float _MoonSize;
-            float _SunVisibility;
-            float _MoonVisibility;
-            float _StarVisibility;
-            float _TwilightStrength;
-            float _Daylight;
-            float _CloudStrength;
-            float _CloudSpeed;
+                float _SunSize;
+                float _MoonSize;
+                float _SunVisibility;
+                float _MoonVisibility;
+                float _StarVisibility;
+                float _TwilightStrength;
+                float _Daylight;
+                float _CloudStrength;
+                float _CloudSpeed;
+            CBUFFER_END
 
             v2f vert(appdata v)
             {
-                v2f o;
-                o.position = UnityObjectToClipPos(v.vertex);
-                o.worldDir = mul((float3x3)unity_ObjectToWorld, v.vertex.xyz);
+                v2f o = (v2f)0;
+                UNITY_SETUP_INSTANCE_ID(v);
+                UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
+                o.position = TransformObjectToHClip(v.vertex.xyz);
+                // Preserve the skybox direction without object translation or
+                // vertex normalization; normalize after interpolation as before.
+                o.worldDir = TransformObjectToWorldDir(v.vertex.xyz, false);
                 return o;
             }
 
@@ -98,11 +110,11 @@ Shader "Little Castle/Sky/Stylized Day Night"
 
             float StarField(float3 dir)
             {
-                const float PI = 3.14159265;
+                const float skyPI = 3.14159265;
 
                 float2 uv;
-                uv.x = atan2(dir.z, dir.x) / (2.0 * PI) + 0.5;
-                uv.y = asin(clamp(dir.y, -1.0, 1.0)) / PI + 0.5;
+                uv.x = atan2(dir.z, dir.x) / (2.0 * skyPI) + 0.5;
+                uv.y = asin(clamp(dir.y, -1.0, 1.0)) / skyPI + 0.5;
 
                 float2 grid = uv * float2(360.0, 180.0);
                 float2 cell = floor(grid);
@@ -149,8 +161,9 @@ Shader "Little Castle/Sky/Stylized Day Night"
                     c * 0.18;
             }
 
-            fixed4 frag(v2f i) : SV_Target
+            half4 frag(v2f i) : SV_Target
             {
+                UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
                 float3 dir = normalize(i.worldDir);
 
                 // Most of this sky is seen near the horizon in a strategy
@@ -330,9 +343,9 @@ Shader "Little Castle/Sky/Stylized Day Night"
                         cloudColor,
                         clouds);
 
-                return fixed4(color, 1.0);
+                return half4(color, 1.0);
             }
-            ENDCG
+            ENDHLSL
         }
     }
 

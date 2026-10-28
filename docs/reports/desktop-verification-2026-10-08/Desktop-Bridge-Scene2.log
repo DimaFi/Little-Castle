@@ -1,0 +1,820 @@
+[Licensing::Module] Trying to connect to existing licensing client channel...
+Built from '6000.5/staging' branch; Version is '6000.5.5f1 (d16e074b49fd) revision 13725191'; Using compiler version '194234433'; Build Type 'Release'
+[Licensing::IpcConnector] Channel LicenseClient-Дмитрий doesn't exist
+OS: 'Windows 11  (10.0.26200) Professional' Language: 'ru' Physical Memory: 32625 MB
+BatchMode: 1, IsHumanControllingUs: 0, StartBugReporterOnCrash: 0, Is64bit: 1
+System  architecture: x64
+Process architecture: x64
+Date: 2026-10-08T20:04:02Z
+[Licensing::Module] Successfully launched the LicensingClient (PId: 34256)
+
+COMMAND LINE ARGUMENTS:
+E:\Unity\Unity_6.5\6000.5.5f1\Editor\Unity.exe
+-batchmode
+-nographics
+-quit
+-projectPath
+E:/Games_Develop/Little-Castle
+-executeMethod
+LittleCastle.Editor.ConceptBridgeSceneBuilder.Create
+-logFile
+E:/Games_Develop/Little-Castle/Logs/Desktop-Bridge-Scene2.log
+Successfully changed project path to: E:/Games_Develop/Little-Castle
+E:/Games_Develop/Little-Castle
+[UnityMemory] Configuration Parameters - Can be set up in boot.config
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-nav-mesh-worker=65536"
+    "memorysetup-temp-allocator-size-audio-worker=65536"
+    "memorysetup-temp-allocator-size-cloud-worker=32768"
+    "memorysetup-temp-allocator-size-gfx=262144"
+    "memorysetup-temp-allocator-size-preload-manager=33554432"
+    "memorysetup-allocator-temp-initial-block-size-main=262144"
+    "memorysetup-allocator-temp-initial-block-size-worker=262144"
+    "memorysetup-temp-allocator-size-job-worker=262144"
+    "memorysetup-temp-allocator-size-background-worker=32768"
+    "memorysetup-bucket-allocator-granularity=16"
+    "memorysetup-bucket-allocator-bucket-count=8"
+    "memorysetup-bucket-allocator-block-size=33554432"
+    "memorysetup-bucket-allocator-block-count=8"
+    "memorysetup-main-allocator-block-size=16777216"
+    "memorysetup-thread-allocator-block-size=16777216"
+    "memorysetup-main-allocator-mimalloc-enabled=0"
+    "memorysetup-gfx-main-allocator-block-size=16777216"
+    "memorysetup-gfx-thread-allocator-block-size=16777216"
+    "memorysetup-cache-allocator-block-size=4194304"
+    "memorysetup-typetree-allocator-block-size=2097152"
+    "memorysetup-profiler-bucket-allocator-granularity=16"
+    "memorysetup-profiler-bucket-allocator-bucket-count=8"
+    "memorysetup-profiler-bucket-allocator-block-size=33554432"
+    "memorysetup-profiler-bucket-allocator-block-count=8"
+    "memorysetup-profiler-allocator-block-size=16777216"
+    "memorysetup-profiler-editor-allocator-block-size=1048576"
+    "memorysetup-temp-allocator-size-main=16777216"
+    "memorysetup-job-temp-allocator-block-size=2097152"
+    "memorysetup-job-temp-allocator-block-size-background=1048576"
+    "memorysetup-job-temp-allocator-reduction-small-platforms=262144"
+Logging is directed to a specific file, skipping project log.Player connection [26772]  Target information:
+
+Player connection [26772]  * "[IP] 192.168.10.139 [Port] 55504 [Flags] 2 [Guid] 3354039428 [EditorId] 3354039428 [Version] 1048832 [Id] WindowsEditor(7,DESKTOP-U3MAU12) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
+
+Player connection [26772]  * "[IP] 10.6.7.1 [Port] 55504 [Flags] 2 [Guid] 3354039428 [EditorId] 3354039428 [Version] 1048832 [Id] WindowsEditor(7,DESKTOP-U3MAU12) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
+
+Player connection [26772] Host joined multi-casting on [225.0.0.222:54997]...
+Player connection [26772] Host joined alternative multi-casting on [225.0.0.222:34997]...
+Input System module state changed to: Initialized.
+[Physics::Module] Initialized fallback backend.
+[Physics::Module] Id: 0xdecafbad
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-Дмитрий" at "2026-10-08T20:04:02.4167109Z"
+[Licensing::Client] Code 10 while verifying Licensing Client signature (process Id: 34256, path: "E:/Unity/Unity_6.5/6000.5.5f1/Editor/Data/Resources/Licensing/Client/Unity.Licensing.Client.exe")
+[Licensing::Module] LicensingClient has failed validation; ignoring
+[Licensing::Client] Handshaking with LicensingClient:
+  Version:                 1.18.1+9fbee8e
+  Session Id:              0bdde4051ea94750a2c01c9801f8d191
+  Correlation Id:          8f70afe1edb65c5f8abec90b8cd866d3
+  External correlation Id: 6747913777287652721
+  Machine Id:              ukWjmUigJ6C168X6HXqjbBw2IT4=
+[Licensing::Module] Successfully connected to LicensingClient on channel: "LicenseClient-Дмитрий" (connect: 0.25s, validation: 0.10s, handshake: 0.06s)
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-Дмитрий-notifications" at "2026-10-08T20:04:02.5769315Z"
+[Licensing::Module] Connected to LicensingClient (PId: 34256, launch time: 0.00, total connection time: 0.41s)
+[Licensing::Module] Error: Access token is unavailable; failed to update
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: 10171631734416-UnityPersXXXX
+  Product: Unity Personal
+  Type: Assigned
+  Expiration: Unlimited
+[Licensing::Client] Successfully updated license, isAsync: True, time: 0.01
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] Licensing Background thread has ended after 0.44s
+[Package Manager] Connected to IPC stream "Upm-28924" after 0.2 seconds.
+[Licensing::Client] Successfully resolved entitlement details
+Library Redirect Path: Library/
+[Physics::Module] Selected backend.
+[Physics::Module] Name: PhysX
+[Physics::Module] Id: 0xf2b8ea05
+[Physics::Module] SDK Version: 4.1.2
+[Physics::Module] Integration Version: 1.0.0
+[Physics::Module] Threading Mode: Multi-Threaded
+Artifact Garbage Collection - Removed 1 unused hashed content files
+Initialize engine version: 6000.5.5f1 (d16e074b49fd)
+[Subsystems] Discovering subsystems at path E:/Unity/Unity_6.5/6000.5.5f1/Editor/Data/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path E:/Games_Develop/Little-Castle/Assets
+Forcing GfxDevice: Null
+GfxDevice: creating device client; kGfxThreadingModeNonThreaded
+NullGfxDevice:
+    Version:  NULL 1.0 [1.0]
+    Renderer: Null Device
+    Vendor:   Unity Technologies
+Initialize mono
+Mono path[0] = 'E:/Unity/Unity_6.5/6000.5.5f1/Editor/Data/Managed'
+Mono path[1] = 'E:/Unity/Unity_6.5/6000.5.5f1/Editor/Data/BCLExtensions/runtime/netstandard2.1'
+Mono path[2] = 'E:/Unity/Unity_6.5/6000.5.5f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
+Mono config path = 'E:/Unity/Unity_6.5/6000.5.5f1/Editor/Data/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56924
+CodeReloadManager initialized
+ImportWorker Server TCP listen port: 0
+AcceleratorClientConnectionCallback - disconnected - :0
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: E:/Unity/Unity_6.5/6000.5.5f1/Editor/Data/PlaybackEngines/WebGLSupport/UnityEditor.WebGL.Extensions.dll
+Register platform support module: E:/Unity/Unity_6.5/6000.5.5f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
+Registered in 0.001433 seconds.
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+Package Manager log level set to [2]
+ScheduleIndexationOnStartup MainProcess:False IndexOnStartup:True
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  0.323 seconds
+Domain Reload Profiling: 769ms
+	BeginReloadAssembly (126ms)
+		CreateAndSetChildDomain (12ms)
+	RebuildCommonClasses (4ms)
+	RebuildNativeTypeToScriptingClass (13ms)
+	initialDomainReloadingComplete (51ms)
+	LoadAllAssembliesAndSetupDomain (248ms)
+		LoadAssemblies (115ms)
+		AnalyzeDomain (186ms)
+			TypeCache.Refresh (185ms)
+				TypeCache.ScanAssembly (173ms)
+	FinalizeReload (326ms)
+		SetupLoadedEditorAssemblies (0ms)
+			BeforeProcessingInitializeOnLoad (78ms)
+			ProcessInitializeOnLoadAttributes (80ms)
+			ProcessInitializeOnLoadMethodAttributes (98ms)
+[Licensing::Client] Successfully resolved entitlement details
+Application.AssetDatabase Initial Refresh Start
+[Package Manager] Restoring resolved packages state from cache
+[Licensing::Client] Successfully resolved entitlement details
+[Package Manager] Registered 6 packages:
+  Built-in packages:
+    com.unity.modules.imageconversion@1.0.0 (location: E:\Games_Develop\Little-Castle\Library\PackageCache\com.unity.modules.imageconversion)
+    com.unity.test-framework@1.7.0 (location: E:\Games_Develop\Little-Castle\Library\PackageCache\com.unity.test-framework@1405238725ab)
+    com.unity.modules.physics@1.0.0 (location: E:\Games_Develop\Little-Castle\Library\PackageCache\com.unity.modules.physics)
+    com.unity.ext.nunit@2.1.0 (location: E:\Games_Develop\Little-Castle\Library\PackageCache\com.unity.ext.nunit@44f7d31723bd)
+    com.unity.modules.imgui@1.0.0 (location: E:\Games_Develop\Little-Castle\Library\PackageCache\com.unity.modules.imgui)
+    com.unity.modules.jsonserialize@1.0.0 (location: E:\Games_Develop\Little-Castle\Library\PackageCache\com.unity.modules.jsonserialize)
+[Subsystems] No new subsystems found in resolved package list.
+[Package Manager] Done registering packages in 0.01 seconds
+[ScriptCompilation] Requested script compilation because: AssetDatabase observed changes in script compilation related files
+Starting: E:\Unity\Unity_6.5\6000.5.5f1\Editor\Data\Tools\BuildPipeline\bee_backend.exe --ipc --defer-dag-verification --dagfile="Library/Bee/1900b0aE.dag" --continue-on-failure --profile="Library/Bee/backend1.traceevents" ScriptAssemblies
+WorkingDir: E:/Games_Develop/Little-Castle
+DisplayProgressbar: Compiling Scripts
+ExitCode: 0 Duration: 0s909ms
+[204/210    0s] Csc Library/Bee/artifacts/1900b0aE.dag/LittleCastle.Editor.dll (+2 others)
+Assets\_Game\Editor\TerrainStarterSceneBuilder.cs(62,13): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+
+Assets\_Game\Editor\LocalFullSandboxSetup.cs(1359,17): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+[205/210    0s] CopyFiles Library/ScriptAssemblies/LittleCastle.Editor.pdb
+[209/210    0s] CopyFiles Library/ScriptAssemblies/LittleCastle.Editor.dll
+*** Tundra build success (0.88 seconds), 3 items updated, 210 evaluated
+Assets\_Game\Editor\TerrainStarterSceneBuilder.cs(62,13): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+Assets\_Game\Editor\LocalFullSandboxSetup.cs(1359,17): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+Total cache size 34339412
+Total cache size after purge 34339412, took 00:00:00.0693452
+AssetDatabase: script compilation time: 1.675514s
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+ScheduleIndexationOnStartup MainProcess:True IndexOnStartup:True
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  0.344 seconds
+Domain Reload Profiling: 759ms
+	BeginReloadAssembly (202ms)
+		DisableScriptedObjects (19ms)
+		CreateAndSetChildDomain (33ms)
+	RebuildCommonClasses (8ms)
+	RebuildNativeTypeToScriptingClass (13ms)
+	initialDomainReloadingComplete (33ms)
+	LoadAllAssembliesAndSetupDomain (156ms)
+		LoadAssemblies (184ms)
+		AnalyzeDomain (18ms)
+			TypeCache.Refresh (11ms)
+				TypeCache.ScanAssembly (7ms)
+			BuildScriptInfoCaches (5ms)
+	FinalizeReload (347ms)
+		SetupLoadedEditorAssemblies (0ms)
+			BeforeProcessingInitializeOnLoad (76ms)
+			ProcessInitializeOnLoadAttributes (63ms)
+			ProcessInitializeOnLoadMethodAttributes (60ms)
+		AwakeInstancesAfterBackupRestoration (20ms)
+Starting new worker id: 0 with log in E:/Games_Develop/Little-Castle/Logs/AssetImportWorkerHW0.log
+
+Asset Pipeline Refresh (id=53c2432b001240a428a5c1c280c426b9): Total: 2.686 seconds - Initiated by InitialRefreshV2(ForceSynchronousImport)
+	(Values over 0.05ms)
+	Summary:
+		Imports: total=0 (actual=0, local cache=0, cache server=0)
+		Asset DB Process Time: managed=0 ms, native=487 ms
+		Asset DB Callback time: managed=68 ms, native=11 ms
+		Scripting: domain reloads=1, domain reload time=432 ms, compile time=1678 ms, other=6 ms
+		Project Asset Count: scripts=239, non-scripts=1313
+		Asset File Changes: new=0, changed=1, moved=0, deleted=0
+		Scan Filter Count: 0
+	InvokePackagesCallback: 9.802ms
+	ApplyChangesToAssetFolders: 0.381ms
+	Scan: 63.433ms
+	Collect global state as custom dependencies: 0.614ms
+	OnSourceAssetsModified: 1.115ms
+	CategorizeScriptCompilationAssets: 2.559ms
+	ProcessAssetsWithTransientArtifactChanges: 6.233ms
+	CategorizeAssets: 8.041ms
+	CompileScripts: 1678.435ms
+	ImportOutOfDateAssets: 368.650ms (348.875ms without children)
+		UnloadImportedAssets: 0.076ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 0.136ms
+		ImportSchedulerStart: 19.559ms
+	PostProcessAllAssets: 69.025ms
+		VCAutoAddAssetPostprocess 1.101ms
+		MonoPostProcessAllAssets: 67.558ms
+			AssetPostprocessor.OnPostprocessAllAssets 28.242ms
+			StyleCatalogPostProcessor.OnPostprocessAllAssets 12.890ms
+			WindowAssetPostprocessingWatcher.OnPostprocessAllAssets 6.646ms
+			BuilderAssetPostprocessor.OnPostprocessAllAssets 4.199ms
+			AssetChangedListener.OnPostprocessAllAssets 1.726ms
+			SyncVS.PostprocessSyncProject 1.620ms
+			RetainedModeAssetPostprocessor.OnPostprocessAllAssets 1.052ms
+			EditModeScopePostprocessor.OnPostprocessAllAssets 0.820ms
+			SpeedTree9Postprocessor.OnPostprocessAllAssets 0.658ms
+			TextAssetPostProcessor.OnPostprocessAllAssets 0.531ms
+			ArtifactBrowserPostProcessor.OnPostprocessAllAssets 0.475ms
+			ReferencedClipsPostProcessor.OnPostprocessAllAssets 0.260ms
+			AudioMixerPostprocessor.OnPostprocessAllAssets 0.233ms
+			AssetEvents.OnPostprocessAllAssets 0.219ms
+			TerrainToolbarOverlayPostProcessor.OnPostprocessAllAssets 0.189ms
+			AssetDatabaseCallbacks.OnPostprocessAllAssets 0.142ms
+			SpeedTreePostProcessor.OnPostprocessAllAssets 0.140ms
+			ScenarioDriftAssetsTracker.OnPostprocessAllAssets 0.115ms
+			ConfigAssetsTracker.OnPostprocessAllAssets 0.107ms
+			RenderPipelineGlobalSettingsPostprocessor.OnPostprocessAllAssets 0.087ms
+			AudioContainerPostProcessor.OnPostprocessAllAssets 0.064ms
+	PostAssetChangesProfiler: 1.765ms
+	UnloadStreamsBegin: 1.433ms
+	PersistCurrentRevisions: 0.050ms
+	Untracked: 471.552ms
+
+Application.AssetDatabase Initial Refresh End
+Scanning for USB devices : 2.981ms
+Initializing Unity extensions:
+[MODES] ModeService[none].Initialize
+[MODES] ModeService[none].LoadModes
+[MODES] Loading mode Default (0) for mode-current-id-Little-Castle
+GetVirtualKey: Could not map char: z (122) to any virtual key
+GetVirtualKey: Could not map char: y (121) to any virtual key
+GetVirtualKey: Could not map char: x (120) to any virtual key
+GetVirtualKey: Could not map char: c (99) to any virtual key
+GetVirtualKey: Could not map char: v (118) to any virtual key
+GetVirtualKey: Could not map char: V (86) to any virtual key
+GetVirtualKey: Could not map char: d (100) to any virtual key
+GetVirtualKey: Could not map char: f (102) to any virtual key
+GetVirtualKey: Could not map char: f (102) to any virtual key
+GetVirtualKey: Could not map char: a (97) to any virtual key
+GetVirtualKey: Could not map char: d (100) to any virtual key
+GetVirtualKey: Could not map char: c (99) to any virtual key
+GetVirtualKey: Could not map char: r (114) to any virtual key
+GetVirtualKey: Could not map char: i (105) to any virtual key
+GetVirtualKey: Could not map char: l (108) to any virtual key
+GetVirtualKey: Could not map char: f (102) to any virtual key
+GetVirtualKey: Could not map char: k (107) to any virtual key
+GetVirtualKey: Could not map char: p (112) to any virtual key
+GetVirtualKey: Could not map char: p (112) to any virtual key
+GetVirtualKey: Could not map char: p (112) to any virtual key
+GetVirtualKey: Could not map char: c (99) to any virtual key
+GetVirtualKey: Could not map char: r (114) to any virtual key
+GetVirtualKey: Could not map char: P (80) to any virtual key
+GetVirtualKey: Could not map char: n (110) to any virtual key
+GetVirtualKey: Could not map char: n (110) to any virtual key
+GetVirtualKey: Could not map char: g (103) to any virtual key
+GetVirtualKey: Could not map char: f (102) to any virtual key
+GetVirtualKey: Could not map char: f (102) to any virtual key
+GetVirtualKey: Could not map char: a (97) to any virtual key
+GetVirtualKey: Could not map char: a (97) to any virtual key
+GetVirtualKey: Could not map char: n (110) to any virtual key
+GetVirtualKey: Could not map char: o (111) to any virtual key
+GetVirtualKey: Could not map char: s (115) to any virtual key
+GetVirtualKey: Could not map char: s (115) to any virtual key
+GetVirtualKey: Could not map char: b (98) to any virtual key
+GetVirtualKey: Could not map char: b (98) to any virtual key
+GetVirtualKey: Could not map char: c (99) to any virtual key
+GetVirtualKey: Could not map char: u (117) to any virtual key
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 571 unused Assets / (0.7 MB). Loaded Objects now: 1230.
+Memory consumption went from 208.0 MB to 207.3 MB.
+Total: 4.220300 ms (FindLiveObjects: 0.075500 ms CreateObjectMapping: 0.080400 ms MarkObjects: 3.733400 ms  DeleteObjects: 0.327600 ms)
+
+GetVirtualKey: Could not map char: z (122) to any virtual key
+GetVirtualKey: Could not map char: y (121) to any virtual key
+GetVirtualKey: Could not map char: x (120) to any virtual key
+GetVirtualKey: Could not map char: c (99) to any virtual key
+GetVirtualKey: Could not map char: v (118) to any virtual key
+GetVirtualKey: Could not map char: V (86) to any virtual key
+GetVirtualKey: Could not map char: d (100) to any virtual key
+GetVirtualKey: Could not map char: f (102) to any virtual key
+GetVirtualKey: Could not map char: f (102) to any virtual key
+GetVirtualKey: Could not map char: a (97) to any virtual key
+GetVirtualKey: Could not map char: d (100) to any virtual key
+GetVirtualKey: Could not map char: c (99) to any virtual key
+GetVirtualKey: Could not map char: r (114) to any virtual key
+GetVirtualKey: Could not map char: i (105) to any virtual key
+GetVirtualKey: Could not map char: l (108) to any virtual key
+GetVirtualKey: Could not map char: f (102) to any virtual key
+GetVirtualKey: Could not map char: k (107) to any virtual key
+GetVirtualKey: Could not map char: p (112) to any virtual key
+GetVirtualKey: Could not map char: p (112) to any virtual key
+GetVirtualKey: Could not map char: p (112) to any virtual key
+GetVirtualKey: Could not map char: c (99) to any virtual key
+GetVirtualKey: Could not map char: r (114) to any virtual key
+GetVirtualKey: Could not map char: P (80) to any virtual key
+GetVirtualKey: Could not map char: n (110) to any virtual key
+GetVirtualKey: Could not map char: n (110) to any virtual key
+GetVirtualKey: Could not map char: g (103) to any virtual key
+GetVirtualKey: Could not map char: f (102) to any virtual key
+GetVirtualKey: Could not map char: f (102) to any virtual key
+GetVirtualKey: Could not map char: a (97) to any virtual key
+GetVirtualKey: Could not map char: a (97) to any virtual key
+GetVirtualKey: Could not map char: n (110) to any virtual key
+GetVirtualKey: Could not map char: o (111) to any virtual key
+GetVirtualKey: Could not map char: s (115) to any virtual key
+GetVirtualKey: Could not map char: s (115) to any virtual key
+GetVirtualKey: Could not map char: b (98) to any virtual key
+GetVirtualKey: Could not map char: b (98) to any virtual key
+GetVirtualKey: Could not map char: c (99) to any virtual key
+GetVirtualKey: Could not map char: u (117) to any virtual key
+Unloading 1 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 0 unused Assets / (2.2 KB). Loaded Objects now: 1232.
+Memory consumption went from 202.5 MB to 202.5 MB.
+Total: 3.516300 ms (FindLiveObjects: 0.052100 ms CreateObjectMapping: 0.036100 ms MarkObjects: 3.424000 ms  DeleteObjects: 0.003300 ms)
+
+Asset Pipeline Refresh (id=f9f28bd67b3d3b74fb307dffa005c48a): Total: 0.028 seconds - Initiated by RefreshV2(NoUpdateAssetOptions)
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.01 seconds
+Importing 'GUID: 44e0aad1113e3b5408c42fe3b76f5411 - Path: Assets/_Game/Models/Concept/BridgeValidation/Terrain.mat' with importer (NativeFormatImporter)
+Imported 'GUID: 44e0aad1113e3b5408c42fe3b76f5411' -> (Import Result ID: 'dc16cd1a648432da93acb28bb03b3d80') in 0.004 seconds [static dependencies only]. Details - ImportResultOutputID=15a2973a0e02b91a78073b2e4f97bfed DependenciesID=dbd09d74f0312fc25ad8517d9219024c StaticDependenciesID=ce8c8e97989a309ceee08bce64d4890b 
+Asset Pipeline Refresh (id=4f2aa9fea91bc774dbd07a304a45613a): Total: 0.028 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 47d22342da0be73439c94ecc9366430b - Path: Assets/_Game/Models/Concept/BridgeValidation/Water.mat' with importer (NativeFormatImporter)
+Imported 'GUID: 47d22342da0be73439c94ecc9366430b' -> (Import Result ID: 'fdaceb7d0dd7d54192289d41e9a7c41f') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=a2d3a01a56834a5f9ea1b531689ce7e9 DependenciesID=f258a1dece6bfcbebc1af625eef7d868 StaticDependenciesID=4ed2c97a9c95d09331b9f1c186405419 
+Asset Pipeline Refresh (id=dfe8dcdbb646ac047848948c6fc8e2c5): Total: 0.024 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 03dfa65cd844daf4987889c3f0af49ef - Path: Assets/_Game/Models/Concept/BridgeValidation/Terrain_-2_-2.asset' with importer (NativeFormatImporter)
+Imported 'GUID: 03dfa65cd844daf4987889c3f0af49ef' -> (Import Result ID: '885e500077a921c12041c559c55cf5a5') in 0.002 seconds [static dependencies only]. Details - ImportResultOutputID=482987b79a0d6d783e474c09c27fb5d3 DependenciesID=aaac25f4288a98d3305c30d8e8932f80 StaticDependenciesID=2ad0cea710f533efab9d5430db43aff1 
+Asset Pipeline Refresh (id=d5b7f3626cbd9af4cb8c1a8fe01b1b17): Total: 0.031 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: a6af087ebdaef31468cf917ef7fb0eec - Path: Assets/_Game/Models/Concept/BridgeValidation/Terrain_-1_-2.asset' with importer (NativeFormatImporter)
+Imported 'GUID: a6af087ebdaef31468cf917ef7fb0eec' -> (Import Result ID: '4042e1a4d8f754b590c9ba8e5a23888c') in 0.002 seconds [static dependencies only]. Details - ImportResultOutputID=f90102e62c8b7befbe2fae8c60cd566a DependenciesID=544fbf4036ff9fc725254b9a67e85b67 StaticDependenciesID=af766e0e3bead50338ccffc56686e645 
+Asset Pipeline Refresh (id=5dcb579810251bf46a7c6f18f8edb479): Total: 0.033 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 456ce3b021780d44ca049e778ec6079c - Path: Assets/_Game/Models/Concept/BridgeValidation/Terrain_0_-2.asset' with importer (NativeFormatImporter)
+Imported 'GUID: 456ce3b021780d44ca049e778ec6079c' -> (Import Result ID: '9a05735002e53ac79181daf3124760b8') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=36b857b4bca4a8d4222258adbf911335 DependenciesID=7bea814e18369e6f2fa8faca0d4fa773 StaticDependenciesID=5a6850a152214b6ddd757a8c1ee60901 
+Asset Pipeline Refresh (id=6dd0ec63c7f4f244e8335a5065589a67): Total: 0.033 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 90fcfe7bf0668a6439fc00e3c2b41cbe - Path: Assets/_Game/Models/Concept/BridgeValidation/Terrain_1_-2.asset' with importer (NativeFormatImporter)
+Imported 'GUID: 90fcfe7bf0668a6439fc00e3c2b41cbe' -> (Import Result ID: '2f572197f0e43cad654230bf6a510413') in 0.002 seconds [static dependencies only]. Details - ImportResultOutputID=28ca31f720db8a1bf7ccfa4aa7ac1d6c DependenciesID=aa9f1c9658bbfe921f97746248cbfc26 StaticDependenciesID=f86d0eb43c97fbb255a92f5934f1d00d 
+Asset Pipeline Refresh (id=647e7868052124b4c83c3f60801cd49f): Total: 0.031 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: ddfebc2b468da5b44af8505066ea23e0 - Path: Assets/_Game/Models/Concept/BridgeValidation/Terrain_-2_-1.asset' with importer (NativeFormatImporter)
+Imported 'GUID: ddfebc2b468da5b44af8505066ea23e0' -> (Import Result ID: 'bfbc00a46e622083e987e06c2ed9ff01') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=b6c52e73bae002103cc6c295e83bbbaa DependenciesID=db6dabf389225d9f65e8e6b0405ff90f StaticDependenciesID=c48bed5776af2dafe1fb32ed6236a937 
+Asset Pipeline Refresh (id=57fad0f58a5a03e418cf9b933d57c62a): Total: 0.027 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 2f6edb3b3f5c59243a733436ac1a3ac7 - Path: Assets/_Game/Models/Concept/BridgeValidation/Water_-2_-1.asset' with importer (NativeFormatImporter)
+Imported 'GUID: 2f6edb3b3f5c59243a733436ac1a3ac7' -> (Import Result ID: 'b8d9d90bec9c2c1cc6b479784aba6034') in 0.002 seconds [static dependencies only]. Details - ImportResultOutputID=92235ff6a48110dcdd8ba65de1c7cba7 DependenciesID=5784c575ce4e91691b3a6c53e8812819 StaticDependenciesID=d1ae09b050936c63015e8f3773d9fdee 
+Asset Pipeline Refresh (id=a7501a5c9d151db43a66fd23e5058d19): Total: 0.034 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 5129b3e3ee8a23044ba069468f5978b9 - Path: Assets/_Game/Models/Concept/BridgeValidation/Terrain_-1_-1.asset' with importer (NativeFormatImporter)
+Imported 'GUID: 5129b3e3ee8a23044ba069468f5978b9' -> (Import Result ID: 'da17e28bcf8daaa5e558794b02166670') in 0.002 seconds [static dependencies only]. Details - ImportResultOutputID=cc3a4206a53df31637f89f4da3391c1a DependenciesID=7b6db768aa37436e642e697015426d37 StaticDependenciesID=0bbd2907f1a4af005c4cc16305ba1e39 
+Asset Pipeline Refresh (id=30f74f785ec8eae44ad6390465a79292): Total: 0.031 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: f56bf7413286c004389610360566606b - Path: Assets/_Game/Models/Concept/BridgeValidation/Water_-1_-1.asset' with importer (NativeFormatImporter)
+Imported 'GUID: f56bf7413286c004389610360566606b' -> (Import Result ID: '641667c7db2871d48b91bdcefce745fa') in 0.002 seconds [static dependencies only]. Details - ImportResultOutputID=ed612a2a14509aad5b20b6e8db54530d DependenciesID=2773d063c500a471e04049144777e2f1 StaticDependenciesID=ef927f89b2bf7dd50eb898b3c4d2042e 
+Asset Pipeline Refresh (id=3216b8c5059f8bc49bda1a4b3cd16016): Total: 0.033 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 961cd2034078c2f4b830f98e98b53c4b - Path: Assets/_Game/Models/Concept/BridgeValidation/Terrain_0_-1.asset' with importer (NativeFormatImporter)
+Imported 'GUID: 961cd2034078c2f4b830f98e98b53c4b' -> (Import Result ID: '21646111bdf61af14e9ecbf92233a6a9') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=79d877d6eaf85d8ce8e78a32ef52de8e DependenciesID=7a19c750942cbeeb89cfce0b7f66ba6f StaticDependenciesID=00c19474d1b3333e98496fba196c47e9 
+Asset Pipeline Refresh (id=dc2dd9b9737483c4eb100d239589e0b3): Total: 0.031 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 99afe941410591442a0def8261e5c1d5 - Path: Assets/_Game/Models/Concept/BridgeValidation/Water_0_-1.asset' with importer (NativeFormatImporter)
+Imported 'GUID: 99afe941410591442a0def8261e5c1d5' -> (Import Result ID: '8e8d043e122cac89dbcce367d6b2efdb') in 0.002 seconds [static dependencies only]. Details - ImportResultOutputID=deaee153b2ea0d1e9a589045bc66de48 DependenciesID=c28b61f5182c4f424b3fa6475ff1842e StaticDependenciesID=a423845ebcd27de7aea92415a576c556 
+Asset Pipeline Refresh (id=98fc32f14439e784c80f66843e380913): Total: 0.029 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 68788f4ea67da7947bc23aba10d93851 - Path: Assets/_Game/Models/Concept/BridgeValidation/Terrain_1_-1.asset' with importer (NativeFormatImporter)
+Imported 'GUID: 68788f4ea67da7947bc23aba10d93851' -> (Import Result ID: 'dcf964ab5268cff8276654cd272e255f') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=f2ca9529510c1c21dc0f36bd759f2e75 DependenciesID=e5fa87d31768256b2c03f99aa8561b17 StaticDependenciesID=dc969cfd656537dd46b95e53f42bc742 
+Asset Pipeline Refresh (id=58f71d921854e064ba6fe87d406cfb7d): Total: 0.026 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 265c6d1a7cd8162479c03a6dd18daa7c - Path: Assets/_Game/Models/Concept/BridgeValidation/Water_1_-1.asset' with importer (NativeFormatImporter)
+Imported 'GUID: 265c6d1a7cd8162479c03a6dd18daa7c' -> (Import Result ID: '16bc636eef740b6a7a78f18f0a4d1d04') in 0.002 seconds [static dependencies only]. Details - ImportResultOutputID=55bd444f14bbcf4de882d91c76171540 DependenciesID=9f4a3df2262e430cab3829f578342f8e StaticDependenciesID=6352c1406e0f202a35456d2f19ec8d2e 
+Asset Pipeline Refresh (id=904d5f94c68ef4f4bb37ebe0d5021208): Total: 0.030 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 1b73e078a8aacf64a9bdb5ef949932a8 - Path: Assets/_Game/Models/Concept/BridgeValidation/Terrain_-2_0.asset' with importer (NativeFormatImporter)
+Imported 'GUID: 1b73e078a8aacf64a9bdb5ef949932a8' -> (Import Result ID: 'b311fdf11b652db2fe36184684e99986') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=ca777e4250565e7f05d47ecf48cf1c7e DependenciesID=4dcd70150a938aca86785fa383b58eb6 StaticDependenciesID=01d9ffd0cf80d6593f469308ef45102f 
+Asset Pipeline Refresh (id=80a2c96ee0215124c9f30bbb268078f9): Total: 0.031 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: a70b9d3389313a54a93767b0407d0ade - Path: Assets/_Game/Models/Concept/BridgeValidation/Water_-2_0.asset' with importer (NativeFormatImporter)
+Imported 'GUID: a70b9d3389313a54a93767b0407d0ade' -> (Import Result ID: 'f7da32ebdf20b58d3b64e60fc648b4ca') in 0.002 seconds [static dependencies only]. Details - ImportResultOutputID=2406af792bff23694bc1d3a8dff5de0b DependenciesID=ed70f879a56cbedc88c60e04b57d5706 StaticDependenciesID=38c17ee5f5c0be659dfdd564873f1d53 
+Asset Pipeline Refresh (id=a5f766719104fc94a80f58e9c4edb411): Total: 0.036 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 0d145d2d8603bfd40a7951acc4f9b523 - Path: Assets/_Game/Models/Concept/BridgeValidation/Terrain_-1_0.asset' with importer (NativeFormatImporter)
+Imported 'GUID: 0d145d2d8603bfd40a7951acc4f9b523' -> (Import Result ID: 'cc3822c99bb8682a9fa199f483720d34') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=5da4615f4ced0a64050f9b0abee4533e DependenciesID=2d77d6de45688881bb3e507079795e5b StaticDependenciesID=66ba6f2757e3b485291bcd69a8c33d66 
+Asset Pipeline Refresh (id=919a7a1939f867d40b7b0cbcd78fb1b5): Total: 0.031 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Worker ready: AssetImportWorkerHW0 0
+Importing 'GUID: 23b512685b748444b8d44e9d2c563755 - Path: Assets/_Game/Models/Concept/BridgeValidation/Water_-1_0.asset' with importer (NativeFormatImporter)
+Imported 'GUID: 23b512685b748444b8d44e9d2c563755' -> (Import Result ID: '5436ea4de06824b21755fc90608cf81d') in 0.002 seconds [static dependencies only]. Details - ImportResultOutputID=c44b0697e60cbce3c981b8ce3da5293b DependenciesID=f7b56237cf786a17aa34074d001c40b8 StaticDependenciesID=109a32347e13f6cd35975e76342a12a7 
+Asset Pipeline Refresh (id=f4ff6e9a76c57bf4abdf3ac99d25c82b): Total: 0.035 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 8296c6e8e2319464691d124375676d31 - Path: Assets/_Game/Models/Concept/BridgeValidation/Terrain_0_0.asset' with importer (NativeFormatImporter)
+Imported 'GUID: 8296c6e8e2319464691d124375676d31' -> (Import Result ID: '6683bb7e5accfa94dee994eb1eaf1921') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=9c64fd2dee8e47709fcf436bf703a06d DependenciesID=8d4b3b9eb55987a931c24b8621891f42 StaticDependenciesID=cc6fa0472d380a2061de3669bb4caaaa 
+Asset Pipeline Refresh (id=07818f35a970dda4aa9c008a91b60391): Total: 0.028 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Curl error 35: Cert verify failed. Certificate could not be verified (either omitted or unsupported). UnityTls error code: 7
+Importing 'GUID: 6fd3bdf2170f50c4e88409c970ba82a8 - Path: Assets/_Game/Models/Concept/BridgeValidation/Water_0_0.asset' with importer (NativeFormatImporter)
+Imported 'GUID: 6fd3bdf2170f50c4e88409c970ba82a8' -> (Import Result ID: '49946398f05cf505757099eb7c6ebd10') in 0.002 seconds [static dependencies only]. Details - ImportResultOutputID=a23854af5d3f53e137858bac96c48c99 DependenciesID=3137399b33cd05b31fce978da2d0a919 StaticDependenciesID=c97be60996d9c77ef04930dd3b62937b 
+Asset Pipeline Refresh (id=842e70fbe29150442883356ec638ea40): Total: 0.035 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 5e3a21d1fff874c4788f4f8073ad47ad - Path: Assets/_Game/Models/Concept/BridgeValidation/Terrain_1_0.asset' with importer (NativeFormatImporter)
+Imported 'GUID: 5e3a21d1fff874c4788f4f8073ad47ad' -> (Import Result ID: '6e9e5cdcbc3d28284ba62316f947d60c') in 0.002 seconds [static dependencies only]. Details - ImportResultOutputID=371e5180f7ed81524e9fe013485426f8 DependenciesID=921cbc7e78c57617bb4b5091162253e2 StaticDependenciesID=42e37fa24515aaeb9e143579d9a72e85 
+Asset Pipeline Refresh (id=e92fa3dfcfb2ed14d919ce19de28afe5): Total: 0.031 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 0724f17d668350b4a88bd7ada16cde0c - Path: Assets/_Game/Models/Concept/BridgeValidation/Water_1_0.asset' with importer (NativeFormatImporter)
+Imported 'GUID: 0724f17d668350b4a88bd7ada16cde0c' -> (Import Result ID: '9f36ae4d4177ae2daa4da8bd90cc5978') in 0.002 seconds [static dependencies only]. Details - ImportResultOutputID=2c051894bafa9bdaea0d25208f94cb5f DependenciesID=5f0b79e7e916fc558f922fbcffc92911 StaticDependenciesID=92217dc148e386d6f7a617b700a45242 
+Asset Pipeline Refresh (id=83d9f0b72fe4f2f46817578d2e4ebeb9): Total: 0.037 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: ec052649ad591444d9825b2243e7a9f0 - Path: Assets/_Game/Models/Concept/BridgeValidation/Terrain_-2_1.asset' with importer (NativeFormatImporter)
+Imported 'GUID: ec052649ad591444d9825b2243e7a9f0' -> (Import Result ID: '3d3bc626cf8df027faf049ebc5cca610') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=f7a4abf06167130c3522deed16c69740 DependenciesID=b2bedc72ad1c117f07487959f7d2fbb6 StaticDependenciesID=9f7245a6c9ea765d48c7a74cad883729 
+Asset Pipeline Refresh (id=4c171305586c0af44a3ce51fb6cb6c33): Total: 0.033 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 2208d6d4aa1e87b4db81c2c35ef96a01 - Path: Assets/_Game/Models/Concept/BridgeValidation/Terrain_-1_1.asset' with importer (NativeFormatImporter)
+Imported 'GUID: 2208d6d4aa1e87b4db81c2c35ef96a01' -> (Import Result ID: '1a00e3705b746011dbeaac7d3ca18a89') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=ad9ed2b84d3760d5f04dd828f31f456f DependenciesID=05cb3e8203a57469bc7fc3e9d73a01bf StaticDependenciesID=e687a9f73e643fabe52f767f2836d06a 
+Asset Pipeline Refresh (id=77452c3e87d888f44b45f6ca3eb7b0a2): Total: 0.027 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: fdc69437fda4a5242a788565c7dcb0dc - Path: Assets/_Game/Models/Concept/BridgeValidation/Terrain_0_1.asset' with importer (NativeFormatImporter)
+Imported 'GUID: fdc69437fda4a5242a788565c7dcb0dc' -> (Import Result ID: '09c2bd5c0fc6dc96c9ca93f799d9f37d') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=36b286edae9af12ec9ecc4403b6fcbb0 DependenciesID=d88dd909f47b89fcc8a288a40b402e33 StaticDependenciesID=81926ab28ba44c5a5541fee71d8c8c3b 
+Asset Pipeline Refresh (id=641b621932f31ff41a390e6fd05ba124): Total: 0.031 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 49465634ac7dc8d40b136f7b94d439d6 - Path: Assets/_Game/Models/Concept/BridgeValidation/Terrain_1_1.asset' with importer (NativeFormatImporter)
+Imported 'GUID: 49465634ac7dc8d40b136f7b94d439d6' -> (Import Result ID: 'b5ba522f68a314f8b4ecb9593dbedb02') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=5b805b505c25ce416e03900eeb6d157d DependenciesID=6b60deececf9a2b50b54b59b1d5ffb30 StaticDependenciesID=231acf9ce281858a94e1e838d804d463 
+Asset Pipeline Refresh (id=e3d8dd714eb76e04293f6d12426896fe): Total: 0.027 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 26016521513243349a8a2e01a3fecea7 - Path: Assets/_Game/Scenes/ConceptBridgeTest.unity' with importer (DefaultImporter)
+Imported 'GUID: 26016521513243349a8a2e01a3fecea7' -> (Import Result ID: '8b5ca1b4c8eb14509b56cbadc614919b') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=3de3d3908e43ecbbc00c9f62ab54641c DependenciesID=150bc53541228ab39d7863c43c673301 StaticDependenciesID=ac9f71f42543405d61e30926a338f1a5 
+Asset Pipeline Refresh (id=8a404658180532d4eb6d2cc9b80eb277): Total: 0.027 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+[Little Castle Foliage] Compatibility review started: Bridge_Stone_A_v002
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LittleCastle.Editor.FoliageModelCompatibilityValidator:ValidateSelected () (at Assets/_Game/Editor/FoliageModelCompatibilityValidator.cs:54)
+LittleCastle.Editor.ConceptBridgeSceneBuilder:Create () (at Assets/_Game/Editor/ConceptBridgeSceneBuilder.cs:152)
+
+(Filename: Assets/_Game/Editor/FoliageModelCompatibilityValidator.cs Line: 54)
+
+[Little Castle Foliage] Mesh 'Bridge_Stone_A_v002/Structural_LOD0/SM_Bridge_FactionCloth_LOD0': vertices=1597, triangles=768, normals=OK, vertexColors=NO, UV0=OK, shaders=[Little Castle/Surface/LC Stylized Lit].
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LittleCastle.Editor.FoliageModelCompatibilityValidator:ValidateSelected () (at Assets/_Game/Editor/FoliageModelCompatibilityValidator.cs:173)
+LittleCastle.Editor.ConceptBridgeSceneBuilder:Create () (at Assets/_Game/Editor/ConceptBridgeSceneBuilder.cs:152)
+
+(Filename: Assets/_Game/Editor/FoliageModelCompatibilityValidator.cs Line: 173)
+
+[Little Castle Foliage] Mesh 'Bridge_Stone_A_v002/Structural_LOD0/SM_Bridge_Mortar_LOD0': vertices=804, triangles=402, normals=OK, vertexColors=NO, UV0=OK, shaders=[Little Castle/Surface/LC Stylized Lit].
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LittleCastle.Editor.FoliageModelCompatibilityValidator:ValidateSelected () (at Assets/_Game/Editor/FoliageModelCompatibilityValidator.cs:173)
+LittleCastle.Editor.ConceptBridgeSceneBuilder:Create () (at Assets/_Game/Editor/ConceptBridgeSceneBuilder.cs:152)
+
+(Filename: Assets/_Game/Editor/FoliageModelCompatibilityValidator.cs Line: 173)
+
+[Little Castle Foliage] Mesh 'Bridge_Stone_A_v002/Structural_LOD0/SM_Bridge_Stone_LOD0': vertices=25122, triangles=10768, normals=OK, vertexColors=NO, UV0=OK, shaders=[Little Castle/Surface/LC Stylized Lit].
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LittleCastle.Editor.FoliageModelCompatibilityValidator:ValidateSelected () (at Assets/_Game/Editor/FoliageModelCompatibilityValidator.cs:173)
+LittleCastle.Editor.ConceptBridgeSceneBuilder:Create () (at Assets/_Game/Editor/ConceptBridgeSceneBuilder.cs:152)
+
+(Filename: Assets/_Game/Editor/FoliageModelCompatibilityValidator.cs Line: 173)
+
+[Little Castle Foliage] Mesh 'Bridge_Stone_A_v002/Structural_LOD0/SM_Bridge_Trim_LOD0': vertices=892, triangles=340, normals=OK, vertexColors=NO, UV0=OK, shaders=[Little Castle/Surface/LC Stylized Lit].
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LittleCastle.Editor.FoliageModelCompatibilityValidator:ValidateSelected () (at Assets/_Game/Editor/FoliageModelCompatibilityValidator.cs:173)
+LittleCastle.Editor.ConceptBridgeSceneBuilder:Create () (at Assets/_Game/Editor/ConceptBridgeSceneBuilder.cs:152)
+
+(Filename: Assets/_Game/Editor/FoliageModelCompatibilityValidator.cs Line: 173)
+
+[Little Castle Foliage] Mesh 'Bridge_Stone_A_v002/Structural_LOD0/SM_Bridge_Wood_LOD0': vertices=2464, triangles=1320, normals=OK, vertexColors=NO, UV0=OK, shaders=[Little Castle/Surface/LC Stylized Lit].
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LittleCastle.Editor.FoliageModelCompatibilityValidator:ValidateSelected () (at Assets/_Game/Editor/FoliageModelCompatibilityValidator.cs:173)
+LittleCastle.Editor.ConceptBridgeSceneBuilder:Create () (at Assets/_Game/Editor/ConceptBridgeSceneBuilder.cs:152)
+
+(Filename: Assets/_Game/Editor/FoliageModelCompatibilityValidator.cs Line: 173)
+
+[Little Castle Foliage] Mesh 'Bridge_Stone_A_v002/Structural_LOD1/SM_Bridge_FactionCloth_LOD1': vertices=717, triangles=280, normals=OK, vertexColors=NO, UV0=OK, shaders=[Little Castle/Surface/LC Stylized Lit].
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LittleCastle.Editor.FoliageModelCompatibilityValidator:ValidateSelected () (at Assets/_Game/Editor/FoliageModelCompatibilityValidator.cs:173)
+LittleCastle.Editor.ConceptBridgeSceneBuilder:Create () (at Assets/_Game/Editor/ConceptBridgeSceneBuilder.cs:152)
+
+(Filename: Assets/_Game/Editor/FoliageModelCompatibilityValidator.cs Line: 173)
+
+[Little Castle Foliage] Mesh 'Bridge_Stone_A_v002/Structural_LOD1/SM_Bridge_Mortar_LOD1': vertices=564, triangles=282, normals=OK, vertexColors=NO, UV0=OK, shaders=[Little Castle/Surface/LC Stylized Lit].
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LittleCastle.Editor.FoliageModelCompatibilityValidator:ValidateSelected () (at Assets/_Game/Editor/FoliageModelCompatibilityValidator.cs:173)
+LittleCastle.Editor.ConceptBridgeSceneBuilder:Create () (at Assets/_Game/Editor/ConceptBridgeSceneBuilder.cs:152)
+
+(Filename: Assets/_Game/Editor/FoliageModelCompatibilityValidator.cs Line: 173)
+
+[Little Castle Foliage] Mesh 'Bridge_Stone_A_v002/Structural_LOD1/SM_Bridge_Stone_LOD1': vertices=14828, triangles=6426, normals=OK, vertexColors=NO, UV0=OK, shaders=[Little Castle/Surface/LC Stylized Lit].
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LittleCastle.Editor.FoliageModelCompatibilityValidator:ValidateSelected () (at Assets/_Game/Editor/FoliageModelCompatibilityValidator.cs:173)
+LittleCastle.Editor.ConceptBridgeSceneBuilder:Create () (at Assets/_Game/Editor/ConceptBridgeSceneBuilder.cs:152)
+
+(Filename: Assets/_Game/Editor/FoliageModelCompatibilityValidator.cs Line: 173)
+
+[Little Castle Foliage] Mesh 'Bridge_Stone_A_v002/Structural_LOD1/SM_Bridge_Trim_LOD1': vertices=700, triangles=260, normals=OK, vertexColors=NO, UV0=OK, shaders=[Little Castle/Surface/LC Stylized Lit].
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LittleCastle.Editor.FoliageModelCompatibilityValidator:ValidateSelected () (at Assets/_Game/Editor/FoliageModelCompatibilityValidator.cs:173)
+LittleCastle.Editor.ConceptBridgeSceneBuilder:Create () (at Assets/_Game/Editor/ConceptBridgeSceneBuilder.cs:152)
+
+(Filename: Assets/_Game/Editor/FoliageModelCompatibilityValidator.cs Line: 173)
+
+[Little Castle Foliage] Mesh 'Bridge_Stone_A_v002/Structural_LOD1/SM_Bridge_Wood_LOD1': vertices=880, triangles=456, normals=OK, vertexColors=NO, UV0=OK, shaders=[Little Castle/Surface/LC Stylized Lit].
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LittleCastle.Editor.FoliageModelCompatibilityValidator:ValidateSelected () (at Assets/_Game/Editor/FoliageModelCompatibilityValidator.cs:173)
+LittleCastle.Editor.ConceptBridgeSceneBuilder:Create () (at Assets/_Game/Editor/ConceptBridgeSceneBuilder.cs:152)
+
+(Filename: Assets/_Game/Editor/FoliageModelCompatibilityValidator.cs Line: 173)
+
+[Little Castle Foliage] Mesh 'Bridge_Stone_A_v002/Dressing_LODGroup/Dressing_LOD0/SM_Bridge_Botany_LOD0': vertices=4756, triangles=1900, normals=OK, vertexColors=YES, UV0=OK, shaders=[Little Castle/Surface/LC Stylized Lit].
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LittleCastle.Editor.FoliageModelCompatibilityValidator:ValidateSelected () (at Assets/_Game/Editor/FoliageModelCompatibilityValidator.cs:173)
+LittleCastle.Editor.ConceptBridgeSceneBuilder:Create () (at Assets/_Game/Editor/ConceptBridgeSceneBuilder.cs:152)
+
+(Filename: Assets/_Game/Editor/FoliageModelCompatibilityValidator.cs Line: 173)
+
+[Little Castle Foliage] Mesh 'Bridge_Stone_A_v002/Dressing_LODGroup/Dressing_LOD0/SM_Bridge_Grass_LOD0': vertices=15456, triangles=7728, normals=OK, vertexColors=NO, UV0=OK, shaders=[Little Castle/Surface/LC Stylized Lit].
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LittleCastle.Editor.FoliageModelCompatibilityValidator:ValidateSelected () (at Assets/_Game/Editor/FoliageModelCompatibilityValidator.cs:173)
+LittleCastle.Editor.ConceptBridgeSceneBuilder:Create () (at Assets/_Game/Editor/ConceptBridgeSceneBuilder.cs:152)
+
+(Filename: Assets/_Game/Editor/FoliageModelCompatibilityValidator.cs Line: 173)
+
+[Little Castle Foliage] Mesh 'Bridge_Stone_A_v002/Dressing_LODGroup/Dressing_LOD0/SM_Bridge_Rocks_LOD0': vertices=8400, triangles=2800, normals=OK, vertexColors=NO, UV0=OK, shaders=[Little Castle/Surface/LC Stylized Lit].
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LittleCastle.Editor.FoliageModelCompatibilityValidator:ValidateSelected () (at Assets/_Game/Editor/FoliageModelCompatibilityValidator.cs:173)
+LittleCastle.Editor.ConceptBridgeSceneBuilder:Create () (at Assets/_Game/Editor/ConceptBridgeSceneBuilder.cs:152)
+
+(Filename: Assets/_Game/Editor/FoliageModelCompatibilityValidator.cs Line: 173)
+
+[Little Castle Foliage] Mesh 'Bridge_Stone_A_v002/Dressing_LODGroup/Dressing_LOD1/SM_Bridge_Botany_LOD1': vertices=2130, triangles=814, normals=OK, vertexColors=YES, UV0=OK, shaders=[Little Castle/Surface/LC Stylized Lit].
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LittleCastle.Editor.FoliageModelCompatibilityValidator:ValidateSelected () (at Assets/_Game/Editor/FoliageModelCompatibilityValidator.cs:173)
+LittleCastle.Editor.ConceptBridgeSceneBuilder:Create () (at Assets/_Game/Editor/ConceptBridgeSceneBuilder.cs:152)
+
+(Filename: Assets/_Game/Editor/FoliageModelCompatibilityValidator.cs Line: 173)
+
+[Little Castle Foliage] Mesh 'Bridge_Stone_A_v002/Dressing_LODGroup/Dressing_LOD1/SM_Bridge_Grass_LOD1': vertices=4416, triangles=2208, normals=OK, vertexColors=NO, UV0=OK, shaders=[Little Castle/Surface/LC Stylized Lit].
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LittleCastle.Editor.FoliageModelCompatibilityValidator:ValidateSelected () (at Assets/_Game/Editor/FoliageModelCompatibilityValidator.cs:173)
+LittleCastle.Editor.ConceptBridgeSceneBuilder:Create () (at Assets/_Game/Editor/ConceptBridgeSceneBuilder.cs:152)
+
+(Filename: Assets/_Game/Editor/FoliageModelCompatibilityValidator.cs Line: 173)
+
+[Little Castle Foliage] Mesh 'Bridge_Stone_A_v002/Dressing_LODGroup/Dressing_LOD1/SM_Bridge_Rocks_LOD1': vertices=6000, triangles=2000, normals=OK, vertexColors=NO, UV0=OK, shaders=[Little Castle/Surface/LC Stylized Lit].
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LittleCastle.Editor.FoliageModelCompatibilityValidator:ValidateSelected () (at Assets/_Game/Editor/FoliageModelCompatibilityValidator.cs:173)
+LittleCastle.Editor.ConceptBridgeSceneBuilder:Create () (at Assets/_Game/Editor/ConceptBridgeSceneBuilder.cs:152)
+
+(Filename: Assets/_Game/Editor/FoliageModelCompatibilityValidator.cs Line: 173)
+
+[Little Castle Foliage] No renderer currently uses LC_Foliage or LC_Grass. If this is a production vegetation asset, verify material migration before judging wind compatibility.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:LogWarning (object)
+LittleCastle.Editor.FoliageModelCompatibilityValidator:ValidateSelected () (at Assets/_Game/Editor/FoliageModelCompatibilityValidator.cs:284)
+LittleCastle.Editor.ConceptBridgeSceneBuilder:Create () (at Assets/_Game/Editor/ConceptBridgeSceneBuilder.cs:152)
+
+(Filename: Assets/_Game/Editor/FoliageModelCompatibilityValidator.cs Line: 284)
+
+[Little Castle Foliage] Compatibility review finished for 'Bridge_Stone_A_v002'. foliageRenderers=0, grassRenderers=0, solidRenderers=16, errors=0, warnings=1. Manual close/far visual validation is still required.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:LogWarning (object)
+LittleCastle.Editor.FoliageModelCompatibilityValidator:ValidateSelected () (at Assets/_Game/Editor/FoliageModelCompatibilityValidator.cs:309)
+LittleCastle.Editor.ConceptBridgeSceneBuilder:Create () (at Assets/_Game/Editor/ConceptBridgeSceneBuilder.cs:152)
+
+(Filename: Assets/_Game/Editor/FoliageModelCompatibilityValidator.cs Line: 309)
+
+[Little Castle Asset] Found 2 LODGroup component(s).
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LittleCastle.Editor.ProductionAssetValidator:ValidateLods (UnityEngine.GameObject,int&,int&) (at Assets/_Game/Editor/ProductionAssetValidator.cs:159)
+LittleCastle.Editor.ProductionAssetValidator:ValidateSelected () (at Assets/_Game/Editor/ProductionAssetValidator.cs:85)
+LittleCastle.Editor.ConceptBridgeSceneBuilder:Create () (at Assets/_Game/Editor/ConceptBridgeSceneBuilder.cs:153)
+
+(Filename: Assets/_Game/Editor/ProductionAssetValidator.cs Line: 159)
+
+[Little Castle Asset] Bridge_Stone_A_v002 LOD0: renderers=5, vertices=30879, triangles=13598, screenHeight=0,32.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LittleCastle.Editor.ProductionAssetValidator:ValidateLodGroup (UnityEngine.LODGroup,int&,int&) (at Assets/_Game/Editor/ProductionAssetValidator.cs:232)
+LittleCastle.Editor.ProductionAssetValidator:ValidateLods (UnityEngine.GameObject,int&,int&) (at Assets/_Game/Editor/ProductionAssetValidator.cs:166)
+LittleCastle.Editor.ProductionAssetValidator:ValidateSelected () (at Assets/_Game/Editor/ProductionAssetValidator.cs:85)
+LittleCastle.Editor.ConceptBridgeSceneBuilder:Create () (at Assets/_Game/Editor/ConceptBridgeSceneBuilder.cs:153)
+
+(Filename: Assets/_Game/Editor/ProductionAssetValidator.cs Line: 232)
+
+[Little Castle Asset] Bridge_Stone_A_v002 LOD1: renderers=5, vertices=17689, triangles=7704, screenHeight=0,1.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LittleCastle.Editor.ProductionAssetValidator:ValidateLodGroup (UnityEngine.LODGroup,int&,int&) (at Assets/_Game/Editor/ProductionAssetValidator.cs:232)
+LittleCastle.Editor.ProductionAssetValidator:ValidateLods (UnityEngine.GameObject,int&,int&) (at Assets/_Game/Editor/ProductionAssetValidator.cs:166)
+LittleCastle.Editor.ProductionAssetValidator:ValidateSelected () (at Assets/_Game/Editor/ProductionAssetValidator.cs:85)
+LittleCastle.Editor.ConceptBridgeSceneBuilder:Create () (at Assets/_Game/Editor/ConceptBridgeSceneBuilder.cs:153)
+
+(Filename: Assets/_Game/Editor/ProductionAssetValidator.cs Line: 232)
+
+[Little Castle Asset] Bridge_Stone_A_v002 LOD2: renderers=5, vertices=3683, triangles=1736, screenHeight=0,025.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LittleCastle.Editor.ProductionAssetValidator:ValidateLodGroup (UnityEngine.LODGroup,int&,int&) (at Assets/_Game/Editor/ProductionAssetValidator.cs:232)
+LittleCastle.Editor.ProductionAssetValidator:ValidateLods (UnityEngine.GameObject,int&,int&) (at Assets/_Game/Editor/ProductionAssetValidator.cs:166)
+LittleCastle.Editor.ProductionAssetValidator:ValidateSelected () (at Assets/_Game/Editor/ProductionAssetValidator.cs:85)
+LittleCastle.Editor.ConceptBridgeSceneBuilder:Create () (at Assets/_Game/Editor/ConceptBridgeSceneBuilder.cs:153)
+
+(Filename: Assets/_Game/Editor/ProductionAssetValidator.cs Line: 232)
+
+[Little Castle Asset] Dressing_LODGroup LOD0: renderers=3, vertices=28612, triangles=12428, screenHeight=0,32.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LittleCastle.Editor.ProductionAssetValidator:ValidateLodGroup (UnityEngine.LODGroup,int&,int&) (at Assets/_Game/Editor/ProductionAssetValidator.cs:232)
+LittleCastle.Editor.ProductionAssetValidator:ValidateLods (UnityEngine.GameObject,int&,int&) (at Assets/_Game/Editor/ProductionAssetValidator.cs:166)
+LittleCastle.Editor.ProductionAssetValidator:ValidateSelected () (at Assets/_Game/Editor/ProductionAssetValidator.cs:85)
+LittleCastle.Editor.ConceptBridgeSceneBuilder:Create () (at Assets/_Game/Editor/ConceptBridgeSceneBuilder.cs:153)
+
+(Filename: Assets/_Game/Editor/ProductionAssetValidator.cs Line: 232)
+
+[Little Castle Asset] Dressing_LODGroup LOD1: renderers=3, vertices=12546, triangles=5022, screenHeight=0,1.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LittleCastle.Editor.ProductionAssetValidator:ValidateLodGroup (UnityEngine.LODGroup,int&,int&) (at Assets/_Game/Editor/ProductionAssetValidator.cs:232)
+LittleCastle.Editor.ProductionAssetValidator:ValidateLods (UnityEngine.GameObject,int&,int&) (at Assets/_Game/Editor/ProductionAssetValidator.cs:166)
+LittleCastle.Editor.ProductionAssetValidator:ValidateSelected () (at Assets/_Game/Editor/ProductionAssetValidator.cs:85)
+LittleCastle.Editor.ConceptBridgeSceneBuilder:Create () (at Assets/_Game/Editor/ConceptBridgeSceneBuilder.cs:153)
+
+(Filename: Assets/_Game/Editor/ProductionAssetValidator.cs Line: 232)
+
+[Little Castle Asset] Dressing_LODGroup LOD2: renderers=1, vertices=240, triangles=80, screenHeight=0,025.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LittleCastle.Editor.ProductionAssetValidator:ValidateLodGroup (UnityEngine.LODGroup,int&,int&) (at Assets/_Game/Editor/ProductionAssetValidator.cs:232)
+LittleCastle.Editor.ProductionAssetValidator:ValidateLods (UnityEngine.GameObject,int&,int&) (at Assets/_Game/Editor/ProductionAssetValidator.cs:166)
+LittleCastle.Editor.ProductionAssetValidator:ValidateSelected () (at Assets/_Game/Editor/ProductionAssetValidator.cs:85)
+LittleCastle.Editor.ConceptBridgeSceneBuilder:Create () (at Assets/_Game/Editor/ConceptBridgeSceneBuilder.cs:153)
+
+(Filename: Assets/_Game/Editor/ProductionAssetValidator.cs Line: 232)
+
+[Little Castle Asset] Material 'Default-Material' has GPU Instancing disabled. Repeated world vegetation/props should enable it when compatible.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:LogWarning (object)
+LittleCastle.Editor.ProductionAssetValidator:ValidateMaterials (System.Collections.Generic.HashSet`1<UnityEngine.Material>,int&) (at Assets/_Game/Editor/ProductionAssetValidator.cs:639)
+LittleCastle.Editor.ProductionAssetValidator:ValidateSelected () (at Assets/_Game/Editor/ProductionAssetValidator.cs:102)
+LittleCastle.Editor.ConceptBridgeSceneBuilder:Create () (at Assets/_Game/Editor/ConceptBridgeSceneBuilder.cs:153)
+
+(Filename: Assets/_Game/Editor/ProductionAssetValidator.cs Line: 639)
+
+[Little Castle Asset] 'Bridge_Stone_A_v002': renderers=25, unique materials=8, textures=3.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LittleCastle.Editor.ProductionAssetValidator:ValidateSelected () (at Assets/_Game/Editor/ProductionAssetValidator.cs:110)
+LittleCastle.Editor.ConceptBridgeSceneBuilder:Create () (at Assets/_Game/Editor/ConceptBridgeSceneBuilder.cs:153)
+
+(Filename: Assets/_Game/Editor/ProductionAssetValidator.cs Line: 110)
+
+[Little Castle Asset] Validation finished for 'Bridge_Stone_A_v002'. Errors=0, warnings=1.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:LogWarning (object)
+LittleCastle.Editor.ProductionAssetValidator:ValidateSelected () (at Assets/_Game/Editor/ProductionAssetValidator.cs:133)
+LittleCastle.Editor.ConceptBridgeSceneBuilder:Create () (at Assets/_Game/Editor/ConceptBridgeSceneBuilder.cs:153)
+
+(Filename: Assets/_Game/Editor/ProductionAssetValidator.cs Line: 133)
+
+CONCEPT_BRIDGE_FIXTURE created: seed=12345, 16 generated chunks, 1 fixed bridge; authored road/river fixture, NOT a procedural session or visual approval.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LittleCastle.Editor.ConceptBridgeSceneBuilder:Create () (at Assets/_Game/Editor/ConceptBridgeSceneBuilder.cs:154)
+
+(Filename: Assets/_Game/Editor/ConceptBridgeSceneBuilder.cs Line: 154)
+
+Batchmode quit successfully invoked - shutting down!
+[Physics::Module] Cleanup current backend.
+[Physics::Module] Id: 0xf2b8ea05
+Input System module state changed to: ShutdownInProgress.
+Input Polling Thread exited.
+Input System module state changed to: Shutdown.
+[Licensing::IpcConnector] LicenseClient-Дмитрий-notifications channel disconnected successfully.
+[Licensing::IpcConnector] LicenseClient-Дмитрий channel disconnected successfully.
+AcceleratorClientConnectionCallback - disconnected - :0
+Cleanup mono
+CodeReloadManager destroyed
+Exiting batchmode successfully now!
+Exiting without the bug reporter. Application will terminate with return code 0

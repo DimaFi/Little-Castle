@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Concept_Sky
+  m_Shader: {fileID: 4800000, guid: f1c4a72b6d2d47d7a1ef536be4c1a802, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Ints: []
+    m_Floats:
+    - _CloudSpeed: 0.01
+    - _CloudStrength: 0.24
+    - _Daylight: 1
+    - _MoonSize: 0.00006
+    - _MoonVisibility: 0.116465755
+    - _StarVisibility: 0.05013262
+    - _SunSize: 0.000045
+    - _SunVisibility: 0.77
+    - _TwilightStrength: -0.25
+    m_Colors:
+    - _HorizonColor: {r: 0.7652, g: 0.85359997, b: 0.916, a: 1}
+    - _LowerSkyColor: {r: 0.5228, g: 0.6488, b: 0.70960003, a: 1}
+    - _MoonColor: {r: 0.83, g: 0.92, b: 1.25, a: 1}
+    - _MoonDirection: {r: -0.11126046, g: -0.9749279, b: 0.19270873, a: 0}
+    - _StarColor: {r: 0.8, g: 0.88, b: 1, a: 1}
+    - _SunColor: {r: 1.85, g: 1.32, b: 0.76, a: 1}
+    - _SunDirection: {r: 0.11126037, g: 0.97492796, b: -0.19270864, a: 0}
+    - _TwilightColor: {r: 1, g: 0.42, b: 0.18, a: 1}
+    - _ZenithColor: {r: 0.23179999, g: 0.5018, b: 0.79319996, a: 1}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1

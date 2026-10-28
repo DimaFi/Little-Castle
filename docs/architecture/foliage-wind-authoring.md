@@ -1,5 +1,16 @@
 # Foliage and Wind Authoring
 
+## Optional grass root-anchor fade (visual slice)
+
+`LC_Grass` can collapse distant blades without transparent blending when
+`_UseRootAnchor=1`. In that mode UV1/TEXCOORD1 must contain a **float3 local-space
+root position**, repeated for all three vertices of each blade. UV0.y remains
+the root-to-tip wind weight. `_FadeStart`/`_FadeEnd` are camera distances in metres.
+The generated `TerrainStarterGrass` supplies this data and disables shadow casting.
+Do not enable the option on arbitrary meshes or shadow-casting grass: the fallback
+ShadowCaster does not implement this deformation. The default is 0 and requires no
+extra mesh data. It supplements authored density LODs, not gameplay visibility.
+
 This document defines how tree leaves, bushes, grass and wheat should be authored
 so the Little Castle shader wind works predictably.
 

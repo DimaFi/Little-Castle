@@ -9,7 +9,9 @@ Little-Castle/
 ├─ Assets/                 Unity assets and game code
 │  └─ _Game/               Everything authored specifically for Little Castle
 │     ├─ Scripts/
-│     ├─ Art/               Future project-owned art
+│     ├─ Art/               Project art; Art/Source is local and Git-ignored
+│     ├─ Models/Ready/      Local Unity-ready model library; Git-ignored
+│     ├─ Textures/Ready/    Local Unity-ready texture library; Git-ignored
 │     ├─ Prefabs/           Future prefabs
 │     ├─ Materials/         Future materials
 │     ├─ Scenes/            Future scenes
@@ -84,3 +86,30 @@ Before committing large binary assets, decide whether they belong in:
 - an external asset library.
 
 Document that decision first.
+
+### Local production-art library
+
+The current decision is that high-volume source art and locally imported
+production models/textures do **not** enter normal Git history. The following
+paths are intentionally Git-ignored, including their Unity `.meta` files:
+
+```text
+Assets/_Game/Art/Source/
+Assets/_Game/Models/Ready/
+Assets/_Game/Textures/Ready/
+```
+
+`Assets/_Game/Models/Ready/README.md` is the one tracked exception: it keeps
+the folder contract visible in a clean clone.
+
+These files must be supplied through a separately agreed asset-library sync
+(for example a shared external drive, cloud asset library, or later Git LFS
+workflow). A clone without that sync is valid for code work but cannot preview
+or build production visuals that rely on the local library.
+
+Do not commit a `WorldSpawnCatalog` or other versioned Unity asset that holds
+references to files from these ignored folders. Such references become missing
+on a clean clone. The Ready model synchronizer writes an ignored
+`LocalWorldSpawnCatalog` for Unity Editor previews; the shared catalog keeps
+its placeholders. The current local overlay is not included in standalone
+builds. A production build needs an explicit asset delivery and build pipeline.

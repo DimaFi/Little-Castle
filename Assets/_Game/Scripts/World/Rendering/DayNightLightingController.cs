@@ -61,6 +61,10 @@ namespace LittleCastle.World
         public Light Moon =>
             moon;
 
+        [Header("Optional authored palette")]
+        [SerializeField] private LightingPaletteProfile palette;
+        public LightingPaletteProfile Palette { get => palette; set => palette = value; }
+
         public float DaylightFactor
         {
             get;
@@ -119,6 +123,10 @@ namespace LittleCastle.World
         [Header("Skybox")]
         [SerializeField]
         private Material skyboxMaterial;
+
+        private Material runtimeSkyboxMaterial;
+        private Material runtimeSkyboxSource;
+        private Material previousSkyboxMaterial;
 
         [SerializeField]
         private Color dayZenith =
@@ -228,7 +236,7 @@ namespace LittleCastle.World
             if (timeSystem == null)
             {
                 timeSystem =
-                    FindFirstObjectByType<
+                    FindAnyObjectByType<
                         WorldTimeSystem>();
             }
 
@@ -238,12 +246,71 @@ namespace LittleCastle.World
             if (sun != null)
                 RenderSettings.sun = sun;
 
-            if (skyboxMaterial != null)
-                RenderSettings.skybox = skyboxMaterial;
+            Material sky = GetPresentationSkybox();
+            if (sky != null)
+                RenderSettings.skybox = sky;
 
             // WorldTimeSystem initializes earlier. Apply once here so shared
             // shader globals do not start one frame behind the atmosphere.
             ApplyLighting();
+        }
+
+        private void OnEnable()
+        {
+            if (!Application.isPlaying)
+                return;
+
+            Material sky = GetPresentationSkybox();
+            if (sky != null)
+                RenderSettings.skybox = sky;
+
+            ApplyLighting();
+        }
+
+        private void OnDisable() => ReleaseRuntimeSkybox();
+
+        private void OnDestroy() => ReleaseRuntimeSkybox();
+
+        private Material GetPresentationSkybox()
+        {
+            // Explicit Edit Mode authoring keeps using the serialized material.
+            // Play Mode must never animate properties on that shared source asset.
+            if (!Application.isPlaying)
+                return skyboxMaterial;
+
+            if (runtimeSkyboxMaterial != null && runtimeSkyboxSource == skyboxMaterial)
+                return runtimeSkyboxMaterial;
+
+            ReleaseRuntimeSkybox();
+            if (skyboxMaterial == null)
+                return null;
+
+            previousSkyboxMaterial = RenderSettings.skybox;
+            runtimeSkyboxSource = skyboxMaterial;
+            runtimeSkyboxMaterial = new Material(skyboxMaterial)
+            {
+                name = skyboxMaterial.name + " (Day Night Runtime)",
+                hideFlags = HideFlags.HideAndDontSave
+            };
+            return runtimeSkyboxMaterial;
+        }
+
+        private void ReleaseRuntimeSkybox()
+        {
+            if (runtimeSkyboxMaterial != null)
+            {
+                if (RenderSettings.skybox == runtimeSkyboxMaterial)
+                    RenderSettings.skybox = previousSkyboxMaterial;
+
+                if (Application.isPlaying)
+                    Destroy(runtimeSkyboxMaterial);
+                else
+                    DestroyImmediate(runtimeSkyboxMaterial);
+            }
+
+            runtimeSkyboxMaterial = null;
+            runtimeSkyboxSource = null;
+            previousSkyboxMaterial = null;
         }
 
         private void Start()
@@ -333,7 +400,7 @@ namespace LittleCastle.World
                     0f);
 
             sun.intensity =
-                maxSunIntensity *
+                (palette != null ? palette.sunIntensity : maxSunIntensity) *
                 daylight;
 
             float highSun =
@@ -341,11 +408,16 @@ namespace LittleCastle.World
                     0f,
                     1f,
                     daylight);
+            if (palette != null)
+            {
+                float elevation = Mathf.Asin(Mathf.Clamp(-sun.transform.forward.y, -1, 1)) * Mathf.Rad2Deg;
+                highSun = palette.SunColorBlend(daylight, elevation);
+            }
 
             sun.color =
                 Color.Lerp(
-                    sunHorizonColor,
-                    sunDayColor,
+                    palette != null ? palette.sunHorizon : sunHorizonColor,
+                    palette != null ? palette.sunDay : sunDayColor,
                     highSun);
         }
 
@@ -365,13 +437,13 @@ namespace LittleCastle.World
                     0f);
 
             moon.intensity =
-                maxMoonIntensity *
+                (palette != null ? palette.moonIntensity : maxMoonIntensity) *
                 Mathf.Pow(
                     1f - daylight,
                     1.35f);
 
             moon.color =
-                moonLightColor;
+                palette != null ? palette.moon : moonLightColor;
         }
 
         private void UpdateAmbient(
@@ -388,20 +460,20 @@ namespace LittleCastle.World
 
             RenderSettings.ambientSkyColor =
                 Color.Lerp(
-                    nightAmbientSky,
-                    dayAmbientSky,
+                    palette != null ? palette.nightSky : nightAmbientSky,
+                    palette != null ? palette.daySky : dayAmbientSky,
                     environmentDay);
 
             RenderSettings.ambientEquatorColor =
                 Color.Lerp(
-                    nightAmbientEquator,
-                    dayAmbientEquator,
+                    palette != null ? palette.nightEquator : nightAmbientEquator,
+                    palette != null ? palette.dayEquator : dayAmbientEquator,
                     environmentDay);
 
             RenderSettings.ambientGroundColor =
                 Color.Lerp(
-                    nightAmbientGround,
-                    dayAmbientGround,
+                    palette != null ? palette.nightGround : nightAmbientGround,
+                    palette != null ? palette.dayGround : dayAmbientGround,
                     environmentDay);
         }
 
@@ -409,14 +481,15 @@ namespace LittleCastle.World
             float daylight,
             float twilight)
         {
-            if (skyboxMaterial == null)
+            Material sky = GetPresentationSkybox();
+            if (sky == null)
                 return;
 
             if (RenderSettings.skybox !=
-                skyboxMaterial)
+                sky)
             {
                 RenderSettings.skybox =
-                    skyboxMaterial;
+                    sky;
             }
 
             float baseDay =
@@ -442,23 +515,23 @@ namespace LittleCastle.World
                     dayLowerSky,
                     baseDay);
 
-            skyboxMaterial.SetColor(
+            sky.SetColor(
                 ZenithColorId,
                 zenith);
 
-            skyboxMaterial.SetColor(
+            sky.SetColor(
                 HorizonColorId,
                 horizon);
 
-            skyboxMaterial.SetColor(
+            sky.SetColor(
                 LowerSkyColorId,
                 lower);
 
-            skyboxMaterial.SetColor(
+            sky.SetColor(
                 SunColorId,
                 skySunColor);
 
-            skyboxMaterial.SetColor(
+            sky.SetColor(
                 MoonColorId,
                 skyMoonColor);
 
@@ -467,7 +540,7 @@ namespace LittleCastle.World
                 Vector3 visibleSunDirection =
                     -sun.transform.forward;
 
-                skyboxMaterial.SetVector(
+                sky.SetVector(
                     SunDirectionId,
                     new Vector4(
                         visibleSunDirection.x,
@@ -481,7 +554,7 @@ namespace LittleCastle.World
                 Vector3 visibleMoonDirection =
                     -moon.transform.forward;
 
-                skyboxMaterial.SetVector(
+                sky.SetVector(
                     MoonDirectionId,
                     new Vector4(
                         visibleMoonDirection.x,
@@ -496,28 +569,28 @@ namespace LittleCastle.World
                     daylight -
                     twilight * 0.58f);
 
-            skyboxMaterial.SetFloat(
+            sky.SetFloat(
                 SunVisibilityId,
                 Mathf.Clamp01(
                     daylight +
                     twilight * 0.92f));
 
-            skyboxMaterial.SetFloat(
+            sky.SetFloat(
                 TwilightStrengthId,
                 twilight);
 
-            skyboxMaterial.SetFloat(
+            sky.SetFloat(
                 DaylightId,
                 daylight);
 
-            skyboxMaterial.SetFloat(
+            sky.SetFloat(
                 MoonVisibilityId,
                 Mathf.SmoothStep(
                     0.08f,
                     0.72f,
                     darkness));
 
-            skyboxMaterial.SetFloat(
+            sky.SetFloat(
                 StarVisibilityId,
                 Mathf.Pow(
                     darkness,

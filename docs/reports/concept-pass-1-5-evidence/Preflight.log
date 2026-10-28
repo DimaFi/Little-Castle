@@ -1,0 +1,997 @@
+[Licensing::Module] Trying to connect to existing licensing client channel...
+[Licensing::IpcConnector] Channel LicenseClient-Дмитрий doesn't exist
+Built from '6000.5/staging' branch; Version is '6000.5.5f1 (d16e074b49fd) revision 13725191'; Using compiler version '194234433'; Build Type 'Release'
+OS: 'Windows 11  (10.0.26200) Professional' Language: 'ru' Physical Memory: 32625 MB
+BatchMode: 1, IsHumanControllingUs: 0, StartBugReporterOnCrash: 0, Is64bit: 1
+System  architecture: x64
+Process architecture: x64
+Date: 2026-10-09T13:07:38Z
+[Licensing::Module] Successfully launched the LicensingClient (PId: 34132)
+
+COMMAND LINE ARGUMENTS:
+E:\Unity\Unity_6.5\6000.5.5f1\Editor\Unity.exe
+-batchmode
+-nographics
+-projectPath
+E:/Games_Develop/Little-Castle
+-executeMethod
+LittleCastle.Editor.ConceptWorldVisualPass.Prepare
+-quit
+-logFile
+E:/Games_Develop/verification/concept-pass-runtime-kit.log
+Successfully changed project path to: E:/Games_Develop/Little-Castle
+E:/Games_Develop/Little-Castle
+[UnityMemory] Configuration Parameters - Can be set up in boot.config
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-nav-mesh-worker=65536"
+    "memorysetup-temp-allocator-size-audio-worker=65536"
+    "memorysetup-temp-allocator-size-cloud-worker=32768"
+    "memorysetup-temp-allocator-size-gfx=262144"
+    "memorysetup-temp-allocator-size-preload-manager=33554432"
+    "memorysetup-allocator-temp-initial-block-size-main=262144"
+    "memorysetup-allocator-temp-initial-block-size-worker=262144"
+    "memorysetup-temp-allocator-size-job-worker=262144"
+    "memorysetup-temp-allocator-size-background-worker=32768"
+    "memorysetup-bucket-allocator-granularity=16"
+    "memorysetup-bucket-allocator-bucket-count=8"
+    "memorysetup-bucket-allocator-block-size=33554432"
+    "memorysetup-bucket-allocator-block-count=8"
+    "memorysetup-main-allocator-block-size=16777216"
+    "memorysetup-thread-allocator-block-size=16777216"
+    "memorysetup-main-allocator-mimalloc-enabled=0"
+    "memorysetup-gfx-main-allocator-block-size=16777216"
+    "memorysetup-gfx-thread-allocator-block-size=16777216"
+    "memorysetup-cache-allocator-block-size=4194304"
+    "memorysetup-typetree-allocator-block-size=2097152"
+    "memorysetup-profiler-bucket-allocator-granularity=16"
+    "memorysetup-profiler-bucket-allocator-bucket-count=8"
+    "memorysetup-profiler-bucket-allocator-block-size=33554432"
+    "memorysetup-profiler-bucket-allocator-block-count=8"
+    "memorysetup-profiler-allocator-block-size=16777216"
+    "memorysetup-profiler-editor-allocator-block-size=1048576"
+    "memorysetup-temp-allocator-size-main=16777216"
+    "memorysetup-job-temp-allocator-block-size=2097152"
+    "memorysetup-job-temp-allocator-block-size-background=1048576"
+    "memorysetup-job-temp-allocator-reduction-small-platforms=262144"
+Logging is directed to a specific file, skipping project log.Player connection [32828]  Target information:
+
+Player connection [32828]  * "[IP] 192.168.10.139 [Port] 55504 [Flags] 2 [Guid] 1899415992 [EditorId] 1899415992 [Version] 1048832 [Id] WindowsEditor(7,DESKTOP-U3MAU12) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
+
+Player connection [32828]  * "[IP] 10.6.7.1 [Port] 55504 [Flags] 2 [Guid] 1899415992 [EditorId] 1899415992 [Version] 1048832 [Id] WindowsEditor(7,DESKTOP-U3MAU12) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
+
+Player connection [32828] Host joined multi-casting on [225.0.0.222:54997]...
+Player connection [32828] Host joined alternative multi-casting on [225.0.0.222:34997]...
+Input System module state changed to: Initialized.
+[Physics::Module] Initialized fallback backend.
+[Physics::Module] Id: 0xdecafbad
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-Дмитрий" at "2026-10-09T13:07:38.7092523Z"
+[Licensing::Client] Code 10 while verifying Licensing Client signature (process Id: 34132, path: "E:/Unity/Unity_6.5/6000.5.5f1/Editor/Data/Resources/Licensing/Client/Unity.Licensing.Client.exe")
+[Licensing::Module] LicensingClient has failed validation; ignoring
+[Package Manager] Connected to IPC stream "Upm-34404" after 0.2 seconds.
+[Licensing::Module] Licensing is not yet initialized.
+[Licensing::Client] Handshaking with LicensingClient:
+  Version:                 1.18.1+9fbee8e
+  Session Id:              47f9325402774a2fbf93e1c38f17df7f
+  Correlation Id:          10658d910577e5605d6271fb341c4af2
+  External correlation Id: 8363500738148615893
+  Machine Id:              ukWjmUigJ6C168X6HXqjbBw2IT4=
+[Licensing::Module] Successfully connected to LicensingClient on channel: "LicenseClient-Дмитрий" (connect: 0.24s, validation: 0.15s, handshake: 0.05s)
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-Дмитрий-notifications" at "2026-10-09T13:07:38.9181442Z"
+[Licensing::Module] Connected to LicensingClient (PId: 34132, launch time: 0.01, total connection time: 0.45s)
+[Licensing::Module] Error: Access token is unavailable; failed to update
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: 10171631734416-UnityPersXXXX
+  Product: Unity Personal
+  Type: Assigned
+  Expiration: Unlimited
+[Licensing::Client] Successfully updated license, isAsync: True, time: 0.01
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] Licensing Background thread has ended after 0.50s
+[Licensing::Module] Licensing is initialized (took 0.08s).
+[Licensing::Client] Successfully resolved entitlement details
+Library Redirect Path: Library/
+[Physics::Module] Selected backend.
+[Physics::Module] Name: PhysX
+[Physics::Module] Id: 0xf2b8ea05
+[Physics::Module] SDK Version: 4.1.2
+[Physics::Module] Integration Version: 1.0.0
+[Physics::Module] Threading Mode: Multi-Threaded
+Initialize engine version: 6000.5.5f1 (d16e074b49fd)
+[Subsystems] Discovering subsystems at path E:/Unity/Unity_6.5/6000.5.5f1/Editor/Data/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path E:/Games_Develop/Little-Castle/Assets
+Forcing GfxDevice: Null
+GfxDevice: creating device client; kGfxThreadingModeNonThreaded
+NullGfxDevice:
+    Version:  NULL 1.0 [1.0]
+    Renderer: Null Device
+    Vendor:   Unity Technologies
+Initialize mono
+Mono path[0] = 'E:/Unity/Unity_6.5/6000.5.5f1/Editor/Data/Managed'
+Mono path[1] = 'E:/Unity/Unity_6.5/6000.5.5f1/Editor/Data/BCLExtensions/runtime/netstandard2.1'
+Mono path[2] = 'E:/Unity/Unity_6.5/6000.5.5f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
+Mono config path = 'E:/Unity/Unity_6.5/6000.5.5f1/Editor/Data/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56404
+CodeReloadManager initialized
+ImportWorker Server TCP listen port: 0
+AcceleratorClientConnectionCallback - disconnected - :0
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: E:/Unity/Unity_6.5/6000.5.5f1/Editor/Data/PlaybackEngines/WebGLSupport/UnityEditor.WebGL.Extensions.dll
+Register platform support module: E:/Unity/Unity_6.5/6000.5.5f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
+Registered in 0.001359 seconds.
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+Package Manager log level set to [2]
+ScheduleIndexationOnStartup MainProcess:False IndexOnStartup:True
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  0.356 seconds
+Domain Reload Profiling: 841ms
+	BeginReloadAssembly (121ms)
+	RebuildCommonClasses (4ms)
+	RebuildNativeTypeToScriptingClass (17ms)
+	initialDomainReloadingComplete (62ms)
+	LoadAllAssembliesAndSetupDomain (277ms)
+		LoadAssemblies (121ms)
+		AnalyzeDomain (205ms)
+			TypeCache.Refresh (205ms)
+				TypeCache.ScanAssembly (191ms)
+	FinalizeReload (359ms)
+		SetupLoadedEditorAssemblies (0ms)
+			BeforeProcessingInitializeOnLoad (87ms)
+			ProcessInitializeOnLoadAttributes (90ms)
+			ProcessInitializeOnLoadMethodAttributes (104ms)
+[Licensing::Client] Successfully resolved entitlement details
+Application.AssetDatabase Initial Refresh Start
+[Package Manager] Restoring resolved packages state from cache
+[Licensing::Client] Successfully resolved entitlement details
+[Package Manager] Registered 6 packages:
+  Built-in packages:
+    com.unity.modules.imageconversion@1.0.0 (location: E:\Games_Develop\Little-Castle\Library\PackageCache\com.unity.modules.imageconversion)
+    com.unity.test-framework@1.7.0 (location: E:\Games_Develop\Little-Castle\Library\PackageCache\com.unity.test-framework@1405238725ab)
+    com.unity.modules.physics@1.0.0 (location: E:\Games_Develop\Little-Castle\Library\PackageCache\com.unity.modules.physics)
+    com.unity.ext.nunit@2.1.0 (location: E:\Games_Develop\Little-Castle\Library\PackageCache\com.unity.ext.nunit@44f7d31723bd)
+    com.unity.modules.imgui@1.0.0 (location: E:\Games_Develop\Little-Castle\Library\PackageCache\com.unity.modules.imgui)
+    com.unity.modules.jsonserialize@1.0.0 (location: E:\Games_Develop\Little-Castle\Library\PackageCache\com.unity.modules.jsonserialize)
+[Subsystems] No new subsystems found in resolved package list.
+[Package Manager] Done registering packages in 0.01 seconds
+[ScriptCompilation] Requested script compilation because: AssetDatabase observed changes in script compilation related files
+Starting: E:\Unity\Unity_6.5\6000.5.5f1\Editor\Data\Tools\BuildPipeline\bee_backend.exe --ipc --defer-dag-verification --dagfile="Library/Bee/1900b0aE.dag" --continue-on-failure --profile="Library/Bee/backend1.traceevents" ScriptAssemblies
+WorkingDir: E:/Games_Develop/Little-Castle
+DisplayProgressbar: Compiling Scripts
+ExitCode: 4 Duration: 1s572ms
+Rebuilding DAG because FileSignature timestamp changed: Library/Bee/1900b0aE-inputdata.json
+[195/210    1s] Csc Library/Bee/artifacts/1900b0aE.dag/LittleCastle.Runtime.dll (+2 others)
+Assets\_Game\Scripts\Building\Walls\LocalSandboxController.cs(41,34): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+*** Tundra requires additional run (1.54 seconds), 1 items updated, 194 evaluated
+Starting: E:\Unity\Unity_6.5\6000.5.5f1\Editor\Data\netcorerun\netcorerun.exe "E:\Unity\Unity_6.5\6000.5.5f1\Editor\Data\Tools\BuildPipeline\ScriptCompilationBuildProgram.exe" "Library/Bee/1900b0aE.dag.json" "Library/Bee/1900b0aE-inputdata.json" "Library\Bee\buildprogram0.traceevents"
+WorkingDir: E:/Games_Develop/Little-Castle
+ExitCode: 0 Duration: 0s220ms
+Starting: E:\Unity\Unity_6.5\6000.5.5f1\Editor\Data\Tools\BuildPipeline\bee_backend.exe --ipc --defer-dag-verification --dagfile="Library/Bee/1900b0aE.dag" --continue-on-failure --dagfilejson="Library\Bee\1900b0aE.dag.json" --profile="Library/Bee/backend2.traceevents" ScriptAssemblies
+WorkingDir: E:/Games_Develop/Little-Castle
+ExitCode: 0 Duration: 1s261ms
+Finished compiling graph: 213 nodes, 1419 flattened edges (1363 ToBuild, 14 ToUse), maximum node priority 54
+[180/210    0s] WriteText Library/Bee/artifacts/1900b0aE.dag/LittleCastle.Tests.PlayMode.rsp
+[181/210    0s] WriteText Library/Bee/artifacts/1900b0aE.dag/LittleCastle.Editor.rsp
+[187/210    0s] WriteText Library/Bee/artifacts/1900b0aE.dag/LittleCastle.Tests.EditMode.rsp
+[196/210    0s] CopyFiles Library/ScriptAssemblies/LittleCastle.Runtime.pdb
+[197/210    0s] CopyFiles Library/ScriptAssemblies/LittleCastle.Runtime.dll
+[198/210    0s] Csc Library/Bee/artifacts/1900b0aE.dag/LittleCastle.Tests.PlayMode.dll (+2 others)
+[199/210    0s] CopyFiles Library/ScriptAssemblies/LittleCastle.Tests.PlayMode.pdb
+[200/210    0s] CopyFiles Library/ScriptAssemblies/LittleCastle.Tests.PlayMode.dll
+[201/210    0s] Csc Library/Bee/artifacts/1900b0aE.dag/LittleCastle.Tests.EditMode.dll (+2 others)
+[202/210    0s] CopyFiles Library/ScriptAssemblies/LittleCastle.Tests.EditMode.pdb
+[203/210    0s] Csc Library/Bee/artifacts/1900b0aE.dag/LittleCastle.Editor.dll (+2 others)
+Assets\_Game\Editor\ConceptWorldVisualPass.cs(149,32): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+
+Assets\_Game\Editor\ConceptWorldVisualPass.cs(170,29): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+
+Assets\_Game\Editor\ConceptWorldVisualPass.cs(177,108): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'
+
+Assets\_Game\Editor\ConceptWorldVisualPass.cs(177,49): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'
+
+Assets\_Game\Editor\ConceptWorldVisualPass.cs(212,96): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'
+
+Assets\_Game\Editor\ConceptWorldVisualPass.cs(212,37): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'
+
+Assets\_Game\Editor\TerrainStarterSceneBuilder.cs(62,13): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+
+Assets\_Game\Editor\LocalFullSandboxSetup.cs(1359,17): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+[204/210    0s] CopyFiles Library/ScriptAssemblies/LittleCastle.Editor.pdb
+[205/210    0s] Csc Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp.dll (+2 others)
+[206/210    0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp.pdb
+[207/210    0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp.dll
+[208/210    0s] CopyFiles Library/ScriptAssemblies/LittleCastle.Tests.EditMode.dll
+[209/210    0s] CopyFiles Library/ScriptAssemblies/LittleCastle.Editor.dll
+*** Tundra build success (1.24 seconds), 17 items updated, 210 evaluated
+Assets\_Game\Scripts\Building\Walls\LocalSandboxController.cs(41,34): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+Assets\_Game\Editor\ConceptWorldVisualPass.cs(149,32): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+Assets\_Game\Editor\ConceptWorldVisualPass.cs(170,29): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+Assets\_Game\Editor\ConceptWorldVisualPass.cs(177,108): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'
+Assets\_Game\Editor\ConceptWorldVisualPass.cs(177,49): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'
+Assets\_Game\Editor\ConceptWorldVisualPass.cs(212,96): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'
+Assets\_Game\Editor\ConceptWorldVisualPass.cs(212,37): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'
+Assets\_Game\Editor\TerrainStarterSceneBuilder.cs(62,13): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+Assets\_Game\Editor\LocalFullSandboxSetup.cs(1359,17): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+Total cache size 34339412
+Total cache size after purge 34339412, took 00:00:00.0620869
+AssetDatabase: script compilation time: 4.215636s
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+ScheduleIndexationOnStartup MainProcess:True IndexOnStartup:True
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  0.329 seconds
+Domain Reload Profiling: 737ms
+	BeginReloadAssembly (193ms)
+		DisableScriptedObjects (18ms)
+		CreateAndSetChildDomain (43ms)
+	RebuildCommonClasses (7ms)
+	RebuildNativeTypeToScriptingClass (13ms)
+	initialDomainReloadingComplete (32ms)
+	LoadAllAssembliesAndSetupDomain (162ms)
+		LoadAssemblies (184ms)
+		AnalyzeDomain (18ms)
+			TypeCache.Refresh (11ms)
+				TypeCache.ScanAssembly (7ms)
+			BuildScriptInfoCaches (5ms)
+	FinalizeReload (331ms)
+		SetupLoadedEditorAssemblies (0ms)
+			BeforeProcessingInitializeOnLoad (78ms)
+			ProcessInitializeOnLoadAttributes (62ms)
+			ProcessInitializeOnLoadMethodAttributes (57ms)
+		AwakeInstancesAfterBackupRestoration (18ms)
+Importing 'GUID: ab2ba0e1aa09e0646a71c188bad646f3 - Path: Assets/_Game/Settings/World/ConceptWorld_v001/Stages/07_TerrainSurface.asset' with importer (NativeFormatImporter)
+Imported 'GUID: ab2ba0e1aa09e0646a71c188bad646f3' -> (Import Result ID: 'f29ecd28c05048de14c8e90804f6e757') in 0.006 seconds [static dependencies only]. Details - ImportResultOutputID=aaa2e730ffa76bd1a945a03e6cf3a2aa DependenciesID=04e16db72ebed1ec397d4d6c77ba6ce6 StaticDependenciesID=cdedb6a27cdd110a942bb1a3cb8b11df 
+Starting new worker id: 0 with log in E:/Games_Develop/Little-Castle/Logs/AssetImportWorkerHW0.log
+
+Asset Pipeline Refresh (id=4987db8a438166a4bbb13b56d3bcb8cf): Total: 5.177 seconds - Initiated by InitialRefreshV2(ForceSynchronousImport)
+	(Values over 0.05ms)
+	Summary:
+		Imports: total=1 (actual=1, local cache=0, cache server=0)
+		Asset DB Process Time: managed=1 ms, native=449 ms
+		Asset DB Callback time: managed=63 ms, native=10 ms
+		Scripting: domain reloads=1, domain reload time=425 ms, compile time=4218 ms, other=7 ms
+		Project Asset Count: scripts=239, non-scripts=1344
+		Asset File Changes: new=3, changed=7, moved=0, deleted=0
+		Scan Filter Count: 0
+	InvokePackagesCallback: 9.972ms
+	ApplyChangesToAssetFolders: 0.297ms
+	Scan: 36.984ms
+	Collect global state as custom dependencies: 0.460ms
+	OnSourceAssetsModified: 1.265ms
+	CategorizeScriptCompilationAssets: 3.190ms
+	ProcessAssetsWithTransientArtifactChanges: 6.058ms
+	CategorizeAssets: 7.700ms
+	CompileScripts: 4218.123ms
+	ImportOutOfDateAssets: 361.308ms (334.374ms without children)
+		ImportManagerImport: 6.995ms (1.159ms without children)
+		UnloadImportedAssets: 0.076ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 0.126ms
+		ImportSchedulerStart: 19.730ms
+	PostProcessAllAssets: 63.787ms
+		VCAutoAddAssetPostprocess 0.905ms
+		MonoPostProcessAllAssets: 62.370ms
+			AssetPostprocessor.OnPostprocessAllAssets 27.006ms
+			StyleCatalogPostProcessor.OnPostprocessAllAssets 10.521ms
+			WindowAssetPostprocessingWatcher.OnPostprocessAllAssets 5.892ms
+			BuilderAssetPostprocessor.OnPostprocessAllAssets 4.114ms
+			AssetChangedListener.OnPostprocessAllAssets 1.754ms
+			SyncVS.PostprocessSyncProject 1.562ms
+			RetainedModeAssetPostprocessor.OnPostprocessAllAssets 0.980ms
+			EditModeScopePostprocessor.OnPostprocessAllAssets 0.770ms
+			SpeedTree9Postprocessor.OnPostprocessAllAssets 0.654ms
+			TextAssetPostProcessor.OnPostprocessAllAssets 0.513ms
+			ArtifactBrowserPostProcessor.OnPostprocessAllAssets 0.437ms
+			AudioMixerPostprocessor.OnPostprocessAllAssets 0.235ms
+			ReferencedClipsPostProcessor.OnPostprocessAllAssets 0.229ms
+			AssetEvents.OnPostprocessAllAssets 0.189ms
+			TerrainToolbarOverlayPostProcessor.OnPostprocessAllAssets 0.178ms
+			SpeedTreePostProcessor.OnPostprocessAllAssets 0.144ms
+			AssetDatabaseCallbacks.OnPostprocessAllAssets 0.138ms
+			ScenarioDriftAssetsTracker.OnPostprocessAllAssets 0.104ms
+			ConfigAssetsTracker.OnPostprocessAllAssets 0.101ms
+			RenderPipelineGlobalSettingsPostprocessor.OnPostprocessAllAssets 0.086ms
+			AudioContainerPostProcessor.OnPostprocessAllAssets 0.061ms
+	PostAssetChangesProfiler: 0.714ms
+	UnloadStreamsBegin: 1.330ms
+	PersistCurrentRevisions: 0.098ms
+	GenerateScriptTypeHashes: 0.076ms
+	GenerateScriptTypeSerializationHashes: 0.078ms
+	Untracked: 462.681ms
+
+Application.AssetDatabase Initial Refresh End
+Scanning for USB devices : 2.435ms
+Initializing Unity extensions:
+[MODES] ModeService[none].Initialize
+[MODES] ModeService[none].LoadModes
+[MODES] Loading mode Default (0) for mode-current-id-Little-Castle
+GetVirtualKey: Could not map char: z (122) to any virtual key
+GetVirtualKey: Could not map char: y (121) to any virtual key
+GetVirtualKey: Could not map char: x (120) to any virtual key
+GetVirtualKey: Could not map char: c (99) to any virtual key
+GetVirtualKey: Could not map char: v (118) to any virtual key
+GetVirtualKey: Could not map char: V (86) to any virtual key
+GetVirtualKey: Could not map char: d (100) to any virtual key
+GetVirtualKey: Could not map char: f (102) to any virtual key
+GetVirtualKey: Could not map char: f (102) to any virtual key
+GetVirtualKey: Could not map char: a (97) to any virtual key
+GetVirtualKey: Could not map char: d (100) to any virtual key
+GetVirtualKey: Could not map char: c (99) to any virtual key
+GetVirtualKey: Could not map char: r (114) to any virtual key
+GetVirtualKey: Could not map char: i (105) to any virtual key
+GetVirtualKey: Could not map char: l (108) to any virtual key
+GetVirtualKey: Could not map char: f (102) to any virtual key
+GetVirtualKey: Could not map char: k (107) to any virtual key
+GetVirtualKey: Could not map char: p (112) to any virtual key
+GetVirtualKey: Could not map char: p (112) to any virtual key
+GetVirtualKey: Could not map char: p (112) to any virtual key
+GetVirtualKey: Could not map char: c (99) to any virtual key
+GetVirtualKey: Could not map char: r (114) to any virtual key
+GetVirtualKey: Could not map char: P (80) to any virtual key
+GetVirtualKey: Could not map char: n (110) to any virtual key
+GetVirtualKey: Could not map char: n (110) to any virtual key
+GetVirtualKey: Could not map char: g (103) to any virtual key
+GetVirtualKey: Could not map char: f (102) to any virtual key
+GetVirtualKey: Could not map char: f (102) to any virtual key
+GetVirtualKey: Could not map char: a (97) to any virtual key
+GetVirtualKey: Could not map char: a (97) to any virtual key
+GetVirtualKey: Could not map char: n (110) to any virtual key
+GetVirtualKey: Could not map char: o (111) to any virtual key
+GetVirtualKey: Could not map char: s (115) to any virtual key
+GetVirtualKey: Could not map char: s (115) to any virtual key
+GetVirtualKey: Could not map char: b (98) to any virtual key
+GetVirtualKey: Could not map char: b (98) to any virtual key
+GetVirtualKey: Could not map char: c (99) to any virtual key
+GetVirtualKey: Could not map char: u (117) to any virtual key
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 596 unused Assets / (0.8 MB). Loaded Objects now: 1257.
+Memory consumption went from 209.7 MB to 208.9 MB.
+Total: 4.028300 ms (FindLiveObjects: 0.076200 ms CreateObjectMapping: 0.077200 ms MarkObjects: 3.540200 ms  DeleteObjects: 0.332100 ms)
+
+GetVirtualKey: Could not map char: z (122) to any virtual key
+GetVirtualKey: Could not map char: y (121) to any virtual key
+GetVirtualKey: Could not map char: x (120) to any virtual key
+GetVirtualKey: Could not map char: c (99) to any virtual key
+GetVirtualKey: Could not map char: v (118) to any virtual key
+GetVirtualKey: Could not map char: V (86) to any virtual key
+GetVirtualKey: Could not map char: d (100) to any virtual key
+GetVirtualKey: Could not map char: f (102) to any virtual key
+GetVirtualKey: Could not map char: f (102) to any virtual key
+GetVirtualKey: Could not map char: a (97) to any virtual key
+GetVirtualKey: Could not map char: d (100) to any virtual key
+GetVirtualKey: Could not map char: c (99) to any virtual key
+GetVirtualKey: Could not map char: r (114) to any virtual key
+GetVirtualKey: Could not map char: i (105) to any virtual key
+GetVirtualKey: Could not map char: l (108) to any virtual key
+GetVirtualKey: Could not map char: f (102) to any virtual key
+GetVirtualKey: Could not map char: k (107) to any virtual key
+GetVirtualKey: Could not map char: p (112) to any virtual key
+GetVirtualKey: Could not map char: p (112) to any virtual key
+GetVirtualKey: Could not map char: p (112) to any virtual key
+GetVirtualKey: Could not map char: c (99) to any virtual key
+GetVirtualKey: Could not map char: r (114) to any virtual key
+GetVirtualKey: Could not map char: P (80) to any virtual key
+GetVirtualKey: Could not map char: n (110) to any virtual key
+GetVirtualKey: Could not map char: n (110) to any virtual key
+GetVirtualKey: Could not map char: g (103) to any virtual key
+GetVirtualKey: Could not map char: f (102) to any virtual key
+GetVirtualKey: Could not map char: f (102) to any virtual key
+GetVirtualKey: Could not map char: a (97) to any virtual key
+GetVirtualKey: Could not map char: a (97) to any virtual key
+GetVirtualKey: Could not map char: n (110) to any virtual key
+GetVirtualKey: Could not map char: o (111) to any virtual key
+GetVirtualKey: Could not map char: s (115) to any virtual key
+GetVirtualKey: Could not map char: s (115) to any virtual key
+GetVirtualKey: Could not map char: b (98) to any virtual key
+GetVirtualKey: Could not map char: b (98) to any virtual key
+GetVirtualKey: Could not map char: c (99) to any virtual key
+GetVirtualKey: Could not map char: u (117) to any virtual key
+[Little Castle Foliage] Compatibility review started: oak
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LittleCastle.Editor.FoliageModelCompatibilityValidator:ValidateSelected () (at Assets/_Game/Editor/FoliageModelCompatibilityValidator.cs:54)
+LittleCastle.Editor.ConceptWorldVisualPass:Prepare () (at Assets/_Game/Editor/ConceptWorldVisualPass.cs:51)
+
+(Filename: Assets/_Game/Editor/FoliageModelCompatibilityValidator.cs Line: 54)
+
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.02 seconds
+[Little Castle Foliage] Mesh 'oak/oak_LOD0/Leaves_LOD0': vertices=3240, triangles=2880, normals=OK, vertexColors=NO, UV0=OK, shaders=[Little Castle/Foliage/LC Foliage].
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LittleCastle.Editor.FoliageModelCompatibilityValidator:ValidateSelected () (at Assets/_Game/Editor/FoliageModelCompatibilityValidator.cs:173)
+LittleCastle.Editor.ConceptWorldVisualPass:Prepare () (at Assets/_Game/Editor/ConceptWorldVisualPass.cs:51)
+
+(Filename: Assets/_Game/Editor/FoliageModelCompatibilityValidator.cs Line: 173)
+
+[Little Castle Foliage] Mesh 'oak/oak_LOD0/Trunk_LOD0': vertices=9149, triangles=9188, normals=OK, vertexColors=NO, UV0=OK, shaders=[Little Castle/Surface/LC Stylized Lit].
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LittleCastle.Editor.FoliageModelCompatibilityValidator:ValidateSelected () (at Assets/_Game/Editor/FoliageModelCompatibilityValidator.cs:173)
+LittleCastle.Editor.ConceptWorldVisualPass:Prepare () (at Assets/_Game/Editor/ConceptWorldVisualPass.cs:51)
+
+(Filename: Assets/_Game/Editor/FoliageModelCompatibilityValidator.cs Line: 173)
+
+[Little Castle Foliage] Mesh 'oak/oak_LOD1/Leaves_LOD1': vertices=1800, triangles=1440, normals=OK, vertexColors=NO, UV0=OK, shaders=[Little Castle/Foliage/LC Foliage].
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LittleCastle.Editor.FoliageModelCompatibilityValidator:ValidateSelected () (at Assets/_Game/Editor/FoliageModelCompatibilityValidator.cs:173)
+LittleCastle.Editor.ConceptWorldVisualPass:Prepare () (at Assets/_Game/Editor/ConceptWorldVisualPass.cs:51)
+
+(Filename: Assets/_Game/Editor/FoliageModelCompatibilityValidator.cs Line: 173)
+
+[Little Castle Foliage] Mesh 'oak/oak_LOD1/Trunk_LOD1': vertices=6483, triangles=5418, normals=OK, vertexColors=NO, UV0=OK, shaders=[Little Castle/Surface/LC Stylized Lit].
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LittleCastle.Editor.FoliageModelCompatibilityValidator:ValidateSelected () (at Assets/_Game/Editor/FoliageModelCompatibilityValidator.cs:173)
+LittleCastle.Editor.ConceptWorldVisualPass:Prepare () (at Assets/_Game/Editor/ConceptWorldVisualPass.cs:51)
+
+(Filename: Assets/_Game/Editor/FoliageModelCompatibilityValidator.cs Line: 173)
+
+[Little Castle Foliage] Compatibility review finished for 'oak'. foliageRenderers=2, grassRenderers=0, solidRenderers=2, errors=0, warnings=0. Manual close/far visual validation is still required.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LittleCastle.Editor.FoliageModelCompatibilityValidator:ValidateSelected () (at Assets/_Game/Editor/FoliageModelCompatibilityValidator.cs:311)
+LittleCastle.Editor.ConceptWorldVisualPass:Prepare () (at Assets/_Game/Editor/ConceptWorldVisualPass.cs:51)
+
+(Filename: Assets/_Game/Editor/FoliageModelCompatibilityValidator.cs Line: 311)
+
+[Little Castle Asset] Found 1 LODGroup component(s).
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LittleCastle.Editor.ProductionAssetValidator:ValidateLods (UnityEngine.GameObject,int&,int&) (at Assets/_Game/Editor/ProductionAssetValidator.cs:159)
+LittleCastle.Editor.ProductionAssetValidator:ValidateSelected () (at Assets/_Game/Editor/ProductionAssetValidator.cs:85)
+LittleCastle.Editor.ConceptWorldVisualPass:Prepare () (at Assets/_Game/Editor/ConceptWorldVisualPass.cs:52)
+
+(Filename: Assets/_Game/Editor/ProductionAssetValidator.cs Line: 159)
+
+[Little Castle Asset] oak LOD0: renderers=2, vertices=12389, triangles=12068, screenHeight=0,32.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LittleCastle.Editor.ProductionAssetValidator:ValidateLodGroup (UnityEngine.LODGroup,int&,int&) (at Assets/_Game/Editor/ProductionAssetValidator.cs:232)
+LittleCastle.Editor.ProductionAssetValidator:ValidateLods (UnityEngine.GameObject,int&,int&) (at Assets/_Game/Editor/ProductionAssetValidator.cs:166)
+LittleCastle.Editor.ProductionAssetValidator:ValidateSelected () (at Assets/_Game/Editor/ProductionAssetValidator.cs:85)
+LittleCastle.Editor.ConceptWorldVisualPass:Prepare () (at Assets/_Game/Editor/ConceptWorldVisualPass.cs:52)
+
+(Filename: Assets/_Game/Editor/ProductionAssetValidator.cs Line: 232)
+
+[Little Castle Asset] oak LOD1: renderers=2, vertices=8283, triangles=6858, screenHeight=0,075.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LittleCastle.Editor.ProductionAssetValidator:ValidateLodGroup (UnityEngine.LODGroup,int&,int&) (at Assets/_Game/Editor/ProductionAssetValidator.cs:232)
+LittleCastle.Editor.ProductionAssetValidator:ValidateLods (UnityEngine.GameObject,int&,int&) (at Assets/_Game/Editor/ProductionAssetValidator.cs:166)
+LittleCastle.Editor.ProductionAssetValidator:ValidateSelected () (at Assets/_Game/Editor/ProductionAssetValidator.cs:85)
+LittleCastle.Editor.ConceptWorldVisualPass:Prepare () (at Assets/_Game/Editor/ConceptWorldVisualPass.cs:52)
+
+(Filename: Assets/_Game/Editor/ProductionAssetValidator.cs Line: 232)
+
+[Little Castle Asset] oak LOD2: renderers=2, vertices=5134, triangles=3106, screenHeight=0,005.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LittleCastle.Editor.ProductionAssetValidator:ValidateLodGroup (UnityEngine.LODGroup,int&,int&) (at Assets/_Game/Editor/ProductionAssetValidator.cs:232)
+LittleCastle.Editor.ProductionAssetValidator:ValidateLods (UnityEngine.GameObject,int&,int&) (at Assets/_Game/Editor/ProductionAssetValidator.cs:166)
+LittleCastle.Editor.ProductionAssetValidator:ValidateSelected () (at Assets/_Game/Editor/ProductionAssetValidator.cs:85)
+LittleCastle.Editor.ConceptWorldVisualPass:Prepare () (at Assets/_Game/Editor/ConceptWorldVisualPass.cs:52)
+
+(Filename: Assets/_Game/Editor/ProductionAssetValidator.cs Line: 232)
+
+[Little Castle Asset] 'oak': renderers=6, unique materials=4, textures=2.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LittleCastle.Editor.ProductionAssetValidator:ValidateSelected () (at Assets/_Game/Editor/ProductionAssetValidator.cs:110)
+LittleCastle.Editor.ConceptWorldVisualPass:Prepare () (at Assets/_Game/Editor/ConceptWorldVisualPass.cs:52)
+
+(Filename: Assets/_Game/Editor/ProductionAssetValidator.cs Line: 110)
+
+[Little Castle Asset] Validation finished for 'oak'. Errors=0, warnings=0.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LittleCastle.Editor.ProductionAssetValidator:ValidateSelected () (at Assets/_Game/Editor/ProductionAssetValidator.cs:135)
+LittleCastle.Editor.ConceptWorldVisualPass:Prepare () (at Assets/_Game/Editor/ConceptWorldVisualPass.cs:52)
+
+(Filename: Assets/_Game/Editor/ProductionAssetValidator.cs Line: 135)
+
+[Little Castle Asset] Found 1 LODGroup component(s).
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LittleCastle.Editor.ProductionAssetValidator:ValidateLods (UnityEngine.GameObject,int&,int&) (at Assets/_Game/Editor/ProductionAssetValidator.cs:159)
+LittleCastle.Editor.ProductionAssetValidator:ValidateSelected () (at Assets/_Game/Editor/ProductionAssetValidator.cs:85)
+LittleCastle.Editor.ConceptWorldVisualPass:Prepare () (at Assets/_Game/Editor/ConceptWorldVisualPass.cs:54)
+
+(Filename: Assets/_Game/Editor/ProductionAssetValidator.cs Line: 159)
+
+[Little Castle Asset] house LOD0: renderers=1, vertices=249204, triangles=143672, screenHeight=0,32.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LittleCastle.Editor.ProductionAssetValidator:ValidateLodGroup (UnityEngine.LODGroup,int&,int&) (at Assets/_Game/Editor/ProductionAssetValidator.cs:232)
+LittleCastle.Editor.ProductionAssetValidator:ValidateLods (UnityEngine.GameObject,int&,int&) (at Assets/_Game/Editor/ProductionAssetValidator.cs:166)
+LittleCastle.Editor.ProductionAssetValidator:ValidateSelected () (at Assets/_Game/Editor/ProductionAssetValidator.cs:85)
+LittleCastle.Editor.ConceptWorldVisualPass:Prepare () (at Assets/_Game/Editor/ConceptWorldVisualPass.cs:54)
+
+(Filename: Assets/_Game/Editor/ProductionAssetValidator.cs Line: 232)
+
+[Little Castle Asset] house LOD1: renderers=1, vertices=129919, triangles=55764, screenHeight=0,075.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LittleCastle.Editor.ProductionAssetValidator:ValidateLodGroup (UnityEngine.LODGroup,int&,int&) (at Assets/_Game/Editor/ProductionAssetValidator.cs:232)
+LittleCastle.Editor.ProductionAssetValidator:ValidateLods (UnityEngine.GameObject,int&,int&) (at Assets/_Game/Editor/ProductionAssetValidator.cs:166)
+LittleCastle.Editor.ProductionAssetValidator:ValidateSelected () (at Assets/_Game/Editor/ProductionAssetValidator.cs:85)
+LittleCastle.Editor.ConceptWorldVisualPass:Prepare () (at Assets/_Game/Editor/ConceptWorldVisualPass.cs:54)
+
+(Filename: Assets/_Game/Editor/ProductionAssetValidator.cs Line: 232)
+
+[Little Castle Asset] house LOD2: renderers=1, vertices=53050, triangles=22794, screenHeight=0,005.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LittleCastle.Editor.ProductionAssetValidator:ValidateLodGroup (UnityEngine.LODGroup,int&,int&) (at Assets/_Game/Editor/ProductionAssetValidator.cs:232)
+LittleCastle.Editor.ProductionAssetValidator:ValidateLods (UnityEngine.GameObject,int&,int&) (at Assets/_Game/Editor/ProductionAssetValidator.cs:166)
+LittleCastle.Editor.ProductionAssetValidator:ValidateSelected () (at Assets/_Game/Editor/ProductionAssetValidator.cs:85)
+LittleCastle.Editor.ConceptWorldVisualPass:Prepare () (at Assets/_Game/Editor/ConceptWorldVisualPass.cs:54)
+
+(Filename: Assets/_Game/Editor/ProductionAssetValidator.cs Line: 232)
+
+[Little Castle Asset] 'house': renderers=3, unique materials=2, textures=1.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LittleCastle.Editor.ProductionAssetValidator:ValidateSelected () (at Assets/_Game/Editor/ProductionAssetValidator.cs:110)
+LittleCastle.Editor.ConceptWorldVisualPass:Prepare () (at Assets/_Game/Editor/ConceptWorldVisualPass.cs:54)
+
+(Filename: Assets/_Game/Editor/ProductionAssetValidator.cs Line: 110)
+
+[Little Castle Asset] Validation finished for 'house'. Errors=0, warnings=0.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LittleCastle.Editor.ProductionAssetValidator:ValidateSelected () (at Assets/_Game/Editor/ProductionAssetValidator.cs:135)
+LittleCastle.Editor.ConceptWorldVisualPass:Prepare () (at Assets/_Game/Editor/ConceptWorldVisualPass.cs:54)
+
+(Filename: Assets/_Game/Editor/ProductionAssetValidator.cs Line: 135)
+
+Importing 'GUID: d885b95fd2af0ae45bb4a97a52fb8773 - Path: Assets/_Game/Art/Imported/ConceptWorldKit_v001' with importer (DefaultImporter)
+Imported 'GUID: d885b95fd2af0ae45bb4a97a52fb8773' -> (Import Result ID: '7fef73e30da03e380ae93b305503fe1e') in 0.008 seconds [static dependencies only]. Details - ImportResultOutputID=59ee9cfecd49420190029ed67e8b67e5 DependenciesID=540a66520f545c29b6ebba91ed22767e StaticDependenciesID=ebb00ea3b0584c78fa639f902ee42bcf 
+Asset Pipeline Refresh (id=1bffae1be7473b14b9aaf44caaaaba1a): Total: 0.109 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: e44c8f89ead54854a9d25fd5a1316022 - Path: Assets/_Game/Art/Imported/ConceptWorldKit_v001/Materials' with importer (DefaultImporter)
+Imported 'GUID: e44c8f89ead54854a9d25fd5a1316022' -> (Import Result ID: '5050befa54b4cadf8458e844830d5f21') in 0.011 seconds [static dependencies only]. Details - ImportResultOutputID=d24d3839f1b73f465212a794777d1f90 DependenciesID=a7411aacd85a588e76c4f393bf1ec4ae StaticDependenciesID=09a82a1479d110f5d4b7fdf883da1b33 
+Asset Pipeline Refresh (id=d931ade204ac63d49b72ffcf26ef0a10): Total: 0.029 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 691d54666f447c844a6f8dc7098c5de3 - Path: Assets/_Game/Art/Imported/ConceptWorldKit_v001/Materials/SM_Stone_Medium_A.mat' with importer (NativeFormatImporter)
+Imported 'GUID: 691d54666f447c844a6f8dc7098c5de3' -> (Import Result ID: 'de5c3a29b90d7b2567b19a3f0c8de38d') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=9dd5afb2a8011e78f87440ebc3fdfc4d DependenciesID=694bc5bbe0cd880810fbc0e9f50cbcaf StaticDependenciesID=14c0c7dd2629385895db393f52e2982c 
+Curl error 35: Cert verify failed. Certificate could not be verified (either omitted or unsupported). UnityTls error code: 7
+Asset Pipeline Refresh (id=e012ad86dc3fc6a4683efee66f4eaa02): Total: 0.022 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 70edc47c8f3ed604badf08c6726394f8 - Path: Assets/_Game/Art/Imported/ConceptWorldKit_v001/Materials/house.mat' with importer (NativeFormatImporter)
+Imported 'GUID: 70edc47c8f3ed604badf08c6726394f8' -> (Import Result ID: '785a9cd32140003c4e57370795eaad21') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=50df1b9fed8f7d01b099a4105be5b6a8 DependenciesID=b7593ea46f47e853431d61ae17e44b3e StaticDependenciesID=30629e6f78a38be20de1a0deffdbc61f 
+Asset Pipeline Refresh (id=5ba87152b69435b4981ba9b1cde33c86): Total: 0.023 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 4f5d0e579e32c424598e2c4de9b860c9 - Path: Assets/_Game/Art/Imported/ConceptWorldKit_v001/Materials/house_Far.mat' with importer (NativeFormatImporter)
+Imported 'GUID: 4f5d0e579e32c424598e2c4de9b860c9' -> (Import Result ID: 'ee92587b129c3d868f6db38e9b2a52f0') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=5224b2e6762cb50a39dc0013a65edaf0 DependenciesID=697522a636036ef66fe0942aaef0094c StaticDependenciesID=80bf8b6520632cd3428015724c76c915 
+Asset Pipeline Refresh (id=6170262aacaaeac49a2f8645c206c7f8): Total: 0.019 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: b39bb9de95ae53348b3ed3443bd12756 - Path: Assets/_Game/Art/Imported/ConceptWorldKit_v001/Materials/oak.mat' with importer (NativeFormatImporter)
+Imported 'GUID: b39bb9de95ae53348b3ed3443bd12756' -> (Import Result ID: '559709b9c993d3bc81afe40a682bf5ef') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=fac69ff219e173757983b17eb4df65ba DependenciesID=63363c2bf87891699c9f6468367f41c2 StaticDependenciesID=7490c77c4b45f9f2dfaf3a5f1360579e 
+Asset Pipeline Refresh (id=d86f24dc00d466449a14b0964b4e5bb7): Total: 0.017 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 8623be99ae0da2a41b3f7081f3887601 - Path: Assets/_Game/Art/Imported/ConceptWorldKit_v001/Materials/oak_Far.mat' with importer (NativeFormatImporter)
+Imported 'GUID: 8623be99ae0da2a41b3f7081f3887601' -> (Import Result ID: '8b50370cb0adf571d0cdc278d8c9eb15') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=b1597dcc9f00a54ac405227f38d6cdc7 DependenciesID=609c4f63630a75b0689dcbaf7d424432 StaticDependenciesID=a27c9bfc288b81f092625dc5102d3e48 
+Asset Pipeline Refresh (id=825e530aa3b2ccb4481403f62d849935): Total: 0.018 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 10ca617a3748d04439fd412054ddeefb - Path: Assets/_Game/Art/Imported/ConceptWorldKit_v001/Materials/oak_Leaves.mat' with importer (NativeFormatImporter)
+Imported 'GUID: 10ca617a3748d04439fd412054ddeefb' -> (Import Result ID: '0049208f9ef002016e141d8037841d08') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=70023fed8940630474d698ca0a9d1cba DependenciesID=31f9f0751a2463a7a57940abdbabaac2 StaticDependenciesID=18fb3540b8d71db53086b0da95b56892 
+Asset Pipeline Refresh (id=67ad4ee6526364548ab0ee17c1bf196e): Total: 0.018 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 9f00723b0c8a5814f8a0bdb3ab80fde8 - Path: Assets/_Game/Art/Imported/ConceptWorldKit_v001/Materials/oak_Leaves_Far.mat' with importer (NativeFormatImporter)
+Imported 'GUID: 9f00723b0c8a5814f8a0bdb3ab80fde8' -> (Import Result ID: 'b614bbe677da4431ce52fb6c02a60ffb') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=f2f4a5c562228a4ac03268bd10ad68dc DependenciesID=ec68ecd6500b3840accf35d9fb0bee67 StaticDependenciesID=f4a7aec6f1b4e729341d1e592ea81bde 
+Asset Pipeline Refresh (id=3ec8c143d29f748419d8c7e25900da2e): Total: 0.017 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 61d67c56550634d419d54c61006b2ec6 - Path: Assets/_Game/Art/Imported/ConceptWorldKit_v001/Materials/well.mat' with importer (NativeFormatImporter)
+Imported 'GUID: 61d67c56550634d419d54c61006b2ec6' -> (Import Result ID: '6740ea77ee38cb98d9c7c3730f6844cd') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=5dbd4a12f850815a5a150c716da58c44 DependenciesID=a8cb5434df7d4f222c11ec023113d3c1 StaticDependenciesID=9abf8dae82a6706ccba998d256c97ee6 
+Asset Pipeline Refresh (id=41b6b051b2f82c24e8ed36deba4edd82): Total: 0.018 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 13a2e92e3b8622644a1cba582e36cbb5 - Path: Assets/_Game/Art/Imported/ConceptWorldKit_v001/Materials/well_Far.mat' with importer (NativeFormatImporter)
+Imported 'GUID: 13a2e92e3b8622644a1cba582e36cbb5' -> (Import Result ID: 'c28cbafafeec649f23a3d4c294af4846') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=d72fecf42312b7e4da105a2b2f39f31b DependenciesID=bbb2535bf784f0c131c1fa1a1cfb8f4b StaticDependenciesID=4757630c07afa65a64c9e6180e738228 
+Asset Pipeline Refresh (id=851eec61078b54d4ab7c378a2728b760): Total: 0.018 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 5ccf5186a5aac1d41bfe0a16d283f191 - Path: Assets/_Game/Art/Imported/ConceptWorldKit_v001/Models' with importer (DefaultImporter)
+Imported 'GUID: 5ccf5186a5aac1d41bfe0a16d283f191' -> (Import Result ID: '1463c842201803aa74bb697e3040c58e') in 0.011 seconds [static dependencies only]. Details - ImportResultOutputID=b393f5e502ee681421be76d7962bd27c DependenciesID=df613a12b1492838e4020da92c48101a StaticDependenciesID=cdc99ad6ac961dca4aa0059ad424a666 
+Asset Pipeline Refresh (id=f0d5153cbc6050e4c9b41b72414f7cb2): Total: 0.028 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 76a25001a16d07a41977ea47e6eb26aa - Path: Assets/_Game/Art/Imported/ConceptWorldKit_v001/Models/SM_Stone_Medium_A.fbx' with importer (FBXImporter)
+Imported 'GUID: 76a25001a16d07a41977ea47e6eb26aa' -> (Import Result ID: 'c92deea1dc3abd211450768e6b22b01b') in 0.045 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=8cbcb18b2dd72663fd6178faf13f524b DependenciesID=fc4784787b63b26527e14dc0197e7702 StaticDependenciesID=ecf74b8d4864daafb6aa1053e8966474 
+Asset Pipeline Refresh (id=5edf7bf06e72f6b43a556e63e687d5d4): Total: 0.068 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: a73358c5f6e8ff748b112642d3895146 - Path: Assets/_Game/Art/Imported/ConceptWorldKit_v001/Models/house_LOD0.fbx' with importer (FBXImporter)
+Imported 'GUID: a73358c5f6e8ff748b112642d3895146' -> (Import Result ID: 'cd3f63bc59e46c1fc34cd539e7f0e508') in 0.230 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=9bca79756b81dd2a23debb05ebc43efe DependenciesID=f99be84583c102b0a1614c4c0370fa95 StaticDependenciesID=8d20b2f765a004c68ccb6e5d04e1d0c7 
+Asset Pipeline Refresh (id=ac3b125cdf4992a4a99cac5b33036e2a): Total: 0.254 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 77b8f525102f55345b33f84b40c9614c - Path: Assets/_Game/Art/Imported/ConceptWorldKit_v001/Models/house_LOD1.fbx' with importer (FBXImporter)
+File 'house_LOD1' has inconsistent LOD naming (_LOD1 found but no _LOD0).
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEditor.AssetDatabase:CopyAsset (string,string)
+LittleCastle.Editor.ConceptRuntimeArtKit:CreateMissing () (at Assets/_Game/Editor/ConceptRuntimeArtKit.cs:51)
+LittleCastle.Editor.ConceptWorldVisualPass:Prepare () (at Assets/_Game/Editor/ConceptWorldVisualPass.cs:58)
+
+[Assets/_Game/Editor/ConceptRuntimeArtKit.cs line 51]
+
+Imported 'GUID: 77b8f525102f55345b33f84b40c9614c' -> (Import Result ID: 'f73b86d7a849b7a9140604874492878f') in 0.095 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=5df45597b4fca4326bb5ee51837d5293 DependenciesID=0f9b71742d1c9b965c9ed2cc5c94697b StaticDependenciesID=c39a7ffffcdeed753bdb90f814fc035c 
+Asset Pipeline Refresh (id=fceb0e8a50d20354d9173ed60e1cd106): Total: 0.115 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 80c5ed91c125e58449e6f15927eb5723 - Path: Assets/_Game/Art/Imported/ConceptWorldKit_v001/Models/house_LOD2.fbx' with importer (FBXImporter)
+Worker ready: AssetImportWorkerHW0 0
+File 'house_LOD2' has inconsistent LOD naming (_LOD2 found but no _LOD1).
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEditor.AssetDatabase:CopyAsset (string,string)
+LittleCastle.Editor.ConceptRuntimeArtKit:CreateMissing () (at Assets/_Game/Editor/ConceptRuntimeArtKit.cs:51)
+LittleCastle.Editor.ConceptWorldVisualPass:Prepare () (at Assets/_Game/Editor/ConceptWorldVisualPass.cs:58)
+
+[Assets/_Game/Editor/ConceptRuntimeArtKit.cs line 51]
+
+Imported 'GUID: 80c5ed91c125e58449e6f15927eb5723' -> (Import Result ID: '09a1d4bc7e940921b9d019130c877524') in 0.045 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=f477cbf4ca1ebed20af032c0ee794d1d DependenciesID=d1ca62d6b6a2eac66604f28223123c9f StaticDependenciesID=b0042a5fa4bb32eec525ba2b62b10663 
+Asset Pipeline Refresh (id=8e56faae62215a243b5581c8d0056982): Total: 0.066 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: e98074c3970243b439c689e359f897b3 - Path: Assets/_Game/Art/Imported/ConceptWorldKit_v001/Models/oak_LOD0.fbx' with importer (FBXImporter)
+Imported 'GUID: e98074c3970243b439c689e359f897b3' -> (Import Result ID: 'c50e6f336b3193d1370ae05cb0e99938') in 0.030 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=0da7c993e043c74882d073f8f31943dc DependenciesID=2651ffbc3cea50b63423b6994a7b40df StaticDependenciesID=240f90307965381b403f48e8152242c2 
+Asset Pipeline Refresh (id=d29dab817d41637448e5ae591b245eb8): Total: 0.051 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: c0e2af6e0746296408a21b8176914d8f - Path: Assets/_Game/Art/Imported/ConceptWorldKit_v001/Models/oak_LOD1.fbx' with importer (FBXImporter)
+File 'oak_LOD1' has inconsistent LOD naming (_LOD1 found but no _LOD0).
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEditor.AssetDatabase:CopyAsset (string,string)
+LittleCastle.Editor.ConceptRuntimeArtKit:CreateMissing () (at Assets/_Game/Editor/ConceptRuntimeArtKit.cs:51)
+LittleCastle.Editor.ConceptWorldVisualPass:Prepare () (at Assets/_Game/Editor/ConceptWorldVisualPass.cs:58)
+
+[Assets/_Game/Editor/ConceptRuntimeArtKit.cs line 51]
+
+Imported 'GUID: c0e2af6e0746296408a21b8176914d8f' -> (Import Result ID: '4f94be05b285ec1518a7443c513dde76') in 0.022 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=95848cc470aed0ef1a0f084c9fc59f20 DependenciesID=2fa158ccf0a7365295b9b471861d5ccc StaticDependenciesID=e46028f3de4e47ab5642a02c5d998781 
+Asset Pipeline Refresh (id=ca7d454a2e7c33d488b4db497014b25a): Total: 0.045 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: d0118fa6b264c0b4d9ab428256e56794 - Path: Assets/_Game/Art/Imported/ConceptWorldKit_v001/Models/oak_LOD2.fbx' with importer (FBXImporter)
+File 'oak_LOD2' has inconsistent LOD naming (_LOD2 found but no _LOD1).
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEditor.AssetDatabase:CopyAsset (string,string)
+LittleCastle.Editor.ConceptRuntimeArtKit:CreateMissing () (at Assets/_Game/Editor/ConceptRuntimeArtKit.cs:51)
+LittleCastle.Editor.ConceptWorldVisualPass:Prepare () (at Assets/_Game/Editor/ConceptWorldVisualPass.cs:58)
+
+[Assets/_Game/Editor/ConceptRuntimeArtKit.cs line 51]
+
+Imported 'GUID: d0118fa6b264c0b4d9ab428256e56794' -> (Import Result ID: 'f9171c854cd0d835445412818451d5f4') in 0.017 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=098a3306f02e653fef84b6fe6bc6f0a5 DependenciesID=30452f13e343d37f532a38b9126b4fee StaticDependenciesID=a87058d840530d88a5ee55b45f8e826b 
+Asset Pipeline Refresh (id=01fae78c7ec31c144a18e46614ecc14c): Total: 0.039 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 58c642b2c204c1f46b979b39c4690b13 - Path: Assets/_Game/Art/Imported/ConceptWorldKit_v001/Models/well_LOD0.fbx' with importer (FBXImporter)
+Imported 'GUID: 58c642b2c204c1f46b979b39c4690b13' -> (Import Result ID: '19810671b124124e4493db00b19df72b') in 0.037 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=402767c8e985ad5034e3aa26beeab223 DependenciesID=d44386b5f524c35212a993859826b01c StaticDependenciesID=a24e74f237a88459686f31e9df32614c 
+Asset Pipeline Refresh (id=d87ccbf1bcd83fa40922cbb583cfc42c): Total: 0.059 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: d65973884985c574c8c9cbc5e10dbe1e - Path: Assets/_Game/Art/Imported/ConceptWorldKit_v001/Models/well_LOD1.fbx' with importer (FBXImporter)
+File 'well_LOD1' has inconsistent LOD naming (_LOD1 found but no _LOD0).
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEditor.AssetDatabase:CopyAsset (string,string)
+LittleCastle.Editor.ConceptRuntimeArtKit:CreateMissing () (at Assets/_Game/Editor/ConceptRuntimeArtKit.cs:51)
+LittleCastle.Editor.ConceptWorldVisualPass:Prepare () (at Assets/_Game/Editor/ConceptWorldVisualPass.cs:58)
+
+[Assets/_Game/Editor/ConceptRuntimeArtKit.cs line 51]
+
+Imported 'GUID: d65973884985c574c8c9cbc5e10dbe1e' -> (Import Result ID: 'b55234efcda0a90d539d78f4bed04216') in 0.022 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=bb97ab067ec8e6e32fedf643ab019c62 DependenciesID=42861d1ec72f02631662515e58e07335 StaticDependenciesID=ec4b3f06857dd399e497d649e41b16b6 
+Asset Pipeline Refresh (id=c4c91fd02010475469f986041d67e8e0): Total: 0.045 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 7de8e1528f18b5041b2c9d5099c00545 - Path: Assets/_Game/Art/Imported/ConceptWorldKit_v001/Models/well_LOD2.fbx' with importer (FBXImporter)
+File 'well_LOD2' has inconsistent LOD naming (_LOD2 found but no _LOD1).
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEditor.AssetDatabase:CopyAsset (string,string)
+LittleCastle.Editor.ConceptRuntimeArtKit:CreateMissing () (at Assets/_Game/Editor/ConceptRuntimeArtKit.cs:51)
+LittleCastle.Editor.ConceptWorldVisualPass:Prepare () (at Assets/_Game/Editor/ConceptWorldVisualPass.cs:58)
+
+[Assets/_Game/Editor/ConceptRuntimeArtKit.cs line 51]
+
+Imported 'GUID: 7de8e1528f18b5041b2c9d5099c00545' -> (Import Result ID: '9d6b142f1e5309f067f279a001bab7a2') in 0.016 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=f3b5d29725d31f394722f030c6f46869 DependenciesID=dda9222d3b5c835039f2fa47e84add62 StaticDependenciesID=a84605a1207f8e785aede7f4d88bee53 
+Asset Pipeline Refresh (id=bd87308e396d34443b0906cc8446e101): Total: 0.038 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: eb344c8372d8dd14781466891412a118 - Path: Assets/_Game/Art/Imported/ConceptWorldKit_v001/Prefabs' with importer (DefaultImporter)
+Imported 'GUID: eb344c8372d8dd14781466891412a118' -> (Import Result ID: 'eaba0df9b35a81491fd2df6f699c0ca0') in 0.010 seconds [static dependencies only]. Details - ImportResultOutputID=dac2b5adfb467f0a742e398be960aecc DependenciesID=426e0ac25d29978849e331f521c33fc7 StaticDependenciesID=64281a45c6228ad91e973798412a6c11 
+Asset Pipeline Refresh (id=cf4930152d4cac14183e111b394609ee): Total: 0.026 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 972d2dfee3460754eac8d222a4c1c059 - Path: Assets/_Game/Art/Imported/ConceptWorldKit_v001/Prefabs/SM_Stone_Medium_A.prefab' with importer (PrefabImporter)
+Imported 'GUID: 972d2dfee3460754eac8d222a4c1c059' -> (Import Result ID: 'f783f5f3c6e4f9c1a3400d16125b1fa4') in 0.004 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=20ea273b67a210258b4aca1ab9594a29 DependenciesID=de5ea7f01a65412e19fa7918067dab30 StaticDependenciesID=574732ae1fa3f43bec68dd0711b9a746 
+Asset Pipeline Refresh (id=1970cca22f2ef3e4785bc1c81e23db09): Total: 0.020 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: b4e7dc76dc021174081905e8d855f233 - Path: Assets/_Game/Art/Imported/ConceptWorldKit_v001/Prefabs/house.prefab' with importer (PrefabImporter)
+Imported 'GUID: b4e7dc76dc021174081905e8d855f233' -> (Import Result ID: 'c331f9f091d474fbe83986e7ef27899f') in 0.003 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=243b7a98df742219e2d6766bccff883c DependenciesID=e099e304d870449822fa2ac8ed8d1591 StaticDependenciesID=b0946443f3126c793393c51705de11c3 
+Asset Pipeline Refresh (id=7d164cc4333181344ba7df0277dd04e4): Total: 0.027 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: a1587a18a293ea64bb3326655f222a45 - Path: Assets/_Game/Art/Imported/ConceptWorldKit_v001/Prefabs/oak.prefab' with importer (PrefabImporter)
+Imported 'GUID: a1587a18a293ea64bb3326655f222a45' -> (Import Result ID: '0133783d64e309abea553e833cc3e683') in 0.003 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=ccbdd1e8d036ed88bad6fde1a07d272a DependenciesID=3a063947ed56061598be093285de87ad StaticDependenciesID=c55e174515c2fd385d2600ab24fb5b3b 
+Asset Pipeline Refresh (id=36262c322c52bf14b8444e68fc11cdbd): Total: 0.025 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 4f60242d009d9e9488ae75cbcf92fc62 - Path: Assets/_Game/Art/Imported/ConceptWorldKit_v001/Prefabs/well.prefab' with importer (PrefabImporter)
+Imported 'GUID: 4f60242d009d9e9488ae75cbcf92fc62' -> (Import Result ID: '2892fbd8cabc4295e636b1f7768bd0da') in 0.004 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=6390b24ca675d3b40d79c84717b6d0d8 DependenciesID=2a1dc22f1e9ca449e0d298bd0b08be06 StaticDependenciesID=cc8e905cb56ef8c166bfa69e6bef82bc 
+Asset Pipeline Refresh (id=46fd9df60afe9fd4ea70391c08275ea9): Total: 0.029 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 7e8369f85e81f3143837bb38f750ea76 - Path: Assets/_Game/Art/Imported/ConceptWorldKit_v001/Study' with importer (DefaultImporter)
+Imported 'GUID: 7e8369f85e81f3143837bb38f750ea76' -> (Import Result ID: '2898857dcad2e83517f587a4409a3720') in 0.010 seconds [static dependencies only]. Details - ImportResultOutputID=e2b739d2479325a7e25983b8a4366d10 DependenciesID=6b4728e1a8a009dace5c906ce1e0a53e StaticDependenciesID=7730c1de1b0af3296e177751cf997d24 
+Asset Pipeline Refresh (id=f9bc0af0ef9406640afc8d2ebc6472ba): Total: 0.026 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 740fbc1cd4c13b74fa969cba6ca17157 - Path: Assets/_Game/Art/Imported/ConceptWorldKit_v001/Study/Textures' with importer (DefaultImporter)
+Imported 'GUID: 740fbc1cd4c13b74fa969cba6ca17157' -> (Import Result ID: '43efe9d4a4b10222a2488da143c32c11') in 0.008 seconds [static dependencies only]. Details - ImportResultOutputID=04d98071a849b32b00aa2c476fac24bb DependenciesID=6e8ef456eeaa2372a8bc578977b6b603 StaticDependenciesID=5e26b2cff8dffaf015b150b79f611fdd 
+Asset Pipeline Refresh (id=9fbb006781545bc44bd73ec42a1708d8): Total: 0.025 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 48e6af80058bccf46b27864efb8598ef - Path: Assets/_Game/Art/Imported/ConceptWorldKit_v001/Study/Textures/DirtPath_A_AO.png' with importer (TextureImporter)
+Imported 'GUID: 48e6af80058bccf46b27864efb8598ef' -> (Import Result ID: '60877f314e742946d714c2cbcb3851ba') in 0.038 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=3d09d51d17a350d8d07238e8b00d98b5 DependenciesID=9652c62da79996fb666a1e8b7bd1db10 StaticDependenciesID=d4dc844910661c814a342ef28cf65aa7 
+Asset Pipeline Refresh (id=670c924ddddc0294b9218b91611f4874): Total: 0.060 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: e6e828adfd9e7f949817da4c52cbad23 - Path: Assets/_Game/Art/Imported/ConceptWorldKit_v001/Study/Textures/DirtPath_A_Normal.png' with importer (TextureImporter)
+Imported 'GUID: e6e828adfd9e7f949817da4c52cbad23' -> (Import Result ID: '9c3378e38975f5087ad7fd8fd2399d1c') in 0.047 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=79b5659ee53204bf37791d15966a1307 DependenciesID=c74fd1382a0aae4c8282e7a9be0bf5e3 StaticDependenciesID=9d749c21dab7ccb814fb74fbfc8d0efb 
+Asset Pipeline Refresh (id=ce7e74ef46b11da409a1258bff8e326e): Total: 0.068 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: eef5318b12cf9b04e9ca581c5ebd72b0 - Path: Assets/_Game/Art/Imported/ConceptWorldKit_v001/Study/Textures/Grass_MeadowSoft_BaseColor.png' with importer (TextureImporter)
+Imported 'GUID: eef5318b12cf9b04e9ca581c5ebd72b0' -> (Import Result ID: '5c1101cc4430d37990cf3a591804da89') in 0.047 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=10d01cd68cfe90eb69e9d271323c780c DependenciesID=e01bf4ec3385c9e40bca0e27e7ed9eac StaticDependenciesID=6112d5cb645800400ead0b53328e7098 
+Asset Pipeline Refresh (id=02024e3b041f7374da278bcfb25a1b4c): Total: 0.067 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 25f33273b09ed1b48aafb2d4b5b6316d - Path: Assets/_Game/Art/Imported/ConceptWorldKit_v001/Textures' with importer (DefaultImporter)
+Imported 'GUID: 25f33273b09ed1b48aafb2d4b5b6316d' -> (Import Result ID: 'eaf73b401b2377f51c0989a8b3a8390f') in 0.008 seconds [static dependencies only]. Details - ImportResultOutputID=3af46639c723388cfc142d1128645acf DependenciesID=55d643ea4dbe1275d906805d2719415e StaticDependenciesID=856214e1dc56c55de3835c85cec97b04 
+Asset Pipeline Refresh (id=11bdcb874f2262d44af44942293d61ea): Total: 0.023 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 8c96f7dff98448d4a9755c5979fe67c8 - Path: Assets/_Game/Art/Imported/ConceptWorldKit_v001/Textures/DirtGround_A_BaseColor.png' with importer (TextureImporter)
+Imported 'GUID: 8c96f7dff98448d4a9755c5979fe67c8' -> (Import Result ID: 'd737fd551172d645435d0b2af773252b') in 0.050 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=f5669ef2f8c837eeb82c5c5c5bca976b DependenciesID=78aea62714dd11fd3dbe2c05e0eab099 StaticDependenciesID=6382d3ab37e6b7df0f71f3702662c51a 
+Asset Pipeline Refresh (id=c2ef942db5c825f499ee521be327c303): Total: 0.073 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: f2fe06aa6bafa1a438df475ed90bcf94 - Path: Assets/_Game/Art/Imported/ConceptWorldKit_v001/Textures/DirtPath_A_BaseColor.png' with importer (TextureImporter)
+Imported 'GUID: f2fe06aa6bafa1a438df475ed90bcf94' -> (Import Result ID: 'f279f482d723dbc7df95f3d0c58c1423') in 0.048 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=d9495bb4b54bc04782e1e18a1b2c2060 DependenciesID=57238e1a493146b210e74eb47e3d6562 StaticDependenciesID=da7d75836c64805f97cf7c48731a9893 
+Asset Pipeline Refresh (id=ab7f671820e8633429272443346ab444): Total: 0.067 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 451e0d2822c635241bde968d59d61e08 - Path: Assets/_Game/Art/Imported/ConceptWorldKit_v001/Textures/T_Foliage_BaseColor.png' with importer (TextureImporter)
+Imported 'GUID: 451e0d2822c635241bde968d59d61e08' -> (Import Result ID: 'd8c78ecf05a345320d1bbf44fefae378') in 0.045 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=1a3dd6a17a7c9eddf917d6f41548c106 DependenciesID=3c39ce1c940fb3f5c33dee5d5a0085df StaticDependenciesID=218ae5587a4c5b4d9bab72dad4fc89d9 
+Importing 'GUID: c0e2af6e0746296408a21b8176914d8f - Path: Assets/_Game/Art/Imported/ConceptWorldKit_v001/Models/oak_LOD1.fbx' with importer (FBXImporter)
+File 'oak_LOD1' has inconsistent LOD naming (_LOD1 found but no _LOD0).
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEditor.AssetDatabase:CopyAsset (string,string)
+LittleCastle.Editor.ConceptRuntimeArtKit:CreateMissing () (at Assets/_Game/Editor/ConceptRuntimeArtKit.cs:51)
+LittleCastle.Editor.ConceptWorldVisualPass:Prepare () (at Assets/_Game/Editor/ConceptWorldVisualPass.cs:58)
+
+[Assets/_Game/Editor/ConceptRuntimeArtKit.cs line 51]
+
+Imported 'GUID: c0e2af6e0746296408a21b8176914d8f' -> (Import Result ID: '6a3045fed35e0b66303230e8165a243e') in 0.022 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=95848cc470aed0ef1a0f084c9fc59f20 DependenciesID=3237272c45db39f3c9515024ef1f025a StaticDependenciesID=e46028f3de4e47ab5642a02c5d998781 
+Importing 'GUID: d0118fa6b264c0b4d9ab428256e56794 - Path: Assets/_Game/Art/Imported/ConceptWorldKit_v001/Models/oak_LOD2.fbx' with importer (FBXImporter)
+File 'oak_LOD2' has inconsistent LOD naming (_LOD2 found but no _LOD1).
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEditor.AssetDatabase:CopyAsset (string,string)
+LittleCastle.Editor.ConceptRuntimeArtKit:CreateMissing () (at Assets/_Game/Editor/ConceptRuntimeArtKit.cs:51)
+LittleCastle.Editor.ConceptWorldVisualPass:Prepare () (at Assets/_Game/Editor/ConceptWorldVisualPass.cs:58)
+
+[Assets/_Game/Editor/ConceptRuntimeArtKit.cs line 51]
+
+Imported 'GUID: d0118fa6b264c0b4d9ab428256e56794' -> (Import Result ID: '829ff58adc42a0967310cbef70296d5c') in 0.016 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=098a3306f02e653fef84b6fe6bc6f0a5 DependenciesID=34b163ddac0a996ed64bb425b3a13d19 StaticDependenciesID=a87058d840530d88a5ee55b45f8e826b 
+Importing 'GUID: e98074c3970243b439c689e359f897b3 - Path: Assets/_Game/Art/Imported/ConceptWorldKit_v001/Models/oak_LOD0.fbx' with importer (FBXImporter)
+Imported 'GUID: e98074c3970243b439c689e359f897b3' -> (Import Result ID: '5c2c1b929d315a7b7aced306e4e4db94') in 0.029 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=0da7c993e043c74882d073f8f31943dc DependenciesID=56ebb39c7833b9ab1508041be373fe07 StaticDependenciesID=240f90307965381b403f48e8152242c2 
+Asset Pipeline Refresh (id=e5456c291e3289746bf055b158238af3): Total: 0.133 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 67cc15b372602a2479a6ad142c99f255 - Path: Assets/_Game/Art/Imported/ConceptWorldKit_v001/Textures/T_Oak_Kit_Palette.png' with importer (TextureImporter)
+Imported 'GUID: 67cc15b372602a2479a6ad142c99f255' -> (Import Result ID: 'ed1230c1997af3c11e256bc91c1be928') in 0.001 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=513a13ac18f9cd709b7db46685d017f6 DependenciesID=03cc8bb2d325086cfce28736c8ee1906 StaticDependenciesID=8a28670066d3450ce3c28a348f266bc2 
+Importing 'GUID: 76a25001a16d07a41977ea47e6eb26aa - Path: Assets/_Game/Art/Imported/ConceptWorldKit_v001/Models/SM_Stone_Medium_A.fbx' with importer (FBXImporter)
+Imported 'GUID: 76a25001a16d07a41977ea47e6eb26aa' -> (Import Result ID: '38b81f0e4db8eab5535df64e992fc4e3') in 0.012 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=e97ae153dda497e869ca09e7d144832f DependenciesID=3f6ce64e4b322aa7da0e5cd036bed0cf StaticDependenciesID=ecf74b8d4864daafb6aa1053e8966474 
+Asset Pipeline Refresh (id=2f4a45e6a001b10499485eb12f791ce9): Total: 0.036 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: ad3ddc1c76ae06449bea4a1c4b3b49fb - Path: Assets/_Game/Art/Imported/ConceptWorldKit_v001/Textures/T_WallStoneSurface_A_BaseColor.png' with importer (TextureImporter)
+Imported 'GUID: ad3ddc1c76ae06449bea4a1c4b3b49fb' -> (Import Result ID: '05f4b6b498832e96fe3282f3a5b02d2d') in 0.050 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=7cf8273c33c00ad29e007f952a6b2915 DependenciesID=1eddcf31d9131dfb23602f42140ceccf StaticDependenciesID=e812165356b79428b5bcebf7a538471b 
+Asset Pipeline Refresh (id=4d2a042a128262b44a85a1a324cc5c4d): Total: 0.070 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: d58d1621678201746a408f3bb09b7da9 - Path: Assets/_Game/Art/Imported/ConceptWorldKit_v001/Textures/house_BaseColor.png' with importer (TextureImporter)
+Imported 'GUID: d58d1621678201746a408f3bb09b7da9' -> (Import Result ID: '689fe18169695fc8a4dbff3a44be7cae') in 0.387 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=8e7a3ad3328a734cc50fdc2e27c7d2b5 DependenciesID=0e47fcb143ee21c7dbbd71417c050e54 StaticDependenciesID=d05a32319ae9d7839247ea96472e73ba 
+Importing 'GUID: 80c5ed91c125e58449e6f15927eb5723 - Path: Assets/_Game/Art/Imported/ConceptWorldKit_v001/Models/house_LOD2.fbx' with importer (FBXImporter)
+File 'house_LOD2' has inconsistent LOD naming (_LOD2 found but no _LOD1).
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEditor.AssetDatabase:CopyAsset (string,string)
+LittleCastle.Editor.ConceptRuntimeArtKit:CreateMissing () (at Assets/_Game/Editor/ConceptRuntimeArtKit.cs:51)
+LittleCastle.Editor.ConceptWorldVisualPass:Prepare () (at Assets/_Game/Editor/ConceptWorldVisualPass.cs:58)
+
+[Assets/_Game/Editor/ConceptRuntimeArtKit.cs line 51]
+
+Imported 'GUID: 80c5ed91c125e58449e6f15927eb5723' -> (Import Result ID: 'a761b299b9134655d1d0cead1b4dc1ee') in 0.046 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=11883e5c1cae0057ccd31dfb53a08a75 DependenciesID=116c4cb654c0a50bfe439040aa4e5c59 StaticDependenciesID=b0042a5fa4bb32eec525ba2b62b10663 
+Importing 'GUID: 77b8f525102f55345b33f84b40c9614c - Path: Assets/_Game/Art/Imported/ConceptWorldKit_v001/Models/house_LOD1.fbx' with importer (FBXImporter)
+File 'house_LOD1' has inconsistent LOD naming (_LOD1 found but no _LOD0).
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEditor.AssetDatabase:CopyAsset (string,string)
+LittleCastle.Editor.ConceptRuntimeArtKit:CreateMissing () (at Assets/_Game/Editor/ConceptRuntimeArtKit.cs:51)
+LittleCastle.Editor.ConceptWorldVisualPass:Prepare () (at Assets/_Game/Editor/ConceptWorldVisualPass.cs:58)
+
+[Assets/_Game/Editor/ConceptRuntimeArtKit.cs line 51]
+
+Imported 'GUID: 77b8f525102f55345b33f84b40c9614c' -> (Import Result ID: '74dc8aabd7ee103787ce9e9d73682b32') in 0.091 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=8b442b8cbaf1c5043ad2d1a270380a01 DependenciesID=896ab37a52ffd04a6507535e34a61719 StaticDependenciesID=c39a7ffffcdeed753bdb90f814fc035c 
+Importing 'GUID: a73358c5f6e8ff748b112642d3895146 - Path: Assets/_Game/Art/Imported/ConceptWorldKit_v001/Models/house_LOD0.fbx' with importer (FBXImporter)
+Imported 'GUID: a73358c5f6e8ff748b112642d3895146' -> (Import Result ID: 'a7bbd7f0f1d7a0f81302829d2f9dbdbc') in 0.205 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=c8622680cdfda8260e7e389fa5280320 DependenciesID=e8814e13c326b530fcb9bde3ca5abf3c StaticDependenciesID=8d20b2f765a004c68ccb6e5d04e1d0c7 
+
+Asset Pipeline Refresh (id=9031ba6cfd88263478f8dd29b63821ab): Total: 0.761 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+	(Values over 0.05ms)
+	Summary:
+		Imports: total=4 (actual=4, local cache=0, cache server=0)
+		Asset DB Process Time: managed=0 ms, native=759 ms
+		Asset DB Callback time: managed=0 ms, native=0 ms
+		Scripting: domain reloads=0, domain reload time=0 ms, compile time=0 ms, other=0 ms
+		Project Asset Count: scripts=246, non-scripts=1376
+		Asset File Changes: new=1, changed=1, moved=0, deleted=0
+		Scan Filter Count: 7
+	Scan: 8.934ms
+	CategorizeAssets: 2.202ms
+	ImportOutOfDateAssets: 747.996ms (0.876ms without children)
+		ImportManagerImport: 741.636ms (1.352ms without children)
+			UpdateCategorizedAssets: 0.050ms
+		UnloadImportedAssets: 0.163ms
+		ReloadImportedAssets: 9.983ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 0.115ms
+		ImportSchedulerStart: 5.192ms
+	PostProcessAllAssets: 0.411ms
+		MonoPostProcessAllAssets: 0.230ms
+			AssetPostprocessor.OnPostprocessAllAssets 0.059ms
+	PostAssetChangesProfiler: 0.354ms
+	GatherAllCurrentPrimaryImportResultRevisions: 0.065ms
+	PersistCurrentRevisions: 0.099ms
+	Untracked: 1.115ms
+
+Importing 'GUID: aea03230c2ead4b45ac270ef884a603e - Path: Assets/_Game/Art/Imported/ConceptWorldKit_v001/Textures/oak_BaseColor.png' with importer (TextureImporter)
+Imported 'GUID: aea03230c2ead4b45ac270ef884a603e' -> (Import Result ID: '3c48f1b839345944a5e8e722bfcd20ea') in 0.099 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=3abdf025c7d34689df3c21658ff19b5d DependenciesID=8742e8f4a2a7c6f98e1cba784fbbdacc StaticDependenciesID=5695f6a1af1b899dcbed1a4e00d5b3ef 
+Asset Pipeline Refresh (id=0aa36c3668538cc4e95296b72bf354d2): Total: 0.118 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 2f1be3b49461a874788fde331c832d61 - Path: Assets/_Game/Art/Imported/ConceptWorldKit_v001/Textures/well_BaseColor.png' with importer (TextureImporter)
+Imported 'GUID: 2f1be3b49461a874788fde331c832d61' -> (Import Result ID: 'b35a8e640f43c45da0c7cf482526305d') in 0.027 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=2cdff586179c65c7300b200ea032ac1b DependenciesID=6fd3cef9a5f736c8c5a55ae138e68e40 StaticDependenciesID=75fbfdc4b0c4dc2ce4c1b221cac16e55 
+Importing 'GUID: d65973884985c574c8c9cbc5e10dbe1e - Path: Assets/_Game/Art/Imported/ConceptWorldKit_v001/Models/well_LOD1.fbx' with importer (FBXImporter)
+File 'well_LOD1' has inconsistent LOD naming (_LOD1 found but no _LOD0).
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEditor.AssetDatabase:CopyAsset (string,string)
+LittleCastle.Editor.ConceptRuntimeArtKit:CreateMissing () (at Assets/_Game/Editor/ConceptRuntimeArtKit.cs:51)
+LittleCastle.Editor.ConceptWorldVisualPass:Prepare () (at Assets/_Game/Editor/ConceptWorldVisualPass.cs:58)
+
+[Assets/_Game/Editor/ConceptRuntimeArtKit.cs line 51]
+
+Imported 'GUID: d65973884985c574c8c9cbc5e10dbe1e' -> (Import Result ID: '472a40272e1531d6ea36365ecd0f3db7') in 0.023 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=ef31a403fdf50b395e48e445739b52e3 DependenciesID=e5c2e102ee46dfe738bf7095c1c15d02 StaticDependenciesID=ec4b3f06857dd399e497d649e41b16b6 
+Importing 'GUID: 58c642b2c204c1f46b979b39c4690b13 - Path: Assets/_Game/Art/Imported/ConceptWorldKit_v001/Models/well_LOD0.fbx' with importer (FBXImporter)
+Imported 'GUID: 58c642b2c204c1f46b979b39c4690b13' -> (Import Result ID: '98167355f64e1e804ae27a2bdd9caf54') in 0.035 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=ea147f4ad038f80e6e873308666e095b DependenciesID=ccb91bf8db61b21b7a2f424f82628841 StaticDependenciesID=a24e74f237a88459686f31e9df32614c 
+Importing 'GUID: 7de8e1528f18b5041b2c9d5099c00545 - Path: Assets/_Game/Art/Imported/ConceptWorldKit_v001/Models/well_LOD2.fbx' with importer (FBXImporter)
+File 'well_LOD2' has inconsistent LOD naming (_LOD2 found but no _LOD1).
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEditor.AssetDatabase:CopyAsset (string,string)
+LittleCastle.Editor.ConceptRuntimeArtKit:CreateMissing () (at Assets/_Game/Editor/ConceptRuntimeArtKit.cs:51)
+LittleCastle.Editor.ConceptWorldVisualPass:Prepare () (at Assets/_Game/Editor/ConceptWorldVisualPass.cs:58)
+
+[Assets/_Game/Editor/ConceptRuntimeArtKit.cs line 51]
+
+Imported 'GUID: 7de8e1528f18b5041b2c9d5099c00545' -> (Import Result ID: 'ecffcceb90eb65ad6d8f851c02b81dd1') in 0.015 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=9b2c5b88c0ea81c9e7f11f91f8d3471b DependenciesID=d61aa224be32f6bd4a8a3046e1bce0f5 StaticDependenciesID=a84605a1207f8e785aede7f4d88bee53 
+Asset Pipeline Refresh (id=6fafc1c9a4e4cd04b8a596c9cd8caae3): Total: 0.131 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 691d54666f447c844a6f8dc7098c5de3 - Path: Assets/_Game/Art/Imported/ConceptWorldKit_v001/Materials/SM_Stone_Medium_A.mat' with importer (NativeFormatImporter)
+Imported 'GUID: 691d54666f447c844a6f8dc7098c5de3' -> (Import Result ID: '64d970e00f13642f2e50823ac06057fa') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=9dd5afb2a8011e78f87440ebc3fdfc4d DependenciesID=37d3a666f448dcafbf6057378463e6c9 StaticDependenciesID=931e4e788c32d5caac9b983c5022e2c3 
+Asset Pipeline Refresh (id=238c56e6e3076164abb489dc7e99d54f): Total: 0.018 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 70edc47c8f3ed604badf08c6726394f8 - Path: Assets/_Game/Art/Imported/ConceptWorldKit_v001/Materials/house.mat' with importer (NativeFormatImporter)
+Imported 'GUID: 70edc47c8f3ed604badf08c6726394f8' -> (Import Result ID: '337d7565401b0aa92e7c709aa1ea4e3c') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=50df1b9fed8f7d01b099a4105be5b6a8 DependenciesID=ff669bfdde634f18342333be936ef8eb StaticDependenciesID=bb6ff324e4564b6e3d598112a446cead 
+Asset Pipeline Refresh (id=1960a0c6232d9b149a51e3bd514e40a0): Total: 0.024 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 4f5d0e579e32c424598e2c4de9b860c9 - Path: Assets/_Game/Art/Imported/ConceptWorldKit_v001/Materials/house_Far.mat' with importer (NativeFormatImporter)
+Imported 'GUID: 4f5d0e579e32c424598e2c4de9b860c9' -> (Import Result ID: 'a931972bfaa48830c3e321159d8a493b') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=5224b2e6762cb50a39dc0013a65edaf0 DependenciesID=68f2e596ea93d018c1ef6e1058f077fe StaticDependenciesID=f3dc282b720aa8c988a9dbaba9fb3275 
+Asset Pipeline Refresh (id=dbccbac5ac2ad1342ad55b05e03c0318): Total: 0.020 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: b39bb9de95ae53348b3ed3443bd12756 - Path: Assets/_Game/Art/Imported/ConceptWorldKit_v001/Materials/oak.mat' with importer (NativeFormatImporter)
+Imported 'GUID: b39bb9de95ae53348b3ed3443bd12756' -> (Import Result ID: '98988bb0f84aa2186c445f61e1c674c4') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=fac69ff219e173757983b17eb4df65ba DependenciesID=e8ca4243f3cd72951293a4b68c0507b5 StaticDependenciesID=94ca9bd6d3b450f1230d705b85d6a158 
+Asset Pipeline Refresh (id=be9074e2a62696e41be81f0450315254): Total: 0.021 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 8623be99ae0da2a41b3f7081f3887601 - Path: Assets/_Game/Art/Imported/ConceptWorldKit_v001/Materials/oak_Far.mat' with importer (NativeFormatImporter)
+Imported 'GUID: 8623be99ae0da2a41b3f7081f3887601' -> (Import Result ID: 'ab26f5496e52425edb1e59bbd7393f45') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=b1597dcc9f00a54ac405227f38d6cdc7 DependenciesID=5044ef4f49477ab60a3cdab878aa14ec StaticDependenciesID=a3e421a34edb81d288f71feda7660df4 
+Asset Pipeline Refresh (id=01ae2c0fc4d13a042bfc208a6fb43dc9): Total: 0.024 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 10ca617a3748d04439fd412054ddeefb - Path: Assets/_Game/Art/Imported/ConceptWorldKit_v001/Materials/oak_Leaves.mat' with importer (NativeFormatImporter)
+Imported 'GUID: 10ca617a3748d04439fd412054ddeefb' -> (Import Result ID: '7c5cbd7da24ef555df004649751c3544') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=70023fed8940630474d698ca0a9d1cba DependenciesID=efef42a28fe0433f03320a08f4ae7391 StaticDependenciesID=82febb016433c652423c1a22fd682cc0 
+Asset Pipeline Refresh (id=e36340f7f6876bc4495e0a42dd580376): Total: 0.025 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 9f00723b0c8a5814f8a0bdb3ab80fde8 - Path: Assets/_Game/Art/Imported/ConceptWorldKit_v001/Materials/oak_Leaves_Far.mat' with importer (NativeFormatImporter)
+Imported 'GUID: 9f00723b0c8a5814f8a0bdb3ab80fde8' -> (Import Result ID: 'df1114ad5f72761d3ce8db0c20ad4af1') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=f2f4a5c562228a4ac03268bd10ad68dc DependenciesID=ff5c1f9c4bb291be77bc0610a55448d5 StaticDependenciesID=1c107bdd391898774223631fda0e0b0e 
+Asset Pipeline Refresh (id=7543259146887774896d401350af2738): Total: 0.021 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 61d67c56550634d419d54c61006b2ec6 - Path: Assets/_Game/Art/Imported/ConceptWorldKit_v001/Materials/well.mat' with importer (NativeFormatImporter)
+Imported 'GUID: 61d67c56550634d419d54c61006b2ec6' -> (Import Result ID: '867f197d6780379bacf66a7a10131462') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=5dbd4a12f850815a5a150c716da58c44 DependenciesID=d7b0c4dd914c50c8f953d9afe6405ebb StaticDependenciesID=270c66c619f653a6ba690424159cc30c 
+Asset Pipeline Refresh (id=096b41d0e16bb724796404e0186cb24c): Total: 0.020 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 13a2e92e3b8622644a1cba582e36cbb5 - Path: Assets/_Game/Art/Imported/ConceptWorldKit_v001/Materials/well_Far.mat' with importer (NativeFormatImporter)
+Imported 'GUID: 13a2e92e3b8622644a1cba582e36cbb5' -> (Import Result ID: 'b6f8f7f144e0f99d25441ffd95d91e0a') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=d72fecf42312b7e4da105a2b2f39f31b DependenciesID=039c332de50fb56e8bed671ab13d71a9 StaticDependenciesID=b2c78201b8e77051e2abaeaca17f049d 
+Asset Pipeline Refresh (id=c397f01137854d247a61d04dd6280611): Total: 0.019 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 972d2dfee3460754eac8d222a4c1c059 - Path: Assets/_Game/Art/Imported/ConceptWorldKit_v001/Prefabs/SM_Stone_Medium_A.prefab' with importer (PrefabImporter)
+Imported 'GUID: 972d2dfee3460754eac8d222a4c1c059' -> (Import Result ID: '2847169f57a6c25fb06fa8b390ebdede') in 0.002 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=3234e3637225721f981cf1b62603f749 DependenciesID=41c65128fa0de6e84e01eafb3862513b StaticDependenciesID=a110473f6ee1c8a0833a394c9d528306 
+Asset Pipeline Refresh (id=df4aecf5885b37d4d8a74081caed9b8e): Total: 0.021 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: b4e7dc76dc021174081905e8d855f233 - Path: Assets/_Game/Art/Imported/ConceptWorldKit_v001/Prefabs/house.prefab' with importer (PrefabImporter)
+Imported 'GUID: b4e7dc76dc021174081905e8d855f233' -> (Import Result ID: '608acafa2987372064f247f199d93a89') in 0.007 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=fe807469668bba38128216d5ab771bdd DependenciesID=f7a6e480a96a5adb7a4ab9ca2b6ef945 StaticDependenciesID=b3524d849bff3c4299eb226f4596fa7a 
+Asset Pipeline Refresh (id=8b7e92575b8dfa54481c1ae33a72adc4): Total: 0.029 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: a1587a18a293ea64bb3326655f222a45 - Path: Assets/_Game/Art/Imported/ConceptWorldKit_v001/Prefabs/oak.prefab' with importer (PrefabImporter)
+Imported 'GUID: a1587a18a293ea64bb3326655f222a45' -> (Import Result ID: 'd6444a110633d9923dcdc767cd160bb7') in 0.004 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=ed884c69382352181c3b17446f3ef4dd DependenciesID=e9e809d941d2f97323698295cf64a097 StaticDependenciesID=3a512ac6cf9be19eadb41bfc4bf23c8f 
+Asset Pipeline Refresh (id=aee92a80b1f9fec4cb18138a0863269c): Total: 0.026 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 4f60242d009d9e9488ae75cbcf92fc62 - Path: Assets/_Game/Art/Imported/ConceptWorldKit_v001/Prefabs/well.prefab' with importer (PrefabImporter)
+Imported 'GUID: 4f60242d009d9e9488ae75cbcf92fc62' -> (Import Result ID: 'a132ff1bc5890b4b001fb081a6a99929') in 0.004 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=770a096bf049508c041e00371faaacef DependenciesID=e98edb97ec7d93372be962778ac4adad StaticDependenciesID=9d1f7969081eab7f00d64d281cd7202a 
+Asset Pipeline Refresh (id=06342ecf4b2400244ac9ebb825a6560e): Total: 0.022 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: a555ebee6c1e3e64bbe65c28592ae01b - Path: Assets/_Game/Art/Imported/ConceptWorldKit_v001/Provenance.json' with importer (TextScriptImporter)
+Imported 'GUID: a555ebee6c1e3e64bbe65c28592ae01b' -> (Import Result ID: '7d2e6432d0236fdeb6a3d0a9fabb27bd') in 0.011 seconds [static dependencies only]. Details - ImportResultOutputID=f2c65bdd2abf89cafba3a95cb826a700 DependenciesID=61c9e3b8b7b3e56b1e6091cb407f0d7d StaticDependenciesID=704c6cad3024ecdb04405d2b95178599 
+Asset Pipeline Refresh (id=6be003de2de69544aae9b4738b155ff8): Total: 0.057 seconds - Initiated by RefreshV2(NoUpdateAssetOptions)
+[Concept Runtime Kit] Portable reviewed dependencies=34; original art untouched.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LittleCastle.Editor.ConceptRuntimeArtKit:CreateMissing () (at Assets/_Game/Editor/ConceptRuntimeArtKit.cs:76)
+LittleCastle.Editor.ConceptWorldVisualPass:Prepare () (at Assets/_Game/Editor/ConceptWorldVisualPass.cs:58)
+
+(Filename: Assets/_Game/Editor/ConceptRuntimeArtKit.cs Line: 76)
+
+Loaded scene 'Library/Unused/989e3586fa9c31c45bb2c13b73100f20'
+	Deserialize:            0.171 ms
+	Integration:            0.073 ms
+	Integration of assets:  0.001 ms
+	Thread Wait Time:       0.464 ms
+	Total Operation Time:   0.710 ms
+Importing 'GUID: 5c3a56716a1def74cbde2c8fd9e7dceb - Path: Assets/_Game/Settings/World/ConceptWorld_v001/ConceptVillage.prefab' with importer (PrefabImporter)
+Imported 'GUID: 5c3a56716a1def74cbde2c8fd9e7dceb' -> (Import Result ID: 'f8f9721df4b9650884be101b8b6bfbe2') in 0.002 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=8339f10e1928878b15cae87848e6764b DependenciesID=b8c5354fe8e83a7007595e8f8927c87c StaticDependenciesID=c557160b17d3a68462fd2d8346186d92 
+Asset Pipeline Refresh (id=f0337fe7f4dcd1b4caa369218a3683f0): Total: 0.027 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: ea194f2eeb5944f3b352c0d5af1cd21f - Path: Assets/_Game/Settings/World/ConceptWorld_v001/Concept_Terrain_Masked.mat' with importer (NativeFormatImporter)
+Imported 'GUID: ea194f2eeb5944f3b352c0d5af1cd21f' -> (Import Result ID: '208ef8ba65d8e792aa690682be6e26d9') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=8f1b6c742b46973a26be26adaf430dec DependenciesID=b1d3acb05dd84fff2679c701d8384ae3 StaticDependenciesID=5ad9156f84efc15fa574b33b65f2ed34 
+Importing 'GUID: 1250e262e5240644f9d4dcf7fd2ea5b6 - Path: Assets/_Game/Settings/World/ConceptWorld_v001/Concept_MainWorldSpawnCatalog.asset' with importer (NativeFormatImporter)
+Imported 'GUID: 1250e262e5240644f9d4dcf7fd2ea5b6' -> (Import Result ID: '7ba80b2d9afed480a09094b05b413227') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=48d494264364570db4a175a77ed0b8c3 DependenciesID=c1b5133e6b5dcb41aec125bef7011fe1 StaticDependenciesID=d1b266d3975b167dfe731da73e36c780 
+Asset Pipeline Refresh (id=fd03f316930debc4f8f3672ddc581efc): Total: 0.016 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+[Concept Visual] Prepared isolated production references/materials/scene. This is not visual acceptance.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LittleCastle.Editor.ConceptWorldVisualPass:Prepare () (at Assets/_Game/Editor/ConceptWorldVisualPass.cs:128)
+
+(Filename: Assets/_Game/Editor/ConceptWorldVisualPass.cs Line: 128)
+
+Curl error 35: Cert verify failed. Certificate could not be verified (either omitted or unsupported). UnityTls error code: 7
+Batchmode quit successfully invoked - shutting down!
+[Physics::Module] Cleanup current backend.
+[Physics::Module] Id: 0xf2b8ea05
+Input System module state changed to: ShutdownInProgress.
+Input Polling Thread exited.
+Input System module state changed to: Shutdown.
+[Licensing::IpcConnector] LicenseClient-Дмитрий-notifications channel disconnected successfully.
+[Licensing::IpcConnector] LicenseClient-Дмитрий channel disconnected successfully.
+AcceleratorClientConnectionCallback - disconnected - :0
+Cleanup mono
+CodeReloadManager destroyed
+Exiting batchmode successfully now!
+Exiting without the bug reporter. Application will terminate with return code 0

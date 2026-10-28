@@ -1,0 +1,243 @@
+{
+    "purpose": "Approved minimal runtime copy; original authoring library untouched. Source model/material bytes unchanged except remapped Unity GUID references.",
+    "dependencies": [
+        {
+            "source": "Assets/_Game/Art/Imported/TerrainStarter_v001/Materials/SM_Stone_Medium_A.mat",
+            "destination": "Assets/_Game/Art/Imported/ConceptWorldKit_v001/Materials/SM_Stone_Medium_A.mat",
+            "sourceGuid": "0267a299965a88b45b3a49bf5a01117f",
+            "runtimeGuid": "691d54666f447c844a6f8dc7098c5de3",
+            "sourceSha256": "b316fde705e29fe12021aa18776c928246b1e658cea40c085f51324ffbc1e8e8"
+        },
+        {
+            "source": "Assets/_Game/Art/Imported/TerrainStarter_v001/Materials/house.mat",
+            "destination": "Assets/_Game/Art/Imported/ConceptWorldKit_v001/Materials/house.mat",
+            "sourceGuid": "603ac24ac7e0bd34d8c06131bef3722b",
+            "runtimeGuid": "70edc47c8f3ed604badf08c6726394f8",
+            "sourceSha256": "e49bfa129062c62c681baf7eca9920af7a7ded5f2d110097fbf0ec333a6b4d71"
+        },
+        {
+            "source": "Assets/_Game/Art/Imported/TerrainStarter_v001/Materials/house_Far.mat",
+            "destination": "Assets/_Game/Art/Imported/ConceptWorldKit_v001/Materials/house_Far.mat",
+            "sourceGuid": "0f02abdbc16586e47b606f6a39751dd7",
+            "runtimeGuid": "4f5d0e579e32c424598e2c4de9b860c9",
+            "sourceSha256": "8943a96a06b63c32baf9555e1cbb8069883d8c6c602a1a37a46d0be1160cb795"
+        },
+        {
+            "source": "Assets/_Game/Art/Imported/TerrainStarter_v001/Materials/oak.mat",
+            "destination": "Assets/_Game/Art/Imported/ConceptWorldKit_v001/Materials/oak.mat",
+            "sourceGuid": "277ec1832d1b99648a6ba668ee04cc51",
+            "runtimeGuid": "b39bb9de95ae53348b3ed3443bd12756",
+            "sourceSha256": "015c9ac68788c3dd75ec44443acdbf336d49da922221e0861da7f0be045c8366"
+        },
+        {
+            "source": "Assets/_Game/Art/Imported/TerrainStarter_v001/Materials/oak_Far.mat",
+            "destination": "Assets/_Game/Art/Imported/ConceptWorldKit_v001/Materials/oak_Far.mat",
+            "sourceGuid": "c7f96bf613096fe4b93ae20c6066d225",
+            "runtimeGuid": "8623be99ae0da2a41b3f7081f3887601",
+            "sourceSha256": "1d851044c5807dcfd448ec7633b9fa2aeb473d242c3b62dc003167dea3c913b9"
+        },
+        {
+            "source": "Assets/_Game/Art/Imported/TerrainStarter_v001/Materials/oak_Leaves.mat",
+            "destination": "Assets/_Game/Art/Imported/ConceptWorldKit_v001/Materials/oak_Leaves.mat",
+            "sourceGuid": "46293a1ed512bf947a945c9647d6acde",
+            "runtimeGuid": "10ca617a3748d04439fd412054ddeefb",
+            "sourceSha256": "4deee1cb53bba05b0ef2168e8bbb083f83c2ff4f1aa168ff5608975a27d2924d"
+        },
+        {
+            "source": "Assets/_Game/Art/Imported/TerrainStarter_v001/Materials/oak_Leaves_Far.mat",
+            "destination": "Assets/_Game/Art/Imported/ConceptWorldKit_v001/Materials/oak_Leaves_Far.mat",
+            "sourceGuid": "df2f5b06e68a30c4187124250d8c7c9e",
+            "runtimeGuid": "9f00723b0c8a5814f8a0bdb3ab80fde8",
+            "sourceSha256": "d998bbcfcf1bb13f254619b3a63f2b9982dbc15c598ca0acd2031666c3f468eb"
+        },
+        {
+            "source": "Assets/_Game/Art/Imported/TerrainStarter_v001/Materials/well.mat",
+            "destination": "Assets/_Game/Art/Imported/ConceptWorldKit_v001/Materials/well.mat",
+            "sourceGuid": "46ad78e6274f60e4ca2f9e17bc74e1fb",
+            "runtimeGuid": "61d67c56550634d419d54c61006b2ec6",
+            "sourceSha256": "655b7cc625859baa5b90fa551bc765b9fc8daa60d14621c637683147d6062208"
+        },
+        {
+            "source": "Assets/_Game/Art/Imported/TerrainStarter_v001/Materials/well_Far.mat",
+            "destination": "Assets/_Game/Art/Imported/ConceptWorldKit_v001/Materials/well_Far.mat",
+            "sourceGuid": "5302075c821e0bb4988f80b35f9c15e7",
+            "runtimeGuid": "13a2e92e3b8622644a1cba582e36cbb5",
+            "sourceSha256": "8e2fc8eb9a1ca46103ade2d21065f7d284a96fc5a596ed8cf0da2c8454ff0c0a"
+        },
+        {
+            "source": "Assets/_Game/Art/Imported/TerrainStarter_v001/Models/SM_Stone_Medium_A.fbx",
+            "destination": "Assets/_Game/Art/Imported/ConceptWorldKit_v001/Models/SM_Stone_Medium_A.fbx",
+            "sourceGuid": "c66735751ad610c4cbb67e57e3a85b7d",
+            "runtimeGuid": "76a25001a16d07a41977ea47e6eb26aa",
+            "sourceSha256": "2bb19b8828b0f86ad510bbc0274e65cc94e157fe42738a95b0c39c9cac59359d"
+        },
+        {
+            "source": "Assets/_Game/Art/Imported/TerrainStarter_v001/Models/house_LOD0.fbx",
+            "destination": "Assets/_Game/Art/Imported/ConceptWorldKit_v001/Models/house_LOD0.fbx",
+            "sourceGuid": "24d4043fbdd9d3a4aa09e0cc36974c3d",
+            "runtimeGuid": "a73358c5f6e8ff748b112642d3895146",
+            "sourceSha256": "c922af1c03699736a3db1d493cc62133b3518c30c7b134c5b2dbf6f381990732"
+        },
+        {
+            "source": "Assets/_Game/Art/Imported/TerrainStarter_v001/Models/house_LOD1.fbx",
+            "destination": "Assets/_Game/Art/Imported/ConceptWorldKit_v001/Models/house_LOD1.fbx",
+            "sourceGuid": "d4974e32f93959b47a4a7de20efe30bc",
+            "runtimeGuid": "77b8f525102f55345b33f84b40c9614c",
+            "sourceSha256": "a7b22ebba4d1f2e5eb79736f00811894754e213c18916986f1f38cc71562ad66"
+        },
+        {
+            "source": "Assets/_Game/Art/Imported/TerrainStarter_v001/Models/house_LOD2.fbx",
+            "destination": "Assets/_Game/Art/Imported/ConceptWorldKit_v001/Models/house_LOD2.fbx",
+            "sourceGuid": "bc2f4478930f2d24a9d6a2392dc729b1",
+            "runtimeGuid": "80c5ed91c125e58449e6f15927eb5723",
+            "sourceSha256": "de84cea02515505f637b5142e2040b1f17cedd467b0e9f00bb8a6ce03ce57f3e"
+        },
+        {
+            "source": "Assets/_Game/Art/Imported/TerrainStarter_v001/Models/oak_LOD0.fbx",
+            "destination": "Assets/_Game/Art/Imported/ConceptWorldKit_v001/Models/oak_LOD0.fbx",
+            "sourceGuid": "7043491f75a90744496619a03915353d",
+            "runtimeGuid": "e98074c3970243b439c689e359f897b3",
+            "sourceSha256": "be124c284e03d2ebb50f81968c18dcb7d5a81c4ba2dc96d019849ca310d8fb6e"
+        },
+        {
+            "source": "Assets/_Game/Art/Imported/TerrainStarter_v001/Models/oak_LOD1.fbx",
+            "destination": "Assets/_Game/Art/Imported/ConceptWorldKit_v001/Models/oak_LOD1.fbx",
+            "sourceGuid": "ddbfaa55cdc33924ab0fb0d57dbd15b2",
+            "runtimeGuid": "c0e2af6e0746296408a21b8176914d8f",
+            "sourceSha256": "e55b2d7cef7b0c18bcbf97b74ef562b0f5fa32c3d82cfc7cfbeb2f70c5d0d5f0"
+        },
+        {
+            "source": "Assets/_Game/Art/Imported/TerrainStarter_v001/Models/oak_LOD2.fbx",
+            "destination": "Assets/_Game/Art/Imported/ConceptWorldKit_v001/Models/oak_LOD2.fbx",
+            "sourceGuid": "0b5937a2d3618194a8ca6450850af2c5",
+            "runtimeGuid": "d0118fa6b264c0b4d9ab428256e56794",
+            "sourceSha256": "0e78cc7462270bfd19f21a08f7ada02114e2f2f131da1c5a1f425fec55c49b2a"
+        },
+        {
+            "source": "Assets/_Game/Art/Imported/TerrainStarter_v001/Models/well_LOD0.fbx",
+            "destination": "Assets/_Game/Art/Imported/ConceptWorldKit_v001/Models/well_LOD0.fbx",
+            "sourceGuid": "8f3ec696d5fbb4144803bb0cddb6108f",
+            "runtimeGuid": "58c642b2c204c1f46b979b39c4690b13",
+            "sourceSha256": "e869314e9a0b885ab569cd6ccc2884c723b0cef5da5d9c105fb229db3493b06b"
+        },
+        {
+            "source": "Assets/_Game/Art/Imported/TerrainStarter_v001/Models/well_LOD1.fbx",
+            "destination": "Assets/_Game/Art/Imported/ConceptWorldKit_v001/Models/well_LOD1.fbx",
+            "sourceGuid": "c497c6c23fb5446489777ebd79386702",
+            "runtimeGuid": "d65973884985c574c8c9cbc5e10dbe1e",
+            "sourceSha256": "169dfa454ce87498240ca3e1e5be103cd17a161ca2bb041170c6de93ae517de3"
+        },
+        {
+            "source": "Assets/_Game/Art/Imported/TerrainStarter_v001/Models/well_LOD2.fbx",
+            "destination": "Assets/_Game/Art/Imported/ConceptWorldKit_v001/Models/well_LOD2.fbx",
+            "sourceGuid": "0386821ced6bc3a439a7fd42df6fcb91",
+            "runtimeGuid": "7de8e1528f18b5041b2c9d5099c00545",
+            "sourceSha256": "dc77d2dc10960e7516a1f5cae8e12168de76c3e396220604368ea59aa339288a"
+        },
+        {
+            "source": "Assets/_Game/Art/Imported/TerrainStarter_v001/Prefabs/SM_Stone_Medium_A.prefab",
+            "destination": "Assets/_Game/Art/Imported/ConceptWorldKit_v001/Prefabs/SM_Stone_Medium_A.prefab",
+            "sourceGuid": "9ee0bff0f08b8074783ee9d3a28514e5",
+            "runtimeGuid": "972d2dfee3460754eac8d222a4c1c059",
+            "sourceSha256": "ef913b901ecc8c4274bac516f5d9791c4566df0f6d2aaf16c544dbfce84513e9"
+        },
+        {
+            "source": "Assets/_Game/Art/Imported/TerrainStarter_v001/Prefabs/house.prefab",
+            "destination": "Assets/_Game/Art/Imported/ConceptWorldKit_v001/Prefabs/house.prefab",
+            "sourceGuid": "691f2d61a681e8742ad65cec914f16b5",
+            "runtimeGuid": "b4e7dc76dc021174081905e8d855f233",
+            "sourceSha256": "6b6380ecb4865b0ea89de15ababf2ecf2637c9c5fcc8047901ad3a4c80cfc42c"
+        },
+        {
+            "source": "Assets/_Game/Art/Imported/TerrainStarter_v001/Prefabs/oak.prefab",
+            "destination": "Assets/_Game/Art/Imported/ConceptWorldKit_v001/Prefabs/oak.prefab",
+            "sourceGuid": "f356a360d1a2fac4e9b0dd39e76eafa3",
+            "runtimeGuid": "a1587a18a293ea64bb3326655f222a45",
+            "sourceSha256": "7270b255bb458f14b38aedc5d50364f0c41fcf326b81e63c5b04f44a56e03aa3"
+        },
+        {
+            "source": "Assets/_Game/Art/Imported/TerrainStarter_v001/Prefabs/well.prefab",
+            "destination": "Assets/_Game/Art/Imported/ConceptWorldKit_v001/Prefabs/well.prefab",
+            "sourceGuid": "725c27c34b1b062459d52f8e9cf7d542",
+            "runtimeGuid": "4f60242d009d9e9488ae75cbcf92fc62",
+            "sourceSha256": "47454c3caabdd1d9482a198cf861f46b70904eba775bc5bac4b009bd8079a11a"
+        },
+        {
+            "source": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Textures/DirtPath_A_AO.png",
+            "destination": "Assets/_Game/Art/Imported/ConceptWorldKit_v001/Study/Textures/DirtPath_A_AO.png",
+            "sourceGuid": "f12a88a7393a975468b5eed40da70d3b",
+            "runtimeGuid": "48e6af80058bccf46b27864efb8598ef",
+            "sourceSha256": "5392116c6894ff3fce25881d8aca78e6c9fc11d361783258c5cb49592f77e629"
+        },
+        {
+            "source": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Textures/DirtPath_A_Normal.png",
+            "destination": "Assets/_Game/Art/Imported/ConceptWorldKit_v001/Study/Textures/DirtPath_A_Normal.png",
+            "sourceGuid": "25a7fa0df19b57b469aeba27551a6bef",
+            "runtimeGuid": "e6e828adfd9e7f949817da4c52cbad23",
+            "sourceSha256": "a11782765012782ee25d5fcc23871f357cf1600cb49750364035828fb9322520"
+        },
+        {
+            "source": "Assets/_Game/Art/Imported/TerrainStarter_v001/Study/Textures/Grass_MeadowSoft_BaseColor.png",
+            "destination": "Assets/_Game/Art/Imported/ConceptWorldKit_v001/Study/Textures/Grass_MeadowSoft_BaseColor.png",
+            "sourceGuid": "e875f57272584e040929f28a342607ae",
+            "runtimeGuid": "eef5318b12cf9b04e9ca581c5ebd72b0",
+            "sourceSha256": "e6aefb5e0253b9ddc0c48b83a26b8c1113ad859eff69c651d65f71f4b2122b6c"
+        },
+        {
+            "source": "Assets/_Game/Art/Imported/TerrainStarter_v001/Textures/DirtGround_A_BaseColor.png",
+            "destination": "Assets/_Game/Art/Imported/ConceptWorldKit_v001/Textures/DirtGround_A_BaseColor.png",
+            "sourceGuid": "1defeaf2997e756408a21d899b8e006e",
+            "runtimeGuid": "8c96f7dff98448d4a9755c5979fe67c8",
+            "sourceSha256": "b15309028955216c0a7ae7e5805d87f4b7e4cf0514365f136a450e63182f2971"
+        },
+        {
+            "source": "Assets/_Game/Art/Imported/TerrainStarter_v001/Textures/DirtPath_A_BaseColor.png",
+            "destination": "Assets/_Game/Art/Imported/ConceptWorldKit_v001/Textures/DirtPath_A_BaseColor.png",
+            "sourceGuid": "dea2c8a2a2f6e314e83bb313d77086f6",
+            "runtimeGuid": "f2fe06aa6bafa1a438df475ed90bcf94",
+            "sourceSha256": "19fda5d6e578d522eec73c5eb2b624e630189a0cfa6b656de3d90115200eba93"
+        },
+        {
+            "source": "Assets/_Game/Art/Imported/TerrainStarter_v001/Textures/T_Foliage_BaseColor.png",
+            "destination": "Assets/_Game/Art/Imported/ConceptWorldKit_v001/Textures/T_Foliage_BaseColor.png",
+            "sourceGuid": "797979797b2b16f47b0dd7af5a38d74c",
+            "runtimeGuid": "451e0d2822c635241bde968d59d61e08",
+            "sourceSha256": "204b80e1779330ae290a94d3a8c9e50923aa84683238fcff28848a8faf9ebfb9"
+        },
+        {
+            "source": "Assets/_Game/Art/Imported/TerrainStarter_v001/Textures/T_Oak_Kit_Palette.png",
+            "destination": "Assets/_Game/Art/Imported/ConceptWorldKit_v001/Textures/T_Oak_Kit_Palette.png",
+            "sourceGuid": "bd794f461f4c2114f852e210bda0cdf2",
+            "runtimeGuid": "67cc15b372602a2479a6ad142c99f255",
+            "sourceSha256": "323e3e1435741a35e7957e16134f969b214e3b89b747000bde9ebb050e873e2e"
+        },
+        {
+            "source": "Assets/_Game/Art/Imported/TerrainStarter_v001/Textures/T_WallStoneSurface_A_BaseColor.png",
+            "destination": "Assets/_Game/Art/Imported/ConceptWorldKit_v001/Textures/T_WallStoneSurface_A_BaseColor.png",
+            "sourceGuid": "92b50810cf5348342b3f5f941e0b1f8d",
+            "runtimeGuid": "ad3ddc1c76ae06449bea4a1c4b3b49fb",
+            "sourceSha256": "651415fd08c0f96a875e8cd616d1cf43bf5a0765c2cd20e0be057d33aa95c60b"
+        },
+        {
+            "source": "Assets/_Game/Art/Imported/TerrainStarter_v001/Textures/house_BaseColor.png",
+            "destination": "Assets/_Game/Art/Imported/ConceptWorldKit_v001/Textures/house_BaseColor.png",
+            "sourceGuid": "830a5c02c4b38ad458a93f1832e0197a",
+            "runtimeGuid": "d58d1621678201746a408f3bb09b7da9",
+            "sourceSha256": "baa3d168629e33181be2e3b4dd90fe14fc111cf5b9fc225e38da872f7b61df2d"
+        },
+        {
+            "source": "Assets/_Game/Art/Imported/TerrainStarter_v001/Textures/oak_BaseColor.png",
+            "destination": "Assets/_Game/Art/Imported/ConceptWorldKit_v001/Textures/oak_BaseColor.png",
+            "sourceGuid": "e66b050ed21de304297a25d022d15bf2",
+            "runtimeGuid": "aea03230c2ead4b45ac270ef884a603e",
+            "sourceSha256": "e788dada610351e46b1f97dba32321bb92e044042a4c9c84b8dae0bf85423744"
+        },
+        {
+            "source": "Assets/_Game/Art/Imported/TerrainStarter_v001/Textures/well_BaseColor.png",
+            "destination": "Assets/_Game/Art/Imported/ConceptWorldKit_v001/Textures/well_BaseColor.png",
+            "sourceGuid": "9518c99cb129edf498ef682f05c68f24",
+            "runtimeGuid": "2f1be3b49461a874788fde331c832d61",
+            "sourceSha256": "626e1d3f0dbbec1e5ab201438ddd4e189837ce20304780d312d6c9594a8fecd2"
+        }
+    ]
+}

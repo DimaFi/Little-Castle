@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4b97def60a4c534e8555ce672122a90, type: 3}
+  m_Name: 10_ResourceDeposits
+  m_EditorClassIdentifier: LittleCastle.Runtime::LittleCastle.World.ResourceDepositStage
+  enabledStage: 1
+  rules:
+  - ruleId: stone_surface_common
+    resourceKind: 2
+    visualArchetypeId: deposit_stone_01
+    spacing: 96
+    chance: 0.55
+    allowedTerrain: 15
+    allowedBiomes: 63
+    minHeight: -1000
+    maxHeight: 1000
+    maxSlope: 45
+    minRadius: 5
+    maxRadius: 12
+    minRichness: 0.25
+    maxRichness: 1
+    minCapacity: 300
+    maxCapacity: 1500
+    createVisualSpawn: 1
+  - ruleId: iron_highland_common
+    resourceKind: 3
+    visualArchetypeId: deposit_iron_01
+    spacing: 320
+    chance: 0.3
+    allowedTerrain: 14
+    allowedBiomes: 63
+    minHeight: -1000
+    maxHeight: 1000
+    maxSlope: 45
+    minRadius: 5
+    maxRadius: 10
+    minRichness: 0.25
+    maxRichness: 1
+    minCapacity: 500
+    maxCapacity: 3000
+    createVisualSpawn: 1

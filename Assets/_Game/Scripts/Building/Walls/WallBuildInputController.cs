@@ -1,4 +1,5 @@
 using System;
+using LittleCastle.World;
 using UnityEngine;
 
 namespace LittleCastle.Building
@@ -248,18 +249,53 @@ namespace LittleCastle.Building
                 buildCamera.ScreenPointToRay(
                     Input.mousePosition);
 
-            if (!Physics.Raycast(
+            RaycastHit[] hits =
+                Physics.RaycastAll(
                     ray,
-                    out RaycastHit hit,
                     maximumRayDistance,
                     groundMask,
-                    QueryTriggerInteraction.Ignore))
+                    QueryTriggerInteraction.Ignore);
+
+            if (hits == null ||
+                hits.Length == 0)
             {
                 return false;
             }
 
+            Array.Sort(
+                hits,
+                (a, b) =>
+                    a.distance.CompareTo(
+                        b.distance));
+
+            // The build cursor belongs on generated terrain, not on the top
+            // of a nearby tree/house collider. Structure snapping is handled
+            // separately through WallConnectionSocket.
+            for (int i = 0; i < hits.Length; i++)
+            {
+                StreamedChunkView chunk =
+                    hits[i].collider != null
+                        ? hits[i].collider.GetComponentInParent<
+                            StreamedChunkView>()
+                        : null;
+
+                if (chunk == null ||
+                    !chunk.IsPlayableChunk)
+                {
+                    continue;
+                }
+
+                point =
+                    hits[i].point;
+
+                return true;
+            }
+
+            // Editor previews or future terrain implementations may not use
+            // StreamedChunkView yet. Keep the nearest-hit fallback rather than
+            // making the input adapter unusable.
             point =
-                hit.point;
+                hits[0].point;
 
             return true;
         }

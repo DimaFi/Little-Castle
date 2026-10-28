@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "assets": [
+    {
+      "category": "Trees",
+      "assetId": "VEG_Tree_A",
+      "archetypeId": "tree_main_01",
+      "variant": "Tree_A",
+      "model": "Exports/Models/Trees/tree_main_01/Tree_A.fbx",
+      "textures": [
+        "Exports/Textures/Trees/tree_main_01/Tree_A/Tree_A_BaseColor.png",
+        "Exports/Textures/Trees/tree_main_01/Tree_A/Tree_A_Normal.png"
+      ]
+    },
+    {
+      "category": "Trees",
+      "assetId": "VEG_Tree_B",
+      "archetypeId": "tree_main_01",
+      "variant": "Tree_B",
+      "lodModels": {
+        "LOD0": "Exports/Models/Trees/tree_main_01/Tree_B_LOD0.fbx",
+        "LOD1": "Exports/Models/Trees/tree_main_01/Tree_B_LOD1.fbx",
+        "LOD2": "Exports/Models/Trees/tree_main_01/Tree_B_LOD2.fbx"
+      },
+      "textures": []
+    }
+  ]
+}

@@ -1,0 +1,449 @@
+[Licensing::Module] Trying to connect to existing licensing client channel...
+Built from '6000.5/staging' branch; Version is '6000.5.5f1 (d16e074b49fd) revision 13725191'; Using compiler version '194234433'; Build Type 'Release'
+[Licensing::IpcConnector] Channel LicenseClient-Дмитрий doesn't exist
+OS: 'Windows 11  (10.0.26200) Professional' Language: 'ru' Physical Memory: 32625 MB
+BatchMode: 1, IsHumanControllingUs: 0, StartBugReporterOnCrash: 0, Is64bit: 1
+System  architecture: x64
+Process architecture: x64
+Date: 2026-10-08T20:48:49Z
+[Licensing::Module] Successfully launched the LicensingClient (PId: 28740)
+
+COMMAND LINE ARGUMENTS:
+E:\Unity\Unity_6.5\6000.5.5f1\Editor\Unity.exe
+-batchmode
+-nographics
+-quit
+-projectPath
+E:/Games_Develop/Little-Castle
+-executeMethod
+LittleCastle.Editor.ConceptRiverEligibilityAudit.Run
+-logFile
+Logs/Concept-River-Eligibility-Final-2026-10-09.log
+Successfully changed project path to: E:/Games_Develop/Little-Castle
+E:/Games_Develop/Little-Castle
+[UnityMemory] Configuration Parameters - Can be set up in boot.config
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-nav-mesh-worker=65536"
+    "memorysetup-temp-allocator-size-audio-worker=65536"
+    "memorysetup-temp-allocator-size-cloud-worker=32768"
+    "memorysetup-temp-allocator-size-gfx=262144"
+    "memorysetup-temp-allocator-size-preload-manager=33554432"
+    "memorysetup-allocator-temp-initial-block-size-main=262144"
+    "memorysetup-allocator-temp-initial-block-size-worker=262144"
+    "memorysetup-temp-allocator-size-job-worker=262144"
+    "memorysetup-temp-allocator-size-background-worker=32768"
+    "memorysetup-bucket-allocator-granularity=16"
+    "memorysetup-bucket-allocator-bucket-count=8"
+    "memorysetup-bucket-allocator-block-size=33554432"
+    "memorysetup-bucket-allocator-block-count=8"
+    "memorysetup-main-allocator-block-size=16777216"
+    "memorysetup-thread-allocator-block-size=16777216"
+    "memorysetup-main-allocator-mimalloc-enabled=0"
+    "memorysetup-gfx-main-allocator-block-size=16777216"
+    "memorysetup-gfx-thread-allocator-block-size=16777216"
+    "memorysetup-cache-allocator-block-size=4194304"
+    "memorysetup-typetree-allocator-block-size=2097152"
+    "memorysetup-profiler-bucket-allocator-granularity=16"
+    "memorysetup-profiler-bucket-allocator-bucket-count=8"
+    "memorysetup-profiler-bucket-allocator-block-size=33554432"
+    "memorysetup-profiler-bucket-allocator-block-count=8"
+    "memorysetup-profiler-allocator-block-size=16777216"
+    "memorysetup-profiler-editor-allocator-block-size=1048576"
+    "memorysetup-temp-allocator-size-main=16777216"
+    "memorysetup-job-temp-allocator-block-size=2097152"
+    "memorysetup-job-temp-allocator-block-size-background=1048576"
+    "memorysetup-job-temp-allocator-reduction-small-platforms=262144"
+Logging is directed to a specific file, skipping project log.Player connection [39252]  Target information:
+
+Player connection [39252]  * "[IP] 192.168.10.139 [Port] 55504 [Flags] 2 [Guid] 1352122126 [EditorId] 1352122126 [Version] 1048832 [Id] WindowsEditor(7,DESKTOP-U3MAU12) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
+
+Player connection [39252]  * "[IP] 10.6.7.1 [Port] 55504 [Flags] 2 [Guid] 1352122126 [EditorId] 1352122126 [Version] 1048832 [Id] WindowsEditor(7,DESKTOP-U3MAU12) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
+
+Player connection [39252] Host joined multi-casting on [225.0.0.222:54997]...
+Player connection [39252] Host joined alternative multi-casting on [225.0.0.222:34997]...
+Input System module state changed to: Initialized.
+[Physics::Module] Initialized fallback backend.
+[Physics::Module] Id: 0xdecafbad
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-Дмитрий" at "2026-10-08T20:48:49.7313082Z"
+[Licensing::Client] Code 10 while verifying Licensing Client signature (process Id: 28740, path: "E:/Unity/Unity_6.5/6000.5.5f1/Editor/Data/Resources/Licensing/Client/Unity.Licensing.Client.exe")
+[Licensing::Module] LicensingClient has failed validation; ignoring
+[Package Manager] Connected to IPC stream "Upm-39208" after 0.4 seconds.
+[Licensing::Module] Licensing is not yet initialized.
+[Licensing::Client] Handshaking with LicensingClient:
+  Version:                 1.18.1+9fbee8e
+  Session Id:              fc13b0e704f2473f92a06acd7ae1ecaa
+  Correlation Id:          88ed4275de81bb46de31cfeccf257026
+  External correlation Id: 3289515205998668359
+  Machine Id:              ukWjmUigJ6C168X6HXqjbBw2IT4=
+[Licensing::Module] Successfully connected to LicensingClient on channel: "LicenseClient-Дмитрий" (connect: 0.37s, validation: 0.41s, handshake: 0.08s)
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-Дмитрий-notifications" at "2026-10-08T20:48:50.2247972Z"
+[Licensing::Module] Connected to LicensingClient (PId: 28740, launch time: 0.14, total connection time: 0.87s)
+[Licensing::Module] Error: Access token is unavailable; failed to update
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: 10171631734416-UnityPersXXXX
+  Product: Unity Personal
+  Type: Assigned
+  Expiration: Unlimited
+[Licensing::Client] Successfully updated license, isAsync: True, time: 0.01
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] Licensing Background thread has ended after 1.05s
+[Licensing::Module] Licensing is initialized (took 0.13s).
+[Licensing::Client] Successfully resolved entitlement details
+Library Redirect Path: Library/
+[Physics::Module] Selected backend.
+[Physics::Module] Name: PhysX
+[Physics::Module] Id: 0xf2b8ea05
+[Physics::Module] SDK Version: 4.1.2
+[Physics::Module] Integration Version: 1.0.0
+[Physics::Module] Threading Mode: Multi-Threaded
+Artifact Garbage Collection - Removed 1 unused hashed content files
+Initialize engine version: 6000.5.5f1 (d16e074b49fd)
+[Subsystems] Discovering subsystems at path E:/Unity/Unity_6.5/6000.5.5f1/Editor/Data/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path E:/Games_Develop/Little-Castle/Assets
+Forcing GfxDevice: Null
+GfxDevice: creating device client; kGfxThreadingModeNonThreaded
+NullGfxDevice:
+    Version:  NULL 1.0 [1.0]
+    Renderer: Null Device
+    Vendor:   Unity Technologies
+Initialize mono
+Mono path[0] = 'E:/Unity/Unity_6.5/6000.5.5f1/Editor/Data/Managed'
+Mono path[1] = 'E:/Unity/Unity_6.5/6000.5.5f1/Editor/Data/BCLExtensions/runtime/netstandard2.1'
+Mono path[2] = 'E:/Unity/Unity_6.5/6000.5.5f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
+Mono config path = 'E:/Unity/Unity_6.5/6000.5.5f1/Editor/Data/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56208
+CodeReloadManager initialized
+ImportWorker Server TCP listen port: 0
+AcceleratorClientConnectionCallback - disconnected - :0
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: E:/Unity/Unity_6.5/6000.5.5f1/Editor/Data/PlaybackEngines/WebGLSupport/UnityEditor.WebGL.Extensions.dll
+Register platform support module: E:/Unity/Unity_6.5/6000.5.5f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
+Registered in 0.001556 seconds.
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+Package Manager log level set to [2]
+ScheduleIndexationOnStartup MainProcess:False IndexOnStartup:True
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  0.394 seconds
+Domain Reload Profiling: 937ms
+	BeginReloadAssembly (154ms)
+		CreateAndSetChildDomain (15ms)
+	RebuildCommonClasses (5ms)
+	RebuildNativeTypeToScriptingClass (16ms)
+	initialDomainReloadingComplete (66ms)
+	LoadAllAssembliesAndSetupDomain (298ms)
+		LoadAssemblies (139ms)
+		AnalyzeDomain (215ms)
+			TypeCache.Refresh (214ms)
+				TypeCache.ScanAssembly (199ms)
+	FinalizeReload (397ms)
+		SetupLoadedEditorAssemblies (0ms)
+			InitializePlatformSupportModulesInManaged (3ms)
+			BeforeProcessingInitializeOnLoad (98ms)
+			ProcessInitializeOnLoadAttributes (98ms)
+			ProcessInitializeOnLoadMethodAttributes (120ms)
+[Licensing::Client] Successfully resolved entitlement details
+Application.AssetDatabase Initial Refresh Start
+[Package Manager] Restoring resolved packages state from cache
+[Licensing::Client] Successfully resolved entitlement details
+[Package Manager] Registered 6 packages:
+  Built-in packages:
+    com.unity.modules.imageconversion@1.0.0 (location: E:\Games_Develop\Little-Castle\Library\PackageCache\com.unity.modules.imageconversion)
+    com.unity.test-framework@1.7.0 (location: E:\Games_Develop\Little-Castle\Library\PackageCache\com.unity.test-framework@1405238725ab)
+    com.unity.modules.physics@1.0.0 (location: E:\Games_Develop\Little-Castle\Library\PackageCache\com.unity.modules.physics)
+    com.unity.ext.nunit@2.1.0 (location: E:\Games_Develop\Little-Castle\Library\PackageCache\com.unity.ext.nunit@44f7d31723bd)
+    com.unity.modules.imgui@1.0.0 (location: E:\Games_Develop\Little-Castle\Library\PackageCache\com.unity.modules.imgui)
+    com.unity.modules.jsonserialize@1.0.0 (location: E:\Games_Develop\Little-Castle\Library\PackageCache\com.unity.modules.jsonserialize)
+[Subsystems] No new subsystems found in resolved package list.
+[Package Manager] Done registering packages in 0.00 seconds
+[ScriptCompilation] Requested script compilation because: AssetDatabase observed changes in script compilation related files
+Starting: E:\Unity\Unity_6.5\6000.5.5f1\Editor\Data\Tools\BuildPipeline\bee_backend.exe --ipc --defer-dag-verification --dagfile="Library/Bee/1900b0aE.dag" --continue-on-failure --profile="Library/Bee/backend1.traceevents" ScriptAssemblies
+WorkingDir: E:/Games_Develop/Little-Castle
+DisplayProgressbar: Compiling Scripts
+ExitCode: 0 Duration: 3s46ms
+[204/210    2s] Csc Library/Bee/artifacts/1900b0aE.dag/LittleCastle.Editor.dll (+2 others)
+Assets\_Game\Editor\TerrainStarterSceneBuilder.cs(62,13): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+
+Assets\_Game\Editor\LocalFullSandboxSetup.cs(1359,17): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+[205/210    0s] CopyFiles Library/ScriptAssemblies/LittleCastle.Editor.pdb
+[209/210    0s] CopyFiles Library/ScriptAssemblies/LittleCastle.Editor.dll
+*** Tundra build success (2.80 seconds), 3 items updated, 210 evaluated
+Assets\_Game\Editor\TerrainStarterSceneBuilder.cs(62,13): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+Assets\_Game\Editor\LocalFullSandboxSetup.cs(1359,17): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+Total cache size 34339412
+Total cache size after purge 34339412, took 00:00:00.0805409
+AssetDatabase: script compilation time: 3.967512s
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+ScheduleIndexationOnStartup MainProcess:True IndexOnStartup:True
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  0.398 seconds
+Domain Reload Profiling: 918ms
+	BeginReloadAssembly (250ms)
+		DisableScriptedObjects (25ms)
+		CreateAndSetChildDomain (46ms)
+	RebuildCommonClasses (10ms)
+	RebuildNativeTypeToScriptingClass (15ms)
+	initialDomainReloadingComplete (46ms)
+	LoadAllAssembliesAndSetupDomain (196ms)
+		LoadAssemblies (220ms)
+		AnalyzeDomain (24ms)
+			TypeCache.Refresh (15ms)
+				TypeCache.ScanAssembly (9ms)
+			BuildScriptInfoCaches (6ms)
+	FinalizeReload (401ms)
+		SetupLoadedEditorAssemblies (0ms)
+			BeforeProcessingInitializeOnLoad (90ms)
+			ProcessInitializeOnLoadAttributes (76ms)
+			ProcessInitializeOnLoadMethodAttributes (73ms)
+		AwakeInstancesAfterBackupRestoration (25ms)
+Starting new worker id: 0 with log in E:/Games_Develop/Little-Castle/Logs/AssetImportWorkerHW0.log
+
+Asset Pipeline Refresh (id=cc58a91e7905cb24e8e4f02360150733): Total: 5.307 seconds - Initiated by InitialRefreshV2(ForceSynchronousImport)
+	(Values over 0.05ms)
+	Summary:
+		Imports: total=0 (actual=0, local cache=0, cache server=0)
+		Asset DB Process Time: managed=0 ms, native=704 ms
+		Asset DB Callback time: managed=72 ms, native=9 ms
+		Scripting: domain reloads=1, domain reload time=542 ms, compile time=3970 ms, other=7 ms
+		Project Asset Count: scripts=239, non-scripts=1340
+		Asset File Changes: new=0, changed=2, moved=0, deleted=0
+		Scan Filter Count: 0
+	InvokePackagesCallback: 8.173ms
+	ApplyChangesToAssetFolders: 0.355ms
+	Scan: 44.660ms
+	Collect global state as custom dependencies: 0.504ms
+	OnSourceAssetsModified: 0.725ms
+	CategorizeScriptCompilationAssets: 2.799ms
+	ProcessAssetsWithTransientArtifactChanges: 6.634ms
+	CategorizeAssets: 8.923ms
+	CompileScripts: 3970.263ms
+	ImportOutOfDateAssets: 592.429ms (403.639ms without children)
+		UnloadImportedAssets: 0.097ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 0.144ms
+		ImportSchedulerStart: 188.544ms
+	PostProcessAllAssets: 73.818ms
+		VCAutoAddAssetPostprocess 1.029ms
+		MonoPostProcessAllAssets: 72.301ms
+			AssetPostprocessor.OnPostprocessAllAssets 30.564ms
+			StyleCatalogPostProcessor.OnPostprocessAllAssets 11.974ms
+			WindowAssetPostprocessingWatcher.OnPostprocessAllAssets 9.793ms
+			BuilderAssetPostprocessor.OnPostprocessAllAssets 4.471ms
+			SyncVS.PostprocessSyncProject 1.737ms
+			AssetChangedListener.OnPostprocessAllAssets 1.720ms
+			RetainedModeAssetPostprocessor.OnPostprocessAllAssets 1.036ms
+			EditModeScopePostprocessor.OnPostprocessAllAssets 0.784ms
+			SpeedTree9Postprocessor.OnPostprocessAllAssets 0.659ms
+			ArtifactBrowserPostProcessor.OnPostprocessAllAssets 0.556ms
+			TextAssetPostProcessor.OnPostprocessAllAssets 0.499ms
+			ReferencedClipsPostProcessor.OnPostprocessAllAssets 0.261ms
+			AudioMixerPostprocessor.OnPostprocessAllAssets 0.234ms
+			AssetEvents.OnPostprocessAllAssets 0.206ms
+			TerrainToolbarOverlayPostProcessor.OnPostprocessAllAssets 0.201ms
+			AssetDatabaseCallbacks.OnPostprocessAllAssets 0.192ms
+			ConfigAssetsTracker.OnPostprocessAllAssets 0.170ms
+			ScenarioDriftAssetsTracker.OnPostprocessAllAssets 0.151ms
+			SpeedTreePostProcessor.OnPostprocessAllAssets 0.130ms
+			RenderPipelineGlobalSettingsPostprocessor.OnPostprocessAllAssets 0.092ms
+			AudioContainerPostProcessor.OnPostprocessAllAssets 0.065ms
+	PostAssetChangesProfiler: 1.835ms
+	UnloadStreamsBegin: 2.103ms
+	Untracked: 589.853ms
+
+Application.AssetDatabase Initial Refresh End
+Scanning for USB devices : 2.639ms
+Initializing Unity extensions:
+[MODES] ModeService[none].Initialize
+[MODES] ModeService[none].LoadModes
+[MODES] Loading mode Default (0) for mode-current-id-Little-Castle
+GetVirtualKey: Could not map char: z (122) to any virtual key
+GetVirtualKey: Could not map char: y (121) to any virtual key
+GetVirtualKey: Could not map char: x (120) to any virtual key
+GetVirtualKey: Could not map char: c (99) to any virtual key
+GetVirtualKey: Could not map char: v (118) to any virtual key
+GetVirtualKey: Could not map char: V (86) to any virtual key
+GetVirtualKey: Could not map char: d (100) to any virtual key
+GetVirtualKey: Could not map char: f (102) to any virtual key
+GetVirtualKey: Could not map char: f (102) to any virtual key
+GetVirtualKey: Could not map char: a (97) to any virtual key
+GetVirtualKey: Could not map char: d (100) to any virtual key
+GetVirtualKey: Could not map char: c (99) to any virtual key
+GetVirtualKey: Could not map char: r (114) to any virtual key
+GetVirtualKey: Could not map char: i (105) to any virtual key
+GetVirtualKey: Could not map char: l (108) to any virtual key
+GetVirtualKey: Could not map char: f (102) to any virtual key
+GetVirtualKey: Could not map char: k (107) to any virtual key
+GetVirtualKey: Could not map char: p (112) to any virtual key
+GetVirtualKey: Could not map char: p (112) to any virtual key
+GetVirtualKey: Could not map char: p (112) to any virtual key
+GetVirtualKey: Could not map char: c (99) to any virtual key
+GetVirtualKey: Could not map char: r (114) to any virtual key
+GetVirtualKey: Could not map char: P (80) to any virtual key
+GetVirtualKey: Could not map char: n (110) to any virtual key
+GetVirtualKey: Could not map char: n (110) to any virtual key
+GetVirtualKey: Could not map char: g (103) to any virtual key
+GetVirtualKey: Could not map char: f (102) to any virtual key
+GetVirtualKey: Could not map char: f (102) to any virtual key
+GetVirtualKey: Could not map char: a (97) to any virtual key
+GetVirtualKey: Could not map char: a (97) to any virtual key
+GetVirtualKey: Could not map char: n (110) to any virtual key
+GetVirtualKey: Could not map char: o (111) to any virtual key
+GetVirtualKey: Could not map char: s (115) to any virtual key
+GetVirtualKey: Could not map char: s (115) to any virtual key
+GetVirtualKey: Could not map char: b (98) to any virtual key
+GetVirtualKey: Could not map char: b (98) to any virtual key
+GetVirtualKey: Could not map char: c (99) to any virtual key
+GetVirtualKey: Could not map char: u (117) to any virtual key
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 573 unused Assets / (0.7 MB). Loaded Objects now: 1232.
+Memory consumption went from 208.5 MB to 207.8 MB.
+Total: 5.344100 ms (FindLiveObjects: 0.123000 ms CreateObjectMapping: 0.120300 ms MarkObjects: 4.686500 ms  DeleteObjects: 0.410800 ms)
+
+GetVirtualKey: Could not map char: z (122) to any virtual key
+GetVirtualKey: Could not map char: y (121) to any virtual key
+GetVirtualKey: Could not map char: x (120) to any virtual key
+GetVirtualKey: Could not map char: c (99) to any virtual key
+GetVirtualKey: Could not map char: v (118) to any virtual key
+GetVirtualKey: Could not map char: V (86) to any virtual key
+GetVirtualKey: Could not map char: d (100) to any virtual key
+GetVirtualKey: Could not map char: f (102) to any virtual key
+GetVirtualKey: Could not map char: f (102) to any virtual key
+GetVirtualKey: Could not map char: a (97) to any virtual key
+GetVirtualKey: Could not map char: d (100) to any virtual key
+GetVirtualKey: Could not map char: c (99) to any virtual key
+GetVirtualKey: Could not map char: r (114) to any virtual key
+GetVirtualKey: Could not map char: i (105) to any virtual key
+GetVirtualKey: Could not map char: l (108) to any virtual key
+GetVirtualKey: Could not map char: f (102) to any virtual key
+GetVirtualKey: Could not map char: k (107) to any virtual key
+GetVirtualKey: Could not map char: p (112) to any virtual key
+GetVirtualKey: Could not map char: p (112) to any virtual key
+GetVirtualKey: Could not map char: p (112) to any virtual key
+GetVirtualKey: Could not map char: c (99) to any virtual key
+GetVirtualKey: Could not map char: r (114) to any virtual key
+GetVirtualKey: Could not map char: P (80) to any virtual key
+GetVirtualKey: Could not map char: n (110) to any virtual key
+GetVirtualKey: Could not map char: n (110) to any virtual key
+GetVirtualKey: Could not map char: g (103) to any virtual key
+GetVirtualKey: Could not map char: f (102) to any virtual key
+GetVirtualKey: Could not map char: f (102) to any virtual key
+GetVirtualKey: Could not map char: a (97) to any virtual key
+GetVirtualKey: Could not map char: a (97) to any virtual key
+GetVirtualKey: Could not map char: n (110) to any virtual key
+GetVirtualKey: Could not map char: o (111) to any virtual key
+GetVirtualKey: Could not map char: s (115) to any virtual key
+GetVirtualKey: Could not map char: s (115) to any virtual key
+GetVirtualKey: Could not map char: b (98) to any virtual key
+GetVirtualKey: Could not map char: b (98) to any virtual key
+GetVirtualKey: Could not map char: c (99) to any virtual key
+GetVirtualKey: Could not map char: u (117) to any virtual key
+RIVER_ELIGIBILITY seed=12345 experiment=saved eligible=0 rivers=0 classReject=8 heightReject=0 slopeReject=0
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LittleCastle.Editor.ConceptRiverEligibilityAudit:Run () (at Assets/_Game/Editor/ConceptRiverEligibilityAudit.cs:87)
+
+(Filename: Assets/_Game/Editor/ConceptRiverEligibilityAudit.cs Line: 87)
+
+Curl error 35: Cert verify failed. Certificate could not be verified (either omitted or unsupported). UnityTls error code: 7
+RIVER_ELIGIBILITY seed=12345 experiment=chance1 eligible=0 rivers=0 classReject=16 heightReject=0 slopeReject=0
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LittleCastle.Editor.ConceptRiverEligibilityAudit:Run () (at Assets/_Game/Editor/ConceptRiverEligibilityAudit.cs:87)
+
+(Filename: Assets/_Game/Editor/ConceptRiverEligibilityAudit.cs Line: 87)
+
+RIVER_ELIGIBILITY seed=12345 experiment=chance1-spacing320 eligible=0 rivers=0 classReject=31 heightReject=0 slopeReject=0
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LittleCastle.Editor.ConceptRiverEligibilityAudit:Run () (at Assets/_Game/Editor/ConceptRiverEligibilityAudit.cs:87)
+
+(Filename: Assets/_Game/Editor/ConceptRiverEligibilityAudit.cs Line: 87)
+
+RIVER_ELIGIBILITY seed=12345 experiment=saved-allowplains eligible=0 rivers=0 classReject=0 heightReject=8 slopeReject=0
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LittleCastle.Editor.ConceptRiverEligibilityAudit:Run () (at Assets/_Game/Editor/ConceptRiverEligibilityAudit.cs:87)
+
+(Filename: Assets/_Game/Editor/ConceptRiverEligibilityAudit.cs Line: 87)
+
+RIVER_ELIGIBILITY seed=54321 experiment=saved eligible=0 rivers=0 classReject=10 heightReject=0 slopeReject=0
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LittleCastle.Editor.ConceptRiverEligibilityAudit:Run () (at Assets/_Game/Editor/ConceptRiverEligibilityAudit.cs:87)
+
+(Filename: Assets/_Game/Editor/ConceptRiverEligibilityAudit.cs Line: 87)
+
+Worker ready: AssetImportWorkerHW0 0
+RIVER_ELIGIBILITY seed=54321 experiment=chance1 eligible=1 rivers=1 classReject=13 heightReject=1 slopeReject=0
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LittleCastle.Editor.ConceptRiverEligibilityAudit:Run () (at Assets/_Game/Editor/ConceptRiverEligibilityAudit.cs:87)
+
+(Filename: Assets/_Game/Editor/ConceptRiverEligibilityAudit.cs Line: 87)
+
+RIVER_ELIGIBILITY seed=54321 experiment=chance1-spacing320 eligible=0 rivers=0 classReject=31 heightReject=0 slopeReject=0
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LittleCastle.Editor.ConceptRiverEligibilityAudit:Run () (at Assets/_Game/Editor/ConceptRiverEligibilityAudit.cs:87)
+
+(Filename: Assets/_Game/Editor/ConceptRiverEligibilityAudit.cs Line: 87)
+
+RIVER_ELIGIBILITY seed=54321 experiment=saved-allowplains eligible=0 rivers=0 classReject=0 heightReject=10 slopeReject=0
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LittleCastle.Editor.ConceptRiverEligibilityAudit:Run () (at Assets/_Game/Editor/ConceptRiverEligibilityAudit.cs:87)
+
+(Filename: Assets/_Game/Editor/ConceptRiverEligibilityAudit.cs Line: 87)
+
+Batchmode quit successfully invoked - shutting down!
+[Physics::Module] Cleanup current backend.
+[Physics::Module] Id: 0xf2b8ea05
+Input System module state changed to: ShutdownInProgress.
+Input Polling Thread exited.
+Input System module state changed to: Shutdown.
+[Licensing::IpcConnector] LicenseClient-Дмитрий-notifications channel disconnected successfully.
+[Licensing::IpcConnector] LicenseClient-Дмитрий channel disconnected successfully.
+AcceleratorClientConnectionCallback - disconnected - :0
+Cleanup mono
+CodeReloadManager destroyed
+Exiting batchmode successfully now!
+Exiting without the bug reporter. Application will terminate with return code 0

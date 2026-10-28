@@ -1,7 +1,11 @@
 {
   "name": "LittleCastle.Runtime",
   "rootNamespace": "LittleCastle",
-  "references": [],
+  "references": [
+    "Unity.RenderPipelines.Core.Runtime",
+    "Unity.RenderPipelines.Universal.Runtime",
+    "UberWaterPlannerReflection"
+  ],
   "includePlatforms": [],
   "excludePlatforms": [],
   "allowUnsafeCode": false,

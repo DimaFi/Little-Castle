@@ -1,0 +1,137 @@
+{
+  "tests": {
+    "editmode": {
+      "total": "295",
+      "passed": "294",
+      "failed": "1",
+      "skipped": "0",
+      "failures": [
+        "LittleCastle.Tests.ConceptNaturalVegetationTests.GroundCoverPresetsRespectClearanceWhileMainTreeFlagsStayLegacy"
+      ]
+    },
+    "playmode": {
+      "total": "16",
+      "passed": "16",
+      "failed": "0",
+      "skipped": "0",
+      "failures": []
+    }
+  },
+  "benchmarks": {
+    "far-river": {
+      "frames": 600,
+      "wallMs": {
+        "samples": 600,
+        "median": 1.8069499999997518,
+        "p95": 3.1514999999995297
+      },
+      "cpuMs": {
+        "samples": 600,
+        "median": 1.8084500000000001,
+        "p95": 3.1305
+      },
+      "gpuMs": {
+        "samples": 433,
+        "median": 0.78848,
+        "p95": 0.83456
+      },
+      "description": "600 ordinary rendered camera frames; 120 warmup; no PNG/readback during measurement.\nCPU timing samples=600; GPU timing samples=433; GC recorder=False\nBatchMode=False; focused=True; GPU=NVIDIA GeForce RTX 4070 Ti SUPER; API=Direct3D12\nDistance=115; hour=12; AO=True; resolution=1600x900; grassPatches=105; clumps=12705; triangles=101640; grassDraws=26\nRiver=True; riverCommitMs=281.16339999999963; residentWaterTiles=3; reflectionScale=0,5\nGPU/CPU zero timings mean unavailable, not zero cost.\n"
+    },
+    "mid-no-river": {
+      "frames": 600,
+      "wallMs": {
+        "samples": 600,
+        "median": 1.2284000000000184,
+        "p95": 2.615800000000057
+      },
+      "cpuMs": {
+        "samples": 600,
+        "median": 1.2286,
+        "p95": 2.6021
+      },
+      "gpuMs": {
+        "samples": 417,
+        "median": 0.693248,
+        "p95": 0.835584
+      },
+      "description": "600 ordinary rendered camera frames; 120 warmup; no PNG/readback during measurement.\nCPU timing samples=600; GPU timing samples=417; GC recorder=False\nBatchMode=False; focused=True; GPU=NVIDIA GeForce RTX 4070 Ti SUPER; API=Direct3D12\nDistance=35; hour=12; AO=True; resolution=1600x900; grassPatches=76; clumps=9196; triangles=434632; grassDraws=19\nRiver=False; riverCommitMs=0; residentWaterTiles=0; reflectionScale=0,5\nGPU/CPU zero timings mean unavailable, not zero cost.\n"
+    },
+    "mid-river": {
+      "frames": 600,
+      "wallMs": {
+        "samples": 600,
+        "median": 1.8460500000010427,
+        "p95": 3.1160000000003407
+      },
+      "cpuMs": {
+        "samples": 600,
+        "median": 1.85965,
+        "p95": 3.095
+      },
+      "gpuMs": {
+        "samples": 433,
+        "median": 1.119232,
+        "p95": 1.466368
+      },
+      "description": "600 ordinary rendered camera frames; 120 warmup; no PNG/readback during measurement.\nCPU timing samples=600; GPU timing samples=433; GC recorder=False\nBatchMode=False; focused=True; GPU=NVIDIA GeForce RTX 4070 Ti SUPER; API=Direct3D12\nDistance=35; hour=12; AO=True; resolution=1600x900; grassPatches=76; clumps=9196; triangles=434632; grassDraws=19\nRiver=True; riverCommitMs=277.52470000000073; residentWaterTiles=3; reflectionScale=0,5\nGPU/CPU zero timings mean unavailable, not zero cost.\n"
+    },
+    "near-river": {
+      "frames": 600,
+      "wallMs": {
+        "samples": 600,
+        "median": 1.4198499999995562,
+        "p95": 2.679500000000168
+      },
+      "cpuMs": {
+        "samples": 600,
+        "median": 1.4224,
+        "p95": 2.6405
+      },
+      "gpuMs": {
+        "samples": 407,
+        "median": 0.795648,
+        "p95": 0.863232
+      },
+      "description": "600 ordinary rendered camera frames; 120 warmup; no PNG/readback during measurement.\nCPU timing samples=600; GPU timing samples=407; GC recorder=False\nBatchMode=False; focused=True; GPU=NVIDIA GeForce RTX 4070 Ti SUPER; API=Direct3D12\nDistance=11; hour=12; AO=True; resolution=1600x900; grassPatches=30; clumps=3630; triangles=360096; grassDraws=8\nRiver=True; riverCommitMs=280.45960000000036; residentWaterTiles=3; reflectionScale=0,5\nGPU/CPU zero timings mean unavailable, not zero cost.\n"
+    },
+    "night-river": {
+      "frames": 600,
+      "wallMs": {
+        "samples": 600,
+        "median": 1.8269000000010749,
+        "p95": 3.2326999999998662
+      },
+      "cpuMs": {
+        "samples": 600,
+        "median": 1.82465,
+        "p95": 3.2435
+      },
+      "gpuMs": {
+        "samples": 444,
+        "median": 1.071104,
+        "p95": 1.675264
+      },
+      "description": "600 ordinary rendered camera frames; 120 warmup; no PNG/readback during measurement.\nCPU timing samples=600; GPU timing samples=444; GC recorder=False\nBatchMode=False; focused=True; GPU=NVIDIA GeForce RTX 4070 Ti SUPER; API=Direct3D12\nDistance=35; hour=1; AO=True; resolution=1600x900; grassPatches=76; clumps=9196; triangles=434632; grassDraws=19\nRiver=True; riverCommitMs=279.29540000000054; residentWaterTiles=3; reflectionScale=0,5\nGPU/CPU zero timings mean unavailable, not zero cost.\n"
+    }
+  },
+  "acceptance": {
+    "result": "PASS automated checks; visual acceptance remains manual.",
+    "runtimeErrorsBytes": 0,
+    "pngCount": 40,
+    "riverChecks": "PASS shared control-point clicks; draft guard; Apply v2; Undo/Redo; isolated disk save/load; resident water and day/night renders.",
+    "continuousTime": {
+      "samples": 240,
+      "monotonic": true,
+      "fromHour": "19.819442749023438",
+      "toHour": "6.9666657447814941"
+    },
+    "build": "PlayerFinal/WorldEditor.exe"
+  },
+  "build": "Succeeded\nErrors=0; warnings=3; colorSpace=Linear",
+  "buildRestoration": "Restored default=Assets/_Game/Settings/Rendering/URP/LittleCastle_URP_Medium.asset\nAssets/_Game/Settings/Rendering/URP/LittleCastle_URP_Low.asset\nAssets/_Game/Settings/Rendering/URP/LittleCastle_URP_Low.asset\nAssets/_Game/Settings/Rendering/URP/LittleCastle_URP_Medium.asset\nAssets/_Game/Settings/Rendering/URP/LittleCastle_URP_High.asset\nAssets/_Game/Settings/Rendering/URP/LittleCastle_URP_High.asset\nAssets/_Game/Settings/Rendering/URP/LittleCastle_URP_Ultra.asset\nProjectSettings/ProjectSettings.asset bytes restored=True\nProjectSettings/GraphicsSettings.asset bytes restored=True\nProjectSettings/QualitySettings.asset bytes restored=True",
+  "manual": {
+    "SceneViewRiverCreateApplyUndoRedo": "PASS via native Unity UI",
+    "PlayModePanelManualCurrent": "NOT RUN; foreground user input interrupted remaining GUI checks",
+    "AuthoringBaseMutated": false
+  }
+}

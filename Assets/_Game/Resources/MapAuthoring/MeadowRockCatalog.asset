@@ -1,0 +1,81 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b02d7c5a273ce374688b41c0fc0b612d, type: 3}
+  m_Name: MeadowRockCatalog
+  m_EditorClassIdentifier: LittleCastle.Runtime::LittleCastle.Rendering.MapRockCatalog
+  entries:
+  - title: "\u0414\u043B\u0438\u043D\u043D\u0430\u044F A"
+    sourcePath: "E:/Games_Develop/\u041F\u0435\u0440\u0441\u043E\u043D\u0430\u0436\u0438/\u0421\u043A\u0430\u043B\u044B_\u0431\u0435\u0440\u0435\u0433/1_\u0434\u043B\u0438\u043D\u043D\u0430\u044F
+      \u0441\u043A\u0430\u043B\u0430/Optimized_3k_v001/RiverCliff_Long_A_3k.fbx"
+    definition:
+      id: river.cliff.long.a
+      version: 1
+      length: 5.9999995
+      height: 2.586061
+      thickness: 2.857729
+      embed: 0.22
+      overlap: 0.85
+      minimumScale: 0.94
+      maximumScale: 1.06
+      maxTurn: 25
+      weight: 1
+      allowReverse: 1
+    prefab: {fileID: 793534497691722127, guid: f12b8a8d39750f74498c4433cb7d86cb, type: 3}
+    bounds:
+      m_Center: {x: 0, y: 1.2930306, z: 0}
+      m_Extent: {x: 1.4288645, y: 1.2930305, z: 2.9999998}
+  - title: "\u0423\u0437\u043A\u0430\u044F B"
+    sourcePath: "E:/Games_Develop/\u041F\u0435\u0440\u0441\u043E\u043D\u0430\u0436\u0438/\u0421\u043A\u0430\u043B\u044B_\u0431\u0435\u0440\u0435\u0433/2_\u0443\u0437\u043A\u0430\u044F/\u0421\u0442\u0438\u043B\u0438\u0437\u043E\u0432\u0430\u043D\u043D\u044B\u0439
+      \u0441\u043A\u0430\u043B\u0438\u0441\u0442\u044B\u0439 \u0443\u0442\u0451\u0441
+      \u0441 \u0442\u0440\u0430\u0432\u043E\u0439_\u0443\u0437\u043A\u0438\u0439.fbx"
+    definition:
+      id: river.cliff.narrow.b
+      version: 1
+      length: 6
+      height: 3.2994137
+      thickness: 3.393347
+      embed: 0.22
+      overlap: 0.85
+      minimumScale: 0.94
+      maximumScale: 1.06
+      maxTurn: 25
+      weight: 1
+      allowReverse: 1
+    prefab: {fileID: 1280697856288370119, guid: 0815b9a2aa3ba9c4eb55c6345eaf2430, type: 3}
+    bounds:
+      m_Center: {x: 0, y: 1.6497068, z: 0}
+      m_Extent: {x: 1.6966735, y: 1.6497068, z: 3}
+  - title: "\u0414\u0432\u0443\u0441\u0442\u043E\u0440\u043E\u043D\u043D\u044F\u044F
+      C"
+    sourcePath: "E:/Games_Develop/\u041F\u0435\u0440\u0441\u043E\u043D\u0430\u0436\u0438/\u0421\u043A\u0430\u043B\u044B_\u0431\u0435\u0440\u0435\u0433/3_\u0434\u043B\u0438\u043D\u043D\u0430\u044F_\u0441_\u0434\u0432\u0443\u0445_\u0441\u0442\u043E\u0440\u043E\u043D/\u041C\u043E\u0434\u0443\u043B\u044C\u043D\u0430\u044F
+      \u0441\u043A\u0430\u043B\u0430 \u0441 \u0442\u0440\u0430\u0432\u044F\u043D\u0438\u0441\u0442\u044B\u043C\u0438
+      \u0442\u0435\u0440\u0440\u0430\u0441\u0430\u043C\u0438_\u043F\u0440\u044F\u043C\u0430\u044F
+      \u0441 \u043E\u0431\u043E\u0438\u0445 \u0441\u0442\u043E\u0440\u043E\u043D.fbx"
+    definition:
+      id: river.cliff.double.c
+      version: 1
+      length: 6
+      height: 2.4540129
+      thickness: 2.0547948
+      embed: 0.22
+      overlap: 0.85
+      minimumScale: 0.94
+      maximumScale: 1.06
+      maxTurn: 25
+      weight: 1
+      allowReverse: 1
+    prefab: {fileID: 54300583572636558, guid: 96a1c907b3ea1e446a4dd1b21e950ba6, type: 3}
+    bounds:
+      m_Center: {x: 0, y: 1.2270066, z: 0}
+      m_Extent: {x: 1.0273974, y: 1.2270064, z: 3}
+  waterMaterial: {fileID: 2100000, guid: 6d4d555b3b70fc34dbea93f19b05f025, type: 2}
+  bankMaterial: {fileID: 2100000, guid: f510887f3e437f64ca3010016ec71312, type: 2}

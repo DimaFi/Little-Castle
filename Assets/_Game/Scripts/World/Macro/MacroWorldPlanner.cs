@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace LittleCastle.World
@@ -58,6 +60,19 @@ namespace LittleCastle.World
                 plan,
                 settings.RoadNetwork);
 
+            bool bridgeAware =
+                terrainProbe != null &&
+                settings.RoadPaths != null &&
+                settings.RoadPaths.enabled &&
+                settings.Bridges != null &&
+                settings.Bridges.enabled &&
+                settings.Bridges.useFixedStoneBridgeSites &&
+                settings.Bridges.enableBridgeAwareRouting;
+
+            if (bridgeAware && settings.Bridges.requireConnectedFeatureGraph)
+                RoadNetworkPlanner.BuildConnectivityBackbone(
+                    worldSeed, plan, settings.RoadNetwork);
+
             if (terrainProbe != null)
             {
                 TerrainRoadPathPlanner.BuildRoadPaths(
@@ -66,10 +81,92 @@ namespace LittleCastle.World
                     settings.RoadPaths);
             }
 
+            // Capture desired edges before the fixed planner atomically
+            // removes unsupported roads/connections. The recovery is opt-in.
+            List<WorldRoadConnectionData> desiredConnections =
+                bridgeAware
+                    ? new List<WorldRoadConnectionData>(plan.RoadConnections)
+                    : null;
+
             BridgeSitePlanner.BuildBridgeSites(
                 worldSeed,
                 plan,
-                settings.Bridges);
+                settings.Bridges,
+                terrainProbe);
+
+            if (bridgeAware)
+            {
+                BridgeAwareRoutingPlanner.RecoveryResult recovery =
+                    BridgeAwareRoutingPlanner.RecoverRejectedConnections(
+                        worldSeed,
+                        plan,
+                        desiredConnections,
+                        terrainProbe,
+                        settings.RoadPaths,
+                        settings.Bridges);
+
+                // First repair failed original links, then seek alternate
+                // paths between the components of REALIZED, not merely
+                // logical, roads. No new feature/resource or fake bridge.
+                RealizedRoadConnectivityRepair.Result repair =
+                    RealizedRoadConnectivityRepair.Repair(
+                        worldSeed,
+                        plan,
+                        terrainProbe,
+                        settings.RoadNetwork,
+                        settings.RoadPaths,
+                        settings.Bridges,
+                        recovery.failedIds);
+
+                var diagnostics =
+                    WorldRouteConnectivityValidator.Validate(
+                        plan,
+                        settings.Bridges.minimumFixedBridgeCount,
+                        settings.Bridges.requireConnectedFeatureGraph);
+
+                diagnostics.originalRejectedConnections =
+                    recovery.failedConnections;
+                diagnostics.repairInitialComponents =
+                    repair.initialComponents;
+                diagnostics.repairAttemptedCandidates =
+                    repair.candidatesConsidered;
+                diagnostics.repairAcceptedConnections =
+                    repair.acceptedConnections;
+                diagnostics.repairPathAttempts =
+                    repair.routeAttempts;
+
+                // Rejected requested edges are not themselves a bootstrap
+                // failure once valid alternative roads reconnect the graph.
+                // Without strict connectivity, preserve the old exact
+                // reporting behavior for failed requested connections.
+                if (recovery.failedConnections > 0 &&
+                    (!settings.Bridges.requireConnectedFeatureGraph ||
+                     diagnostics.components > 1))
+                    diagnostics.Fail(
+                        "Unable to realize " + recovery.failedConnections +
+                        " requested road connections after " +
+                        recovery.pathAttempts + " bounded retries; " +
+                        "alternate repair: " + repair.Summary);
+
+                plan.RouteDiagnostics = diagnostics;
+                plan.BridgeAwareRoutingAttempted = true;
+                plan.BridgeAwareRoutingSatisfied = diagnostics.IsValid;
+
+                if (!diagnostics.IsValid)
+                {
+                    string message =
+                        "Bridge-aware macro routing failed: " +
+                        recovery.Summary + "; " +
+                        "repair=" + repair.Summary + "; " +
+                        diagnostics.Summary + "; " +
+                        string.Join("; ", diagnostics.errors);
+
+                    if (settings.Bridges.failOnRoutingError)
+                        throw new InvalidOperationException(message);
+
+                    Debug.LogWarning(message);
+                }
+            }
 
             return plan;
         }

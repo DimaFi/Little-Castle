@@ -1,0 +1,1 @@
+PASS shared control-point clicks; draft guard; Apply v2; Undo/Redo; isolated disk save/load; resident water and day/night renders.

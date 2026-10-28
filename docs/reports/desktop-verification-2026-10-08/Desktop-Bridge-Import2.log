@@ -1,0 +1,636 @@
+[Licensing::Module] Trying to connect to existing licensing client channel...
+[Licensing::IpcConnector] Channel LicenseClient-Дмитрий doesn't exist
+Built from '6000.5/staging' branch; Version is '6000.5.5f1 (d16e074b49fd) revision 13725191'; Using compiler version '194234433'; Build Type 'Release'
+OS: 'Windows 11  (10.0.26200) Professional' Language: 'ru' Physical Memory: 32625 MB
+BatchMode: 1, IsHumanControllingUs: 0, StartBugReporterOnCrash: 0, Is64bit: 1
+System  architecture: x64
+Process architecture: x64
+Date: 2026-10-08T19:56:35Z
+[Licensing::Module] Successfully launched the LicensingClient (PId: 29008)
+
+COMMAND LINE ARGUMENTS:
+E:\Unity\Unity_6.5\6000.5.5f1\Editor\Unity.exe
+-batchmode
+-nographics
+-quit
+-projectPath
+E:/Games_Develop/Little-Castle
+-executeMethod
+LittleCastle.Editor.BridgeStoneAssetIntegration.ImportFromEnvironment
+-logFile
+E:/Games_Develop/Little-Castle/Logs/Desktop-Bridge-Import2.log
+Successfully changed project path to: E:/Games_Develop/Little-Castle
+E:/Games_Develop/Little-Castle
+[UnityMemory] Configuration Parameters - Can be set up in boot.config
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-nav-mesh-worker=65536"
+    "memorysetup-temp-allocator-size-audio-worker=65536"
+    "memorysetup-temp-allocator-size-cloud-worker=32768"
+    "memorysetup-temp-allocator-size-gfx=262144"
+    "memorysetup-temp-allocator-size-preload-manager=33554432"
+    "memorysetup-allocator-temp-initial-block-size-main=262144"
+    "memorysetup-allocator-temp-initial-block-size-worker=262144"
+    "memorysetup-temp-allocator-size-job-worker=262144"
+    "memorysetup-temp-allocator-size-background-worker=32768"
+    "memorysetup-bucket-allocator-granularity=16"
+    "memorysetup-bucket-allocator-bucket-count=8"
+    "memorysetup-bucket-allocator-block-size=33554432"
+    "memorysetup-bucket-allocator-block-count=8"
+    "memorysetup-main-allocator-block-size=16777216"
+    "memorysetup-thread-allocator-block-size=16777216"
+    "memorysetup-main-allocator-mimalloc-enabled=0"
+    "memorysetup-gfx-main-allocator-block-size=16777216"
+    "memorysetup-gfx-thread-allocator-block-size=16777216"
+    "memorysetup-cache-allocator-block-size=4194304"
+    "memorysetup-typetree-allocator-block-size=2097152"
+    "memorysetup-profiler-bucket-allocator-granularity=16"
+    "memorysetup-profiler-bucket-allocator-bucket-count=8"
+    "memorysetup-profiler-bucket-allocator-block-size=33554432"
+    "memorysetup-profiler-bucket-allocator-block-count=8"
+    "memorysetup-profiler-allocator-block-size=16777216"
+    "memorysetup-profiler-editor-allocator-block-size=1048576"
+    "memorysetup-temp-allocator-size-main=16777216"
+    "memorysetup-job-temp-allocator-block-size=2097152"
+    "memorysetup-job-temp-allocator-block-size-background=1048576"
+    "memorysetup-job-temp-allocator-reduction-small-platforms=262144"
+Logging is directed to a specific file, skipping project log.Player connection [35484]  Target information:
+
+Player connection [35484]  * "[IP] 192.168.10.139 [Port] 55504 [Flags] 2 [Guid] 1327962987 [EditorId] 1327962987 [Version] 1048832 [Id] WindowsEditor(7,DESKTOP-U3MAU12) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
+
+Player connection [35484]  * "[IP] 10.6.7.1 [Port] 55504 [Flags] 2 [Guid] 1327962987 [EditorId] 1327962987 [Version] 1048832 [Id] WindowsEditor(7,DESKTOP-U3MAU12) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
+
+Player connection [35484] Host joined multi-casting on [225.0.0.222:54997]...
+Player connection [35484] Host joined alternative multi-casting on [225.0.0.222:34997]...
+Input System module state changed to: Initialized.
+[Physics::Module] Initialized fallback backend.
+[Physics::Module] Id: 0xdecafbad
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-Дмитрий" at "2026-10-08T19:56:35.9302263Z"
+[Licensing::Client] Code 10 while verifying Licensing Client signature (process Id: 29008, path: "E:/Unity/Unity_6.5/6000.5.5f1/Editor/Data/Resources/Licensing/Client/Unity.Licensing.Client.exe")
+[Licensing::Module] LicensingClient has failed validation; ignoring
+[Licensing::Client] Handshaking with LicensingClient:
+  Version:                 1.18.1+9fbee8e
+  Session Id:              659f270744984dee9d038461530428fd
+  Correlation Id:          a280bf48179ef4ba402eab7863681709
+  External correlation Id: 5985120548120625295
+  Machine Id:              ukWjmUigJ6C168X6HXqjbBw2IT4=
+[Licensing::Module] Successfully connected to LicensingClient on channel: "LicenseClient-Дмитрий" (connect: 0.25s, validation: 0.04s, handshake: 0.06s)
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-Дмитрий-notifications" at "2026-10-08T19:56:36.0266649Z"
+[Licensing::Module] Connected to LicensingClient (PId: 29008, launch time: 0.00, total connection time: 0.34s)
+[Licensing::Module] Error: Access token is unavailable; failed to update
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: 10171631734416-UnityPersXXXX
+  Product: Unity Personal
+  Type: Assigned
+  Expiration: Unlimited
+[Licensing::Client] Successfully updated license, isAsync: True, time: 0.01
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] Licensing Background thread has ended after 0.38s
+[Package Manager] Connected to IPC stream "Upm-17412" after 0.2 seconds.
+[Licensing::Client] Successfully resolved entitlement details
+Library Redirect Path: Library/
+[Physics::Module] Selected backend.
+[Physics::Module] Name: PhysX
+[Physics::Module] Id: 0xf2b8ea05
+[Physics::Module] SDK Version: 4.1.2
+[Physics::Module] Integration Version: 1.0.0
+[Physics::Module] Threading Mode: Multi-Threaded
+Initialize engine version: 6000.5.5f1 (d16e074b49fd)
+[Subsystems] Discovering subsystems at path E:/Unity/Unity_6.5/6000.5.5f1/Editor/Data/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path E:/Games_Develop/Little-Castle/Assets
+Forcing GfxDevice: Null
+GfxDevice: creating device client; kGfxThreadingModeNonThreaded
+NullGfxDevice:
+    Version:  NULL 1.0 [1.0]
+    Renderer: Null Device
+    Vendor:   Unity Technologies
+Initialize mono
+Mono path[0] = 'E:/Unity/Unity_6.5/6000.5.5f1/Editor/Data/Managed'
+Mono path[1] = 'E:/Unity/Unity_6.5/6000.5.5f1/Editor/Data/BCLExtensions/runtime/netstandard2.1'
+Mono path[2] = 'E:/Unity/Unity_6.5/6000.5.5f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
+Mono config path = 'E:/Unity/Unity_6.5/6000.5.5f1/Editor/Data/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56412
+CodeReloadManager initialized
+ImportWorker Server TCP listen port: 0
+AcceleratorClientConnectionCallback - disconnected - :0
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: E:/Unity/Unity_6.5/6000.5.5f1/Editor/Data/PlaybackEngines/WebGLSupport/UnityEditor.WebGL.Extensions.dll
+Register platform support module: E:/Unity/Unity_6.5/6000.5.5f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
+Registered in 0.001541 seconds.
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+Package Manager log level set to [2]
+ScheduleIndexationOnStartup MainProcess:False IndexOnStartup:True
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  0.329 seconds
+Domain Reload Profiling: 780ms
+	BeginReloadAssembly (137ms)
+		CreateAndSetChildDomain (18ms)
+	RebuildCommonClasses (4ms)
+	RebuildNativeTypeToScriptingClass (13ms)
+	initialDomainReloadingComplete (52ms)
+	LoadAllAssembliesAndSetupDomain (243ms)
+		LoadAssemblies (119ms)
+		AnalyzeDomain (178ms)
+			TypeCache.Refresh (177ms)
+				TypeCache.ScanAssembly (165ms)
+	FinalizeReload (331ms)
+		SetupLoadedEditorAssemblies (0ms)
+			BeforeProcessingInitializeOnLoad (79ms)
+			ProcessInitializeOnLoadAttributes (84ms)
+			ProcessInitializeOnLoadMethodAttributes (100ms)
+[Licensing::Client] Successfully resolved entitlement details
+Application.AssetDatabase Initial Refresh Start
+[Package Manager] Restoring resolved packages state from cache
+[Licensing::Client] Successfully resolved entitlement details
+[Package Manager] Registered 6 packages:
+  Built-in packages:
+    com.unity.modules.imageconversion@1.0.0 (location: E:\Games_Develop\Little-Castle\Library\PackageCache\com.unity.modules.imageconversion)
+    com.unity.test-framework@1.7.0 (location: E:\Games_Develop\Little-Castle\Library\PackageCache\com.unity.test-framework@1405238725ab)
+    com.unity.modules.physics@1.0.0 (location: E:\Games_Develop\Little-Castle\Library\PackageCache\com.unity.modules.physics)
+    com.unity.ext.nunit@2.1.0 (location: E:\Games_Develop\Little-Castle\Library\PackageCache\com.unity.ext.nunit@44f7d31723bd)
+    com.unity.modules.imgui@1.0.0 (location: E:\Games_Develop\Little-Castle\Library\PackageCache\com.unity.modules.imgui)
+    com.unity.modules.jsonserialize@1.0.0 (location: E:\Games_Develop\Little-Castle\Library\PackageCache\com.unity.modules.jsonserialize)
+[Subsystems] No new subsystems found in resolved package list.
+[Package Manager] Done registering packages in 0.00 seconds
+[ScriptCompilation] Requested script compilation because: AssetDatabase observed changes in script compilation related files
+Starting: E:\Unity\Unity_6.5\6000.5.5f1\Editor\Data\Tools\BuildPipeline\bee_backend.exe --ipc --defer-dag-verification --dagfile="Library/Bee/1900b0aE.dag" --continue-on-failure --profile="Library/Bee/backend1.traceevents" ScriptAssemblies
+WorkingDir: E:/Games_Develop/Little-Castle
+DisplayProgressbar: Compiling Scripts
+ExitCode: 0 Duration: 1s536ms
+[204/210    0s] Csc Library/Bee/artifacts/1900b0aE.dag/LittleCastle.Editor.dll (+2 others)
+Assets\_Game\Editor\TerrainStarterSceneBuilder.cs(62,13): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+
+Assets\_Game\Editor\LocalFullSandboxSetup.cs(1359,17): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+[205/210    0s] CopyFiles Library/ScriptAssemblies/LittleCastle.Editor.pdb
+[206/210    0s] Csc Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp.dll (+2 others)
+[207/210    0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp.pdb
+[208/210    0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp.dll
+[209/210    0s] CopyFiles Library/ScriptAssemblies/LittleCastle.Editor.dll
+*** Tundra build success (1.51 seconds), 6 items updated, 210 evaluated
+Assets\_Game\Editor\TerrainStarterSceneBuilder.cs(62,13): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+Assets\_Game\Editor\LocalFullSandboxSetup.cs(1359,17): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+Total cache size 34339412
+Total cache size after purge 34339412, took 00:00:00.0635482
+AssetDatabase: script compilation time: 2.203105s
+Begin MonoManager ReloadAssembly
+Importing 'GUID: 2b6ac8d4f520441f83bdcf5c315b55e3 - Path: Assets/_Game/Models' with importer (DefaultImporter)
+Imported 'GUID: 2b6ac8d4f520441f83bdcf5c315b55e3' -> (Import Result ID: '1e91f87ab6fdc3e96d7496bb443bbaa3') in 0.011 seconds [static dependencies only]. Details - ImportResultOutputID=58160ff7eb5978161ffc1b033a8c169b DependenciesID=71a6216cbe2443d66a48ed3f0387a367 StaticDependenciesID=3b9ee66e6ae6aaea6b2cccbf3319d9ec 
+Importing 'GUID: ca6f78d7259f48f98e75f2ed3617e798 - Path: Assets/_Game/Models/Concept' with importer (DefaultImporter)
+Imported 'GUID: ca6f78d7259f48f98e75f2ed3617e798' -> (Import Result ID: 'b8e02914c12d01af02bb4425ed5e41ad') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=51def4a4ab1cd21212ca972cd80faa91 DependenciesID=6575ec1bef4ceac40f7f631ed387588d StaticDependenciesID=16f4a978b600c6bd273c6ad4ec32aa00 
+Importing 'GUID: 524be6ad2c7a4d2ca2fc6afc49f510cb - Path: Assets/_Game/Models/Concept/Bridge_Stone_A' with importer (DefaultImporter)
+Imported 'GUID: 524be6ad2c7a4d2ca2fc6afc49f510cb' -> (Import Result ID: 'd960d249eef520811786b25059863ca3') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=9ad4149ff8f20d993b05316e535ea319 DependenciesID=55f145a11423f7db909ce6aa3f29f17e StaticDependenciesID=1da6ae688ed71bf63cd3f3ccca087933 
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+ScheduleIndexationOnStartup MainProcess:True IndexOnStartup:True
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  0.343 seconds
+Domain Reload Profiling: 771ms
+	BeginReloadAssembly (190ms)
+		DisableScriptedObjects (19ms)
+		CreateAndSetChildDomain (33ms)
+	RebuildCommonClasses (8ms)
+	RebuildNativeTypeToScriptingClass (14ms)
+	initialDomainReloadingComplete (34ms)
+	LoadAllAssembliesAndSetupDomain (179ms)
+		LoadAssemblies (198ms)
+		AnalyzeDomain (19ms)
+			TypeCache.Refresh (11ms)
+				TypeCache.ScanAssembly (7ms)
+			BuildScriptInfoCaches (5ms)
+	FinalizeReload (346ms)
+		SetupLoadedEditorAssemblies (0ms)
+			BeforeProcessingInitializeOnLoad (79ms)
+			ProcessInitializeOnLoadAttributes (65ms)
+			ProcessInitializeOnLoadMethodAttributes (63ms)
+		AwakeInstancesAfterBackupRestoration (21ms)
+Starting new worker id: 0 with log in E:/Games_Develop/Little-Castle/Logs/AssetImportWorkerHW0.log
+
+Asset Pipeline Refresh (id=9ab750c8a6dbed44b998867f4519c3aa): Total: 3.517 seconds - Initiated by InitialRefreshV2(ForceSynchronousImport)
+	(Values over 0.05ms)
+	Summary:
+		Imports: total=3 (actual=3, local cache=0, cache server=0)
+		Asset DB Process Time: managed=2 ms, native=784 ms
+		Asset DB Callback time: managed=65 ms, native=8 ms
+		Scripting: domain reloads=1, domain reload time=444 ms, compile time=2205 ms, other=6 ms
+		Project Asset Count: scripts=231, non-scripts=1272
+		Asset File Changes: new=0, changed=1, moved=0, deleted=0
+		Scan Filter Count: 0
+	InvokePackagesCallback: 7.039ms
+	ApplyChangesToAssetFolders: 0.257ms
+	Scan: 64.491ms
+	Collect global state as custom dependencies: 0.420ms
+	OnSourceAssetsModified: 0.702ms
+	CategorizeScriptCompilationAssets: 2.261ms
+	ProcessAssetsWithTransientArtifactChanges: 6.427ms
+	CategorizeAssets: 8.268ms
+	CompileScripts: 2205.243ms
+	ImportOutOfDateAssets: 382.680ms (348.308ms without children)
+		ImportManagerImport: 16.599ms (2.832ms without children)
+		UnloadImportedAssets: 0.090ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 0.138ms
+		ImportSchedulerStart: 17.541ms
+	PostProcessAllAssets: 66.185ms
+		VCAutoAddAssetPostprocess 0.980ms
+		MonoPostProcessAllAssets: 64.861ms
+			AssetPostprocessor.OnPostprocessAllAssets 27.408ms
+			StyleCatalogPostProcessor.OnPostprocessAllAssets 11.050ms
+			WindowAssetPostprocessingWatcher.OnPostprocessAllAssets 6.118ms
+			BuilderAssetPostprocessor.OnPostprocessAllAssets 4.394ms
+			AssetChangedListener.OnPostprocessAllAssets 2.123ms
+			SyncVS.PostprocessSyncProject 1.717ms
+			RetainedModeAssetPostprocessor.OnPostprocessAllAssets 1.011ms
+			SpeedTree9Postprocessor.OnPostprocessAllAssets 0.802ms
+			EditModeScopePostprocessor.OnPostprocessAllAssets 0.794ms
+			ArtifactBrowserPostProcessor.OnPostprocessAllAssets 0.515ms
+			TextAssetPostProcessor.OnPostprocessAllAssets 0.514ms
+			ReferencedClipsPostProcessor.OnPostprocessAllAssets 0.253ms
+			AudioMixerPostprocessor.OnPostprocessAllAssets 0.239ms
+			AssetEvents.OnPostprocessAllAssets 0.209ms
+			TerrainToolbarOverlayPostProcessor.OnPostprocessAllAssets 0.204ms
+			AssetDatabaseCallbacks.OnPostprocessAllAssets 0.144ms
+			SpeedTreePostProcessor.OnPostprocessAllAssets 0.141ms
+			ScenarioDriftAssetsTracker.OnPostprocessAllAssets 0.107ms
+			ConfigAssetsTracker.OnPostprocessAllAssets 0.105ms
+			RenderPipelineGlobalSettingsPostprocessor.OnPostprocessAllAssets 0.087ms
+			AudioContainerPostProcessor.OnPostprocessAllAssets 0.068ms
+	PostAssetChangesProfiler: 1.745ms
+	UnloadStreamsBegin: 1.411ms
+	PersistCurrentRevisions: 0.120ms
+	Untracked: 766.372ms
+
+Application.AssetDatabase Initial Refresh End
+Scanning for USB devices : 2.781ms
+Initializing Unity extensions:
+[MODES] ModeService[none].Initialize
+[MODES] ModeService[none].LoadModes
+[MODES] Loading mode Default (0) for mode-current-id-Little-Castle
+GetVirtualKey: Could not map char: z (122) to any virtual key
+GetVirtualKey: Could not map char: y (121) to any virtual key
+GetVirtualKey: Could not map char: x (120) to any virtual key
+GetVirtualKey: Could not map char: c (99) to any virtual key
+GetVirtualKey: Could not map char: v (118) to any virtual key
+GetVirtualKey: Could not map char: V (86) to any virtual key
+GetVirtualKey: Could not map char: d (100) to any virtual key
+GetVirtualKey: Could not map char: f (102) to any virtual key
+GetVirtualKey: Could not map char: f (102) to any virtual key
+GetVirtualKey: Could not map char: a (97) to any virtual key
+GetVirtualKey: Could not map char: d (100) to any virtual key
+GetVirtualKey: Could not map char: c (99) to any virtual key
+GetVirtualKey: Could not map char: r (114) to any virtual key
+GetVirtualKey: Could not map char: i (105) to any virtual key
+GetVirtualKey: Could not map char: l (108) to any virtual key
+GetVirtualKey: Could not map char: f (102) to any virtual key
+GetVirtualKey: Could not map char: k (107) to any virtual key
+GetVirtualKey: Could not map char: p (112) to any virtual key
+GetVirtualKey: Could not map char: p (112) to any virtual key
+GetVirtualKey: Could not map char: p (112) to any virtual key
+GetVirtualKey: Could not map char: c (99) to any virtual key
+GetVirtualKey: Could not map char: r (114) to any virtual key
+GetVirtualKey: Could not map char: P (80) to any virtual key
+GetVirtualKey: Could not map char: n (110) to any virtual key
+GetVirtualKey: Could not map char: n (110) to any virtual key
+GetVirtualKey: Could not map char: g (103) to any virtual key
+GetVirtualKey: Could not map char: f (102) to any virtual key
+GetVirtualKey: Could not map char: f (102) to any virtual key
+GetVirtualKey: Could not map char: a (97) to any virtual key
+GetVirtualKey: Could not map char: a (97) to any virtual key
+GetVirtualKey: Could not map char: n (110) to any virtual key
+GetVirtualKey: Could not map char: o (111) to any virtual key
+GetVirtualKey: Could not map char: s (115) to any virtual key
+GetVirtualKey: Could not map char: s (115) to any virtual key
+GetVirtualKey: Could not map char: b (98) to any virtual key
+GetVirtualKey: Could not map char: b (98) to any virtual key
+GetVirtualKey: Could not map char: c (99) to any virtual key
+GetVirtualKey: Could not map char: u (117) to any virtual key
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 569 unused Assets / (0.8 MB). Loaded Objects now: 1230.
+Memory consumption went from 208.7 MB to 208.0 MB.
+Total: 4.344500 ms (FindLiveObjects: 0.076700 ms CreateObjectMapping: 0.079700 ms MarkObjects: 3.845900 ms  DeleteObjects: 0.338600 ms)
+
+GetVirtualKey: Could not map char: z (122) to any virtual key
+GetVirtualKey: Could not map char: y (121) to any virtual key
+GetVirtualKey: Could not map char: x (120) to any virtual key
+GetVirtualKey: Could not map char: c (99) to any virtual key
+GetVirtualKey: Could not map char: v (118) to any virtual key
+GetVirtualKey: Could not map char: V (86) to any virtual key
+GetVirtualKey: Could not map char: d (100) to any virtual key
+GetVirtualKey: Could not map char: f (102) to any virtual key
+GetVirtualKey: Could not map char: f (102) to any virtual key
+GetVirtualKey: Could not map char: a (97) to any virtual key
+GetVirtualKey: Could not map char: d (100) to any virtual key
+GetVirtualKey: Could not map char: c (99) to any virtual key
+GetVirtualKey: Could not map char: r (114) to any virtual key
+GetVirtualKey: Could not map char: i (105) to any virtual key
+GetVirtualKey: Could not map char: l (108) to any virtual key
+GetVirtualKey: Could not map char: f (102) to any virtual key
+GetVirtualKey: Could not map char: k (107) to any virtual key
+GetVirtualKey: Could not map char: p (112) to any virtual key
+GetVirtualKey: Could not map char: p (112) to any virtual key
+GetVirtualKey: Could not map char: p (112) to any virtual key
+GetVirtualKey: Could not map char: c (99) to any virtual key
+GetVirtualKey: Could not map char: r (114) to any virtual key
+GetVirtualKey: Could not map char: P (80) to any virtual key
+GetVirtualKey: Could not map char: n (110) to any virtual key
+GetVirtualKey: Could not map char: n (110) to any virtual key
+GetVirtualKey: Could not map char: g (103) to any virtual key
+GetVirtualKey: Could not map char: f (102) to any virtual key
+GetVirtualKey: Could not map char: f (102) to any virtual key
+GetVirtualKey: Could not map char: a (97) to any virtual key
+GetVirtualKey: Could not map char: a (97) to any virtual key
+GetVirtualKey: Could not map char: n (110) to any virtual key
+GetVirtualKey: Could not map char: o (111) to any virtual key
+GetVirtualKey: Could not map char: s (115) to any virtual key
+GetVirtualKey: Could not map char: s (115) to any virtual key
+GetVirtualKey: Could not map char: b (98) to any virtual key
+GetVirtualKey: Could not map char: b (98) to any virtual key
+GetVirtualKey: Could not map char: c (99) to any virtual key
+GetVirtualKey: Could not map char: u (117) to any virtual key
+Importing 'GUID: c334c61105063b942b903ed4c0d3bb5b - Path: Assets/_Game/Art/Imported/Bridge_Stone_A' with importer (DefaultImporter)
+Imported 'GUID: c334c61105063b942b903ed4c0d3bb5b' -> (Import Result ID: '993d0210e57092c74c323a5b05f7f8f8') in 0.009 seconds [static dependencies only]. Details - ImportResultOutputID=f5b9aacca7b508f191ef43cfedd082f9 DependenciesID=5d01123f4cd1ed371e3108e9170d0d7b StaticDependenciesID=fa77665b86ea14a8b60c35c7549749a9 
+Importing 'GUID: 7699b87a216bd3948910b82174bd7bb5 - Path: Assets/_Game/Art/Imported/Bridge_Stone_A/v002' with importer (DefaultImporter)
+Imported 'GUID: 7699b87a216bd3948910b82174bd7bb5' -> (Import Result ID: '4c802a8d97cc3e01ce223bd9ea379827') in 0.006 seconds [static dependencies only]. Details - ImportResultOutputID=90329cbe5c601a4c3c5eb4976c169c22 DependenciesID=74fb73add4d905af3189064eeb0c92ac StaticDependenciesID=3270d799e089d5b5173383010818e655 
+Importing 'GUID: 00c9fd98dd9fb8e42a9e086ef7504611 - Path: Assets/_Game/Art/Imported/Bridge_Stone_A/v002/Preview' with importer (DefaultImporter)
+Imported 'GUID: 00c9fd98dd9fb8e42a9e086ef7504611' -> (Import Result ID: 'd417898856003c3b05b455ece666eabd') in 0.009 seconds [static dependencies only]. Details - ImportResultOutputID=be3326d960983c8700870fc93defd132 DependenciesID=7ca37149c65c22137bb665974144428e StaticDependenciesID=b7ace75a980d74a2eace2e283e3351a6 
+Importing 'GUID: a0b595c25b3b8d7448f578c6ef9230e5 - Path: Assets/_Game/Art/Imported/Bridge_Stone_A/v002/Textures' with importer (DefaultImporter)
+Imported 'GUID: a0b595c25b3b8d7448f578c6ef9230e5' -> (Import Result ID: 'e959422bbe9ad2841e2718739b612dd9') in 0.007 seconds [static dependencies only]. Details - ImportResultOutputID=e9c2a963aea07f5205abb8eaa9d609c2 DependenciesID=b9d57bd60eae903f1bd6953c0eee3724 StaticDependenciesID=f20fc12ae8faffc3b7ab633444d4cc5f 
+Importing 'GUID: f007bbd58bbd37c4cafbee9198c173a0 - Path: Assets/_Game/Art/Imported/Bridge_Stone_A/v002/QA' with importer (DefaultImporter)
+Imported 'GUID: f007bbd58bbd37c4cafbee9198c173a0' -> (Import Result ID: '48550ff40e8ffc00cd385da948f6fce2') in 0.009 seconds [static dependencies only]. Details - ImportResultOutputID=ffaaf79ebf3df07a1d683076b369a5c1 DependenciesID=5531c250409dd5e30cf427d08afbd092 StaticDependenciesID=d5a07e138b0eaddc185bdec9a7b2a3b6 
+Importing 'GUID: 5f1c2b9026ea2f34a84456403eabd443 - Path: Assets/_Game/Art/Imported/Bridge_Stone_A/v002/Meshes' with importer (DefaultImporter)
+Imported 'GUID: 5f1c2b9026ea2f34a84456403eabd443' -> (Import Result ID: '0e9519a3f8743c178a31e82e6b90b667') in 0.011 seconds [static dependencies only]. Details - ImportResultOutputID=710771570142ce337cdea6c2d251cf42 DependenciesID=06e238272e2867d110447f226c134f6d StaticDependenciesID=b9d0cfe3c6763080e6ce1015a6ccdc55 
+Importing 'GUID: 1218e108e44241b4295e5def5e3a42a9 - Path: Assets/_Game/Art/Imported/Bridge_Stone_A/v002/bridge_contract.py' with importer (DefaultImporter)
+Imported 'GUID: 1218e108e44241b4295e5def5e3a42a9' -> (Import Result ID: '785ee63d3a4bdf92d0d787fdb7d6556d') in 0.053 seconds [static dependencies only]. Details - ImportResultOutputID=b2fa9bbdd750c340ec3c9db7da331add DependenciesID=0d0f3f1e3c824f93f8ec988fd93ae5a9 StaticDependenciesID=561faa50a251c45640678ab5c1f57923 
+Importing 'GUID: 32c21afb7b7bb5945bc6b237deb9e522 - Path: Assets/_Game/Art/Imported/Bridge_Stone_A/v002/Preview/Bridge_Detail.png' with importer (TextureImporter)
+Imported 'GUID: 32c21afb7b7bb5945bc6b237deb9e522' -> (Import Result ID: 'e4a7adb4f3f0926c97cbcef20085bb71') in 0.066 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=c5cddac10bdad3cc99d0de3f8562f023 DependenciesID=f0cc942969813dc442def4790a945cde StaticDependenciesID=bba48e80bf55ee6ae619f98bc982e711 
+Importing 'GUID: 531f0147bae00104a8aefcaa1782ab91 - Path: Assets/_Game/Art/Imported/Bridge_Stone_A/v002/Textures/T_Bridge_Grass_BaseColor.png' with importer (TextureImporter)
+Imported 'GUID: 531f0147bae00104a8aefcaa1782ab91' -> (Import Result ID: 'c8977f38d097c3df8c9f75cddf43f1e7') in 0.011 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=d90283e38b1c9b3920f256c10858e794 DependenciesID=3b8945609ce412c43a6573c9a64b4eb9 StaticDependenciesID=c0c1ab9e4ab121324e596f0b90fe9f15 
+Importing 'GUID: 34c29f2465e3077438c99b43b05b701c - Path: Assets/_Game/Art/Imported/Bridge_Stone_A/v002/Preview/Bridge_Side.png' with importer (TextureImporter)
+Imported 'GUID: 34c29f2465e3077438c99b43b05b701c' -> (Import Result ID: '232eb38e1a1f160e2f804913bdace336') in 0.061 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=efa710ff41206e00aa4984784a7ba8cc DependenciesID=bd2f06fd67d308b7f4124ee2924ccd27 StaticDependenciesID=b760863157a3316ee22ee358cd62102b 
+Importing 'GUID: 55b25a0c5243eef49920ea17625f3c48 - Path: Assets/_Game/Art/Imported/Bridge_Stone_A/v002/Textures/T_Bridge_Palette_BaseColor.png' with importer (TextureImporter)
+Imported 'GUID: 55b25a0c5243eef49920ea17625f3c48' -> (Import Result ID: 'c900c43ff75273a2c8a7c328ca6fb0b8') in 0.013 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=ca2bf4d93f869fe95b4c7cd13e176a24 DependenciesID=26f3abef58e7e297a66a8dab63f488c0 StaticDependenciesID=e27135d06271c2c522906e942479b4ca 
+Importing 'GUID: 1665ecd86e256184689886ffa8fee5c8 - Path: Assets/_Game/Art/Imported/Bridge_Stone_A/v002/Textures/T_WallStoneSurface_A_BaseColor.png' with importer (TextureImporter)
+Imported 'GUID: 1665ecd86e256184689886ffa8fee5c8' -> (Import Result ID: '4f0e3e21e85c802593485b77f13a1a5c') in 0.056 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=20f4f93cf4444d59a751c75cbd406940 DependenciesID=14b92668d57f76b21ef15ecf9b54c3af StaticDependenciesID=99bccfcc88ea6b7b50aa3e7f40b70f8a 
+Importing 'GUID: b60778ba7f9653541b68591881318a8c - Path: Assets/_Game/Art/Imported/Bridge_Stone_A/v002/Textures/T_Bridge_Terrain_BaseColor.png' with importer (TextureImporter)
+Imported 'GUID: b60778ba7f9653541b68591881318a8c' -> (Import Result ID: '7c875ebbe4c1ee337dfdb654b14b1b5b') in 0.016 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=00052f9029408214297933602d5209d2 DependenciesID=337b6efe3550930416c11c997d3586c7 StaticDependenciesID=bc4c6e019a1e8d04f5c3589b194b2ebe 
+Importing 'GUID: a71792e68fa5bca41b4877d37dd6ab23 - Path: Assets/_Game/Art/Imported/Bridge_Stone_A/v002/Preview/Bridge_Reverse.png' with importer (TextureImporter)
+Imported 'GUID: a71792e68fa5bca41b4877d37dd6ab23' -> (Import Result ID: 'c4b43abc975cab33172007063e92067a') in 0.064 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=3f44ee34b13d3c51ac4c69bb188e04cb DependenciesID=2bf64c3eb3858dc03ed14e1865ffe080 StaticDependenciesID=d374255db067ac99d09a7a1abc61e0e9 
+Importing 'GUID: 78818998d1161b54fa3848e086d3075b - Path: Assets/_Game/Art/Imported/Bridge_Stone_A/v002/Preview/Bridge_Realtime_Eevee.png' with importer (TextureImporter)
+Imported 'GUID: 78818998d1161b54fa3848e086d3075b' -> (Import Result ID: '466ceb7a9cc4e5dcde791868a4238fdf') in 0.067 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=ca1bbf7a04e423af7a3b97bfa156b558 DependenciesID=753f330a448ed07fc8fd7310338e4d37 StaticDependenciesID=bee899800999a2ec74fdc162c79aafd8 
+Importing 'GUID: d8b6189eade3eac46a01a07bf25a96e5 - Path: Assets/_Game/Art/Imported/Bridge_Stone_A/v002/Preview/Bridge_Top.png' with importer (TextureImporter)
+Imported 'GUID: d8b6189eade3eac46a01a07bf25a96e5' -> (Import Result ID: '20b4d6bb6da12e9b3a931bed727e7f3d') in 0.057 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=4a1483d6a4e993bc329c8b50bfa5705e DependenciesID=f5f82f8dae465315565fa0ba1724a660 StaticDependenciesID=fc1671de1b32b7c45973e4d3f6a677b3 
+Importing 'GUID: ea9e9ff430514ee4093683b94bfd9be0 - Path: Assets/_Game/Art/Imported/Bridge_Stone_A/v002/Textures/T_Bridge_Water_BaseColor.png' with importer (TextureImporter)
+Imported 'GUID: ea9e9ff430514ee4093683b94bfd9be0' -> (Import Result ID: '049c65a3c84bc77ee820313adbef5ba9') in 0.016 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=4f0896f137a260cd00d87add040cc462 DependenciesID=411cc6333fe9bbb28e29eda6bfdd3aa1 StaticDependenciesID=c7699885ecb91181d69789ec574f1741 
+Importing 'GUID: 5c39f46aecc69874bade9c3b315cd349 - Path: Assets/_Game/Art/Imported/Bridge_Stone_A/v002/Preview/Bridge_Hero.png' with importer (TextureImporter)
+Imported 'GUID: 5c39f46aecc69874bade9c3b315cd349' -> (Import Result ID: '3d9dac80f2d7a1d0f0ebd2584ec6bb27') in 0.067 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=dc93138cf0b9246c8db3e7e50d4fdc84 DependenciesID=bf82523eff9e3ccf8da79fb53cacc9c3 StaticDependenciesID=44da21df6f6bf7dfcd8789b56ebf0121 
+Importing 'GUID: 0e0b4ea04c5560f4dba66183148dc80f - Path: Assets/_Game/Art/Imported/Bridge_Stone_A/v002/Textures/T_Bridge_StoneAtlas_BaseColor.png' with importer (TextureImporter)
+Imported 'GUID: 0e0b4ea04c5560f4dba66183148dc80f' -> (Import Result ID: '4d404c97f936d2d172b286f1206ca4d4') in 0.041 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=25edf505fe16c877d248b5850aae7c29 DependenciesID=4a840dea7aa58d3a781f570fa017c177 StaticDependenciesID=909af71bf3a8abbbce8c146aa2717fa2 
+Importing 'GUID: 2f2f42a2566cb2746819d6225116d89d - Path: Assets/_Game/Art/Imported/Bridge_Stone_A/v002/Textures/T_Bridge_Limestone_BaseColor.png' with importer (TextureImporter)
+Imported 'GUID: 2f2f42a2566cb2746819d6225116d89d' -> (Import Result ID: '1d48a4fbc7647fe61cb07b9887c082da') in 0.054 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=ecaa5800df3f36ff09d4b7ddd8b5961c DependenciesID=4c466a1fa87240866ba61f055b00acf3 StaticDependenciesID=7912fb3a1862be11c2c4ec1336ab6f3b 
+Importing 'GUID: b29f1684fa08113499ba04154e9c4bf6 - Path: Assets/_Game/Art/Imported/Bridge_Stone_A/v002/Meshes/SM_Bridge_Dressing_A_LOD0.fbx' with importer (FBXImporter)
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.01 seconds
+Worker ready: AssetImportWorkerHW0 0
+Imported 'GUID: b29f1684fa08113499ba04154e9c4bf6' -> (Import Result ID: '506760d6a31034537b0f06b33b6be152') in 0.096 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=4a8b4817f7c2b208f83839cf5307fd38 DependenciesID=67ea62b206002c2ed7dafe7ae1fa186c StaticDependenciesID=15aff18a15b99ee56755220a1637e0bc 
+Importing 'GUID: 230dabbae62349a4984dd1f29370fa66 - Path: Assets/_Game/Art/Imported/Bridge_Stone_A/v002/Meshes/SM_Bridge_TerrainReference_LOD2.fbx' with importer (FBXImporter)
+Curl error 35: Cert verify failed. Certificate could not be verified (either omitted or unsupported). UnityTls error code: 7
+File 'SM_Bridge_TerrainReference_LOD2' has inconsistent LOD naming (_LOD2 found but no _LOD1).
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+LittleCastle.Editor.BridgeStoneAssetIntegration:ImportVerifiedRelease (string) (at Assets/_Game/Editor/BridgeStoneAssetIntegration.cs:137)
+LittleCastle.Editor.BridgeStoneAssetIntegration:ImportFromEnvironment () (at Assets/_Game/Editor/BridgeStoneAssetIntegration.cs:59)
+
+[Assets/_Game/Editor/BridgeStoneAssetIntegration.cs line 137]
+
+Imported 'GUID: 230dabbae62349a4984dd1f29370fa66' -> (Import Result ID: 'ac1822b3d077903aedf4044ed01b131d') in 0.023 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=75815709d3b1dcac18d494455a598e24 DependenciesID=551258ae5e832ca2fe2d2b7a1fa264e6 StaticDependenciesID=37fa99d5339410264e97b6307ca9a20d 
+Importing 'GUID: 63fd04a923dd8844cb6d6b6e47aa387c - Path: Assets/_Game/Art/Imported/Bridge_Stone_A/v002/Meshes/SM_Bridge_Stone_A_LOD2.fbx' with importer (FBXImporter)
+File 'SM_Bridge_Stone_A_LOD2' has inconsistent LOD naming (_LOD2 found but no _LOD1).
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+LittleCastle.Editor.BridgeStoneAssetIntegration:ImportVerifiedRelease (string) (at Assets/_Game/Editor/BridgeStoneAssetIntegration.cs:137)
+LittleCastle.Editor.BridgeStoneAssetIntegration:ImportFromEnvironment () (at Assets/_Game/Editor/BridgeStoneAssetIntegration.cs:59)
+
+[Assets/_Game/Editor/BridgeStoneAssetIntegration.cs line 137]
+
+Imported 'GUID: 63fd04a923dd8844cb6d6b6e47aa387c' -> (Import Result ID: 'f47497ac1405c8d719255f3ce9b30033') in 0.026 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=5e151239dea8cc4ac23bf1d503b636fa DependenciesID=7f62b9534c603cfd956d3a0003a894a9 StaticDependenciesID=0b40bdfd5804e72b5ef95d581154d92b 
+Importing 'GUID: f529a64c74b58ed41b70436e45367425 - Path: Assets/_Game/Art/Imported/Bridge_Stone_A/v002/Meshes/COL_Bridge_A.fbx' with importer (FBXImporter)
+Imported 'GUID: f529a64c74b58ed41b70436e45367425' -> (Import Result ID: '1b67043bbc49fb1e0973362f4f12e34f') in 0.022 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=9b0ed824e51d8b284aeabadcc986b789 DependenciesID=4451a1f0a09833003fb0833a9e7fb213 StaticDependenciesID=12dd3568d1ef6a0dea1997729afb9e99 
+Importing 'GUID: 365e46c81bb17e2478485e91ee94ba64 - Path: Assets/_Game/Art/Imported/Bridge_Stone_A/v002/Meshes/Bridge_Sockets.fbx' with importer (FBXImporter)
+Imported 'GUID: 365e46c81bb17e2478485e91ee94ba64' -> (Import Result ID: 'c07aa689254f8e7f1686be061b45d88c') in 0.020 seconds [static dependencies only]. Details - ImportResultOutputID=0faf96f294cb19cf670a2d9baf16d119 DependenciesID=bce30a91581484465f60099c1317dee5 StaticDependenciesID=6719b6e0d9f678f308f7e05433a9845b 
+Importing 'GUID: 577125433d867284f8b6ff99091f4006 - Path: Assets/_Game/Art/Imported/Bridge_Stone_A/v002/Meshes/SM_Bridge_Stone_A_LOD0.fbx' with importer (FBXImporter)
+Imported 'GUID: 577125433d867284f8b6ff99091f4006' -> (Import Result ID: 'ca84e78bf862fbd7a6f8862d198ca640') in 0.042 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=2779d42159f2127d321be02d5b7c1b20 DependenciesID=ba4a4e404595eb33321a94747932ab7b StaticDependenciesID=8a096e183e39753e52db04a90161bb63 
+Importing 'GUID: 78b6cda5821bf904daf50e3b15c7d738 - Path: Assets/_Game/Art/Imported/Bridge_Stone_A/v002/Meshes/SM_Bridge_TerrainReference_LOD0.fbx' with importer (FBXImporter)
+Imported 'GUID: 78b6cda5821bf904daf50e3b15c7d738' -> (Import Result ID: 'e1536ed4f3ca0e4d961ffd068c523631') in 0.023 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=293617f9fd30b9fe33737bbf8a1b0870 DependenciesID=f38c4cc3045ebf224a6f91df58789fe6 StaticDependenciesID=069c7a077477dee6de2b8ef01a2757dc 
+Importing 'GUID: 7a52022135c92264e925680015af78a5 - Path: Assets/_Game/Art/Imported/Bridge_Stone_A/v002/Meshes/SM_Bridge_Stone_A_LOD1.fbx' with importer (FBXImporter)
+File 'SM_Bridge_Stone_A_LOD1' has inconsistent LOD naming (_LOD1 found but no _LOD0).
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+LittleCastle.Editor.BridgeStoneAssetIntegration:ImportVerifiedRelease (string) (at Assets/_Game/Editor/BridgeStoneAssetIntegration.cs:137)
+LittleCastle.Editor.BridgeStoneAssetIntegration:ImportFromEnvironment () (at Assets/_Game/Editor/BridgeStoneAssetIntegration.cs:59)
+
+[Assets/_Game/Editor/BridgeStoneAssetIntegration.cs line 137]
+
+Imported 'GUID: 7a52022135c92264e925680015af78a5' -> (Import Result ID: '2305a8d09c494c9b01ec82bbc0bfba89') in 0.034 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=177b9f21ba0b116da38669abdc2a6d2f DependenciesID=506e136b99600572a3a7f8c22300795e StaticDependenciesID=9fbdea27869f8916c26d382b21dec34e 
+Importing 'GUID: 7b98299d60623b64a854d7ada1ee078a - Path: Assets/_Game/Art/Imported/Bridge_Stone_A/v002/Meshes/SM_Bridge_Water_A.fbx' with importer (FBXImporter)
+Imported 'GUID: 7b98299d60623b64a854d7ada1ee078a' -> (Import Result ID: 'f99294294d0022a580a6058d95f1dcd4') in 0.024 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=f7e9be598f2a2f9ed518d8154bd6e6a3 DependenciesID=68d1985ce31c3876afcf124a3f50f1fc StaticDependenciesID=66677301435c6e912e742a9c9a6f9171 
+Importing 'GUID: 4d440a4e56720a647856e955568b6fa1 - Path: Assets/_Game/Art/Imported/Bridge_Stone_A/v002/Meshes/SM_Bridge_Dressing_A_LOD2.fbx' with importer (FBXImporter)
+File 'SM_Bridge_Dressing_A_LOD2' has inconsistent LOD naming (_LOD2 found but no _LOD1).
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+LittleCastle.Editor.BridgeStoneAssetIntegration:ImportVerifiedRelease (string) (at Assets/_Game/Editor/BridgeStoneAssetIntegration.cs:137)
+LittleCastle.Editor.BridgeStoneAssetIntegration:ImportFromEnvironment () (at Assets/_Game/Editor/BridgeStoneAssetIntegration.cs:59)
+
+[Assets/_Game/Editor/BridgeStoneAssetIntegration.cs line 137]
+
+Imported 'GUID: 4d440a4e56720a647856e955568b6fa1' -> (Import Result ID: '566d992e4eaa0e8387f98689c70b405c') in 0.021 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=6ecae20186c817cbcdd97d203dfc0032 DependenciesID=55417b3b9d59ad01d663e1697403e7a9 StaticDependenciesID=f0b7b0a5a1b69aa09a9f447c92af386f 
+Importing 'GUID: 5d9cab2d46af28c49b0baea8026c1848 - Path: Assets/_Game/Art/Imported/Bridge_Stone_A/v002/Meshes/SM_Bridge_TerrainReference_LOD1.fbx' with importer (FBXImporter)
+File 'SM_Bridge_TerrainReference_LOD1' has inconsistent LOD naming (_LOD1 found but no _LOD0).
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+LittleCastle.Editor.BridgeStoneAssetIntegration:ImportVerifiedRelease (string) (at Assets/_Game/Editor/BridgeStoneAssetIntegration.cs:137)
+LittleCastle.Editor.BridgeStoneAssetIntegration:ImportFromEnvironment () (at Assets/_Game/Editor/BridgeStoneAssetIntegration.cs:59)
+
+[Assets/_Game/Editor/BridgeStoneAssetIntegration.cs line 137]
+
+Imported 'GUID: 5d9cab2d46af28c49b0baea8026c1848' -> (Import Result ID: '5cd165548a6f527306b93215130fb74c') in 0.023 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=6403c67c1d0fdff2b3171905ee2fd190 DependenciesID=9ba0f2b6558eaf1e05272c7c9b53206b StaticDependenciesID=f053800832424e4f120776577d420aab 
+Importing 'GUID: 0e8799f66a3371e4a8672466b472314a - Path: Assets/_Game/Art/Imported/Bridge_Stone_A/v002/Meshes/SM_Bridge_Dressing_A_LOD1.fbx' with importer (FBXImporter)
+File 'SM_Bridge_Dressing_A_LOD1' has inconsistent LOD naming (_LOD1 found but no _LOD0).
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+LittleCastle.Editor.BridgeStoneAssetIntegration:ImportVerifiedRelease (string) (at Assets/_Game/Editor/BridgeStoneAssetIntegration.cs:137)
+LittleCastle.Editor.BridgeStoneAssetIntegration:ImportFromEnvironment () (at Assets/_Game/Editor/BridgeStoneAssetIntegration.cs:59)
+
+[Assets/_Game/Editor/BridgeStoneAssetIntegration.cs line 137]
+
+Imported 'GUID: 0e8799f66a3371e4a8672466b472314a' -> (Import Result ID: 'c47cc2e328f0c54652d6de740f00dc57') in 0.028 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=a0657baf2bec505cb28b8da5382c8995 DependenciesID=616da25ec98e7322e21342b37a6c9fce StaticDependenciesID=a86dd1989c18e80254dd7674ef90eaf6 
+Importing 'GUID: 9375ec953753e174984a1da8973931fa - Path: Assets/_Game/Art/Imported/Bridge_Stone_A/v002/QA/geometry_report.json' with importer (TextScriptImporter)
+Imported 'GUID: 9375ec953753e174984a1da8973931fa' -> (Import Result ID: '4a23b6c39eb86563bc19be98f99d6156') in 0.008 seconds [static dependencies only]. Details - ImportResultOutputID=1bea495d766fcec101923dce3de2c596 DependenciesID=2560b89618c08c4c4dc769eb0e03d692 StaticDependenciesID=4f19e6e1c56d89d1ef84983be14df63b 
+Importing 'GUID: 7845716d6c77f8940aa736d610aeb4eb - Path: Assets/_Game/Art/Imported/Bridge_Stone_A/v002/release.json' with importer (TextScriptImporter)
+Imported 'GUID: 7845716d6c77f8940aa736d610aeb4eb' -> (Import Result ID: 'b4727e5826899a3f46f2f910d2f5b565') in 0.008 seconds [static dependencies only]. Details - ImportResultOutputID=3d9c9f2cd69d5bb497f3df2a9b617492 DependenciesID=41d818e80dbabddb0fbf97d33ba234ee StaticDependenciesID=660d49057e73f033659fb153da0eec3d 
+Importing 'GUID: 98eea6cee8cf8594c9535ce78bdb82d2 - Path: Assets/_Game/Art/Imported/Bridge_Stone_A/v002/QA/roundtrip_report.json' with importer (TextScriptImporter)
+Imported 'GUID: 98eea6cee8cf8594c9535ce78bdb82d2' -> (Import Result ID: 'b8f53efe750a4dfd424656ec561d3ada') in 0.008 seconds [static dependencies only]. Details - ImportResultOutputID=54d6f9f6d2babe6886f41faf7682819c DependenciesID=44c4108d23440b1e5c17e422d7b1838e StaticDependenciesID=7f7a2d5f0a65ba29e10f59e000d26675 
+Importing 'GUID: 6daacd23389894343a82324bcdb0b696 - Path: Assets/_Game/Art/Imported/Bridge_Stone_A/v002/QA/visual_review.md' with importer (TextScriptImporter)
+Imported 'GUID: 6daacd23389894343a82324bcdb0b696' -> (Import Result ID: 'a142cabe5bf7e100906a704b52e81981') in 0.008 seconds [static dependencies only]. Details - ImportResultOutputID=b099cf5cbc30e6211e564c7eba8784c5 DependenciesID=b2c70fd4b9f52460011b0b286df327d0 StaticDependenciesID=f0251e6cc6ea58bfbf0099ff2913a41f 
+Importing 'GUID: 4e8fbe2eabea79f4a9205cc646ff02e2 - Path: Assets/_Game/Art/Imported/Bridge_Stone_A/v002/README.md' with importer (TextScriptImporter)
+Imported 'GUID: 4e8fbe2eabea79f4a9205cc646ff02e2' -> (Import Result ID: '6e2706b2bf6d97999f074f50fe779d4b') in 0.009 seconds [static dependencies only]. Details - ImportResultOutputID=3cb0cd8fbee65080fb4d13fb01c9a0a1 DependenciesID=2431dde4e01772a0c2bd0f717ef2eede StaticDependenciesID=b92fad865013cfa06a1ec8722c4e42d8 
+Importing 'GUID: de465f2c44fc9c342981684709a765b0 - Path: Assets/_Game/Art/Imported/Bridge_Stone_A/v002/bridge-site.json' with importer (TextScriptImporter)
+Imported 'GUID: de465f2c44fc9c342981684709a765b0' -> (Import Result ID: '694d5cce19c74a18a753f169eb20c546') in 0.010 seconds [static dependencies only]. Details - ImportResultOutputID=f483c1db4823d1d294020cc526b8e0ce DependenciesID=01f9e89fdf1458956048be862cd8555f StaticDependenciesID=2583e2cfd2f85d311afd3875d62c7c9f 
+
+Asset Pipeline Refresh (id=bbd8e5e659f20084fb7a2528ad259328): Total: 1.289 seconds - Initiated by RefreshV2(NoUpdateAssetOptions)
+	(Values over 0.05ms)
+	Summary:
+		Imports: total=38 (actual=38, local cache=0, cache server=0)
+		Asset DB Process Time: managed=16 ms, native=1263 ms
+		Asset DB Callback time: managed=5 ms, native=3 ms
+		Scripting: domain reloads=0, domain reload time=0 ms, compile time=0 ms, other=0 ms
+		Project Asset Count: scripts=237, non-scripts=1304
+		Asset File Changes: new=38, changed=38, moved=0, deleted=0
+		Scan Filter Count: 0
+	Scan: 95.357ms
+	Collect global state as custom dependencies: 0.469ms
+	OnSourceAssetsModified: 0.715ms
+	CategorizeAssets: 3.465ms
+	ImportOutOfDateAssets: 1142.809ms (1.510ms without children)
+		ImportManagerImport: 1134.760ms (1.142ms without children)
+			UpdateCategorizedAssets: 0.232ms
+		UnloadImportedAssets: 0.142ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 0.134ms
+		ImportSchedulerStart: 6.255ms
+	PostProcessAllAssets: 8.263ms
+		VersionControlSettings.HiddenFilePostprocess 0.282ms
+		PostProcessCallbackCreateDeferredMaterials 0.053ms
+		ShaderAssetModifiedCallback 0.052ms
+		MonoPostProcessAllAssets: 4.605ms
+			AssetPostprocessor.OnPostprocessAllAssets 2.940ms
+			TextAssetPostProcessor.OnPostprocessAllAssets 1.155ms
+			AssetChangedListener.OnPostprocessAllAssets 0.201ms
+	PostAssetChangesProfiler: 0.565ms
+	GatherAllCurrentPrimaryImportResultRevisions: 0.099ms
+	PersistCurrentRevisions: 0.238ms
+	Untracked: 35.276ms
+
+Importing 'GUID: 577125433d867284f8b6ff99091f4006 - Path: Assets/_Game/Art/Imported/Bridge_Stone_A/v002/Meshes/SM_Bridge_Stone_A_LOD0.fbx' with importer (FBXImporter)
+Imported 'GUID: 577125433d867284f8b6ff99091f4006' -> (Import Result ID: 'bcd548a3adcdc8fd01f743ef5296eef6') in 0.031 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=43b8ea9f86219a32fcbd049901692936 DependenciesID=a05063b43c72ca03ef215303403e67ce StaticDependenciesID=a504558e0223553bf3aa84b6b5358751 
+Asset Pipeline Refresh (id=47728b0eb0231a14aa7a831c5134a1ab): Total: 0.064 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 7a52022135c92264e925680015af78a5 - Path: Assets/_Game/Art/Imported/Bridge_Stone_A/v002/Meshes/SM_Bridge_Stone_A_LOD1.fbx' with importer (FBXImporter)
+File 'SM_Bridge_Stone_A_LOD1' has inconsistent LOD naming (_LOD1 found but no _LOD0).
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEditor.AssetDatabase:ImportAsset (string,UnityEditor.ImportAssetOptions)
+UnityEditor.AssetDatabase:ImportAsset (string)
+UnityEditor.AssetImporter:SaveAndReimport ()
+LittleCastle.Editor.BridgeStoneAssetIntegration:ImportVerifiedRelease (string) (at Assets/_Game/Editor/BridgeStoneAssetIntegration.cs:145)
+LittleCastle.Editor.BridgeStoneAssetIntegration:ImportFromEnvironment () (at Assets/_Game/Editor/BridgeStoneAssetIntegration.cs:59)
+
+[Assets/_Game/Editor/BridgeStoneAssetIntegration.cs line 145]
+
+Imported 'GUID: 7a52022135c92264e925680015af78a5' -> (Import Result ID: 'aa90d6b38174a82cf6f173bfdd1c8295') in 0.025 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=9f088d5c361fdb78a1ed1c3ffde80ebf DependenciesID=10cab5e7209fcfdea4979b89abe4d864 StaticDependenciesID=2214ad602de14b4e7e047c680348b32c 
+Asset Pipeline Refresh (id=3de06542a70ade34f92f152a776b1b74): Total: 0.061 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 63fd04a923dd8844cb6d6b6e47aa387c - Path: Assets/_Game/Art/Imported/Bridge_Stone_A/v002/Meshes/SM_Bridge_Stone_A_LOD2.fbx' with importer (FBXImporter)
+File 'SM_Bridge_Stone_A_LOD2' has inconsistent LOD naming (_LOD2 found but no _LOD1).
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEditor.AssetDatabase:ImportAsset (string,UnityEditor.ImportAssetOptions)
+UnityEditor.AssetDatabase:ImportAsset (string)
+UnityEditor.AssetImporter:SaveAndReimport ()
+LittleCastle.Editor.BridgeStoneAssetIntegration:ImportVerifiedRelease (string) (at Assets/_Game/Editor/BridgeStoneAssetIntegration.cs:145)
+LittleCastle.Editor.BridgeStoneAssetIntegration:ImportFromEnvironment () (at Assets/_Game/Editor/BridgeStoneAssetIntegration.cs:59)
+
+[Assets/_Game/Editor/BridgeStoneAssetIntegration.cs line 145]
+
+Imported 'GUID: 63fd04a923dd8844cb6d6b6e47aa387c' -> (Import Result ID: 'b95cb8b5ed21cc9fa46583c25e2a7e48') in 0.017 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=48ded8017c98028567378d9cd420251e DependenciesID=a661eca3f7854501913814d9244879f5 StaticDependenciesID=70a75ce2489acfaed2bc7e2c66ce8deb 
+Asset Pipeline Refresh (id=c4ff586e65e40c249b54f614e713bbd9): Total: 0.050 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: b29f1684fa08113499ba04154e9c4bf6 - Path: Assets/_Game/Art/Imported/Bridge_Stone_A/v002/Meshes/SM_Bridge_Dressing_A_LOD0.fbx' with importer (FBXImporter)
+Imported 'GUID: b29f1684fa08113499ba04154e9c4bf6' -> (Import Result ID: 'a38c98291a58c9be6fdd0be575751584') in 0.028 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=7dbeec8c5fbebd9146fb38aaf8bc9462 DependenciesID=638c1f4a97da3c47e8f3918b28ed19ff StaticDependenciesID=db1deefc1d3f3ed0c1ca9748417b5f66 
+Asset Pipeline Refresh (id=390cc7ff71d5ba041bba8b9eadad29be): Total: 0.062 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 0e8799f66a3371e4a8672466b472314a - Path: Assets/_Game/Art/Imported/Bridge_Stone_A/v002/Meshes/SM_Bridge_Dressing_A_LOD1.fbx' with importer (FBXImporter)
+File 'SM_Bridge_Dressing_A_LOD1' has inconsistent LOD naming (_LOD1 found but no _LOD0).
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEditor.AssetDatabase:ImportAsset (string,UnityEditor.ImportAssetOptions)
+UnityEditor.AssetDatabase:ImportAsset (string)
+UnityEditor.AssetImporter:SaveAndReimport ()
+LittleCastle.Editor.BridgeStoneAssetIntegration:ImportVerifiedRelease (string) (at Assets/_Game/Editor/BridgeStoneAssetIntegration.cs:145)
+LittleCastle.Editor.BridgeStoneAssetIntegration:ImportFromEnvironment () (at Assets/_Game/Editor/BridgeStoneAssetIntegration.cs:59)
+
+[Assets/_Game/Editor/BridgeStoneAssetIntegration.cs line 145]
+
+Imported 'GUID: 0e8799f66a3371e4a8672466b472314a' -> (Import Result ID: '14b4510ec37cd667b320b24450880ed7') in 0.020 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=2410c52ced7aaad457c2928afb203280 DependenciesID=e3c42d8fa058f64294bf265d9346cf3c StaticDependenciesID=e82669088f0cbbebaeaeb92d93d28bb4 
+Asset Pipeline Refresh (id=d69612f9b9137a04e9510d1257dd0bd4): Total: 0.052 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 4d440a4e56720a647856e955568b6fa1 - Path: Assets/_Game/Art/Imported/Bridge_Stone_A/v002/Meshes/SM_Bridge_Dressing_A_LOD2.fbx' with importer (FBXImporter)
+File 'SM_Bridge_Dressing_A_LOD2' has inconsistent LOD naming (_LOD2 found but no _LOD1).
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEditor.AssetDatabase:ImportAsset (string,UnityEditor.ImportAssetOptions)
+UnityEditor.AssetDatabase:ImportAsset (string)
+UnityEditor.AssetImporter:SaveAndReimport ()
+LittleCastle.Editor.BridgeStoneAssetIntegration:ImportVerifiedRelease (string) (at Assets/_Game/Editor/BridgeStoneAssetIntegration.cs:145)
+LittleCastle.Editor.BridgeStoneAssetIntegration:ImportFromEnvironment () (at Assets/_Game/Editor/BridgeStoneAssetIntegration.cs:59)
+
+[Assets/_Game/Editor/BridgeStoneAssetIntegration.cs line 145]
+
+Imported 'GUID: 4d440a4e56720a647856e955568b6fa1' -> (Import Result ID: 'c6921825402d21a13a1498fed1fc3365') in 0.013 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=175f1e4729bbbdd2e00225ca10d725c0 DependenciesID=fe57bc940ad58e632e777ec6b41ca6d1 StaticDependenciesID=0836cb694c07fcc62987a0a53acfa5b7 
+Asset Pipeline Refresh (id=b65d0defe28e16244848d1e3cdfaddd5): Total: 0.052 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: f529a64c74b58ed41b70436e45367425 - Path: Assets/_Game/Art/Imported/Bridge_Stone_A/v002/Meshes/COL_Bridge_A.fbx' with importer (FBXImporter)
+Imported 'GUID: f529a64c74b58ed41b70436e45367425' -> (Import Result ID: '79eb0270175af9854bd1eb680d315ac4') in 0.016 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=2103c9b4d2e6f35ad250cdf231180f55 DependenciesID=814e5e920c6ce102b2c867e5da63ae3d StaticDependenciesID=c1781420e3f8d6ad0b5c5e0f277577be 
+Asset Pipeline Refresh (id=62018be90adf04840bfd57e75642f79b): Total: 0.062 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 2aaa036d3a95a0b4ea874a89f20e16ea - Path: Assets/_Game/Models/Concept/Bridge_Stone_A/Materials' with importer (DefaultImporter)
+Imported 'GUID: 2aaa036d3a95a0b4ea874a89f20e16ea' -> (Import Result ID: '422c152ac67d6396ae55f90fc23c4f16') in 0.011 seconds [static dependencies only]. Details - ImportResultOutputID=ff7de073b0a3f6f9755225e2c70315a4 DependenciesID=4038af9171aa7677e16f357924063a06 StaticDependenciesID=af94e955924ae903d1553179b31a687b 
+Importing 'GUID: d2746b6dab6892948b2a8bb5b38856fa - Path: Assets/_Game/Models/Concept/Bridge_Stone_A/Materials/M_Bridge_Stone.mat' with importer (NativeFormatImporter)
+Imported 'GUID: d2746b6dab6892948b2a8bb5b38856fa' -> (Import Result ID: '4edfc8ca2dff359744c3acd425d753e6') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=9e5cf909ea9766372f19b61be119e41f DependenciesID=179389d635efda7ae0937ee8af749297 StaticDependenciesID=65883550d3d7ca79290d23c8ee6c08e5 
+Asset Pipeline Refresh (id=15a48a4f1fc67da4c9d50871dc5ffa98): Total: 0.035 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 526351a715e87ef4eb64418384ca933f - Path: Assets/_Game/Models/Concept/Bridge_Stone_A/Materials/M_Bridge_Stone_Far.mat' with importer (NativeFormatImporter)
+Imported 'GUID: 526351a715e87ef4eb64418384ca933f' -> (Import Result ID: '3aa7f641ed11c6b0aea8e794eba6264b') in 0.002 seconds [static dependencies only]. Details - ImportResultOutputID=956b0a65d2f1e9d4cab13e8905dc90cb DependenciesID=260bb5a132e217182a9395dcdd05bcd5 StaticDependenciesID=d819bdc64e40d74e093afe35a5bb2a6e 
+Asset Pipeline Refresh (id=40fcc19e68429b34e92b3d32400838ed): Total: 0.028 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: f2e78914b505c3b44ad2f48332b78ecf - Path: Assets/_Game/Models/Concept/Bridge_Stone_A/Materials/M_Bridge_Palette.mat' with importer (NativeFormatImporter)
+Imported 'GUID: f2e78914b505c3b44ad2f48332b78ecf' -> (Import Result ID: '7863adb8595f25a0fc635aea990ab790') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=f29e34d0c45661fb0ccb1f2e3da59e33 DependenciesID=1f9c66886c63f532fb152588d5a22a21 StaticDependenciesID=ac35751ff6efdcba072b023ce8d9081a 
+Asset Pipeline Refresh (id=d63cc147f87f134449c9822cd8659833): Total: 0.021 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 5f15f71ea28203f419b90a15ad15fc70 - Path: Assets/_Game/Models/Concept/Bridge_Stone_A/Materials/M_Bridge_Palette_Far.mat' with importer (NativeFormatImporter)
+Imported 'GUID: 5f15f71ea28203f419b90a15ad15fc70' -> (Import Result ID: '4f8a53b335b3c088380a0a3ca4854d1e') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=6e459c92a6593d8f1323407249313c33 DependenciesID=c68c82d60f951ad250be09f86ef5fa85 StaticDependenciesID=2b078fb91900986b33e892f9624afd7e 
+Asset Pipeline Refresh (id=923a60bf507b27949ace7886315547d0): Total: 0.022 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: b9c1acdec92e768479e4ae70561d59ee - Path: Assets/_Game/Models/Concept/Bridge_Stone_A/Materials/M_Bridge_Grass.mat' with importer (NativeFormatImporter)
+Imported 'GUID: b9c1acdec92e768479e4ae70561d59ee' -> (Import Result ID: 'f3f8d8f2799215d223c9b5a542535d8c') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=29597605d449d020cee7b820f445feb1 DependenciesID=a2f84c9480b582db22955a6db5927182 StaticDependenciesID=fdbffd97793adada25902b4fd77e484c 
+Asset Pipeline Refresh (id=b197cb2514c80864fa87d61c641d958d): Total: 0.021 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 55192adeabda61449806b8c5b98ebd71 - Path: Assets/_Game/Models/Concept/Bridge_Stone_A/Materials/M_Bridge_Grass_Far.mat' with importer (NativeFormatImporter)
+Imported 'GUID: 55192adeabda61449806b8c5b98ebd71' -> (Import Result ID: '586ddb96ef42f3943be613fd37a06be6') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=8f22243e3a9bb93295ae529d6a6514c3 DependenciesID=6ca7f104a58da358f5aa24c527c024a2 StaticDependenciesID=55e9519d7a98a532fe0df359949d3f89 
+Asset Pipeline Refresh (id=710915e02ed7e2c48aeaf93f2d6e7f40): Total: 0.023 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 955a9d5c46aa2d84880a728de22fe54d - Path: Assets/_Game/Models/Concept/Bridge_Stone_A/Materials/M_Bridge_FactionCloth.mat' with importer (NativeFormatImporter)
+Imported 'GUID: 955a9d5c46aa2d84880a728de22fe54d' -> (Import Result ID: '02f91f18fe760e0a0ac45a9cd531348e') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=ccded8643d5125b99cf7417f29cce956 DependenciesID=bad5bfb3f8502990c98bc1748ac1fdcc StaticDependenciesID=ee0d8062bc7071fe9e4543393c22b2f7 
+Asset Pipeline Refresh (id=81bfd69e5cabd63499287f51f5f65e20): Total: 0.022 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 5c094dfd76a0f5743b41904a6f056aed - Path: Assets/_Game/Models/Concept/Bridge_Stone_A/Materials/M_Bridge_FactionCloth_Far.mat' with importer (NativeFormatImporter)
+Imported 'GUID: 5c094dfd76a0f5743b41904a6f056aed' -> (Import Result ID: 'd83812c61c113f844b26811d69556f9c') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=554aaad86b1797ce899abe69d40f02e1 DependenciesID=08b6e4ff581178daa2aceba6ed5b2250 StaticDependenciesID=65759e080ed35901c13384999ab457fe 
+Asset Pipeline Refresh (id=e9d06568b1aa2304ab375f1bb90f914d): Total: 0.024 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 45bafd188f39d134b854f4517c62154e - Path: Assets/_Game/Models/Concept/Bridge_Stone_A/Bridge_Stone_A_v002.prefab' with importer (PrefabImporter)
+Imported 'GUID: 45bafd188f39d134b854f4517c62154e' -> (Import Result ID: 'd64cb383fddfecbd0d481ed63ce797cb') in 0.011 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=cbcbbeb586932c39e3e8cfc862a730c9 DependenciesID=1a766a716d5732a7492a6c8de113dd4e StaticDependenciesID=f637c1f165927117bd90cea53ec56dea 
+Asset Pipeline Refresh (id=e7843100c147276478a8d4233479e2e8): Total: 0.044 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 1250e262e5240644f9d4dcf7fd2ea5b6 - Path: Assets/_Game/Settings/World/ConceptWorld_v001/Concept_MainWorldSpawnCatalog.asset' with importer (NativeFormatImporter)
+Imported 'GUID: 1250e262e5240644f9d4dcf7fd2ea5b6' -> (Import Result ID: '3cc80d49f98e536ebd7b67f958ed84a7') in 0.006 seconds [static dependencies only]. Details - ImportResultOutputID=48d494264364570db4a175a77ed0b8c3 DependenciesID=e8862c20d493cd2237f28a47e0cd6464 StaticDependenciesID=de17c7dfc8119bb103f89bddea9c9e5a 
+Asset Pipeline Refresh (id=79c7a778d1eba4a44a11e5af1f526eab): Total: 0.022 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+[Bridge v002] Imported reviewed real FBX LODs and concept-only catalog entry. NOT a Unity scene/visual/performance acceptance. Check collision near/far budget and screenshots on PC.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LittleCastle.Editor.BridgeStoneAssetIntegration:ImportVerifiedRelease (string) (at Assets/_Game/Editor/BridgeStoneAssetIntegration.cs:209)
+LittleCastle.Editor.BridgeStoneAssetIntegration:ImportFromEnvironment () (at Assets/_Game/Editor/BridgeStoneAssetIntegration.cs:59)
+
+(Filename: Assets/_Game/Editor/BridgeStoneAssetIntegration.cs Line: 209)
+
+Batchmode quit successfully invoked - shutting down!
+[Physics::Module] Cleanup current backend.
+[Physics::Module] Id: 0xf2b8ea05
+Input System module state changed to: ShutdownInProgress.
+Input Polling Thread exited.
+Input System module state changed to: Shutdown.
+[Licensing::IpcConnector] LicenseClient-Дмитрий-notifications channel disconnected successfully.
+[Licensing::IpcConnector] LicenseClient-Дмитрий channel disconnected successfully.
+AcceleratorClientConnectionCallback - disconnected - :0
+Cleanup mono
+CodeReloadManager destroyed
+Exiting batchmode successfully now!
+Exiting without the bug reporter. Application will terminate with return code 0

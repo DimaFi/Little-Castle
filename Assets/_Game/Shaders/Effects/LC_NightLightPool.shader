@@ -18,6 +18,7 @@ Shader "Little Castle/Effects/LC Night Light Pool"
             "Queue" = "Transparent+10"
             "RenderType" = "Transparent"
             "IgnoreProjector" = "True"
+            "RenderPipeline" = "UniversalPipeline"
         }
 
         Blend SrcAlpha One
@@ -28,23 +29,29 @@ Shader "Little Castle/Effects/LC Night Light Pool"
 
         Pass
         {
-            CGPROGRAM
+            Name "FORWARD"
+            Tags { "LightMode" = "UniversalForward" }
+
+            HLSLPROGRAM
 
             #pragma target 3.0
             #pragma vertex vert
             #pragma fragment frag
-            #pragma multi_compile_fog
             #pragma multi_compile_instancing
 
-            #include "UnityCG.cginc"
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+            #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Fog.hlsl"
 
-            fixed4 _Color;
-            half _Intensity;
-            half _InnerRadius;
-            half _EdgeSoftness;
-            half _NightThreshold;
-            half _FlickerStrength;
-            half _FlickerSpeed;
+            // Keep shared presentation globals outside the material buffer.
+            CBUFFER_START(UnityPerMaterial)
+                half4 _Color;
+                half _Intensity;
+                half _InnerRadius;
+                half _EdgeSoftness;
+                half _NightThreshold;
+                half _FlickerStrength;
+                half _FlickerSpeed;
+            CBUFFER_END
 
             half _LC_NightAmount;
             float4 _LC_GameTime;
@@ -63,7 +70,7 @@ Shader "Little Castle/Effects/LC Night Light Pool"
                 float2 uv : TEXCOORD0;
                 float3 worldPosition : TEXCOORD1;
 
-                UNITY_FOG_COORDS(2)
+                half fogCoord : TEXCOORD2;
 
                 UNITY_VERTEX_INPUT_INSTANCE_ID
                 UNITY_VERTEX_OUTPUT_STEREO
@@ -71,34 +78,32 @@ Shader "Little Castle/Effects/LC Night Light Pool"
 
             v2f vert(appdata v)
             {
-                v2f o;
+                v2f o = (v2f)0;
 
                 UNITY_SETUP_INSTANCE_ID(v);
                 UNITY_TRANSFER_INSTANCE_ID(v, o);
                 UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
                 o.position =
-                    UnityObjectToClipPos(
-                        v.vertex);
+                    TransformObjectToHClip(
+                        v.vertex.xyz);
 
                 o.uv =
                     v.uv;
 
                 o.worldPosition =
-                    mul(
-                        unity_ObjectToWorld,
-                        v.vertex).xyz;
+                    TransformObjectToWorld(
+                        v.vertex.xyz);
 
-                UNITY_TRANSFER_FOG(
-                    o,
-                    o.position);
+                o.fogCoord = ComputeFogFactor(o.position.z);
 
                 return o;
             }
 
-            fixed4 frag(v2f i) : SV_Target
+            half4 frag(v2f i) : SV_Target
             {
                 UNITY_SETUP_INSTANCE_ID(i);
+                UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
 
                 float2 centered =
                     i.uv * 2.0 - 1.0;
@@ -163,8 +168,8 @@ Shader "Little Castle/Effects/LC Night Light Pool"
                         0.0h,
                         flicker);
 
-                fixed4 result =
-                    fixed4(
+                half4 result =
+                    half4(
                         _Color.rgb *
                             strength,
                         _Color.a *
@@ -173,19 +178,15 @@ Shader "Little Castle/Effects/LC Night Light Pool"
 
                 // Additive light should fade toward black under fog rather
                 // than toward the fog color itself.
-                UNITY_APPLY_FOG_COLOR(
-                    i.fogCoord,
-                    result,
-                    fixed4(
-                        0,
-                        0,
-                        0,
-                        0));
+                half fogFactor = InitializeInputDataFog(
+                    float4(i.worldPosition, 1.0), i.fogCoord);
+                result.rgb = MixFogColor(
+                    result.rgb, half3(0, 0, 0), fogFactor);
 
                 return result;
             }
 
-            ENDCG
+            ENDHLSL
         }
     }
 

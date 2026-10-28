@@ -1,0 +1,358 @@
+{
+  "unresolved_material_catalog_guids": [],
+  "guid_conflicts": {},
+  "serialized_references": [
+    {
+      "file": "Assets/_Game/Art/Studies/RiverWater_20261026/RiverWater_Catalog.asset",
+      "guid": "b02d7c5a273ce374688b41c0fc0b612d",
+      "targets": [
+        "Assets\\_Game\\Scripts\\World\\Rendering\\MapRockCatalog.cs.meta"
+      ]
+    },
+    {
+      "file": "Assets/_Game/Art/Studies/RiverWater_20261026/RiverWater_Catalog.asset",
+      "guid": "20aa10e47ed08a44d9e44eaceaf9f3c3",
+      "targets": [
+        "Assets\\_Game\\Art\\Studies\\RiverWater_20261026\\RiverWater_Uber_Tropical.mat.meta"
+      ]
+    },
+    {
+      "file": "Assets/_Game/Art/Studies/RiverWater_20261026/RiverWater_Uber_Tropical.mat",
+      "guid": "a330f4c219dd2f54fafbb50fc0350dbe",
+      "targets": [
+        "Assets\\_Game\\ThirdParty\\RiverBanks\\UberWater\\Shader\\UberStylizedWater.shader.meta"
+      ]
+    },
+    {
+      "file": "Assets/_Game/Art/Studies/RiverWater_20261026/RiverWater_Uber_Tropical.mat",
+      "guid": "ddcaa6cb05170b64c86ef89fca4559c7",
+      "targets": [
+        "Assets\\_Game\\ThirdParty\\RiverBanks\\UberWater\\Textures\\Noise 4.png.meta"
+      ]
+    },
+    {
+      "file": "Assets/_Game/Art/Studies/RiverWater_20261026/RiverWater_Uber_Tropical.mat",
+      "guid": "9e5758c18163eb641849ba9f309bd580",
+      "targets": [
+        "Assets\\_Game\\Art\\Studies\\RiverWater_20261026\\Owned_Caustics.png.meta"
+      ]
+    },
+    {
+      "file": "Assets/_Game/Art/Studies/RiverWater_20261026/RiverWater_Uber_Tropical.mat",
+      "guid": "e54692e48508c304ca1fdc544a2efdd3",
+      "targets": [
+        "Assets\\_Game\\ThirdParty\\RiverBanks\\UberWater\\Textures\\Normal 2.png.meta"
+      ]
+    },
+    {
+      "file": "Assets/_Game/Art/Studies/RiverWater_20261026/RiverWater_Uber_Tropical.mat",
+      "guid": "e54692e48508c304ca1fdc544a2efdd3",
+      "targets": [
+        "Assets\\_Game\\ThirdParty\\RiverBanks\\UberWater\\Textures\\Normal 2.png.meta"
+      ]
+    },
+    {
+      "file": "Assets/_Game/Art/Studies/RiverWater_20261026/RiverWater_Uber_Tropical.mat",
+      "guid": "4e970a7319cddd745a4fb2659ad827e2",
+      "targets": [
+        "Assets\\_Game\\ThirdParty\\RiverBanks\\UberWater\\Textures\\Noise 3.png.meta"
+      ]
+    },
+    {
+      "file": "Assets/_Game/Art/Studies/RiverWater_20261026/RiverWater_Uber_Tropical.mat",
+      "guid": "ff0a279251580d24f9a7282f3047c8bf",
+      "targets": [
+        "Assets\\_Game\\ThirdParty\\RiverBanks\\UberWater\\Textures\\Noise 5.png.meta"
+      ]
+    },
+    {
+      "file": "Assets/_Game/Art/Studies/RiverWater_20261026/RiverWater_Uber_Tropical.mat",
+      "guid": "f1555b31bebb94d4fa8192eff16149ef",
+      "targets": [
+        "Assets\\_Game\\ThirdParty\\RiverBanks\\UberWater\\Textures\\Foam 1.png.meta"
+      ]
+    },
+    {
+      "file": "Assets/_Game/Art/Studies/RiverWater_20261026/RiverWater_Uber_Tropical.mat",
+      "guid": "ddcaa6cb05170b64c86ef89fca4559c7",
+      "targets": [
+        "Assets\\_Game\\ThirdParty\\RiverBanks\\UberWater\\Textures\\Noise 4.png.meta"
+      ]
+    }
+  ],
+  "active_texture_properties": [
+    {
+      "property": "_Caustics_Distortion_Map",
+      "guid": "ddcaa6cb05170b64c86ef89fca4559c7",
+      "resolved": true
+    },
+    {
+      "property": "_Caustics_Map",
+      "guid": "9e5758c18163eb641849ba9f309bd580",
+      "resolved": true
+    },
+    {
+      "property": "_Normal_Map",
+      "guid": "e54692e48508c304ca1fdc544a2efdd3",
+      "resolved": true
+    },
+    {
+      "property": "_SL_Dissolve_Mask",
+      "guid": "ff0a279251580d24f9a7282f3047c8bf",
+      "resolved": true
+    },
+    {
+      "property": "_SurfFoam_Map",
+      "guid": "f1555b31bebb94d4fa8192eff16149ef",
+      "resolved": true
+    },
+    {
+      "property": "_SurfaceDistortion_Map",
+      "guid": "ddcaa6cb05170b64c86ef89fca4559c7",
+      "resolved": true
+    }
+  ],
+  "source_copies": [
+    {
+      "path": "Assets/_Game/Art/Studies/RiverWater_20261026/Owned_Caustics.png",
+      "sha256": "425b4a90080be0a1382622d918461e3a4d2c82d16669d92b28fa78dc80f53b66",
+      "source_exact": true
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/RiverWater_20261026/Owned_Caustics.png.meta",
+      "sha256": "b38dee7fe93ebbabd52f818053bd88f4b2ec240584c2a1d9effed6095aa66372",
+      "source_exact": true
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/RiverWater_20261026/RiverWater_Catalog.asset",
+      "sha256": "90a191fcec5a5f0bb8aace1641eb2e336e6e05a99d54c32e2c15e33d10e92d71",
+      "source_exact": true
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/RiverWater_20261026/RiverWater_Catalog.asset.meta",
+      "sha256": "0e8dc972a8dca32e78972faa672fa25076630aa46995774c663c7043d4f9e14b",
+      "source_exact": true
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/RiverWater_20261026/RiverWater_Uber_Tropical.mat",
+      "sha256": "303fd9f6aa8237580f03a32f6a40fbf347004958afd86a3d738d3f38ce8f5d55",
+      "source_exact": false
+    },
+    {
+      "path": "Assets/_Game/Art/Studies/RiverWater_20261026/RiverWater_Uber_Tropical.mat.meta",
+      "sha256": "51bd74b27ab48b7a20dc2c86641afe3b161212e3f310cf2937cbb4b6d7087b7c",
+      "source_exact": true
+    },
+    {
+      "path": "Assets/_Game/Scripts/Research/UberRiverReflectionAdapter.cs",
+      "sha256": "6a6d8669164383542b05929feaca455960f08e364fef4a552345dd9ea874df5c",
+      "source_exact": false
+    },
+    {
+      "path": "Assets/_Game/Scripts/Research/UberRiverReflectionAdapter.cs.meta",
+      "sha256": "ff360b3020fb37670ee3e7cdbb1d6279df9f521521ce2aa7d91bf0c6e598b4ea",
+      "source_exact": true
+    },
+    {
+      "path": "Assets/_Game/Scripts/World/Rendering/RiverBankMeshBuilder.cs.meta",
+      "sha256": "0f7c7f812781d79f3b77631cc7d2030264280c1c7b5b25edd0180d710037ae44",
+      "source_exact": true
+    },
+    {
+      "path": "Assets/_Game/Scripts/World/Runtime/MapRiverData.cs",
+      "sha256": "815273c355d0d17cf4d5f83e529ac72075267ca7ea57664617df575de6317fe9",
+      "source_exact": true
+    },
+    {
+      "path": "Assets/_Game/Scripts/World/Runtime/MapRiverData.cs.meta",
+      "sha256": "461705dfffb7805e67a7465a6033b496308483cec1d0021286819d45359e7e39",
+      "source_exact": true
+    },
+    {
+      "path": "Assets/_Game/Scripts/World/Runtime/RiverBankGeneration.cs",
+      "sha256": "e86e35b9e8413782b49853f375dd829d75918d79a128642041d72fa60b44fb12",
+      "source_exact": true
+    },
+    {
+      "path": "Assets/_Game/Scripts/World/Runtime/RiverBankGeneration.cs.meta",
+      "sha256": "17debbbaa1f855575683f144d007405adb9f87acf43eba210ebdb89054a87c29",
+      "source_exact": true
+    },
+    {
+      "path": "Assets/_Game/ThirdParty/RiverBanks/UberWater/Editor/UberStylizedWater.Editor.asmdef",
+      "sha256": "84782ec5da894bc0c7319c9dcc4e5d80e3e72ce345e6dde812dca56345442d5b",
+      "source_exact": true
+    },
+    {
+      "path": "Assets/_Game/ThirdParty/RiverBanks/UberWater/Editor/UberStylizedWater.Editor.asmdef.meta",
+      "sha256": "1a3522c3d849b7ce395096444a28a7bb434ef2cdde04cc15e35d7b50a4dc911a",
+      "source_exact": true
+    },
+    {
+      "path": "Assets/_Game/ThirdParty/RiverBanks/UberWater/Editor/UberStylizedWaterGUI.cs",
+      "sha256": "6fb2d3948a2500898cf513cc080a06a45be58bf6ba79f3404d5f36c2a82f7645",
+      "source_exact": true
+    },
+    {
+      "path": "Assets/_Game/ThirdParty/RiverBanks/UberWater/Editor/UberStylizedWaterGUI.cs.meta",
+      "sha256": "5e064f0d63f6446cfd1957c0281f5fe758ac6d4f24fcda7e887bbeb88685945f",
+      "source_exact": true
+    },
+    {
+      "path": "Assets/_Game/ThirdParty/RiverBanks/UberWater/LICENSE.txt",
+      "sha256": "6d1ede0e89ea768228510dd432ed94b430d907de4a602307c49821603aec79de",
+      "source_exact": true
+    },
+    {
+      "path": "Assets/_Game/ThirdParty/RiverBanks/UberWater/LICENSE.txt.meta",
+      "sha256": "91402b462ee057ecdece259255f32b9a3f7b7ec2ce688667dc7b4d641e2da040",
+      "source_exact": true
+    },
+    {
+      "path": "Assets/_Game/ThirdParty/RiverBanks/UberWater/Planner Reflection/PlanarReflectionManager.cs",
+      "sha256": "4b97966688e2280e430787a551219eb1de2fe6adf3bc15bf48c0f743d311512e",
+      "source_exact": true
+    },
+    {
+      "path": "Assets/_Game/ThirdParty/RiverBanks/UberWater/Planner Reflection/PlanarReflectionManager.cs.meta",
+      "sha256": "f6ba8db0162e290b3ab1aa4f53fcac2fec713f170c38bb07ded33edabdc0357f",
+      "source_exact": true
+    },
+    {
+      "path": "Assets/_Game/ThirdParty/RiverBanks/UberWater/Planner Reflection/PlanarReflectionVolume.cs",
+      "sha256": "67d3f1add04ddd9867688980ca8166993466363904ac8beeb785cc3410609c22",
+      "source_exact": true
+    },
+    {
+      "path": "Assets/_Game/ThirdParty/RiverBanks/UberWater/Planner Reflection/PlanarReflectionVolume.cs.meta",
+      "sha256": "05bea0097850d5b706075c9139b18d341264c8f45cad97489a845e383245a474",
+      "source_exact": true
+    },
+    {
+      "path": "Assets/_Game/ThirdParty/RiverBanks/UberWater/Planner Reflection/UberWaterPlannerReflection.asmdef",
+      "sha256": "5ab1bc96555aca9c11692de24c163a3487ed563ea2aca5f85ff6cf1faf3f7b56",
+      "source_exact": true
+    },
+    {
+      "path": "Assets/_Game/ThirdParty/RiverBanks/UberWater/Planner Reflection/UberWaterPlannerReflection.asmdef.meta",
+      "sha256": "443efa862e56c516256932eb762509a650e9d47e27346495cb5bbbf806fac5cb",
+      "source_exact": true
+    },
+    {
+      "path": "Assets/_Game/ThirdParty/RiverBanks/UberWater/Shader/UberStylizedWater.shader",
+      "sha256": "3c013b1b36a347bc2498e285c285f07d99ce917df8af299b5acfd79ca555ca9e",
+      "source_exact": true
+    },
+    {
+      "path": "Assets/_Game/ThirdParty/RiverBanks/UberWater/Shader/UberStylizedWater.shader.meta",
+      "sha256": "57a68f28f4afe3c8c16bae05caf8b2dcc4128fc587c2fc932829229643e0647e",
+      "source_exact": true
+    },
+    {
+      "path": "Assets/_Game/ThirdParty/RiverBanks/UberWater/SubGraphs/CubeMap.hlsl",
+      "sha256": "f1c52b30aa743639ba44c84f112f664997dcba6484629ee3bf7e4d24718aebf4",
+      "source_exact": true
+    },
+    {
+      "path": "Assets/_Game/ThirdParty/RiverBanks/UberWater/SubGraphs/CubeMap.hlsl.meta",
+      "sha256": "f09119f836d289d9d8d3371dbb0fa1d2a6995e7cdda6d58cc3033a732196c807",
+      "source_exact": true
+    },
+    {
+      "path": "Assets/_Game/ThirdParty/RiverBanks/UberWater/Textures/Foam 1.png",
+      "sha256": "3bf1ec3c79632d81368fd21250a153d6e52acd54d1c4c480ab4bc123e0d79c7a",
+      "source_exact": true
+    },
+    {
+      "path": "Assets/_Game/ThirdParty/RiverBanks/UberWater/Textures/Foam 1.png.meta",
+      "sha256": "852c2720b995ef0991f202287450049b6b5a11ffda6be4809d7bff237b430b20",
+      "source_exact": true
+    },
+    {
+      "path": "Assets/_Game/ThirdParty/RiverBanks/UberWater/Textures/Noise 3.png",
+      "sha256": "bed7c1d2072b9c3d8ebb4f87885a3bfc531070d887a5b0d51f5b42c10f78ae78",
+      "source_exact": true
+    },
+    {
+      "path": "Assets/_Game/ThirdParty/RiverBanks/UberWater/Textures/Noise 3.png.meta",
+      "sha256": "a1b9aa1a58e7382c87c72ca6bf37bed4a193315bb1d59b13886b9d34146e975e",
+      "source_exact": true
+    },
+    {
+      "path": "Assets/_Game/ThirdParty/RiverBanks/UberWater/Textures/Noise 4.png",
+      "sha256": "cb255d3eea3d67af16bfb98b877c5346ed42754f193eb333bdf369d27d06aa23",
+      "source_exact": true
+    },
+    {
+      "path": "Assets/_Game/ThirdParty/RiverBanks/UberWater/Textures/Noise 4.png.meta",
+      "sha256": "e64a90830dc44a7990d5b8d54d67957574e81706541f0cf253d3160325719694",
+      "source_exact": true
+    },
+    {
+      "path": "Assets/_Game/ThirdParty/RiverBanks/UberWater/Textures/Noise 5.png",
+      "sha256": "9f0d01c7a22c0c09cd14c53ca064a6f81014962838c2b014f3151333528ab9b5",
+      "source_exact": true
+    },
+    {
+      "path": "Assets/_Game/ThirdParty/RiverBanks/UberWater/Textures/Noise 5.png.meta",
+      "sha256": "d88383a4b8807822b232ae12df6e8899ca20b14039130dbfc598d7a0c92e6233",
+      "source_exact": true
+    },
+    {
+      "path": "Assets/_Game/ThirdParty/RiverBanks/UberWater/Textures/Normal 2.png",
+      "sha256": "14ffe57b51c476662e83d2c440e808f0a6db4d906493cdc7ef0a7f29321ba914",
+      "source_exact": true
+    },
+    {
+      "path": "Assets/_Game/ThirdParty/RiverBanks/UberWater/Textures/Normal 2.png.meta",
+      "sha256": "2c79506435d4990308836dcf01fc1c70192ed58f7b0e18604867fc4bcc1eee26",
+      "source_exact": true
+    },
+    {
+      "path": "Assets/_Game/ThirdParty/RiverBanks/UberWater/Third Party/ShaderGraphVariables-main/LICENSE",
+      "sha256": "41dec271149a3da13b2141d0955b76c62efd48d2edde86fc2369ef809f72f7a8",
+      "source_exact": true
+    },
+    {
+      "path": "Assets/_Game/ThirdParty/RiverBanks/UberWater/Third Party/ShaderGraphVariables-main/LICENSE.meta",
+      "sha256": "978d122a7d1e3d61114c917372d7850040098759e4191944d69d7cc0af46cb88",
+      "source_exact": true
+    },
+    {
+      "path": "Assets/_Game/ThirdParty/RiverBanks/UberWater/Third Party/URP_ShaderGraphCustomLighting-main/CustomLighting.hlsl",
+      "sha256": "4ebb8fc0060e2e3e48a419d2368d85a416cd9f3b3c3ae873becec4dd6b7ef3a9",
+      "source_exact": true
+    },
+    {
+      "path": "Assets/_Game/ThirdParty/RiverBanks/UberWater/Third Party/URP_ShaderGraphCustomLighting-main/CustomLighting.hlsl.meta",
+      "sha256": "33fd10ee679482d854892fff850c75bec2880fb56aedac42e3c62fe486edcfd9",
+      "source_exact": true
+    },
+    {
+      "path": "Assets/_Game/ThirdParty/RiverBanks/UberWater/Third Party/URP_ShaderGraphCustomLighting-main/LICENSE",
+      "sha256": "7c76b46b216bd1bb82e9e83b2d160460a5f7df2c29d94bca30bfa6262802bfd3",
+      "source_exact": true
+    },
+    {
+      "path": "Assets/_Game/ThirdParty/RiverBanks/UberWater/Third Party/URP_ShaderGraphCustomLighting-main/LICENSE.meta",
+      "sha256": "29791cb4e12409035eee9df1b656e16b797dc270959a340ba9697d72ada88dfd",
+      "source_exact": true
+    },
+    {
+      "path": "Assets/_Game/ThirdParty/RiverBanks/UberWater/Third Party/URP_ShaderGraphCustomLighting-main/LICENSE.txt",
+      "sha256": "7c76b46b216bd1bb82e9e83b2d160460a5f7df2c29d94bca30bfa6262802bfd3",
+      "source_exact": true
+    },
+    {
+      "path": "Assets/_Game/ThirdParty/RiverBanks/UberWater/Third Party/URP_ShaderGraphCustomLighting-main/LICENSE.txt.meta",
+      "sha256": "9db43136c6a3c8c53c2984eb55ab88b60d75ed5564ec08a2557981c8a2f82725",
+      "source_exact": true
+    }
+  ],
+  "licenses": [
+    "Assets/_Game/ThirdParty/RiverBanks/UberWater/LICENSE.txt",
+    "Assets/_Game/ThirdParty/RiverBanks/UberWater/Third Party/URP_ShaderGraphCustomLighting-main/LICENSE",
+    "Assets/_Game/ThirdParty/RiverBanks/UberWater/Third Party/ShaderGraphVariables-main/LICENSE"
+  ],
+  "unity_compile_tests": "NOT RUN"
+}

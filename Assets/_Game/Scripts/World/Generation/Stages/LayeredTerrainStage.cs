@@ -17,6 +17,22 @@ namespace LittleCastle.World
     {
         public override WorldGenerationStagePhase Phase =>
             WorldGenerationStagePhase.TerrainBase;
+
+        [Header("Optional concept-world landforms")]
+        [Tooltip(
+            "Uses broad buildable meadows, rounded hill belts and selected " +
+            "terraced highlands. Disabled preserves the original generator.")]
+        [SerializeField] private bool useStylizedLandforms;
+
+        [SerializeField]
+        private StylizedLandformSettings stylizedLandforms =
+            new StylizedLandformSettings();
+
+        public bool UseStylizedLandforms => useStylizedLandforms;
+
+        public StylizedLandformSettings StylizedLandforms =>
+            stylizedLandforms;
+
         [Header("Base")]
         [SerializeField] private float baseHeight = 2f;
 
@@ -77,6 +93,17 @@ namespace LittleCastle.World
             float chunkSize = context.Settings.ChunkWorldSize;
             float originX = chunk.Coordinate.x * chunkSize;
             float originZ = chunk.Coordinate.z * chunkSize;
+
+            if (useStylizedLandforms)
+            {
+                GenerateStylized(
+                    context,
+                    chunk,
+                    cellSize,
+                    originX,
+                    originZ);
+                return;
+            }
 
             int regionSeed = DeterministicNoise.Hash(context.WorldSeed, 1001, 0x11);
             int hillSeed = DeterministicNoise.Hash(context.WorldSeed, 1002, 0x22);
@@ -150,6 +177,35 @@ namespace LittleCastle.World
                         detailOffset;
 
                     chunk.SetHeight(x, z, height);
+                }
+            }
+        }
+
+        private void GenerateStylized(
+            GenerationContext context,
+            WorldChunkData chunk,
+            float cellSize,
+            float originX,
+            float originZ)
+        {
+            StylizedLandformSettings resolvedSettings =
+                stylizedLandforms ?? new StylizedLandformSettings();
+
+            for (int z = 0; z < chunk.SamplesPerSide; z++)
+            {
+                for (int x = 0; x < chunk.SamplesPerSide; x++)
+                {
+                    float worldX = originX + x * cellSize;
+                    float worldZ = originZ + z * cellSize;
+
+                    chunk.SetHeight(
+                        x,
+                        z,
+                        StylizedLandformSampler.SampleHeight(
+                            context.WorldSeed,
+                            worldX,
+                            worldZ,
+                            resolvedSettings));
                 }
             }
         }

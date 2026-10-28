@@ -28,6 +28,9 @@ namespace LittleCastle.World
         private static readonly ProfilerMarker MeshBuildMarker =
             new ProfilerMarker("World.MeshBuild");
 
+        private static readonly ProfilerMarker NormalSeamMarker =
+            new ProfilerMarker("World.Terrain.StitchSeamNormals");
+
         private static readonly ProfilerMarker SpawnPresentationMarker =
             new ProfilerMarker("World.SpawnPresentation");
 
@@ -62,6 +65,9 @@ namespace LittleCastle.World
         [SerializeField] private Transform chunkPresentationRoot;
 
         [SerializeField] private Material terrainMaterial;
+
+        [Tooltip("Opt-in streamed river surface; null preserves legacy presentation.")]
+        [SerializeField] private Material riverWaterMaterial;
 
         [Header("Runtime state")]
         [SerializeField]
@@ -673,6 +679,7 @@ namespace LittleCastle.World
 
             RefreshDesiredChunks();
             UpdateMacroEdgeWarning();
+            RefreshChunkColliderStates();
         }
 
         public void SetPriorityPreparationRadius(
@@ -1764,10 +1771,19 @@ namespace LittleCastle.World
 
                 using (MeshBuildMarker.Auto())
                 {
+                    // Legacy materials remain unmodified. Only
+                    // explicit concept terrain materials with vertex masks
+                    // enabled incur the additional geometry-mask pass.
+                    bool surfaceMasksEnabled =
+                        terrainMaterial != null &&
+                        terrainMaterial.HasProperty("_UseVertexMasks") &&
+                        terrainMaterial.GetFloat("_UseVertexMasks") >= 0.5f;
                     mesh =
                         ChunkMeshBuilder.Build(
                             chunkData,
-                            chunkSize);
+                            chunkSize,
+                            macroPlan,
+                            surfaceMasksEnabled);
                 }
 
                 lastMeshBuildMilliseconds =
@@ -1812,6 +1828,12 @@ namespace LittleCastle.World
                 meshRenderer.sharedMaterial =
                     terrainMaterial;
 
+                if (isPlayableChunk && riverWaterMaterial != null)
+                    view.SetOwnedRiverWater(RiverWaterPresenter.Populate(
+                        chunkObject.transform, chunkData,
+                        GenerationSettings.ChunkWorldSize, macroPlan,
+                        riverWaterMaterial));
+
                 bool colliderEnabled =
                     isPlayableChunk &&
                     StreamingSettings.AddMeshCollider &&
@@ -1848,7 +1870,8 @@ namespace LittleCastle.World
                                 chunkData,
                                 catalog,
                                 worldOrigin,
-                                runtimeDelta);
+                                runtimeDelta,
+                                GenerationSettings.ChunkWorldSize);
                     }
 
                     lastSpawnPresentationMilliseconds =
@@ -1861,6 +1884,23 @@ namespace LittleCastle.World
                     coordinate,
                     view);
 
+                // Surface masks and seamless visual normals belong only
+                // to explicit concept terrain materials. All Main/legacy
+                // world chunk creation retains its original mesh path.
+                if (terrainMaterial != null &&
+                    terrainMaterial.HasProperty("_UseVertexMasks") &&
+                    terrainMaterial.GetFloat("_UseVertexMasks") >= 0.5f)
+                {
+                    using (NormalSeamMarker.Auto())
+                    {
+                        ChunkTerrainNormalSeams.RefreshAround(
+                            coordinate,
+                            activeChunks,
+                            chunkSize,
+                            GetCachedTerrainDataForNormalSeams);
+                    }
+                }
+
                 totalChunkLoads++;
 
                 lastChunkLoadMilliseconds =
@@ -1870,6 +1910,17 @@ namespace LittleCastle.World
 
                 return true;
             }
+        }
+
+        private WorldChunkData GetCachedTerrainDataForNormalSeams(
+            ChunkCoordinate coordinate)
+        {
+            WorldChunkCache source = GetSourceCache(coordinate);
+            if (source != null &&
+                source.TryGet(coordinate, out WorldChunkData data))
+                return data;
+
+            return null;
         }
 
         private void OnChunkRuntimeRevisionChanged(

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="3" result="Passed" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-10-08 20:21:48Z" end-time="2026-10-08 20:21:59Z" duration="10,853844">
+  <test-suite type="TestSuite" id="1010" name="Little-Castle" fullname="Little-Castle" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-10-08 20:21:48Z" end-time="2026-10-08 20:21:59Z" duration="10.853844" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="PlayMode" />
+    </properties>
+    <test-suite type="Assembly" id="1006" name="LittleCastle.Tests.PlayMode.dll" fullname="E:/Games_Develop/Little-Castle/Library/ScriptAssemblies/LittleCastle.Tests.PlayMode.dll" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-10-08 20:21:48Z" end-time="2026-10-08 20:21:59Z" duration="10.845956" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="29760" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="PlayMode" />
+        <property name="EditorOnly" value="False" />
+      </properties>
+      <test-suite type="TestSuite" id="1007" name="LittleCastle" fullname="LittleCastle" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-10-08 20:21:48Z" end-time="2026-10-08 20:21:59Z" duration="10.845403" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1008" name="Tests" fullname="LittleCastle.Tests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-10-08 20:21:48Z" end-time="2026-10-08 20:21:59Z" duration="10.845209" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestFixture" id="1001" name="PresentationOwnershipPlayModeTests" fullname="LittleCastle.Tests.PresentationOwnershipPlayModeTests" classname="LittleCastle.Tests.PresentationOwnershipPlayModeTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-10-08 20:21:48Z" end-time="2026-10-08 20:21:48Z" duration="0.047853" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1003" name="ChunkReleaseAndReload_FreesWaterWithoutDuplicateOwner" fullname="LittleCastle.Tests.PresentationOwnershipPlayModeTests.ChunkReleaseAndReload_FreesWaterWithoutDuplicateOwner" methodname="ChunkReleaseAndReload_FreesWaterWithoutDuplicateOwner" classname="LittleCastle.Tests.PresentationOwnershipPlayModeTests" runstate="Runnable" seed="1926193062" result="Passed" start-time="2026-10-08 20:21:48Z" end-time="2026-10-08 20:21:48Z" duration="0.033607" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1002" name="RuntimeEmitterAwake_DisablesUnbudgetedLight" fullname="LittleCastle.Tests.PresentationOwnershipPlayModeTests.RuntimeEmitterAwake_DisablesUnbudgetedLight" methodname="RuntimeEmitterAwake_DisablesUnbudgetedLight" classname="LittleCastle.Tests.PresentationOwnershipPlayModeTests" runstate="Runnable" seed="1526937900" result="Passed" start-time="2026-10-08 20:21:48Z" end-time="2026-10-08 20:21:48Z" duration="0.004088" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1004" name="WorldStreamerPlayModeTests" fullname="LittleCastle.Tests.WorldStreamerPlayModeTests" classname="LittleCastle.Tests.WorldStreamerPlayModeTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-10-08 20:21:48Z" end-time="2026-10-08 20:21:59Z" duration="10.796237" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1005" name="TestScene_StreamsAcrossFramesAndPreservesRuntimeDelta" fullname="LittleCastle.Tests.WorldStreamerPlayModeTests.TestScene_StreamsAcrossFramesAndPreservesRuntimeDelta" methodname="TestScene_StreamsAcrossFramesAndPreservesRuntimeDelta" classname="LittleCastle.Tests.WorldStreamerPlayModeTests" runstate="Runnable" seed="1704142356" result="Passed" start-time="2026-10-08 20:21:48Z" end-time="2026-10-08 20:21:59Z" duration="10.795554" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[WORLD_VERIFY initial-ready: elapsed=7173,06 ms, active=49, desired=49, cached=49, colliders=5, loads=49, unloads=0, worstStage=42,78 ms. Legacy WorldGenerationTest, nographics Editor; NOT concept MATCH READY or GPU profiling.
+Legacy radius-based WorldStreamer focus is approaching the edge of its fixed MacroWorldPlan. Remaining macro chunks: 0. Configure WorldMapRules and a finite session map for production matches.
+WORLD_VERIFY first-visit-ready: elapsed=2615,68 ms, active=29, desired=29, cached=78, colliders=4, loads=78, unloads=49, worstStage=42,78 ms. Legacy WorldGenerationTest, nographics Editor; NOT concept MATCH READY or GPU profiling.
+WORLD_VERIFY return-ready: elapsed=802,05 ms, active=49, desired=49, cached=80, colliders=5, loads=127, unloads=78, worstStage=42,78 ms. Legacy WorldGenerationTest, nographics Editor; NOT concept MATCH READY or GPU profiling.
+WORLD_VERIFY playmode sceneLoad=2684,04 ms, maxObservedFrame=317,68 ms, activeTarget=49, colliders=5.
+Saving results to: Logs/Desktop-Final2-PlayMode.xml
+]]></output>
+            </test-case>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

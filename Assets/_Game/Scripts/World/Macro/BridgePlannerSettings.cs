@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 namespace LittleCastle.World
 {
@@ -8,5 +9,85 @@ namespace LittleCastle.World
         public bool enabled = true;
         public string archetypeId = "bridge_wood_small";
         public float extraSpan = 2f;
+
+        [Header("Fixed stone bridge sites (opt in)")]
+        [Tooltip(
+            "Uses the authored ENV_Bridge_Stone_A v002 site contract. " +
+            "Existing profiles stay on the legacy variable-span planner " +
+            "until this is explicitly enabled.")]
+        public bool useFixedStoneBridgeSites;
+
+        [Min(0.1f)]
+        public float minimumCompatibleRiverWidth = 1.5f;
+
+        [Min(0.1f)]
+        public float maximumCompatibleRiverWidth =
+            FixedBridgeSiteProfile.ArchOpeningWidth;
+
+        [Range(0f, 45f)]
+        [Tooltip(
+            "Maximum deviation from a perpendicular road/river crossing. " +
+            "The fixed site's local +Z is the road and local +X is the river.")]
+        public float maximumCrossingAngleDeviation = 20f;
+
+        [Min(0f)]
+        [Tooltip(
+            "Maximum rise/run measured between the two outer road approach " +
+            "edges of the fixed support footprint.")]
+        public float maximumApproachGrade = 0.2f;
+
+        [Range(0f, 90f)]
+        public float maximumApproachSlope = 28f;
+
+        [Min(0f)]
+        [Tooltip(
+            "Maximum terrain rise/run along the river through the support " +
+            "footprint. This rejects waterfall-like fixed sites.")]
+        public float maximumRiverGrade = 0.2f;
+
+        [Min(0f)]
+        [Tooltip(
+            "Additional world-space gap required between rotated fixed-site " +
+            "support rectangles.")]
+        public float fixedSiteSeparationPadding = 1f;
+
+        [Header("Bridge-aware route recovery (opt in)")]
+        [Tooltip(
+            "Retry rejected/missing road connections with deterministic " +
+            "terrain-aware paths, validating each against fixed bridge sites. " +
+            "Disabled by default to preserve legacy generation.")]
+        public bool enableBridgeAwareRouting;
+
+        [Range(1, 8)]
+        public int maxBridgeRoutingAttempts = 4;
+
+        [Range(0, 8)]
+        [Tooltip(
+            "After ordinary retry attempts, consider deterministic river " +
+            "crossing anchors with straight ±5.4 m road socket approaches. " +
+            "0 disables guided fallback.")]
+        public int maxGuidedCrossingAttempts = 4;
+
+        [Range(0, 32)]
+        [Tooltip(
+            "With strict feature connectivity enabled, try this many " +
+            "nearest alternative pairs between disconnected REALIZED " +
+            "road components after original routes fail. 0 disables " +
+            "the last-chance component repair. Never creates fake bridges.")]
+        public int maxConnectivityRepairCandidates = 12;
+
+        [Min(0)]
+        public int minimumFixedBridgeCount = 0;
+
+        [Tooltip(
+            "Validate that every generated point feature can be reached " +
+            "through the realized road graph. This does not alter resources.")]
+        public bool requireConnectedFeatureGraph;
+
+        [Tooltip(
+            "Report impossible route/bridge constraints by an explicit " +
+            "bootstrap exception rather than returning an invalid route plan. " +
+            "Use only with an opt-in bridge-aware profile.")]
+        public bool failOnRoutingError;
     }
 }

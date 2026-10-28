@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="5" result="Passed" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-10-09 13:10:51Z" end-time="2026-10-09 13:11:01Z" duration="9,8546961">
+  <test-suite type="TestSuite" id="1013" name="Little-Castle" fullname="Little-Castle" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-10-09 13:10:51Z" end-time="2026-10-09 13:11:01Z" duration="9.854696" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="PlayMode" />
+    </properties>
+    <test-suite type="Assembly" id="1009" name="LittleCastle.Tests.PlayMode.dll" fullname="E:/Games_Develop/Little-Castle/Library/ScriptAssemblies/LittleCastle.Tests.PlayMode.dll" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-10-09 13:10:51Z" end-time="2026-10-09 13:11:01Z" duration="9.847569" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="26528" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="PlayMode" />
+        <property name="EditorOnly" value="False" />
+      </properties>
+      <test-suite type="TestSuite" id="1010" name="LittleCastle" fullname="LittleCastle" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-10-09 13:10:51Z" end-time="2026-10-09 13:11:01Z" duration="9.847094" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1011" name="Tests" fullname="LittleCastle.Tests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-10-09 13:10:51Z" end-time="2026-10-09 13:11:01Z" duration="9.846901" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestFixture" id="1001" name="ConceptVillageRuntimeTests" fullname="LittleCastle.Tests.ConceptVillageRuntimeTests" classname="LittleCastle.Tests.ConceptVillageRuntimeTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-10-09 13:10:51Z" end-time="2026-10-09 13:10:51Z" duration="0.042922" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1003" name="DoesNotUseDecorativeMeshColliderAsGroundSupport" fullname="LittleCastle.Tests.ConceptVillageRuntimeTests.DoesNotUseDecorativeMeshColliderAsGroundSupport" methodname="DoesNotUseDecorativeMeshColliderAsGroundSupport" classname="LittleCastle.Tests.ConceptVillageRuntimeTests" runstate="Runnable" seed="996101527" result="Passed" start-time="2026-10-09 13:10:51Z" end-time="2026-10-09 13:10:51Z" duration="0.023839" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1002" name="PlacesThreeHousesOnlyOnPlayableStreamedTerrain" fullname="LittleCastle.Tests.ConceptVillageRuntimeTests.PlacesThreeHousesOnlyOnPlayableStreamedTerrain" methodname="PlacesThreeHousesOnlyOnPlayableStreamedTerrain" classname="LittleCastle.Tests.ConceptVillageRuntimeTests" runstate="Runnable" seed="1227507196" result="Passed" start-time="2026-10-09 13:10:51Z" end-time="2026-10-09 13:10:51Z" duration="0.008969" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1004" name="PresentationOwnershipPlayModeTests" fullname="LittleCastle.Tests.PresentationOwnershipPlayModeTests" classname="LittleCastle.Tests.PresentationOwnershipPlayModeTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-10-09 13:10:51Z" end-time="2026-10-09 13:10:51Z" duration="0.025870" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1006" name="ChunkReleaseAndReload_FreesWaterWithoutDuplicateOwner" fullname="LittleCastle.Tests.PresentationOwnershipPlayModeTests.ChunkReleaseAndReload_FreesWaterWithoutDuplicateOwner" methodname="ChunkReleaseAndReload_FreesWaterWithoutDuplicateOwner" classname="LittleCastle.Tests.PresentationOwnershipPlayModeTests" runstate="Runnable" seed="1860019152" result="Passed" start-time="2026-10-09 13:10:51Z" end-time="2026-10-09 13:10:51Z" duration="0.021891" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1005" name="RuntimeEmitterAwake_DisablesUnbudgetedLight" fullname="LittleCastle.Tests.PresentationOwnershipPlayModeTests.RuntimeEmitterAwake_DisablesUnbudgetedLight" methodname="RuntimeEmitterAwake_DisablesUnbudgetedLight" classname="LittleCastle.Tests.PresentationOwnershipPlayModeTests" runstate="Runnable" seed="943924540" result="Passed" start-time="2026-10-09 13:10:51Z" end-time="2026-10-09 13:10:51Z" duration="0.003013" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1007" name="WorldStreamerPlayModeTests" fullname="LittleCastle.Tests.WorldStreamerPlayModeTests" classname="LittleCastle.Tests.WorldStreamerPlayModeTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-10-09 13:10:51Z" end-time="2026-10-09 13:11:01Z" duration="9.776947" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1008" name="TestScene_StreamsAcrossFramesAndPreservesRuntimeDelta" fullname="LittleCastle.Tests.WorldStreamerPlayModeTests.TestScene_StreamsAcrossFramesAndPreservesRuntimeDelta" methodname="TestScene_StreamsAcrossFramesAndPreservesRuntimeDelta" classname="LittleCastle.Tests.WorldStreamerPlayModeTests" runstate="Runnable" seed="2102377717" result="Passed" start-time="2026-10-09 13:10:51Z" end-time="2026-10-09 13:11:01Z" duration="9.776002" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[WORLD_VERIFY initial-ready: elapsed=6685,92 ms, active=49, desired=49, cached=49, colliders=5, loads=49, unloads=0, worstStage=53,33 ms. Legacy WorldGenerationTest, nographics Editor; NOT concept MATCH READY or GPU profiling.
+Legacy radius-based WorldStreamer focus is approaching the edge of its fixed MacroWorldPlan. Remaining macro chunks: 0. Configure WorldMapRules and a finite session map for production matches.
+WORLD_VERIFY first-visit-ready: elapsed=2359,45 ms, active=29, desired=29, cached=78, colliders=4, loads=78, unloads=49, worstStage=53,33 ms. Legacy WorldGenerationTest, nographics Editor; NOT concept MATCH READY or GPU profiling.
+WORLD_VERIFY return-ready: elapsed=589,65 ms, active=49, desired=49, cached=80, colliders=5, loads=127, unloads=78, worstStage=53,33 ms. Legacy WorldGenerationTest, nographics Editor; NOT concept MATCH READY or GPU profiling.
+WORLD_VERIFY playmode sceneLoad=2559,45 ms, maxObservedFrame=325,37 ms, activeTarget=49, colliders=5.
+Saving results to: E:/Games_Develop/verification/concept-pass-PlayMode.xml
+]]></output>
+            </test-case>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

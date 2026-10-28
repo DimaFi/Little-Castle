@@ -270,14 +270,14 @@ namespace LittleCastle.World
             if (worldStreamer == null)
             {
                 worldStreamer =
-                    FindFirstObjectByType<
+                    FindAnyObjectByType<
                         WorldStreamer>();
             }
 
             if (nightLightBudgetManager == null)
             {
                 nightLightBudgetManager =
-                    FindFirstObjectByType<
+                    FindAnyObjectByType<
                         LittleCastle.Rendering.NightLightBudgetManager>();
             }
         }

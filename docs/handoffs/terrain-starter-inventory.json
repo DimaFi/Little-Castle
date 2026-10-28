@@ -1,0 +1,1214 @@
+{
+  "schema_version": 1,
+  "status": "preparation_only_not_unity_import",
+  "terrain_textures": [
+    {
+      "path": "CozySettlement/Mat/Material_terrain/Ground/DirtGround_A_PBR/DirtGround_A_AO.png",
+      "bytes": 1073046,
+      "sha256": "21614855f660d3a47ab943e57d9c9fd09145944a2572c20ab8eb2d7ead7c2aa0",
+      "width": 1254,
+      "height": 1254,
+      "family": "DirtGround_A",
+      "channel": "AO",
+      "first_pass": false
+    },
+    {
+      "path": "CozySettlement/Mat/Material_terrain/Ground/DirtGround_A_PBR/DirtGround_A_BaseColor.png",
+      "bytes": 2948475,
+      "sha256": "b15309028955216c0a7ae7e5805d87f4b7e4cf0514365f136a450e63182f2971",
+      "width": 1254,
+      "height": 1254,
+      "family": "DirtGround_A",
+      "channel": "BaseColor",
+      "first_pass": false
+    },
+    {
+      "path": "CozySettlement/Mat/Material_terrain/Ground/DirtGround_A_PBR/DirtGround_A_Height.png",
+      "bytes": 1022156,
+      "sha256": "f93784e06c02beda304c1e485daad8eaf87157d871b75cd792dfa071c6a029cf",
+      "width": 1254,
+      "height": 1254,
+      "family": "DirtGround_A",
+      "channel": "Height",
+      "first_pass": false
+    },
+    {
+      "path": "CozySettlement/Mat/Material_terrain/Ground/DirtGround_A_PBR/DirtGround_A_Normal.png",
+      "bytes": 3510576,
+      "sha256": "524ed651a7d6961c27f29a0e5f0a644a81ae7815f785fb2993c2096a14277f99",
+      "width": 1254,
+      "height": 1254,
+      "family": "DirtGround_A",
+      "channel": "Normal",
+      "first_pass": false
+    },
+    {
+      "path": "CozySettlement/Mat/Material_terrain/Ground/DirtGround_A_PBR/DirtGround_A_Roughness.png",
+      "bytes": 745555,
+      "sha256": "143fd6782537100ead8761a0826a8e4ff148d4cd8ca1dfadada4f6f132ac7c6a",
+      "width": 1254,
+      "height": 1254,
+      "family": "DirtGround_A",
+      "channel": "Roughness",
+      "first_pass": false
+    },
+    {
+      "path": "CozySettlement/Mat/Material_terrain/Ground/Grass_Base_A/Grass_Base_A_AO.png",
+      "bytes": 750088,
+      "sha256": "d141b0d959d12f9e579e2e7528bd5b16c3a566a7cccf39997af27341a89364fa",
+      "width": 1024,
+      "height": 1024,
+      "family": "Grass_Base_A",
+      "channel": "AO",
+      "first_pass": false
+    },
+    {
+      "path": "CozySettlement/Mat/Material_terrain/Ground/Grass_Base_A/Grass_Base_A_BaseColor.png",
+      "bytes": 1895393,
+      "sha256": "881c92e2d59749b8abef1aaad2fcef1ecab100ea365672bafada42e548fe86bc",
+      "width": 1024,
+      "height": 1024,
+      "family": "Grass_Base_A",
+      "channel": "BaseColor",
+      "first_pass": true
+    },
+    {
+      "path": "CozySettlement/Mat/Material_terrain/Ground/Grass_Base_A/Grass_Base_A_Height.png",
+      "bytes": 729977,
+      "sha256": "1ac3ac0689d59f1ce2383f46aa530d8d45404ef407759aa67cc2179edef1a8ef",
+      "width": 1024,
+      "height": 1024,
+      "family": "Grass_Base_A",
+      "channel": "Height",
+      "first_pass": false
+    },
+    {
+      "path": "CozySettlement/Mat/Material_terrain/Ground/Grass_Base_A/Grass_Base_A_Normal.png",
+      "bytes": 2276608,
+      "sha256": "583166ef4ab81fa814b89eef4e460aa6caa4d08062eda11c8d365ce8140a1e17",
+      "width": 1024,
+      "height": 1024,
+      "family": "Grass_Base_A",
+      "channel": "Normal",
+      "first_pass": false
+    },
+    {
+      "path": "CozySettlement/Mat/Material_terrain/Ground/Grass_Base_A/Grass_Base_A_Roughness.png",
+      "bytes": 581613,
+      "sha256": "4e89ce06d66843e0a54bf3628637b5bfac2f0384d8081b48c2d0e7fa95ca6057",
+      "width": 1024,
+      "height": 1024,
+      "family": "Grass_Base_A",
+      "channel": "Roughness",
+      "first_pass": false
+    },
+    {
+      "path": "CozySettlement/Mat/Material_terrain/Ground/Grass_Dry_A/Grass_Dry_A_AO.png",
+      "bytes": 764220,
+      "sha256": "eec7ec523d7a8e14cec9702d59235b4231ade588d66fe930950e58778e18ba79",
+      "width": 1024,
+      "height": 1024,
+      "family": "Grass_Dry_A",
+      "channel": "AO",
+      "first_pass": false
+    },
+    {
+      "path": "CozySettlement/Mat/Material_terrain/Ground/Grass_Dry_A/Grass_Dry_A_BaseColor.png",
+      "bytes": 1898542,
+      "sha256": "04b609c7c912eb406eeefb9733c762747e864d717d0f4714cb095898f2c164fd",
+      "width": 1024,
+      "height": 1024,
+      "family": "Grass_Dry_A",
+      "channel": "BaseColor",
+      "first_pass": false
+    },
+    {
+      "path": "CozySettlement/Mat/Material_terrain/Ground/Grass_Dry_A/Grass_Dry_A_Height.png",
+      "bytes": 721275,
+      "sha256": "68519a3e4800756f1cb07901cf29a036a2a5d53aae1ec04d2a2c76d93fed40ea",
+      "width": 1024,
+      "height": 1024,
+      "family": "Grass_Dry_A",
+      "channel": "Height",
+      "first_pass": false
+    },
+    {
+      "path": "CozySettlement/Mat/Material_terrain/Ground/Grass_Dry_A/Grass_Dry_A_Normal.png",
+      "bytes": 2279501,
+      "sha256": "e5484dfbdbf23b2ce1ff2ea4dc87dc57571086d36a970347c9fd9ec5f30e170d",
+      "width": 1024,
+      "height": 1024,
+      "family": "Grass_Dry_A",
+      "channel": "Normal",
+      "first_pass": false
+    },
+    {
+      "path": "CozySettlement/Mat/Material_terrain/Ground/Grass_Dry_A/Grass_Dry_A_Roughness.png",
+      "bytes": 564681,
+      "sha256": "76f6a3dca95cfbdc099b446378e9c00bf75feeff579a9551d1ae1ee2175e5110",
+      "width": 1024,
+      "height": 1024,
+      "family": "Grass_Dry_A",
+      "channel": "Roughness",
+      "first_pass": false
+    },
+    {
+      "path": "CozySettlement/Mat/Material_terrain/Ground/Grass_Forest_A_PBR/Grass_Forest_A_AO.png",
+      "bytes": 1195118,
+      "sha256": "88588fb932d2a7d6b02392cb2111aabed085a3a1d27f0abc6cc895fab724a9a5",
+      "width": 1254,
+      "height": 1254,
+      "family": "Grass_Forest_A",
+      "channel": "AO",
+      "first_pass": false
+    },
+    {
+      "path": "CozySettlement/Mat/Material_terrain/Ground/Grass_Forest_A_PBR/Grass_Forest_A_BaseColor.png",
+      "bytes": 3208682,
+      "sha256": "e181180ca1261bf729fb138b2f23e6df45b379ce153886a8272c363c36b109e9",
+      "width": 1254,
+      "height": 1254,
+      "family": "Grass_Forest_A",
+      "channel": "BaseColor",
+      "first_pass": false
+    },
+    {
+      "path": "CozySettlement/Mat/Material_terrain/Ground/Grass_Forest_A_PBR/Grass_Forest_A_Height.png",
+      "bytes": 1135605,
+      "sha256": "a1e0c39118fe32061cf76f871b69af6907a76074350ed69a3a23ec7e6787551b",
+      "width": 1254,
+      "height": 1254,
+      "family": "Grass_Forest_A",
+      "channel": "Height",
+      "first_pass": false
+    },
+    {
+      "path": "CozySettlement/Mat/Material_terrain/Ground/Grass_Forest_A_PBR/Grass_Forest_A_Normal.png",
+      "bytes": 3825679,
+      "sha256": "f805803bded4df85f5dbf4bfa21b93d5ea675e775b7d416535ca912dfe59085a",
+      "width": 1254,
+      "height": 1254,
+      "family": "Grass_Forest_A",
+      "channel": "Normal",
+      "first_pass": false
+    },
+    {
+      "path": "CozySettlement/Mat/Material_terrain/Ground/Grass_Forest_A_PBR/Grass_Forest_A_Roughness.png",
+      "bytes": 803464,
+      "sha256": "faaba9a0fa2f03b52136c17909b6b525ef0e3b4fa78685dbffcf8f49fb5cac09",
+      "width": 1254,
+      "height": 1254,
+      "family": "Grass_Forest_A",
+      "channel": "Roughness",
+      "first_pass": false
+    },
+    {
+      "path": "CozySettlement/Mat/Material_terrain/Roads/DirtPath_A_PBR/DirtPath_A_AO.png",
+      "bytes": 1135296,
+      "sha256": "5392116c6894ff3fce25881d8aca78e6c9fc11d361783258c5cb49592f77e629",
+      "width": 1254,
+      "height": 1254,
+      "family": "DirtPath_A",
+      "channel": "AO",
+      "first_pass": false
+    },
+    {
+      "path": "CozySettlement/Mat/Material_terrain/Roads/DirtPath_A_PBR/DirtPath_A_BaseColor.png",
+      "bytes": 3290806,
+      "sha256": "19fda5d6e578d522eec73c5eb2b624e630189a0cfa6b656de3d90115200eba93",
+      "width": 1254,
+      "height": 1254,
+      "family": "DirtPath_A",
+      "channel": "BaseColor",
+      "first_pass": true
+    },
+    {
+      "path": "CozySettlement/Mat/Material_terrain/Roads/DirtPath_A_PBR/DirtPath_A_Height.png",
+      "bytes": 1114199,
+      "sha256": "f4e79184ed56449b0ab4a089490cccb4c79837850ec5d03d7bb2903a2e3ee592",
+      "width": 1254,
+      "height": 1254,
+      "family": "DirtPath_A",
+      "channel": "Height",
+      "first_pass": false
+    },
+    {
+      "path": "CozySettlement/Mat/Material_terrain/Roads/DirtPath_A_PBR/DirtPath_A_Normal.png",
+      "bytes": 3771487,
+      "sha256": "a11782765012782ee25d5fcc23871f357cf1600cb49750364035828fb9322520",
+      "width": 1254,
+      "height": 1254,
+      "family": "DirtPath_A",
+      "channel": "Normal",
+      "first_pass": false
+    },
+    {
+      "path": "CozySettlement/Mat/Material_terrain/Roads/DirtPath_A_PBR/DirtPath_A_Roughness.png",
+      "bytes": 789059,
+      "sha256": "6dd701d05cd333fc6a7088a79ab27b1881bfb68a0099fdf5032106ab7761209d",
+      "width": 1254,
+      "height": 1254,
+      "family": "DirtPath_A",
+      "channel": "Roughness",
+      "first_pass": false
+    },
+    {
+      "path": "CozySettlement/Mat/Material_terrain/Roads/DirtRoad_A/DirtRoad_A_AO.png",
+      "bytes": 1072693,
+      "sha256": "bb5340467fe69aa3f29ee1ac4ed1e3abe931402d39fe5b986ca86d576dcd506e",
+      "width": 1254,
+      "height": 1254,
+      "family": "DirtRoad_A",
+      "channel": "AO",
+      "first_pass": false
+    },
+    {
+      "path": "CozySettlement/Mat/Material_terrain/Roads/DirtRoad_A/DirtRoad_A_BaseColor.png",
+      "bytes": 3117085,
+      "sha256": "73dc766f7740ff1776c0a5856add91f26b0f2c96d626abc600552c54d0cba35e",
+      "width": 1254,
+      "height": 1254,
+      "family": "DirtRoad_A",
+      "channel": "BaseColor",
+      "first_pass": false
+    },
+    {
+      "path": "CozySettlement/Mat/Material_terrain/Roads/DirtRoad_A/DirtRoad_A_Height.png",
+      "bytes": 1062846,
+      "sha256": "5b762cd95d586ae7645566842d6d85fcc04032e2ef075109b8ccb5009b5c9589",
+      "width": 1254,
+      "height": 1254,
+      "family": "DirtRoad_A",
+      "channel": "Height",
+      "first_pass": false
+    },
+    {
+      "path": "CozySettlement/Mat/Material_terrain/Roads/DirtRoad_A/DirtRoad_A_Normal.png",
+      "bytes": 3641361,
+      "sha256": "f1a78b6dc4b96fc78f68eb2a2a77b9ee335877474d883ca9971cfa5dcafd4b46",
+      "width": 1254,
+      "height": 1254,
+      "family": "DirtRoad_A",
+      "channel": "Normal",
+      "first_pass": false
+    },
+    {
+      "path": "CozySettlement/Mat/Material_terrain/Roads/DirtRoad_A/DirtRoad_A_Roughness.png",
+      "bytes": 846087,
+      "sha256": "0e2409518b067e11945fd9cc2291c6fe204801d44e7a2e9ec7b8c4da35d96c07",
+      "width": 1254,
+      "height": 1254,
+      "family": "DirtRoad_A",
+      "channel": "Roughness",
+      "first_pass": false
+    },
+    {
+      "path": "CozySettlement/Mat/Material_terrain/Roads/StonePath_A_PBR/StonePath_A_AO.png",
+      "bytes": 1065728,
+      "sha256": "64f0878de670a8e334799040beb1653cd7979c0a2d2314040c62aaf86b3aebe8",
+      "width": 1254,
+      "height": 1254,
+      "family": "StonePath_A",
+      "channel": "AO",
+      "first_pass": false
+    },
+    {
+      "path": "CozySettlement/Mat/Material_terrain/Roads/StonePath_A_PBR/StonePath_A_BaseColor.png",
+      "bytes": 2923050,
+      "sha256": "0d13d2fdc3892e1c414e8a0751ec1119934d0c5247d3dcf46db2d7446d221ab0",
+      "width": 1254,
+      "height": 1254,
+      "family": "StonePath_A",
+      "channel": "BaseColor",
+      "first_pass": false
+    },
+    {
+      "path": "CozySettlement/Mat/Material_terrain/Roads/StonePath_A_PBR/StonePath_A_Height.png",
+      "bytes": 1046443,
+      "sha256": "081a2d3a539c59dd0267977716be1b7488096aa2218c44dcc693643dd89a26d3",
+      "width": 1254,
+      "height": 1254,
+      "family": "StonePath_A",
+      "channel": "Height",
+      "first_pass": false
+    },
+    {
+      "path": "CozySettlement/Mat/Material_terrain/Roads/StonePath_A_PBR/StonePath_A_Normal.png",
+      "bytes": 3661295,
+      "sha256": "4f49859a2cb26cfbd4a07d9776147fc7b50e78f87673bf52fd7a5a83152b63eb",
+      "width": 1254,
+      "height": 1254,
+      "family": "StonePath_A",
+      "channel": "Normal",
+      "first_pass": false
+    },
+    {
+      "path": "CozySettlement/Mat/Material_terrain/Roads/StonePath_A_PBR/StonePath_A_Roughness.png",
+      "bytes": 704923,
+      "sha256": "1d1a8f9148c4dbc02513ac0b45bd0ad36fe026c563e201cc41778c007c871451",
+      "width": 1254,
+      "height": 1254,
+      "family": "StonePath_A",
+      "channel": "Roughness",
+      "first_pass": false
+    }
+  ],
+  "selected_catalog_models": [
+    {
+      "id": "PROP_Barrel_A",
+      "catalog_status": "Ready",
+      "source": {
+        "path": "CozySettlement/Art/House_Cottage_A/Source/Yard/v008/Modules/SM_Barrel_A/SM_Barrel_A.blend",
+        "bytes": 8380680,
+        "sha256": "7fd110214d718f06c8eb4408843811917810900928b4b75a505430c2c1d13929"
+      },
+      "unity_verified": false
+    },
+    {
+      "id": "PROP_Birdhouse_A",
+      "catalog_status": "Ready",
+      "source": {
+        "path": "CozySettlement/Art/House_Cottage_A/Source/Yard/v002/Modules/SM_Birdhouse_A/SM_Birdhouse_A.blend",
+        "bytes": 608719,
+        "sha256": "9b1749bf8700332da9a118a95a026ac5fef9413aacce26632247effa830219db"
+      },
+      "unity_verified": false
+    },
+    {
+      "id": "PROP_Bucket_A",
+      "catalog_status": "Ready",
+      "source": {
+        "path": "CozySettlement/Art/House_Cottage_A/Source/Yard/v004/Modules/SM_Bucket_A/SM_Bucket_A.blend",
+        "bytes": 8340768,
+        "sha256": "8a7eb3ba89ad9dae9c41689a297c5d2188d4621ebd78f0bdf51380ed007ca999"
+      },
+      "unity_verified": false
+    },
+    {
+      "id": "MOD_Cottage_TimberFrame_A",
+      "catalog_status": "Ready",
+      "source": {
+        "path": "CozySettlement/Art/House_Cottage_A/Source/Modules/Timber_v002/SM_Cottage_TimberFrame_A.blend",
+        "bytes": 8432775,
+        "sha256": "4f2242412170c9b019527bf16205a3280abca5186b7006de548f358c7ae90b66"
+      },
+      "unity_verified": false
+    },
+    {
+      "id": "PROP_Crate_A",
+      "catalog_status": "Ready",
+      "source": {
+        "path": "CozySettlement/Art/House_Cottage_A/Source/Yard/v007/Modules/SM_Crate_A/SM_Crate_A.blend",
+        "bytes": 8357553,
+        "sha256": "c42cf4f3151a9a3965bdc782498abc9ac05fdc728eb710c78cc81388308a28ec"
+      },
+      "unity_verified": false
+    },
+    {
+      "id": "MOD_Door_Entrance_A",
+      "catalog_status": "Ready",
+      "source": {
+        "path": "CozySettlement/Art/House_Cottage_A/Source/Modules/Openings_Materials_v002/SM_Door_Entrance_A/SM_Door_Entrance_A.blend",
+        "bytes": 26630204,
+        "sha256": "438c804c3117369c3eb80978d4573b5c8a3e297af5569b255b2d4b132e2b7853"
+      },
+      "unity_verified": false
+    },
+    {
+      "id": "MOD_FenceBay_A",
+      "catalog_status": "Ready",
+      "source": {
+        "path": "CozySettlement/Art/House_Cottage_A/Source/Yard/v009/Modules/SM_FenceBay_A/SM_FenceBay_A.blend",
+        "bytes": 8251136,
+        "sha256": "9585b0f05b326f3bb52926978dd3fafa900ce45112a724583fca1c1551dea6e3"
+      },
+      "unity_verified": false
+    },
+    {
+      "id": "PROP_FlowerBox_A",
+      "catalog_status": "Ready",
+      "source": {
+        "path": "CozySettlement/Art/House_Cottage_A/Source/Yard/v002/Modules/SM_FlowerBox_A/SM_FlowerBox_A.blend",
+        "bytes": 474207,
+        "sha256": "1a35a9c237cefcf83f4b847339fe8f4fbfd5c55f0c22c672f0b691964bfce4bc"
+      },
+      "unity_verified": false
+    },
+    {
+      "id": "MOD_Gate_A",
+      "catalog_status": "Ready",
+      "source": {
+        "path": "CozySettlement/Art/House_Cottage_A/Source/Yard/v010/Modules/SM_Gate_A/SM_Gate_A.blend",
+        "bytes": 8344818,
+        "sha256": "bce9a1c087afb1c45cb23ce31479158bd95e7a97d20767b3b6ad385c4c23dca0"
+      },
+      "unity_verified": false
+    },
+    {
+      "id": "PROP_LogStack_A",
+      "catalog_status": "Ready",
+      "source": {
+        "path": "CozySettlement/Art/House_Cottage_A/Source/Yard/v003/Modules/SM_LogStack_A/SM_LogStack_A.blend",
+        "bytes": 6203122,
+        "sha256": "cd1fd4e26e52de079fb7cb2751564158ec79a4feea25228c7e88a1e1cfbbaa17"
+      },
+      "unity_verified": false
+    },
+    {
+      "id": "PROP_Pot_A",
+      "catalog_status": "Ready",
+      "source": {
+        "path": "CozySettlement/Art/House_Cottage_A/Source/Yard/v002/Modules/SM_Pot_A/SM_Pot_A.blend",
+        "bytes": 243330,
+        "sha256": "de0ddad4fe907e91da11bff519ad209454834f15a2b7ebf2a7d06e7cd9e3c893"
+      },
+      "unity_verified": false
+    },
+    {
+      "id": "PROP_Signpost_A",
+      "catalog_status": "Ready",
+      "source": {
+        "path": "CozySettlement/Art/House_Cottage_A/Source/Yard/v002/Modules/SM_Signpost_A/SM_Signpost_A.blend",
+        "bytes": 264594,
+        "sha256": "d4014259fa504718a0548db6fb5e3b330c8da80c73ddcaa6fb3e8d38391873a9"
+      },
+      "unity_verified": false
+    },
+    {
+      "id": "MOD_StoneWall_A",
+      "catalog_status": "Ready",
+      "source": {
+        "path": "CozySettlement/Art/House_Cottage_A/Source/Yard/v011/Modules/SM_StoneWall_A/SM_StoneWall_A.blend",
+        "bytes": 9317224,
+        "sha256": "8907d6661e74e51a05b367f86be919ee582dfad9b03b2e3cc5af648f2cff5201"
+      },
+      "unity_verified": false
+    },
+    {
+      "id": "PROP_Stump_Axe_A",
+      "catalog_status": "Ready",
+      "source": {
+        "path": "CozySettlement/Art/House_Cottage_A/Source/Yard/v002/Modules/SM_Stump_Axe_A/SM_Stump_Axe_A.blend",
+        "bytes": 269887,
+        "sha256": "917c76232f087b8c84cdfe1d5905b11d3e1b0670fcf97d3760f3df6394ccaa5b"
+      },
+      "unity_verified": false
+    },
+    {
+      "id": "PROP_Well_A",
+      "catalog_status": "Ready",
+      "source": {
+        "path": "CozySettlement/Art/House_Cottage_A/Source/Yard/v004/Modules/SM_Well_A/SM_Well_A.blend",
+        "bytes": 27998534,
+        "sha256": "4e039455679e9d9ade570534acf62a1a6d2a51eb5dd3f23f24439065dd7b5916"
+      },
+      "unity_verified": false
+    },
+    {
+      "id": "PROP_Wheelbarrow_A",
+      "catalog_status": "Ready",
+      "source": {
+        "path": "CozySettlement/Art/House_Cottage_A/Source/Yard/v002/Modules/SM_Wheelbarrow_A/SM_Wheelbarrow_A.blend",
+        "bytes": 375080,
+        "sha256": "938925a8051c2ac9308a03de17c0e055c83163706b123135f139d5f9bb244f04"
+      },
+      "unity_verified": false
+    },
+    {
+      "id": "MOD_Window_Closed_A",
+      "catalog_status": "Ready",
+      "source": {
+        "path": "CozySettlement/Art/House_Cottage_A/Source/Modules/Openings_Materials_v002/SM_Window_Closed_A/SM_Window_Closed_A.blend",
+        "bytes": 26416283,
+        "sha256": "c5f3d4b380510bac1d5d438a21d79af90f38f6b3f4699661f8a96ae5440785a0"
+      },
+      "unity_verified": false
+    },
+    {
+      "id": "MOD_Window_Open_A",
+      "catalog_status": "Ready",
+      "source": {
+        "path": "CozySettlement/Art/House_Cottage_A/Source/Modules/Openings_Materials_v002/SM_Window_Open_A/SM_Window_Open_A.blend",
+        "bytes": 26464813,
+        "sha256": "06468edf9c6ff4acc0663fe4f7739499fc891c12d7dd39ab0afdc632e98776cb"
+      },
+      "unity_verified": false
+    },
+    {
+      "id": "MOD_Window_Small_A",
+      "catalog_status": "Ready",
+      "source": {
+        "path": "CozySettlement/Art/House_Cottage_A/Source/Modules/Openings_Materials_v002/SM_Window_Small_A/SM_Window_Small_A.blend",
+        "bytes": 26288192,
+        "sha256": "9236317f0f2c8d71416770a9f765536968a73c529a290197f1ecba3e23aa8a7c"
+      },
+      "unity_verified": false
+    },
+    {
+      "id": "PROP_WoodBench_A",
+      "catalog_status": "Ready",
+      "source": {
+        "path": "CozySettlement/Art/House_Cottage_A/Source/Yard/v005/Modules/SM_WoodBench_A/SM_WoodBench_A.blend",
+        "bytes": 8282019,
+        "sha256": "bda8263b6d927bcd3c26af56aef7ce6d071ad3c0b86656ba3cccf4166a00e969"
+      },
+      "unity_verified": false
+    },
+    {
+      "id": "PROP_WoodTable_A",
+      "catalog_status": "Ready",
+      "source": {
+        "path": "CozySettlement/Art/House_Cottage_A/Source/Yard/v006/Modules/SM_WoodTable_A/SM_WoodTable_A.blend",
+        "bytes": 8307225,
+        "sha256": "e1fcaaf89cd96b6785e5b4dedfbd98f50a2d6cdab3a90d1d369af74180c15484"
+      },
+      "unity_verified": false
+    },
+    {
+      "id": "PROP_Woodshed_A",
+      "catalog_status": "Ready",
+      "source": {
+        "path": "CozySettlement/Art/House_Cottage_A/Source/Yard/v003/Modules/SM_Woodshed_A/SM_Woodshed_A.blend",
+        "bytes": 34195111,
+        "sha256": "188bfd7cd0d408dc602c486d96b9f96118dbba5c3ddc37c752cd4a387eea9451"
+      },
+      "unity_verified": false
+    },
+    {
+      "id": "BLD_House_Cottage_A",
+      "catalog_status": "Ready",
+      "source": {
+        "path": "CozySettlement/Art/House_Cottage_A/Source/Roof/v018/House_Cottage_A.blend",
+        "bytes": 75763740,
+        "sha256": "7de148708ac2e250ff36d395cee8f4e207af6c5c9c0a4f4daedb56df7e51714d"
+      },
+      "unity_verified": false
+    },
+    {
+      "id": "VEG_Branch_Curved_A",
+      "catalog_status": "Ready",
+      "source": {
+        "path": "CozySettlement/Art/Vegetation/Oak_Kit/Exports/SM_Branch_Curved_A.fbx",
+        "bytes": 37148,
+        "sha256": "88eee3dc58fbe1434b05f9fec8c56dea0c4617909e6d33b11d946ae84d536eb8"
+      },
+      "unity_verified": false
+    },
+    {
+      "id": "VEG_Branch_Fork_A",
+      "catalog_status": "Ready",
+      "source": {
+        "path": "CozySettlement/Art/Vegetation/Oak_Kit/Exports/SM_Branch_Fork_A.fbx",
+        "bytes": 69004,
+        "sha256": "e8ce5b81b63325bf900d3d9b160c06a44ec017a77a4b8c1d406bc69540d1fc07"
+      },
+      "unity_verified": false
+    },
+    {
+      "id": "VEG_Branch_Large_A",
+      "catalog_status": "Ready",
+      "source": {
+        "path": "CozySettlement/Art/Vegetation/Oak_Kit/Exports/SM_Branch_Large_A.fbx",
+        "bytes": 33084,
+        "sha256": "25b20ac6a2f7ad8bab8b88ed4e9a0292e0f375abd4a02e3ad9d6fcfd7dfb7818"
+      },
+      "unity_verified": false
+    },
+    {
+      "id": "VEG_Branch_Medium_A",
+      "catalog_status": "Ready",
+      "source": {
+        "path": "CozySettlement/Art/Vegetation/Oak_Kit/Exports/SM_Branch_Medium_A.fbx",
+        "bytes": 33148,
+        "sha256": "2a3034a5760613f3a0a5c5bcea3ebc56780d60139e6383cd514041fa05ce2935"
+      },
+      "unity_verified": false
+    },
+    {
+      "id": "VEG_Branch_Small_A",
+      "catalog_status": "Ready",
+      "source": {
+        "path": "CozySettlement/Art/Vegetation/Oak_Kit/Exports/SM_Branch_Small_A.fbx",
+        "bytes": 29052,
+        "sha256": "93868dd1b891911ccf126409a176c97e3c8e3de30592580f4906baed380e9a75"
+      },
+      "unity_verified": false
+    },
+    {
+      "id": "VEG_FlowerCluster_A",
+      "catalog_status": "Ready",
+      "source": {
+        "path": "CozySettlement/Art/Vegetation/Oak_Kit/Exports/SM_FlowerCluster_A.fbx",
+        "bytes": 33708,
+        "sha256": "8fe476683f0814ccad36f3aa875c1cab8e76da794c6d97154a0dd3e5e15d7cba"
+      },
+      "unity_verified": false
+    },
+    {
+      "id": "VEG_FlowerCluster_B",
+      "catalog_status": "Ready",
+      "source": {
+        "path": "CozySettlement/Art/Vegetation/Oak_Kit/Exports/SM_FlowerCluster_B.fbx",
+        "bytes": 50124,
+        "sha256": "a9906f3409902b9db5b7b6c30dbeed76d01b8e8f4e406ddabcbb2c72988b15dc"
+      },
+      "unity_verified": false
+    },
+    {
+      "id": "VEG_Grass_Flowers_A",
+      "catalog_status": "Ready",
+      "source": {
+        "path": "CozySettlement/Art/Vegetation/Oak_Kit/Exports/SM_Grass_Flowers_A.fbx",
+        "bytes": 37692,
+        "sha256": "9913ef405a9b0adfc363ead244bc2e8cabe6c978437d3c34ad95998bce6c9e80"
+      },
+      "unity_verified": false
+    },
+    {
+      "id": "VEG_Grass_Short_A",
+      "catalog_status": "Ready",
+      "source": {
+        "path": "CozySettlement/Art/Vegetation/Oak_Kit/Exports/SM_Grass_Short_A.fbx",
+        "bytes": 22716,
+        "sha256": "60a7c654e15f72e5d28eb0997feb1194cdc80433f1eb70cdda8fb73d928d2edf"
+      },
+      "unity_verified": false
+    },
+    {
+      "id": "VEG_Grass_Short_B",
+      "catalog_status": "Ready",
+      "source": {
+        "path": "CozySettlement/Art/Vegetation/Oak_Kit/Exports/SM_Grass_Short_B.fbx",
+        "bytes": 22684,
+        "sha256": "e74649b1b6b1e9a9de7f6d726a005bb7279b5ef857fb461787bef4d9dc4a1c89"
+      },
+      "unity_verified": false
+    },
+    {
+      "id": "VEG_Grass_Tall_A",
+      "catalog_status": "Ready",
+      "source": {
+        "path": "CozySettlement/Art/Vegetation/Oak_Kit/Exports/SM_Grass_Tall_A.fbx",
+        "bytes": 23228,
+        "sha256": "12f1ee9081e13d92957744e84d4921c584972964e797b87481ef70633c2f13fe"
+      },
+      "unity_verified": false
+    },
+    {
+      "id": "VEG_GroundLeaves_A",
+      "catalog_status": "Ready",
+      "source": {
+        "path": "CozySettlement/Art/Vegetation/Oak_Kit/Exports/SM_GroundLeaves_A.fbx",
+        "bytes": 22172,
+        "sha256": "82058367c5809786679e4a0e3735c3123b55f9356fa80b65e0392427a5474e83"
+      },
+      "unity_verified": false
+    },
+    {
+      "id": "VEG_GroundPatch_A",
+      "catalog_status": "Ready",
+      "source": {
+        "path": "CozySettlement/Art/Vegetation/Oak_Kit/Exports/SM_GroundPatch_A.fbx",
+        "bytes": 58636,
+        "sha256": "efcc36504265d3b4fbe60d594ce381aadc1b06aeafa6b288a8a567614dc7199a"
+      },
+      "unity_verified": false
+    },
+    {
+      "id": "VEG_GroundPatch_Flowers_A",
+      "catalog_status": "Ready",
+      "source": {
+        "path": "CozySettlement/Art/Vegetation/Oak_Kit/Exports/SM_GroundPatch_Flowers_A.fbx",
+        "bytes": 94220,
+        "sha256": "09e14e0c1dd5e9b126518502ca7ae1df8708065859bebe1e26edad2c0304e1a8"
+      },
+      "unity_verified": false
+    },
+    {
+      "id": "VEG_GroundPlant_A",
+      "catalog_status": "Ready",
+      "source": {
+        "path": "CozySettlement/Art/Vegetation/Oak_Kit/Exports/SM_GroundPlant_A.fbx",
+        "bytes": 23084,
+        "sha256": "acbc992c801d94afbd3424a3372d35195bc893376e341813cb219f63bf754fc3"
+      },
+      "unity_verified": false
+    },
+    {
+      "id": "VEG_GroundPlant_B",
+      "catalog_status": "Ready",
+      "source": {
+        "path": "CozySettlement/Art/Vegetation/Oak_Kit/Exports/SM_GroundPlant_B.fbx",
+        "bytes": 23100,
+        "sha256": "bf0c075158a2d15a09d85c2215ab569bf71f5347bd6dbe2d4004e25e59b750a2"
+      },
+      "unity_verified": false
+    },
+    {
+      "id": "VEG_LeafCluster_Large_A",
+      "catalog_status": "Ready",
+      "source": {
+        "path": "CozySettlement/Art/Vegetation/Oak_Kit/Exports/SM_LeafCluster_Large_A.fbx",
+        "bytes": 31900,
+        "sha256": "0148502a6d0e0e06eea13f11d02127266d2fbaf9ccfb6ff27903aa2e553f64de"
+      },
+      "unity_verified": false
+    },
+    {
+      "id": "VEG_LeafCluster_Large_B",
+      "catalog_status": "Ready",
+      "source": {
+        "path": "CozySettlement/Art/Vegetation/Oak_Kit/Exports/SM_LeafCluster_Large_B.fbx",
+        "bytes": 31884,
+        "sha256": "d08c1a1429488174705f4ad6d7cadf1401792787810b7d4dfeeead3d7e32ef60"
+      },
+      "unity_verified": false
+    },
+    {
+      "id": "VEG_LeafCluster_Medium_A",
+      "catalog_status": "Ready",
+      "source": {
+        "path": "CozySettlement/Art/Vegetation/Oak_Kit/Exports/SM_LeafCluster_Medium_A.fbx",
+        "bytes": 28092,
+        "sha256": "b6433623113a23d4e7b710b9daad445e376ada24a69b098242fe085b5316cfee"
+      },
+      "unity_verified": false
+    },
+    {
+      "id": "VEG_LeafCluster_Medium_B",
+      "catalog_status": "Ready",
+      "source": {
+        "path": "CozySettlement/Art/Vegetation/Oak_Kit/Exports/SM_LeafCluster_Medium_B.fbx",
+        "bytes": 28076,
+        "sha256": "3779bd237517f5ed2a9cfde5364dbdc416e3a8d4ce7159ef206301c4048b00b5"
+      },
+      "unity_verified": false
+    },
+    {
+      "id": "VEG_LeafCluster_Small_A",
+      "catalog_status": "Ready",
+      "source": {
+        "path": "CozySettlement/Art/Vegetation/Oak_Kit/Exports/SM_LeafCluster_Small_A.fbx",
+        "bytes": 25212,
+        "sha256": "04d7396a63354014df410723846e538c4dc91d37730e68efcebbb783e7550666"
+      },
+      "unity_verified": false
+    },
+    {
+      "id": "VEG_Stone_Large_A",
+      "catalog_status": "Ready",
+      "source": {
+        "path": "CozySettlement/Art/Vegetation/Oak_Kit/Exports/SM_Stone_Large_A.fbx",
+        "bytes": 24828,
+        "sha256": "7fb91dd43de80b4220fa5a9e136f5a370bd188cd93e90e1cfbb57e554ba8373c"
+      },
+      "unity_verified": false
+    },
+    {
+      "id": "VEG_Stone_Medium_A",
+      "catalog_status": "Ready",
+      "source": {
+        "path": "CozySettlement/Art/Vegetation/Oak_Kit/Exports/SM_Stone_Medium_A.fbx",
+        "bytes": 25228,
+        "sha256": "2bb19b8828b0f86ad510bbc0274e65cc94e157fe42738a95b0c39c9cac59359d"
+      },
+      "unity_verified": false
+    },
+    {
+      "id": "VEG_Stone_Medium_B",
+      "catalog_status": "Ready",
+      "source": {
+        "path": "CozySettlement/Art/Vegetation/Oak_Kit/Exports/SM_Stone_Medium_B.fbx",
+        "bytes": 25244,
+        "sha256": "937aba9d08aedbc187d2c89bf0ff8fd55ebd84d085864d917df7867a081f6353"
+      },
+      "unity_verified": false
+    },
+    {
+      "id": "VEG_Stone_Mossy_A",
+      "catalog_status": "Ready",
+      "source": {
+        "path": "CozySettlement/Art/Vegetation/Oak_Kit/Exports/SM_Stone_Mossy_A.fbx",
+        "bytes": 24172,
+        "sha256": "ab6a78de1545dd60d98f6303db8b548993e2018c426fd22d0e62aefa8de71a43"
+      },
+      "unity_verified": false
+    },
+    {
+      "id": "VEG_Stone_Small_A",
+      "catalog_status": "Ready",
+      "source": {
+        "path": "CozySettlement/Art/Vegetation/Oak_Kit/Exports/SM_Stone_Small_A.fbx",
+        "bytes": 25276,
+        "sha256": "dd336276f4ad738fb6220c1536faefdb91d000cb86f6d43a84ebb133b1e41b04"
+      },
+      "unity_verified": false
+    },
+    {
+      "id": "VEG_Stone_Small_B",
+      "catalog_status": "Ready",
+      "source": {
+        "path": "CozySettlement/Art/Vegetation/Oak_Kit/Exports/SM_Stone_Small_B.fbx",
+        "bytes": 25388,
+        "sha256": "4eaa2ec9e79eb47d67df96c979858f9b5bcc372ca30f6893da8da8033d054627"
+      },
+      "unity_verified": false
+    },
+    {
+      "id": "VEG_Tree_Oak_A",
+      "catalog_status": "Ready",
+      "source": {
+        "path": "CozySettlement/Art/Vegetation/Oak_Kit/Exports/SM_Tree_Oak_A.fbx",
+        "bytes": 522300,
+        "sha256": "a2a9ec3fcfa73a15e6290a70895e9b87bc1e4c83cd34927f972511f5903396ca"
+      },
+      "unity_verified": false
+    },
+    {
+      "id": "VEG_TreeRoot_A",
+      "catalog_status": "Ready",
+      "source": {
+        "path": "CozySettlement/Art/Vegetation/Oak_Kit/Exports/SM_TreeRoot_A.fbx",
+        "bytes": 33132,
+        "sha256": "bde72931b5c070ae7c565a7510f9c15e6171e3dca8fdfd396651d9d660080e5c"
+      },
+      "unity_verified": false
+    },
+    {
+      "id": "MOD_Cottage_Courtyard_A",
+      "catalog_status": "InProgress",
+      "source": {
+        "path": "CozySettlement/Art/House_Cottage_A/Source/Assembly/v027/Cottage_Courtyard.blend",
+        "bytes": 86876358,
+        "sha256": "41fc67bbbc1ce795d6e360c5738015b8bf3e1e57bad8853ee3f3813f550506d5"
+      },
+      "unity_verified": false
+    },
+    {
+      "id": "MOD_Cottage_Yard_Kit_A",
+      "catalog_status": "InProgress",
+      "source": {
+        "path": "CozySettlement/Art/House_Cottage_A/Source/Yard/v011/Cottage_Yard_Kit.blend",
+        "bytes": 38019862,
+        "sha256": "2e1e3a755d9c3965b9ee9503400860707250e3a4bc4e6d5ef2dffc9bf87a4bc2"
+      },
+      "unity_verified": false
+    },
+    {
+      "id": "MAT_Cottage_HempRope_A",
+      "catalog_status": "Ready",
+      "source": {
+        "path": "CozySettlement/Art/House_Cottage_A/Source/Materials/Rope_v001/Cottage_HempRope.blend",
+        "bytes": 170327,
+        "sha256": "0889045a6da9bae229980b03c8daddfa218942756d26b7b820e08d966b37cd13"
+      },
+      "unity_verified": false
+    },
+    {
+      "id": "MAT_Cottage_ForgedIron_A",
+      "catalog_status": "Ready",
+      "source": {
+        "path": "CozySettlement/Art/House_Cottage_A/Source/Materials/Iron_v001/Cottage_ForgedIron.blend",
+        "bytes": 154528,
+        "sha256": "6c675cc2d8ec747e15703d672c11cd64407f28eedfaa3ac8af8d4f81285712f7"
+      },
+      "unity_verified": false
+    },
+    {
+      "id": "MOD_Wall_Stone_2m_A",
+      "catalog_status": "InProgress",
+      "source": {
+        "path": "Little-Castle_Assets/Source/Architecture/Wall_Stone_Modular/v004/Meshes/SM_Wall_Stone_2m_A.fbx",
+        "bytes": 532412,
+        "sha256": "2a5ffbe6a4d567834bb84c1069aa141078b1e3dcc394b9f2c7b6089f888481fc"
+      },
+      "unity_verified": false
+    },
+    {
+      "id": "MOD_Wall_Stone_1m_A",
+      "catalog_status": "InProgress",
+      "source": {
+        "path": "Little-Castle_Assets/Source/Architecture/Wall_Stone_Modular/v004/Meshes/SM_Wall_Stone_1m_A.fbx",
+        "bytes": 430220,
+        "sha256": "2440ce7d9050d8ec704de544df001db33748286456fe18522b83e4bb8b8e3c06"
+      },
+      "unity_verified": false
+    },
+    {
+      "id": "MOD_Wall_Stone_Pillar_A",
+      "catalog_status": "InProgress",
+      "source": {
+        "path": "Little-Castle_Assets/Source/Architecture/Wall_Stone_Modular/v004/Meshes/SM_Wall_Stone_Pillar_A.fbx",
+        "bytes": 347276,
+        "sha256": "cf78f15587269e8b9e80bcc8bfac454ca4920be7f939d7b94cae08683fa17a8f"
+      },
+      "unity_verified": false
+    },
+    {
+      "id": "MOD_Wall_Stone_End_A",
+      "catalog_status": "InProgress",
+      "source": {
+        "path": "Little-Castle_Assets/Source/Architecture/Wall_Stone_Modular/v004/Meshes/SM_Wall_Stone_End_A.fbx",
+        "bytes": 294348,
+        "sha256": "500532ab4da769bcf1b274fb6d9a6a6bf7aa81a8a5be567e75b6a71234504ddb"
+      },
+      "unity_verified": false
+    },
+    {
+      "id": "PROP_Wall_Banner_Cloth_A",
+      "catalog_status": "InProgress",
+      "source": {
+        "path": "Little-Castle_Assets/Source/Architecture/Wall_Stone_Modular/v004/Meshes/SM_Wall_Banner_Cloth_A.fbx",
+        "bytes": 46636,
+        "sha256": "d545c4b46caaa6a3f5cc676a33f736a91d3e0074b4dfa89db03356013150a6cb"
+      },
+      "unity_verified": false
+    },
+    {
+      "id": "PROP_Wall_Banner_Bracket_A",
+      "catalog_status": "InProgress",
+      "source": {
+        "path": "Little-Castle_Assets/Source/Architecture/Wall_Stone_Modular/v004/Meshes/SM_Wall_Banner_Bracket_A.fbx",
+        "bytes": 46844,
+        "sha256": "6827a40426777d746f82541f8ce5ed135c29c0b071dbcea19694f59b3ae48aea"
+      },
+      "unity_verified": false
+    },
+    {
+      "id": "MOD_ArcherTower_A",
+      "catalog_status": "InProgress",
+      "source": {
+        "path": "Little-Castle_Assets/Source/Architecture/Wall_Stone_Modular/v004/Meshes/SM_ArcherTower_A.fbx",
+        "bytes": 1017308,
+        "sha256": "37c7d29b8e3d15d3e3438187fba176386fb2e0c10654fae1ca84e5ff590fb3c3"
+      },
+      "unity_verified": false
+    },
+    {
+      "id": "MOD_Wall_Gatehouse_A",
+      "catalog_status": "InProgress",
+      "source": {
+        "path": "Little-Castle_Assets/Source/Architecture/Wall_Stone_Modular/v004/Meshes/SM_Wall_Gatehouse_A.fbx",
+        "bytes": 409852,
+        "sha256": "ea2545d5fa0b13fc117ca15093e434777a79bc2f007bc52381fb8884d13b7baf"
+      },
+      "unity_verified": false
+    },
+    {
+      "id": "PROP_Wall_GateLeaf_Left_A",
+      "catalog_status": "InProgress",
+      "source": {
+        "path": "Little-Castle_Assets/Source/Architecture/Wall_Stone_Modular/v004/Meshes/SM_Wall_GateLeaf_Left_A.fbx",
+        "bytes": 107644,
+        "sha256": "49be04b688e475225dd202609c636cca9515ae521de462fa23236c78b0dfd6e2"
+      },
+      "unity_verified": false
+    },
+    {
+      "id": "PROP_Wall_GateLeaf_Right_A",
+      "catalog_status": "InProgress",
+      "source": {
+        "path": "Little-Castle_Assets/Source/Architecture/Wall_Stone_Modular/v004/Meshes/SM_Wall_GateLeaf_Right_A.fbx",
+        "bytes": 107980,
+        "sha256": "35b8bddc03006ef234d7cc80c0944102d5183fb1dee9e0f1bb266f08c356e934"
+      },
+      "unity_verified": false
+    },
+    {
+      "id": "PROP_Wall_Banner_Trim_A",
+      "catalog_status": "InProgress",
+      "source": {
+        "path": "Little-Castle_Assets/Source/Architecture/Wall_Stone_Modular/v004/Meshes/SM_Wall_Banner_Trim_A.fbx",
+        "bytes": 43452,
+        "sha256": "f165314533536694494c3a515f4d76cd2860526f7a20ebeccd1c399a97e58c00"
+      },
+      "unity_verified": false
+    }
+  ],
+  "house_current": {
+    "assembly": {
+      "path": "CozySettlement/Art/House_Cottage_A/Source/Assembly/v027/Cottage_Courtyard.blend",
+      "bytes": 86876358,
+      "sha256": "41fc67bbbc1ce795d6e360c5738015b8bf3e1e57bad8853ee3f3813f550506d5"
+    },
+    "house": {
+      "path": "CozySettlement/Art/House_Cottage_A/Source/Roof/v018/House_Cottage_A.blend",
+      "bytes": 75763740,
+      "sha256": "7de148708ac2e250ff36d395cee8f4e207af6c5c9c0a4f4daedb56df7e51714d"
+    },
+    "yard_kit": {
+      "path": "CozySettlement/Art/House_Cottage_A/Source/Yard/v011/Cottage_Yard_Kit.blend",
+      "bytes": 38019862,
+      "sha256": "2e1e3a755d9c3965b9ee9503400860707250e3a4bc4e6d5ef2dffc9bf87a4bc2"
+    },
+    "yard_module_overrides": {
+      "SM_Woodshed_A": {
+        "path": "CozySettlement/Art/House_Cottage_A/Source/Yard/v003/Modules/SM_Woodshed_A/SM_Woodshed_A.blend",
+        "bytes": 34195111,
+        "sha256": "188bfd7cd0d408dc602c486d96b9f96118dbba5c3ddc37c752cd4a387eea9451"
+      },
+      "SM_LogStack_A": {
+        "path": "CozySettlement/Art/House_Cottage_A/Source/Yard/v003/Modules/SM_LogStack_A/SM_LogStack_A.blend",
+        "bytes": 6203122,
+        "sha256": "cd1fd4e26e52de079fb7cb2751564158ec79a4feea25228c7e88a1e1cfbbaa17"
+      },
+      "SM_Well_A": {
+        "path": "CozySettlement/Art/House_Cottage_A/Source/Yard/v004/Modules/SM_Well_A/SM_Well_A.blend",
+        "bytes": 27998534,
+        "sha256": "4e039455679e9d9ade570534acf62a1a6d2a51eb5dd3f23f24439065dd7b5916"
+      },
+      "SM_Bucket_A": {
+        "path": "CozySettlement/Art/House_Cottage_A/Source/Yard/v004/Modules/SM_Bucket_A/SM_Bucket_A.blend",
+        "bytes": 8340768,
+        "sha256": "8a7eb3ba89ad9dae9c41689a297c5d2188d4621ebd78f0bdf51380ed007ca999"
+      },
+      "SM_WoodBench_A": {
+        "path": "CozySettlement/Art/House_Cottage_A/Source/Yard/v005/Modules/SM_WoodBench_A/SM_WoodBench_A.blend",
+        "bytes": 8282019,
+        "sha256": "bda8263b6d927bcd3c26af56aef7ce6d071ad3c0b86656ba3cccf4166a00e969"
+      },
+      "SM_WoodTable_A": {
+        "path": "CozySettlement/Art/House_Cottage_A/Source/Yard/v006/Modules/SM_WoodTable_A/SM_WoodTable_A.blend",
+        "bytes": 8307225,
+        "sha256": "e1fcaaf89cd96b6785e5b4dedfbd98f50a2d6cdab3a90d1d369af74180c15484"
+      },
+      "SM_Crate_A": {
+        "path": "CozySettlement/Art/House_Cottage_A/Source/Yard/v007/Modules/SM_Crate_A/SM_Crate_A.blend",
+        "bytes": 8357553,
+        "sha256": "c42cf4f3151a9a3965bdc782498abc9ac05fdc728eb710c78cc81388308a28ec"
+      },
+      "SM_Barrel_A": {
+        "path": "CozySettlement/Art/House_Cottage_A/Source/Yard/v008/Modules/SM_Barrel_A/SM_Barrel_A.blend",
+        "bytes": 8380680,
+        "sha256": "7fd110214d718f06c8eb4408843811917810900928b4b75a505430c2c1d13929"
+      },
+      "SM_FenceBay_A": {
+        "path": "CozySettlement/Art/House_Cottage_A/Source/Yard/v009/Modules/SM_FenceBay_A/SM_FenceBay_A.blend",
+        "bytes": 8251136,
+        "sha256": "9585b0f05b326f3bb52926978dd3fafa900ce45112a724583fca1c1551dea6e3"
+      },
+      "SM_Gate_A": {
+        "path": "CozySettlement/Art/House_Cottage_A/Source/Yard/v010/Modules/SM_Gate_A/SM_Gate_A.blend",
+        "bytes": 8344818,
+        "sha256": "bce9a1c087afb1c45cb23ce31479158bd95e7a97d20767b3b6ad385c4c23dca0"
+      },
+      "SM_StoneWall_A": {
+        "path": "CozySettlement/Art/House_Cottage_A/Source/Yard/v011/Modules/SM_StoneWall_A/SM_StoneWall_A.blend",
+        "bytes": 9317224,
+        "sha256": "8907d6661e74e51a05b367f86be919ee582dfad9b03b2e3cc5af648f2cff5201"
+      }
+    }
+  },
+  "oak_fbx_inspection": [
+    {
+      "source": {
+        "path": "CozySettlement/Art/Vegetation/Oak_Kit/Exports/SM_Tree_Oak_A.fbx",
+        "bytes": 522300,
+        "sha256": "a2a9ec3fcfa73a15e6290a70895e9b87bc1e4c83cd34927f972511f5903396ca"
+      },
+      "meshes": [
+        {
+          "name": "SM_Tree_Oak_A",
+          "vertices": 7836,
+          "triangles": 12068,
+          "uv_layers": [
+            "UV0"
+          ],
+          "color_attributes": [],
+          "materials": [
+            "M_Oak_Bark",
+            "M_Oak_Foliage"
+          ],
+          "triangles_per_material": {
+            "0": 9188,
+            "1": 2880
+          },
+          "normals_nonzero": true,
+          "tangents_calculable": true,
+          "dimensions_m": [
+            7.334698677062988,
+            5.775651454925537,
+            7.400547981262207
+          ]
+        }
+      ]
+    },
+    {
+      "source": {
+        "path": "CozySettlement/Art/Vegetation/Oak_Kit/Exports/SM_Tree_Oak_A_LOD1.fbx",
+        "bytes": 316268,
+        "sha256": "5771945580230fa2c01388402eea760d66f2f17e482203991a66883d4e1b8e61"
+      },
+      "meshes": [
+        {
+          "name": "SM_Tree_Oak_A_LOD1",
+          "vertices": 4511,
+          "triangles": 6858,
+          "uv_layers": [
+            "UV0"
+          ],
+          "color_attributes": [],
+          "materials": [
+            "M_Oak_Bark",
+            "M_Oak_Foliage"
+          ],
+          "triangles_per_material": {
+            "0": 5418,
+            "1": 1440
+          },
+          "normals_nonzero": true,
+          "tangents_calculable": true,
+          "dimensions_m": [
+            7.334698677062988,
+            5.775651454925537,
+            7.400547981262207
+          ]
+        }
+      ]
+    },
+    {
+      "source": {
+        "path": "CozySettlement/Art/Vegetation/Oak_Kit/Exports/SM_Tree_Oak_A_LOD2.fbx",
+        "bytes": 174332,
+        "sha256": "8a955a6fb28ce7aef7b2f37fb247010697dadf92ce5e4e4a6e8ab156b5d2f3fd"
+      },
+      "meshes": [
+        {
+          "name": "SM_Tree_Oak_A_LOD2",
+          "vertices": 2635,
+          "triangles": 3106,
+          "uv_layers": [
+            "UV0"
+          ],
+          "color_attributes": [],
+          "materials": [
+            "M_Oak_Bark",
+            "M_Oak_Foliage"
+          ],
+          "triangles_per_material": {
+            "0": 2386,
+            "1": 720
+          },
+          "normals_nonzero": true,
+          "tangents_calculable": true,
+          "dimensions_m": [
+            7.334698677062988,
+            5.775651454925537,
+            7.400111675262451
+          ]
+        }
+      ]
+    }
+  ],
+  "excluded_families": [
+    "Art/Cottage",
+    "Art/Vegetation/Tree_01",
+    "Art/Vegetation/Tree02"
+  ],
+  "restrictions": [
+    "No manual terraforming",
+    "Prefer naturally buildable plains",
+    "No ordinary building on mountains",
+    "60 FPS target requires profiling"
+  ]
+}

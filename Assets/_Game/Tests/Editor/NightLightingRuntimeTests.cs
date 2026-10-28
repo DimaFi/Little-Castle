@@ -25,6 +25,16 @@ namespace LittleCastle.Tests
 
             try
             {
+                // EditMode tests do not guarantee MonoBehaviour.Awake runs
+                // when AddComponent is called. Explicitly exercise the real
+                // initialization path instead of assuming PlayMode lifecycle.
+                var awake = typeof(NightLightEmitter).GetMethod(
+                    "Awake",
+                    System.Reflection.BindingFlags.Instance |
+                    System.Reflection.BindingFlags.NonPublic);
+                Assert.That(awake, Is.Not.Null);
+                awake.Invoke(emitter, null);
+
                 Assert.That(
                     light.enabled,
                     Is.False);

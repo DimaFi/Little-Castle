@@ -12,6 +12,14 @@ namespace LittleCastle.World
     {
         private Mesh ownedMesh;
         private MeshCollider terrainCollider;
+        private RiverWaterPresenter ownedRiverWater;
+
+        public void SetOwnedRiverWater(RiverWaterPresenter presenter)
+        {
+            if (ownedRiverWater != null && ownedRiverWater != presenter)
+                ownedRiverWater.ReleaseOwnedResources();
+            ownedRiverWater = presenter;
+        }
 
         public ChunkCoordinate Coordinate { get; private set; }
         public bool IsPlayableChunk { get; private set; }
@@ -69,6 +77,10 @@ namespace LittleCastle.World
 
         public void ReleaseOwnedResources()
         {
+            if (ownedRiverWater != null)
+                ownedRiverWater.ReleaseOwnedResources();
+            ownedRiverWater = null;
+
             if (terrainCollider != null)
             {
                 terrainCollider.enabled = false;

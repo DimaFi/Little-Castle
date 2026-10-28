@@ -2,6 +2,62 @@
 
 This file defines rules for AI coding agents working in this repository.
 
+## User feedback follow-up — 2026-10-28
+
+Read `docs/handoffs/gpt6-world-editor-next-20261028-ru.md` before continuing.
+The next cloud task is A (save and test-current-map workflow), not all listed tasks.
+Current follow-up adds visible SceneView flowers using the existing scatter algorithm,
+road coverage preservation through river vegetation exclusions, derived UV3 sand/wet
+data on terrain, a continuous v2 ford edge, and an initial water/lighting preset.
+Do not repurpose authored vertex R/G/B or replace the merged shaders wholesale.
+Saved authoring base is separate from any unpublished river draft in the window.
+Tests: 301/302 EditMode (the existing generator preset mismatch), 16/16 PlayMode.
+See `docs/reports/world-editor-feedback-20261028-ru.md` for actual captures and limits.
+
+## Canonical World Editor integration — 2026-10-27
+
+The user's explicit 2026-10-27 request resumed lighting integration into this
+main project, `E:/Games_Develop/Little-Castle`. Current branch:
+`codex/world-editor-lighting-integration-20261027`. BrushFoundation `4cc6382`
+and LightingIntegration published `42f317c` are read-only sources. Preserve their
+workspaces. Use `WorldEditor_20261027.unity` and menu
+`Little Castle > World Editor > Open Integrated Scene` for the combined fixture.
+See `docs/workflows/test-world-editor-ru.md` and
+`docs/reports/world-editor-lighting-integration-20261027-ru.md`.
+Latest UI/water acceptance and short user report:
+`docs/reports/world-editor-start-here-ru.md` and
+`docs/reports/world-editor-final-20261027-ru.md`.
+World Editor now has four contextual sections. New rivers use opt-in layout v2
+and the owned WaterAO/WaterHDR profiles; legacy v1 records/rocks remain supported.
+Do not replace the merged MapRiverPresentation with a source-worktree file.
+Final checks: 294/295 EditMode (one unchanged generator preset mismatch),
+16/16 PlayMode; native SceneView new-river/Apply/Undo/Redo passed.
+Water night tint and synchronous river commit cost remain documented follow-ups.
+Spatial GI remains a separate opt-in diagnostic scene. Disabled review drivers
+still execute Awake: never leave LightingMeadowReview in the authoring scene.
+Biome/snow PR79 has been audited only; full integration requires a separate
+user decision after `docs/reports/environment-audit-20261027/report-task02-ru.md`.
+Historical pause and source-copy coordination below remain as handoff history.
+
+## Map authoring / lighting coordination — 2026-10-25
+
+Before continuing map tools or integrating lighting with Meadow, read
+`docs/plans/map-authoring-and-lighting-coordination-20261025-ru.md`.
+This records the user's requested roadmap and parallel work boundaries; it does
+not itself resume the paused lighting task below. Map tools live in the URP study
+copy; lighting integration is assigned a separate copy, with no whole-file shader
+replacement between the divergent projects.
+
+## Paused lighting task — user handoff, 2026-10-25
+
+Read `docs/handoffs/lighting-and-biomes-paused-20261025-ru.md` before resuming
+lighting work. The user asked to record the current state and stop this task;
+resume lighting development/integration only on a new explicit request.
+This pause does not stop independent biome work in another chat.
+The lighting benchmark still uses older CottageGarden ground/grass; newer
+Meadow/biome authoring lives in `Little-Castle_URP_20261024` and is not merged.
+Future work must account for both shader branches rather than overwriting one.
+
 ## FIRST PROJECT PREFLIGHT — foliage model/shader compatibility
 
 This is the first rendering/model compatibility check for any coding agent
@@ -369,16 +425,18 @@ Mandatory rules:
 - camera movement should drive the world-streaming focus;
 - preserve close zoom for inspecting authored models/textures;
 - day/night sky and lighting are presentation driven by `WorldTimeSystem`;
-- prefer the built-in procedural sky shader and cheap lighting before adding
-  render-pipeline or post-processing dependencies;
+- prefer the shared procedural sky shader and cheap lighting before adding
+  further rendering or post-processing dependencies;
 - night must remain readable for building and management gameplay.
 
 See `docs/architecture/camera-and-atmosphere.md`.
 
 ## Stylized rendering rule
 
-Little Castle uses a shared lightweight stylized-rendering contract on the
-Built-in Render Pipeline unless a separate measured migration decision is made.
+Little Castle uses a shared lightweight stylized-rendering contract on URP
+17.5 Forward (Unity 6000.5). The user approved full adoption on 2026-10-25;
+see `docs/decisions/ADR-0004-urp-rendering-adoption.md` and
+`docs/architecture/urp-rendering.md`. Preserve this baseline.
 
 Mandatory rules:
 
@@ -393,7 +451,9 @@ Mandatory rules:
   materials at runtime;
 - do not add a new shader for a single asset when an existing shared shader can
   express it with parameters;
-- do not migrate to URP/HDRP only for atmosphere;
+- do not change render pipelines or add a heavy Volume stack only for atmosphere;
+- configure AA, shadow distance/cascades and per-object light limits through
+  owned URP quality assets, not legacy Built-in QualitySettings fields;
 - keep night readable and use warm local emissive against cool ambient;
 - add realtime local lights through an explicit budget/pooling strategy;
 - review `docs/architecture/stylized-rendering-roadmap.md` before modifying

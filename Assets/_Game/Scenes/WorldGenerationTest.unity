@@ -14,12 +14,12 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 10
-  m_Fog: 1
+  m_Fog: 0
   m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.01
-  m_LinearFogStart: 230
-  m_LinearFogEnd: 900
+  m_LinearFogStart: 0
+  m_LinearFogEnd: 300
   m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionBounces: 1
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
-  m_Sun: {fileID: 825599670}
+  m_Sun: {fileID: 1956417296}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -119,7 +119,7 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &85530198
+--- !u!1 &744910858
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -127,15 +127,138 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 85530201}
-  - component: {fileID: 85530200}
-  - component: {fileID: 85530199}
-  - component: {fileID: 85530202}
-  - component: {fileID: 85530203}
-  - component: {fileID: 85530204}
-  - component: {fileID: 85530205}
-  - component: {fileID: 85530206}
-  - component: {fileID: 85530207}
+  - component: {fileID: 744910861}
+  - component: {fileID: 744910860}
+  - component: {fileID: 744910859}
+  m_Layer: 0
+  m_Name: Camera
+  m_TagString: MainCamera
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &744910859
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 744910858}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3b16bfc2d154e41a584fdd8f3c93211, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: LittleCastle.Runtime::LittleCastle.CameraSystem.StrategyCameraController
+  streamingFocus: {fileID: 1020727888}
+  worldStreamer: {fileID: 748881454}
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  enableEdgeScroll: 1
+  edgeScrollPixels: 14
+  closePanSpeed: 12
+  farPanSpeed: 58
+  panSmoothing: 10
+  middleDragSpeed: 0.75
+  allowPitchAdjustment: 1
+  minimumPitch: 6
+  maximumPitch: 72
+  initialPitch: 42
+  mouseRotationSensitivity: 3.2
+  keyboardRotationSpeed: 80
+  minimumDistance: 11
+  maximumDistance: 190
+  initialDistance: 115
+  zoomSensitivity: 2.4
+  zoomSmoothing: 12
+  followGroundHeight: 1
+  groundProbeHeight: 1200
+  focusHeightOffset: 0.25
+  groundHeightSmoothing: 8
+  initializeFromCurrentView: 1
+--- !u!20 &744910860
+Camera:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 744910858}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 1
+  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_projectionMatrixMode: 1
+  m_GateFitMode: 2
+  m_FOVAxisMode: 0
+  m_Iso: 200
+  m_ShutterSpeed: 0.005
+  m_Aperture: 16
+  m_FocusDistance: 10
+  m_FocalLength: 50
+  m_BladeCount: 5
+  m_Curvature: {x: 2, y: 11}
+  m_BarrelClipping: 0.25
+  m_Anamorphism: 0
+  m_SensorSize: {x: 36, y: 24}
+  m_LensShift: {x: 0, y: 0}
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0.3
+  far clip plane: 2500
+  field of view: 60
+  orthographic: 0
+  orthographic size: 5
+  m_Depth: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 0}
+  m_TargetDisplay: 0
+  m_TargetEye: 3
+  m_HDR: 1
+  m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
+--- !u!4 &744910861
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 744910858}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.3326002, y: -0.17179447, z: 0.06175643, w: 0.92522967}
+  m_LocalPosition: {x: 72, y: 92, z: -72}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &748881453
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 748881455}
+  - component: {fileID: 748881462}
+  - component: {fileID: 748881454}
+  - component: {fileID: 748881461}
+  - component: {fileID: 748881460}
+  - component: {fileID: 748881459}
+  - component: {fileID: 748881458}
+  - component: {fileID: 748881457}
+  - component: {fileID: 748881456}
   m_Layer: 0
   m_Name: WorldRoot
   m_TagString: Untagged
@@ -143,13 +266,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &85530199
+--- !u!114 &748881454
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 85530198}
+  m_GameObject: {fileID: 748881453}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5d69f0b967ea3754c9651659247196c4, type: 3}
@@ -157,65 +280,109 @@ MonoBehaviour:
   m_EditorClassIdentifier: LittleCastle.Runtime::LittleCastle.World.WorldStreamer
   worldSeed: 12345
   worldDefinition: {fileID: 11400000, guid: 2d38fe5d89f5d8b4d9cb3c8256688ceb, type: 2}
-  focus: {fileID: 527813918}
+  useFiniteSessionMap: 0
+  sessionPlayerCount: 1
+  mapSizePresetId: medium
+  sessionStartOptions:
+    informationMode: 0
+    placementMode: 0
+    fairnessMode: 1
+    layoutFreedom: 0.65
+    pressureResourceCompensation: 0.55
+    separationMultiplier: 1
+    minimumExitRoutesOverride: 0
+    riversRequireBridgeForExit: 1
+    ringRadius: 0.72
+    starOuterRadius: 0.78
+    starInnerRadius: 0.42
+    randomizeFormationRotation: 1
+  focus: {fileID: 1020727888}
   streamOnStart: 1
-  chunkPresentationRoot: {fileID: 419764303}
+  chunkPresentationRoot: {fileID: 1257198948}
   terrainMaterial: {fileID: 2100000, guid: 8dcb0403790744558dc906979c848775, type: 2}
   runtimeDelta:
     removedSpawnIds: 
+    removedSpawnChunks: []
     resourceDeposits: []
---- !u!114 &85530200
+    runtimeEntities: []
+    chunkRevisions: []
+--- !u!4 &748881455
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 748881453}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1257198948}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &748881456
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 85530198}
+  m_GameObject: {fileID: 748881453}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25d1b6d9dd0177449895e93779b2251d, type: 3}
+  m_Script: {fileID: 11500000, guid: 7f310674a5d94af4ae89dc24a13a95c2, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: LittleCastle.Runtime::LittleCastle.World.WorldGenerator
-  worldSeed: 12345
-  worldDefinition: {fileID: 11400000, guid: 2d38fe5d89f5d8b4d9cb3c8256688ceb, type: 2}
-  previewRadius: 1
-  previewMaterial: {fileID: 2100000, guid: 8dcb0403790744558dc906979c848775, type: 2}
-  renderGeneratedSpawns: 1
-  generateOnStart: 0
---- !u!114 &85530202
+  m_EditorClassIdentifier: LittleCastle.Runtime::LittleCastle.Rendering.NightLightBudgetManager
+  lightingGlobals: {fileID: 748881457}
+  targetCamera: {fileID: 744910860}
+  maxActiveRealtimeLights: 12
+  globalMaxDistance: 78
+  evaluationInterval: 0.18
+  selectionRetentionDistanceMultiplier: 0.84
+--- !u!114 &748881457
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 85530198}
+  m_GameObject: {fileID: 748881453}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b6d1a8e4c956a7f9e32d5907148ca63, type: 3}
+  m_Script: {fileID: 11500000, guid: 91d59c7dbcc74d24b949902a3937b905, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: LittleCastle.Runtime::LittleCastle.World.WorldTimeSystem
-  worldDefinition: {fileID: 11400000, guid: 2d38fe5d89f5d8b4d9cb3c8256688ceb, type: 2}
-  timeSettingsOverride: {fileID: 0}
-  runAutomatically: 1
-  simulationSpeedMultiplier: 1
---- !u!114 &85530203
+  m_EditorClassIdentifier: LittleCastle.Runtime::LittleCastle.Rendering.StylizedLightingGlobals
+  timeSystem: {fileID: 748881459}
+  atmosphere: {fileID: 748881458}
+  sun: {fileID: 1956417296}
+  moon: {fileID: 973707490}
+  dayShadowTint: {r: 0.72, g: 0.82, b: 1, a: 1}
+  twilightShadowTint: {r: 0.48, g: 0.56, b: 0.78, a: 1}
+  nightShadowTint: {r: 0.34, g: 0.44, b: 0.68, a: 1}
+  ambientMultiplier: 1
+  sunMultiplier: 1
+  moonMultiplier: 1
+  windDirection: {x: 0.85, y: 0.3}
+  windStrength: 0.35
+  windSpeed: 1
+--- !u!114 &748881458
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 85530198}
+  m_GameObject: {fileID: 748881453}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4c7e2b9f5da67b80af43e6a18259db74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: LittleCastle.Runtime::LittleCastle.World.DayNightLightingController
-  timeSystem: {fileID: 85530202}
-  sun: {fileID: 825599670}
-  moon: {fileID: 190000002}
+  timeSystem: {fileID: 748881459}
+  sun: {fileID: 1956417296}
+  moon: {fileID: 973707490}
   sunAzimuth: -30
-  maxSunIntensity: 1.15
-  maxMoonIntensity: 0.1
+  maxSunIntensity: 1.1
+  maxMoonIntensity: 0.14
   sunDayColor: {r: 1, g: 0.96, b: 0.84, a: 1}
   sunHorizonColor: {r: 1, g: 0.56, b: 0.31, a: 1}
   moonLightColor: {r: 0.58, g: 0.68, b: 1, a: 1}
@@ -223,9 +390,9 @@ MonoBehaviour:
   duskTransitionGameHours: 2
   twilightGameHours: 1.25
   skyboxMaterial: {fileID: 2100000, guid: a7b5de9c3f1a4cbfb986011c89d072e4, type: 2}
-  dayZenith: {r: 0.18, g: 0.45, b: 0.78, a: 1}
-  dayHorizon: {r: 0.65, g: 0.82, b: 0.93, a: 1}
-  dayLowerSky: {r: 0.46, g: 0.62, b: 0.72, a: 1}
+  dayZenith: {r: 0.24, g: 0.52, b: 0.82, a: 1}
+  dayHorizon: {r: 0.79, g: 0.88, b: 0.94, a: 1}
+  dayLowerSky: {r: 0.54, g: 0.67, b: 0.73, a: 1}
   nightZenith: {r: 0.035, g: 0.065, b: 0.15, a: 1}
   nightHorizon: {r: 0.17, g: 0.22, b: 0.34, a: 1}
   nightLowerSky: {r: 0.11, g: 0.14, b: 0.22, a: 1}
@@ -248,63 +415,54 @@ MonoBehaviour:
   dayFogEnd: 900
   nightFogStart: 170
   nightFogEnd: 720
---- !u!114 &85530204
+--- !u!114 &748881459
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 85530198}
+  m_GameObject: {fileID: 748881453}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91d59c7dbcc74d24b949902a3937b905, type: 3}
+  m_Script: {fileID: 11500000, guid: 3b6d1a8e4c956a7f9e32d5907148ca63, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: LittleCastle.Runtime::LittleCastle.Rendering.StylizedLightingGlobals
-  timeSystem: {fileID: 85530202}
-  atmosphere: {fileID: 85530203}
-  sun: {fileID: 825599670}
-  moon: {fileID: 190000002}
-  dayShadowTint: {r: 0.72, g: 0.82, b: 1, a: 1}
-  twilightShadowTint: {r: 0.48, g: 0.56, b: 0.78, a: 1}
-  nightShadowTint: {r: 0.34, g: 0.44, b: 0.68, a: 1}
-  ambientMultiplier: 1
-  sunMultiplier: 1
-  moonMultiplier: 1
-  windDirection: {x: 0.85, y: 0.3}
-  windStrength: 0.35
-  windSpeed: 1
---- !u!114 &85530205
+  m_EditorClassIdentifier: LittleCastle.Runtime::LittleCastle.World.WorldTimeSystem
+  worldDefinition: {fileID: 0}
+  timeSettingsOverride: {fileID: 11400000, guid: 6e904db17fc89da2c16508c3a47bfd96, type: 2}
+  runAutomatically: 1
+  simulationSpeedMultiplier: 1
+--- !u!114 &748881460
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 85530198}
+  m_GameObject: {fileID: 748881453}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f310674a5d94af4ae89dc24a13a95c2, type: 3}
+  m_Script: {fileID: 11500000, guid: 46c4b0e8c7ef42e8b8533415e6a8a0c5, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: LittleCastle.Runtime::LittleCastle.Rendering.NightLightBudgetManager
-  lightingGlobals: {fileID: 85530204}
-  targetCamera: {fileID: 1735719524}
-  maxActiveRealtimeLights: 12
-  globalMaxDistance: 78
-  evaluationInterval: 0.18
-  selectionRetentionDistanceMultiplier: 0.84
---- !u!114 &85530206
+  m_EditorClassIdentifier: LittleCastle.Runtime::LittleCastle.World.WorldStartupWarmupController
+  worldStreamer: {fileID: 748881454}
+  strategyCamera: {fileID: 744910859}
+  extraPreparedRings: 1
+  lockCameraInputUntilReady: 1
+  showLoadingOverlay: 1
+  developmentSkipKey: 290
+--- !u!114 &748881461
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 85530198}
+  m_GameObject: {fileID: 748881453}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 911d158b68ae4524a5622e272118768d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: LittleCastle.Runtime::LittleCastle.World.WorldPerformanceOverlay
-  worldStreamer: {fileID: 85530199}
-  nightLightBudgetManager: {fileID: 85530205}
+  worldStreamer: {fileID: 748881454}
+  nightLightBudgetManager: {fileID: 0}
   showOverlay: 1
   toggleKey: 289
   sampleInterval: 0.25
@@ -314,41 +472,25 @@ MonoBehaviour:
     y: 12
     width: 380
     height: 385
---- !u!114 &85530207
+--- !u!114 &748881462
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 85530198}
+  m_GameObject: {fileID: 748881453}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 46c4b0e8c7ef42e8b8533415e6a8a0c5, type: 3}
+  m_Script: {fileID: 11500000, guid: 25d1b6d9dd0177449895e93779b2251d, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: LittleCastle.Runtime::LittleCastle.World.WorldStartupWarmupController
-  worldStreamer: {fileID: 85530199}
-  strategyCamera: {fileID: 1735719526}
-  extraPreparedRings: 1
-  lockCameraInputUntilReady: 1
-  showLoadingOverlay: 1
-  developmentSkipKey: 290
---- !u!4 &85530201
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 85530198}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 419764303}
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &419764302
+  m_EditorClassIdentifier: LittleCastle.Runtime::LittleCastle.World.WorldGenerator
+  worldSeed: 12345
+  worldDefinition: {fileID: 11400000, guid: 2d38fe5d89f5d8b4d9cb3c8256688ceb, type: 2}
+  previewRadius: 1
+  previewMaterial: {fileID: 2100000, guid: 8dcb0403790744558dc906979c848775, type: 2}
+  renderGeneratedSpawns: 1
+  generateOnStart: 0
+--- !u!1 &973707489
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -356,98 +498,36 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 419764303}
+  - component: {fileID: 973707491}
+  - component: {fileID: 973707490}
   m_Layer: 0
-  m_Name: ChunkPresentationRoot
+  m_Name: Moon Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &419764303
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 419764302}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 85530201}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &527813917
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 527813918}
-  m_Layer: 0
-  m_Name: TestFocus
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &527813918
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 527813917}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &825599669
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 825599671}
-  - component: {fileID: 825599670}
-  m_Layer: 0
-  m_Name: Sun Light
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!108 &825599670
+--- !u!108 &973707490
 Light:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 825599669}
+  m_GameObject: {fileID: 973707489}
   m_Enabled: 1
   serializedVersion: 13
   m_Type: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1.1
+  m_Intensity: 0.14
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize2D: {x: 0.5, y: 0.5}
   m_Shadows:
-    m_Type: 2
+    m_Type: 0
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 0.88
+    m_Strength: 1
     m_Bias: 0.05
     m_NormalBias: 0.4
     m_NearPlane: 0.2
@@ -488,26 +568,26 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ForceVisible: 0
   m_ShapeRadius: 0.025
-  m_ShadowAngle: 0.7
+  m_ShadowAngle: 0
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
---- !u!4 &825599671
+--- !u!4 &973707491
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 825599669}
+  m_GameObject: {fileID: 973707489}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.39098036, y: -0.25180724, z: 0.112111814, w: 0.87815624}
+  m_LocalRotation: {x: 0.8781563, y: 0.1121118, z: 0.25180727, w: -0.3909803}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &190000001
+--- !u!1 &1020727887
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -515,36 +595,98 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 190000003}
-  - component: {fileID: 190000002}
+  - component: {fileID: 1020727888}
   m_Layer: 0
-  m_Name: Moon Light
+  m_Name: TestFocus
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!108 &190000002
+--- !u!4 &1020727888
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1020727887}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1257198947
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1257198948}
+  m_Layer: 0
+  m_Name: ChunkPresentationRoot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1257198948
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1257198947}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 748881455}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1956417295
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1956417297}
+  - component: {fileID: 1956417296}
+  m_Layer: 0
+  m_Name: Sun Light
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!108 &1956417296
 Light:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 190000001}
+  m_GameObject: {fileID: 1956417295}
   m_Enabled: 1
   serializedVersion: 13
   m_Type: 1
-  m_Color: {r: 0.58, g: 0.68, b: 1, a: 1}
-  m_Intensity: 0.14
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Intensity: 1.1
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize2D: {x: 0.5, y: 0.5}
   m_Shadows:
-    m_Type: 0
+    m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 0.35
+    m_Strength: 1
     m_Bias: 0.05
     m_NormalBias: 0.4
     m_NearPlane: 0.2
@@ -578,7 +720,7 @@ Light:
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
-  m_ColorTemperature: 9000
+  m_ColorTemperature: 6570
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
@@ -589,139 +731,16 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
---- !u!4 &190000003
+--- !u!4 &1956417297
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 190000001}
+  m_GameObject: {fileID: 1956417295}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.39098036, y: -0.25180724, z: 0.112111814, w: 0.87815624}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1735719523
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1735719525}
-  - component: {fileID: 1735719524}
-  - component: {fileID: 1735719526}
-  m_Layer: 0
-  m_Name: Camera
-  m_TagString: MainCamera
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!20 &1735719524
-Camera:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1735719523}
-  m_Enabled: 1
-  serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
-  m_projectionMatrixMode: 1
-  m_GateFitMode: 2
-  m_FOVAxisMode: 0
-  m_Iso: 200
-  m_ShutterSpeed: 0.005
-  m_Aperture: 16
-  m_FocusDistance: 10
-  m_FocalLength: 50
-  m_BladeCount: 5
-  m_Curvature: {x: 2, y: 11}
-  m_BarrelClipping: 0.25
-  m_Anamorphism: 0
-  m_SensorSize: {x: 36, y: 24}
-  m_LensShift: {x: 0, y: 0}
-  m_NormalizedViewPortRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
-    height: 1
-  near clip plane: 0.15
-  far clip plane: 2500
-  field of view: 50
-  orthographic: 0
-  orthographic size: 5
-  m_Depth: 0
-  m_CullingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_RenderingPath: -1
-  m_TargetTexture: {fileID: 0}
-  m_TargetDisplay: 0
-  m_TargetEye: 3
-  m_HDR: 1
-  m_AllowMSAA: 1
-  m_AllowDynamicResolution: 0
-  m_ForceIntoRT: 0
-  m_OcclusionCulling: 1
-  m_StereoConvergence: 10
-  m_StereoSeparation: 0.022
---- !u!114 &1735719526
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1735719523}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3b16bfc2d154e41a584fdd8f3c93211, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: LittleCastle.Runtime::LittleCastle.CameraSystem.StrategyCameraController
-  streamingFocus: {fileID: 527813918}
-  worldStreamer: {fileID: 85530199}
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  enableEdgeScroll: 1
-  edgeScrollPixels: 14
-  closePanSpeed: 12
-  farPanSpeed: 58
-  panSmoothing: 10
-  middleDragSpeed: 0.75
-  allowPitchAdjustment: 1
-  minimumPitch: 6
-  maximumPitch: 72
-  initialPitch: 42
-  mouseRotationSensitivity: 3.2
-  keyboardRotationSpeed: 80
-  minimumDistance: 11
-  maximumDistance: 190
-  initialDistance: 115
-  zoomSensitivity: 2.4
-  zoomSmoothing: 12
-  followGroundHeight: 1
-  groundProbeHeight: 1200
-  focusHeightOffset: 0.25
-  groundHeightSmoothing: 8
-  initializeFromCurrentView: 1
---- !u!4 &1735719525
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1735719523}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0.3326002, y: -0.17179447, z: 0.06175643, w: 0.92522967}
-  m_LocalPosition: {x: 72, y: 92, z: -72}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -731,8 +750,8 @@ Transform:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 85530201}
-  - {fileID: 527813918}
-  - {fileID: 1735719525}
-  - {fileID: 825599671}
-  - {fileID: 190000003}
+  - {fileID: 748881455}
+  - {fileID: 1020727888}
+  - {fileID: 744910861}
+  - {fileID: 1956417297}
+  - {fileID: 973707491}
