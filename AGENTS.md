@@ -2,6 +2,19 @@
 
 This file defines rules for AI coding agents working in this repository.
 
+## Copy audit and deferred user bugs — 2026-10-28
+
+Read `docs/reports/project-copy-audit-20261028-ru.md` before claiming every
+source workspace was fully copied or removing a copy. Core mechanisms are
+present, but water presets/Shader Graph authoring, some study fixtures/raw
+inputs and unapproved CliffKit work remain outside Main. This audit did not
+run new Unity tests or change runtime assets. The latest prior results are
+346 EditMode / 16 PlayMode PASS, not proof that every visual path works.
+The user reported snow missing on the large Oak trees and snowfall not working,
+then explicitly deferred both fixes. Remember them in
+`docs/plans/world-editor-known-issues-20261028-ru.md`; do not silently treat them
+as resolved or start fixing them during the copy audit. Preserve all sources.
+
 ## Environment integration authorization — 2026-10-28
 
 The user explicitly authorized completing biome and thin-snow integration,
