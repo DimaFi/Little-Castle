@@ -1,5 +1,12 @@
 # Как создать и подключить новую кисть в Little Castle
 
+Новый реальный пример — `MapEnvironmentTool`: две регистрации
+`environment.biome/environment.snow`, общий `MapToolController`, операции
+`BeginEnvironmentStroke/ApplyEnvironmentBrush`, локальные tile snapshots
+в `MapEditSession.Environment.cs`. UI не владеет данными биома или снегом.
+Региональные подписчики используют `MapChangeKind.Biomes/Snow`.
+Схема сохранения и визуализации: [environment authoring](../architecture/environment-authoring-and-local-snow.md).
+
 1. Выберите существующую runtime operation в `MapEditSession`. Если нужна новая
    операция, добавьте data contract, проверку прав/границ, локальную дельту,
    Undo/Redo и сохранение там. UI не должен менять списки карты напрямую.

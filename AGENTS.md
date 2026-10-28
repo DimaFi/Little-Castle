@@ -2,6 +2,17 @@
 
 This file defines rules for AI coding agents working in this repository.
 
+## Environment integration authorization — 2026-10-28
+
+The user explicitly authorized completing biome and thin-snow integration,
+living river shores, verification and code publication to GitHub main. This
+supersedes the older audit-only scope below. Work in this canonical project;
+do not create new Unity copies. Preserve user map/draft and unrelated local work.
+Publish code through the existing clean Publication worktree: the local-only
+c143b4a authored-map/evidence history must not be exported. Commit small verified
+steps. Biome state is authoritative/transportable; snow appearance is local.
+Keep original source copies until migration has been verified; no deletion now.
+
 ## User feedback follow-up — 2026-10-28
 
 Read `docs/handoffs/gpt6-world-editor-next-20261028-ru.md` before continuing.
