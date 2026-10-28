@@ -14,7 +14,12 @@ namespace LittleCastle.Rendering
             for(int y=dirty.yMin;y<dirty.yMax;y++)for(int x=dirty.xMin;x<dirty.xMax;x++)
             {
                 float wx=bounds.x+(x+.5f)*bounds.z/width,wz=bounds.y+(y+.5f)*bounds.w/height;
-                if(!session.VegetationAllowed(wx,wz)){int i=(y*width+x)*2;data[i]=0;data[i+1]=0;}
+                // Road coverage belongs to the surface operation, not vegetation exclusion.
+                // Keeping R lets every path continue into a ford and below shallow water.
+                int i=(y*width+x)*2;
+                float shore=session.SandCoverage(wx,wz);
+                data[i+1]=(byte)Mathf.RoundToInt(data[i+1]*(1-shore));
+                if(!session.VegetationAllowed(wx,wz))data[i+1]=0;
             }
         }
         public static RectInt PixelRect(Vector4 bounds,int width,int height,Rect area)

@@ -72,6 +72,7 @@ namespace LittleCastle.Editor
         {RestorePreview();EditorApplication.delayCall+=()=>{if(this&&session!=null&&preview&&!EditorApplication.isPlaying)BindScenePreview();};}
         internal void RestorePreview()
         {
+            RestoreScatterPreview();
             RestoreWaterPreviewCameras();
             foreach(var pair in rendererBindings)if(pair.Key)pair.Key.SetPropertyBlock(pair.Value);
             foreach(var pair in grassBindings)if(pair.Key)pair.Key.surfaceOverrides=pair.Value;
@@ -97,6 +98,7 @@ namespace LittleCastle.Editor
             {var old=new MaterialPropertyBlock();renderer.GetPropertyBlock(old);rendererBindings.Add(renderer,old);var next=new MaterialPropertyBlock();renderer.GetPropertyBlock(next);next.SetTexture("_SurfacePaint",preview);next.SetVector("_SurfacePaintBounds",new Vector4(b.x,b.y,1/b.z,1/b.w));next.SetFloat("_UseSurfacePaint",1);renderer.SetPropertyBlock(next);}
             foreach(var grass in FindObjectsByType<MeadowGrassRenderer>())if(grass.material==painter.grassMaterial){grassBindings.Add(grass,grass.surfaceOverrides);grass.surfaceOverrides=properties;}
             foreach(var accent in FindObjectsByType<InnerverseGrassStudy>())if(accent.grassMaterial==painter.accentMaterial){accentBindings.Add(accent,accent.surfaceOverrides);accent.surfaceOverrides=properties;}
+            BindScatterPreview(painter);
         }
         internal void Connect(SurfacePaintData data)
         {
@@ -147,12 +149,12 @@ namespace LittleCastle.Editor
         void Changed(MapRegionChange change)
         {
             if(!rebuildingPreview)MarkDocumentDirty();
-            if((change.kind&MapChangeKind.Surface)==0){Repaint();SceneView.RepaintAll();return;}
+            if((change.kind&MapChangeKind.Surface)==0){if((change.kind&MapChangeKind.Height)!=0)RebuildScatterPreview(change.bounds);Repaint();SceneView.RepaintAll();return;}
             var b=source.bounds;var rect=SurfacePaintRasterizer.PixelRect(b,Resolution,Resolution,change.bounds);
             var area=new Rect(b.x+rect.x*b.z/Resolution,b.y+rect.y*b.w/Resolution,rect.width*b.z/Resolution,rect.height*b.w/Resolution);
             SurfacePaintRasterizer.Rebuild(pixels,b,Resolution,Resolution,session.QuerySurface(area),rect);
             SurfacePaintRasterizer.ApplyRiverExclusions(pixels,b,Resolution,Resolution,session,rect);
-            preview.SetPixelData(pixels,0);preview.Apply(false,false);Repaint();SceneView.RepaintAll();
+            preview.SetPixelData(pixels,0);preview.Apply(false,false);RebuildScatterPreview(area);Repaint();SceneView.RepaintAll();
         }
 
     }

@@ -39,7 +39,7 @@ namespace LittleCastle.Rendering
         sealed class Chunk
         {
             public GameObject root;public Mesh mesh,collisionMesh;public MeshCollider collider;
-            public Vector3[] vertices,normals;public Rect bounds;public int x,z,width,depth;
+            public Vector3[] vertices,normals;public Vector2[] riverSurface;public Rect bounds;public int x,z,width,depth;
         }
         struct Anchor {public Transform transform;public Vector3 original;public float offset;}
         readonly MapEditSession session;
@@ -107,7 +107,7 @@ namespace LittleCastle.Rendering
             for(int z=0;z<rows-1;z+=cells)for(int x=0;x<columns-1;x+=cells)
             {
                 int width=Mathf.Min(cells,columns-1-x),depth=Mathf.Min(cells,rows-1-z),count=(width+1)*(depth+1);
-                var chunk=new Chunk{x=x,z=z,width=width,depth=depth,vertices=new Vector3[count],normals=new Vector3[count]};
+                var chunk=new Chunk{x=x,z=z,width=width,depth=depth,vertices=new Vector3[count],normals=new Vector3[count],riverSurface=new Vector2[count]};
                 chunk.root=new GameObject("Terrain view "+x+","+z){hideFlags=HideFlags.HideAndDontSave,layer=source.gameObject.layer};
                 chunk.root.transform.SetParent(source.transform,false);
                 var localUV=new Vector2[count];var localColors=new Color[count];var triangles=new int[width*depth*6];
@@ -133,8 +133,11 @@ namespace LittleCastle.Rendering
             {
                 var world=source.transform.TransformPoint(chunk.vertices[i]);world.y=session.SampleHeight(world.x,world.z);
                 chunk.vertices[i]=source.transform.InverseTransformPoint(world);chunk.normals[i]=source.transform.InverseTransformDirection(session.SampleNormal(world.x,world.z));
+                float sand=session.SandCoverage(world.x,world.z);
+                bool wet=session.QueryWater(new Vector2(world.x,world.z),out _,out _,out _);
+                chunk.riverSurface[i]=new Vector2(sand,wet?sand:sand*.3f);
             }
-            chunk.mesh.vertices=chunk.vertices;chunk.mesh.normals=chunk.normals;chunk.mesh.RecalculateBounds();
+            chunk.mesh.vertices=chunk.vertices;chunk.mesh.normals=chunk.normals;chunk.mesh.uv3=chunk.riverSurface;chunk.mesh.RecalculateBounds();
         }
         void Changed(MapRegionChange change)
         {

@@ -80,7 +80,7 @@ namespace LittleCastle.Research
                         if(next){if(authoringSection==2&&plantSection==2)painter.SetTreeTool(2);else ArmAuthoringBrush(authoringSection==0?(painter.lowerTerrain?"terrain.lower":"terrain.raise"):authoringSection==1&&painter.road?"surface.road":authoringSection==1&&painter.erase?"surface.erase":"surface.meadow");}
                         else{painter.EndStroke();painter.painting=false;painter.SetTreeTool(0);}
                     }
-                    GUILayout.Label("Активно: "+(painter.treeTool==2?"Роща":painter.sculpting?(painter.lowerTerrain?"Опустить землю":"Поднять землю"):painter.road?"Дорожка":painter.erase?"Удаление травы":"Луг и растительность"),authoringWrap);
+                    GUILayout.Label("Активно: "+(painter.treeTool==2?"Роща":painter.sculpting?(painter.lowerTerrain?"Опустить землю":"Поднять землю"):painter.road?"Дорожка":painter.erase?"Удаление травы":authoringSection==2&&plantSection==0?ProfileNames[(int)painter.currentProfile]:"Луг и растительность"),authoringWrap);
                     float minimum=painter.treeTool==2?1:.5f;
                     float maximum=painter.sculpting?Mathf.Min(128,Mathf.Max(32,painter.Session.HeightSpacing*64)):128;
                     painter.radius=AuthoringSlider("Радиус, м",painter.radius,minimum,maximum);
@@ -148,6 +148,8 @@ namespace LittleCastle.Research
             if(section!=plantSection){painter.EndStroke();painter.SetTreeTool(0);painter.painting=false;plantSection=section;}
             if(plantSection==0)
             {
+                if(GUILayout.Button("Цветы · рисовать готовую группу"))
+                {painter.currentProfile=MeadowScatterProfile.Flowers;ArmAuthoringBrush("surface.meadow");}
                 if(GUILayout.Button("Рисовать выбранную растительность"))ArmAuthoringBrush("surface.meadow");
                 painter.populatePlants=true;painter.road=false;painter.erase=false;painter.sculpting=false;
                 painter.currentProfile=(MeadowScatterProfile)GUILayout.SelectionGrid((int)painter.currentProfile,ProfileNames,2,GUILayout.Width(268));

@@ -65,6 +65,31 @@ namespace LittleCastle.Tests
             {Assert.That(material.HasProperty(property),Is.True,property);Assert.That(material.GetTexture(property),Is.Not.Null,property);}
             foreach(var property in new[]{"_LC_RiverFlowMap","_LC_FlowBounds","_LC_UseFlowMap"})Assert.That(material.HasProperty(property),Is.True,property);
         }
+        [Test] public void RiverExclusion_PreservesAnyPaintedPathAcrossFordAndSuppressesBankVegetation()
+        {
+            var session=new MapEditSession(Map());session.UpsertRiver(River());
+            var road=new SurfacePaintStroke{id="crossing",road=true,radius=3,strength=1,
+                points=new List<Vector2>{new Vector2(-40,0),new Vector2(10,0)}};
+            var bounds=new Vector4(-48,-8,64,16);const int width=128,height=32;
+            var pixels=new byte[width*height*2];var dirty=new RectInt(0,0,width,height);
+            SurfacePaintRasterizer.Rebuild(pixels,bounds,width,height,new List<SurfacePaintStroke>{road},dirty);
+            var before=(byte[])pixels.Clone();SurfacePaintRasterizer.ApplyRiverExclusions(pixels,bounds,width,height,session,dirty);
+            for(int i=0;i<pixels.Length;i+=2)Assert.That(pixels[i],Is.EqualTo(before[i]),"All road coverage must survive vegetation masking.");
+            Assert.That(session.VegetationAllowed(-10,0),Is.False,"The entire sloping bank stays clear.");
+            Assert.That(session.VegetationAllowed(10,0),Is.True);
+        }
+        [TestCase(0f)] [TestCase(.5f)] [TestCase(1f)]
+        public void V2FordBed_IsContinuousAcrossBothBankEdges(float ford)
+        {
+            var frame=new MapRiverFrame{layoutVersion=2,width=10,depth=2,water=-1,leftSand=1,rightSand=1,
+                leftTransition=5,rightTransition=5,shallowDepth=.25f,ford=ford};
+            foreach(float side in new[]{-1f,1f})
+            {
+                float inner=RiverBankGeneration.SampleBed(frame,side*4.9999f,0);
+                float outer=RiverBankGeneration.SampleBed(frame,side*5.0001f,0);
+                Assert.That(inner,Is.EqualTo(outer).Within(.0001f));
+            }
+        }
         [Test] public void WaterCatalogOverride_RetainsLegacyRigidRocksAndStandaloneSectionsAcrossHistoryAndSave()
         {
             var waterCatalog=AssetDatabase.LoadAssetAtPath<MapRockCatalog>(CatalogPath);

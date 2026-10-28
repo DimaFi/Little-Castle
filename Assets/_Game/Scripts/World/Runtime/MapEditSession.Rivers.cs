@@ -200,7 +200,7 @@ namespace LittleCastle.World
             foreach(var reserved in authored.placementExclusions)if(reserved.Overlaps(footprint)||reserved.Contains(new Vector2(x,z)))return false;
             var p=new Vector2(x,z);foreach(var path in RiversAt(p))if(path.Nearest(p,out var f,out float d))
             {
-                float sand=d>=0?f.leftSand:f.rightSand;float edge=f.width*.5f+(sand>.05f?(d>=0?f.leftTransition:f.rightTransition)*(f.layoutVersion>=2?.6f:1):2);
+                float sand=d>=0?f.leftSand:f.rightSand;float edge=f.width*.5f+(sand>.05f?(d>=0?f.leftTransition:f.rightTransition):2);
                 if(Vector2.Distance(p,f.center)<edge+clearance)return false;
             }
             foreach(var s in rockSections.Values)foreach(var rock in s.rocks)if(!rock.removed&&(rock.position-p).sqrMagnitude<Mathf.Pow(2+clearance,2))return false;

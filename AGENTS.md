@@ -2,6 +2,18 @@
 
 This file defines rules for AI coding agents working in this repository.
 
+## User feedback follow-up — 2026-10-28
+
+Read `docs/handoffs/gpt6-world-editor-next-20261028-ru.md` before continuing.
+The next cloud task is A (save and test-current-map workflow), not all listed tasks.
+Current follow-up adds visible SceneView flowers using the existing scatter algorithm,
+road coverage preservation through river vegetation exclusions, derived UV3 sand/wet
+data on terrain, a continuous v2 ford edge, and an initial water/lighting preset.
+Do not repurpose authored vertex R/G/B or replace the merged shaders wholesale.
+Saved authoring base is separate from any unpublished river draft in the window.
+Tests: 301/302 EditMode (the existing generator preset mismatch), 16/16 PlayMode.
+See `docs/reports/world-editor-feedback-20261028-ru.md` for actual captures and limits.
+
 ## Canonical World Editor integration — 2026-10-27
 
 The user's explicit 2026-10-27 request resumed lighting integration into this

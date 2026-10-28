@@ -7,6 +7,8 @@ Shader "Little Castle/Terrain/LC Terrain"
 
         _DirtTex ("Dirt / Path", 2D) = "white" {}
         _DirtColor ("Dirt Color", Color) = (0.48,0.34,0.20,1)
+        _RiverSandColor ("River Sand Color", Color) = (0.64,0.53,0.32,1)
+        _RiverSandStrength ("Derived River Sand", Range(0,1)) = 1
 
         _RockTex ("Rock / Steep Slope", 2D) = "white" {}
         _RockColor ("Rock Color", Color) = (0.45,0.46,0.40,1)
@@ -106,6 +108,8 @@ Shader "Little Castle/Terrain/LC Terrain"
         CBUFFER_START(UnityPerMaterial)
             float4 _GrassColor;
             float4 _DirtColor;
+            float4 _RiverSandColor;
+            float _RiverSandStrength;
             float4 _RockColor;
             float _RockTriplanar;
             float _RockWorldTiling;
@@ -167,6 +171,7 @@ Shader "Little Castle/Terrain/LC Terrain"
             float4 vertex : POSITION;
             float3 normal : NORMAL;
             half4 color : COLOR;
+            float2 riverSurface : TEXCOORD2;
             UNITY_VERTEX_INPUT_INSTANCE_ID
         };
 
@@ -177,6 +182,7 @@ Shader "Little Castle/Terrain/LC Terrain"
             half3 worldNormal : TEXCOORD1;
             half4 vertexColor : TEXCOORD2;
             float fogCoord : TEXCOORD3;
+            half2 riverSurface : TEXCOORD4;
             UNITY_VERTEX_INPUT_INSTANCE_ID
             UNITY_VERTEX_OUTPUT_STEREO
         };
@@ -192,6 +198,7 @@ Shader "Little Castle/Terrain/LC Terrain"
             o.worldPosition = positions.positionWS;
             o.worldNormal = TransformObjectToWorldNormal(v.normal);
             o.vertexColor = v.color;
+            o.riverSurface = v.riverSurface;
             o.fogCoord = ComputeFogFactor(o.pos.z);
             return o;
         }
@@ -456,6 +463,13 @@ Shader "Little Castle/Terrain/LC Terrain"
                     dirtWeight +
                 rock *
                     rockWeight;
+
+            // Dedicated derived UV3 data; authored vertex path/wetness/contact masks stay intact.
+            // Blend any path by coverage, so future path materials can use the same shore contract.
+            half sandWeight=saturate(i.riverSurface.x)*_RiverSandStrength;
+            half3 sand=_RiverSandColor.rgb*lerp(half3(1,1,1),clamp(dirtSample/half3(.53,.37,.22),.7h,1.3h),.3h);
+            albedo=lerp(albedo,sand,sandWeight*(1-pathMask*.8h));
+            wetness=max(wetness,saturate(i.riverSurface.y)*.35h);
 
             half macro =
                 MacroVariation(

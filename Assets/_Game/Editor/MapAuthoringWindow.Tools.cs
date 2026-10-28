@@ -1,4 +1,5 @@
 using System;
+using LittleCastle.Rendering;
 using LittleCastle.World;
 using UnityEditor;
 using UnityEngine;
@@ -16,6 +17,7 @@ namespace LittleCastle.Editor
         {
             tools?.Complete();pointerHeld=false;
             var registry=MapToolRegistry.ExistingBrushes();
+            registry.Register(new MapSurfaceTool("vegetation.flowers","Цветы и мелочь",false,false));
             if(treeCatalog&&treeCatalog.entries.Length>0)
             {
                 registry.Register(new MapClickTool("tree.place","Посадить дерево","Растительность",p=>
@@ -46,6 +48,7 @@ namespace LittleCastle.Editor
             else if(riverTools.mode==0)riverTools.Resume();
             if(CurrentToolId!=id)softness=id.StartsWith("terrain.")?1:id=="vegetation.grove"?0:.38f;
             activeToolId=id;toolCategory=CategoryForTool(selected);
+            if(id=="vegetation.flowers"){scatter=true;profile=MeadowScatterProfile.Flowers;}
             treeTool=id=="tree.place"?1:id=="vegetation.grove"?2:id=="tree.pick"?3:id=="tree.move"?4:0;
             sculpting=id.StartsWith("terrain.",StringComparison.Ordinal);lower=id=="terrain.lower";road=id=="surface.road";erase=id=="surface.erase";
             brush=true;tools.Select(id);SceneView.RepaintAll();
@@ -67,7 +70,7 @@ namespace LittleCastle.Editor
             if(tools.Active)return;
             var c=tools.context;c.settings.radius=Mathf.Clamp(radius,treeTool==2?1:.5f,tools.Selected.MaximumRadius(session));
             c.settings.strength=strength;c.settings.softness=softness;c.density=treeTool==2?treeDensity:density;
-            c.scatter=scatter;c.scatterProfile=profile;c.terrainRate=terrainRate;c.treeSpacing=treeSpacing;c.seed=treeSeed;
+            c.scatter=CurrentToolId=="vegetation.flowers"||scatter;c.scatterProfile=profile;c.terrainRate=terrainRate;c.treeSpacing=treeSpacing;c.seed=treeSeed;
             if(treeCatalog&&treeCatalog.packs.Length>0)c.treePackId=treeCatalog.packs[Mathf.Clamp(selectedTreePack,0,treeCatalog.packs.Length-1)].id;
         }
         internal MapEditSession VerificationSession=>session;

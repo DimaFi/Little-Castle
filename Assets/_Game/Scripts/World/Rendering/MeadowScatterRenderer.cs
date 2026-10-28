@@ -12,6 +12,7 @@ namespace LittleCastle.Rendering
     /// Derived meadow decoration, rebuilt per touched 32m region after painting/undo/load. No prop GameObjects,
     /// colliders or per-prop Update. Authored strokes and runtime strokes use the same mask.
     /// </summary>
+    [ExecuteAlways]
     public sealed class MeadowScatterRenderer : MonoBehaviour
     {
         public MeadowScatterLibrary library;
@@ -109,6 +110,7 @@ namespace LittleCastle.Rendering
         Patch[] patches = Array.Empty<Patch>();
         Batch[,] batches;
         Vector2 samplingOrigin;
+        MapEditSession placementSession;
 
         void OnEnable() { RenderPipelineManager.beginCameraRendering += Draw; }
         void OnDisable() { RenderPipelineManager.beginCameraRendering -= Draw; }
@@ -153,18 +155,26 @@ namespace LittleCastle.Rendering
 
         public void Rebuild(MeadowSurfacePainter surface,Rect? dirty=null)
         {
-            painter = surface;
+            painter=surface;
+            Rebuild(surface?surface.Session:null,surface&&surface.source?surface.source.bounds:default,
+                surface?surface.SampleRoad01:null,surface?surface.SampleGrass01:null,dirty);
+        }
+
+        /// <summary>Shared placement algorithm for runtime and disposable SceneView previews.</summary>
+        public void Rebuild(MapEditSession session,Vector4 map,Func<float,float,float> sampleRoad,
+            Func<float,float,float> sampleGrass,Rect? dirty=null)
+        {
+            placementSession=session;
             authoredInstances = visiblePatches = submittedInstances = submittedTriangles = drawCalls = 0;
             if(!dirty.HasValue){regionPlacements.Clear();patchCache.Clear();}
             digestDirty=true;lastRebuiltRegions=0;
             candidateBudgetReached = false;
             if (!library || library.prototypes == null || library.prototypes.Length == 0 ||
-                !surface || !surface.source || !surface.mask || maximumInstances <= 0) {patches=Array.Empty<Patch>();batches=null;regionPlacements.Clear();patchCache.Clear();return;}
+                session==null || sampleRoad==null || sampleGrass==null || maximumInstances <= 0) {patches=Array.Empty<Patch>();batches=null;regionPlacements.Clear();patchCache.Clear();return;}
 
             using (RebuildMarker.Auto())
             {
-                samplingOrigin=surface.Session.HeightSettings.origin;
-                Vector4 map=surface.source.bounds;
+                samplingOrigin=session.HeightSettings.origin;
                 Rect area=dirty??new Rect(map.x,map.y,map.z,map.w);
                 var changedPatches=new HashSet<long>();
                 var changedPlacements=new List<Placement>();
@@ -177,7 +187,7 @@ namespace LittleCastle.Rendering
                 lastRebuiltRegions++;
                 for(int pz=key.z*4;pz<key.z*4+4;pz++)for(int px=key.x*4;px<key.x*4+4;px++)changedPatches.Add(CellKey(px,pz));
                 var regions = new List<StrokeRegion>();
-                AddRegions(surface.Session.QuerySurface(regionBounds), regions);
+                AddRegions(session.QuerySurface(regionBounds), regions);
                 var cells = new HashSet<long>();
                 float spacing = Mathf.Max(.5f, candidateSpacing);
                 foreach (var region in regions)
@@ -213,7 +223,7 @@ namespace LittleCastle.Rendering
                     float z = (cz + .12f + Hash01(cx, cz, 1) * .76f) * spacing;
                     if (x < world.x || z < world.y || x >= world.x + world.z || z >= world.y + world.w) continue;
                     float coverage = ScatterCoverage(new Vector2(x, z), regions, out var profile);
-                    if (coverage <= 0 || surface.SampleGrass01(x, z) < .7f || surface.SampleRoad01(x, z) > .15f) continue;
+                    if (coverage <= 0 || sampleGrass(x, z) < .7f || sampleRoad(x, z) > .15f) continue;
                     float totalWeight = profileTotals[(int)profile];
                     if (totalWeight <= 0) continue;
                     // Low frequency grouping keeps little props in clusters instead of regular wallpaper.
@@ -242,20 +252,20 @@ namespace LittleCastle.Rendering
                     {
                         float angle=(corner*90+45)*Mathf.Deg2Rad;
                         float px=x+Mathf.Cos(angle)*chosen.clearanceRadius,pz=z+Mathf.Sin(angle)*chosen.clearanceRadius;
-                        if(surface.SampleRoad01(px,pz)>.15f||surface.SampleGrass01(px,pz)<.7f){footprintClear=false;break;}
+                        if(sampleRoad(px,pz)>.15f||sampleGrass(px,pz)<.7f){footprintClear=false;break;}
                     }
                     if(!footprintClear)continue;
-                    if (!surface.Session.VegetationAllowed(x,z,chosen.clearanceRadius) ||
+                    if (!session.VegetationAllowed(x,z,chosen.clearanceRadius) ||
                         (placementAllowed != null && !placementAllowed(x,z,chosen.clearanceRadius))) continue;
                     if (biomeSampler != null && !chosen.allowedBiomes.Contains(biomeSampler(x,z))) continue;
                     SurfaceKind ground=surfaceSampler!=null?surfaceSampler(x,z):SurfaceKind.Grass;
                     if (!(ground==SurfaceKind.Grass&&chosen.allowGrass || ground==SurfaceKind.WoodlandFloor&&chosen.allowWoodlandFloor || ground==SurfaceKind.Mud&&chosen.allowMud)) continue;
                     // Derive the actual local face normal, not a smoothed shading normal.
-                    var normal=GroundNormal(x,z,surface.Session.HeightSpacing);
+                    var normal=GroundNormal(x,z,session.HeightSpacing);
                     float slope=Vector3.Angle(Vector3.up,normal);
                     if(slope>chosen.maximumSlope)continue;
                     float scale = Mathf.Lerp(chosen.scaleRange.x, chosen.scaleRange.y, Hash01(cx, cz, 4));
-                    float height = heightSampler != null ? heightSampler(x, z) : surface.Session.SampleHeight(x, z);
+                    float height = heightSampler != null ? heightSampler(x, z) : session.SampleHeight(x, z);
                     var rotation=Quaternion.FromToRotation(Vector3.up,Vector3.RotateTowards(Vector3.up,normal,Mathf.Min(slope,chosen.maximumTilt)*Mathf.Deg2Rad,0)) *
                         Quaternion.Euler(0,Mathf.Lerp(chosen.yawRange.x,chosen.yawRange.y,Hash01(cx,cz,5)),0);
                     // localBounds.min.y is the root plane for both imported and old adapters.
@@ -465,7 +475,7 @@ namespace LittleCastle.Rendering
         {
             step=Mathf.Max(.01f,step);
             float x0=samplingOrigin.x+Mathf.Floor((x-samplingOrigin.x)/step)*step,z0=samplingOrigin.y+Mathf.Floor((z-samplingOrigin.y)/step)*step;
-            float Height(float px,float pz)=>heightSampler!=null?heightSampler(px,pz):painter.Session.SampleHeight(px,pz);
+            float Height(float px,float pz)=>heightSampler!=null?heightSampler(px,pz):placementSession.SampleHeight(px,pz);
             float a=Height(x0,z0),b=Height(x0+step,z0),c=Height(x0,z0+step),d=Height(x0+step,z0+step);
             return (x-x0+z-z0<=step?new Vector3(a-b,step,a-c):new Vector3(c-d,step,b-d)).normalized;
         }
