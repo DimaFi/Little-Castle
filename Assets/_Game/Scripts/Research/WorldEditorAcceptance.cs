@@ -38,7 +38,8 @@ namespace LittleCastle.Acceptance
         }
         void Pose(float distance)
         {
-            var focus=new Vector3(-4,.25f,5);
+            var args=Environment.GetCommandLineArgs();
+            var focus=new Vector3(ReadFloat(args,"-weFocusX",-4),.25f,ReadFloat(args,"-weFocusZ",5));
             // Begin at the same settled ground focus for every AO pair. Otherwise
             // the rig's ground smoothing makes the first/second view differ.
             if(Physics.Raycast(new Vector3(focus.x,1000,focus.z),Vector3.down,out var hit,2000,~0,QueryTriggerInteraction.Ignore))
@@ -93,7 +94,8 @@ namespace LittleCastle.Acceptance
             foreach(var b in FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None))
                 Require(!(b is LightingMeadowReview||b is SpatialIndirectStudyReview),"Review driver present: disabled components still run Awake.");
             if(benchmark){yield return Benchmark();yield break;}
-            BrushChecks();
+            // Capture an already authored map without adding diagnostic edits or touching user saves.
+            if(Array.IndexOf(Environment.GetCommandLineArgs(),"-weExistingMap")<0)BrushChecks();
             if(Array.IndexOf(Environment.GetCommandLineArgs(),"-weRiverChecks")>=0)yield return RiverChecks();
             rows.Add("name,hour,distance,ao,cameraX,cameraY,cameraZ,shadowDistance,fogStart,fogEnd");
             foreach(float hour in new[]{12f,18.5f,1f})foreach(float distance in new[]{11f,35f,115f})foreach(bool useAO in new[]{false,true})

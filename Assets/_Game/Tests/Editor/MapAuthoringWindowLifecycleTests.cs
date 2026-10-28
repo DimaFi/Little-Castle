@@ -57,6 +57,33 @@ namespace LittleCastle.Tests
             finally{Destroy(restored);Destroy(original);AssetDatabase.DeleteAsset(sourcePath);}
         }
 
+        [Test] public void FlowerToolWithoutTreeCatalog_AuthorsScatterAndSupportsUndoAndJson()
+        {
+            var source=Source();var window=(EditorWindow)ScriptableObject.CreateInstance(WindowType);
+            try
+            {
+                Invoke(window,"Connect",source);
+                WindowType.GetField("treeCatalog",Members).SetValue(window,null);
+                Invoke(window,"InitializeTools");
+                WindowType.GetField("scatter",Members).SetValue(window,false);
+                Invoke(window,"SetTool","vegetation.flowers");Invoke(window,"ConfigureTools");
+                Assert.That(Get(window,"toolCategory"),Is.EqualTo(2));
+                var session=(MapEditSession)Get(window,"session");var tools=(MapToolController)Get(window,"tools");
+                var originalBase=session.ExportMap();
+                Assert.That(tools.Selected,Is.InstanceOf<MapSurfaceTool>());
+                tools.Begin(new MapToolPointer(default,true,Vector2.zero),0);tools.Release();
+                var stroke=session.ExportEdits().strokes[0];
+                Assert.That(stroke.scatter,Is.True);Assert.That(stroke.scatterProfile,Is.EqualTo(MeadowScatterProfile.Flowers));
+                Assert.That(stroke.road,Is.False);Assert.That(stroke.erase,Is.False);
+                Assert.That(source.authored.strokes,Is.Empty,"Choosing and painting flowers must not publish the source asset.");
+                var loaded=new MapEditSession(originalBase);loaded.LoadJson(session.ExportJson());
+                Assert.That(loaded.ExportEdits().strokes[0].scatterProfile,Is.EqualTo(MeadowScatterProfile.Flowers));
+                tools.Undo();Assert.That(session.ExportEdits().strokes,Is.Empty);
+                tools.Redo();Assert.That(session.ExportEdits().strokes.Count,Is.EqualTo(1));
+            }
+            finally{Destroy(window);UnityEngine.Object.DestroyImmediate(source);}
+        }
+
         [Test] public void SwitchingCategoryStopsRiverInputAndReturningResumesSameDraft()
         {
             var source=Source();var window=(EditorWindow)ScriptableObject.CreateInstance(WindowType);
@@ -70,6 +97,31 @@ namespace LittleCastle.Tests
                 Invoke(window,"SetTool","river.points");Assert.That(river.mode,Is.EqualTo(1));Assert.That(river.draft.id,Is.EqualTo(id));
             }
             finally{Destroy(window);UnityEngine.Object.DestroyImmediate(source);}
+        }
+        [Test] public void SceneViewFlowerPreview_RendersSessionWithoutRuntimePainterAndRestoresTemplate()
+        {
+            var source=Source();var window=(EditorWindow)ScriptableObject.CreateInstance(WindowType);
+            var root=new GameObject("Isolated flower preview source");var library=ScriptableObject.CreateInstance<MeadowScatterLibrary>();
+            var mesh=new Mesh{vertices=new[]{Vector3.zero,Vector3.right,Vector3.up},triangles=new[]{0,1,2}};mesh.RecalculateBounds();
+            var material=new Material(Shader.Find("Unlit/Color")){enableInstancing=true};
+            library.prototypes=new[]{new MeadowScatterLibrary.Prototype{stableId="preview-flower",category=MeadowScatterCategory.Flower,
+                lodMeshes=new[]{mesh,mesh,mesh,mesh},materials=new[]{material},localBounds=mesh.bounds,scaleRange=Vector2.one,weight=1}};
+            try
+            {
+                var painter=root.AddComponent<MeadowSurfacePainter>();painter.source=source;
+                var template=root.AddComponent<MeadowScatterRenderer>();template.library=library;painter.scatterRenderer=template;
+                Invoke(window,"Connect",source);Invoke(window,"RestoreScatterPreview");Invoke(window,"BindScatterPreview",painter);
+                Assert.That(painter.Session,Is.Null,"SceneView does not start or replace the runtime session.");
+                Assert.That(template.enabled,Is.False);
+                Invoke(window,"SetTool","vegetation.flowers");Invoke(window,"VerifySettings",14f,1f,.38f);Invoke(window,"ConfigureTools");
+                var tools=(MapToolController)Get(window,"tools");tools.Begin(new MapToolPointer(default,true,Vector2.zero),0);tools.Complete();
+                var preview=(MeadowScatterRenderer)Get(window,"scatterPreview");Assert.That(preview.authoredInstances,Is.GreaterThan(0));
+                ulong digest=preview.placementDigest;tools.Undo();Assert.That(preview.authoredInstances,Is.Zero);
+                tools.Redo();Assert.That(preview.placementDigest,Is.EqualTo(digest));
+                Invoke(window,"RestoreScatterPreview");Assert.That(template.enabled,Is.True);Assert.That(source.authored.strokes,Is.Empty);
+            }
+            finally{Destroy(window);UnityEngine.Object.DestroyImmediate(root);UnityEngine.Object.DestroyImmediate(source);
+                UnityEngine.Object.DestroyImmediate(library);UnityEngine.Object.DestroyImmediate(mesh);UnityEngine.Object.DestroyImmediate(material);}
         }
 
         [Test] public void EditModeReturnWithSurvivingSession_RecreatesPreviewAndKeepsUndo()

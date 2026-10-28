@@ -55,7 +55,7 @@ namespace LittleCastle.Editor
             int category=GUILayout.Toolbar(toolCategory,CategoryNames);
             if(category!=toolCategory)
             {
-                string id=category==0?"terrain.raise":category==1?"surface.road":category==2?"vegetation.grove":"river.points";
+                string id=category==0?"terrain.raise":category==1?"surface.road":category==2?"vegetation.flowers":"river.points";
                 SetTool(id);
             }
             var ids=new List<string>();var names=new List<string>();int selected=0;
@@ -135,6 +135,13 @@ namespace LittleCastle.Editor
 
         void DrawVegetationTools()
         {
+            if(CurrentToolId=="vegetation.flowers")
+            {
+                EditorGUILayout.HelpBox("Готовые цветы: выберите группу «Цветы» и рисуйте ЛКМ по земле. Остальные группы используют ту же кисть луга и мелкой растительности.",MessageType.None);
+                density=EditorGUILayout.Slider("Плотность мелочи",density,0,1);
+                profile=(MeadowScatterProfile)EditorGUILayout.Popup("Готовая группа",(int)profile,MeadowScatterProfiles.Names);
+                return;
+            }
             if(!treeCatalog||treeCatalog.entries.Length==0)
             {EditorGUILayout.HelpBox("Каталог деревьев не найден. Подключите MapTreeCatalog, чтобы сажать деревья и рощи.",MessageType.Info);return;}
             selectedTreeSource=Mathf.Clamp(selectedTreeSource,0,treeCatalog.entries.Length-1);

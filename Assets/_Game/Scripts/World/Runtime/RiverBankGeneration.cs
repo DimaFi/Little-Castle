@@ -23,15 +23,18 @@ namespace LittleCastle.World
             float d=Mathf.Abs(signedDistance),half=f.width*.5f,sand=signedDistance>=0?f.leftSand:f.rightSand;
             float transition=signedDistance>=0?f.leftTransition:f.rightTransition;
             float depth=Mathf.Lerp(f.depth,f.shallowDepth,f.ford),bed=f.water-depth;
+            // Both branches meet at the same shore level, including a fully raised ford.
+            float shelf=f.water-Mathf.Lerp(.58f,.13f,sand);
+            shelf=Mathf.Lerp(shelf,f.water-f.shallowDepth,f.ford);
             if(d<half)
             {
                 float edge=Mathf.SmoothStep(0,1,Mathf.InverseLerp(half*.45f,half,d));
-                float shelf=f.water-Mathf.Lerp(.58f,.13f,sand);return Mathf.Lerp(Mathf.Lerp(bed,shelf,edge),f.water-f.shallowDepth,f.ford);
+                return Mathf.Lerp(bed,shelf,edge);
             }
             // Cliff earth keeps its original plateau until a narrow band hidden inside the rock mass.
             float cliff=Mathf.SmoothStep(0,1,Mathf.InverseLerp(half-.04f,half+CrestOffset(f,signedDistance>=0?1:-1),d));
             float ramp=Mathf.SmoothStep(0,1,Mathf.Clamp01((d-half)/transition));
-            return Mathf.Lerp(f.water-Mathf.Lerp(.58f,.13f,sand),ground,Mathf.Lerp(cliff,ramp,sand));
+            return Mathf.Lerp(shelf,ground,Mathf.Lerp(cliff,ramp,sand));
         }
         public static Vector3 ProfilePoint(MapRiverFrame f,int side,int vertex,Func<float,float,float> baseHeight,Func<float,float,float> composedHeight)
         {

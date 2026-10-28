@@ -3,6 +3,7 @@ Shader "Little Castle/Rivers/Uber Water Adapted"
 {
     Properties
     {
+        [ToggleUI]_LC_UseWorldLighting("Little Castle shared world lighting", Float) = 0
         [ToggleUI]_LC_UseFlowMap("Little Castle river flow coordinates", Float) = 0
         [NoScaleOffset]_LC_RiverFlowMap("Derived flow coordinates", 2D) = "black" {}
         _LC_FlowBounds("World bounds x,z,inverse width,inverse length", Vector) = (0,0,1,1)
@@ -618,6 +619,7 @@ Shader "Little Castle/Rivers/Uber Water Adapted"
         
         // Graph Properties
         CBUFFER_START(UnityPerMaterial)
+        float _LC_UseWorldLighting;
         float _LC_UseFlowMap;
         float4 _LC_FlowBounds;
         float4 _ParallaxMapping_ca6a44575e7e4a939c2f1426afff27a2_Heightmap_1_Texture2D_TexelSize;
@@ -946,6 +948,20 @@ Shader "Little Castle/Rivers/Uber Water Adapted"
         // Only texture coordinates use the derived, resident river flow map.
         TEXTURE2D(_LC_RiverFlowMap);
         SAMPLER(sampler_LC_RiverFlowMap);
+        // Modulate pigments before reflection/refraction and fog. Captured scene light stays intact.
+        float4 _LC_AmbientSkyColor, _LC_AmbientColor, _LC_SunColor, _LC_MoonColor;
+        float3 LCWaterLightTint()
+        {
+            return saturate(max(_LC_AmbientSkyColor.rgb,_LC_AmbientColor.rgb)+_LC_SunColor.rgb+_LC_MoonColor.rgb);
+        }
+        float4 LCWaterPigment(float4 color)
+        {
+            color.rgb*=lerp(float3(1,1,1),LCWaterLightTint(),saturate(_LC_UseWorldLighting));return color;
+        }
+        float LCWaterLightStrength()
+        {
+            return lerp(1,dot(LCWaterLightTint(),float3(.2126,.7152,.0722)),saturate(_LC_UseWorldLighting));
+        }
         float2 LC_RiverCoordinates(float3 position)
         {
             float2 mapUV=(position.xz-_LC_FlowBounds.xy)*_LC_FlowBounds.zw;
@@ -2225,8 +2241,8 @@ Shader "Little Castle/Rivers/Uber Water Adapted"
             SurfaceDescription surface = (SurfaceDescription)0;
             float _Property_25a1550fe84749e6975867c7e16a40fe_Out_0_Boolean = _Enable_SurfaceFoam;
             float _Property_61b5d6b263e6441099ab03510f8f7a92_Out_0_Boolean = _Enable_Intersection;
-            float4 _Property_b248d4061bd2404a82f121d7326b2ec7_Out_0_Vector4 = IsGammaSpace() ? LinearToSRGB(_Color_Deep) : _Color_Deep;
-            float4 _Property_8d0e2c4cc13a4b6aa2a1dfdc9dcda98c_Out_0_Vector4 = IsGammaSpace() ? LinearToSRGB(_Color_Shallow) : _Color_Shallow;
+            float4 _Property_b248d4061bd2404a82f121d7326b2ec7_Out_0_Vector4 = LCWaterPigment(IsGammaSpace() ? LinearToSRGB(_Color_Deep) : _Color_Deep);
+            float4 _Property_8d0e2c4cc13a4b6aa2a1dfdc9dcda98c_Out_0_Vector4 = LCWaterPigment(IsGammaSpace() ? LinearToSRGB(_Color_Shallow) : _Color_Shallow);
             float _Property_eda6663d475f4ddb983a9877754cfe2e_Out_0_Boolean = _WorldSpaceDepth;
             float _Property_2375f544dec4416986014aee7bef0ad0_Out_0_Float = _Water_Depth;
             float _Property_068fe305d5834954921a116ac012f156_Out_0_Float = _DistanceMask_Start;
@@ -2334,7 +2350,7 @@ Shader "Little Castle/Rivers/Uber Water Adapted"
             UnityTexture2D _Property_ad8912636efc4c0da9ebb385a742bfd3_Out_0_Texture2D = UnityBuildTexture2DStructInternal(_Caustics_Map, sampler_Caustics_Map, _Caustics_Map_TexelSize, float4(1, 1, 0, 0), float4(0, 0, 0, 0));
             float _Property_8f2bc4d52ff64b9d82dbf20b88d5ec4e_Out_0_Float = _Caustics_Pan;
             float _Property_47960a863b8449d8bc909018ef11edfa_Out_0_Float = _Caustics_Scale;
-            float _Property_98f6b789cef44f7c863902e27a2a0dec_Out_0_Float = _Caustics_Strength;
+            float _Property_98f6b789cef44f7c863902e27a2a0dec_Out_0_Float = _Caustics_Strength * LCWaterLightStrength();
             float4 _OneMinus_ac1c9144a2194bd3913f69b59a4c081e_Out_1_Vector4;
             Unity_OneMinus_float4(_GetVariable_caddc2ff6da0402aadc268a0179d33f5_Vector_1_Vector4, _OneMinus_ac1c9144a2194bd3913f69b59a4c081e_Out_1_Vector4);
             float _Property_6e40d951ea32449d90b1ffaadc556d01_Out_0_Float = _Caustics_Depth;
@@ -2498,7 +2514,7 @@ Shader "Little Castle/Rivers/Uber Water Adapted"
             #else
             float4 _EnableUnderWaterLayer_b64173300c9b4854ac1486d8a1ef3473_Out_0_Vector4 = _ColorLayerAlpha_c223d4b730ec428ba56a7fa15ad8ca22_Color_1_Vector4;
             #endif
-            float4 _Property_bd06c3c0981f43739bb142e3c2486bb0_Out_0_Vector4 = _InterSec_Color;
+            float4 _Property_bd06c3c0981f43739bb142e3c2486bb0_Out_0_Vector4 = LCWaterPigment(_InterSec_Color);
             UnityTexture2D _Property_7c7d8e78a44f491587d1b948516220e3_Out_0_Texture2D = UnityBuildTexture2DStructInternal(_InterSec_Foam_Mask, sampler_InterSec_Foam_Mask, _InterSec_Foam_Mask_TexelSize, float4(1, 1, 0, 0), float4(0, 0, 0, 0));
             float _Property_8ccc410fc83347a9885b3b70bb3b52a1_Out_0_Boolean = _InterSec_Foam_Invert;
             float _Property_bc94f0c0dcfc474f959cdc23a0cd31a1_Out_0_Float = _InterSec_Foam_Smooth;
@@ -2536,7 +2552,7 @@ Shader "Little Castle/Rivers/Uber Water Adapted"
             SG_ColorLayerAlpha_41f14681bef845f45ad1cd5c0c8b339f_float(_EnableUnderWaterLayer_b64173300c9b4854ac1486d8a1ef3473_Out_0_Vector4, _Property_bd06c3c0981f43739bb142e3c2486bb0_Out_0_Vector4, _IntersectionFoamGenerator_55df9fcca7744decacc7c64f0ca53436_mask_2_Float, _ColorLayerAlpha_fa22e6fbce004d86b0b50d98fe9d3647, _ColorLayerAlpha_fa22e6fbce004d86b0b50d98fe9d3647_Color_1_Vector4);
             float4 _Branch_d532a5673c574b37afd36165c3d49c33_Out_3_Vector4;
             Unity_Branch_float4(_Property_61b5d6b263e6441099ab03510f8f7a92_Out_0_Boolean, _ColorLayerAlpha_fa22e6fbce004d86b0b50d98fe9d3647_Color_1_Vector4, _EnableUnderWaterLayer_b64173300c9b4854ac1486d8a1ef3473_Out_0_Vector4, _Branch_d532a5673c574b37afd36165c3d49c33_Out_3_Vector4);
-            float4 _Property_e348edaf54af40cda95849d66e84ffaf_Out_0_Vector4 = _SL_Color;
+            float4 _Property_e348edaf54af40cda95849d66e84ffaf_Out_0_Vector4 = LCWaterPigment(_SL_Color);
             float _Property_654eca40e6de4870bfaabd83195cfec9_Out_0_Float = _SL_WaterDepth;
             float _Property_46d3c9d1835d4a8a8dc0795e506b680b_Out_0_Float = _SL_Speed;
             float _Property_ecc4c541ba594e7faf03791bc1c4c252_Out_0_Float = _SL_Ammount;
@@ -2567,7 +2583,7 @@ Shader "Little Castle/Rivers/Uber Water Adapted"
             #else
             float4 _EnableShoreLine_4fb40308192a4e7593ae9dec50646512_Out_0_Vector4 = _Branch_d532a5673c574b37afd36165c3d49c33_Out_3_Vector4;
             #endif
-            float4 _Property_68baaf0b30b94261b3866e749856146f_Out_0_Vector4 = _Wave_Top_Color;
+            float4 _Property_68baaf0b30b94261b3866e749856146f_Out_0_Vector4 = LCWaterPigment(_Wave_Top_Color);
             float _Property_6364b022ebe642c2a8aa31e223357ef5_Out_0_Float = _1st_Wave_Length;
             float _Property_b6c3a74fcb4446c38ea281ab678b1a8d_Out_0_Float = _1st_Wave_Sharpness;
             float _Property_c122f30d2a58451aa7d21a217b30abe9_Out_0_Float = _1st_Wave_Height;
@@ -2616,7 +2632,7 @@ Shader "Little Castle/Rivers/Uber Water Adapted"
             #else
             float4 _EnableWave_5567467298f54412839895d5f02b13f5_Out_0_Vector4 = _EnableShoreLine_4fb40308192a4e7593ae9dec50646512_Out_0_Vector4;
             #endif
-            float4 _Property_23c6d39c40bf40068acd810ab0d613fc_Out_0_Vector4 = _SurfFoam_Color;
+            float4 _Property_23c6d39c40bf40068acd810ab0d613fc_Out_0_Vector4 = LCWaterPigment(_SurfFoam_Color);
             float _Property_98674b2672a549c5b764c8b18e889049_Out_0_Boolean = _Invert_SurfFoam;
             UnityTexture2D _Property_8701d53bb15a4839b4cb595ac1cd35ea_Out_0_Texture2D = UnityBuildTexture2DStructInternal(_SurfFoam_Map, sampler_SurfFoam_Map, _SurfFoam_Map_TexelSize, float4(1, 1, 0, 0), float4(0, 0, 0, 0));
             float2 _Property_a15b261bb0c041cdbf306671297b3c0a_Out_0_Vector2 = _SurfFoam_Tile;
@@ -2659,10 +2675,10 @@ Shader "Little Castle/Rivers/Uber Water Adapted"
             float3 _GetVariable_802fb5cd5ce34fffa2c7396f8acb3040_Vector3_4_Vector3;
             SG_GetVariable_5951f0cfb2fb4134ea014f63adeff8d9_float(_RegisterVariable_7dfc3010253a4035b4925a6c08014cc9_Vector_1_Vector4, _RegisterVariable_7dfc3010253a4035b4925a6c08014cc9_Float_2_Float, _GetVariable_802fb5cd5ce34fffa2c7396f8acb3040, _GetVariable_802fb5cd5ce34fffa2c7396f8acb3040_Vector_1_Vector4, _GetVariable_802fb5cd5ce34fffa2c7396f8acb3040_Float_2_Float, _GetVariable_802fb5cd5ce34fffa2c7396f8acb3040_Vector2_3_Vector2, _GetVariable_802fb5cd5ce34fffa2c7396f8acb3040_Vector3_4_Vector3);
             float _Property_f0ab87d33e354df08227b7f131f56bbe_Out_0_Boolean = _Enable_SurfaceFoam;
-            float4 _Property_1b61b7daf05d4e848fd153729d62825a_Out_0_Vector4 = _SurfFoam_Color;
-            float4 _Property_3863d4ec524f4501b2647602551c2faa_Out_0_Vector4 = _SL_Color;
+            float4 _Property_1b61b7daf05d4e848fd153729d62825a_Out_0_Vector4 = LCWaterPigment(_SurfFoam_Color);
+            float4 _Property_3863d4ec524f4501b2647602551c2faa_Out_0_Vector4 = LCWaterPigment(_SL_Color);
             float _Property_91e9f433080444bfbf57f8f4ea6fbccf_Out_0_Boolean = _Enable_Intersection;
-            float4 _Property_17a1fbbea08b4c459849c1e974c9ece9_Out_0_Vector4 = _InterSec_Color;
+            float4 _Property_17a1fbbea08b4c459849c1e974c9ece9_Out_0_Vector4 = LCWaterPigment(_InterSec_Color);
             Bindings_AlphaSplit_d90d6da27d8d4e443b277c96898defce_float _AlphaSplit_d4e0d8db34944ea9b110b5b84bdeef09;
             float3 _AlphaSplit_d4e0d8db34944ea9b110b5b84bdeef09_RGB_1_Vector3;
             float _AlphaSplit_d4e0d8db34944ea9b110b5b84bdeef09_Alpha_2_Float;
@@ -3344,6 +3360,7 @@ Shader "Little Castle/Rivers/Uber Water Adapted"
         
         // Graph Properties
         CBUFFER_START(UnityPerMaterial)
+        float _LC_UseWorldLighting;
         float _LC_UseFlowMap;
         float4 _LC_FlowBounds;
         float4 _ParallaxMapping_ca6a44575e7e4a939c2f1426afff27a2_Heightmap_1_Texture2D_TexelSize;
@@ -3834,6 +3851,20 @@ Shader "Little Castle/Rivers/Uber Water Adapted"
         // Only texture coordinates use the derived, resident river flow map.
         TEXTURE2D(_LC_RiverFlowMap);
         SAMPLER(sampler_LC_RiverFlowMap);
+        // Modulate pigments before reflection/refraction and fog. Captured scene light stays intact.
+        float4 _LC_AmbientSkyColor, _LC_AmbientColor, _LC_SunColor, _LC_MoonColor;
+        float3 LCWaterLightTint()
+        {
+            return saturate(max(_LC_AmbientSkyColor.rgb,_LC_AmbientColor.rgb)+_LC_SunColor.rgb+_LC_MoonColor.rgb);
+        }
+        float4 LCWaterPigment(float4 color)
+        {
+            color.rgb*=lerp(float3(1,1,1),LCWaterLightTint(),saturate(_LC_UseWorldLighting));return color;
+        }
+        float LCWaterLightStrength()
+        {
+            return lerp(1,dot(LCWaterLightTint(),float3(.2126,.7152,.0722)),saturate(_LC_UseWorldLighting));
+        }
         float2 LC_RiverCoordinates(float3 position)
         {
             float2 mapUV=(position.xz-_LC_FlowBounds.xy)*_LC_FlowBounds.zw;
@@ -4493,12 +4524,12 @@ Shader "Little Castle/Rivers/Uber Water Adapted"
             float3 _GetVariable_397e978c909c4ad1bf01f75628183f4c_Vector3_4_Vector3;
             SG_GetVariable_5951f0cfb2fb4134ea014f63adeff8d9_float(_RegisterVariable_d37f83e12e0e4dc1a9a50d208bdb82c6_Vector_1_Vector4, _RegisterVariable_d37f83e12e0e4dc1a9a50d208bdb82c6_Float_2_Float, _GetVariable_397e978c909c4ad1bf01f75628183f4c, _GetVariable_397e978c909c4ad1bf01f75628183f4c_Vector_1_Vector4, _GetVariable_397e978c909c4ad1bf01f75628183f4c_Float_2_Float, _GetVariable_397e978c909c4ad1bf01f75628183f4c_Vector2_3_Vector2, _GetVariable_397e978c909c4ad1bf01f75628183f4c_Vector3_4_Vector3);
             float _Property_f0ab87d33e354df08227b7f131f56bbe_Out_0_Boolean = _Enable_SurfaceFoam;
-            float4 _Property_1b61b7daf05d4e848fd153729d62825a_Out_0_Vector4 = _SurfFoam_Color;
-            float4 _Property_3863d4ec524f4501b2647602551c2faa_Out_0_Vector4 = _SL_Color;
+            float4 _Property_1b61b7daf05d4e848fd153729d62825a_Out_0_Vector4 = LCWaterPigment(_SurfFoam_Color);
+            float4 _Property_3863d4ec524f4501b2647602551c2faa_Out_0_Vector4 = LCWaterPigment(_SL_Color);
             float _Property_91e9f433080444bfbf57f8f4ea6fbccf_Out_0_Boolean = _Enable_Intersection;
-            float4 _Property_17a1fbbea08b4c459849c1e974c9ece9_Out_0_Vector4 = _InterSec_Color;
-            float4 _Property_b248d4061bd2404a82f121d7326b2ec7_Out_0_Vector4 = IsGammaSpace() ? LinearToSRGB(_Color_Deep) : _Color_Deep;
-            float4 _Property_8d0e2c4cc13a4b6aa2a1dfdc9dcda98c_Out_0_Vector4 = IsGammaSpace() ? LinearToSRGB(_Color_Shallow) : _Color_Shallow;
+            float4 _Property_17a1fbbea08b4c459849c1e974c9ece9_Out_0_Vector4 = LCWaterPigment(_InterSec_Color);
+            float4 _Property_b248d4061bd2404a82f121d7326b2ec7_Out_0_Vector4 = LCWaterPigment(IsGammaSpace() ? LinearToSRGB(_Color_Deep) : _Color_Deep);
+            float4 _Property_8d0e2c4cc13a4b6aa2a1dfdc9dcda98c_Out_0_Vector4 = LCWaterPigment(IsGammaSpace() ? LinearToSRGB(_Color_Shallow) : _Color_Shallow);
             float _Property_eda6663d475f4ddb983a9877754cfe2e_Out_0_Boolean = _WorldSpaceDepth;
             float _Property_2375f544dec4416986014aee7bef0ad0_Out_0_Float = _Water_Depth;
             float _Property_068fe305d5834954921a116ac012f156_Out_0_Float = _DistanceMask_Start;
@@ -5239,6 +5270,7 @@ Shader "Little Castle/Rivers/Uber Water Adapted"
         
         // Graph Properties
         CBUFFER_START(UnityPerMaterial)
+        float _LC_UseWorldLighting;
         float _LC_UseFlowMap;
         float4 _LC_FlowBounds;
         float4 _ParallaxMapping_ca6a44575e7e4a939c2f1426afff27a2_Heightmap_1_Texture2D_TexelSize;
@@ -5729,6 +5761,20 @@ Shader "Little Castle/Rivers/Uber Water Adapted"
         // Only texture coordinates use the derived, resident river flow map.
         TEXTURE2D(_LC_RiverFlowMap);
         SAMPLER(sampler_LC_RiverFlowMap);
+        // Modulate pigments before reflection/refraction and fog. Captured scene light stays intact.
+        float4 _LC_AmbientSkyColor, _LC_AmbientColor, _LC_SunColor, _LC_MoonColor;
+        float3 LCWaterLightTint()
+        {
+            return saturate(max(_LC_AmbientSkyColor.rgb,_LC_AmbientColor.rgb)+_LC_SunColor.rgb+_LC_MoonColor.rgb);
+        }
+        float4 LCWaterPigment(float4 color)
+        {
+            color.rgb*=lerp(float3(1,1,1),LCWaterLightTint(),saturate(_LC_UseWorldLighting));return color;
+        }
+        float LCWaterLightStrength()
+        {
+            return lerp(1,dot(LCWaterLightTint(),float3(.2126,.7152,.0722)),saturate(_LC_UseWorldLighting));
+        }
         float2 LC_RiverCoordinates(float3 position)
         {
             float2 mapUV=(position.xz-_LC_FlowBounds.xy)*_LC_FlowBounds.zw;
@@ -6399,12 +6445,12 @@ Shader "Little Castle/Rivers/Uber Water Adapted"
             float3 _GetVariable_397e978c909c4ad1bf01f75628183f4c_Vector3_4_Vector3;
             SG_GetVariable_5951f0cfb2fb4134ea014f63adeff8d9_float(_RegisterVariable_d37f83e12e0e4dc1a9a50d208bdb82c6_Vector_1_Vector4, _RegisterVariable_d37f83e12e0e4dc1a9a50d208bdb82c6_Float_2_Float, _GetVariable_397e978c909c4ad1bf01f75628183f4c, _GetVariable_397e978c909c4ad1bf01f75628183f4c_Vector_1_Vector4, _GetVariable_397e978c909c4ad1bf01f75628183f4c_Float_2_Float, _GetVariable_397e978c909c4ad1bf01f75628183f4c_Vector2_3_Vector2, _GetVariable_397e978c909c4ad1bf01f75628183f4c_Vector3_4_Vector3);
             float _Property_f0ab87d33e354df08227b7f131f56bbe_Out_0_Boolean = _Enable_SurfaceFoam;
-            float4 _Property_1b61b7daf05d4e848fd153729d62825a_Out_0_Vector4 = _SurfFoam_Color;
-            float4 _Property_3863d4ec524f4501b2647602551c2faa_Out_0_Vector4 = _SL_Color;
+            float4 _Property_1b61b7daf05d4e848fd153729d62825a_Out_0_Vector4 = LCWaterPigment(_SurfFoam_Color);
+            float4 _Property_3863d4ec524f4501b2647602551c2faa_Out_0_Vector4 = LCWaterPigment(_SL_Color);
             float _Property_91e9f433080444bfbf57f8f4ea6fbccf_Out_0_Boolean = _Enable_Intersection;
-            float4 _Property_17a1fbbea08b4c459849c1e974c9ece9_Out_0_Vector4 = _InterSec_Color;
-            float4 _Property_b248d4061bd2404a82f121d7326b2ec7_Out_0_Vector4 = IsGammaSpace() ? LinearToSRGB(_Color_Deep) : _Color_Deep;
-            float4 _Property_8d0e2c4cc13a4b6aa2a1dfdc9dcda98c_Out_0_Vector4 = IsGammaSpace() ? LinearToSRGB(_Color_Shallow) : _Color_Shallow;
+            float4 _Property_17a1fbbea08b4c459849c1e974c9ece9_Out_0_Vector4 = LCWaterPigment(_InterSec_Color);
+            float4 _Property_b248d4061bd2404a82f121d7326b2ec7_Out_0_Vector4 = LCWaterPigment(IsGammaSpace() ? LinearToSRGB(_Color_Deep) : _Color_Deep);
+            float4 _Property_8d0e2c4cc13a4b6aa2a1dfdc9dcda98c_Out_0_Vector4 = LCWaterPigment(IsGammaSpace() ? LinearToSRGB(_Color_Shallow) : _Color_Shallow);
             float _Property_eda6663d475f4ddb983a9877754cfe2e_Out_0_Boolean = _WorldSpaceDepth;
             float _Property_2375f544dec4416986014aee7bef0ad0_Out_0_Float = _Water_Depth;
             float _Property_068fe305d5834954921a116ac012f156_Out_0_Float = _DistanceMask_Start;
@@ -7204,6 +7250,7 @@ Shader "Little Castle/Rivers/Uber Water Adapted"
         
         // Graph Properties
         CBUFFER_START(UnityPerMaterial)
+        float _LC_UseWorldLighting;
         float _LC_UseFlowMap;
         float4 _LC_FlowBounds;
         float4 _ParallaxMapping_ca6a44575e7e4a939c2f1426afff27a2_Heightmap_1_Texture2D_TexelSize;
@@ -7532,6 +7579,20 @@ Shader "Little Castle/Rivers/Uber Water Adapted"
         // Only texture coordinates use the derived, resident river flow map.
         TEXTURE2D(_LC_RiverFlowMap);
         SAMPLER(sampler_LC_RiverFlowMap);
+        // Modulate pigments before reflection/refraction and fog. Captured scene light stays intact.
+        float4 _LC_AmbientSkyColor, _LC_AmbientColor, _LC_SunColor, _LC_MoonColor;
+        float3 LCWaterLightTint()
+        {
+            return saturate(max(_LC_AmbientSkyColor.rgb,_LC_AmbientColor.rgb)+_LC_SunColor.rgb+_LC_MoonColor.rgb);
+        }
+        float4 LCWaterPigment(float4 color)
+        {
+            color.rgb*=lerp(float3(1,1,1),LCWaterLightTint(),saturate(_LC_UseWorldLighting));return color;
+        }
+        float LCWaterLightStrength()
+        {
+            return lerp(1,dot(LCWaterLightTint(),float3(.2126,.7152,.0722)),saturate(_LC_UseWorldLighting));
+        }
         float2 LC_RiverCoordinates(float3 position)
         {
             float2 mapUV=(position.xz-_LC_FlowBounds.xy)*_LC_FlowBounds.zw;
@@ -8811,8 +8872,8 @@ Shader "Little Castle/Rivers/Uber Water Adapted"
             SurfaceDescription surface = (SurfaceDescription)0;
             float _Property_25a1550fe84749e6975867c7e16a40fe_Out_0_Boolean = _Enable_SurfaceFoam;
             float _Property_61b5d6b263e6441099ab03510f8f7a92_Out_0_Boolean = _Enable_Intersection;
-            float4 _Property_b248d4061bd2404a82f121d7326b2ec7_Out_0_Vector4 = IsGammaSpace() ? LinearToSRGB(_Color_Deep) : _Color_Deep;
-            float4 _Property_8d0e2c4cc13a4b6aa2a1dfdc9dcda98c_Out_0_Vector4 = IsGammaSpace() ? LinearToSRGB(_Color_Shallow) : _Color_Shallow;
+            float4 _Property_b248d4061bd2404a82f121d7326b2ec7_Out_0_Vector4 = LCWaterPigment(IsGammaSpace() ? LinearToSRGB(_Color_Deep) : _Color_Deep);
+            float4 _Property_8d0e2c4cc13a4b6aa2a1dfdc9dcda98c_Out_0_Vector4 = LCWaterPigment(IsGammaSpace() ? LinearToSRGB(_Color_Shallow) : _Color_Shallow);
             float _Property_eda6663d475f4ddb983a9877754cfe2e_Out_0_Boolean = _WorldSpaceDepth;
             float _Property_2375f544dec4416986014aee7bef0ad0_Out_0_Float = _Water_Depth;
             float _Property_068fe305d5834954921a116ac012f156_Out_0_Float = _DistanceMask_Start;
@@ -8920,7 +8981,7 @@ Shader "Little Castle/Rivers/Uber Water Adapted"
             UnityTexture2D _Property_ad8912636efc4c0da9ebb385a742bfd3_Out_0_Texture2D = UnityBuildTexture2DStructInternal(_Caustics_Map, sampler_Caustics_Map, _Caustics_Map_TexelSize, float4(1, 1, 0, 0), float4(0, 0, 0, 0));
             float _Property_8f2bc4d52ff64b9d82dbf20b88d5ec4e_Out_0_Float = _Caustics_Pan;
             float _Property_47960a863b8449d8bc909018ef11edfa_Out_0_Float = _Caustics_Scale;
-            float _Property_98f6b789cef44f7c863902e27a2a0dec_Out_0_Float = _Caustics_Strength;
+            float _Property_98f6b789cef44f7c863902e27a2a0dec_Out_0_Float = _Caustics_Strength * LCWaterLightStrength();
             float4 _OneMinus_ac1c9144a2194bd3913f69b59a4c081e_Out_1_Vector4;
             Unity_OneMinus_float4(_GetVariable_caddc2ff6da0402aadc268a0179d33f5_Vector_1_Vector4, _OneMinus_ac1c9144a2194bd3913f69b59a4c081e_Out_1_Vector4);
             float _Property_6e40d951ea32449d90b1ffaadc556d01_Out_0_Float = _Caustics_Depth;
@@ -9084,7 +9145,7 @@ Shader "Little Castle/Rivers/Uber Water Adapted"
             #else
             float4 _EnableUnderWaterLayer_b64173300c9b4854ac1486d8a1ef3473_Out_0_Vector4 = _ColorLayerAlpha_c223d4b730ec428ba56a7fa15ad8ca22_Color_1_Vector4;
             #endif
-            float4 _Property_bd06c3c0981f43739bb142e3c2486bb0_Out_0_Vector4 = _InterSec_Color;
+            float4 _Property_bd06c3c0981f43739bb142e3c2486bb0_Out_0_Vector4 = LCWaterPigment(_InterSec_Color);
             UnityTexture2D _Property_7c7d8e78a44f491587d1b948516220e3_Out_0_Texture2D = UnityBuildTexture2DStructInternal(_InterSec_Foam_Mask, sampler_InterSec_Foam_Mask, _InterSec_Foam_Mask_TexelSize, float4(1, 1, 0, 0), float4(0, 0, 0, 0));
             float _Property_8ccc410fc83347a9885b3b70bb3b52a1_Out_0_Boolean = _InterSec_Foam_Invert;
             float _Property_bc94f0c0dcfc474f959cdc23a0cd31a1_Out_0_Float = _InterSec_Foam_Smooth;
@@ -9122,7 +9183,7 @@ Shader "Little Castle/Rivers/Uber Water Adapted"
             SG_ColorLayerAlpha_41f14681bef845f45ad1cd5c0c8b339f_float(_EnableUnderWaterLayer_b64173300c9b4854ac1486d8a1ef3473_Out_0_Vector4, _Property_bd06c3c0981f43739bb142e3c2486bb0_Out_0_Vector4, _IntersectionFoamGenerator_55df9fcca7744decacc7c64f0ca53436_mask_2_Float, _ColorLayerAlpha_fa22e6fbce004d86b0b50d98fe9d3647, _ColorLayerAlpha_fa22e6fbce004d86b0b50d98fe9d3647_Color_1_Vector4);
             float4 _Branch_d532a5673c574b37afd36165c3d49c33_Out_3_Vector4;
             Unity_Branch_float4(_Property_61b5d6b263e6441099ab03510f8f7a92_Out_0_Boolean, _ColorLayerAlpha_fa22e6fbce004d86b0b50d98fe9d3647_Color_1_Vector4, _EnableUnderWaterLayer_b64173300c9b4854ac1486d8a1ef3473_Out_0_Vector4, _Branch_d532a5673c574b37afd36165c3d49c33_Out_3_Vector4);
-            float4 _Property_e348edaf54af40cda95849d66e84ffaf_Out_0_Vector4 = _SL_Color;
+            float4 _Property_e348edaf54af40cda95849d66e84ffaf_Out_0_Vector4 = LCWaterPigment(_SL_Color);
             float _Property_654eca40e6de4870bfaabd83195cfec9_Out_0_Float = _SL_WaterDepth;
             float _Property_46d3c9d1835d4a8a8dc0795e506b680b_Out_0_Float = _SL_Speed;
             float _Property_ecc4c541ba594e7faf03791bc1c4c252_Out_0_Float = _SL_Ammount;
@@ -9153,7 +9214,7 @@ Shader "Little Castle/Rivers/Uber Water Adapted"
             #else
             float4 _EnableShoreLine_4fb40308192a4e7593ae9dec50646512_Out_0_Vector4 = _Branch_d532a5673c574b37afd36165c3d49c33_Out_3_Vector4;
             #endif
-            float4 _Property_68baaf0b30b94261b3866e749856146f_Out_0_Vector4 = _Wave_Top_Color;
+            float4 _Property_68baaf0b30b94261b3866e749856146f_Out_0_Vector4 = LCWaterPigment(_Wave_Top_Color);
             float _Property_6364b022ebe642c2a8aa31e223357ef5_Out_0_Float = _1st_Wave_Length;
             float _Property_b6c3a74fcb4446c38ea281ab678b1a8d_Out_0_Float = _1st_Wave_Sharpness;
             float _Property_c122f30d2a58451aa7d21a217b30abe9_Out_0_Float = _1st_Wave_Height;
@@ -9202,7 +9263,7 @@ Shader "Little Castle/Rivers/Uber Water Adapted"
             #else
             float4 _EnableWave_5567467298f54412839895d5f02b13f5_Out_0_Vector4 = _EnableShoreLine_4fb40308192a4e7593ae9dec50646512_Out_0_Vector4;
             #endif
-            float4 _Property_23c6d39c40bf40068acd810ab0d613fc_Out_0_Vector4 = _SurfFoam_Color;
+            float4 _Property_23c6d39c40bf40068acd810ab0d613fc_Out_0_Vector4 = LCWaterPigment(_SurfFoam_Color);
             float _Property_98674b2672a549c5b764c8b18e889049_Out_0_Boolean = _Invert_SurfFoam;
             UnityTexture2D _Property_8701d53bb15a4839b4cb595ac1cd35ea_Out_0_Texture2D = UnityBuildTexture2DStructInternal(_SurfFoam_Map, sampler_SurfFoam_Map, _SurfFoam_Map_TexelSize, float4(1, 1, 0, 0), float4(0, 0, 0, 0));
             float2 _Property_a15b261bb0c041cdbf306671297b3c0a_Out_0_Vector2 = _SurfFoam_Tile;
@@ -9245,10 +9306,10 @@ Shader "Little Castle/Rivers/Uber Water Adapted"
             float3 _GetVariable_802fb5cd5ce34fffa2c7396f8acb3040_Vector3_4_Vector3;
             SG_GetVariable_5951f0cfb2fb4134ea014f63adeff8d9_float(_RegisterVariable_7dfc3010253a4035b4925a6c08014cc9_Vector_1_Vector4, _RegisterVariable_7dfc3010253a4035b4925a6c08014cc9_Float_2_Float, _GetVariable_802fb5cd5ce34fffa2c7396f8acb3040, _GetVariable_802fb5cd5ce34fffa2c7396f8acb3040_Vector_1_Vector4, _GetVariable_802fb5cd5ce34fffa2c7396f8acb3040_Float_2_Float, _GetVariable_802fb5cd5ce34fffa2c7396f8acb3040_Vector2_3_Vector2, _GetVariable_802fb5cd5ce34fffa2c7396f8acb3040_Vector3_4_Vector3);
             float _Property_f0ab87d33e354df08227b7f131f56bbe_Out_0_Boolean = _Enable_SurfaceFoam;
-            float4 _Property_1b61b7daf05d4e848fd153729d62825a_Out_0_Vector4 = _SurfFoam_Color;
-            float4 _Property_3863d4ec524f4501b2647602551c2faa_Out_0_Vector4 = _SL_Color;
+            float4 _Property_1b61b7daf05d4e848fd153729d62825a_Out_0_Vector4 = LCWaterPigment(_SurfFoam_Color);
+            float4 _Property_3863d4ec524f4501b2647602551c2faa_Out_0_Vector4 = LCWaterPigment(_SL_Color);
             float _Property_91e9f433080444bfbf57f8f4ea6fbccf_Out_0_Boolean = _Enable_Intersection;
-            float4 _Property_17a1fbbea08b4c459849c1e974c9ece9_Out_0_Vector4 = _InterSec_Color;
+            float4 _Property_17a1fbbea08b4c459849c1e974c9ece9_Out_0_Vector4 = LCWaterPigment(_InterSec_Color);
             Bindings_AlphaSplit_d90d6da27d8d4e443b277c96898defce_float _AlphaSplit_d4e0d8db34944ea9b110b5b84bdeef09;
             float3 _AlphaSplit_d4e0d8db34944ea9b110b5b84bdeef09_RGB_1_Vector3;
             float _AlphaSplit_d4e0d8db34944ea9b110b5b84bdeef09_Alpha_2_Float;
@@ -9934,6 +9995,7 @@ Shader "Little Castle/Rivers/Uber Water Adapted"
         
         // Graph Properties
         CBUFFER_START(UnityPerMaterial)
+        float _LC_UseWorldLighting;
         float _LC_UseFlowMap;
         float4 _LC_FlowBounds;
         float4 _ParallaxMapping_ca6a44575e7e4a939c2f1426afff27a2_Heightmap_1_Texture2D_TexelSize;
@@ -10424,6 +10486,20 @@ Shader "Little Castle/Rivers/Uber Water Adapted"
         // Only texture coordinates use the derived, resident river flow map.
         TEXTURE2D(_LC_RiverFlowMap);
         SAMPLER(sampler_LC_RiverFlowMap);
+        // Modulate pigments before reflection/refraction and fog. Captured scene light stays intact.
+        float4 _LC_AmbientSkyColor, _LC_AmbientColor, _LC_SunColor, _LC_MoonColor;
+        float3 LCWaterLightTint()
+        {
+            return saturate(max(_LC_AmbientSkyColor.rgb,_LC_AmbientColor.rgb)+_LC_SunColor.rgb+_LC_MoonColor.rgb);
+        }
+        float4 LCWaterPigment(float4 color)
+        {
+            color.rgb*=lerp(float3(1,1,1),LCWaterLightTint(),saturate(_LC_UseWorldLighting));return color;
+        }
+        float LCWaterLightStrength()
+        {
+            return lerp(1,dot(LCWaterLightTint(),float3(.2126,.7152,.0722)),saturate(_LC_UseWorldLighting));
+        }
         float2 LC_RiverCoordinates(float3 position)
         {
             float2 mapUV=(position.xz-_LC_FlowBounds.xy)*_LC_FlowBounds.zw;
@@ -11094,12 +11170,12 @@ Shader "Little Castle/Rivers/Uber Water Adapted"
             float3 _GetVariable_397e978c909c4ad1bf01f75628183f4c_Vector3_4_Vector3;
             SG_GetVariable_5951f0cfb2fb4134ea014f63adeff8d9_float(_RegisterVariable_d37f83e12e0e4dc1a9a50d208bdb82c6_Vector_1_Vector4, _RegisterVariable_d37f83e12e0e4dc1a9a50d208bdb82c6_Float_2_Float, _GetVariable_397e978c909c4ad1bf01f75628183f4c, _GetVariable_397e978c909c4ad1bf01f75628183f4c_Vector_1_Vector4, _GetVariable_397e978c909c4ad1bf01f75628183f4c_Float_2_Float, _GetVariable_397e978c909c4ad1bf01f75628183f4c_Vector2_3_Vector2, _GetVariable_397e978c909c4ad1bf01f75628183f4c_Vector3_4_Vector3);
             float _Property_f0ab87d33e354df08227b7f131f56bbe_Out_0_Boolean = _Enable_SurfaceFoam;
-            float4 _Property_1b61b7daf05d4e848fd153729d62825a_Out_0_Vector4 = _SurfFoam_Color;
-            float4 _Property_3863d4ec524f4501b2647602551c2faa_Out_0_Vector4 = _SL_Color;
+            float4 _Property_1b61b7daf05d4e848fd153729d62825a_Out_0_Vector4 = LCWaterPigment(_SurfFoam_Color);
+            float4 _Property_3863d4ec524f4501b2647602551c2faa_Out_0_Vector4 = LCWaterPigment(_SL_Color);
             float _Property_91e9f433080444bfbf57f8f4ea6fbccf_Out_0_Boolean = _Enable_Intersection;
-            float4 _Property_17a1fbbea08b4c459849c1e974c9ece9_Out_0_Vector4 = _InterSec_Color;
-            float4 _Property_b248d4061bd2404a82f121d7326b2ec7_Out_0_Vector4 = IsGammaSpace() ? LinearToSRGB(_Color_Deep) : _Color_Deep;
-            float4 _Property_8d0e2c4cc13a4b6aa2a1dfdc9dcda98c_Out_0_Vector4 = IsGammaSpace() ? LinearToSRGB(_Color_Shallow) : _Color_Shallow;
+            float4 _Property_17a1fbbea08b4c459849c1e974c9ece9_Out_0_Vector4 = LCWaterPigment(_InterSec_Color);
+            float4 _Property_b248d4061bd2404a82f121d7326b2ec7_Out_0_Vector4 = LCWaterPigment(IsGammaSpace() ? LinearToSRGB(_Color_Deep) : _Color_Deep);
+            float4 _Property_8d0e2c4cc13a4b6aa2a1dfdc9dcda98c_Out_0_Vector4 = LCWaterPigment(IsGammaSpace() ? LinearToSRGB(_Color_Shallow) : _Color_Shallow);
             float _Property_eda6663d475f4ddb983a9877754cfe2e_Out_0_Boolean = _WorldSpaceDepth;
             float _Property_2375f544dec4416986014aee7bef0ad0_Out_0_Float = _Water_Depth;
             float _Property_068fe305d5834954921a116ac012f156_Out_0_Float = _DistanceMask_Start;
@@ -11864,6 +11940,7 @@ Shader "Little Castle/Rivers/Uber Water Adapted"
         
         // Graph Properties
         CBUFFER_START(UnityPerMaterial)
+        float _LC_UseWorldLighting;
         float _LC_UseFlowMap;
         float4 _LC_FlowBounds;
         float4 _ParallaxMapping_ca6a44575e7e4a939c2f1426afff27a2_Heightmap_1_Texture2D_TexelSize;
@@ -12192,6 +12269,20 @@ Shader "Little Castle/Rivers/Uber Water Adapted"
         // Only texture coordinates use the derived, resident river flow map.
         TEXTURE2D(_LC_RiverFlowMap);
         SAMPLER(sampler_LC_RiverFlowMap);
+        // Modulate pigments before reflection/refraction and fog. Captured scene light stays intact.
+        float4 _LC_AmbientSkyColor, _LC_AmbientColor, _LC_SunColor, _LC_MoonColor;
+        float3 LCWaterLightTint()
+        {
+            return saturate(max(_LC_AmbientSkyColor.rgb,_LC_AmbientColor.rgb)+_LC_SunColor.rgb+_LC_MoonColor.rgb);
+        }
+        float4 LCWaterPigment(float4 color)
+        {
+            color.rgb*=lerp(float3(1,1,1),LCWaterLightTint(),saturate(_LC_UseWorldLighting));return color;
+        }
+        float LCWaterLightStrength()
+        {
+            return lerp(1,dot(LCWaterLightTint(),float3(.2126,.7152,.0722)),saturate(_LC_UseWorldLighting));
+        }
         float2 LC_RiverCoordinates(float3 position)
         {
             float2 mapUV=(position.xz-_LC_FlowBounds.xy)*_LC_FlowBounds.zw;
@@ -13471,8 +13562,8 @@ Shader "Little Castle/Rivers/Uber Water Adapted"
             SurfaceDescription surface = (SurfaceDescription)0;
             float _Property_25a1550fe84749e6975867c7e16a40fe_Out_0_Boolean = _Enable_SurfaceFoam;
             float _Property_61b5d6b263e6441099ab03510f8f7a92_Out_0_Boolean = _Enable_Intersection;
-            float4 _Property_b248d4061bd2404a82f121d7326b2ec7_Out_0_Vector4 = IsGammaSpace() ? LinearToSRGB(_Color_Deep) : _Color_Deep;
-            float4 _Property_8d0e2c4cc13a4b6aa2a1dfdc9dcda98c_Out_0_Vector4 = IsGammaSpace() ? LinearToSRGB(_Color_Shallow) : _Color_Shallow;
+            float4 _Property_b248d4061bd2404a82f121d7326b2ec7_Out_0_Vector4 = LCWaterPigment(IsGammaSpace() ? LinearToSRGB(_Color_Deep) : _Color_Deep);
+            float4 _Property_8d0e2c4cc13a4b6aa2a1dfdc9dcda98c_Out_0_Vector4 = LCWaterPigment(IsGammaSpace() ? LinearToSRGB(_Color_Shallow) : _Color_Shallow);
             float _Property_eda6663d475f4ddb983a9877754cfe2e_Out_0_Boolean = _WorldSpaceDepth;
             float _Property_2375f544dec4416986014aee7bef0ad0_Out_0_Float = _Water_Depth;
             float _Property_068fe305d5834954921a116ac012f156_Out_0_Float = _DistanceMask_Start;
@@ -13580,7 +13671,7 @@ Shader "Little Castle/Rivers/Uber Water Adapted"
             UnityTexture2D _Property_ad8912636efc4c0da9ebb385a742bfd3_Out_0_Texture2D = UnityBuildTexture2DStructInternal(_Caustics_Map, sampler_Caustics_Map, _Caustics_Map_TexelSize, float4(1, 1, 0, 0), float4(0, 0, 0, 0));
             float _Property_8f2bc4d52ff64b9d82dbf20b88d5ec4e_Out_0_Float = _Caustics_Pan;
             float _Property_47960a863b8449d8bc909018ef11edfa_Out_0_Float = _Caustics_Scale;
-            float _Property_98f6b789cef44f7c863902e27a2a0dec_Out_0_Float = _Caustics_Strength;
+            float _Property_98f6b789cef44f7c863902e27a2a0dec_Out_0_Float = _Caustics_Strength * LCWaterLightStrength();
             float4 _OneMinus_ac1c9144a2194bd3913f69b59a4c081e_Out_1_Vector4;
             Unity_OneMinus_float4(_GetVariable_caddc2ff6da0402aadc268a0179d33f5_Vector_1_Vector4, _OneMinus_ac1c9144a2194bd3913f69b59a4c081e_Out_1_Vector4);
             float _Property_6e40d951ea32449d90b1ffaadc556d01_Out_0_Float = _Caustics_Depth;
@@ -13744,7 +13835,7 @@ Shader "Little Castle/Rivers/Uber Water Adapted"
             #else
             float4 _EnableUnderWaterLayer_b64173300c9b4854ac1486d8a1ef3473_Out_0_Vector4 = _ColorLayerAlpha_c223d4b730ec428ba56a7fa15ad8ca22_Color_1_Vector4;
             #endif
-            float4 _Property_bd06c3c0981f43739bb142e3c2486bb0_Out_0_Vector4 = _InterSec_Color;
+            float4 _Property_bd06c3c0981f43739bb142e3c2486bb0_Out_0_Vector4 = LCWaterPigment(_InterSec_Color);
             UnityTexture2D _Property_7c7d8e78a44f491587d1b948516220e3_Out_0_Texture2D = UnityBuildTexture2DStructInternal(_InterSec_Foam_Mask, sampler_InterSec_Foam_Mask, _InterSec_Foam_Mask_TexelSize, float4(1, 1, 0, 0), float4(0, 0, 0, 0));
             float _Property_8ccc410fc83347a9885b3b70bb3b52a1_Out_0_Boolean = _InterSec_Foam_Invert;
             float _Property_bc94f0c0dcfc474f959cdc23a0cd31a1_Out_0_Float = _InterSec_Foam_Smooth;
@@ -13782,7 +13873,7 @@ Shader "Little Castle/Rivers/Uber Water Adapted"
             SG_ColorLayerAlpha_41f14681bef845f45ad1cd5c0c8b339f_float(_EnableUnderWaterLayer_b64173300c9b4854ac1486d8a1ef3473_Out_0_Vector4, _Property_bd06c3c0981f43739bb142e3c2486bb0_Out_0_Vector4, _IntersectionFoamGenerator_55df9fcca7744decacc7c64f0ca53436_mask_2_Float, _ColorLayerAlpha_fa22e6fbce004d86b0b50d98fe9d3647, _ColorLayerAlpha_fa22e6fbce004d86b0b50d98fe9d3647_Color_1_Vector4);
             float4 _Branch_d532a5673c574b37afd36165c3d49c33_Out_3_Vector4;
             Unity_Branch_float4(_Property_61b5d6b263e6441099ab03510f8f7a92_Out_0_Boolean, _ColorLayerAlpha_fa22e6fbce004d86b0b50d98fe9d3647_Color_1_Vector4, _EnableUnderWaterLayer_b64173300c9b4854ac1486d8a1ef3473_Out_0_Vector4, _Branch_d532a5673c574b37afd36165c3d49c33_Out_3_Vector4);
-            float4 _Property_e348edaf54af40cda95849d66e84ffaf_Out_0_Vector4 = _SL_Color;
+            float4 _Property_e348edaf54af40cda95849d66e84ffaf_Out_0_Vector4 = LCWaterPigment(_SL_Color);
             float _Property_654eca40e6de4870bfaabd83195cfec9_Out_0_Float = _SL_WaterDepth;
             float _Property_46d3c9d1835d4a8a8dc0795e506b680b_Out_0_Float = _SL_Speed;
             float _Property_ecc4c541ba594e7faf03791bc1c4c252_Out_0_Float = _SL_Ammount;
@@ -13813,7 +13904,7 @@ Shader "Little Castle/Rivers/Uber Water Adapted"
             #else
             float4 _EnableShoreLine_4fb40308192a4e7593ae9dec50646512_Out_0_Vector4 = _Branch_d532a5673c574b37afd36165c3d49c33_Out_3_Vector4;
             #endif
-            float4 _Property_68baaf0b30b94261b3866e749856146f_Out_0_Vector4 = _Wave_Top_Color;
+            float4 _Property_68baaf0b30b94261b3866e749856146f_Out_0_Vector4 = LCWaterPigment(_Wave_Top_Color);
             float _Property_6364b022ebe642c2a8aa31e223357ef5_Out_0_Float = _1st_Wave_Length;
             float _Property_b6c3a74fcb4446c38ea281ab678b1a8d_Out_0_Float = _1st_Wave_Sharpness;
             float _Property_c122f30d2a58451aa7d21a217b30abe9_Out_0_Float = _1st_Wave_Height;
@@ -13862,7 +13953,7 @@ Shader "Little Castle/Rivers/Uber Water Adapted"
             #else
             float4 _EnableWave_5567467298f54412839895d5f02b13f5_Out_0_Vector4 = _EnableShoreLine_4fb40308192a4e7593ae9dec50646512_Out_0_Vector4;
             #endif
-            float4 _Property_23c6d39c40bf40068acd810ab0d613fc_Out_0_Vector4 = _SurfFoam_Color;
+            float4 _Property_23c6d39c40bf40068acd810ab0d613fc_Out_0_Vector4 = LCWaterPigment(_SurfFoam_Color);
             float _Property_98674b2672a549c5b764c8b18e889049_Out_0_Boolean = _Invert_SurfFoam;
             UnityTexture2D _Property_8701d53bb15a4839b4cb595ac1cd35ea_Out_0_Texture2D = UnityBuildTexture2DStructInternal(_SurfFoam_Map, sampler_SurfFoam_Map, _SurfFoam_Map_TexelSize, float4(1, 1, 0, 0), float4(0, 0, 0, 0));
             float2 _Property_a15b261bb0c041cdbf306671297b3c0a_Out_0_Vector2 = _SurfFoam_Tile;
@@ -13905,10 +13996,10 @@ Shader "Little Castle/Rivers/Uber Water Adapted"
             float3 _GetVariable_802fb5cd5ce34fffa2c7396f8acb3040_Vector3_4_Vector3;
             SG_GetVariable_5951f0cfb2fb4134ea014f63adeff8d9_float(_RegisterVariable_7dfc3010253a4035b4925a6c08014cc9_Vector_1_Vector4, _RegisterVariable_7dfc3010253a4035b4925a6c08014cc9_Float_2_Float, _GetVariable_802fb5cd5ce34fffa2c7396f8acb3040, _GetVariable_802fb5cd5ce34fffa2c7396f8acb3040_Vector_1_Vector4, _GetVariable_802fb5cd5ce34fffa2c7396f8acb3040_Float_2_Float, _GetVariable_802fb5cd5ce34fffa2c7396f8acb3040_Vector2_3_Vector2, _GetVariable_802fb5cd5ce34fffa2c7396f8acb3040_Vector3_4_Vector3);
             float _Property_f0ab87d33e354df08227b7f131f56bbe_Out_0_Boolean = _Enable_SurfaceFoam;
-            float4 _Property_1b61b7daf05d4e848fd153729d62825a_Out_0_Vector4 = _SurfFoam_Color;
-            float4 _Property_3863d4ec524f4501b2647602551c2faa_Out_0_Vector4 = _SL_Color;
+            float4 _Property_1b61b7daf05d4e848fd153729d62825a_Out_0_Vector4 = LCWaterPigment(_SurfFoam_Color);
+            float4 _Property_3863d4ec524f4501b2647602551c2faa_Out_0_Vector4 = LCWaterPigment(_SL_Color);
             float _Property_91e9f433080444bfbf57f8f4ea6fbccf_Out_0_Boolean = _Enable_Intersection;
-            float4 _Property_17a1fbbea08b4c459849c1e974c9ece9_Out_0_Vector4 = _InterSec_Color;
+            float4 _Property_17a1fbbea08b4c459849c1e974c9ece9_Out_0_Vector4 = LCWaterPigment(_InterSec_Color);
             Bindings_AlphaSplit_d90d6da27d8d4e443b277c96898defce_float _AlphaSplit_d4e0d8db34944ea9b110b5b84bdeef09;
             float3 _AlphaSplit_d4e0d8db34944ea9b110b5b84bdeef09_RGB_1_Vector3;
             float _AlphaSplit_d4e0d8db34944ea9b110b5b84bdeef09_Alpha_2_Float;
