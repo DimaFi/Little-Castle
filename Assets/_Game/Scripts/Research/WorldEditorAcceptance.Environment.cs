@@ -33,6 +33,11 @@ namespace LittleCastle.Acceptance
                 session.Redo();Require(session.ExportJson()==winter,"Winter redo failed.");
                 var settings=session.EnvironmentSettings;settings.simulateWeather=true;settings.snowfallIntensity=.6f;session.SetEnvironmentSettings(settings);
                 SetHour(12);Pose(35);for(int i=0;i<40;i++)yield return null;yield return Capture("environment-winter-snowfall");
+                tools.Select("environment.snow");tools.context.environmentMode=MapEnvironmentBrushMode.Erase;
+                tools.context.settings.radius=6;tools.context.settings.strength=1;tools.context.settings.softness=.4f;
+                tools.Begin(new MapToolPointer(default,true,new Vector2(-4,5)),1);tools.Complete();
+                Require(session.SampleEnvironmentSnow(-4,5)<.01f&&session.EnvironmentThemes.Sample(3,-4,5)>.9f,"Local snow eraser changed biome or did not clear coverage.");
+                for(int i=0;i<32;i++)yield return null;yield return Capture("environment-snow-eraser");
                 Require(painter.ShoreDecorationView!=null,"Automatic shore presenter was not connected.");
                 File.WriteAllText(Path.Combine(output,"environment-checks.txt"),
                     "PASS live shared biome brush, Undo/Redo, day/night/near/middle/far renders, local snowfall.\n"+

@@ -8,7 +8,8 @@ namespace LittleCastle.Rendering
 {
     /// <summary>
     /// Disposable resident presentation atlas. Authored fields remain in the map session;
-    /// camera movement only changes this bounded GPU view, never the world or its geometry.
+    /// Camera coverage adapts to the visible ground while GPU textures stay at most 256 x 256.
+    /// Camera movement never changes the world or its geometry.
     /// </summary>
     public sealed class MapEnvironmentPresentation : IDisposable
     {
@@ -82,7 +83,7 @@ namespace LittleCastle.Rendering
                 weatherSeconds += elapsedWorldSeconds;
                 if (weatherSeconds >= .25f)
                 {
-                    session.AdvanceLocalSnow(weatherSeconds, residentBounds);
+                    session.AdvanceLocalSnow(weatherSeconds, CalculateWeatherBounds());
                     weatherSeconds = 0f;
                 }
             }
@@ -176,12 +177,55 @@ namespace LittleCastle.Rendering
             focus.x = Mathf.Clamp(focus.x, map.x, map.x + map.z);
             focus.y = Mathf.Clamp(focus.y, map.y, map.y + map.w);
             GroundFocus = new Vector3(focus.x, session.SampleHeight(focus.x, focus.y), focus.y);
+            float left = focus.x, right = focus.x, bottom = focus.y, top = focus.y;
+            if (camera)
+            {
+                var ground = new Plane(Vector3.up, GroundFocus);
+                for (int corner = 0; corner < 4; corner++)
+                {
+                    Ray ray = camera.ViewportPointToRay(new Vector3(corner & 1, corner >> 1, 0f));
+                    if (!ground.Raycast(ray, out float distance) || !Finite(distance))
+                    {
+                        // A horizon crossing can expose any part of the finite map.
+                        left = map.x; right = map.x + map.z;
+                        bottom = map.y; top = map.y + map.w;
+                        break;
+                    }
+                    Vector3 point = ray.GetPoint(distance);
+                    if (!Finite(point.x) || !Finite(point.z)) continue;
+                    left = Mathf.Min(left, Mathf.Clamp(point.x, map.x, map.x + map.z));
+                    right = Mathf.Max(right, Mathf.Clamp(point.x, map.x, map.x + map.z));
+                    bottom = Mathf.Min(bottom, Mathf.Clamp(point.z, map.y, map.y + map.w));
+                    top = Mathf.Max(top, Mathf.Clamp(point.z, map.y, map.y + map.w));
+                }
+            }
+            // Power-of-two spans and a proportional grid avoid uploads for tiny zoom/pan changes.
+            // The spare quarter-span also keeps the complete footprint inside after snapping.
+            float width = Mathf.Min(QuantizedSpan(right - left), map.z);
+            float height = Mathf.Min(QuantizedSpan(top - bottom), map.w);
+            float snapX = Mathf.Max(ResidentSnap, width / 8f);
+            float snapZ = Mathf.Max(ResidentSnap, height / 8f);
+            float x = Mathf.Clamp(Mathf.Floor(((left + right) * .5f - width * .5f) / snapX) * snapX,
+                map.x, map.x + map.z - width);
+            float z = Mathf.Clamp(Mathf.Floor(((bottom + top) * .5f - height * .5f) / snapZ) * snapZ,
+                map.y, map.y + map.w - height);
+            return new Rect(x, z, width, height);
+        }
+
+        static float QuantizedSpan(float required)
+        {
+            float span = ResidentSize;
+            while (span * .75f < required) span *= 2f;
+            return span;
+        }
+
+        Rect CalculateWeatherBounds()
+        {
+            Vector4 map = session.Bounds;
             float width = Mathf.Min(ResidentSize, map.z);
             float height = Mathf.Min(ResidentSize, map.w);
-            float x = Mathf.Clamp(Mathf.Floor((focus.x - width * .5f) / ResidentSnap) * ResidentSnap,
-                map.x, map.x + map.z - width);
-            float z = Mathf.Clamp(Mathf.Floor((focus.y - height * .5f) / ResidentSnap) * ResidentSnap,
-                map.y, map.y + map.w - height);
+            float x = Mathf.Clamp(GroundFocus.x - width * .5f, map.x, map.x + map.z - width);
+            float z = Mathf.Clamp(GroundFocus.z - height * .5f, map.y, map.y + map.w - height);
             return new Rect(x, z, width, height);
         }
 
