@@ -114,7 +114,9 @@ namespace LittleCastle.Experimental.MountainBorder.Presentation
         void BuildStudyRocks()
         {
             var catalog=profile.studyRockCatalog;if(!catalog||catalog.entries.Length==0)return;
-            var positions=new[]{new Vector2(-61,3),new Vector2(-53,-2),new Vector2(-58,-15),new Vector2(-48,-32),new Vector2(-40,-49),new Vector2(-60,43),new Vector2(-55,57),new Vector2(-71,6),new Vector2(-46,4)};
+            // Keep demonstration stones on the channel bed. A general placement
+            // brush still needs slope/footprint validation at overhanging banks.
+            var positions=new[]{new Vector2(-61,3),new Vector2(-53,-2),new Vector2(-58,-15),new Vector2(-48,-32),new Vector2(-40,-49),new Vector2(-60,43),new Vector2(-55,57)};
             var parent=Child("Seeded lightweight stones · existing cliff texture",generated.transform);
             for(int i=0;i<positions.Length;i++)
             {
