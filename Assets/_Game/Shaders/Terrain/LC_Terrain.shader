@@ -14,6 +14,16 @@ Shader "Little Castle/Terrain/LC Terrain"
         _RockColor ("Rock Color", Color) = (0.45,0.46,0.40,1)
         [Toggle] _RockTriplanar ("World Projection On Cliffs", Float) = 0
         _RockWorldTiling ("Cliff World Tiling", Float) = .075
+        [Toggle] _AlpineEnabled ("Alpine Rock / Permanent Snow", Float) = 0
+        _AlpineRockColor ("High Alpine Rock Tint", Color) = (.73,.77,.82,1)
+        _AlpineBaseHeight ("Alpine Base World Height", Float) = 0
+        _AlpineBareHeight ("Alpine Tree Line Above Base", Float) = 55
+        _AlpineSnowLine ("Permanent Snow Above Base", Float) = 76
+        _AlpineSnowBlend ("Permanent Snow Transition", Float) = 22
+        _AlpineSnowBreakup ("Permanent Snow Boundary Breakup", Float) = 13
+        _AlpineWaterLip ("Local Waterfall Lip XYZ / Wet Radius", Vector) = (0,0,0,0)
+        _AlpineWaterLanding ("Local Waterfall Landing XYZ / Wet Radius", Vector) = (0,0,0,0)
+        _AlpineWetStrength ("Waterfall Rock Wetness", Range(0,1)) = .75
 
         _WorldTiling ("World Texture Tiling", Range(0.005,0.5)) = 0.075
         _TextureDetail ("Texture Detail Strength", Range(0,1)) = 1
@@ -106,6 +116,7 @@ Shader "Little Castle/Terrain/LC Terrain"
         TEXTURE2D(_SnowTex); SAMPLER(sampler_SnowTex);
         TEXTURE2D(_SnowNormal); SAMPLER(sampler_SnowNormal);
         TEXTURE2D(_SnowAO); SAMPLER(sampler_SnowAO);
+        #include "LC_PathMaterials.hlsl"
 
         CBUFFER_START(UnityPerMaterial)
             float4 _GrassColor;
@@ -115,6 +126,16 @@ Shader "Little Castle/Terrain/LC Terrain"
             float4 _RockColor;
             float _RockTriplanar;
             float _RockWorldTiling;
+            float _AlpineEnabled;
+            float4 _AlpineRockColor;
+            float _AlpineBaseHeight;
+            float _AlpineBareHeight;
+            float _AlpineSnowLine;
+            float _AlpineSnowBlend;
+            float _AlpineSnowBreakup;
+            float4 _AlpineWaterLip;
+            float4 _AlpineWaterLanding;
+            float _AlpineWetStrength;
             float _WorldTiling;
             float _TextureDetail;
             float _GroundPalette;
@@ -297,7 +318,7 @@ Shader "Little Castle/Terrain/LC Terrain"
                 _WorldTiling;
 
             half3 grassSample=SAMPLE_TEXTURE2D(_GrassTex, sampler_GrassTex, worldUv).rgb;
-            half3 dirtSample=SAMPLE_TEXTURE2D(_DirtTex, sampler_DirtTex, worldUv).rgb;
+            half3 dirtSample=SAMPLE_TEXTURE2D(_DirtTex, sampler_GrassTex, worldUv).rgb;
             half3 grass = grassSample * _GrassColor.rgb;
 
             half3 dirt =
@@ -305,13 +326,13 @@ Shader "Little Castle/Terrain/LC Terrain"
                 _DirtColor.rgb;
 
             half3 rock =
-                SAMPLE_TEXTURE2D(_RockTex, sampler_RockTex, worldUv).rgb *
+                SAMPLE_TEXTURE2D(_RockTex, sampler_GrassTex, worldUv).rgb *
                 _RockColor.rgb;
             [branch] if(_RockTriplanar>.5h) {
                 half3 weights=pow(abs(normal),4);weights/=max(.001h,weights.x+weights.y+weights.z);
-                rock=(SAMPLE_TEXTURE2D(_RockTex,sampler_RockTex,i.worldPosition.zy*_RockWorldTiling).rgb*weights.x+
-                    SAMPLE_TEXTURE2D(_RockTex,sampler_RockTex,i.worldPosition.xz*_RockWorldTiling).rgb*weights.y+
-                    SAMPLE_TEXTURE2D(_RockTex,sampler_RockTex,i.worldPosition.xy*_RockWorldTiling).rgb*weights.z)*_RockColor.rgb;
+                rock=(SAMPLE_TEXTURE2D(_RockTex,sampler_GrassTex,i.worldPosition.zy*_RockWorldTiling).rgb*weights.x+
+                    SAMPLE_TEXTURE2D(_RockTex,sampler_GrassTex,i.worldPosition.xz*_RockWorldTiling).rgb*weights.y+
+                    SAMPLE_TEXTURE2D(_RockTex,sampler_GrassTex,i.worldPosition.xy*_RockWorldTiling).rgb*weights.z)*_RockColor.rgb;
             }
 
             half slope =
@@ -334,13 +355,13 @@ Shader "Little Castle/Terrain/LC Terrain"
                 float2 controlUV = (i.worldPosition.xz - _SnowMapBounds.xy) * _SnowMapBounds.zw;
                 half coverage = 0;
                 if (all(_SnowMapBounds.zw > 0) && all(controlUV >= 0) && all(controlUV <= 1))
-                    coverage = saturate(SAMPLE_TEXTURE2D(_SnowControl, sampler_SnowControl, controlUV).r);
+                    coverage = saturate(SAMPLE_TEXTURE2D(_SnowControl, sampler_LinearClamp, controlUV).r);
                 half edge = (LCGroundNoise(i.worldPosition.xz * .52) - .5h) * .7h +
                     (LCGroundNoise(i.worldPosition.xz * 1.83 + 9.7) - .5h) * .3h;
                 // Endpoints remain clean. Existing RGBA vertex-mask contracts are untouched.
                 coverage += edge * _SnowEdgeNoise * 4 * coverage * (1 - coverage);
                 snowWeight = smoothstep(.34h, .66h, coverage) * smoothstep(.35h, .82h, normal.y) * saturate(_SnowAcceptance);
-                half3 snowSample = SAMPLE_TEXTURE2D(_SnowTex, sampler_SnowTex, i.worldPosition.xz * _SnowTiling).rgb;
+                half3 snowSample = SAMPLE_TEXTURE2D(_SnowTex, sampler_GrassTex, i.worldPosition.xz * _SnowTiling).rgb;
                 half snowValue = clamp(dot(snowSample, half3(.2126,.7152,.0722)) / .76h, .82h, 1.12h);
                 snowAlbedo *= lerp(1, snowValue, .42h);
             }
@@ -358,7 +379,7 @@ Shader "Little Castle/Terrain/LC Terrain"
                     lerp(1,meadowValue,_GrassDetail);
                 dirt=_DirtColor.rgb*lerp(half3(1,1,1),clamp(dirtSample/half3(.53,.37,.22),.55,1.5),_DirtDetail);
                 half soilWeight=smoothstep(.24,.8,i.vertexColor.b)*.65h;
-                half soilValue=clamp(dot(SAMPLE_TEXTURE2D(_SoilTex, sampler_SoilTex, worldUv).rgb,half3(.2126,.7152,.0722))/.38h,.7h,1.3h);
+                half soilValue=clamp(dot(SAMPLE_TEXTURE2D(_SoilTex, sampler_GrassTex, worldUv).rgb,half3(.2126,.7152,.0722))/.38h,.7h,1.3h);
                 grass=lerp(grass,_SoilColor.rgb*soilValue,soilWeight);
             }
 
@@ -370,6 +391,31 @@ Shader "Little Castle/Terrain/LC Terrain"
                         0.001h,
                         _RockSlopeEnd),
                     slope);
+
+            // Opt-in alpine presentation uses the same terrain palette, shadows,
+            // biome tint and accumulated snow as the ordinary authored meadow.
+            // Existing materials have AlpineEnabled=0 and retain their behavior.
+            [branch] if(_AlpineEnabled>.5h)
+            {
+                float altitude=i.worldPosition.y-_AlpineBaseHeight;
+                half bare=smoothstep(_AlpineBareHeight-14,_AlpineBareHeight+10,altitude);
+                rockWeight=max(rockWeight,bare);
+                // Large formations keep the existing stone source, with calmer
+                // contrast so its painted blocks do not become repeated masonry.
+                rock=lerp(_RockColor.rgb*half3(.46,.42,.34),rock,.42h);
+                rock*=.96h+.08h*LCGroundNoise(float2(i.worldPosition.x*.035+i.worldPosition.z*.02,altitude*.12));
+                half value=dot(rock,half3(.2126,.7152,.0722));
+                rock=lerp(rock,value*_AlpineRockColor.rgb,smoothstep(28,75,altitude));
+                float2 snowDomain=i.worldPosition.xz*.075+altitude*float2(.017,.031);
+                half snowNoise=(LCGroundNoise(snowDomain)-.5h)*1.4h+
+                    (LCGroundNoise(snowDomain*2.31+7.3)-.5h)*.6h;
+                float snowHeight=altitude+snowNoise*_AlpineSnowBreakup;
+                float transition=max(1,_AlpineSnowBlend);
+                half permanent=smoothstep(_AlpineSnowLine-transition*.5,_AlpineSnowLine+transition*.5,snowHeight)*
+                    smoothstep(.24h,.74h,normal.y);
+                snowWeight=max(snowWeight,permanent);
+                surfaceDetail=_SurfaceDetailStrength*(1-_LC_LowTerrainDetail)*nearDetail*(1-snowWeight*_SnowSurfaceFlattening);
+            }
 
             half lowland =
                 1.0h -
@@ -384,6 +430,8 @@ Shader "Little Castle/Terrain/LC Terrain"
             lowland *=
                 _HeightBlendStrength;
 
+            half3 pathNormal;half pathAO,pathHeight,pathMaterialAmount,pathSnowRetention;
+            LCPathMaterials(i.worldPosition,dirt,pathNormal,pathAO,pathHeight,pathMaterialAmount,pathSnowRetention);
             half pathMask =
                 lerp(
                     0.0h,
@@ -397,10 +445,12 @@ Shader "Little Castle/Terrain/LC Terrain"
             if(all(paintUV>=0)&&all(paintUV<=1))pathMask=LCSurfaceRoad(i.worldPosition,_SurfacePaintBounds);
 #endif
             pathMask = lerp(pathMask, smoothstep(.18h,.82h,pathMask), _PathEdgeSharpness);
+            // Texture-scale stones/soil break up a feathered edge without a hard decal border.
+            pathMask=saturate(pathMask+(pathHeight-.5h)*pathMaterialAmount*pathMask*(1-pathMask)*1.8h);
             [branch] if(_GroundPalette>.001h) {
                 half edgeDetail=LCGroundNoise(i.worldPosition.xz*4.7)-.5h;
                 [branch] if(surfaceDetail>.001h)
-                    edgeDetail+=(SAMPLE_TEXTURE2D(_GrassHeight, sampler_GrassHeight, worldUv).r-.5h)*surfaceDetail;
+                    edgeDetail+=(SAMPLE_TEXTURE2D(_GrassHeight, sampler_GrassTex, worldUv).r-.5h)*surfaceDetail;
                 pathMask=saturate(pathMask+edgeDetail*pathMask*(1-pathMask)*1.15h);
             }
 
@@ -412,6 +462,15 @@ Shader "Little Castle/Terrain/LC Terrain"
                         _WetnessStrength),
                     _UseVertexMasks);
             wetness=max(wetness,saturate(i.riverSurface.y)*.35h);
+            [branch] if(_AlpineEnabled>.5h&&_AlpineWaterLip.w>.01)
+            {
+                float3 segment=_AlpineWaterLanding.xyz-_AlpineWaterLip.xyz;
+                float along=saturate(dot(i.worldPosition-_AlpineWaterLip.xyz,segment)/max(.001,dot(segment,segment)));
+                float radius=lerp(_AlpineWaterLip.w,_AlpineWaterLanding.w,along);
+                float wetDistance=distance(i.worldPosition,_AlpineWaterLip.xyz+segment*along);
+                half localWet=1-smoothstep(radius*.35,max(.01,radius),wetDistance);
+                wetness=max(wetness,localWet*_AlpineWetStrength*rockWeight);
+            }
 
             half dirtWeight =
                 saturate(
@@ -445,27 +504,30 @@ Shader "Little Castle/Terrain/LC Terrain"
 
             // Resolve visible snow coverage before blending its normals and AO.
             // No vertex-mask channel is repurposed for snow.
-            snowWeight *= 1 - pathMask * _SnowPathClearance;
+            snowWeight *= 1 - pathMask * _SnowPathClearance * (1-pathSnowRetention);
             snowWeight *= 1 - wetness * .65h;
             half microAO=1;
-            [branch] if(surfaceDetail>.001h) {
-                half3 grassN=UnpackNormal(SAMPLE_TEXTURE2D(_GrassNormal, sampler_GrassNormal, worldUv));
-                half3 dirtN=UnpackNormal(SAMPLE_TEXTURE2D(_DirtNormal, sampler_DirtNormal, worldUv));
+            [branch] if(max(surfaceDetail,pathMaterialAmount*nearDetail)>.001h) {
+                half3 grassN=UnpackNormal(SAMPLE_TEXTURE2D(_GrassNormal, sampler_GrassTex, worldUv));
+                half3 dirtN=UnpackNormal(SAMPLE_TEXTURE2D(_DirtNormal, sampler_GrassTex, worldUv));
+                dirtN=normalize(lerp(dirtN,pathNormal,pathMaterialAmount));
                 half3 detailN=normalize(lerp(grassN,dirtN,dirtWeight));
-                half ao=lerp(SAMPLE_TEXTURE2D(_GrassAO, sampler_GrassAO, worldUv).r,SAMPLE_TEXTURE2D(_DirtAO, sampler_DirtAO, worldUv).r,dirtWeight);
+                half dirtAO=lerp(SAMPLE_TEXTURE2D(_DirtAO, sampler_GrassTex, worldUv).r,pathAO,pathMaterialAmount);
+                half ao=lerp(SAMPLE_TEXTURE2D(_GrassAO, sampler_GrassTex, worldUv).r,dirtAO,dirtWeight);
                 [branch] if(_SnowDetailStrength>.001h && snowWeight>.001h) {
-                    half3 snowN=UnpackNormal(SAMPLE_TEXTURE2D(_SnowNormal, sampler_SnowNormal, i.worldPosition.xz*_SnowTiling));
+                    half3 snowN=UnpackNormal(SAMPLE_TEXTURE2D(_SnowNormal, sampler_GrassTex, i.worldPosition.xz*_SnowTiling));
                     detailN=normalize(lerp(detailN,snowN,snowWeight*_SnowDetailStrength));
-                    ao=lerp(ao,SAMPLE_TEXTURE2D(_SnowAO,sampler_SnowAO,i.worldPosition.xz*_SnowTiling).r,snowWeight*_SnowDetailStrength);
+                    ao=lerp(ao,SAMPLE_TEXTURE2D(_SnowAO,sampler_GrassTex,i.worldPosition.xz*_SnowTiling).r,snowWeight*_SnowDetailStrength);
                 }
-                detailN.xy*=surfaceDetail*lerp(_GrassNormalScale,1,max(dirtWeight,snowWeight*_SnowDetailStrength));
+                half normalDetail=max(surfaceDetail,pathMaterialAmount*nearDetail*(1-snowWeight*_SnowSurfaceFlattening));
+                detailN.xy*=normalDetail*lerp(_GrassNormalScale,1,max(dirtWeight,snowWeight*_SnowDetailStrength));
                 detailN.z=sqrt(saturate(1-dot(detailN.xy,detailN.xy)));
                 // Project world X onto the surface; use Z on near vertical X faces.
                 half3 tangentAxis = abs(normal.x) > .99h ? half3(0,0,1) : half3(1,0,0);
                 half3 tangent=normalize(tangentAxis-normal*dot(tangentAxis,normal));
                 half3 bitangent=cross(tangent,normal);
                 normal=normalize(tangent*detailN.x+bitangent*detailN.y+normal*detailN.z);
-                microAO=lerp(1,ao,surfaceDetail*_SurfaceAOStrength);
+                microAO=lerp(1,ao,max(surfaceDetail*_SurfaceAOStrength,pathMaterialAmount*nearDetail*dirtWeight));
             }
 
             half3 albedo =
@@ -564,6 +626,12 @@ Shader "Little Castle/Terrain/LC Terrain"
             half3 finalColor =
                 albedo *
                 (ambient + direct);
+            [branch] if(_AlpineEnabled>.5h)
+            {
+                half3 viewDirection=GetWorldSpaceNormalizeViewDir(i.worldPosition);
+                half sunGlint=pow(saturate(dot(normal,normalize(sunDirection+viewDirection))),40)*sunDiffuse;
+                finalColor+=_LC_SunColor.rgb*sunGlint*wetness*.12h;
+            }
 
             half4 result =
                 half4(
@@ -631,7 +699,7 @@ Shader "Little Castle/Terrain/LC Terrain"
             ZTest LEqual
 
             HLSLPROGRAM
-            #pragma target 3.0
+            #pragma target 3.5
             #pragma vertex vert
             #pragma fragment frag
             #pragma shader_feature_local _ _LC_SURFACE_PAINT
