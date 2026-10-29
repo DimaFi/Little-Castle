@@ -14,6 +14,10 @@ namespace LittleCastle.Rendering
         readonly MapRockCatalog catalog;
         readonly MapRockCatalog rockCatalog;
         readonly bool waterOnly;
+        readonly RiverVisualQualityProfile effectsProfile;
+        readonly bool ownsEffectsProfile;
+        readonly RiverSurfaceEffects effects;
+        int effectsRevision;
         readonly Dictionary<string,Tile> tiles=new Dictionary<string,Tile>();
         readonly Dictionary<long,GameObject> rocks=new Dictionary<long,GameObject>();
         readonly List<string> removeTiles=new List<string>();
@@ -26,6 +30,7 @@ namespace LittleCastle.Rendering
         public int maximumTiles=48,maximumRocks=192,creationBudget=8;
         public Material WaterMaterial=>catalog.waterMaterial;
         public bool WaterOnly=>waterOnly;
+        public RiverVisualQualityProfile EffectsProfile=>effectsProfile;
         public int ResidentTiles=>tiles.Count;
         public int ResidentRocks=>rocks.Count;
         public IEnumerable<MeshRenderer> WaterRenderers {get{foreach(var tile in tiles.Values)if(tile.root){var child=tile.root.transform.Find("Water");if(child)yield return child.GetComponent<MeshRenderer>();}}}
@@ -37,6 +42,9 @@ namespace LittleCastle.Rendering
             // A water material override must not remove the existing rigid-module authoring catalog.
             rockCatalog=legacyRockCatalog?legacyRockCatalog:waterOnly?MapRockCatalog.Default:catalog;
             if(rockCatalog)session.RegisterRockCatalog(rockCatalog.Definitions);
+            effectsProfile=catalog.riverVisualQuality?catalog.riverVisualQuality:Resources.Load<RiverVisualQualityProfile>("MapAuthoring/RiverVisualQuality");ownsEffectsProfile=!effectsProfile;
+            if(ownsEffectsProfile){effectsProfile=ScriptableObject.CreateInstance<RiverVisualQualityProfile>();effectsProfile.hideFlags=HideFlags.HideAndDontSave;}
+            effects=new RiverSurfaceEffects(session,rockCatalog,effectsProfile);effectsRevision=effectsProfile.RevisionHash();
             session.Changed+=Changed;
         }
         void Changed(MapRegionChange c)
@@ -49,17 +57,23 @@ namespace LittleCastle.Rendering
         }
         public void Tick(Vector3 eye,bool force=false)
         {
+            int revision=effectsProfile.RevisionHash();if(revision!=effectsRevision){effectsRevision=revision;foreach(var tile in tiles.Values)DestroyTile(tile);tiles.Clear();foreach(var rock in rocks.Values)Destroy(rock);rocks.Clear();dirty=true;}
             if(!dirty&&!force&&(eye-lastEye).sqrMagnitude<4)return;lastEye=eye;dirty=false;wantedTiles.Clear();wantedRocks.Clear();LastRebuiltTiles=0;
             var watch=System.Diagnostics.Stopwatch.StartNew();int created=0;
             var area=new Rect(eye.x-maximumDistance,eye.z-maximumDistance,maximumDistance*2,maximumDistance*2);
+            var sections=session.ExportRockSections();
+            var sectionIndex=new RiverSurfaceEffects.RockIndex();
+            if(effectsProfile.ObstacleLimit>0)foreach(var section in sections)foreach(var rock in section.rocks)if(area.Contains(rock.position))sectionIndex.Add(rock);
             foreach(var path in session.QueryRiverPaths(area))
             {
+                var riverIndex=new RiverSurfaceEffects.RockIndex();
+                if(effectsProfile.ObstacleLimit>0)foreach(var rock in path.record.rocks)if(area.Contains(rock.position))riverIndex.Add(rock);
                 for(int start=0,tileIndex=0;start<path.frames.Count-1;start+=20,tileIndex++)
                 {
                     int end=Mathf.Min(start+20,path.frames.Count-1);Rect bounds=FrameBounds(path,start,end);
                     if(!area.Overlaps(bounds))continue;string key=path.record.id+"/"+tileIndex;
                     if(wantedTiles.Count>=maximumTiles)break;wantedTiles.Add(key);
-                    if(!tiles.ContainsKey(key)){if(created>=creationBudget){dirty=true;continue;}tiles.Add(key,BuildTile(path,start,end,tileIndex,bounds));created++;LastRebuiltTiles++;}
+                    if(!tiles.ContainsKey(key)){if(created>=creationBudget){dirty=true;continue;}tiles.Add(key,BuildTile(path,start,end,tileIndex,bounds,riverIndex,sectionIndex));created++;LastRebuiltTiles++;}
                 }
                 foreach(var record in path.record.rocks)
                 {
@@ -69,7 +83,7 @@ namespace LittleCastle.Rendering
                     AddRock(record,eye,ref created);
                 }
             }
-            foreach(var section in session.ExportRockSections())foreach(var record in section.rocks)if(area.Contains(record.position)&&!record.removed&&wantedRocks.Count<maximumRocks)AddRock(record,eye,ref created);
+            foreach(var section in sections)foreach(var record in section.rocks)if(area.Contains(record.position)&&!record.removed&&wantedRocks.Count<maximumRocks)AddRock(record,eye,ref created);
             removeTiles.Clear();foreach(var key in tiles.Keys)if(!wantedTiles.Contains(key))removeTiles.Add(key);
             foreach(var key in removeTiles){DestroyTile(tiles[key]);tiles.Remove(key);}
             removeRocks.Clear();foreach(long id in rocks.Keys)if(!wantedRocks.Contains(id))removeRocks.Add(id);
@@ -84,7 +98,7 @@ namespace LittleCastle.Rendering
             float top=session.SampleBaseHeight(r.position.x,r.position.y)+r.topOffset-entry.definition.embed;
             root.transform.SetPositionAndRotation(new Vector3(r.position.x,top-entry.definition.height*r.scale,r.position.y),Quaternion.Euler(0,r.yaw,0));root.transform.localScale=Vector3.one*r.scale;
             var collider=root.AddComponent<BoxCollider>();collider.center=entry.bounds.center;collider.size=entry.bounds.size*.88f;EnableCollider(root,eye);
-            rocks.Add(r.id,root);created++;
+            effects.ApplyWetRock(root,r,entry);rocks.Add(r.id,root);created++;
         }
         static void EnableCollider(GameObject root,Vector3 eye){var c=root.GetComponent<Collider>();if(c)c.enabled=(root.transform.position-eye).sqrMagnitude<40*40;}
         static Rect FrameBounds(MapRiverPath p,int start,int end)
@@ -92,7 +106,7 @@ namespace LittleCastle.Rendering
             Vector2 lo=p.frames[start].center,hi=lo;
             for(int i=start;i<=end;i++){var f=p.frames[i];float extent=f.width*.5f+Mathf.Max(f.leftTransition,f.rightTransition)+1;lo=Vector2.Min(lo,f.center-Vector2.one*extent);hi=Vector2.Max(hi,f.center+Vector2.one*extent);}return Rect.MinMaxRect(lo.x,lo.y,hi.x,hi.y);
         }
-        Tile BuildTile(MapRiverPath path,int start,int end,int tileIndex,Rect bounds)
+        Tile BuildTile(MapRiverPath path,int start,int end,int tileIndex,Rect bounds,RiverSurfaceEffects.RockIndex riverIndex,RiverSurfaceEffects.RockIndex sectionIndex)
         {
             var root=new GameObject("River ribbon "+path.record.id+"/"+tileIndex){hideFlags=HideFlags.HideAndDontSave};
             var tile=new Tile{owner=path.record.id,index=tileIndex,area=bounds,root=root};
@@ -107,6 +121,7 @@ namespace LittleCastle.Rendering
             {
                 tile.flow=RiverBankMeshBuilder.FlowMap(path,bounds,out var flowBounds);var block=new MaterialPropertyBlock();block.SetTexture("_LC_RiverFlowMap",tile.flow);block.SetVector("_LC_FlowBounds",flowBounds);block.SetFloat("_LC_UseFlowMap",1);root.transform.Find("Water").GetComponent<MeshRenderer>().SetPropertyBlock(block);
             }
+            effects.Attach(root,tile.water,path,bounds,riverIndex.Query(bounds),sectionIndex.Query(bounds),catalog.waterMaterial,waterOnly);
             return tile;
         }
         static void AddMesh(GameObject root,string name,Mesh mesh,Material material,bool opaque)
@@ -179,7 +194,7 @@ namespace LittleCastle.Rendering
             int tip=vertices.Count;Vertex(0,radius);for(int col=0;col<across;col++)Triangle(previousRow+col,previousRow+col+1,tip);
             mesh.SetVertices(vertices);mesh.SetNormals(normals);mesh.SetUVs(0,uv);mesh.SetUVs(1,data);mesh.SetColors(colors);mesh.SetTriangles(indices,0);
         }
-        public void Dispose(){session.Changed-=Changed;foreach(var tile in tiles.Values)DestroyTile(tile);tiles.Clear();foreach(var root in rocks.Values)Destroy(root);rocks.Clear();}
+        public void Dispose(){session.Changed-=Changed;foreach(var tile in tiles.Values)DestroyTile(tile);tiles.Clear();foreach(var root in rocks.Values)Destroy(root);rocks.Clear();effects.Dispose();if(ownsEffectsProfile)Destroy(effectsProfile);}
         static void DestroyTile(Tile tile){Destroy(tile.root);Destroy(tile.water);Destroy(tile.bank);if(tile.flow)Destroy(tile.flow);}
         static void Destroy(UnityEngine.Object obj){if(Application.isPlaying)UnityEngine.Object.Destroy(obj);else UnityEngine.Object.DestroyImmediate(obj);}
     }
