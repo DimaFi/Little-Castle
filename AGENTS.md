@@ -2,6 +2,18 @@
 
 This file defines rules for AI coding agents working in this repository.
 
+## Oak snow correction — 2026-10-29
+
+The user explicitly resumed the missing-snow fix for Oak A/B/C/D in the single
+canonical project E:/Games_Develop/Little-Castle. LC_FoliageURP.hlsl now applies
+faceSign to the geometric normal used by snow, matching two-sided lighting.
+Do not revert this to the un-faced normal when working on Oak models/materials.
+All four prefabs and all three LODs keep their existing models, wind and GUIDs.
+See docs/reports/oak-snow-fix-20261029-ru.md and the 13 focused GPU regressions
+LittleCastle.Tests.FoliageSnowCoverageTests. Static C# compilation passed.
+Unity/GPU execution: NOT RUN; the user chose to test in Unity themselves.
+Snowfall remains a separate deferred issue.
+
 ## Copy audit and deferred user bugs — 2026-10-28
 
 Read `docs/reports/project-copy-audit-20261028-ru.md` before claiming every

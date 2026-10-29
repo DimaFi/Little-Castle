@@ -312,11 +312,14 @@ half4 frag(
         _Color.rgb *
         variation;
 
-    albedo = LCEnvironmentAlbedo(albedo, i.worldPosition,
-        normalize(i.geometricNormalWS), _SnowAcceptance);
-
     half faceSign =
         IS_FRONT_VFACE(facing, 1.0h, -1.0h);
+
+    // Cutout leaves are two-sided: the upper side can be a back face (Oak A-D).
+    // Use the visible side's geometric normal, as lighting already does, so
+    // snow settles on top without whitening vertical cards or their undersides.
+    albedo = LCEnvironmentAlbedo(albedo, i.worldPosition,
+        normalize(i.geometricNormalWS) * faceSign, _SnowAcceptance);
 
     half3 normal =
         EvaluateNormal(
