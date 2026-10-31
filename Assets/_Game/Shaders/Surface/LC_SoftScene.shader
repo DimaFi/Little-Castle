@@ -1,6 +1,15 @@
 Shader "Little Castle/Presentation/Soft Scene"
 {
-    Properties { _MainTex ("Source", 2D) = "white" {} }
+    Properties
+    {
+        _MainTex ("Source", 2D) = "white" {}
+        _HazeDensity ("Low Haze Density (zero disables)", Range(0,.05)) = 0
+        _HazeStart ("Low Haze Start", Float) = 25
+        _HazeBaseHeight ("Low Haze World Height", Float) = 0
+        _HazeHeightFalloff ("Low Haze Height Falloff", Float) = .14
+        _HazeMaxOpacity ("Low Haze Maximum", Range(0,.5)) = .22
+        _WarmGlow ("Warm Highlight Glow (zero disables)", Range(0,.3)) = 0
+    }
     SubShader
     {
         Tags { "RenderPipeline" = "UniversalPipeline" }
@@ -17,6 +26,34 @@ Shader "Little Castle/Presentation/Soft Scene"
         float4 _LCSoftSceneDepthScaleBias;
         float2 _BlurAxis;
         float _FocusDistance, _FocusBand, _BlurStrength, _ContactOcclusion;
+        float4 _LC_AtmosphereGrade;
+        float _HazeDensity, _HazeStart, _HazeBaseHeight, _HazeHeightFalloff, _HazeMaxOpacity, _WarmGlow;
+
+        half3 LowHaze(half3 color, float2 screenUV, float depth)
+        {
+            [branch] if (_HazeDensity > 0 && depth < _ProjectionParams.z * .995)
+            {
+                float2 uv = screenUV * _LCSoftSceneDepthScaleBias.xy + _LCSoftSceneDepthScaleBias.zw;
+                float raw = SAMPLE_TEXTURE2D_X(_LCSoftSceneDepthTexture, sampler_PointClamp, uv).r;
+                #if !defined(UNITY_REVERSED_Z)
+                    raw = lerp(UNITY_NEAR_CLIP_VALUE, 1, raw);
+                #endif
+                float3 positionWS = ComputeWorldSpacePosition(screenUV, raw, UNITY_MATRIX_I_VP);
+                float low = exp2(-max(0, positionWS.y - _HazeBaseHeight) * max(0, _HazeHeightFalloff));
+                float opacity = (1 - exp2(-max(0, depth - _HazeStart) * _HazeDensity)) * low;
+                color = lerp(color, unity_FogColor.rgb, min(opacity, _HazeMaxOpacity));
+            }
+            return color;
+        }
+
+        half3 AtmosphereGrade(half3 color)
+        {
+            half3 exposed = max(color, 0) * exp2(_LC_AtmosphereGrade.y);
+            // Optional filmic shoulder inside the existing composite; zero preserves the old look.
+            half3 filmic = saturate((exposed * (2.51h * exposed + .03h)) /
+                (exposed * (2.43h * exposed + .59h) + .14h));
+            return lerp(color, filmic, saturate(_LC_AtmosphereGrade.x));
+        }
 
         half4 BlurURP(Varyings i) : SV_Target
         {
@@ -53,8 +90,14 @@ Shader "Little Castle/Presentation/Soft Scene"
             // Keep it in focus; fade it out before blurred color becomes the majority.
             float contactVisibility = 1 - smoothstep(0, .5, amount);
             float2 blurUV = screenUV * _LCSoftSceneBlurScaleBias.xy + _LCSoftSceneBlurScaleBias.zw;
-            half3 color = lerp(SAMPLE_TEXTURE2D_X(_BlitTexture, sampler_LinearClamp, i.texcoord).rgb,
-                SAMPLE_TEXTURE2D_X(_BlurTex, sampler_LinearClamp, blurUV).rgb, amount);
+            half3 blurred = SAMPLE_TEXTURE2D_X(_BlurTex, sampler_LinearClamp, blurUV).rgb;
+            half3 color = lerp(SAMPLE_TEXTURE2D_X(_BlitTexture, sampler_LinearClamp, i.texcoord).rgb, blurred, amount);
+            // Reuse the existing half-resolution blur. A warm-only threshold
+            // avoids making blue snow/sky glow; no new render target or pass.
+            half glow = smoothstep(.52h, 1.05h, min(blurred.r, blurred.g * 1.6h))
+                * smoothstep(.08h, .32h, blurred.r - blurred.b);
+            color += blurred * glow * _WarmGlow;
+            color = LowHaze(color, screenUV, depth);
             // Keep the original plane-gradient rejection in destination screen UVs.
             float2 gradient = float2(ddx(depth) / ddx(screenUV.x), ddy(depth) / ddy(screenUV.y));
             float ao = 0;
@@ -74,6 +117,7 @@ Shader "Little Castle/Presentation/Soft Scene"
             half luminance = dot(color, half3(.2126, .7152, .0722));
             color = lerp(luminance.xxx, color, .96);
             color /= 1 + max(color - .8, 0) * .12;
+            color = AtmosphereGrade(color);
             float2 p = (screenUV - .5) * 2;
             color *= 1 - .045 * saturate(dot(p,p) * .5);
             return half4(color, 1);

@@ -24,6 +24,7 @@ namespace LittleCastle.Editor
         [MenuItem("Little Castle/Map/Nature/Integrate Quaternius Meadow")]
         public static void Integrate()
         {
+            RequireCompleteInputs();
             Directory.CreateDirectory(Root+"/Meshes");Directory.CreateDirectory(Root+"/Materials");
             Directory.CreateDirectory(Root+"/Prefabs");Directory.CreateDirectory(Output);AssetDatabase.Refresh();
             materials.Clear();
@@ -135,6 +136,34 @@ namespace LittleCastle.Editor
             ConfigureWorld(brush);
             RefreshBrushGroups();
             AssetDatabase.SaveAssets();Debug.Log("[Quaternius] Integrated "+prototypes.Count+" scatter types; "+trees.Count+" total tree choices. "+Output);
+        }
+        [Serializable]
+        sealed class InputManifest { public string[] modelFiles; }
+        static void RequireCompleteInputs()
+        {
+            string manifestPath=Source+"/rebuild-inputs.json";
+            if(!File.Exists(manifestPath)||!File.Exists(Source+"/License_Standard.txt"))
+                throw new FileNotFoundException("Complete Quaternius inputs and license are required before rebuilding catalogs.");
+            var manifest=JsonUtility.FromJson<InputManifest>(File.ReadAllText(manifestPath));
+            if(manifest?.modelFiles==null||manifest.modelFiles.Length!=68||!Directory.Exists(Source+"/Models"))
+                throw new InvalidDataException("Expected the reviewed 68-model Quaternius input manifest.");
+            var actual=Directory.GetFiles(Source+"/Models","*.fbx").Select(Path.GetFileName).OrderBy(p=>p,StringComparer.Ordinal);
+            if(!actual.SequenceEqual(manifest.modelFiles.OrderBy(p=>p,StringComparer.Ordinal)))
+                throw new InvalidDataException("Quaternius input set changed; catalogs were not modified. Review the new set first.");
+            var library=AssetDatabase.LoadAssetAtPath<MeadowScatterLibrary>(LibraryPath);
+            if(library?.prototypes!=null)foreach(var p in library.prototypes)
+                if(p.stableId.StartsWith("quaternius.",StringComparison.Ordinal)&&!File.Exists(p.sourceAssetPath))
+                    throw new FileNotFoundException("Existing scatter ID has no regeneration input: "+p.stableId,p.sourceAssetPath);
+            var trees=AssetDatabase.LoadAssetAtPath<MapTreeCatalog>(MapTreeCatalogBuilder.CatalogPath);
+            if(trees?.entries!=null)foreach(var entry in trees.entries)
+            {
+                string id=entry.definition.archetypeId;
+                if(!id.StartsWith("quaternius.",StringComparison.Ordinal))continue;
+                string name=id.Substring("quaternius.".Length);
+                if(name.EndsWith(".autumn",StringComparison.Ordinal))name=name.Substring(0,name.Length-".autumn".Length);
+                if(!File.Exists(Source+"/Models/"+name+".fbx"))
+                    throw new FileNotFoundException("Existing tree ID has no regeneration input: "+id);
+            }
         }
         static void ConfigureWorld(MeadowScatterLibrary library)
         {

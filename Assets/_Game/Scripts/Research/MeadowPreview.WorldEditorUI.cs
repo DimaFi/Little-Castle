@@ -66,6 +66,7 @@ namespace LittleCastle.Research
                 else if(authoringSection==1)
                 {
                     if(GUILayout.Button("Дорожка"))ArmAuthoringBrush("surface.road");
+                    if(painter.road)DrawAuthoringPaths();
                     using(new GUILayout.HorizontalScope())
                     {if(GUILayout.Button("Луг"))ArmAuthoringBrush("surface.meadow");if(GUILayout.Button("Убрать траву"))ArmAuthoringBrush("surface.erase");}
                 }
@@ -126,6 +127,22 @@ namespace LittleCastle.Research
             if(authoringRivers){if(section==3)authoringRivers.OpenTools();else authoringRivers.CloseTools();}
             if(section==1){painter.road=true;painter.erase=false;}
             if(section==2){painter.road=false;painter.erase=false;painter.populatePlants=true;}
+        }
+        void DrawAuthoringPaths()
+        {
+            var catalog=MapPathCatalog.Default;if(!catalog)return;
+            for(int row=0;row<(catalog.Count+1)/2;row++)
+            {
+                using(new GUILayout.HorizontalScope())for(int col=0;col<2;col++)
+                {
+                    int i=row*2+col;if(i>=catalog.Count)break;var entry=catalog.entries[i];
+                    var old=GUI.backgroundColor;if(catalog.IndexOf(painter.pathMaterialId)==i)GUI.backgroundColor=new Color(.55f,.85f,.6f);
+                    if(GUILayout.Button(new GUIContent(entry.title,entry.thumbnail),new GUIStyle(GUI.skin.button){imagePosition=ImagePosition.ImageAbove,wordWrap=true},GUILayout.Width(128),GUILayout.Height(96)))
+                    {painter.EndStroke();painter.pathMaterialId=entry.id;ArmAuthoringBrush("surface.road");}
+                    GUI.backgroundColor=old;
+                }
+            }
+            GUILayout.Label("Снег автоматически покрывает дорожку в зимнем биоме.",authoringWrap,GUILayout.Width(268));
         }
         bool AuthoringDocumentReady()
         {

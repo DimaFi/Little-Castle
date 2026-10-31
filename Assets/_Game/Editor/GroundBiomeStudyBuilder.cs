@@ -22,8 +22,7 @@ namespace LittleCastle.Editor
         [MenuItem("Little Castle/Research/Ground Biomes/Build Isolated Sample")]
         public static void Build()
         {
-            if (!Path.GetFileName(Path.GetDirectoryName(Application.dataPath)).StartsWith("Little-Castle_URP_"))
-                throw new InvalidOperationException("This study is restricted to the isolated URP project.");
+            OwnedStudyWorkflow.Require(Root, ScenePath);
             if (EditorApplication.isPlayingOrWillChangePlaymode) throw new InvalidOperationException("Exit Play Mode before rebuilding.");
             for (int i = 0; i < EditorSceneManager.sceneCount; i++)
                 if (EditorSceneManager.GetSceneAt(i).isDirty) throw new InvalidOperationException("Preserving an unsaved open scene. Save it before building this sample.");

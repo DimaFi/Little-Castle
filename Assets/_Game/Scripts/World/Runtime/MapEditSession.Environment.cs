@@ -209,11 +209,22 @@ namespace LittleCastle.World
         {
             public int version;public string mapId;public int revision,decorationRulesVersion;public Vector4 bounds;
             public Rendering.SurfacePaintDocument surface;public MapHeightFieldData heightField;public List<MapTreeInstance> trees;
-            public List<Rect> placementExclusions;public List<MapRiverRecord> rivers;public List<MapRockSection> rockSections;
+            public List<Rect> placementExclusions;public List<MapRiverLegacyV9> rivers;public List<MapRockSection> rockSections;
         }
         string LegacyFeatureFingerprint()=>Fingerprint(new LegacyFeatureBase{version=authored.version,mapId=MapId,revision=authored.revision,
             decorationRulesVersion=authored.decorationRulesVersion,bounds=Bounds,surface=authored.surface,heightField=authored.heightField,
-            trees=authored.trees,placementExclusions=authored.placementExclusions,rivers=authored.rivers,rockSections=authored.rockSections});
-        string EnvironmentBaseFingerprint()=>authored.environment==null?LegacyFeatureFingerprint():Fingerprint(authored);
+            trees=authored.trees,placementExclusions=authored.placementExclusions,rivers=MapRiverLegacyV9.Copy(authored.rivers),rockSections=authored.rockSections});
+        // Preserve the exact v6 field order; new authoring domains must not invalidate old saves.
+        [Serializable] sealed class LegacyEnvironmentBase
+        {
+            public int version;public string mapId;public int revision,decorationRulesVersion;public Vector4 bounds;
+            public Rendering.SurfacePaintDocument surface;public MapHeightFieldData heightField;public List<MapTreeInstance> trees;
+            public List<Rect> placementExclusions;public List<MapRiverLegacyV9> rivers;public List<MapRockSection> rockSections;
+            public MapEnvironmentData environment;
+        }
+        string EnvironmentBaseFingerprint()=>authored.environment==null?LegacyFeatureFingerprint():Fingerprint(new LegacyEnvironmentBase{
+            version=authored.version,mapId=MapId,revision=authored.revision,decorationRulesVersion=authored.decorationRulesVersion,
+            bounds=Bounds,surface=authored.surface,heightField=authored.heightField,trees=authored.trees,
+            placementExclusions=authored.placementExclusions,rivers=MapRiverLegacyV9.Copy(authored.rivers),rockSections=authored.rockSections,environment=authored.environment});
     }
 }

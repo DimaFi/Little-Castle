@@ -10,9 +10,12 @@ namespace LittleCastle.World
         [Range(0,1)] public float blurStrength=.85f;
         [Range(0,1)] public float contactOcclusion=.28f;
         [Min(1)] public float focusBand=4;
+        [Tooltip("Optional art-view focus in camera-space metres; zero keeps ground focus.")]
+        [Min(0)] public float focusDistanceOverride;
         [Range(0,4)] public float shadowFilterRadius=3;
         private DepthTextureMode previousDepthMode;
-        internal float FocusDistance => transform.position.y/Mathf.Max(.1f,-transform.forward.y)-3;
+        internal float FocusDistance => focusDistanceOverride > 0 ? focusDistanceOverride :
+            transform.position.y/Mathf.Max(.1f,-transform.forward.y)-3;
         private void OnEnable() { var camera=GetComponent<Camera>(); previousDepthMode=camera.depthTextureMode;
             camera.depthTextureMode |= DepthTextureMode.Depth;
             RenderPipelineManager.beginCameraRendering += OnBeginCameraRendering;

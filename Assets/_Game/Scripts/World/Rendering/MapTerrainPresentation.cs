@@ -39,7 +39,7 @@ namespace LittleCastle.Rendering
         sealed class Chunk
         {
             public GameObject root;public Mesh mesh,collisionMesh;public MeshCollider collider;
-            public Vector3[] vertices,normals;public Vector2[] riverSurface;public Rect bounds;public int x,z,width,depth;
+            public Vector3[] vertices,normals;public Vector2[] riverSurface;public Rect bounds;public int x,z,width,depth,factor=1;
         }
         struct Anchor {public Transform transform;public Vector3 original;public float offset;}
         readonly MapEditSession session;
@@ -129,6 +129,8 @@ namespace LittleCastle.Rendering
         }
         void UpdateChunk(Chunk chunk)
         {
+            int factor=session.FineRiverTerrainRequired(chunk.bounds)?Mathf.Max(1,Mathf.CeilToInt(session.HeightSpacing/MapRiverSection.TerrainStep)):1;
+            if(factor!=chunk.factor)Refine(chunk,factor);
             for(int i=0;i<chunk.vertices.Length;i++)
             {
                 var world=source.transform.TransformPoint(chunk.vertices[i]);world.y=session.SampleHeight(world.x,world.z);
@@ -138,6 +140,30 @@ namespace LittleCastle.Rendering
                 chunk.riverSurface[i]=new Vector2(sand,wet?sand:sand*.3f);
             }
             chunk.mesh.vertices=chunk.vertices;chunk.mesh.normals=chunk.normals;chunk.mesh.uv3=chunk.riverSurface;chunk.mesh.RecalculateBounds();
+        }
+        void Refine(Chunk chunk,int factor)
+        {
+            // Subdivide only resident tiles touched by the new corridor. All dry source data is interpolated.
+            chunk.factor=factor;int width=chunk.width*factor,depth=chunk.depth*factor,count=(width+1)*(depth+1);
+            chunk.vertices=new Vector3[count];chunk.normals=new Vector3[count];chunk.riverSurface=new Vector2[count];
+            var uv=new Vector2[count];var colors=new Color[count];var sourceUV=source.sharedMesh.uv;var sourceColors=source.sharedMesh.colors;
+            for(int z=0;z<=depth;z++)for(int x=0;x<=width;x++)
+            {
+                float gx=chunk.x+x/(float)factor,gz=chunk.z+z/(float)factor;
+                int ix=Mathf.Min(columns-2,Mathf.FloorToInt(gx)),iz=Mathf.Min(rows-2,Mathf.FloorToInt(gz));float u=gx-ix,v=gz-iz;
+                int a=iz*columns+ix,b=a+1,c=a+columns,d=c+1,index=z*(width+1)+x;
+                chunk.vertices[index]=u+v<=1?baseVertices[a]+(baseVertices[b]-baseVertices[a])*u+(baseVertices[c]-baseVertices[a])*v:
+                    baseVertices[d]+(baseVertices[c]-baseVertices[d])*(1-u)+(baseVertices[b]-baseVertices[d])*(1-v);
+                if(sourceUV.Length>0)uv[index]=u+v<=1?sourceUV[a]+(sourceUV[b]-sourceUV[a])*u+(sourceUV[c]-sourceUV[a])*v:
+                    sourceUV[d]+(sourceUV[c]-sourceUV[d])*(1-u)+(sourceUV[b]-sourceUV[d])*(1-v);
+                if(sourceColors.Length>0)colors[index]=u+v<=1?sourceColors[a]+(sourceColors[b]-sourceColors[a])*u+(sourceColors[c]-sourceColors[a])*v:
+                    sourceColors[d]+(sourceColors[c]-sourceColors[d])*(1-u)+(sourceColors[b]-sourceColors[d])*(1-v);
+            }
+            var triangles=new int[width*depth*6];int t=0;
+            for(int z=0;z<depth;z++)for(int x=0;x<width;x++)
+            {int i=z*(width+1)+x;triangles[t++]=i;triangles[t++]=i+width+1;triangles[t++]=i+1;triangles[t++]=i+1;triangles[t++]=i+width+1;triangles[t++]=i+width+2;}
+            chunk.mesh.Clear();chunk.mesh.indexFormat=count>65535?IndexFormat.UInt32:IndexFormat.UInt16;
+            chunk.mesh.vertices=chunk.vertices;chunk.mesh.uv=uv;if(sourceColors.Length>0)chunk.mesh.colors=colors;chunk.mesh.triangles=triangles;
         }
         void Changed(MapRegionChange change)
         {
@@ -189,7 +215,7 @@ namespace LittleCastle.Rendering
         public int FlushColliderBudget(int maximumChunks=2)
         {
             int updated=0;while(updated<maximumChunks&&collisionQueue.Count>0)
-            {var chunk=collisionQueue.Dequeue();queued.Remove(chunk);chunk.collisionMesh.vertices=chunk.vertices;chunk.collisionMesh.RecalculateBounds();chunk.collider.sharedMesh=null;chunk.collider.sharedMesh=chunk.collisionMesh;updated++;}return updated;
+            {var chunk=collisionQueue.Dequeue();queued.Remove(chunk);chunk.collisionMesh.Clear();chunk.collisionMesh.indexFormat=chunk.mesh.indexFormat;chunk.collisionMesh.vertices=chunk.vertices;chunk.collisionMesh.triangles=chunk.mesh.triangles;chunk.collisionMesh.RecalculateBounds();chunk.collider.sharedMesh=null;chunk.collider.sharedMesh=chunk.collisionMesh;updated++;}return updated;
         }
         public bool Raycast(Ray ray,out RaycastHit hit,float distance=10000)
         {

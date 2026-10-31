@@ -65,7 +65,7 @@ namespace LittleCastle.Tests
             {Assert.That(material.HasProperty(property),Is.True,property);Assert.That(material.GetTexture(property),Is.Not.Null,property);}
             foreach(var property in new[]{"_LC_RiverFlowMap","_LC_FlowBounds","_LC_UseFlowMap"})Assert.That(material.HasProperty(property),Is.True,property);
         }
-        [Test] public void RiverExclusion_PreservesAnyPaintedPathAcrossFordAndSuppressesBankVegetation()
+        [Test] public void RiverExclusion_PreservesPaintedPathAndAllowsDryBankVegetation()
         {
             var session=new MapEditSession(Map());session.UpsertRiver(River());
             var road=new SurfacePaintStroke{id="crossing",road=true,radius=3,strength=1,
@@ -75,7 +75,8 @@ namespace LittleCastle.Tests
             SurfacePaintRasterizer.Rebuild(pixels,bounds,width,height,new List<SurfacePaintStroke>{road},dirty);
             var before=(byte[])pixels.Clone();SurfacePaintRasterizer.ApplyRiverExclusions(pixels,bounds,width,height,session,dirty);
             for(int i=0;i<pixels.Length;i+=2)Assert.That(pixels[i],Is.EqualTo(before[i]),"All road coverage must survive vegetation masking.");
-            Assert.That(session.VegetationAllowed(-10,0),Is.False,"The entire sloping bank stays clear.");
+            Assert.That(session.VegetationAllowed(-10,0),Is.True,"Dry sloping banks remain editable and plantable.");
+            Assert.That(session.VegetationAllowed(-20,0),Is.False,"Actual water still excludes vegetation.");
             Assert.That(session.VegetationAllowed(10,0),Is.True);
         }
         [TestCase(0f)] [TestCase(.5f)] [TestCase(1f)]

@@ -59,7 +59,7 @@ namespace LittleCastle.Editor
         [MenuItem("Little Castle/Research/Valley/Build Valley Art Sample")]
         public static void Build()
         {
-            if(!Path.GetFileName(Path.GetDirectoryName(Application.dataPath)).StartsWith("Little-Castle_URP_"))throw new Exception("Restricted to the URP study copy.");
+            OwnedStudyWorkflow.Require(Root, ScenePath);
             for(int i=0;i<EditorSceneManager.sceneCount;i++)if(EditorSceneManager.GetSceneAt(i).isDirty)throw new Exception("Unsaved scene preserved.");
             Directory.CreateDirectory(Output);AssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport);
             foreach(var path in Directory.GetFiles(Root+"/Textures","*.png"))

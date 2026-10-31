@@ -14,6 +14,7 @@ namespace LittleCastle.Tests
         {
             var session=new MapEditSession(new MapAuthoringDocument{mapId="water-mesh-interop",bounds=new Vector4(-128,-128,256,256)});
             var catalog=ScriptableObject.CreateInstance<MapRockCatalog>();
+            catalog.riverVisualQuality=ScriptableObject.CreateInstance<RiverVisualQualityProfile>();
             var shader=Shader.Find("Little Castle/Rivers/Uber Water Adapted");Assert.That(shader,Is.Not.Null);
             catalog.waterMaterial=new Material(shader);catalog.waterMaterial.EnableKeyword("_ENABLEWAVE");
             catalog.waterMaterial.SetFloat("_1st_Wave_Height",.05f);catalog.waterMaterial.SetFloat("_2nd_Wave_Height",.025f);
@@ -28,7 +29,11 @@ namespace LittleCastle.Tests
                     var shared=new Dictionary<Vector2,float>();int seams=0;bool capped=false;
                     foreach(var renderer in view.WaterRenderers)
                     {
-                        Assert.That(renderer.gameObject.layer,Is.EqualTo(4));Assert.That(renderer.transform.parent.childCount,Is.EqualTo(1));
+                        Assert.That(renderer.gameObject.layer,Is.EqualTo(4));Assert.That(renderer.transform.parent.childCount,Is.EqualTo(2),"Water and one shared-mesh foam overlay; no opaque bank or cliff object.");
+                        var overlay=renderer.transform.parent.Find("Living river surface");Assert.That(overlay,Is.Not.Null);
+                        Assert.That(overlay.GetComponent<MeshFilter>().sharedMesh,Is.SameAs(renderer.GetComponent<MeshFilter>().sharedMesh));
+                        Assert.That(renderer.transform.parent.GetComponentsInChildren<Collider>(),Is.Empty);
+                        Assert.That(renderer.transform.parent.GetComponentsInChildren<Light>(),Is.Empty);
                         var block=new MaterialPropertyBlock();renderer.GetPropertyBlock(block);flow=block.GetTexture("_LC_RiverFlowMap");Assert.That(flow,Is.Not.Null);
                         var mesh=renderer.GetComponent<MeshFilter>().sharedMesh;var vertices=mesh.vertices;var tangents=mesh.tangents;var triangles=mesh.triangles;
                         Assert.That(tangents.Length,Is.EqualTo(vertices.Length));Assert.That(mesh.bounds.size.y,Is.GreaterThan(.14f));
@@ -45,7 +50,7 @@ namespace LittleCastle.Tests
                 }
                 yield return null;Assert.That(!flow,Is.True,"Evicted flow textures must be destroyed.");
             }
-            finally{Object.Destroy(catalog.waterMaterial);Object.Destroy(catalog);}
+            finally{Object.Destroy(catalog.riverVisualQuality);Object.Destroy(catalog.waterMaterial);Object.Destroy(catalog);}
         }
     }
 }

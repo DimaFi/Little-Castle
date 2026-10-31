@@ -62,6 +62,8 @@ namespace LittleCastle.World
             {
                 int level = Array.IndexOf(names, tier.ToString());
                 var template = level >= 0 ? QualitySettings.GetRenderPipelineAssetAt(level) : null;
+                // A null per-quality slot legitimately inherits the graphics default.
+                if (template == null) template = GraphicsSettings.defaultRenderPipeline;
                 if (!(template is UniversalRenderPipelineAsset))
                     throw new InvalidOperationException("Install URP quality profiles with UrpQualityProfileSetup.Run before using preview controls (missing " + tier + ").");
                 templates[(int)tier] = template;

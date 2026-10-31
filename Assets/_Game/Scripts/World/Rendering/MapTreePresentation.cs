@@ -64,7 +64,7 @@ namespace LittleCastle.Rendering
             bool height=(change.kind&MapChangeKind.Height)!=0;
             if(!objects&&!height&&(change.kind&MapChangeKind.Rivers)==0)return;
             if((change.kind&MapChangeKind.Rivers)!=0)dirty=true;
-            if(objects)dirty=true;
+            if(objects||height)dirty=true;
             removals.Clear();
             foreach(var pair in views)
             {

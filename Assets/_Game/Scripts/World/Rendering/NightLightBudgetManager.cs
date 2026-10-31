@@ -27,6 +27,9 @@ namespace LittleCastle.Rendering
         [SerializeField]
         private Camera targetCamera;
 
+        [Tooltip("Keep additive art-scene previews from selecting or fading another scene's lights.")]
+        [SerializeField] private bool restrictToOwnScene;
+
         [Header("Realtime light budget")]
         [SerializeField]
         [Min(0)]
@@ -114,7 +117,14 @@ namespace LittleCastle.Rendering
         }
 
         [ContextMenu("Evaluate Night Light Budget")]
-        public void EvaluateBudget()
+        public void EvaluateBudget() => EvaluateEmitters(NightLightEmitter.ActiveEmitters);
+
+        // Ordinary emitters deliberately have no ExecuteAlways lifecycle. An
+        // explicit art-scene preview supplies its local emitters without
+        // registering editor-only objects in the runtime static registry.
+        public void EvaluatePreviewBudget(NightLightEmitter[] sceneEmitters) => EvaluateEmitters(sceneEmitters);
+
+        private void EvaluateEmitters(IEnumerable<NightLightEmitter> emitters)
         {
             ResolveReferences();
 
@@ -145,9 +155,9 @@ namespace LittleCastle.Rendering
 
             foreach (
                 NightLightEmitter emitter
-                in NightLightEmitter.ActiveEmitters)
+                in emitters)
             {
-                if (emitter == null ||
+                if (emitter == null || (restrictToOwnScene && emitter.gameObject.scene != gameObject.scene) ||
                     !emitter.isActiveAndEnabled)
                 {
                     continue;
@@ -236,9 +246,9 @@ namespace LittleCastle.Rendering
 
             foreach (
                 NightLightEmitter emitter
-                in NightLightEmitter.ActiveEmitters)
+                in emitters)
             {
-                if (emitter == null)
+                if (emitter == null || (restrictToOwnScene && emitter.gameObject.scene != gameObject.scene))
                     continue;
 
                 emitter.SetBudgetActive(
@@ -260,7 +270,7 @@ namespace LittleCastle.Rendering
                 NightLightEmitter emitter
                 in NightLightEmitter.ActivePresentationEmitters)
             {
-                if (emitter != null)
+                if (emitter != null && (!restrictToOwnScene || emitter.gameObject.scene == gameObject.scene))
                 {
                     presentationScratch.Add(
                         emitter);
@@ -315,7 +325,7 @@ namespace LittleCastle.Rendering
                 NightLightEmitter emitter
                 in NightLightEmitter.ActiveEmitters)
             {
-                if (emitter == null)
+                if (emitter == null || (restrictToOwnScene && emitter.gameObject.scene != gameObject.scene))
                     continue;
 
                 emitter.ForceOffImmediate();

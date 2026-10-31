@@ -1,0 +1,8 @@
+{
+  "name": "LittleCastle.MountainBorder.Prototype.Tests",
+  "rootNamespace": "LittleCastle.Experimental.MountainBorder.Tests",
+  "references": ["LittleCastle.MountainBorder.Prototype", "LittleCastle.MountainBorder.Prototype.Editor", "LittleCastle.LandscapePresentation"],
+  "includePlatforms": ["Editor"],
+  "autoReferenced": false,
+  "optionalUnityReferences": ["TestAssemblies"]
+}

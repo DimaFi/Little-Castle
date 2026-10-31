@@ -8,6 +8,9 @@ namespace LittleCastle.Rendering
     /// <summary>One raster algorithm for authored previews, resident tiles and the legacy Meadow view.</summary>
     public static class SurfacePaintRasterizer
     {
+        public static bool RequiresMaskRebuild(MapRegionChange change,MapEditSession session)=>
+            (change.kind&MapChangeKind.Surface)!=0||
+            (session.RiverCount>0&&(change.kind&MapChangeKind.Height)!=0);
         public static void ApplyRiverExclusions(byte[] data,Vector4 bounds,int width,int height,MapEditSession session,RectInt dirty)
         {
             if(session.RiverCount==0&&session.ExportRockSections().Count==0)return;
@@ -17,8 +20,8 @@ namespace LittleCastle.Rendering
                 // Road coverage belongs to the surface operation, not vegetation exclusion.
                 // Keeping R lets every path continue into a ford and below shallow water.
                 int i=(y*width+x)*2;
-                float shore=session.SandCoverage(wx,wz);
-                data[i+1]=(byte)Mathf.RoundToInt(data[i+1]*(1-shore));
+                // Sand is a material layer, not a forbidden authoring domain.
+                // Dry-bank grass follows the painted mask; authors can erase it explicitly.
                 if(!session.VegetationAllowed(wx,wz))data[i+1]=0;
             }
         }
@@ -87,7 +90,7 @@ namespace LittleCastle.Rendering
         public void Release(ChunkCoordinate key)=>tiles.Remove(key);
         void Changed(MapRegionChange change)
         {
-            LastUpdatedTiles=0;if((change.kind&MapChangeKind.Surface)==0)return;
+            LastUpdatedTiles=0;if(!SurfacePaintRasterizer.RequiresMaskRebuild(change,session))return;
             foreach(var pair in tiles)
             {
                 var b=pair.Value.bounds;
@@ -113,15 +116,17 @@ namespace LittleCastle.Rendering
     {
         public sealed class Binding
         {
+            internal MapPathWeightTexture pathWeights;
             public Texture2D texture {get;internal set;}
             public MaterialPropertyBlock properties {get;internal set;}
             public int revision {get;internal set;}
         }
         readonly MapSurfaceTileCache cpu;
+        readonly MapEditSession session;
         readonly Dictionary<ChunkCoordinate,Binding> bindings=new Dictionary<ChunkCoordinate,Binding>();
         public int ResidentCount=>bindings.Count;
         public MapSurfaceGpuCache(MapEditSession session,int resolution=128)
-        {cpu=new MapSurfaceTileCache(session,resolution);cpu.TileUpdated+=UploadResident;}
+        {this.session=session;cpu=new MapSurfaceTileCache(session,resolution);cpu.TileUpdated+=UploadResident;}
         public Binding Get(ChunkCoordinate key)
         {
             if(bindings.TryGetValue(key,out var binding))return binding;
@@ -129,21 +134,26 @@ namespace LittleCastle.Rendering
             binding=new Binding{texture=new Texture2D(tile.size,tile.size,TextureFormat.RG16,false,true){
                 name="Map surface "+key,filterMode=FilterMode.Bilinear,wrapMode=TextureWrapMode.Clamp,hideFlags=HideFlags.HideAndDontSave},properties=new MaterialPropertyBlock()};
             var b=tile.bounds;binding.properties.SetTexture("_SurfacePaint",binding.texture);
+            binding.properties.SetFloat("_PathEdgeVariation",.65f);
             binding.properties.SetVector("_SurfacePaintBounds",new Vector4(b.x,b.y,1/b.z,1/b.w));binding.properties.SetFloat("_UseSurfacePaint",1);
+            var catalog=MapPathCatalog.Default;
+            if(catalog&&catalog.Count>1&&SystemInfo.supports2DArrayTextures)
+            {binding.pathWeights=new MapPathWeightTexture(catalog,b,tile.size,tile.size);binding.pathWeights.Bind(binding.properties);}
             bindings.Add(key,binding);UploadResident(key,tile);return binding;
         }
         void UploadResident(ChunkCoordinate key,MapSurfaceTileCache.Tile tile)
         {
             if(!bindings.TryGetValue(key,out var binding))return;
             binding.texture.SetPixelData(tile.pixels,0);binding.texture.Apply(false,false);binding.revision=tile.revision;
+            binding.pathWeights?.Rebuild(session,new RectInt(0,0,tile.size,tile.size));
         }
         public void Release(ChunkCoordinate key)
         {
-            if(bindings.TryGetValue(key,out var binding)){DestroyTexture(binding.texture);bindings.Remove(key);}cpu.Release(key);
+            if(bindings.TryGetValue(key,out var binding)){binding.pathWeights?.Dispose();DestroyTexture(binding.texture);bindings.Remove(key);}cpu.Release(key);
         }
         static void DestroyTexture(Texture2D texture)
         {if(Application.isPlaying)UnityEngine.Object.Destroy(texture);else UnityEngine.Object.DestroyImmediate(texture);}
         public void Dispose()
-        {cpu.TileUpdated-=UploadResident;cpu.Dispose();foreach(var binding in bindings.Values)DestroyTexture(binding.texture);bindings.Clear();}
+        {cpu.TileUpdated-=UploadResident;cpu.Dispose();foreach(var binding in bindings.Values){binding.pathWeights?.Dispose();DestroyTexture(binding.texture);}bindings.Clear();}
     }
 }
