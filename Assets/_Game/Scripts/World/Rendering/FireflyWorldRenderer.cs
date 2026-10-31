@@ -36,6 +36,10 @@ namespace LittleCastle.Rendering
         }
 
         [SerializeField] public FireflyRuntimeQuality quality = new FireflyRuntimeQuality();
+        [SerializeField] bool useMapDefaultPreset = true;
+        [SerializeField] bool autoAdjustToFrameTime;
+        [SerializeField, Range(30, 144)] int targetFramesPerSecond = 60;
+        [SerializeField, Range(.3f, 1f)] float minimumAdaptiveScale = .55f;
         [SerializeField] bool allowReflectionCameras;
         [SerializeField, Range(0, 32)] int reflectionCap;
         [SerializeField] bool softDepthFade = true;
@@ -56,6 +60,10 @@ namespace LittleCastle.Rendering
         long revision=-1;
         int seed,lastRefreshFrame=-1,desiredWorld,shownWorld,shownNear,missingCells;
         float lastRange;
+        float adaptiveScale=1f, smoothedFrameSeconds=1f/60f;
+        float nextAdaptiveSample;
+        int lastAdaptiveFrame=-1;
+        public float CurrentAdaptiveScale=>adaptiveScale;
         public int DesiredWorldCount=>desiredWorld;
         public int VisibleWorldCount=>shownWorld;
         public int VisibleNearCount=>shownNear;
@@ -68,6 +76,8 @@ namespace LittleCastle.Rendering
             if(session==map)return;
             if(session!=null)session.Changed-=MapChanged;
             session=map;
+            if(session!=null && useMapDefaultPreset && quality!=null)
+                quality.preset=session.FirefliesForRendering.defaultQuality;
             if(session!=null&&isActiveAndEnabled)session.Changed+=MapChanged;
             cells.Clear();
             revision=-1;
@@ -125,6 +135,24 @@ namespace LittleCastle.Rendering
             mesh.bounds=new Bounds(Vector3.zero,Vector3.one*10);
         }
 
+        void UpdateAutoQuality()
+        {
+            if(!autoAdjustToFrameTime || !Application.isPlaying)
+            {adaptiveScale=1f;return;}
+            if(lastAdaptiveFrame==Time.frameCount)return;
+            lastAdaptiveFrame=Time.frameCount;
+            float sample=Mathf.Clamp(Time.unscaledDeltaTime,.001f,.15f);
+            smoothedFrameSeconds=Mathf.Lerp(smoothedFrameSeconds,sample,.045f);
+            if(Time.unscaledTime<nextAdaptiveSample)return;
+            nextAdaptiveSample=Time.unscaledTime+1.25f;
+            float target=1f/Mathf.Max(30,targetFramesPerSecond);
+            // Hysteresis makes temporary hitches less visually distracting.
+            if(smoothedFrameSeconds>target*1.17f)
+                adaptiveScale=Mathf.Max(minimumAdaptiveScale,adaptiveScale-.075f);
+            else if(smoothedFrameSeconds<target*.88f)
+                adaptiveScale=Mathf.Min(1f,adaptiveScale+.025f);
+        }
+
         void Render(ScriptableRenderContext _, Camera cam)
         {
             if(!isActiveAndEnabled||session==null||cam==null||quality==null)return;
@@ -132,7 +160,11 @@ namespace LittleCastle.Rendering
                !(allowReflectionCameras&&cam.cameraType==CameraType.Reflection))return;
             if(cam.cameraType==CameraType.Reflection && reflectionCap<=0)return;
 
+            UpdateAutoQuality();
             quality.ResolveAdaptive(out int cap,out int nearCap,out float range);
+            cap=Mathf.RoundToInt(cap*adaptiveScale);
+            nearCap=Mathf.RoundToInt(nearCap*adaptiveScale);
+            range*=Mathf.Lerp(.75f,1f,adaptiveScale);
             if(cap==0 || range<=0){Cleanup();return;}
             FireflyMapData data=session.FirefliesForRendering;
             if(data==null||!data.enabled){Cleanup();return;}
