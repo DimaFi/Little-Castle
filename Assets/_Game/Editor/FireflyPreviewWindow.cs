@@ -19,6 +19,9 @@ namespace LittleCastle.Editor
         [SerializeField] FireflyPreviewQuality visualQuality=FireflyPreviewQuality.Medium;
         [SerializeField, Range(0f,1f)] float graphicsVsFps=.5f;
         [SerializeField] bool showFullProfile=true;
+        [SerializeField] int customWorldCap=4500;
+        [SerializeField] int customNearCap=12;
+        [SerializeField] float customViewRange=100f;
         [SerializeField] Vector2 scroll;
 
         GameObject previewObject;
@@ -64,6 +67,9 @@ namespace LittleCastle.Editor
             {
                 rendererView.quality.quality=visualQuality;
                 rendererView.quality.graphicsVsPerformance=graphicsVsFps;
+                rendererView.quality.customWorldCap=customWorldCap;
+                rendererView.quality.customNearCap=customNearCap;
+                rendererView.quality.customRangeMetres=customViewRange;
             }
             if(EditorApplication.timeSinceStartup>=nextRepaint)
             {
@@ -115,9 +121,17 @@ namespace LittleCastle.Editor
             editHandles=EditorGUILayout.Toggle("Перемещать области",editHandles);
             visualQuality=(FireflyPreviewQuality)EditorGUILayout.EnumPopup("Качество",visualQuality);
             graphicsVsFps=EditorGUILayout.Slider("FPS ← → графика",graphicsVsFps,0f,1f);
+            if(visualQuality==FireflyPreviewQuality.Custom)
+            {
+                customWorldCap=EditorGUILayout.IntSlider("Лимит мировых",customWorldCap,0,50000);
+                customNearCap=EditorGUILayout.IntSlider("Лимит близких",customNearCap,0,48);
+                customViewRange=EditorGUILayout.Slider("Дистанция, м",customViewRange,1f,300f);
+            }
 
             var budget=new FireflyPreviewBudget{
-                quality=visualQuality,graphicsVsPerformance=graphicsVsFps};
+                quality=visualQuality,graphicsVsPerformance=graphicsVsFps,
+                customWorldCap=customWorldCap,customNearCap=customNearCap,
+                customRangeMetres=customViewRange};
             budget.Resolve(out int maxWorld,out int maxNear,out float distance);
             EditorGUILayout.LabelField("Бюджет: "+maxWorld+" мировых, "+maxNear+
                 " близких, радиус "+distance.ToString("F0")+" м",EditorStyles.miniLabel);
@@ -184,18 +198,24 @@ namespace LittleCastle.Editor
             string newName=EditorGUILayout.TextField("Название",area.displayName);
             bool newEnabled=EditorGUILayout.Toggle("Включена",area.enabled);
             int priority=EditorGUILayout.IntField("Приоритет",area.priority);
+            int seed=EditorGUILayout.IntField("Seed области",area.seed);
             var densityMode=(FireflyPreviewDensityMode)EditorGUILayout.EnumPopup("Плотность",area.densityMode);
             float value=EditorGUILayout.Slider("Множитель / на 100 м²",area.densityValue,0f,100f);
             float feather=EditorGUILayout.Slider("Мягкость края",area.falloff,0f,1f);
             Vector2 center=EditorGUILayout.Vector2Field("Центр X/Z, м",area.center);
             Vector2 radii=EditorGUILayout.Vector2Field("Радиусы X/Z, м",area.radii);
             float rotation=EditorGUILayout.Slider("Поворот, °",area.rotationDegrees,0f,360f);
+            bool hasLocalColor=EditorGUILayout.Toggle("Свой цвет",area.overrideColor);
+            Color localColor=hasLocalColor?EditorGUILayout.ColorField("Цвет области",area.color):area.color;
             if(EditorGUI.EndChangeCheck())
             {
                 Undo.RecordObject(profile,"Edit firefly preview area");
                 area.displayName=newName;
                 area.enabled=newEnabled;
                 area.priority=priority;
+                area.seed=seed;
+                area.overrideColor=hasLocalColor;
+                area.color=localColor;
                 area.densityMode=densityMode;
                 area.densityValue=value;
                 area.falloff=feather;
