@@ -45,6 +45,7 @@ namespace LittleCastle.Rendering
         readonly Plane[] planes=new Plane[6];
         readonly Matrix4x4[] nearby=new Matrix4x4[48];
         MapEditSession session;
+        bool ownsMaterial;
         Material material;
         Mesh mesh;
         long revision=-1;
@@ -79,19 +80,19 @@ namespace LittleCastle.Rendering
         void Cleanup()
         {
             cells.Clear();
-            if(material){if(Application.isPlaying)Destroy(material);else DestroyImmediate(material);material=null;}
+            if(material&&ownsMaterial){if(Application.isPlaying)Destroy(material);else DestroyImmediate(material);}material=null;ownsMaterial=false;
             if(mesh){if(Application.isPlaying)Destroy(mesh);else DestroyImmediate(mesh);mesh=null;}
             desiredWorld=shownWorld=shownNear=missingCells=0;
         }
 
         void EnsureResources()
         {
-            if(overrideMaterial!=null)material=overrideMaterial;
+            if(overrideMaterial!=null){material=overrideMaterial;ownsMaterial=false;}
             if(!material)
             {
                 Shader shader=Shader.Find("Little Castle/Effects/LC Fireflies");
                 if(shader==null || !shader.isSupported)return;
-                material=new Material(shader){name="LC Fireflies (generated, runtime only)",hideFlags=HideFlags.HideAndDontSave,enableInstancing=true};
+                material=new Material(shader){name="LC Fireflies (generated, runtime only)",hideFlags=HideFlags.HideAndDontSave,enableInstancing=true};ownsMaterial=true;
             }
             if(mesh!=null)return;
             mesh=new Mesh{name="Firefly unit quad (shared)",hideFlags=HideFlags.HideAndDontSave};
@@ -111,8 +112,8 @@ namespace LittleCastle.Rendering
 
             quality.ResolveAdaptive(out int cap,out int nearCap,out float range);
             if(cap==0 || range<=0){shownWorld=shownNear=desiredWorld=0;return;}
-            FireflyMapData data=session.ExportFireflies();
-            if(!data.enabled){shownWorld=shownNear=desiredWorld=0;return;}
+            FireflyMapData data=session.FirefliesForRendering;
+            if(data==null||!data.enabled){shownWorld=shownNear=desiredWorld=0;return;}
             EnsureResources();
             if(!mesh||!material)return;
             material.enableInstancing=true;
@@ -183,7 +184,7 @@ namespace LittleCastle.Rendering
             var cell=new Cell();
             float baseX=cx*CellSize,baseZ=cz*CellSize;
             float minY=float.MaxValue,maxY=float.MinValue;
-            float spacing=2.5f;
+            
             for(int z=0;z<13;z++)for(int x=0;x<13;x++)
             {
                 int gx=cx*13+x,gz=cz*13+z;
@@ -195,6 +196,7 @@ namespace LittleCastle.Rendering
                 float expected=Mathf.Clamp(areaDensity*CellSize*CellSize/(100f*169f),0,8);
                 int copies=Mathf.FloorToInt(expected);
                 if(FireflyDistribution.Random01(gx,gz,data.seed,3)<expected-copies)copies++;
+                if(!session.FireflySurfaceAllowed(wx,wz))continue;
                 float terrain=session.SampleHeight(wx,wz);
                 if(session.SampleNormal(wx,wz).y<Mathf.Cos(data.maximumSlopeDegrees*Mathf.Deg2Rad))
                     continue;
@@ -235,6 +237,7 @@ namespace LittleCastle.Rendering
                 float dist=Vector2.Distance(new Vector2(wx,wz),new Vector2(eye.x,eye.z));
                 if(dist>radius||dist<1.2f)continue;
                 if(FireflyDistribution.Random01(gx,gz,seed,85)>.28f)continue;
+                if(!session.FireflySurfaceAllowed(wx,wz))continue;
                 float y=session.SampleHeight(wx,wz)+
                     Mathf.Lerp(.7f,2.5f,FireflyDistribution.Random01(gx,gz,seed,86));
                 nearby[count++]=Matrix4x4.TRS(new Vector3(wx,y,wz),Quaternion.identity,Vector3.one);
