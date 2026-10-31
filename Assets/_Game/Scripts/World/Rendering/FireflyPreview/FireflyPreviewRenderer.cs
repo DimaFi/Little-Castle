@@ -185,6 +185,8 @@ namespace LittleCastle.Rendering.Fireflies
             generatedMaterial.SetFloat(TimeId,Time.realtimeSinceStartup);
             generatedMaterial.SetFloat(RangeId,range);
             generatedMaterial.SetFloat(FogId,fogMultiplier);
+            if(softDepthFade)generatedMaterial.EnableKeyword("_LC_FIREFLY_SOFT_DEPTH");
+            else generatedMaterial.DisableKeyword("_LC_FIREFLY_SOFT_DEPTH");
             generatedMaterial.SetVector(FadesId,new Vector4(nearFadeMetres,softDepthFade?depthFadeMetres:0f,
                 profile.colorVariance,0f));
 
@@ -225,8 +227,18 @@ namespace LittleCastle.Rendering.Fireflies
             GeometryUtility.CalculateFrustumPlanes(camera,planes);
             SubmittedWorldCount=DesiredWorldCount=DrawCalls=MissingCells=BudgetRejected=0;
             int built=0;
-            for(int z=minZ;z<=maxZ;z++)for(int x=minX;x<=maxX;x++)
+            // Center-first rings: nearby light survives the world budget instead
+            // of wasting all slots on the distant corner of a strategic view.
+            int centerX=Mathf.FloorToInt(eye.x/CellWidth);
+            int centerZ=Mathf.FloorToInt(eye.z/CellWidth);
+            int rings=Mathf.CeilToInt(range/CellWidth)+2;
+            for(int ring=0;ring<=rings;ring++)
+            for(int dz=-ring;dz<=ring;dz++)
+            for(int dx=-ring;dx<=ring;dx++)
             {
+                if(Mathf.Max(Mathf.Abs(dx),Mathf.Abs(dz))!=ring)continue;
+                int x=centerX+dx,z=centerZ+dz;
+                if(x<minX||x>maxX||z<minZ||z>maxZ)continue;
                 float cx=(x+.5f)*CellWidth,cz=(z+.5f)*CellWidth;
                 if((new Vector2(cx-eye.x,cz-eye.z)).sqrMagnitude>rangeSq)continue;
                 var key=new Vector2Int(x,z);
