@@ -31,6 +31,7 @@ Shader "Little Castle/Effects/Firefly Preview URP"
             #pragma vertex Vert
             #pragma fragment Frag
             #pragma multi_compile_instancing
+            #pragma multi_compile_fog
             #pragma shader_feature_local _LC_FIREFLY_SOFT_DEPTH
 
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
