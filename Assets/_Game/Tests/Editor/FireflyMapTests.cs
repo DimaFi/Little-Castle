@@ -132,6 +132,28 @@ namespace LittleCastle.Tests
             Assert.AreEqual(before,JsonUtility.ToJson(session.ExportFireflies()));
         }
 
+        [TestCase(false)]
+        [TestCase(true)]
+        public void LegacyV6Save_RemainsReadableWithoutInjectingFireflyEdits(bool hasEnvironment)
+        {
+            var map=Map();
+            if(hasEnvironment)map.environment=new LittleCastle.World.Environment.MapEnvironmentData();
+            var original=new MapEditSession(map);
+            var save=original.ExportSave();
+            save.version=6;
+            save.fireflies=null;
+            var oldFingerprint=(string)typeof(MapEditSession)
+                .GetMethod("LegacyEnvironmentFingerprint",
+                    System.Reflection.BindingFlags.NonPublic|System.Reflection.BindingFlags.Instance)
+                .Invoke(original,null);
+            save.baseFingerprint=oldFingerprint;
+            var restored=new MapEditSession(map);
+            restored.LoadSave(save);
+            Assert.That(restored.ExportFireflies().areas,Is.Empty);
+            Assert.That(restored.ExportFireflies().densityPer100m2,
+                Is.EqualTo(new FireflyMapData().densityPer100m2));
+        }
+
         [Test]
         public void Quality_OffNeverEmitsAndSliderGrowsBudget()
         {
