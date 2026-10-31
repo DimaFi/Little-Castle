@@ -43,6 +43,10 @@ namespace LittleCastle.Editor
             data.minimumHeight=EditorGUILayout.Slider("Высота от земли min, м",data.minimumHeight,0,10);
             data.maximumHeight=EditorGUILayout.Slider("Высота от земли max, м",data.maximumHeight,data.minimumHeight,20);
             data.maximumSlopeDegrees=EditorGUILayout.Slider("Наклон земли max, °",data.maximumSlopeDegrees,0,90);
+            data.allowSummer=EditorGUILayout.Toggle("Летний биом",data.allowSummer);
+            data.allowEnchantedForest=EditorGUILayout.Toggle("Зачарованный лес",data.allowEnchantedForest);
+            data.allowElvenForest=EditorGUILayout.Toggle("Эльфийский лес",data.allowElvenForest);
+            data.allowWinter=EditorGUILayout.Toggle("Зимний биом",data.allowWinter);
             data.color=EditorGUILayout.ColorField("Тёплый цвет",data.color);
             data.worldSize=EditorGUILayout.Slider("Размер, м",data.worldSize,.01f,1f);
             data.glow=EditorGUILayout.Slider("Emission",data.glow,0,4);
