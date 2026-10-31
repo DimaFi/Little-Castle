@@ -128,6 +128,29 @@ namespace LittleCastle.Rendering
         }
 
         /// <summary>Exclusion wins, then lower priority to higher, then stable ID on ties.</summary>
+        public static int SeedAt(FireflyMapData data,Vector2 point)
+        {
+            int result=data.seed;
+            if(data.areas==null)return result;
+            FireflyAreaData winner=null;
+            foreach(var a in data.areas)
+            {
+                if(a==null||!a.enabled||a.densityMode==FireflyDensityMode.Inherit||
+                    a.densityMode==FireflyDensityMode.Exclude||Influence(a,point)<=0)continue;
+                if(winner==null||a.priority>winner.priority||
+                    a.priority==winner.priority&&string.CompareOrdinal(a.id,winner.id)>0)
+                    winner=a;
+            }
+            if(winner==null)return result;
+            // Stable FNV-1a, not runtime-randomized string.GetHashCode().
+            unchecked
+            {
+                uint hash=2166136261u;
+                foreach(char c in winner.id){hash^=c;hash*=16777619u;}
+                return result ^ winner.seed ^ (int)hash;
+            }
+        }
+
         public static Color ColorAt(FireflyMapData data,Vector2 point)
         {
             Color result=data.color;
