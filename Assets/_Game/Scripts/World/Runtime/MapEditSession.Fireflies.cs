@@ -10,6 +10,7 @@ namespace LittleCastle.World
     {
         FireflyMapData fireflies;
         public long FireflyRevision { get; private set; }
+        internal FireflyMapData FirefliesForRendering=>fireflies;
         public FireflyMapData ExportFireflies() => Clone(fireflies);
 
         void InitializeFireflies() => fireflies = ValidateFireflies(authored.fireflies);
