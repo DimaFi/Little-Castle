@@ -31,7 +31,6 @@ Shader "Little Castle/Effects/LC Fireflies"
             #pragma shader_feature_local _LC_FIREFLY_SOFT_DEPTH
 
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
-            #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Fog.hlsl"
             #if defined(_LC_FIREFLY_SOFT_DEPTH)
                 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DeclareDepthTexture.hlsl"
             #endif
@@ -84,7 +83,7 @@ Shader "Little Castle/Effects/LC Fireflies"
                 center.x+=_LC_FireflyMotion.x*(.55*sin(t)+.28*sin(1.73*t+seed*13));
                 center.z+=_LC_FireflyMotion.x*(.40*cos(1.11*t+seed*7)+.22*sin(.53*t));
                 center.y+=_LC_FireflyMotion.x*(.23*sin(.71*t+seed*11));
-                center.xz+=_LC_Wind.xz*_LC_FireflyMotion.z*.1*sin(.43*t);
+                center.xz+=_LC_Wind.xy*_LC_Wind.z*_LC_FireflyMotion.z*.1*sin(.43*t);
 
                 float3 delta=center-_WorldSpaceCameraPos;
                 float distance=length(delta);
@@ -124,7 +123,7 @@ Shader "Little Castle/Effects/LC Fireflies"
                     float sceneEye=LinearEyeDepth(raw,_ZBufferParams);
                     opacity*=saturate((sceneEye-input.eyeDepth-.05)/.65);
                 #endif
-                half fog=InitializeInputDataFog(float4(0,0,0,1),input.fogFactor);
+                half fog=input.fogFactor;
                 float3 emission=input.tint*_LC_FireflyGlow*(core+halo);
                 emission=MixFogColor(emission,half3(0,0,0),fog);
                 return half4(emission,opacity);
