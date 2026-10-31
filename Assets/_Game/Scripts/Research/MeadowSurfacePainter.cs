@@ -59,7 +59,8 @@ namespace LittleCastle.Research
         Material cursorMaterial;
         struct Binding {public Material material;public Texture texture;public Vector4 bounds;public bool keyword;public float enabled;}
         Binding[] previousBindings;
-        string SavePath=>Path.Combine(Application.persistentDataPath,"meadow-map-edits-v6.json");
+        string SavePath=>Path.Combine(Application.persistentDataPath,"meadow-map-edits-v7.json");
+        string V6SavePath=>Path.Combine(Application.persistentDataPath,"meadow-map-edits-v6.json");
         string V5SavePath=>Path.Combine(Application.persistentDataPath,"meadow-map-edits-v5.json");
         string V4SavePath=>Path.Combine(Application.persistentDataPath,"meadow-map-edits-v4.json");
         string V3SavePath=>Path.Combine(Application.persistentDataPath,"meadow-map-edits-v3.json");
@@ -150,7 +151,7 @@ namespace LittleCastle.Research
         }
         public void LoadEdits()
         {
-            try{string path=File.Exists(SavePath)?SavePath:File.Exists(V5SavePath)?V5SavePath:File.Exists(V4SavePath)?V4SavePath:File.Exists(V3SavePath)?V3SavePath:File.Exists(V2SavePath)?V2SavePath:LegacySavePath;if(!File.Exists(path)){status="Сохранения пока нет";return;}
+            try{string path=File.Exists(SavePath)?SavePath:File.Exists(V6SavePath)?V6SavePath:File.Exists(V5SavePath)?V5SavePath:File.Exists(V4SavePath)?V4SavePath:File.Exists(V3SavePath)?V3SavePath:File.Exists(V2SavePath)?V2SavePath:LegacySavePath;if(!File.Exists(path)){status="Сохранения пока нет";return;}
                 LoadJson(File.ReadAllText(path));status="Изменения загружены";
             }catch(Exception error){status="Не удалось загрузить: "+error.Message;}
         }
