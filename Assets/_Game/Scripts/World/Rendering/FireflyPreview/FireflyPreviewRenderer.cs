@@ -151,7 +151,13 @@ namespace LittleCastle.Rendering.Fireflies
 
         void Render(ScriptableRenderContext _,Camera camera)
         {
-            if(!isActiveAndEnabled || !profile || !profile.enabled || camera==null || quality==null)return;
+            if(!isActiveAndEnabled || !profile || camera==null || quality==null)return;
+            if(!profile.enabled || quality.quality==FireflyPreviewQuality.Off)
+            {
+                if(cells.Count>0 || generatedMaterial || quad)DisposeResources();
+                return;
+            }
+            if(!SystemInfo.supportsInstancing)return;
             if(onlyCamera && onlyCamera!=camera)return;
             bool reflection=camera.cameraType==CameraType.Reflection;
             if(reflection && (!allowReflectionCamera || reflectionPointLimit==0))return;
