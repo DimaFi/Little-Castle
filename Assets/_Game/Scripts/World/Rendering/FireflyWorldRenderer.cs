@@ -28,8 +28,13 @@ namespace LittleCastle.Rendering
 
         sealed class Cell
         {
-            public readonly Matrix4x4[] instances = new Matrix4x4[BatchLimit];
-            public readonly Vector4[] colors = new Vector4[BatchLimit];
+            public readonly Matrix4x4[] instances;
+            public readonly Vector4[] colors;
+            public Cell(int capacity)
+            {
+                instances=new Matrix4x4[Mathf.Max(1,capacity)];
+                colors=new Vector4[Mathf.Max(1,capacity)];
+            }
             public readonly MaterialPropertyBlock properties = new MaterialPropertyBlock();
             public int count, desired;
             public Matrix4x4 groundPatch;
@@ -267,7 +272,8 @@ namespace LittleCastle.Rendering
 
         Cell BuildCell(int cx,int cz,FireflyMapData data)
         {
-            var cell=new Cell();
+            int capacity=Mathf.Clamp(Mathf.Min(data.cellDesiredCap,data.perAreaDesiredCap),0,BatchLimit);
+            var cell=new Cell(capacity);
             float baseX=cx*CellSize,baseZ=cz*CellSize;
             float minY=float.MaxValue,maxY=float.MinValue;
             
@@ -289,7 +295,7 @@ namespace LittleCastle.Rendering
                 for(int k=0;k<copies;k++)
                 {
                     cell.desired++;
-                    if(cell.count>=Mathf.Min(BatchLimit,Mathf.Min(data.cellDesiredCap,data.perAreaDesiredCap)))continue;
+                    if(cell.count>=capacity)continue;
                     float h=Mathf.Lerp(data.minimumHeight,data.maximumHeight,FireflyDistribution.Random01(gx,gz,data.seed,k+10));
                     float y=terrain+h;
                     minY=Mathf.Min(minY,y);maxY=Mathf.Max(maxY,y);
@@ -314,7 +320,7 @@ namespace LittleCastle.Rendering
                         new Vector3(cheapGroundPatchDiameter,cheapGroundPatchDiameter,1));
                 }
             }
-            cell.properties.SetVectorArray(InstanceColorId,cell.colors);
+            if(cell.count>0)cell.properties.SetVectorArray(InstanceColorId,cell.colors);
             cell.bounds=new Bounds(new Vector3(baseX+16,(minY+maxY)*.5f,baseZ+16),
                 new Vector3(CellSize+8,maxY-minY+10,CellSize+8));
             return cell;
@@ -371,6 +377,15 @@ namespace LittleCastle.Rendering
                 {output[1]=cell.bounds.center;second=score;count=2;}
             }
             return count;
+        }
+
+        void OnValidate()
+        {
+            maxCellsBuiltPerFrame=Mathf.Clamp(maxCellsBuiltPerFrame,1,24);
+            maxGroundPatches=Mathf.Clamp(maxGroundPatches,0,24);
+            cheapGroundPatchDiameter=Mathf.Clamp(cheapGroundPatchDiameter,1,8);
+            minimumAdaptiveScale=Mathf.Clamp(minimumAdaptiveScale,.3f,1f);
+            if(cells!=null)cells.Clear();
         }
 
         static float Now()
