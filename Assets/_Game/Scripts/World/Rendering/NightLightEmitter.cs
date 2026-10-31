@@ -91,6 +91,22 @@ namespace LittleCastle.Rendering
             ActivePresentationEmitters =>
                 PresentationRegistry;
 
+        /// <summary>Configure pooled firefly cluster lights without bypassing the shared night budget.</summary>
+        public void ConfigureFireflyCluster(Light light,float intensity,float maxRange,int selectionPriority)
+        {
+            if(light==null)throw new System.ArgumentNullException(nameof(light));
+            ForceOffImmediate();
+            targetLight=light;
+            baseIntensity=Mathf.Max(0,intensity);
+            maxDistance=Mathf.Max(1,maxRange);
+            priority=selectionPriority;
+            allowRealtimeShadows=false;
+            realtimeFlickerStrength=.025f;
+            fadeInSeconds=.6f;
+            fadeOutSeconds=.8f;
+            ApplyStaticLightRules();
+        }
+
         public Light TargetLight =>
             targetLight;
 
