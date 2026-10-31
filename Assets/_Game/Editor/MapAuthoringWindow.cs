@@ -53,13 +53,13 @@ namespace LittleCastle.Editor
         {
             restoreAttempted=false;
             titleContent=new GUIContent("World Editor");minSize=new Vector2(340,420);
-            SceneView.duringSceneGui+=SceneGUI;EditorApplication.playModeStateChanged+=PlayState;EditorApplication.update+=Tick;
+            SceneView.duringSceneGui+=SceneGUI;SceneView.duringSceneGui+=FireflySceneGUI;EditorApplication.playModeStateChanged+=PlayState;EditorApplication.update+=Tick;
             AssemblyReloadEvents.beforeAssemblyReload+=CheckpointSession;EditorApplication.delayCall+=RestoreWindowSession;
         }
         void OnDisable()
         {
             CheckpointSession();if(session!=null)session.Changed-=Changed;
-            SceneView.duringSceneGui-=SceneGUI;EditorApplication.playModeStateChanged-=PlayState;EditorApplication.update-=Tick;
+            SceneView.duringSceneGui-=SceneGUI;SceneView.duringSceneGui-=FireflySceneGUI;EditorApplication.playModeStateChanged-=PlayState;EditorApplication.update-=Tick;
             AssemblyReloadEvents.beforeAssemblyReload-=CheckpointSession;EditorApplication.delayCall-=RestoreWindowSession;
             RestorePreview();if(preview)DestroyImmediate(preview);
         }
@@ -83,7 +83,7 @@ namespace LittleCastle.Editor
         {
             fencePreview?.Dispose();fencePreview=null;
             pathPreview?.Dispose();pathPreview=null;
-            RestoreEnvironmentPreview();
+            RestoreFireflyPreview();RestoreEnvironmentPreview();
             RestoreScatterPreview();
             RestoreWaterPreviewCameras();
             foreach(var pair in rendererBindings)if(pair.Key)pair.Key.SetPropertyBlock(pair.Value);
@@ -113,7 +113,7 @@ namespace LittleCastle.Editor
             foreach(var grass in FindObjectsByType<MeadowGrassRenderer>())if(grass.material==painter.grassMaterial){grassBindings.Add(grass,grass.surfaceOverrides);grass.surfaceOverrides=properties;}
             foreach(var accent in FindObjectsByType<InnerverseGrassStudy>())if(accent.grassMaterial==painter.accentMaterial){accentBindings.Add(accent,accent.surfaceOverrides);accent.surfaceOverrides=properties;}
             BindScatterPreview(painter);
-            BindEnvironmentPreview(painter);
+            BindEnvironmentPreview(painter);BindFireflyPreview();
             pathPreview=new MapPathPresentation(session,painter.terrainMaterial,Resolution);
         }
         internal void Connect(SurfacePaintData data)
@@ -170,6 +170,7 @@ namespace LittleCastle.Editor
             DrawToolSelection();
             using var scroll=new EditorGUILayout.ScrollViewScope(windowScroll);windowScroll=scroll.scrollPosition;
             DrawCommonTools();
+            if(toolCategory==4)DrawFireflyTools();
             if(toolCategory==0)DrawHeightLimits();
             else if(toolCategory==1&&CurrentToolId=="surface.meadow")DrawScatterSettings();
             else if(CurrentToolId=="surface.road")DrawPathPalette();
