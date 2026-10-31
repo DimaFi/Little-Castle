@@ -12,6 +12,20 @@ namespace LittleCastle.World
         public long FireflyRevision { get; private set; }
         internal FireflyMapData FirefliesForRendering=>fireflies;
         public FireflyMapData ExportFireflies() => Clone(fireflies);
+        public bool FireflySurfaceAllowed(float x,float z)
+        {
+            Vector2 p=new Vector2(x,z);
+            foreach(var reserved in authored.placementExclusions)
+                if(reserved.Contains(p))return false;
+            // Open water is allowed; the water plane, not the submerged river bed,
+            // is the origin used by the renderer (see FireflySurfaceHeight).
+            return true;
+        }
+        public float FireflySurfaceHeight(float x,float z)
+        {
+            return QueryWater(new Vector2(x,z),out float level,out _,out _) ?
+                level : SampleHeight(x,z);
+        }
 
         void InitializeFireflies() => fireflies = ValidateFireflies(authored.fireflies);
 
