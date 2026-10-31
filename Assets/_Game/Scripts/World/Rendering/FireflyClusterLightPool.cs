@@ -29,7 +29,7 @@ namespace LittleCastle.Rendering
         MapEditSession session;
         NightLightBudgetManager manager;
         int wanted;
-        float nextUpdate;
+        float nextUpdate,nextManagerSearch;
 
         public void Connect(MapEditSession map)
         {
@@ -44,6 +44,9 @@ namespace LittleCastle.Rendering
             if(!rendererSource)rendererSource=GetComponent<FireflyWorldRenderer>();
             if(!manager)
             {
+                // Missing optional scene manager must not cause a scene-wide search each frame.
+                if(Time.unscaledTime<nextManagerSearch)return;
+                nextManagerSearch=Time.unscaledTime+2f;
                 manager=FindAnyObjectByType<NightLightBudgetManager>();
                 if(!manager)return; // No unbudgeted lights are allowed.
             }
