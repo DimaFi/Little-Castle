@@ -285,12 +285,16 @@ namespace LittleCastle.Rendering
                 var b=session.Bounds;
                 if(wx<b.x||wx>b.x+b.z||wz<b.y||wz>b.y+b.w)continue;
                 float areaDensity=FireflyDistribution.Density(data,new Vector2(wx,wz));
+                if(areaDensity<=0)continue;
+                areaDensity*=session.FireflyBiomeWeight(data,wx,wz);
                 float expected=Mathf.Clamp(areaDensity*CellSize*CellSize/(100f*169f),0,8);
                 int copies=Mathf.FloorToInt(expected);
                 if(FireflyDistribution.Random01(gx,gz,data.seed,3)<expected-copies)copies++;
                 if(!session.FireflySurfaceAllowed(wx,wz))continue;
                 float terrain=session.FireflySurfaceHeight(wx,wz);
-                if(session.SampleNormal(wx,wz).y<Mathf.Cos(data.maximumSlopeDegrees*Mathf.Deg2Rad))
+                Vector3 normal=session.QueryWater(new Vector2(wx,wz),out _,out _,out _)
+                    ?Vector3.up:session.SampleNormal(wx,wz);
+                if(normal.y<Mathf.Cos(data.maximumSlopeDegrees*Mathf.Deg2Rad))
                     continue;
                 for(int k=0;k<copies;k++)
                 {
