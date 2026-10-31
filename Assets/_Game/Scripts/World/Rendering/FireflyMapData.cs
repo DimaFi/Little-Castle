@@ -145,43 +145,40 @@ namespace LittleCastle.Rendering
 
         public static float Density(FireflyMapData data, Vector2 point)
         {
-            if (data==null || !data.enabled) return 0;
-            float density = Mathf.Max(0,data.densityPer100m2);
-            var areas = data.areas;
-            if (areas == null) return density;
-            float exclude=1f;
-            // Exclusion always wins, and must be applied exactly once.
-            for (int i=0;i<areas.Count;i++)
-                if(areas[i]!=null && areas[i].densityMode==FireflyDensityMode.Exclude)
-                    exclude*=1f-Influence(areas[i],point);
-            // A bounded authored list is deliberate; renderer caches this per resident cell.
-            for (int i=0;i<areas.Count;i++)
+            if (data == null || !data.enabled) return 0;
+            float density = Mathf.Max(0, data.densityPer100m2);
+            if (data.areas == null) return density;
+            float exclusion = 1f;
+            FireflyAreaData winner = null;
+            float strength = 0;
+            // One O(area count) pass, independent of overlapping-area combinations.
+            // This is important when building multiple spatial cells in one frame.
+            foreach (var a in data.areas)
             {
-                var a=areas[i];
-                if (a==null || a.densityMode==FireflyDensityMode.Exclude ||
-                    a.densityMode==FireflyDensityMode.Inherit) continue;
-                float influence=Influence(a,point);
-                if (influence<=0) continue;
-                // Determine whether any other overlapping override takes precedence.
-                bool superseded=false;
-                for (int j=0;j<areas.Count;j++)
+                if (a == null || !a.enabled) continue;
+                float influence = Influence(a, point);
+                if (influence <= 0) continue;
+                if (a.densityMode == FireflyDensityMode.Exclude)
                 {
-                    var b=areas[j]; if (b==null || b==a ||
-                        b.densityMode==FireflyDensityMode.Exclude ||
-                        b.densityMode==FireflyDensityMode.Inherit ||
-                        Influence(b,point)<=0) continue;
-                    if (b.priority>a.priority ||
-                        b.priority==a.priority && string.CompareOrdinal(b.id,a.id)>0)
-                    { superseded=true;break; }
+                    exclusion *= 1f - influence;
+                    continue;
                 }
-                if(superseded) continue;
-                float target=a.densityMode==FireflyDensityMode.Set?
-                    a.densityValue:density * a.densityValue;
-                // Exclusions cannot be undone by a higher priority override.
-                density=Mathf.Lerp(density,target,influence);
-                break;
+                if (a.densityMode == FireflyDensityMode.Inherit) continue;
+                if (winner == null || a.priority > winner.priority ||
+                    a.priority == winner.priority &&
+                    string.CompareOrdinal(a.id, winner.id) > 0)
+                {
+                    winner = a;
+                    strength = influence;
+                }
             }
-            return Mathf.Max(0,density*exclude);
+            if (winner != null)
+            {
+                float value = winner.densityMode == FireflyDensityMode.Set
+                    ? winner.densityValue : density * winner.densityValue;
+                density = Mathf.Lerp(density, value, strength);
+            }
+            return Mathf.Max(0, density * exclusion);
         }
     }
 
