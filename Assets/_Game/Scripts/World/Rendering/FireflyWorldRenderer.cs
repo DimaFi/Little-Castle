@@ -197,7 +197,7 @@ namespace LittleCastle.Rendering
                 int copies=Mathf.FloorToInt(expected);
                 if(FireflyDistribution.Random01(gx,gz,data.seed,3)<expected-copies)copies++;
                 if(!session.FireflySurfaceAllowed(wx,wz))continue;
-                float terrain=session.SampleHeight(wx,wz);
+                float terrain=session.FireflySurfaceHeight(wx,wz);
                 if(session.SampleNormal(wx,wz).y<Mathf.Cos(data.maximumSlopeDegrees*Mathf.Deg2Rad))
                     continue;
                 for(int k=0;k<copies;k++)
@@ -238,7 +238,7 @@ namespace LittleCastle.Rendering
                 if(dist>radius||dist<1.2f)continue;
                 if(FireflyDistribution.Random01(gx,gz,seed,85)>.28f)continue;
                 if(!session.FireflySurfaceAllowed(wx,wz))continue;
-                float y=session.SampleHeight(wx,wz)+
+                float y=session.FireflySurfaceHeight(wx,wz)+
                     Mathf.Lerp(.7f,2.5f,FireflyDistribution.Random01(gx,gz,seed,86));
                 nearby[count++]=Matrix4x4.TRS(new Vector3(wx,y,wz),Quaternion.identity,Vector3.one);
             }
