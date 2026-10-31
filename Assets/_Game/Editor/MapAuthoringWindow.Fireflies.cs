@@ -53,6 +53,8 @@ namespace LittleCastle.Editor
             data.motionAmplitude=EditorGUILayout.Slider("Амплитуда, м",data.motionAmplitude,0,2);
             data.motionSpeed=EditorGUILayout.Slider("Скорость",data.motionSpeed,0,4);
             data.flickerStrength=EditorGUILayout.Slider("Мерцание",data.flickerStrength,0,.5f);
+            data.twilightStart=EditorGUILayout.Slider("Появление в сумерках",data.twilightStart,0,1);
+            data.minimumNightAmount=EditorGUILayout.Slider("Ночная яркость: порог",data.minimumNightAmount,0,.98f);
             data.allowNear=EditorGUILayout.Toggle("Близкие пролёты",data.allowNear);
             data.nearMode=(FireflyNearMode)EditorGUILayout.EnumPopup("Близкий слой",data.nearMode);
             data.desiredNearCount=EditorGUILayout.IntSlider("Близких огоньков",data.desiredNearCount,0,48);
