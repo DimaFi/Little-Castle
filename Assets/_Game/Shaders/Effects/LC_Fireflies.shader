@@ -7,6 +7,7 @@ Shader "Little Castle/Effects/LC Fireflies"
         _LC_FireflyGlow ("Emission", Range(0,4)) = 1.3
         _LC_FireflyFlicker ("Flicker", Range(0,0.5)) = 0.23
         _LC_FireflyNightMin ("Night threshold", Range(0,1)) = 0.08
+        _LC_FireflyTwilightStart ("Twilight onset", Range(0,1)) = 0.25
         _LC_FireflyViewRange ("Culling distance (m)", Float) = 95
         _LC_FireflyTime ("Presentation time (s)", Float) = 0
         _LC_FireflyMotion ("Amplitude / speed / wind / color spread", Vector) = (0.55,0.65,0.15,0.16)
@@ -42,6 +43,7 @@ Shader "Little Castle/Effects/LC Fireflies"
             float _LC_FireflyGlow;
             float _LC_FireflyFlicker;
             float _LC_FireflyNightMin;
+            float _LC_FireflyTwilightStart;
             float _LC_FireflyViewRange;
             float _LC_FireflyTime;
             float4 _LC_FireflyMotion;
@@ -51,6 +53,7 @@ Shader "Little Castle/Effects/LC Fireflies"
                 UNITY_DEFINE_INSTANCED_PROP(float4, _LC_FireflyInstanceColor)
             UNITY_INSTANCING_BUFFER_END(FireflyProps)
             half _LC_NightAmount;
+            half _LC_Twilight;
             float4 _LC_Wind;
 
             struct Attributes
@@ -88,7 +91,7 @@ Shader "Little Castle/Effects/LC Fireflies"
                 center.x+=_LC_FireflyMotion.x*(.55*sin(t)+.28*sin(1.73*t+seed*13));
                 center.z+=_LC_FireflyMotion.x*(.40*cos(1.11*t+seed*7)+.22*sin(.53*t));
                 center.y+=_LC_FireflyMotion.x*(.23*sin(.71*t+seed*11));
-                center.xz+=_LC_Wind.xz*_LC_FireflyMotion.z*.1*sin(.43*t);
+                center.xz+=_LC_Wind.xy*_LC_Wind.z*_LC_FireflyMotion.z*.1*sin(.43*t);
 
                 float3 delta=center-_WorldSpaceCameraPos;
                 float distance=length(delta);
@@ -107,7 +110,9 @@ Shader "Little Castle/Effects/LC Fireflies"
 
                 float appear=smoothstep(.45,1.6,distance);
                 float farFade=1-smoothstep(_LC_FireflyViewRange*.83,_LC_FireflyViewRange,distance);
-                float night=smoothstep(_LC_FireflyNightMin, max(_LC_FireflyNightMin+.001,1),_LC_NightAmount);
+                float atmosphere=max(_LC_NightAmount,
+                    _LC_Twilight*(1-saturate(_LC_FireflyTwilightStart)));
+                float night=smoothstep(_LC_FireflyNightMin,1,atmosphere);
                 float twinkle=.75+.25*sin(t*.76+sin(t*.41)*1.3);
                 twinkle=lerp(1,twinkle,saturate(_LC_FireflyFlicker*2));
                 output.alpha=saturate(appear*farFade*night*twinkle);
