@@ -138,6 +138,15 @@ namespace LittleCastle.World
             public Environment.MapEnvironmentData environment;
         }
 
+        [Serializable] sealed class FireflyBaseSnapshot
+        {
+            public string previousFingerprint;
+            public FireflyMapData fireflies;
+        }
+        string FireflyBaseFingerprint() => authored.fireflies==null ? SplineRiverBaseFingerprint() :
+            Fingerprint(new FireflyBaseSnapshot{
+                previousFingerprint=SplineRiverBaseFingerprint(),fireflies=authored.fireflies});
+
         string LegacyEnvironmentFingerprint()
         {
             if(authored.environment==null)return LegacyFeatureFingerprint();
