@@ -124,6 +124,25 @@ namespace LittleCastle.Rendering
         }
 
         /// <summary>Exclusion wins, then lower priority to higher, then stable ID on ties.</summary>
+        public static Color ColorAt(FireflyMapData data,Vector2 point)
+        {
+            Color result=data.color;
+            FireflyAreaData best=null;
+            float influence=0;
+            if(data.areas==null)return result;
+            foreach(var a in data.areas)
+            {
+                if(a==null||!a.overrideColor||!a.enabled)continue;
+                float k=Influence(a,point);
+                if(k<=0)continue;
+                if(best==null||a.priority>best.priority||
+                    a.priority==best.priority&&string.CompareOrdinal(a.id,best.id)>0)
+                {best=a;influence=k;}
+            }
+            if(best!=null)result=Color.Lerp(result,best.color,influence);
+            return result;
+        }
+
         public static float Density(FireflyMapData data, Vector2 point)
         {
             if (data==null || !data.enabled) return 0;
