@@ -96,7 +96,7 @@ namespace LittleCastle.Rendering
 
         void MapChanged(MapRegionChange change)
         {
-            if((change.kind & (MapChangeKind.Height|MapChangeKind.Objects|MapChangeKind.Rivers|MapChangeKind.Fireflies))==0)return;
+            if((change.kind & (MapChangeKind.Height|MapChangeKind.Objects|MapChangeKind.Rivers|MapChangeKind.Biomes|MapChangeKind.Fireflies))==0)return;
             if((change.kind&MapChangeKind.Fireflies)!=0){cells.Clear();revision=-1;return;}
             eviction.Clear();
             foreach(var pair in cells)
@@ -287,9 +287,10 @@ namespace LittleCastle.Rendering
                 float areaDensity=FireflyDistribution.Density(data,new Vector2(wx,wz));
                 if(areaDensity<=0)continue;
                 areaDensity*=session.FireflyBiomeWeight(data,wx,wz);
+                int localSeed=FireflyDistribution.SeedAt(data,new Vector2(wx,wz));
                 float expected=Mathf.Clamp(areaDensity*CellSize*CellSize/(100f*169f),0,8);
                 int copies=Mathf.FloorToInt(expected);
-                if(FireflyDistribution.Random01(gx,gz,data.seed,3)<expected-copies)copies++;
+                if(FireflyDistribution.Random01(gx,gz,localSeed,3)<expected-copies)copies++;
                 if(!session.FireflySurfaceAllowed(wx,wz))continue;
                 float terrain=session.FireflySurfaceHeight(wx,wz);
                 Vector3 normal=session.QueryWater(new Vector2(wx,wz),out _,out _,out _)
@@ -300,7 +301,7 @@ namespace LittleCastle.Rendering
                 {
                     cell.desired++;
                     if(cell.count>=capacity)continue;
-                    float h=Mathf.Lerp(data.minimumHeight,data.maximumHeight,FireflyDistribution.Random01(gx,gz,data.seed,k+10));
+                    float h=Mathf.Lerp(data.minimumHeight,data.maximumHeight,FireflyDistribution.Random01(gx,gz,localSeed,k+10));
                     float y=terrain+h;
                     minY=Mathf.Min(minY,y);maxY=Mathf.Max(maxY,y);
                     Color tint=FireflyDistribution.ColorAt(data,new Vector2(wx,wz));
