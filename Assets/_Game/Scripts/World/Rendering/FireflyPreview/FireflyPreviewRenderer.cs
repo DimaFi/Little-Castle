@@ -28,10 +28,13 @@ namespace LittleCastle.Rendering.Fireflies
         static readonly int RangeId=Shader.PropertyToID("_FireflyRange");
         static readonly int FogId=Shader.PropertyToID("_FireflyFog");
         static readonly int FadesId=Shader.PropertyToID("_FireflyFades");
+        static readonly int InstanceColorId=Shader.PropertyToID("_FireflyInstanceColor");
 
         sealed class ResidentCell
         {
             public readonly Matrix4x4[] matrices=new Matrix4x4[InstanceLimit];
+            public readonly Vector4[] colors=new Vector4[InstanceLimit];
+            public readonly MaterialPropertyBlock properties=new MaterialPropertyBlock();
             public int desired, count;
             public Bounds bounds;
         }
@@ -255,7 +258,7 @@ namespace LittleCastle.Rendering.Fireflies
                 int allowed=Mathf.Min(cell.count,cap-SubmittedWorldCount);
                 if(allowed<=0){BudgetRejected+=cell.count;continue;}
                 Graphics.DrawMeshInstanced(quad,0,generatedMaterial,cell.matrices,allowed,
-                    null,ShadowCastingMode.Off,false,gameObject.layer,camera,LightProbeUsage.Off);
+                    cell.properties,ShadowCastingMode.Off,false,gameObject.layer,camera,LightProbeUsage.Off);
                 SubmittedWorldCount+=allowed;
                 BudgetRejected+=cell.count-allowed;
                 DrawCalls++;
@@ -280,11 +283,13 @@ namespace LittleCastle.Rendering.Fireflies
                 float px=baseX+(ix+FireflyPreviewDistribution.Random01(gx,gz,profile.seed,1))*spacing;
                 float pz=baseZ+(iz+FireflyPreviewDistribution.Random01(gx,gz,profile.seed,2))*spacing;
                 if(!profile.Includes(px,pz))continue;
-                float density=FireflyPreviewDistribution.Density(profile,new Vector2(px,pz),out _);
+                Vector2 at=new Vector2(px,pz);
+                float density=FireflyPreviewDistribution.Density(profile,at,out var selectedArea);
+                int areaSeed=profile.seed ^ (selectedArea!=null?selectedArea.seed:0);
                 float expectation=Mathf.Clamp(density*CellWidth*CellWidth/
                     (100f*CellSamples*CellSamples),0f,8f);
                 int count=Mathf.FloorToInt(expectation);
-                if(FireflyPreviewDistribution.Random01(gx,gz,profile.seed,3)<expectation-count)count++;
+                if(FireflyPreviewDistribution.Random01(gx,gz,areaSeed,3)<expectation-count)count++;
                 if(count<=0)continue;
                 if(!TrySampleGround(px,pz,out float ground,out float up))continue;
                 if(up<Mathf.Cos(profile.maximumSlopeDegrees*Mathf.Deg2Rad))continue;
@@ -292,16 +297,23 @@ namespace LittleCastle.Rendering.Fireflies
                 {
                     cell.desired++;
                     if(cell.count>=localCap)continue;
-                    float ox=(FireflyPreviewDistribution.Random01(gx,gz,profile.seed,10+k*3)-.5f)*spacing*.6f;
-                    float oz=(FireflyPreviewDistribution.Random01(gx,gz,profile.seed,11+k*3)-.5f)*spacing*.6f;
+                    float ox=(FireflyPreviewDistribution.Random01(gx,gz,areaSeed,10+k*3)-.5f)*spacing*.6f;
+                    float oz=(FireflyPreviewDistribution.Random01(gx,gz,areaSeed,11+k*3)-.5f)*spacing*.6f;
                     float height=Mathf.Lerp(profile.minimumHeight,profile.maximumHeight,
-                        FireflyPreviewDistribution.Random01(gx,gz,profile.seed,12+k*3));
+                        FireflyPreviewDistribution.Random01(gx,gz,areaSeed,12+k*3));
                     float wy=ground+height;
                     lowest=Mathf.Min(lowest,wy);highest=Mathf.Max(highest,wy);
+                    Color areaColor=profile.coreColor;
+                    bool tinted=selectedArea!=null && selectedArea.overrideColor;
+                    if(tinted)areaColor=Color.Lerp(profile.coreColor,selectedArea.color,
+                        FireflyPreviewDistribution.Influence(selectedArea,at));
+                    cell.colors[cell.count]=new Vector4(
+                        areaColor.r,areaColor.g,areaColor.b,tinted?1f:0f);
                     cell.matrices[cell.count++]=Matrix4x4.TRS(
                         new Vector3(px+ox,wy,pz+oz),Quaternion.identity,Vector3.one);
                 }
             }
+            if(cell.count>0)cell.properties.SetVectorArray(InstanceColorId,cell.colors);
             if(lowest>highest){lowest=fallbackGroundY;highest=lowest+4f;}
             float pad=Mathf.Max(3f,profile.movementAmplitude*2f+profile.worldDiameter*4f);
             cell.bounds=new Bounds(new Vector3(baseX+CellWidth*.5f,(lowest+highest)*.5f,baseZ+CellWidth*.5f),
