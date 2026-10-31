@@ -59,7 +59,8 @@ namespace LittleCastle.Research
         Material cursorMaterial;
         struct Binding {public Material material;public Texture texture;public Vector4 bounds;public bool keyword;public float enabled;}
         Binding[] previousBindings;
-        string SavePath=>Path.Combine(Application.persistentDataPath,"meadow-map-edits-v6.json");
+        string SavePath=>Path.Combine(Application.persistentDataPath,"meadow-map-edits-v7.json");
+        string V6SavePath=>Path.Combine(Application.persistentDataPath,"meadow-map-edits-v6.json");
         string V5SavePath=>Path.Combine(Application.persistentDataPath,"meadow-map-edits-v5.json");
         string V4SavePath=>Path.Combine(Application.persistentDataPath,"meadow-map-edits-v4.json");
         string V3SavePath=>Path.Combine(Application.persistentDataPath,"meadow-map-edits-v3.json");
@@ -78,6 +79,12 @@ namespace LittleCastle.Research
             if(rockCatalog){RiverView=new MapRiverPresentation(Session,rockCatalog,waterOnlyRivers);var riverTool=gameObject.AddComponent<MapRiverRuntimeTool>();riverTool.Connect(this);riverTool.ConfigureWaterOnly(waterOnlyRivers);}
             if(treeCatalog){Session.RegisterTreeCatalog(treeCatalog.Definitions,treeCatalog.packs);TreeView=new MapTreePresentation(Session,treeCatalog);}
             InitializeEnvironmentPresentation();
+            var fireflyRenderer=GetComponent<FireflyWorldRenderer>();
+            if(!fireflyRenderer)fireflyRenderer=gameObject.AddComponent<FireflyWorldRenderer>();
+            fireflyRenderer.Connect(Session);
+            var fireflyLights=GetComponent<FireflyClusterLightPool>();
+            if(!fireflyLights)fireflyLights=gameObject.AddComponent<FireflyClusterLightPool>();
+            fireflyLights.Connect(Session);
             mask=new Texture2D(Resolution,Resolution,TextureFormat.RG16,false,true){name="Derived road and meadow mask · not save state",filterMode=FilterMode.Bilinear,wrapMode=TextureWrapMode.Clamp};
             pixels=new byte[Resolution*Resolution*2];
             cursor=new GameObject("Single brush footprint preview").AddComponent<LineRenderer>();cursor.transform.SetParent(transform,false);cursor.loop=true;cursor.positionCount=48;cursor.widthMultiplier=.035f;cursor.useWorldSpace=true;cursor.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;cursor.receiveShadows=false;cursorMaterial=new Material(brushMaterial);cursor.sharedMaterial=cursorMaterial;cursor.enabled=false;
@@ -150,7 +157,7 @@ namespace LittleCastle.Research
         }
         public void LoadEdits()
         {
-            try{string path=File.Exists(SavePath)?SavePath:File.Exists(V5SavePath)?V5SavePath:File.Exists(V4SavePath)?V4SavePath:File.Exists(V3SavePath)?V3SavePath:File.Exists(V2SavePath)?V2SavePath:LegacySavePath;if(!File.Exists(path)){status="Сохранения пока нет";return;}
+            try{string path=File.Exists(SavePath)?SavePath:File.Exists(V6SavePath)?V6SavePath:File.Exists(V5SavePath)?V5SavePath:File.Exists(V4SavePath)?V4SavePath:File.Exists(V3SavePath)?V3SavePath:File.Exists(V2SavePath)?V2SavePath:LegacySavePath;if(!File.Exists(path)){status="Сохранения пока нет";return;}
                 LoadJson(File.ReadAllText(path));status="Изменения загружены";
             }catch(Exception error){status="Не удалось загрузить: "+error.Message;}
         }

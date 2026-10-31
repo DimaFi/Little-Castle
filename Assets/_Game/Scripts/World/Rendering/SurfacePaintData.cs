@@ -55,6 +55,8 @@ namespace LittleCastle.Rendering
         public bool hasHeightBase;
         public bool hasTreeBase;
         public bool hasEnvironmentBase;
+        public bool hasFireflyBase;
+        public FireflyMapData fireflies;
         public LittleCastle.World.Environment.MapEnvironmentData environment;
         public List<LittleCastle.World.MapRiverRecord> rivers=new List<LittleCastle.World.MapRiverRecord>();
         public List<LittleCastle.World.MapRockSection> rockSections=new List<LittleCastle.World.MapRockSection>();
