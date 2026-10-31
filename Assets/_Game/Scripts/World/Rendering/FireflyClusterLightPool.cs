@@ -39,7 +39,8 @@ namespace LittleCastle.Rendering
 
         void LateUpdate()
         {
-            if(!Application.isPlaying || session==null || !enableRealtimeLighting)return;
+            if(!Application.isPlaying || session==null)return;
+            if(!enableRealtimeLighting){SetCount(0);return;}
             if(!rendererSource)rendererSource=GetComponent<FireflyWorldRenderer>();
             if(!manager)
             {
@@ -49,6 +50,7 @@ namespace LittleCastle.Rendering
             var settings=session.FirefliesForRendering;
             if(settings==null||!settings.enabled){SetCount(0);return;}
             var preset=rendererSource.quality.preset;
+            if(preset==FireflyQuality.Off){SetCount(0);return;}
             int capacity=preset==FireflyQuality.High?highLights:
                 preset==FireflyQuality.Medium?mediumLights:
                 preset==FireflyQuality.Custom?highLights:0;
