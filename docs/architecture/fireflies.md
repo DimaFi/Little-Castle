@@ -8,7 +8,7 @@
 - Отрисовка `FireflyWorldRenderer`: переиспользуемый quad, shader-driven движение/мерцание, `DrawMeshInstanced` по пространственным ячейкам 32×32 м и GPU depth-test. Без GameObject, Update, raycast или Light на каждого светлячка.
 - `FireflyDistribution.Hash`: стабильный seed, абсолютные X/Z (включая отрицательные). Районные overrides разрешаются детерминированно: исключения, старший priority, лексикографический ID, плавное взвешивание; вычисление плотности O(число областей), не O(n²).
 - Локальные области: эллипс/повёрнутый эллипс или полигон, имена, seed/ID, активность, приоритет, исключить/наследовать/множитель/задать, цвет и falloff. Работа из World Editor (в разделе «Биомы и снег»), перемещение в SceneView при выключенной кисти. Вершины полигона и размеры редактируются численно.
-- Свет излучения не равен реальному освещению. `FireflyClusterLightPool` создаёт максимум два **общих** Point Light, без теней, с низким приоритетом -100, через существующие `NightLightEmitter` / `NightLightBudgetManager`; отсутствующий менеджер => ни одного источника.
+- Свет излучения не равен реальному освещению. Опциональные малозатратные пятна `LC Night Light Pool` рисуются одним дополнительным instanced batch (макс. 12 по умолчанию) с привязкой к локальной высоте и нормали поверхности, в том числе к водному уровню. `FireflyClusterLightPool` создаёт максимум два **общих** Point Light, без теней, с низким приоритетом -100, через существующие `NightLightEmitter` / `NightLightBudgetManager`; отсутствующий менеджер => ни одного источника.
 - Shader опирается на имеющиеся `_LC_NightAmount` и `_LC_Wind`, не запускает собственный clock/экспозицию. Additive core/halo, near fade, optional depth fade, ограничение projected size, чёрный fog. Отражённые камеры отключены по умолчанию.
 - `MapChangeKind.Fireflies` допускает локальную инвалидизацию только затронутых cells при изменениях высот/объектов/рек. Большие изменения конфигурации вызывают full invalidation только собственных light data, а не террейна/воды.
 
@@ -30,6 +30,7 @@
 | cellDesiredCap | экземпляры/cell / 0–2000 / 512 | Map; реально ограничено ещё instancing batch ≤1023 |
 | minimumHeight / maximumHeight | м / 0–100, default .5/3.5 | Map; высота центра над грунтом или поверхностью воды |
 | maximumSlopeDegrees | ° / 0–90 / 42 | Map; отсеивает крутой рельеф |
+| allowSummer / allowEnchantedForest / allowElvenForest / allowWinter | bool / true/true/true/false | Map; взвешенная плотность на основе уже созданных слоёв авторского биома |
 | color, colorVariation | HDR color; 0–1 / .16 | Map; тёплая палитра и естественный разброс |
 | glow | множитель / 0–4 / 1.3 | Map; яркость emission/Bloom, увеличивает видимый overdraw |
 | worldSize | м / .01–1 / .14 | Map; размер/экранный overdraw, ограничен также shader pixel bounds |
@@ -55,6 +56,8 @@
 | minimumAdaptiveScale | 0.3–1 / .55 | Inspector; нижняя граница авто-качества |
 | maxCellsBuiltPerFrame | cells / 1–24 / 4 | Inspector; предотвращает одномоментный rebuild |
 | softDepthFade | bool / true | Inspector; shader depth sample, дополнительная GPU стоимость |
+| enableCheapGroundGlow / maxGroundPatches | bool true; 0–24 / 12 | Inspector; отдельный instanced слой мягких пятен по поверхности |
+| cheapGroundGlowIntensity / cheapGroundPatchDiameter | 0–1/.13; 1–8 м/3.2 | Inspector; свечение, экранная площадь и overdraw |
 | allowReflectionCameras, reflectionCap | bool false, 0–32 / 0 | Inspector; отражение без повторной симуляции и отдельным бюджетом |
 | enableRealtimeLighting | bool / true | Light pool; true создаёт до 1/2 источников только на Medium/High при наличии общего менеджера |
 | mediumLights / highLights | источники / 0–2 / 1 и 2 | Light pool; только малое число общих Point Lights |
@@ -78,8 +81,8 @@
 - Не проведено обязательное сравнение instanced quads / Particle System / VFX Graph в основной сцене; профилировщик Unity недоступен в текущем облачном окружении.
 - Нет измерений CPU/GPU time, p95/p99, draw calls, overdraw, memory, GC Alloc, отдельных GPU платформ; невозможно подтвердить цели 0.2/0.4/0.6 мс CPU и 0.5/1/2 мс GPU при 1080p.
 - Пересечение плотностей в приоритете deterministically resolved, **точный cap каждой области** не реализован, и отсутствуют dedicated far aggregate LOD, GPU indirect и отдельный экранно-площадной cap.
-- Нет отдельного **дешёвого ground light-пятна**: только emissive и до двух realtime lights. Взаимодействие со стенами/крышами проходит через depth test, но защищённость под зданиями зависит от `placementExclusions`; требуется проверить на реальных моделях.
-- Нет весов биомов, близости к деревьям/дорогам, исключений по погоде, осадкам, мокроте и ветровой анимации всех сцен; нет полноценного пользовательского меню качества вне World Editor/компонента.
+- Добавлена **дешёвая наземная подсветка** через один instanced batch; её требуется визуально проверить на склонах и на воде. Взаимодействие со стенами/крышами проходит через depth test, но защищённость под зданиями зависит от `placementExclusions`; требуется проверить на реальных моделях.
+- Есть весовые фильтры для четырёх авторских биомов; пока нет отдельно настраиваемой близости к деревьям/дорогам, исключений по погоде, осадкам, мокроте; нет полноценного пользовательского меню качества вне World Editor/компонента.
 - Существующий Shader soft depth использует camera depth texture — необходимо подтвердить, что Renderer Feature/URP Asset генерирует depth во всех необходимых камерах.
 - Нет теста плавного перехода near при резком телепорте/развороте, возможны смены отдельных огоньков при пересечении spatial cell.
 - Данные `FireflyMapData` доступны по v7 save, но нет отдельного сетевого транспорта/policies клиента; требуются PlayMode + EditMode тесты всей совместимости.
