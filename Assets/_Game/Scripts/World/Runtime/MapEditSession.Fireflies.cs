@@ -42,8 +42,21 @@ namespace LittleCastle.World
                 !Finite(d.maximumSlopeDegrees) || d.maximumSlopeDegrees<0 || d.maximumSlopeDegrees>90 ||
                 !Finite(d.worldSize) || d.worldSize<=0 || d.worldSize>1 ||
                 !Finite(d.glow) || d.glow<0 || d.glow>4 ||
+                !ValidColor(d.color) ||
+                !Finite(d.colorVariation) || d.colorVariation<0 || d.colorVariation>1 ||
+                !Finite(d.motionAmplitude) || d.motionAmplitude<0 || d.motionAmplitude>2 ||
+                !Finite(d.motionSpeed) || d.motionSpeed<0 || d.motionSpeed>4 ||
+                !Finite(d.flickerStrength) || d.flickerStrength<0 || d.flickerStrength>.5f ||
+                !Finite(d.windInfluence) || d.windInfluence<0 || d.windInfluence>2 ||
+                !Finite(d.twilightStart) || d.twilightStart<0 || d.twilightStart>1 ||
+                !Finite(d.minimumNightAmount) || d.minimumNightAmount<0 || d.minimumNightAmount>1 ||
+                (int)d.nearMode<0 || (int)d.nearMode>1 ||
+                (int)d.defaultQuality<0 || (int)d.defaultQuality>4 ||
                 d.desiredNearCount<0 || d.desiredNearCount>48 ||
-                !Finite(d.nearRadius) || d.nearRadius<1 || d.nearRadius>50)
+                !Finite(d.nearRadius) || d.nearRadius<1 || d.nearRadius>50 ||
+                !Finite(d.nearCameraMinHeight) || d.nearCameraMinHeight<0 ||
+                !Finite(d.nearCameraMaxHeight) || d.nearCameraMaxHeight<d.nearCameraMinHeight ||
+                d.nearCameraMaxHeight>100)
                 throw new InvalidDataException("Invalid firefly settings.");
             var ids=new HashSet<string>(StringComparer.Ordinal);
             foreach(var a in d.areas)
@@ -56,7 +69,7 @@ namespace LittleCastle.World
                    !Finite(a.angleDegrees)||!Finite(a.falloff)||a.falloff<0||a.falloff>1||
                    !Finite(a.densityValue)||a.densityValue<0||a.densityValue>100||
                    (int)a.shape<0||(int)a.shape>1||(int)a.densityMode<0||(int)a.densityMode>3||
-                   a.polygon==null||a.polygon.Count>64)
+                   a.polygon==null||a.polygon.Count>64||!ValidColor(a.color))
                     throw new InvalidDataException("Invalid firefly region.");
                 ValidatePoint(a.center);
                 if(a.shape==FireflyAreaShape.Polygon)
@@ -67,6 +80,11 @@ namespace LittleCastle.World
             }
             return d;
         }
+
+        static bool ValidColor(Color c)=>
+            Finite(c.r)&&Finite(c.g)&&Finite(c.b)&&Finite(c.a)&&
+            c.r>=0&&c.g>=0&&c.b>=0&&c.a>=0&&
+            c.r<=8&&c.g<=8&&c.b<=8&&c.a<=1;
 
         void RequireFireflyAccess()
         {
