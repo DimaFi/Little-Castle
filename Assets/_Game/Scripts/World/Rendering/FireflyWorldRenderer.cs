@@ -245,6 +245,29 @@ namespace LittleCastle.Rendering
             return count;
         }
 
+        /// <summary>Copies up to two currently resident cluster targets without allocations.</summary>
+        public int CopyClusterTargets(Vector3 viewer,Vector3[] output)
+        {
+            if(output==null||output.Length==0)return 0;
+            int count=0;float first=-1,second=-1;
+            foreach(var pair in cells)
+            {
+                var cell=pair.Value;
+                if(cell.desired<=0||cell.count<=0)continue;
+                float sq=(viewer-cell.bounds.center).sqrMagnitude;
+                if(sq>140*140)continue;
+                float score=cell.desired/(1f+sq*.001f);
+                if(score>first)
+                {
+                    if(output.Length>1&&count>0){output[1]=output[0];second=first;}
+                    output[0]=cell.bounds.center;first=score;count=Mathf.Min(output.Length,Mathf.Max(1,count+1));
+                }
+                else if(output.Length>1&&score>second&&pair.Value.bounds.center!=output[0])
+                {output[1]=cell.bounds.center;second=score;count=2;}
+            }
+            return count;
+        }
+
         static float Now()
         {
 #if UNITY_EDITOR
