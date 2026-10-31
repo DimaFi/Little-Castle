@@ -24,6 +24,7 @@ namespace LittleCastle.Rendering
         static readonly int FlickerId = Shader.PropertyToID("_LC_FireflyFlicker");
         static readonly int ViewRangeId = Shader.PropertyToID("_LC_FireflyViewRange");
         static readonly int NightMinId = Shader.PropertyToID("_LC_FireflyNightMin");
+        static readonly int TwilightStartId = Shader.PropertyToID("_LC_FireflyTwilightStart");
         static readonly int InstanceColorId = Shader.PropertyToID("_LC_FireflyInstanceColor");
 
         sealed class Cell
@@ -203,6 +204,7 @@ namespace LittleCastle.Rendering
             material.SetVector(MotionId,new Vector4(data.motionAmplitude,data.motionSpeed,data.windInfluence,data.colorVariation));
             material.SetFloat(FlickerId,data.flickerStrength);
             material.SetFloat(NightMinId,data.minimumNightAmount);
+            material.SetFloat(TwilightStartId,data.twilightStart);
             material.SetFloat(NowId,Now());
             material.SetFloat(ViewRangeId,range);
             if(softDepthFade)material.EnableKeyword("_LC_FIREFLY_SOFT_DEPTH");
