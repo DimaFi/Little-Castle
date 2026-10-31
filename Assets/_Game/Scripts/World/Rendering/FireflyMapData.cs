@@ -130,13 +130,12 @@ namespace LittleCastle.Rendering
             float density = Mathf.Max(0,data.densityPer100m2);
             var areas = data.areas;
             if (areas == null) return density;
-            // A bounded authored list is deliberate; renderer caches this per resident cell.
+            float exclude=1f;
+            // Exclusion always wins, and must be applied exactly once.
             for (int i=0;i<areas.Count;i++)
-            {
-                var a=areas[i];
-                if (a!=null && a.densityMode==FireflyDensityMode.Exclude)
-                    density *= 1f-Influence(a,point);
-            }
+                if(areas[i]!=null && areas[i].densityMode==FireflyDensityMode.Exclude)
+                    exclude*=1f-Influence(areas[i],point);
+            // A bounded authored list is deliberate; renderer caches this per resident cell.
             for (int i=0;i<areas.Count;i++)
             {
                 var a=areas[i];
@@ -160,14 +159,10 @@ namespace LittleCastle.Rendering
                 float target=a.densityMode==FireflyDensityMode.Set?
                     a.densityValue:density * a.densityValue;
                 // Exclusions cannot be undone by a higher priority override.
-                float exclude=1f;
-                for(int j=0;j<areas.Count;j++)
-                    if(areas[j]!=null&&areas[j].densityMode==FireflyDensityMode.Exclude)
-                        exclude*=1f-Influence(areas[j],point);
-                density=Mathf.Lerp(density,target,influence)*exclude;
+                density=Mathf.Lerp(density,target,influence);
                 break;
             }
-            return Mathf.Max(0,density);
+            return Mathf.Max(0,density*exclude);
         }
     }
 
