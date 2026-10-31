@@ -32,6 +32,7 @@ namespace LittleCastle.Rendering
             public readonly Vector4[] colors = new Vector4[BatchLimit];
             public readonly MaterialPropertyBlock properties = new MaterialPropertyBlock();
             public int count, desired;
+            public Matrix4x4 groundPatch;
             public Bounds bounds;
         }
 
@@ -43,6 +44,10 @@ namespace LittleCastle.Rendering
         [SerializeField] bool allowReflectionCameras;
         [SerializeField, Range(0, 32)] int reflectionCap;
         [SerializeField] bool softDepthFade = true;
+        [SerializeField] bool enableCheapGroundGlow = true;
+        [SerializeField, Range(0, 24)] int maxGroundPatches = 12;
+        [SerializeField, Range(0, 1)] float cheapGroundGlowIntensity = .13f;
+        [SerializeField, Range(1, 8)] float cheapGroundPatchDiameter = 3.2f;
         [SerializeField, Range(1, 24)] int maxCellsBuiltPerFrame = 4;
         [SerializeField] StylizedLightingGlobals lighting;
         [SerializeField] Material overrideMaterial;
@@ -53,9 +58,10 @@ namespace LittleCastle.Rendering
         readonly Matrix4x4[] nearby=new Matrix4x4[48];
         readonly Vector4[] nearbyColors=new Vector4[48];
         readonly MaterialPropertyBlock nearProperties=new MaterialPropertyBlock();
+        readonly Matrix4x4[] groundPatches=new Matrix4x4[24];
         MapEditSession session;
         bool ownsMaterial;
-        Material material;
+        Material material,groundMaterial;
         Mesh mesh;
         long revision=-1;
         int seed,lastRefreshFrame=-1,desiredWorld,shownWorld,shownNear,missingCells;
@@ -113,6 +119,7 @@ namespace LittleCastle.Rendering
         {
             cells.Clear();
             if(material&&ownsMaterial){if(Application.isPlaying)Destroy(material);else DestroyImmediate(material);}material=null;ownsMaterial=false;
+            if(groundMaterial){if(Application.isPlaying)Destroy(groundMaterial);else DestroyImmediate(groundMaterial);groundMaterial=null;}
             if(mesh){if(Application.isPlaying)Destroy(mesh);else DestroyImmediate(mesh);mesh=null;}
             desiredWorld=shownWorld=shownNear=missingCells=0;
         }
@@ -125,6 +132,19 @@ namespace LittleCastle.Rendering
                 Shader shader=Shader.Find("Little Castle/Effects/LC Fireflies");
                 if(shader==null || !shader.isSupported)return;
                 material=new Material(shader){name="LC Fireflies (generated, runtime only)",hideFlags=HideFlags.HideAndDontSave,enableInstancing=true};ownsMaterial=true;
+            }
+            if(enableCheapGroundGlow && !groundMaterial)
+            {
+                Shader glow=Shader.Find("Little Castle/Effects/LC Night Light Pool");
+                if(glow!=null&&glow.isSupported)
+                {
+                    groundMaterial=new Material(glow){name="Firefly faint ground pools (runtime only)",
+                        enableInstancing=true,hideFlags=HideFlags.HideAndDontSave};
+                    groundMaterial.SetColor("_Color",new Color(.72f,.83f,.34f,1));
+                    groundMaterial.SetFloat("_InnerRadius",.04f);
+                    groundMaterial.SetFloat("_EdgeSoftness",.9f);
+                    groundMaterial.SetFloat("_FlickerStrength",.01f);
+                }
             }
             if(mesh!=null)return;
             mesh=new Mesh{name="Firefly unit quad (shared)",hideFlags=HideFlags.HideAndDontSave};
@@ -191,6 +211,9 @@ namespace LittleCastle.Rendering
             int minX=Mathf.FloorToInt((eye.x-range)/CellSize),maxX=Mathf.FloorToInt((eye.x+range)/CellSize);
             int minZ=Mathf.FloorToInt((eye.z-range)/CellSize),maxZ=Mathf.FloorToInt((eye.z+range)/CellSize);
             int built=0;missingCells=0;desiredWorld=0;shownWorld=0;
+            int groundCount=0;
+            int allowedGroundPatches=enableCheapGroundGlow && quality.preset!=FireflyQuality.Low
+                ?Mathf.Min(groundPatches.Length,maxGroundPatches):0;
             GeometryUtility.CalculateFrustumPlanes(cam,planes);
 
             // Deterministic X/Z iteration and a bounded number of rebuilds per render.
@@ -212,8 +235,16 @@ namespace LittleCastle.Rendering
                 Graphics.DrawMeshInstanced(mesh,0,material,cell.instances,count,cell.properties,
                     ShadowCastingMode.Off,false,gameObject.layer,cam,LightProbeUsage.Off);
                 shownWorld+=count;
+                if(groundCount<allowedGroundPatches && cell.groundPatch!=Matrix4x4.zero)
+                    groundPatches[groundCount++]=cell.groundPatch;
             }
             GlobalCapHitCount=Mathf.Max(0,desiredWorld-shownWorld);
+            if(groundMaterial && groundCount>0)
+            {
+                groundMaterial.SetFloat("_Intensity",cheapGroundGlowIntensity);
+                Graphics.DrawMeshInstanced(mesh,0,groundMaterial,groundPatches,groundCount,null,
+                    ShadowCastingMode.Off,false,gameObject.layer,cam,LightProbeUsage.Off);
+            }
             // Evict only outside the resident envelope; no global map materialization.
             eviction.Clear();
             foreach(var pair in cells)
@@ -269,6 +300,20 @@ namespace LittleCastle.Rendering
                 }
             }
             if(minY>maxY){minY=session.SampleHeight(baseX+16,baseZ+16);maxY=minY+4;}
+            if(cell.count>0)
+            {
+                Vector3 p=cell.instances[0].GetColumn(3);
+                Vector2 at=new Vector2(p.x,p.z);
+                if(session.FireflySurfaceAllowed(p.x,p.z))
+                {
+                    Vector3 normal=session.QueryWater(at,out _,out _,out _)?Vector3.up:
+                        session.SampleNormal(p.x,p.z);
+                    float y=session.FireflySurfaceHeight(p.x,p.z)+.065f;
+                    cell.groundPatch=Matrix4x4.TRS(new Vector3(p.x,y,p.z),
+                        Quaternion.FromToRotation(Vector3.back,normal),
+                        new Vector3(cheapGroundPatchDiameter,cheapGroundPatchDiameter,1));
+                }
+            }
             cell.properties.SetVectorArray(InstanceColorId,cell.colors);
             cell.bounds=new Bounds(new Vector3(baseX+16,(minY+maxY)*.5f,baseZ+16),
                 new Vector3(CellSize+8,maxY-minY+10,CellSize+8));
