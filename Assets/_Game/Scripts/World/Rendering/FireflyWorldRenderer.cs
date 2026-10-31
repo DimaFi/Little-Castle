@@ -24,10 +24,13 @@ namespace LittleCastle.Rendering
         static readonly int FlickerId = Shader.PropertyToID("_LC_FireflyFlicker");
         static readonly int ViewRangeId = Shader.PropertyToID("_LC_FireflyViewRange");
         static readonly int NightMinId = Shader.PropertyToID("_LC_FireflyNightMin");
+        static readonly int InstanceColorId = Shader.PropertyToID("_LC_FireflyInstanceColor");
 
         sealed class Cell
         {
             public readonly Matrix4x4[] instances = new Matrix4x4[BatchLimit];
+            public readonly Vector4[] colors = new Vector4[BatchLimit];
+            public readonly MaterialPropertyBlock properties = new MaterialPropertyBlock();
             public int count, desired;
             public Bounds bounds;
         }
@@ -44,6 +47,8 @@ namespace LittleCastle.Rendering
         readonly List<Vector2Int> eviction=new List<Vector2Int>(128);
         readonly Plane[] planes=new Plane[6];
         readonly Matrix4x4[] nearby=new Matrix4x4[48];
+        readonly Vector4[] nearbyColors=new Vector4[48];
+        readonly MaterialPropertyBlock nearProperties=new MaterialPropertyBlock();
         MapEditSession session;
         bool ownsMaterial;
         Material material;
@@ -172,7 +177,7 @@ namespace LittleCastle.Rendering
                 if(shownWorld>=budget||cell.count==0)continue;
                 if(!GeometryUtility.TestPlanesAABB(planes,cell.bounds))continue;
                 int count=Mathf.Min(cell.count,budget-shownWorld);
-                Graphics.DrawMeshInstanced(mesh,0,material,cell.instances,count,null,
+                Graphics.DrawMeshInstanced(mesh,0,material,cell.instances,count,cell.properties,
                     ShadowCastingMode.Off,false,gameObject.layer,cam,LightProbeUsage.Off);
                 shownWorld+=count;
             }
@@ -189,7 +194,8 @@ namespace LittleCastle.Rendering
                 int count=BuildNear(cam,data,nearCap);
                 if(count>0)
                 {
-                    Graphics.DrawMeshInstanced(mesh,0,material,nearby,count,null,
+                    nearProperties.SetVectorArray(InstanceColorId,nearbyColors);
+                    Graphics.DrawMeshInstanced(mesh,0,material,nearby,count,nearProperties,
                         ShadowCastingMode.Off,false,gameObject.layer,cam,LightProbeUsage.Off);
                     shownNear=count;
                 }
@@ -224,11 +230,14 @@ namespace LittleCastle.Rendering
                     float h=Mathf.Lerp(data.minimumHeight,data.maximumHeight,FireflyDistribution.Random01(gx,gz,data.seed,k+10));
                     float y=terrain+h;
                     minY=Mathf.Min(minY,y);maxY=Mathf.Max(maxY,y);
+                    Color tint=FireflyDistribution.ColorAt(data,new Vector2(wx,wz));
+                    cell.colors[cell.count]=new Vector4(tint.r,tint.g,tint.b,tint.a);
                     cell.instances[cell.count++]=Matrix4x4.TRS(new Vector3(wx,y,wz),
                         Quaternion.identity,Vector3.one);
                 }
             }
             if(minY>maxY){minY=session.SampleHeight(baseX+16,baseZ+16);maxY=minY+4;}
+            cell.properties.SetVectorArray(InstanceColorId,cell.colors);
             cell.bounds=new Bounds(new Vector3(baseX+16,(minY+maxY)*.5f,baseZ+16),
                 new Vector3(CellSize+8,maxY-minY+10,CellSize+8));
             return cell;
@@ -257,6 +266,8 @@ namespace LittleCastle.Rendering
                 if(!session.FireflySurfaceAllowed(wx,wz))continue;
                 float y=session.FireflySurfaceHeight(wx,wz)+
                     Mathf.Lerp(.7f,2.5f,FireflyDistribution.Random01(gx,gz,seed,86));
+                Color tint=FireflyDistribution.ColorAt(data,new Vector2(wx,wz));
+                nearbyColors[count]=new Vector4(tint.r,tint.g,tint.b,tint.a);
                 nearby[count++]=Matrix4x4.TRS(new Vector3(wx,y,wz),Quaternion.identity,Vector3.one);
             }
             return count;
