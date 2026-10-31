@@ -6,8 +6,8 @@ using UnityEngine;
 
 namespace LittleCastle.World
 {
-    [Flags] public enum MapEditAccess { None=0, Road=1, Meadow=2, Erase=4, AllSurface=7, Terrain=8, TreePlace=16, TreeEdit=32, TreeBrush=64, Author=128, Player=63, Rivers=256, Biomes=512, Snow=1024, All=2047 }
-    [Flags] public enum MapChangeKind { Surface=1, Decoration=2, Height=4, Objects=8, Rivers=16, Biomes=32, Snow=64 }
+    [Flags] public enum MapEditAccess { None=0, Road=1, Meadow=2, Erase=4, AllSurface=7, Terrain=8, TreePlace=16, TreeEdit=32, TreeBrush=64, Author=128, Player=63, Rivers=256, Biomes=512, Snow=1024, Fireflies=2048, All=4095 }
+    [Flags] public enum MapChangeKind { Surface=1, Decoration=2, Height=4, Objects=8, Rivers=16, Biomes=32, Snow=64, Fireflies=128 }
 
     /// <summary>Plain authored map root. Extend with height/object records in subsequent stages.</summary>
     [Serializable] public sealed class MapAuthoringDocument
@@ -24,11 +24,12 @@ namespace LittleCastle.World
         public List<MapRiverRecord> rivers=new List<MapRiverRecord>();
         public List<MapRockSection> rockSections=new List<MapRockSection>();
         public Environment.MapEnvironmentData environment;
+        public FireflyMapData fireflies;
     }
 
     [Serializable] public sealed class MapEditSave
     {
-        public int version=6;
+        public int version=7;
         public string mapId;
         public int baseRevision;
         public string baseFingerprint;
@@ -39,6 +40,7 @@ namespace LittleCastle.World
         public List<MapRiverRecord> rivers=new List<MapRiverRecord>();
         public List<MapRockSection> rockSections=new List<MapRockSection>();
         public Environment.MapEnvironmentData environment;
+        public FireflyMapData fireflies;
     }
 
     public readonly struct MapRegionChange
@@ -73,6 +75,7 @@ namespace LittleCastle.World
             public List<RockSectionChange> sections=new List<RockSectionChange>();
             public List<EnvironmentTileChange> environment=new List<EnvironmentTileChange>();
             public Environment.MapEnvironmentSettings environmentSettingsBefore,environmentSettingsAfter;
+            public FireflyMapData fireflyBefore,fireflyAfter;
         }
         readonly Stack<Command> undo=new Stack<Command>();
         readonly Stack<Command> redo=new Stack<Command>();
@@ -98,15 +101,15 @@ namespace LittleCastle.World
                 throw new InvalidDataException("Invalid finite map bounds.");
             ValidateDocument(authored.surface);
             heightField=new MapHeightField(authored.heightField);
-            InitializeTrees();ValidateRiverState(authored.rivers,authored.rockSections);InitializeRivers();InitializeEnvironment();Reindex();
+            InitializeTrees();ValidateRiverState(authored.rivers,authored.rockSections);InitializeRivers();InitializeEnvironment();InitializeFireflies();Reindex();
         }
 
         public static MapAuthoringDocument FromSurface(SurfacePaintData data)=>new MapAuthoringDocument
-        { environment=data.hasEnvironmentBase?data.environment:null,mapId=data.mapId,revision=data.revision,bounds=data.bounds,surface=Clone(data.authored),heightField=data.hasHeightBase&&data.heightField!=null?Clone(data.heightField):null,trees=data.hasTreeBase?CloneTrees(data.treeInstances):new List<MapTreeInstance>(),rivers=data.rivers??new List<MapRiverRecord>(),rockSections=data.rockSections??new List<MapRockSection>(),placementExclusions=data.placementExclusions==null?new List<Rect>():new List<Rect>(data.placementExclusions) };
+        { fireflies=data.hasFireflyBase?data.fireflies:null,environment=data.hasEnvironmentBase?data.environment:null,mapId=data.mapId,revision=data.revision,bounds=data.bounds,surface=Clone(data.authored),heightField=data.hasHeightBase&&data.heightField!=null?Clone(data.heightField):null,trees=data.hasTreeBase?CloneTrees(data.treeInstances):new List<MapTreeInstance>(),rivers=data.rivers??new List<MapRiverRecord>(),rockSections=data.rockSections??new List<MapRockSection>(),placementExclusions=data.placementExclusions==null?new List<Rect>():new List<Rect>(data.placementExclusions) };
         public MapAuthoringDocument ExportAuthored()=>Clone(authored);
         public SurfacePaintDocument ExportEdits()=>new SurfacePaintDocument{strokes=Copy(edits)};
         public MapEditSave ExportSave(){CommitStroke();return new MapEditSave{mapId=MapId,baseRevision=authored.revision,
-            baseFingerprint=EnvironmentBaseFingerprint(),environment=ExportEnvironment(),surface=ExportEdits(),heightEdits=heightField.ExportEdits(),treeOverrides=ExportTreeOverrides(),removedTreeIds=ExportRemovedTrees(),rivers=ExportRivers(),rockSections=ExportRockSections()};}
+            baseFingerprint=EnvironmentBaseFingerprint(),environment=ExportEnvironment(),fireflies=ExportFireflies(),surface=ExportEdits(),heightEdits=heightField.ExportEdits(),treeOverrides=ExportTreeOverrides(),removedTreeIds=ExportRemovedTrees(),rivers=ExportRivers(),rockSections=ExportRockSections()};}
         public string ExportJson()=>JsonUtility.ToJson(ExportSave(),true);
         public void StoreIn(WorldSaveState save){CommitStroke();save.mapEdits=ExportSave();}
 
@@ -120,13 +123,14 @@ namespace LittleCastle.World
         }
         public void LoadSave(MapEditSave save)
         {
-            if(save==null||(save.version!=2&&save.version!=3&&save.version!=4&&save.version!=5&&save.version!=6)||save.mapId!=MapId||save.baseRevision!=authored.revision||
-                save.baseFingerprint!=(save.version==2?LegacyFingerprint():save.version==3?LegacyHeightFingerprint():save.version==4?LegacyTreeFingerprint():save.version==5?LegacyFeatureFingerprint():EnvironmentBaseFingerprint()))throw new InvalidDataException("Map edits belong to another map/base revision.");
-            ReplaceEdits(save.surface,save.version==2?new List<MapHeightSample>():save.heightEdits,save.version>=4?ValidateTreeSave(save):CloneTrees(authored.trees),save.version>=5?save.rivers:Clone(authored).rivers,save.version>=5?save.rockSections:Clone(authored).rockSections,save.version>=6?save.environment:authored.environment);
+            if(save==null||(save.version!=2&&save.version!=3&&save.version!=4&&save.version!=5&&save.version!=6&&save.version!=7)||save.mapId!=MapId||save.baseRevision!=authored.revision||
+                save.baseFingerprint!=(save.version==2?LegacyFingerprint():save.version==3?LegacyHeightFingerprint():save.version==4?LegacyTreeFingerprint():save.version==5?LegacyFeatureFingerprint():save.version==6?LegacyEnvironmentFingerprint():EnvironmentBaseFingerprint()))throw new InvalidDataException("Map edits belong to another map/base revision.");
+            ReplaceEdits(save.surface,save.version==2?new List<MapHeightSample>():save.heightEdits,save.version>=4?ValidateTreeSave(save):CloneTrees(authored.trees),save.version>=5?save.rivers:Clone(authored).rivers,save.version>=5?save.rockSections:Clone(authored).rockSections,save.version>=6?save.environment:authored.environment,save.version>=7?save.fireflies:authored.fireflies);
         }
-        void ReplaceEdits(SurfacePaintDocument value,List<MapHeightSample> heights=null,List<MapTreeInstance> loadedTrees=null,List<MapRiverRecord> loadedRivers=null,List<MapRockSection> loadedSections=null,Environment.MapEnvironmentData loadedEnvironment=null)
+        void ReplaceEdits(SurfacePaintDocument value,List<MapHeightSample> heights=null,List<MapTreeInstance> loadedTrees=null,List<MapRiverRecord> loadedRivers=null,List<MapRockSection> loadedSections=null,Environment.MapEnvironmentData loadedEnvironment=null,FireflyMapData loadedFireflies=null)
         {
             var validEnvironment=ValidateEnvironment(loadedEnvironment??authored.environment);
+            var validFireflies=ValidateFireflies(loadedFireflies??authored.fireflies);
             heights=heights??new List<MapHeightSample>();ValidateHeightEdits(heights);loadedTrees=loadedTrees??CloneTrees(authored.trees);ValidateTreeRecords(loadedTrees);
             loadedRivers=loadedRivers??Clone(authored).rivers;loadedSections=loadedSections??Clone(authored).rockSections;ValidateRiverState(loadedRivers,loadedSections);
             ValidateDocument(value);
@@ -135,8 +139,8 @@ namespace LittleCastle.World
             foreach(var s in value.strokes)if(!seen.Add(s.id))throw new InvalidDataException("Duplicate stroke ID.");
             var dirty=Union(Union(Union(AllEditBounds(),DocumentBounds(value.strokes)),Union(HeightEditsBounds(heightField.ExportEdits()),HeightEditsBounds(heights))),Union(AllTreeBounds(),TreeListBounds(loadedTrees)));
             dirty=Union(dirty,AllRiverBounds());foreach(var r in loadedRivers)dirty=Union(dirty,new MapRiverPath(r).bounds);foreach(var r in loadedSections)dirty=Union(dirty,SectionBounds(r));
-            ReplaceRiverState(loadedRivers,loadedSections);RestoreEnvironment(validEnvironment);BiomeRevision++;environmentStroke=null;dirty=Union(dirty,EnvironmentBounds);
-            pending=null;pendingHeights=null;pendingHeightBounds=default;if(heightField.EditCount>0||heights.Count>0)HeightRevision++;heightField.ReplaceEdits(heights);ReplaceTrees(loadedTrees);edits.Clear();edits.AddRange(Copy(value.strokes));undo.Clear();redo.Clear();Reindex();Notify(dirty,false,MapChangeKind.Surface|MapChangeKind.Decoration|MapChangeKind.Height|MapChangeKind.Objects|MapChangeKind.Rivers|MapChangeKind.Biomes|MapChangeKind.Snow);
+            ReplaceRiverState(loadedRivers,loadedSections);RestoreEnvironment(validEnvironment);fireflies=validFireflies;FireflyRevision++;BiomeRevision++;environmentStroke=null;dirty=Union(dirty,EnvironmentBounds);
+            pending=null;pendingHeights=null;pendingHeightBounds=default;if(heightField.EditCount>0||heights.Count>0)HeightRevision++;heightField.ReplaceEdits(heights);ReplaceTrees(loadedTrees);edits.Clear();edits.AddRange(Copy(value.strokes));undo.Clear();redo.Clear();Reindex();Notify(dirty,false,MapChangeKind.Surface|MapChangeKind.Decoration|MapChangeKind.Height|MapChangeKind.Objects|MapChangeKind.Rivers|MapChangeKind.Biomes|MapChangeKind.Snow|MapChangeKind.Fireflies);
         }
 
         public void BeginStroke(SurfacePaintStroke settings)
@@ -181,17 +185,17 @@ namespace LittleCastle.World
         }
         public void ClearEdits()
         {
-            CommitStroke();if(edits.Count==0&&heightField.EditCount==0&&!HasTreeEdits&&!HasEnvironmentEdits&&JsonUtility.ToJson(new FeatureState{rivers=ExportRivers(),sections=ExportRockSections()})==JsonUtility.ToJson(new FeatureState{rivers=authored.rivers,sections=authored.rockSections}))return;
+            CommitStroke();if(edits.Count==0&&heightField.EditCount==0&&!HasTreeEdits&&!HasEnvironmentEdits&&!HasFireflyEdits&&JsonUtility.ToJson(new FeatureState{rivers=ExportRivers(),sections=ExportRockSections()})==JsonUtility.ToJson(new FeatureState{rivers=authored.rivers,sections=authored.rockSections}))return;
             var command=new Command{removed=new List<SurfacePaintStroke>(edits),bounds=Union(AllEditBounds(),HeightEditsBounds(heightField.ExportEdits()))};
             foreach(var sample in heightField.ExportEdits())command.heights.Add(new HeightChange{x=sample.x,z=sample.z,before=sample.height,after=heightField.BaseSample(sample.x,sample.z)});
             if(command.heights.Count>0)command.kind|=MapChangeKind.Height;
             foreach(var r in ExportTreeOverrides())command.treeChanges.Add(new TreeChange{before=trees[r.stableId],after=baseTrees.TryGetValue(r.stableId,out var b)?b:null});
             foreach(long id in ExportRemovedTrees())command.treeChanges.Add(new TreeChange{after=baseTrees[id]});
             if(command.treeChanges.Count>0){command.treeAccess=MapEditAccess.TreeEdit;command.kind|=MapChangeKind.Objects;command.bounds=Union(command.bounds,Union(AllTreeBounds(),TreeListBounds(authored.trees)));}
-            AddRiverReset(command);AddEnvironmentReset(command);CheckCommandAccess(command);Execute(command);
+            AddRiverReset(command);AddEnvironmentReset(command);AddFireflyReset(command);CheckCommandAccess(command);Execute(command);
         }
         void CheckCommandAccess(Command command)
-        {foreach(var s in command.added)CheckAccess(s);foreach(var s in command.removed)CheckAccess(s);if(command.heights.Count>0)RequireTerrainAccess();CheckTreeCommandAccess(command);if(command.rivers.Count>0||command.sections.Count>0)RequireRiverAccess();if(command.environment.Count>0){if((command.kind&MapChangeKind.Biomes)!=0)RequireEnvironmentAccess(false);if((command.kind&MapChangeKind.Snow)!=0)RequireEnvironmentAccess(true);}if(command.environmentSettingsBefore!=null)RequireEnvironmentAccess(true);}
+        {foreach(var s in command.added)CheckAccess(s);foreach(var s in command.removed)CheckAccess(s);if(command.heights.Count>0)RequireTerrainAccess();CheckTreeCommandAccess(command);if(command.rivers.Count>0||command.sections.Count>0)RequireRiverAccess();if(command.environment.Count>0){if((command.kind&MapChangeKind.Biomes)!=0)RequireEnvironmentAccess(false);if((command.kind&MapChangeKind.Snow)!=0)RequireEnvironmentAccess(true);}if(command.environmentSettingsBefore!=null)RequireEnvironmentAccess(true);if(command.fireflyBefore!=null)RequireFireflyAccess();}
         void Execute(Command command){undo.Push(command);redo.Clear();ApplyCommand(command,false);}
         void ApplyCommand(Command command,bool reverse)
         {
@@ -204,7 +208,7 @@ namespace LittleCastle.World
             foreach(var change in command.rivers){var r=reverse?change.before:change.after;SetRiver((change.before??change.after).id,r);}foreach(var change in command.sections){var r=reverse?change.before:change.after;long id=(change.before??change.after).id;rockSections.Remove(id);if(r!=null)rockSections.Add(id,r);}
             if(command.rivers.Count>0||command.sections.Count>0){RiverRevision++;HeightRevision++;}
             if((command.kind&MapChangeKind.Height)!=0)InvalidateComposedHeight(command.bounds);
-            ApplyEnvironmentCommand(command,reverse);NotifyCommand(command);
+            ApplyEnvironmentCommand(command,reverse);ApplyFireflyCommand(command,reverse);NotifyCommand(command);
         }
         void RemoveFromIndex(SurfacePaintStroke stroke)
         {
