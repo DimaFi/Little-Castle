@@ -23,6 +23,10 @@ namespace LittleCastle.Rendering
         public float minimumHeight = .5f;
         public float maximumHeight = 3.5f;
         public float maximumSlopeDegrees = 42f;
+        public bool allowSummer = true;
+        public bool allowEnchantedForest = true;
+        public bool allowElvenForest = true;
+        public bool allowWinter;
         public Color color = new Color(1f, .89f, .43f, 1f);
         [Range(0, 1)] public float colorVariation = .16f;
         [Range(0, 4)] public float glow = 1.3f;
