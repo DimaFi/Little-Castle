@@ -193,6 +193,7 @@ namespace LittleCastle.Rendering
             if(cap==0 || range<=0){Cleanup();return;}
             FireflyMapData data=session.FirefliesForRendering;
             if(data==null||!data.enabled){Cleanup();return;}
+            nearCap=Mathf.Min(nearCap,data.desiredNearCount);
             EnsureResources();
             if(!mesh||!material)return;
             material.enableInstancing=true;
