@@ -106,6 +106,33 @@ namespace LittleCastle.Tests
         }
 
         [Test]
+        public void AreaSeedsAndColors_AreStableAcrossAreaListOrder()
+        {
+            var map=new FireflyMapData();
+            var first=Area("a",FireflyDensityMode.Multiply,0);
+            var second=Area("z",FireflyDensityMode.Multiply,1);
+            second.seed=99;second.overrideColor=true;second.color=Color.green;
+            map.areas.Add(first);map.areas.Add(second);
+            int areaSeed=FireflyDistribution.SeedAt(map,Vector2.zero);
+            Assert.AreNotEqual(map.seed,areaSeed);
+            Assert.AreEqual(second.color,FireflyDistribution.ColorAt(map,Vector2.zero));
+            map.areas.Reverse();
+            Assert.AreEqual(areaSeed,FireflyDistribution.SeedAt(map,Vector2.zero));
+            Assert.AreEqual(second.color,FireflyDistribution.ColorAt(map,Vector2.zero));
+        }
+
+        [Test]
+        public void InvalidShaderParametersAreRejectedWithoutChangingSession()
+        {
+            var session=new MapEditSession(Map());
+            string before=JsonUtility.ToJson(session.ExportFireflies());
+            var data=session.ExportFireflies();
+            data.glow=float.NaN;
+            Assert.Throws<InvalidDataException>(()=>session.SetFireflies(data));
+            Assert.AreEqual(before,JsonUtility.ToJson(session.ExportFireflies()));
+        }
+
+        [Test]
         public void Quality_OffNeverEmitsAndSliderGrowsBudget()
         {
             var q=new FireflyRuntimeQuality{preset=FireflyQuality.Off,graphicsVsFps=1};
