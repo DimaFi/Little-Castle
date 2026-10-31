@@ -3,6 +3,7 @@ Shader "Little Castle/Effects/Firefly Preview URP"
     Properties
     {
         [HDR] _FireflyColor ("Core tint", Color) = (1,0.89,0.38,1)
+        [PerRendererData] _FireflyInstanceColor ("Instance color", Color) = (0,0,0,0)
         _FireflyDiameter ("Diameter in metres", Range(0.01,1)) = 0.13
         _FireflyGlow ("HDR emission", Range(0,5)) = 1.4
         _FireflyNight ("Night strength", Range(0,1)) = 1
@@ -50,6 +51,9 @@ Shader "Little Castle/Effects/Firefly Preview URP"
             CBUFFER_END
 
             float4 _LC_Wind;
+            UNITY_INSTANCING_BUFFER_START(PerFirefly)
+                UNITY_DEFINE_INSTANCED_PROP(float4, _FireflyInstanceColor)
+            UNITY_INSTANCING_BUFFER_END(PerFirefly)
 
             struct Attributes
             {
@@ -113,7 +117,9 @@ Shader "Little Castle/Effects/Firefly Preview URP"
                 float pulse=.78+.22*sin(t*.76+sin(t*.41)*1.3);
                 pulse=lerp(1,pulse,saturate(_FireflyMotion.w*2));
                 o.alpha=saturate(_FireflyNight*front*back*pulse);
-                o.color=lerp(_FireflyColor.rgb,_FireflyColor.rgb*float3(.72,1.06,.57),
+                float4 instanceColor=UNITY_ACCESS_INSTANCED_PROP(PerFirefly, _FireflyInstanceColor);
+                float3 baseColor=lerp(_FireflyColor.rgb,instanceColor.rgb,saturate(instanceColor.a));
+                o.color=lerp(baseColor,baseColor*float3(.72,1.06,.57),
                     seed*saturate(_FireflyFades.z));
                 return o;
             }
