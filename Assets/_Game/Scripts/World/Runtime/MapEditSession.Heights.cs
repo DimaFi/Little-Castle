@@ -27,7 +27,7 @@ namespace LittleCastle.World
         }
         public MapAuthoringDocument ExportMap()
         {
-            CommitStroke();var result=ExportAuthored();result.surface.strokes.AddRange(ExportEdits().strokes);result.heightField=heightField.Bake();result.trees=ExportTrees();result.rivers=ExportRivers();result.riverNetwork=ExportRiverNetwork();result.rockSections=ExportRockSections();result.environment=ExportEnvironment();result.fences=ExportFences();return result;
+            CommitStroke();var result=ExportAuthored();result.surface.strokes.AddRange(ExportEdits().strokes);result.heightField=heightField.Bake();result.trees=ExportTrees();result.rivers=ExportRivers();result.riverNetwork=ExportRiverNetwork();result.rockSections=ExportRockSections();result.environment=ExportEnvironment();result.fences=ExportFences();result.fireflies=ExportFireflies();return result;
         }
         void RequireTerrainAccess(){if((Access&MapEditAccess.Terrain)==0)throw new UnauthorizedAccessException("Terrain editing is disabled for this role.");}
         public void BeginHeightStroke(float radius,float deltaPerStamp,float softness=1)
