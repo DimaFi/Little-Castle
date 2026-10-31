@@ -1,0 +1,253 @@
+using System;
+using System.Collections.Generic;
+using LittleCastle.World;
+using UnityEngine;
+using UnityEngine.Rendering;
+
+namespace LittleCastle.Rendering
+{
+    /// <summary>
+    /// Scene presentation only. One instanced quad mesh and one material are shared
+    /// by all fireflies. No per-firefly MonoBehaviour, collider, Update or Light.
+    /// Editor and Game cameras are rendered separately; reflection cameras are skipped.
+    /// </summary>
+    [ExecuteAlways, DisallowMultipleComponent]
+    public sealed class FireflyWorldRenderer : MonoBehaviour
+    {
+        const float CellSize = 32f;
+        const int BatchLimit = 1023;
+        static readonly int NowId = Shader.PropertyToID("_LC_FireflyTime");
+        static readonly int SizeId = Shader.PropertyToID("_LC_FireflySize");
+        static readonly int ColorId = Shader.PropertyToID("_LC_FireflyColor");
+        static readonly int GlowId = Shader.PropertyToID("_LC_FireflyGlow");
+        static readonly int MotionId = Shader.PropertyToID("_LC_FireflyMotion");
+        static readonly int FlickerId = Shader.PropertyToID("_LC_FireflyFlicker");
+        static readonly int ViewRangeId = Shader.PropertyToID("_LC_FireflyViewRange");
+        static readonly int NightMinId = Shader.PropertyToID("_LC_FireflyNightMin");
+
+        sealed class Cell
+        {
+            public readonly Matrix4x4[] instances = new Matrix4x4[BatchLimit];
+            public int count, desired;
+            public Bounds bounds;
+        }
+
+        [SerializeField] public FireflyRuntimeQuality quality = new FireflyRuntimeQuality();
+        [SerializeField] bool allowReflectionCameras;
+        [SerializeField, Range(0, 32)] int reflectionCap;
+        [SerializeField] bool softDepthFade = true;
+        [SerializeField, Range(1, 24)] int maxCellsBuiltPerFrame = 4;
+        [SerializeField] StylizedLightingGlobals lighting;
+        [SerializeField] Material overrideMaterial;
+
+        readonly Dictionary<Vector2Int,Cell> cells=new Dictionary<Vector2Int,Cell>(128);
+        readonly List<Vector2Int> eviction=new List<Vector2Int>(128);
+        readonly Plane[] planes=new Plane[6];
+        readonly Matrix4x4[] nearby=new Matrix4x4[48];
+        MapEditSession session;
+        Material material;
+        Mesh mesh;
+        long revision=-1;
+        int seed,lastRefreshFrame=-1,desiredWorld,shownWorld,shownNear,missingCells;
+        float lastRange;
+        public int DesiredWorldCount=>desiredWorld;
+        public int VisibleWorldCount=>shownWorld;
+        public int VisibleNearCount=>shownNear;
+        public int ResidentCellCount=>cells.Count;
+        public int WaitingCellCount=>missingCells;
+        public int GlobalCapHitCount { get; private set; }
+
+        public void Connect(MapEditSession map)
+        {
+            if(session==map)return;
+            session=map;
+            cells.Clear();
+            revision=-1;
+        }
+
+        void OnEnable()
+        {
+            RenderPipelineManager.beginCameraRendering+=Render;
+        }
+        void OnDisable()
+        {
+            RenderPipelineManager.beginCameraRendering-=Render;
+            Cleanup();
+        }
+        void OnDestroy()=>Cleanup();
+
+        void Cleanup()
+        {
+            cells.Clear();
+            if(material){if(Application.isPlaying)Destroy(material);else DestroyImmediate(material);material=null;}
+            if(mesh){if(Application.isPlaying)Destroy(mesh);else DestroyImmediate(mesh);mesh=null;}
+            desiredWorld=shownWorld=shownNear=missingCells=0;
+        }
+
+        void EnsureResources()
+        {
+            if(overrideMaterial!=null)material=overrideMaterial;
+            if(!material)
+            {
+                Shader shader=Shader.Find("Little Castle/Effects/LC Fireflies");
+                if(shader==null || !shader.isSupported)return;
+                material=new Material(shader){name="LC Fireflies (generated, runtime only)",hideFlags=HideFlags.HideAndDontSave,enableInstancing=true};
+            }
+            if(mesh!=null)return;
+            mesh=new Mesh{name="Firefly unit quad (shared)",hideFlags=HideFlags.HideAndDontSave};
+            mesh.vertices=new[]{new Vector3(-.5f,-.5f,0),new Vector3(.5f,-.5f,0),
+                new Vector3(.5f,.5f,0),new Vector3(-.5f,.5f,0)};
+            mesh.uv=new[]{Vector2.zero,Vector2.right,Vector2.one,Vector2.up};
+            mesh.triangles=new[]{0,2,1,0,3,2};
+            mesh.bounds=new Bounds(Vector3.zero,Vector3.one*10);
+        }
+
+        void Render(ScriptableRenderContext _, Camera cam)
+        {
+            if(!isActiveAndEnabled||session==null||cam==null||quality==null)return;
+            if(cam.cameraType!=CameraType.Game && cam.cameraType!=CameraType.SceneView &&
+               !(allowReflectionCameras&&cam.cameraType==CameraType.Reflection))return;
+            if(cam.cameraType==CameraType.Reflection && reflectionCap<=0)return;
+
+            quality.ResolveAdaptive(out int cap,out int nearCap,out float range);
+            if(cap==0 || range<=0){shownWorld=shownNear=desiredWorld=0;return;}
+            FireflyMapData data=session.ExportFireflies();
+            if(!data.enabled){shownWorld=shownNear=desiredWorld=0;return;}
+            EnsureResources();
+            if(!mesh||!material)return;
+            material.enableInstancing=true;
+            material.SetColor(ColorId,data.color);
+            material.SetFloat(SizeId,data.worldSize);
+            material.SetFloat(GlowId,data.glow);
+            material.SetVector(MotionId,new Vector4(data.motionAmplitude,data.motionSpeed,data.windInfluence,data.colorVariation));
+            material.SetFloat(FlickerId,data.flickerStrength);
+            material.SetFloat(NightMinId,data.minimumNightAmount);
+            material.SetFloat(NowId,Now());
+            material.SetFloat(ViewRangeId,range);
+            if(softDepthFade)material.EnableKeyword("_LC_FIREFLY_SOFT_DEPTH");
+            else material.DisableKeyword("_LC_FIREFLY_SOFT_DEPTH");
+
+            int budget=Mathf.Min(cap,data.globalDesiredCap);
+            if(cam.cameraType==CameraType.Reflection)budget=Mathf.Min(budget,reflectionCap);
+            if(budget<=0)return;
+            Vector3 eye=cam.transform.position;
+            if(revision!=session.FireflyRevision || seed!=data.seed || Mathf.Abs(lastRange-range)>1f)
+            {cells.Clear();revision=session.FireflyRevision;seed=data.seed;lastRange=range;}
+            int minX=Mathf.FloorToInt((eye.x-range)/CellSize),maxX=Mathf.FloorToInt((eye.x+range)/CellSize);
+            int minZ=Mathf.FloorToInt((eye.z-range)/CellSize),maxZ=Mathf.FloorToInt((eye.z+range)/CellSize);
+            int built=0;missingCells=0;desiredWorld=0;shownWorld=0;
+            GeometryUtility.CalculateFrustumPlanes(cam,planes);
+
+            // Deterministic X/Z iteration and a bounded number of rebuilds per render.
+            for(int z=minZ;z<=maxZ;z++)
+            for(int x=minX;x<=maxX;x++)
+            {
+                var key=new Vector2Int(x,z);
+                float px=(x+.5f)*CellSize,pz=(z+.5f)*CellSize;
+                if((new Vector2(px-eye.x,pz-eye.z)).sqrMagnitude>(range+CellSize)* (range+CellSize))continue;
+                if(!cells.TryGetValue(key,out var cell))
+                {
+                    if(built>=maxCellsBuiltPerFrame){missingCells++;continue;}
+                    cell=BuildCell(x,z,data);cells.Add(key,cell);built++;
+                }
+                desiredWorld+=cell.desired;
+                if(shownWorld>=budget||cell.count==0)continue;
+                if(!GeometryUtility.TestPlanesAABB(planes,cell.bounds))continue;
+                int count=Mathf.Min(cell.count,budget-shownWorld);
+                Graphics.DrawMeshInstanced(mesh,0,material,cell.instances,count,null,
+                    ShadowCastingMode.Off,false,gameObject.layer,cam,LightProbeUsage.Off);
+                shownWorld+=count;
+            }
+            GlobalCapHitCount=Mathf.Max(0,desiredWorld-shownWorld);
+            // Evict only outside the resident envelope; no global map materialization.
+            eviction.Clear();
+            foreach(var pair in cells)
+                if(pair.Key.x<minX-1||pair.Key.x>maxX+1||
+                    pair.Key.y<minZ-1||pair.Key.y>maxZ+1)eviction.Add(pair.Key);
+            foreach(var key in eviction)cells.Remove(key);
+            shownNear=0;
+            if(data.allowNear && nearCap>0 && cam.cameraType!=CameraType.Reflection)
+            {
+                int count=BuildNear(cam,data,nearCap);
+                if(count>0)
+                {
+                    Graphics.DrawMeshInstanced(mesh,0,material,nearby,count,null,
+                        ShadowCastingMode.Off,false,gameObject.layer,cam,LightProbeUsage.Off);
+                    shownNear=count;
+                }
+            }
+        }
+
+        Cell BuildCell(int cx,int cz,FireflyMapData data)
+        {
+            var cell=new Cell();
+            float baseX=cx*CellSize,baseZ=cz*CellSize;
+            float minY=float.MaxValue,maxY=float.MinValue;
+            float spacing=2.5f;
+            for(int z=0;z<13;z++)for(int x=0;x<13;x++)
+            {
+                int gx=cx*13+x,gz=cz*13+z;
+                float wx=baseX+(x+FireflyDistribution.Random01(gx,gz,data.seed,1))*CellSize/13;
+                float wz=baseZ+(z+FireflyDistribution.Random01(gx,gz,data.seed,2))*CellSize/13;
+                var b=session.Bounds;
+                if(wx<b.x||wx>b.x+b.z||wz<b.y||wz>b.y+b.w)continue;
+                float areaDensity=FireflyDistribution.Density(data,new Vector2(wx,wz));
+                float expected=Mathf.Clamp(areaDensity*CellSize*CellSize/(100f*169f),0,8);
+                int copies=Mathf.FloorToInt(expected);
+                if(FireflyDistribution.Random01(gx,gz,data.seed,3)<expected-copies)copies++;
+                float terrain=session.SampleHeight(wx,wz);
+                if(session.SampleNormal(wx,wz).y<Mathf.Cos(data.maximumSlopeDegrees*Mathf.Deg2Rad))
+                    continue;
+                for(int k=0;k<copies;k++)
+                {
+                    cell.desired++;
+                    if(cell.count>=Mathf.Min(BatchLimit,Mathf.Min(data.cellDesiredCap,data.perAreaDesiredCap)))continue;
+                    float h=Mathf.Lerp(data.minimumHeight,data.maximumHeight,FireflyDistribution.Random01(gx,gz,data.seed,k+10));
+                    float y=terrain+h;
+                    minY=Mathf.Min(minY,y);maxY=Mathf.Max(maxY,y);
+                    cell.instances[cell.count++]=Matrix4x4.TRS(new Vector3(wx,y,wz),
+                        Quaternion.identity,Vector3.one);
+                }
+            }
+            if(minY>maxY){minY=session.SampleHeight(baseX+16,baseZ+16);maxY=minY+4;}
+            cell.bounds=new Bounds(new Vector3(baseX+16,(minY+maxY)*.5f,baseZ+16),
+                new Vector3(CellSize+8,maxY-minY+10,CellSize+8));
+            return cell;
+        }
+
+        int BuildNear(Camera cam,FireflyMapData data,int limit)
+        {
+            Vector3 eye=cam.transform.position;
+            float ground=session.SampleHeight(eye.x,eye.z);
+            float altitude=eye.y-ground;
+            if(altitude<data.nearCameraMinHeight||altitude>data.nearCameraMaxHeight)return 0;
+            if(data.nearMode==FireflyNearMode.NaturalAreas &&
+               FireflyDistribution.Density(data,new Vector2(eye.x,eye.z))<=.01f)return 0;
+            int count=0;
+            float radius=Mathf.Clamp(data.nearRadius,1,50);
+            int baseX=Mathf.FloorToInt(eye.x/4),baseZ=Mathf.FloorToInt(eye.z/4);
+            for(int dz=-3;dz<=3&&count<limit;dz++)
+            for(int dx=-3;dx<=3&&count<limit;dx++)
+            {
+                int gx=baseX+dx,gz=baseZ+dz;
+                float wx=(gx+FireflyDistribution.Random01(gx,gz,seed,83))*4;
+                float wz=(gz+FireflyDistribution.Random01(gx,gz,seed,84))*4;
+                float dist=Vector2.Distance(new Vector2(wx,wz),new Vector2(eye.x,eye.z));
+                if(dist>radius||dist<1.2f)continue;
+                if(FireflyDistribution.Random01(gx,gz,seed,85)>.28f)continue;
+                float y=session.SampleHeight(wx,wz)+
+                    Mathf.Lerp(.7f,2.5f,FireflyDistribution.Random01(gx,gz,seed,86));
+                nearby[count++]=Matrix4x4.TRS(new Vector3(wx,y,wz),Quaternion.identity,Vector3.one);
+            }
+            return count;
+        }
+
+        static float Now()
+        {
+#if UNITY_EDITOR
+            if(!Application.isPlaying)return (float)UnityEditor.EditorApplication.timeSinceStartup;
+#endif
+            return Time.time;
+        }
+    }
+}
