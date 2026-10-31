@@ -61,18 +61,35 @@ namespace LittleCastle.Rendering
         public void Connect(MapEditSession map)
         {
             if(session==map)return;
+            if(session!=null)session.Changed-=MapChanged;
             session=map;
+            if(session!=null&&isActiveAndEnabled)session.Changed+=MapChanged;
             cells.Clear();
             revision=-1;
+        }
+
+        void MapChanged(MapRegionChange change)
+        {
+            if((change.kind & (MapChangeKind.Height|MapChangeKind.Objects|MapChangeKind.Rivers|MapChangeKind.Fireflies))==0)return;
+            if((change.kind&MapChangeKind.Fireflies)!=0){cells.Clear();revision=-1;return;}
+            eviction.Clear();
+            foreach(var pair in cells)
+            {
+                var region=new Rect(pair.Key.x*CellSize,pair.Key.y*CellSize,CellSize,CellSize);
+                if(region.Overlaps(change.bounds))eviction.Add(pair.Key);
+            }
+            foreach(var key in eviction)cells.Remove(key);
         }
 
         void OnEnable()
         {
             RenderPipelineManager.beginCameraRendering+=Render;
+            if(session!=null){session.Changed-=MapChanged;session.Changed+=MapChanged;}
         }
         void OnDisable()
         {
             RenderPipelineManager.beginCameraRendering-=Render;
+            if(session!=null)session.Changed-=MapChanged;
             Cleanup();
         }
         void OnDestroy()=>Cleanup();
@@ -111,9 +128,9 @@ namespace LittleCastle.Rendering
             if(cam.cameraType==CameraType.Reflection && reflectionCap<=0)return;
 
             quality.ResolveAdaptive(out int cap,out int nearCap,out float range);
-            if(cap==0 || range<=0){shownWorld=shownNear=desiredWorld=0;return;}
+            if(cap==0 || range<=0){Cleanup();return;}
             FireflyMapData data=session.FirefliesForRendering;
-            if(data==null||!data.enabled){shownWorld=shownNear=desiredWorld=0;return;}
+            if(data==null||!data.enabled){Cleanup();return;}
             EnsureResources();
             if(!mesh||!material)return;
             material.enableInstancing=true;
