@@ -47,6 +47,9 @@ Shader "Little Castle/Effects/LC Fireflies"
             float4 _LC_FireflyMotion;
             CBUFFER_END
 
+            UNITY_INSTANCING_BUFFER_START(FireflyProps)
+                UNITY_DEFINE_INSTANCED_PROP(float4, _LC_FireflyInstanceColor)
+            UNITY_INSTANCING_BUFFER_END(FireflyProps)
             half _LC_NightAmount;
             float4 _LC_Wind;
 
@@ -75,6 +78,7 @@ Shader "Little Castle/Effects/LC Fireflies"
                 Varyings output=(Varyings)0;
                 UNITY_SETUP_INSTANCE_ID(input);
                 UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
+                float4 localColor=UNITY_ACCESS_INSTANCED_PROP(FireflyProps,_LC_FireflyInstanceColor);
 
                 float3 center=TransformObjectToWorld(float3(0,0,0));
                 float seed=Rand(floor(center*17.0));
@@ -107,7 +111,7 @@ Shader "Little Castle/Effects/LC Fireflies"
                 float twinkle=.75+.25*sin(t*.76+sin(t*.41)*1.3);
                 twinkle=lerp(1,twinkle,saturate(_LC_FireflyFlicker*2));
                 output.alpha=saturate(appear*farFade*night*twinkle);
-                output.tint=lerp(_LC_FireflyColor.rgb,_LC_FireflyColor.rgb*float3(.68,1.05,.48),
+                output.tint=lerp(localColor.rgb,localColor.rgb*float3(.68,1.05,.48),
                     seed*saturate(_LC_FireflyMotion.w));
                 return output;
             }
