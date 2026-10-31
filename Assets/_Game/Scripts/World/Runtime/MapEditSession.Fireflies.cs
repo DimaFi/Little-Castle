@@ -21,6 +21,17 @@ namespace LittleCastle.World
             // is the origin used by the renderer (see FireflySurfaceHeight).
             return true;
         }
+        public float FireflyBiomeWeight(FireflyMapData data,float x,float z)
+        {
+            if(data.allowSummer&&data.allowEnchantedForest&&data.allowElvenForest&&data.allowWinter)
+                return 1;
+            float result=0;
+            if(data.allowSummer)result+=EnvironmentThemes.Sample(Environment.EnvironmentThemeIds.Summer,x,z);
+            if(data.allowEnchantedForest)result+=EnvironmentThemes.Sample(Environment.EnvironmentThemeIds.EnchantedForest,x,z);
+            if(data.allowElvenForest)result+=EnvironmentThemes.Sample(Environment.EnvironmentThemeIds.ElvenForest,x,z);
+            if(data.allowWinter)result+=EnvironmentThemes.Sample(Environment.EnvironmentThemeIds.Winter,x,z);
+            return Mathf.Clamp01(result);
+        }
         public float FireflySurfaceHeight(float x,float z)
         {
             return QueryWater(new Vector2(x,z),out float level,out _,out _) ?
