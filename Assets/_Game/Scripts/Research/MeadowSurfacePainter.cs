@@ -79,6 +79,9 @@ namespace LittleCastle.Research
             if(rockCatalog){RiverView=new MapRiverPresentation(Session,rockCatalog,waterOnlyRivers);var riverTool=gameObject.AddComponent<MapRiverRuntimeTool>();riverTool.Connect(this);riverTool.ConfigureWaterOnly(waterOnlyRivers);}
             if(treeCatalog){Session.RegisterTreeCatalog(treeCatalog.Definitions,treeCatalog.packs);TreeView=new MapTreePresentation(Session,treeCatalog);}
             InitializeEnvironmentPresentation();
+            var fireflyRenderer=GetComponent<FireflyWorldRenderer>();
+            if(!fireflyRenderer)fireflyRenderer=gameObject.AddComponent<FireflyWorldRenderer>();
+            fireflyRenderer.Connect(Session);
             mask=new Texture2D(Resolution,Resolution,TextureFormat.RG16,false,true){name="Derived road and meadow mask · not save state",filterMode=FilterMode.Bilinear,wrapMode=TextureWrapMode.Clamp};
             pixels=new byte[Resolution*Resolution*2];
             cursor=new GameObject("Single brush footprint preview").AddComponent<LineRenderer>();cursor.transform.SetParent(transform,false);cursor.loop=true;cursor.positionCount=48;cursor.widthMultiplier=.035f;cursor.useWorldSpace=true;cursor.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;cursor.receiveShadows=false;cursorMaterial=new Material(brushMaterial);cursor.sharedMaterial=cursorMaterial;cursor.enabled=false;
