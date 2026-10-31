@@ -270,6 +270,7 @@ namespace LittleCastle.Editor
             RestorePreview();Undo.RecordObject(source,"Apply authored map surface and heights");
             source.authored=map.surface;source.heightField=map.heightField;source.hasHeightBase=true;source.treeInstances=map.trees;source.hasTreeBase=true;
             source.environment=map.environment;source.hasEnvironmentBase=true;
+            source.fireflies=map.fireflies;source.hasFireflyBase=true;
             source.fences=map.fences;
             source.rivers=map.rivers;source.riverNetwork=map.riverNetwork;source.rockSections=map.rockSections;source.placementExclusions=map.placementExclusions;source.revision++;
             EditorUtility.SetDirty(source);AssetDatabase.SaveAssetIfDirty(source);
