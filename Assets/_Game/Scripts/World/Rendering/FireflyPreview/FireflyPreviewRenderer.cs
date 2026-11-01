@@ -512,6 +512,9 @@ namespace LittleCastle.Rendering.Fireflies
                         autoSettings.treeInfluenceRadius);
                     RoadAffinity(nearbyRoads,at,autoSettings.roadsideSearchRadius,
                         out float onRoad,out float roadside);
+                    // The live, already-built road mask accounts for erased paths.
+                    if(optionalPainter && ReferenceEquals(optionalPainter.Session,
+                        activeWorldSession))onRoad=optionalPainter.SampleRoad01(px,pz);
                     float shore=autoSettings.shoreWeight>0f
                         ?ShoreInfluence(activeWorldSession,at,waterHere,
                             autoSettings.shoreSearchRadius):0f;
