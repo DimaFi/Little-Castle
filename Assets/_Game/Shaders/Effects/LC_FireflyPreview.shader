@@ -12,6 +12,7 @@ Shader "Little Castle/Effects/Firefly Preview URP"
         _FireflyMotion ("Amplitude, speed, wind, flicker", Vector) = (.6,.7,.12,.22)
         _FireflyFades ("Near, depth, color variance, unused", Vector) = (.75,0,.15,0)
         _FireflyFog ("Fog influence", Range(0,1)) = .8
+        [PerRendererData] _FireflyCellFade ("Cell spawn fade", Range(0,1)) = 1
     }
     SubShader
     {
@@ -49,6 +50,7 @@ Shader "Little Castle/Effects/Firefly Preview URP"
                 float4 _FireflyMotion;
                 float4 _FireflyFades;
                 float _FireflyFog;
+                float _FireflyCellFade;
             CBUFFER_END
 
             float4 _LC_Wind;
@@ -86,12 +88,20 @@ Shader "Little Castle/Effects/Firefly Preview URP"
 
                 float3 center=TransformObjectToWorld(float3(0,0,0));
                 float seed=Hash01(floor(center*17.37));
-                float t=_FireflyTime*_FireflyMotion.y*(.68+seed*.65)+seed*6.2831853;
+                float t=_FireflyTime*_FireflyMotion.y*(.55+seed*.9)+seed*6.2831853;
                 float amplitude=_FireflyMotion.x;
-                center.x += amplitude*(.55*sin(t)+.28*sin(1.73*t+seed*13));
-                center.z += amplitude*(.4*cos(1.11*t+seed*7)+.22*sin(.53*t));
-                center.y += amplitude*(.23*sin(.71*t+seed*11));
-                center.xz += _LC_Wind.xy * _LC_Wind.z * _FireflyMotion.z*.1*sin(.43*t);
+                // Three bounded behavior styles: almost stationary, slow drifting,
+                // and gently rising/looping. Motion remains stable in world space.
+                float hover=1-step(.28,seed);
+                float rising=step(.78,seed);
+                float radius=lerp(.9,.24,hover);
+                float driftX=.55*sin(t)+.20*sin(1.47*t+seed*13);
+                float driftZ=.43*cos(.89*t+seed*7)+.19*sin(.53*t);
+                center.x += amplitude*radius*driftX;
+                center.z += amplitude*radius*driftZ;
+                center.y += amplitude*(.12*sin(.61*t+seed*11) +
+                    rising*.24*sin(.29*t+seed*19));
+                center.xz += _LC_Wind.xy * _LC_Wind.z * _FireflyMotion.z*.08*sin(.43*t);
 
                 float3 fromEye=center-_WorldSpaceCameraPos;
                 float dist=length(fromEye);
@@ -115,9 +125,13 @@ Shader "Little Castle/Effects/Firefly Preview URP"
                 float front=smoothstep(max(.001,_FireflyFades.x),
                     max(.002,_FireflyFades.x)+.7,dist);
                 float back=1-smoothstep(_FireflyRange*.82,_FireflyRange,dist);
-                float pulse=.78+.22*sin(t*.76+sin(t*.41)*1.3);
+                float pulse=.81+.19*sin(t*(.5+seed*.9)+sin(t*.29+seed*12));
                 pulse=lerp(1,pulse,saturate(_FireflyMotion.w*2));
-                o.alpha=saturate(_FireflyNight*front*back*pulse);
+                float distant=smoothstep(_FireflyRange*.45,_FireflyRange*.9,dist);
+                // LOD and depth are visually unobtrusive: distant lights are modest,
+                // and newly streamed cells fade in rather than flashing into view.
+                o.alpha=saturate(_FireflyNight*front*back*pulse*
+                    lerp(1,.64,distant)*_FireflyCellFade);
                 float4 instanceColor=UNITY_ACCESS_INSTANCED_PROP(PerFirefly, _FireflyInstanceColor);
                 float3 baseColor=lerp(_FireflyColor.rgb,instanceColor.rgb,saturate(instanceColor.a));
                 o.color=lerp(baseColor,baseColor*float3(.72,1.06,.57),
@@ -128,9 +142,9 @@ Shader "Little Castle/Effects/Firefly Preview URP"
             {
                 UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
                 float radius=length(i.uv*2-1);
-                float core=1-smoothstep(.08,.35,radius);
-                float halo=(1-smoothstep(.15,1,radius))*.22;
-                float opacity=(core*.80+halo)*i.alpha;
+                float core=1-smoothstep(.07,.32,radius);
+                float halo=(1-smoothstep(.16,.96,radius))*.18;
+                float opacity=(core*.84+halo)*i.alpha;
                 #if defined(_LC_FIREFLY_SOFT_DEPTH)
                     float2 uv=i.screenPos.xy/max(.00001,i.screenPos.w);
                     float rawDepth=SampleSceneDepth(uv);
