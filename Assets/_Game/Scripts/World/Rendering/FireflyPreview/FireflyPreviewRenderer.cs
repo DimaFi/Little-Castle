@@ -114,10 +114,19 @@ namespace LittleCastle.Rendering.Fireflies
             profile=value; Invalidate();
         }
 
+        /// <summary>Optional explicit runtime activation, never writes map/scene assets.</summary>
+        public void ConfigureRuntime(FireflyPreviewProfile value)
+        {
+            Connect(value);
+            quality=value!=null && value.runtimeBudget!=null
+                ?value.runtimeBudget:new FireflyPreviewBudget();
+        }
+
         public void Invalidate()
         {
             cells.Clear();
             lastSignature=int.MinValue;
+            lastNearHabitatCheck=0f;
         }
 
         void OnEnable()
@@ -224,9 +233,7 @@ namespace LittleCastle.Rendering.Fireflies
                 generatedMaterial.hideFlags=HideFlags.HideAndDontSave;
                 generatedMaterial.enableInstancing=true;
                 generatedMaterial.name="Firefly preview (runtime only)";
-                /*new Material(shader) {
-                    name="Firefly preview (runtime only)",hideFlags=HideFlags.HideAndDontSave,enableInstancing=true
-                };*/            }
+            }
             if(quad || !generatedMaterial)return;
             quad=new Mesh{name="Firefly preview quad",hideFlags=HideFlags.HideAndDontSave};
             quad.vertices=new[]{new Vector3(-.5f,-.5f,0),new Vector3(.5f,-.5f,0),
@@ -498,8 +505,9 @@ namespace LittleCastle.Rendering.Fireflies
                         autoSettings.treeInfluenceRadius);
                     RoadAffinity(nearbyRoads,at,autoSettings.roadsideSearchRadius,
                         out float onRoad,out float roadside);
-                    float shore=ShoreInfluence(activeWorldSession,at,waterHere,
-                        autoSettings.shoreSearchRadius);
+                    float shore=autoSettings.shoreWeight>0f
+                        ?ShoreInfluence(activeWorldSession,at,waterHere,
+                            autoSettings.shoreSearchRadius):0f;
                     float winter=activeWorldSession.EnvironmentThemes.Sample(
                         EnvironmentThemeIds.Winter,px,pz);
                     float magic=Mathf.Max(
@@ -580,7 +588,7 @@ namespace LittleCastle.Rendering.Fireflies
         static void RoadAffinity(List<SurfacePaintStroke> roads,Vector2 at,
             float nearMetres,out float onRoad,out float nearRoad)
         {
-            float closest=float.PositiveInfinity,roadRadius=0f;
+            float closest=float.PositiveInfinity;
             if(roads!=null)for(int i=0;i<roads.Count;i++)
             {
                 var stroke=roads[i];
@@ -593,7 +601,7 @@ namespace LittleCastle.Rendering.Fireflies
                     d=Mathf.Min(d,PointSegmentDistance(at,
                         stroke.points[j-1],stroke.points[j]));
                 d-=Mathf.Max(.05f,stroke.radius);
-                if(d<closest){closest=d;roadRadius=stroke.radius;}
+                if(d<closest)closest=d;
             }
             onRoad=closest<=0f?1f:0f;
             nearRoad=closest>0f && closest<nearMetres
@@ -649,12 +657,23 @@ namespace LittleCastle.Rendering.Fireflies
             return true;
         }
 
+        float lastNearHabitatCheck;
+        Vector2 cachedNearHabitatPoint;
+        bool cachedNearHabitat;
+
         bool HasNaturalNearHabitat(Vector3 eye)
         {
             Vector2 at=new Vector2(eye.x,eye.z);
             if(activeWorldSession==null || profile.automaticWorld==null ||
                 !profile.automaticWorld.enabled)
                 return FireflyPreviewDistribution.Density(profile,at,out _)>.01f;
+            // Avoid QueryTrees allocations in every render: refresh at most twice
+            // per second, or after meaningful movement in world space.
+            if(Time.realtimeSinceStartup-lastNearHabitatCheck<.5f &&
+                (cachedNearHabitatPoint-at).sqrMagnitude<4f)
+                return cachedNearHabitat;
+            lastNearHabitatCheck=Time.realtimeSinceStartup;
+            cachedNearHabitatPoint=at;
             // In auto mode, suppress near-camera flights in inappropriate regions.
             var auto=profile.automaticWorld;
             var nearTrees=activeWorldSession.QueryTrees(new Rect(
@@ -662,12 +681,14 @@ namespace LittleCastle.Rendering.Fireflies
                 auto.treeInfluenceRadius*2,auto.treeInfluenceRadius*2));
             bool water=activeWorldSession.QueryWater(at,out _,out _,out _);
             float tree=NearestTreeMetres(nearTrees,at,auto.treeInfluenceRadius);
-            float shore=ShoreInfluence(activeWorldSession,at,water,auto.shoreSearchRadius);
+            float shore=auto.shoreWeight>0f
+                ?ShoreInfluence(activeWorldSession,at,water,auto.shoreSearchRadius):0f;
             float snow=activeWorldSession.SampleEnvironmentSnow(eye.x,eye.z);
             float winter=activeWorldSession.EnvironmentThemes.Sample(
                 EnvironmentThemeIds.Winter,eye.x,eye.z);
             float m=FireflyPreviewHabitats.Multiplier(auto,tree,water,shore,0f,0f,winter,snow,0f);
-            return m>.3f;
+            cachedNearHabitat=m>.3f;
+            return cachedNearHabitat;
         }
 
         int DrawNearby(Camera camera,int limit)
@@ -690,7 +711,8 @@ namespace LittleCastle.Rendering.Fireflies
                 float px=(x+FireflyPreviewDistribution.Random01(x,z,profile.seed,141))*spacing;
                 float pz=(z+FireflyPreviewDistribution.Random01(x,z,profile.seed,142))*spacing;
                 float dist=Vector2.Distance(new Vector2(px,pz),new Vector2(eye.x,eye.z));
-                if(dist>radius || dist<1.35f || !profile.Includes(px,pz))continue;
+                if(dist>radius || dist<1.35f ||
+                   (activeWorldSession==null && !profile.Includes(px,pz)))continue;
                 if(FireflyPreviewDistribution.Random01(x,z,profile.seed,143)>.45f)continue;
                 if(activeWorldSession!=null && !WithinBounds(activeWorldSession.Bounds,px,pz))
                     continue;
