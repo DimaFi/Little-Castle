@@ -13,6 +13,7 @@ Shader "Little Castle/Effects/Firefly Preview URP"
         _FireflyFades ("Near, depth, color variance, unused", Vector) = (.75,0,.15,0)
         _FireflyFog ("Fog influence", Range(0,1)) = .8
         [PerRendererData] _FireflyCellFade ("Cell spawn fade", Range(0,1)) = 1
+        [PerRendererData] _FireflyLodCount ("Fractional visible instances", Float) = 1023
     }
     SubShader
     {
@@ -51,6 +52,7 @@ Shader "Little Castle/Effects/Firefly Preview URP"
                 float4 _FireflyFades;
                 float _FireflyFog;
                 float _FireflyCellFade;
+                float _FireflyLodCount;
             CBUFFER_END
 
             float4 _LC_Wind;
@@ -130,10 +132,15 @@ Shader "Little Castle/Effects/Firefly Preview URP"
                 float distant=smoothstep(_FireflyRange*.45,_FireflyRange*.9,dist);
                 // LOD and depth are visually unobtrusive: distant lights are modest,
                 // and newly streamed cells fade in rather than flashing into view.
-                o.alpha=saturate(_FireflyNight*front*back*pulse*
-                    lerp(1,.64,distant)*_FireflyCellFade);
                 float4 instanceColor=UNITY_ACCESS_INSTANCED_PROP(PerFirefly, _FireflyInstanceColor);
-                float3 baseColor=lerp(_FireflyColor.rgb,instanceColor.rgb,saturate(instanceColor.a));
+                // Colors.w carries tint bit + (1-based rank / 2048). The extra
+                // fractional instance at the LOD boundary fades instead of popping.
+                float rank=frac(instanceColor.a)*2048-1;
+                float lodAlpha=saturate(_FireflyLodCount-rank);
+                o.alpha=saturate(_FireflyNight*front*back*pulse*
+                    lerp(1,.64,distant)*_FireflyCellFade*lodAlpha);
+                float3 baseColor=lerp(_FireflyColor.rgb,instanceColor.rgb,
+                    step(1,instanceColor.a));
                 o.color=lerp(baseColor,baseColor*float3(.72,1.06,.57),
                     seed*saturate(_FireflyFades.z));
                 return o;
