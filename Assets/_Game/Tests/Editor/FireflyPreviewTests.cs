@@ -194,6 +194,68 @@ namespace LittleCastle.Tests
         }
 
         [Test]
+        public void AutoWorld_RespectsForestWaterPathAndMeadowSwitches()
+        {
+            profile.automaticWorldPlacement=true;
+            profile.automaticIncludeForests=true;
+            profile.automaticIncludeWater=false;
+            profile.automaticIncludePaths=false;
+            profile.automaticIncludeMeadows=false;
+            Assert.That(FireflyPreviewDistribution.AutomaticFactor(
+                profile,1f,1f,1f,1f,0f,0f,false),
+                Is.EqualTo(profile.automaticForestMultiplier).Within(.001f));
+            Assert.That(FireflyPreviewDistribution.AutomaticFactor(
+                profile,0f,1f,1f,1f,0f,0f,false),Is.Zero);
+            profile.automaticIncludeWater=true;
+            Assert.That(FireflyPreviewDistribution.AutomaticFactor(
+                profile,0f,1f,0f,0f,0f,0f,false),
+                Is.EqualTo(profile.automaticWaterMultiplier).Within(.001f));
+            Assert.That(FireflyPreviewDistribution.AutomaticFactor(
+                profile,1f,1f,1f,1f,0f,0f,true),Is.Zero);
+        }
+
+        [Test]
+        public void AutoWorld_WinterAndSnowFadeRatherThanReplaceMapRules()
+        {
+            float summer=FireflyPreviewDistribution.AutomaticFactor(
+                profile,1f,0f,0f,0f,0f,0f,false);
+            float winter=FireflyPreviewDistribution.AutomaticFactor(
+                profile,1f,0f,0f,0f,1f,0f,false);
+            float snowy=FireflyPreviewDistribution.AutomaticFactor(
+                profile,1f,0f,0f,0f,0f,1f,false);
+            Assert.That(summer,Is.GreaterThan(0f));
+            Assert.That(winter,Is.LessThan(summer));
+            Assert.That(snowy,Is.LessThan(summer));
+        }
+
+        [Test]
+        public void AutoWorld_GlobalBoundsAndManualExclusionOverrideBase()
+        {
+            Vector4 activeBounds=new Vector4(-100f,-80f,200f,160f);
+            profile.areas.Add(Zone("exclude",1,FireflyPreviewDensityMode.Exclude,1f));
+            Assert.That(FireflyPreviewDistribution.Density(profile,
+                Vector2.zero,out _,activeBounds,20f),Is.Zero);
+            Assert.That(FireflyPreviewDistribution.Density(profile,
+                new Vector2(70f,0),out _,activeBounds,20f),
+                Is.EqualTo(20f).Within(.001f));
+            Assert.That(FireflyPreviewDistribution.Density(profile,
+                new Vector2(105f,0),out _,activeBounds,20f),Is.Zero);
+        }
+
+        [Test]
+        public void AutoWorld_DenseOverrideCanSetDensityInOtherwiseEmptyArea()
+        {
+            profile.areas.Add(Zone("dense",7,FireflyPreviewDensityMode.Set,70f));
+            float density=FireflyPreviewDistribution.Density(profile,
+                Vector2.zero,out var selected,profile.mapBounds,0f);
+            Assert.That(density,Is.EqualTo(70f).Within(.001f));
+            Assert.That(selected.id,Is.EqualTo("dense"));
+            profile.areas.Add(Zone("excluded",8,FireflyPreviewDensityMode.Exclude,0f));
+            Assert.That(FireflyPreviewDistribution.Density(profile,
+                Vector2.zero,out _,profile.mapBounds,0f),Is.Zero);
+        }
+
+        [Test]
         public void Profile_ValidateDoesNotModifyOtherGameplayAssets()
         {
             profile.densityPer100SquareMetres=100;
