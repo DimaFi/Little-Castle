@@ -30,6 +30,7 @@ namespace LittleCastle.Rendering.Fireflies
         static readonly int FadesId=Shader.PropertyToID("_FireflyFades");
         static readonly int InstanceColorId=Shader.PropertyToID("_FireflyInstanceColor");
         static readonly int CellFadeId=Shader.PropertyToID("_FireflyCellFade");
+        static readonly int LodTargetId=Shader.PropertyToID("_FireflyLodCount");
 
         sealed class ResidentCell
         {
@@ -293,8 +294,9 @@ namespace LittleCastle.Rendering.Fireflies
                 if(!GeometryUtility.TestPlanesAABB(planes,cell.bounds))continue;
                 float distanceFraction=Vector2.Distance(new Vector2(cx,cz),
                     new Vector2(eye.x,eye.z))/Mathf.Max(1f,range);
-                int lodCount=FireflyPreviewDistribution.LodCount(cell.count,distanceFraction,
+                float lodTarget=FireflyPreviewDistribution.LodPopulation(cell.count,distanceFraction,
                     profile.lodStartFraction,profile.lodEndFraction,profile.lodMinimumFraction);
+                int lodCount=Mathf.CeilToInt(lodTarget);
                 LodRejected+=cell.count-lodCount;
                 int allowed=Mathf.Min(lodCount,cap-SubmittedWorldCount);
                 if(allowed<=0){BudgetRejected+=lodCount;continue;}
@@ -302,6 +304,8 @@ namespace LittleCastle.Rendering.Fireflies
                 // as the camera enters a new terrain chunk.
                 float life=Mathf.Clamp01((Time.realtimeSinceStartup-cell.createdAt)/.9f);
                 cell.properties.SetFloat(CellFadeId,life*life*(3f-2f*life));
+                // The final submitted instance gets a fractional alpha instead of popping.
+                cell.properties.SetFloat(LodTargetId,lodTarget);
                 Graphics.DrawMeshInstanced(quad,0,generatedMaterial,cell.matrices,allowed,
                     cell.properties,ShadowCastingMode.Off,false,gameObject.layer,camera,LightProbeUsage.Off);
                 SubmittedWorldCount+=allowed;
@@ -369,6 +373,14 @@ namespace LittleCastle.Rendering.Fireflies
                 Vector4 color=cell.colors[i];
                 cell.colors[i]=cell.colors[j];
                 cell.colors[j]=color;
+            }
+            for(int i=0;i<cell.count;i++)
+            {
+                // The integer part is the local-tint flag, the fraction a shuffled
+                // instance rank. Shader alpha-fades the last instance at an LOD edge.
+                Vector4 color=cell.colors[i];
+                color.w=(color.w>.5f?1f:0f)+(i+1)/2048f;
+                cell.colors[i]=color;
             }
             if(cell.count>0)cell.properties.SetVectorArray(InstanceColorId,cell.colors);
             if(lowest>highest){lowest=fallbackGroundY;highest=lowest+4f;}
