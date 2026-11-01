@@ -38,6 +38,23 @@ namespace LittleCastle.Rendering.Fireflies
     public sealed class FireflyPreviewProfile : ScriptableObject
     {
         public bool enabled = true;
+        [Header("Automatic world-wide ecology (no manual areas required)")]
+        public bool automaticWorldPlacement = true;
+        public bool automaticUseMapBounds = true;
+        public bool automaticIncludeForests = true;
+        public bool automaticIncludeWater = true;
+        public bool automaticIncludePaths = true;
+        public bool automaticIncludeMeadows = true;
+        [Range(1f, 30f)] public float automaticTreeRadius = 11f;
+        [Range(1f, 20f)] public float automaticWaterRadius = 7f;
+        [Range(.5f, 12f)] public float automaticPathRadius = 3f;
+        [Range(0f, 3f)] public float automaticForestMultiplier = 2.5f;
+        [Range(0f, 3f)] public float automaticWaterMultiplier = 1.6f;
+        [Range(0f, 3f)] public float automaticPathMultiplier = 1.15f;
+        [Range(0f, 3f)] public float automaticMeadowMultiplier = .45f;
+        [Range(0f, 1f)] public float automaticWinterMultiplier = .02f;
+        [Range(0f, 1f)] public float automaticSnowMultiplier = .05f;
+        public bool automaticExcludeReservedGround = true;
         public int seed = 73421;
         public Vector4 mapBounds = new Vector4(-48f, -40f, 96f, 104f);
         [Range(0f, 80f)] public float densityPer100SquareMetres = 4f;
@@ -76,6 +93,15 @@ namespace LittleCastle.Rendering.Fireflies
 
         public void Validate()
         {
+            automaticTreeRadius = Mathf.Clamp(automaticTreeRadius, 1f, 30f);
+            automaticWaterRadius = Mathf.Clamp(automaticWaterRadius, 1f, 20f);
+            automaticPathRadius = Mathf.Clamp(automaticPathRadius, .5f, 12f);
+            automaticForestMultiplier = Mathf.Clamp(automaticForestMultiplier, 0f, 3f);
+            automaticWaterMultiplier = Mathf.Clamp(automaticWaterMultiplier, 0f, 3f);
+            automaticPathMultiplier = Mathf.Clamp(automaticPathMultiplier, 0f, 3f);
+            automaticMeadowMultiplier = Mathf.Clamp(automaticMeadowMultiplier, 0f, 3f);
+            automaticWinterMultiplier = Mathf.Clamp01(automaticWinterMultiplier);
+            automaticSnowMultiplier = Mathf.Clamp01(automaticSnowMultiplier);
             mapBounds.z = Mathf.Clamp(mapBounds.z, .1f, 100000f);
             mapBounds.w = Mathf.Clamp(mapBounds.w, .1f, 100000f);
             densityPer100SquareMetres = Mathf.Clamp(densityPer100SquareMetres, 0f, 80f);
@@ -172,6 +198,25 @@ namespace LittleCastle.Rendering.Fireflies
     /// <summary>Side-effect-free, repeatable random placement and area blending.</summary>
     public static class FireflyPreviewDistribution
     {
+        public static float AutomaticFactor(FireflyPreviewProfile p,
+            float forest, float water, float path, float meadow,
+            float winter, float snow, bool blocked)
+        {
+            if(p==null || blocked)return 0f;
+            float factor=0f;
+            if(p.automaticIncludeForests)
+                factor=Mathf.Max(factor,Mathf.Clamp01(forest)*p.automaticForestMultiplier);
+            if(p.automaticIncludeWater)
+                factor=Mathf.Max(factor,Mathf.Clamp01(water)*p.automaticWaterMultiplier);
+            if(p.automaticIncludePaths)
+                factor=Mathf.Max(factor,Mathf.Clamp01(path)*p.automaticPathMultiplier);
+            if(p.automaticIncludeMeadows)
+                factor=Mathf.Max(factor,Mathf.Clamp01(meadow)*p.automaticMeadowMultiplier);
+            float climate=Mathf.Lerp(1f,p.automaticWinterMultiplier,Mathf.Clamp01(winter))*
+                Mathf.Lerp(1f,p.automaticSnowMultiplier,Mathf.Clamp01(snow));
+            return Mathf.Max(0f,factor*climate);
+        }
+
         public static uint Hash(int x, int z, int seed, int stream = 0)
         {
             unchecked
@@ -221,9 +266,20 @@ namespace LittleCastle.Rendering.Fireflies
 
         public static float Density(FireflyPreviewProfile profile,Vector2 at,out FireflyPreviewZone selected)
         {
+            return Density(profile,at,out selected,
+                profile!=null?profile.mapBounds:Vector4.zero,
+                profile!=null?profile.densityPer100SquareMetres:0f);
+        }
+
+        // Auto mode may use active map bounds without mutating the shared profile asset.
+        // Existing manual areas remain higher-priority overrides.
+        public static float Density(FireflyPreviewProfile profile,Vector2 at,
+            out FireflyPreviewZone selected,Vector4 bounds,float baseDensity)
+        {
             selected=null;
-            if(profile==null || !profile.enabled || !profile.Includes(at.x,at.y))return 0f;
-            float baseDensity=profile.densityPer100SquareMetres;
+            if(profile==null || !profile.enabled ||
+               at.x<bounds.x || at.y<bounds.y ||
+               at.x>bounds.x+bounds.z || at.y>bounds.y+bounds.w)return 0f;
             float result=baseDensity;
             float exclusion=1f, selectedWeight=0f;
             var areas=profile.areas;
