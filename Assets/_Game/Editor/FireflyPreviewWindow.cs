@@ -12,7 +12,9 @@ namespace LittleCastle.Editor
     /// </summary>
     public sealed class FireflyPreviewWindow : EditorWindow
     {
+        const string GlobalAssetPath="Assets/_Game/Resources/Fireflies/GlobalFireflies.asset";
         [SerializeField] FireflyPreviewProfile profile;
+        [SerializeField] FireflyGlobalSettings globalSettings;
         [SerializeField] bool previewEnabled = true;
         [SerializeField] bool editHandles = true;
         [SerializeField] int selectedZone;
@@ -40,6 +42,8 @@ namespace LittleCastle.Editor
         void OnEnable()
         {
             minSize=new Vector2(340,440);
+            globalSettings=AssetDatabase.LoadAssetAtPath<FireflyGlobalSettings>(GlobalAssetPath);
+
             EditorApplication.update+=Tick;
             SceneView.duringSceneGui+=DrawHandles;
             Undo.undoRedoPerformed+=HandleUndo;
@@ -125,6 +129,29 @@ namespace LittleCastle.Editor
                     if(GUILayout.Button("Выделить asset"))Selection.activeObject=profile;
             }
             if(!profile)return;
+
+            EditorGUILayout.Space();
+            EditorGUILayout.LabelField("Автоматическая система для всех карт",EditorStyles.boldLabel);
+            EditorGUI.BeginChangeCheck();
+            bool autoEnabled=EditorGUILayout.Toggle(
+                "Автоматически по миру",profile.automaticWorldPlacement);
+            if(EditorGUI.EndChangeCheck())
+            {
+                Undo.RecordObject(profile,"Toggle automatic fireflies across map");
+                profile.automaticWorldPlacement=autoEnabled;
+                MarkChanged();
+            }
+            EditorGUILayout.HelpBox(
+                "В режиме авто используются существующие деревья, вода, дорожки, " +
+                "луговая маска, биом и снег. Ручные зоны остаются переопределениями. " +
+                "Это настройки профиля; для автоматического запуска в Play Mode " +
+                "нужна отдельная глобальная настройка ниже.",MessageType.None);
+            if(rendererView)
+                EditorGUILayout.LabelField(rendererView.HasActiveMap ?
+                    "Привязана карта: "+rendererView.ActiveMapId :
+                    "Карта/MapEditSession ещё не обнаружена: автозаполнение ожидает карту",
+                    EditorStyles.miniLabel);
+            DrawGlobalSettings();
 
             previewEnabled=EditorGUILayout.Toggle("Показывать в SceneView",previewEnabled);
             editHandles=EditorGUILayout.Toggle("Перемещать области",editHandles);
@@ -282,6 +309,84 @@ namespace LittleCastle.Editor
                 a.polygon.Add(p+new Vector2(0f,7f));
             }
             profile.areas.Add(a);selectedZone=profile.areas.Count-1;MarkChanged();
+        }
+
+        void DrawGlobalSettings()
+        {
+            if(!globalSettings)
+                globalSettings=AssetDatabase.LoadAssetAtPath<FireflyGlobalSettings>(GlobalAssetPath);
+            if(!globalSettings)
+            {
+                if(GUILayout.Button("Создать единые настройки для Play Mode"))
+                    CreateGlobalSettings();
+                EditorGUILayout.HelpBox("Пока глобальный конфиг не создан, " +
+                    "обычные сцены и сборки не меняют поведение.",MessageType.None);
+                return;
+            }
+            EditorGUI.BeginChangeCheck();
+            bool enabled=EditorGUILayout.Toggle("Включить во всей игре",
+                globalSettings.enabledEverywhere);
+            if(EditorGUI.EndChangeCheck())
+            {
+                Undo.RecordObject(globalSettings,"Toggle global fireflies");
+                globalSettings.enabledEverywhere=enabled;
+                if(enabled && profile && !profile.automaticWorldPlacement)
+                {
+                    Undo.RecordObject(profile,"Enable automatic firefly ecology");
+                    profile.automaticWorldPlacement=true;
+                    EditorUtility.SetDirty(profile);
+                    rendererView?.Invalidate();
+                }
+                EditorUtility.SetDirty(globalSettings);
+                AssetDatabase.SaveAssets();
+            }
+            var nextProfile=(FireflyPreviewProfile)EditorGUILayout.ObjectField(
+                "Игровой профиль",globalSettings.profile,
+                typeof(FireflyPreviewProfile),false);
+            if(nextProfile!=globalSettings.profile)
+            {
+                Undo.RecordObject(globalSettings,"Assign global firefly profile");
+                globalSettings.profile=nextProfile;
+                EditorUtility.SetDirty(globalSettings);
+                AssetDatabase.SaveAssets();
+            }
+            if(!globalSettings.previewShader)
+            {
+                EditorGUILayout.HelpBox("Для сборки назначьте шейдер Firefly Preview URP; " +
+                    "его можно присвоить автоматически через кнопку.",MessageType.Warning);
+                if(GUILayout.Button("Назначить шейдер"))
+                {
+                    Undo.RecordObject(globalSettings,"Assign firefly shader");
+                    globalSettings.previewShader=Shader.Find("Little Castle/Effects/Firefly Preview URP");
+                    EditorUtility.SetDirty(globalSettings);
+                    AssetDatabase.SaveAssets();
+                }
+            }
+            if(GUILayout.Button("Открыть глобальные настройки качества"))
+                Selection.activeObject=globalSettings;
+            if(globalSettings.enabledEverywhere &&
+                (!globalSettings.profile || !globalSettings.profile.automaticWorldPlacement))
+                EditorGUILayout.HelpBox("Выберите профиль с включённым авторазмещением. " +
+                    "Без него глобальный автозапуск безопасно пропускается.",
+                    MessageType.Warning);
+        }
+
+        void CreateGlobalSettings()
+        {
+            if(!AssetDatabase.IsValidFolder("Assets/_Game/Resources"))
+                AssetDatabase.CreateFolder("Assets/_Game","Resources");
+            if(!AssetDatabase.IsValidFolder("Assets/_Game/Resources/Fireflies"))
+                AssetDatabase.CreateFolder("Assets/_Game/Resources","Fireflies");
+            globalSettings=AssetDatabase.LoadAssetAtPath<FireflyGlobalSettings>(GlobalAssetPath);
+            if(globalSettings)return;
+            var value=CreateInstance<FireflyGlobalSettings>();
+            value.profile=profile;
+            value.previewShader=Shader.Find("Little Castle/Effects/Firefly Preview URP");
+            value.enabledEverywhere=false; // always opt-in
+            AssetDatabase.CreateAsset(value,GlobalAssetPath);
+            AssetDatabase.SaveAssets();
+            globalSettings=value;
+            Selection.activeObject=value;
         }
 
         void AddSampleZones(bool stress)
