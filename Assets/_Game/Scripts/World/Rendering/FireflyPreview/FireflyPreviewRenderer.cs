@@ -175,10 +175,25 @@ namespace LittleCastle.Rendering.Fireflies
             if(!existingLighting)existingLighting=FindAnyObjectByType<StylizedLightingGlobals>();
         }
 
-        void OnWorldMapChanged(MapRegionChange _)
+        void OnWorldMapChanged(MapRegionChange change)
         {
-            // Read-only listener. Rebuild on changes, never change the map session.
-            Invalidate();
+            // Only the affected cached cells are rebuilt, so continuous map
+            // authoring does not reload the whole visible forest every brush tick.
+            var a=profile?profile.automaticWorld:null;
+            float margin=a!=null?Mathf.Max(a.treeInfluenceRadius,
+                Mathf.Max(a.shoreSearchRadius,a.roadsideSearchRadius))+2f:2f;
+            Rect dirty=new Rect(change.bounds.xMin-margin,
+                change.bounds.yMin-margin,change.bounds.width+margin*2,
+                change.bounds.height+margin*2);
+            toEvict.Clear();
+            foreach(var item in cells)
+            {
+                Rect cell=new Rect(item.Key.x*CellWidth,item.Key.y*CellWidth,
+                    CellWidth,CellWidth);
+                if(dirty.Overlaps(cell))toEvict.Add(item.Key);
+            }
+            foreach(var key in toEvict)cells.Remove(key);
+            lastNearHabitatCheck=0f;
         }
 
         void BindSession(MapEditSession session)
@@ -311,16 +326,8 @@ namespace LittleCastle.Rendering.Fireflies
 
             int profileId=profile.GetInstanceID();
             int signature=ProfileSignature(profile);
-            if(activeWorldSession!=null)
-            {
-                unchecked
-                {
-                    signature=signature*397 ^ activeWorldSession.TreeRevision.GetHashCode();
-                    signature=signature*397 ^ activeWorldSession.RiverRevision.GetHashCode();
-                    signature=signature*397 ^ activeWorldSession.BiomeRevision.GetHashCode();
-                    signature=signature*397 ^ activeWorldSession.HeightRevision.GetHashCode();
-                }
-            }
+            // Session.Changed updates only relevant spatial cells. Revisions here
+            // would force an expensive full-cache reload on every tree brush tick.
             if(lastCacheProfileId!=profileId || lastSignature!=signature)
             {
                 Invalidate();
@@ -614,7 +621,6 @@ namespace LittleCastle.Rendering.Fireflies
             if(onWater)return 0f;
             // Coarse, bounded offset probes. Called only as cells enter the cache.
             // Avoids scanning all authored rivers or generating any objects.
-            float result=0f;
             for(int scale=1;scale<=2;scale++)
             {
                 float d=radius*(scale==1?.5f:1f);
@@ -622,9 +628,9 @@ namespace LittleCastle.Rendering.Fireflies
                    session.QueryWater(at+new Vector2(-d,0),out _,out _,out _) ||
                    session.QueryWater(at+new Vector2(0,d),out _,out _,out _) ||
                    session.QueryWater(at+new Vector2(0,-d),out _,out _,out _))
-                    result=Mathf.Max(result,scale==1?1f:.45f);
+                    return scale==1?1f:.45f;
             }
-            return result;
+            return 0f;
         }
 
         bool TrySampleGround(float x,float z,out float height,out float normalUp)
@@ -635,9 +641,10 @@ namespace LittleCastle.Rendering.Fireflies
                 Vector4 map=session.Bounds;
                 if(x<map.x||z<map.y||x>map.x+map.z||z>map.y+map.w)
                 {height=0;normalUp=1;return false;}
-                height=session.QueryWater(new Vector2(x,z),out float water,out _,out _)
-                    ?water:session.SampleHeight(x,z);
-                normalUp=session.SampleNormal(x,z).y;
+                bool wet=session.QueryWater(new Vector2(x,z),
+                    out float water,out _,out _);
+                height=wet?water:session.SampleHeight(x,z);
+                normalUp=wet?1f:session.SampleNormal(x,z).y;
                 return true;
             }
             int hits=Physics.RaycastNonAlloc(new Vector3(x,rayStartY,z),Vector3.down,
@@ -687,7 +694,9 @@ namespace LittleCastle.Rendering.Fireflies
             float winter=activeWorldSession.EnvironmentThemes.Sample(
                 EnvironmentThemeIds.Winter,eye.x,eye.z);
             float m=FireflyPreviewHabitats.Multiplier(auto,tree,water,shore,0f,0f,winter,snow,0f);
-            cachedNearHabitat=m>.3f;
+            float density=FireflyPreviewDistribution.Density(profile,at,
+                out var selected,profile.densityPer100SquareMetres*m,true);
+            cachedNearHabitat=density>.01f && (m>.3f || selected!=null);
             return cachedNearHabitat;
         }
 
@@ -714,8 +723,14 @@ namespace LittleCastle.Rendering.Fireflies
                 if(dist>radius || dist<1.35f ||
                    (activeWorldSession==null && !profile.Includes(px,pz)))continue;
                 if(FireflyPreviewDistribution.Random01(x,z,profile.seed,143)>.45f)continue;
-                if(activeWorldSession!=null && !WithinBounds(activeWorldSession.Bounds,px,pz))
-                    continue;
+                if(activeWorldSession!=null)
+                {
+                    if(!WithinBounds(activeWorldSession.Bounds,px,pz))continue;
+                    if(activeWorldSession.EnvironmentThemes.Sample(
+                        EnvironmentThemeIds.Winter,px,pz)>.8f)continue;
+                    if(FireflyPreviewDistribution.Density(profile,
+                        new Vector2(px,pz),out _,1f,true)<=.01f)continue;
+                }
                 if(!TrySampleGround(px,pz,out float y,out _))continue;
                 y+=Mathf.Lerp(profile.minimumHeight,profile.maximumHeight,
                     FireflyPreviewDistribution.Random01(x,z,profile.seed,144));
