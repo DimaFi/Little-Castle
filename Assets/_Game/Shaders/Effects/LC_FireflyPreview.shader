@@ -91,6 +91,7 @@ Shader "Little Castle/Effects/Firefly Preview URP"
                 UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
                 float3 center=TransformObjectToWorld(float3(0,0,0));
+                float3 staticCenter=center;
                 float seed=Hash01(floor(center*17.37));
                 // Each insect has its own pause cycle. Smoothstep travel time
                 // maintains C1 motion at the transition instead of teleporting.
@@ -140,7 +141,7 @@ Shader "Little Castle/Effects/Firefly Preview URP"
                 pulse=lerp(1,pulse,saturate(_FireflyMotion.w*2));
                 // Stable per-point pseudo-random LOD prevents synchronised fading.
                 // Fragment clipping reduces distant glow overdraw (not vertex count).
-                float lodSeed=Hash01(floor(center*29.317)+float3(31,17,7));
+                float lodSeed=Hash01(floor(staticCenter*29.317)+float3(31,17,7));
                 float survivingFraction=lerp(1.0,_FireflyLod.y,farBlend);
                 float stochasticFade=smoothstep(lodSeed-.075,lodSeed+.075,survivingFraction);
                 o.alpha=saturate(_FireflyNight*front*back*pulse*
