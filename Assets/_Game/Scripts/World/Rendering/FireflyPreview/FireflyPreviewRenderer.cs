@@ -29,6 +29,7 @@ namespace LittleCastle.Rendering.Fireflies
         static readonly int FogId=Shader.PropertyToID("_FireflyFog");
         static readonly int FadesId=Shader.PropertyToID("_FireflyFades");
         static readonly int InstanceColorId=Shader.PropertyToID("_FireflyInstanceColor");
+        static readonly int CellFadeId=Shader.PropertyToID("_FireflyCellFade");
 
         sealed class ResidentCell
         {
@@ -36,6 +37,7 @@ namespace LittleCastle.Rendering.Fireflies
             public readonly Vector4[] colors=new Vector4[InstanceLimit];
             public readonly MaterialPropertyBlock properties=new MaterialPropertyBlock();
             public int desired, count;
+            public float createdAt;
             public Bounds bounds;
         }
 
@@ -63,6 +65,8 @@ namespace LittleCastle.Rendering.Fireflies
         readonly Matrix4x4[] nearby=new Matrix4x4[48];
         readonly Plane[] planes=new Plane[6];
         readonly RaycastHit[] groundHits=new RaycastHit[16];
+        readonly FireflyPreviewAdaptiveBudget adaptiveBudget=new FireflyPreviewAdaptiveBudget();
+        int lastAdaptiveFrame=-1;
 
         Material generatedMaterial;
         Mesh quad;
@@ -77,6 +81,11 @@ namespace LittleCastle.Rendering.Fireflies
         public int MissingCells { get; private set; }
         public int DrawCalls { get; private set; }
         public int BudgetRejected { get; private set; }
+        public int LodRejected { get; private set; }
+        public float AdaptiveScale => adaptiveBudget.Scale;
+        public float SampledFps => adaptiveBudget.SmoothedFps;
+        public int EffectiveWorldLimit { get; private set; }
+        public int EffectiveNearLimit { get; private set; }
         public FireflyPreviewProfile Profile=>profile;
 
         public void Connect(FireflyPreviewProfile value)
@@ -93,6 +102,8 @@ namespace LittleCastle.Rendering.Fireflies
 
         void OnEnable()
         {
+            adaptiveBudget.Reset();
+            lastAdaptiveFrame=-1;
             RenderPipelineManager.beginCameraRendering+=Render;
             Invalidate();
         }
@@ -119,7 +130,10 @@ namespace LittleCastle.Rendering.Fireflies
                 else DestroyImmediate(quad);
                 quad=null;
             }
-            DesiredWorldCount=SubmittedWorldCount=SubmittedNearCount=MissingCells=DrawCalls=BudgetRejected=0;
+            DesiredWorldCount=SubmittedWorldCount=SubmittedNearCount=MissingCells=DrawCalls=BudgetRejected=LodRejected=0;
+            EffectiveWorldLimit=EffectiveNearLimit=0;
+            adaptiveBudget.Reset();
+            lastAdaptiveFrame=-1;
         }
 
         void ResolveExistingReferences()
@@ -163,12 +177,29 @@ namespace LittleCastle.Rendering.Fireflies
             if(reflection && (!allowReflectionCamera || reflectionPointLimit==0))return;
             if(camera.cameraType!=CameraType.SceneView && camera.cameraType!=CameraType.Game && !reflection)return;
             quality.Resolve(out int cap,out int nearCap,out float range);
+            // Automatic protection is opt-in and never benchmarks Editor SceneView.
+            // Count only one real rendered Game camera per Unity frame.
+            if(quality.automaticFpsBudget && Application.isPlaying &&
+               camera.cameraType==CameraType.Game && lastAdaptiveFrame!=Time.frameCount)
+            {
+                adaptiveBudget.Step(Time.unscaledDeltaTime,Time.realtimeSinceStartup,
+                    quality.targetFps,quality.minimumAutomaticScale);
+                lastAdaptiveFrame=Time.frameCount;
+            }
+            else if(!quality.automaticFpsBudget && adaptiveBudget.Scale < 1f)
+                adaptiveBudget.Reset();
+            float scale=quality.automaticFpsBudget && Application.isPlaying
+                ? adaptiveBudget.Scale : 1f;
+            cap=Mathf.RoundToInt(cap*scale);
+            nearCap=Mathf.RoundToInt(nearCap*scale);
             if(reflection){cap=Mathf.Min(cap,reflectionPointLimit);nearCap=0;}
+            EffectiveWorldLimit=Mathf.Min(cap,profile.desiredGlobalCap);
+            EffectiveNearLimit=Mathf.Min(nearCap,profile.desiredNearCount);
             if(cap<=0 || range<=0 || profile.desiredGlobalCap==0)
             {
                 if(cells.Count>0)cells.Clear();
                 DesiredWorldCount=SubmittedWorldCount=SubmittedNearCount=0;
-                DrawCalls=BudgetRejected=MissingCells=0;
+                DrawCalls=BudgetRejected=LodRejected=MissingCells=0;
                 return;
             }
             ResolveExistingReferences();
@@ -201,8 +232,7 @@ namespace LittleCastle.Rendering.Fireflies
 
             int profileId=profile.GetInstanceID();
             int signature=ProfileSignature(profile);
-            if(lastCacheProfileId!=profileId || lastSignature!=signature ||
-               Mathf.Abs(cachedRange-range)>8f)
+            if(lastCacheProfileId!=profileId || lastSignature!=signature)
             {
                 Invalidate();
                 lastSignature=signature;lastCacheProfileId=profileId;cachedRange=range;
@@ -234,7 +264,7 @@ namespace LittleCastle.Rendering.Fireflies
             int maxZ=Mathf.FloorToInt((eye.z+range)/CellWidth);
             float rangeSq=(range+CellWidth)*(range+CellWidth);
             GeometryUtility.CalculateFrustumPlanes(camera,planes);
-            SubmittedWorldCount=DesiredWorldCount=DrawCalls=MissingCells=BudgetRejected=0;
+            SubmittedWorldCount=DesiredWorldCount=DrawCalls=MissingCells=BudgetRejected=LodRejected=0;
             int built=0;
             // Center-first rings: nearby light survives the world budget instead
             // of wasting all slots on the distant corner of a strategic view.
@@ -261,12 +291,21 @@ namespace LittleCastle.Rendering.Fireflies
                 DesiredWorldCount+=cell.desired;
                 if(cell.count==0)continue;
                 if(!GeometryUtility.TestPlanesAABB(planes,cell.bounds))continue;
-                int allowed=Mathf.Min(cell.count,cap-SubmittedWorldCount);
-                if(allowed<=0){BudgetRejected+=cell.count;continue;}
+                float distanceFraction=Vector2.Distance(new Vector2(cx,cz),
+                    new Vector2(eye.x,eye.z))/Mathf.Max(1f,range);
+                int lodCount=FireflyPreviewDistribution.LodCount(cell.count,distanceFraction,
+                    profile.lodStartFraction,profile.lodEndFraction,profile.lodMinimumFraction);
+                LodRejected+=cell.count-lodCount;
+                int allowed=Mathf.Min(lodCount,cap-SubmittedWorldCount);
+                if(allowed<=0){BudgetRejected+=lodCount;continue;}
+                // A cell progressively appears after being built; no sudden flash
+                // as the camera enters a new terrain chunk.
+                float life=Mathf.Clamp01((Time.realtimeSinceStartup-cell.createdAt)/.9f);
+                cell.properties.SetFloat(CellFadeId,life*life*(3f-2f*life));
                 Graphics.DrawMeshInstanced(quad,0,generatedMaterial,cell.matrices,allowed,
                     cell.properties,ShadowCastingMode.Off,false,gameObject.layer,camera,LightProbeUsage.Off);
                 SubmittedWorldCount+=allowed;
-                BudgetRejected+=cell.count-allowed;
+                BudgetRejected+=lodCount-allowed;
                 DrawCalls++;
             }
             toEvict.Clear();
@@ -278,7 +317,7 @@ namespace LittleCastle.Rendering.Fireflies
 
         ResidentCell BuildCell(int x,int z)
         {
-            var cell=new ResidentCell();
+            var cell=new ResidentCell { createdAt=Time.realtimeSinceStartup };
             float baseX=x*CellWidth,baseZ=z*CellWidth;
             float lowest=float.MaxValue,highest=float.MinValue;
             int localCap=Mathf.Min(InstanceLimit,profile.desiredCellCap);
@@ -318,6 +357,18 @@ namespace LittleCastle.Rendering.Fireflies
                     cell.matrices[cell.count++]=Matrix4x4.TRS(
                         new Vector3(px+ox,wy,pz+oz),Quaternion.identity,Vector3.one);
                 }
+            }
+            // Fisher-Yates permutation: LOD keeps a seeded, spatially distributed
+            // prefix instead of the first rows of the 14x14 generation grid.
+            for(int i=cell.count-1;i>0;i--)
+            {
+                int j=(int)(FireflyPreviewDistribution.Hash(x,z,profile.seed,i)%(uint)(i+1));
+                Matrix4x4 matrix=cell.matrices[i];
+                cell.matrices[i]=cell.matrices[j];
+                cell.matrices[j]=matrix;
+                Vector4 color=cell.colors[i];
+                cell.colors[i]=cell.colors[j];
+                cell.colors[j]=color;
             }
             if(cell.count>0)cell.properties.SetVectorArray(InstanceColorId,cell.colors);
             if(lowest>highest){lowest=fallbackGroundY;highest=lowest+4f;}
