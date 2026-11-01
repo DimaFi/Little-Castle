@@ -139,6 +139,72 @@ namespace LittleCastle.Tests
         }
 
         [Test]
+        public void LOD_IsMonotonicAndNeverExceedsAvailableInstances()
+        {
+            const int cellCount=200;
+            int nearby=FireflyPreviewDistribution.LodCount(cellCount,0f,.42f,.88f,.23f);
+            int halfway=FireflyPreviewDistribution.LodCount(cellCount,.65f,.42f,.88f,.23f);
+            int distant=FireflyPreviewDistribution.LodCount(cellCount,1f,.42f,.88f,.23f);
+            Assert.AreEqual(cellCount,nearby);
+            Assert.Less(halfway,nearby);
+            Assert.Less(distant,halfway);
+            Assert.That(distant,Is.GreaterThan(0));
+            Assert.AreEqual(0,FireflyPreviewDistribution.LodCount(0,1f,.42f,.88f,.23f));
+            Assert.AreEqual(1,FireflyPreviewDistribution.LodCount(1,1f,.42f,.88f,.23f));
+        }
+
+        [Test]
+        public void AdaptiveBudget_DropsUnderPressureAndRecoversGradually()
+        {
+            var controller=new FireflyPreviewAdaptiveBudget();
+            Assert.That(controller.Scale,Is.EqualTo(1f));
+            for(int i=0;i<150;i++)controller.Step(.05f,i*.05f,60,.4f);
+            float throttled=controller.Scale;
+            Assert.That(throttled,Is.InRange(.4f,.99f));
+            for(int i=0;i<600;i++)controller.Step(.008f,8f+i*.008f,60,.4f);
+            Assert.Greater(controller.Scale,throttled);
+            Assert.LessOrEqual(controller.Scale,1f);
+            controller.Reset();
+            Assert.AreEqual(1f,controller.Scale);
+            Assert.AreEqual(0f,controller.SmoothedFps);
+        }
+
+        [Test]
+        public void AdaptiveBudget_IgnoresInvalidSamplesAndObeysMinimum()
+        {
+            var controller=new FireflyPreviewAdaptiveBudget();
+            controller.Step(float.NaN,1f,60,.4f);
+            controller.Step(-1f,2f,60,.4f);
+            controller.Step(float.PositiveInfinity,3f,60,.4f);
+            Assert.AreEqual(1f,controller.Scale);
+            for(int i=0;i<250;i++)controller.Step(.08f,i*.08f,60,.45f);
+            Assert.That(controller.Scale,Is.GreaterThanOrEqualTo(.45f));
+            Assert.That(controller.Scale,Is.LessThan(1f));
+        }
+
+        [Test]
+        public void StressZone_IsLimitedByExistingGlobalDensityRules()
+        {
+            profile.densityPer100SquareMetres=4f;
+            var zone=Zone("firefly-stress-test",1000,FireflyPreviewDensityMode.Set,100f);
+            zone.radii=new Vector2(18,14);
+            profile.areas.Add(zone);
+            Assert.AreEqual(100f,FireflyPreviewDistribution.Density(profile,Vector2.zero,out _));
+            Assert.AreEqual(4f,FireflyPreviewDistribution.Density(profile,new Vector2(30,0),out _));
+        }
+
+        [Test]
+        public void Profile_LODValidationPreventsInvertedFadeBands()
+        {
+            profile.lodStartFraction=1f;
+            profile.lodEndFraction=0f;
+            profile.lodMinimumFraction=-1f;
+            profile.Validate();
+            Assert.Greater(profile.lodEndFraction,profile.lodStartFraction);
+            Assert.That(profile.lodMinimumFraction,Is.InRange(.05f,1f));
+        }
+
+        [Test]
         public void Profile_StandaloneJsonRoundtripPreservesAreas()
         {
             profile.areas.Add(Zone("enchanted",5,FireflyPreviewDensityMode.Multiply,6));
