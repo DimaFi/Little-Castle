@@ -12,6 +12,9 @@ Shader "Little Castle/Effects/Firefly Preview URP"
         _FireflyMotion ("Amplitude, speed, wind, flicker", Vector) = (.6,.7,.12,.22)
         _FireflyFades ("Near, depth, color variance, unused", Vector) = (.75,0,.15,0)
         _FireflyFog ("Fog influence", Range(0,1)) = .8
+        _FireflyBehavior ("Pause fraction and cycle seconds", Vector) = (.22,7,0,0)
+        _FireflyLook ("Core, halo, maximum pixel diameter", Vector) = (.13,.2,11,0)
+        _FireflyLod ("Start fraction, survival, far brightness", Vector) = (.58,.28,.65,0)
     }
     SubShader
     {
@@ -49,6 +52,9 @@ Shader "Little Castle/Effects/Firefly Preview URP"
                 float4 _FireflyMotion;
                 float4 _FireflyFades;
                 float _FireflyFog;
+                float4 _FireflyBehavior;
+                float4 _FireflyLook;
+                float4 _FireflyLod;
             CBUFFER_END
 
             float4 _LC_Wind;
@@ -86,7 +92,19 @@ Shader "Little Castle/Effects/Firefly Preview URP"
 
                 float3 center=TransformObjectToWorld(float3(0,0,0));
                 float seed=Hash01(floor(center*17.37));
-                float t=_FireflyTime*_FireflyMotion.y*(.68+seed*.65)+seed*6.2831853;
+                // Each insect has its own pause cycle. Smoothstep travel time
+                // maintains C1 motion at the transition instead of teleporting.
+                float cycle=max(2.0,_FireflyBehavior.y);
+                float shifted=(_FireflyTime+seed*19.71)/cycle;
+                float phase=frac(shifted);
+                float movePhase=saturate((phase-_FireflyBehavior.x)/
+                    max(.05,1.0-_FireflyBehavior.x));
+                movePhase=movePhase*movePhase*(3.0-2.0*movePhase);
+                float travelSeconds=(floor(shifted)+movePhase)*cycle*
+                    (1.0-_FireflyBehavior.x);
+                float t=travelSeconds*_FireflyMotion.y*(.68+seed*.65)+seed*6.2831853;
+                // Light continues a little while the insect is resting.
+                float twinkleTime=_FireflyTime*_FireflyMotion.y*(.74+seed*.7)+seed*13.1;
                 float amplitude=_FireflyMotion.x;
                 center.x += amplitude*(.55*sin(t)+.28*sin(1.73*t+seed*13));
                 center.z += amplitude*(.4*cos(1.11*t+seed*7)+.22*sin(.53*t));
@@ -99,8 +117,11 @@ Shader "Little Castle/Effects/Firefly Preview URP"
                 // Works with strategic orthographic and low-altitude perspective cameras.
                 float pixelsPerMetre=max(.001,abs(UNITY_MATRIX_P._m11)*_ScreenParams.y*.5 /
                     max(.00001,abs(centerClip.w)));
+                float lodDistance=saturate(dist/max(1.0,_FireflyRange));
+                float farBlend=smoothstep(_FireflyLod.x,1.0,lodDistance);
                 float diameter=clamp(_FireflyDiameter*(.78+.44*seed),
-                    .7/pixelsPerMetre,11.0/pixelsPerMetre);
+                    .7/pixelsPerMetre,max(3.0,_FireflyLook.z)/pixelsPerMetre);
+                diameter*=lerp(1.0,.83,farBlend);
 
                 float3 right=normalize(mul((float3x3)UNITY_MATRIX_I_V,float3(1,0,0)));
                 float3 up=normalize(mul((float3x3)UNITY_MATRIX_I_V,float3(0,1,0)));
@@ -115,9 +136,15 @@ Shader "Little Castle/Effects/Firefly Preview URP"
                 float front=smoothstep(max(.001,_FireflyFades.x),
                     max(.002,_FireflyFades.x)+.7,dist);
                 float back=1-smoothstep(_FireflyRange*.82,_FireflyRange,dist);
-                float pulse=.78+.22*sin(t*.76+sin(t*.41)*1.3);
+                float pulse=.78+.22*sin(twinkleTime*.76+sin(twinkleTime*.41)*1.3);
                 pulse=lerp(1,pulse,saturate(_FireflyMotion.w*2));
-                o.alpha=saturate(_FireflyNight*front*back*pulse);
+                // Stable per-point pseudo-random LOD prevents synchronised fading.
+                // Fragment clipping reduces distant glow overdraw (not vertex count).
+                float lodSeed=Hash01(floor(center*29.317)+float3(31,17,7));
+                float survivingFraction=lerp(1.0,_FireflyLod.y,farBlend);
+                float stochasticFade=smoothstep(lodSeed-.075,lodSeed+.075,survivingFraction);
+                o.alpha=saturate(_FireflyNight*front*back*pulse*
+                    stochasticFade*lerp(1.0,_FireflyLod.z,farBlend));
                 float4 instanceColor=UNITY_ACCESS_INSTANCED_PROP(PerFirefly, _FireflyInstanceColor);
                 float3 baseColor=lerp(_FireflyColor.rgb,instanceColor.rgb,saturate(instanceColor.a));
                 o.color=lerp(baseColor,baseColor*float3(.72,1.06,.57),
@@ -128,9 +155,11 @@ Shader "Little Castle/Effects/Firefly Preview URP"
             {
                 UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
                 float radius=length(i.uv*2-1);
-                float core=1-smoothstep(.08,.35,radius);
-                float halo=(1-smoothstep(.15,1,radius))*.22;
-                float opacity=(core*.80+halo)*i.alpha;
+                float core=1-smoothstep(_FireflyLook.x,
+                    _FireflyLook.x+.25,radius);
+                float halo=(1-smoothstep(.20,1.0,radius))*_FireflyLook.y;
+                float opacity=(core*.85+halo)*i.alpha;
+                clip(opacity-.001);
                 #if defined(_LC_FIREFLY_SOFT_DEPTH)
                     float2 uv=i.screenPos.xy/max(.00001,i.screenPos.w);
                     float rawDepth=SampleSceneDepth(uv);
