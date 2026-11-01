@@ -126,6 +126,74 @@ namespace LittleCastle.Tests
         }
 
         [Test]
+        public void AdaptiveBudget_LowFpsReducesOnlyLocalLimits()
+        {
+            float scale=1f;
+            for(int i=0;i<25;i++)
+                scale=FireflyPreviewAdaptation.NextScale(scale,22f,60f,.35f);
+            Assert.That(scale,Is.EqualTo(.35f).Within(.0001f));
+            int world=1800,near=8;
+            float range=95f;
+            FireflyPreviewAdaptation.ApplyScale(scale,ref world,ref near,ref range);
+            Assert.That(world,Is.LessThan(1800).And.GreaterThan(0));
+            Assert.That(near,Is.LessThan(8));
+            Assert.That(range,Is.LessThan(95f));
+            Assert.That(world,Is.EqualTo(Mathf.RoundToInt(1800f*.35f)));
+        }
+
+        [Test]
+        public void AdaptiveBudget_DeadBandAndRecoveryAreStable()
+        {
+            float scale=.65f;
+            for(int i=0;i<20;i++)
+                scale=FireflyPreviewAdaptation.NextScale(scale,60f,60f,.35f);
+            Assert.That(scale,Is.EqualTo(.65f).Within(.0001f));
+            Assert.That(FireflyPreviewAdaptation.NextScale(scale,120f,60f,.35f),
+                Is.GreaterThan(scale));
+            Assert.That(FireflyPreviewAdaptation.NextScale(1f,120f,60f,.35f),
+                Is.EqualTo(1f));
+            Assert.That(FireflyPreviewAdaptation.NextScale(scale,float.NaN,60f,.35f),
+                Is.EqualTo(scale));
+        }
+
+        [Test]
+        public void NaturalLook_NewPreviewSettingsValidateSafely()
+        {
+            profile.motionPauseFraction=5f;
+            profile.motionCycleSeconds=-10f;
+            profile.brightCoreRadius=2f;
+            profile.haloStrength=-1f;
+            profile.maxDiameterPixels=100f;
+            profile.farLodSurvivalFraction=0f;
+            profile.farLodStartFraction=2f;
+            profile.farBrightnessFraction=0f;
+            profile.Validate();
+            Assert.That(profile.motionPauseFraction,Is.EqualTo(.8f));
+            Assert.That(profile.motionCycleSeconds,Is.EqualTo(2f));
+            Assert.That(profile.brightCoreRadius,Is.EqualTo(.32f));
+            Assert.That(profile.haloStrength,Is.Zero);
+            Assert.That(profile.maxDiameterPixels,Is.EqualTo(20f));
+            Assert.That(profile.farLodSurvivalFraction,Is.EqualTo(.05f));
+            Assert.That(profile.farLodStartFraction,Is.EqualTo(.95f));
+            Assert.That(profile.farBrightnessFraction,Is.EqualTo(.1f));
+        }
+
+        [Test]
+        public void StressMeadow_CannotEscapeMapAndGlobalExclusion()
+        {
+            profile.areas.Add(new FireflyPreviewZone {
+                id="stress",center=Vector2.zero,radii=new Vector2(24f,18f),
+                falloff=.35f,densityMode=FireflyPreviewDensityMode.Set,
+                densityValue=80f,priority=100
+            });
+            Assert.That(FireflyPreviewDistribution.Density(profile,Vector2.zero,out _),
+                Is.EqualTo(80f).Within(.001f));
+            profile.areas.Add(Zone("exclude",101,FireflyPreviewDensityMode.Exclude,1f));
+            Assert.That(FireflyPreviewDistribution.Density(profile,Vector2.zero,out _),Is.Zero);
+            Assert.That(FireflyPreviewDistribution.Density(profile,new Vector2(1000f,0),out _),Is.Zero);
+        }
+
+        [Test]
         public void Profile_ValidateDoesNotModifyOtherGameplayAssets()
         {
             profile.densityPer100SquareMetres=100;
