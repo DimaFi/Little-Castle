@@ -22,7 +22,11 @@ namespace LittleCastle.Editor
         [SerializeField] int customWorldCap=4500;
         [SerializeField] int customNearCap=12;
         [SerializeField] float customViewRange=100f;
+        [SerializeField] bool adaptiveFps;
+        [SerializeField, Range(30,144)] int targetFps=60;
+        [SerializeField, Range(.2f,.9f)] float adaptiveMinimumScale=.4f;
         [SerializeField] Vector2 scroll;
+        const string StressIdPrefix="firefly-stress-";
 
         GameObject previewObject;
         FireflyPreviewRenderer rendererView;
@@ -70,6 +74,9 @@ namespace LittleCastle.Editor
                 rendererView.quality.customWorldCap=customWorldCap;
                 rendererView.quality.customNearCap=customNearCap;
                 rendererView.quality.customRangeMetres=customViewRange;
+                rendererView.quality.automaticFpsBudget=adaptiveFps;
+                rendererView.quality.targetFps=targetFps;
+                rendererView.quality.minimumAutomaticScale=adaptiveMinimumScale;
             }
             if(EditorApplication.timeSinceStartup>=nextRepaint)
             {
@@ -127,11 +134,23 @@ namespace LittleCastle.Editor
                 customNearCap=EditorGUILayout.IntSlider("Лимит близких",customNearCap,0,48);
                 customViewRange=EditorGUILayout.Slider("Дистанция, м",customViewRange,1f,300f);
             }
+            adaptiveFps=EditorGUILayout.Toggle("Автоматический бюджет FPS",adaptiveFps);
+            if(adaptiveFps)
+            {
+                targetFps=EditorGUILayout.IntSlider("Целевой FPS",targetFps,30,144);
+                adaptiveMinimumScale=EditorGUILayout.Slider("Мин. доля бюджета",
+                    adaptiveMinimumScale,.2f,.9f);
+                EditorGUILayout.HelpBox("Автоподстройка работает только в Play Mode на Game-камере. " +
+                    "В SceneView настройки ручные: редакторские FPS не считаются игровыми.",
+                    MessageType.None);
+            }
 
             var budget=new FireflyPreviewBudget{
                 quality=visualQuality,graphicsVsPerformance=graphicsVsFps,
                 customWorldCap=customWorldCap,customNearCap=customNearCap,
-                customRangeMetres=customViewRange};
+                customRangeMetres=customViewRange,
+                automaticFpsBudget=adaptiveFps,targetFps=targetFps,
+                minimumAutomaticScale=adaptiveMinimumScale};
             budget.Resolve(out int maxWorld,out int maxNear,out float distance);
             EditorGUILayout.LabelField("Бюджет: "+maxWorld+" мировых, "+maxNear+
                 " близких, радиус "+distance.ToString("F0")+" м",EditorStyles.miniLabel);
@@ -144,7 +163,13 @@ namespace LittleCastle.Editor
                     " | близких "+rendererView.SubmittedNearCount,EditorStyles.miniLabel);
                 EditorGUILayout.LabelField("Cells "+rendererView.ResidentCellCount+
                     " | ожидают "+rendererView.MissingCells+
+                    " | LOD "+rendererView.LodRejected+
                     " | отсечено бюджетом "+rendererView.BudgetRejected,EditorStyles.miniLabel);
+                EditorGUILayout.LabelField("Авто ×"+rendererView.AdaptiveScale.ToString("F2")+
+                    " | эффективный лимит "+rendererView.EffectiveWorldLimit+
+                    " | FPS (Play) "+(rendererView.SampledFps>0f
+                    ? rendererView.SampledFps.ToString("F0") : "—"),
+                    EditorStyles.miniLabel);
             }
             using(new EditorGUILayout.HorizontalScope())
             {
@@ -164,6 +189,16 @@ namespace LittleCastle.Editor
                 using(new EditorGUI.DisabledScope(profile.areas.Count==0))
                     if(GUILayout.Button("Удалить"))RemoveArea();
             }
+            using(new EditorGUILayout.HorizontalScope())
+            {
+                if(GUILayout.Button("Добавить плотную тест-зону"))AddStressArea();
+                using(new EditorGUI.DisabledScope(!HasStressArea()))
+                    if(GUILayout.Button("Удалить тест-зону"))RemoveStressAreas();
+            }
+            EditorGUILayout.HelpBox("Тест-зона: эллипс 18×14 м, 100 огоньков / 100 м². " +
+                "Она хранится только в отдельном preview-профиле, не в карте. " +
+                "Сравните Low/High и лимиты, затем удалите одним нажатием.",
+                MessageType.None);
             if(profile.areas.Count>0)
             {
                 selectedZone=Mathf.Clamp(selectedZone,0,profile.areas.Count-1);
@@ -247,6 +282,49 @@ namespace LittleCastle.Editor
                 a.polygon.Add(p+new Vector2(0f,7f));
             }
             profile.areas.Add(a);selectedZone=profile.areas.Count-1;MarkChanged();
+        }
+
+        bool HasStressArea()
+        {
+            if(!profile || profile.areas==null)return false;
+            foreach(var area in profile.areas)
+                if(area!=null && !string.IsNullOrEmpty(area.id) &&
+                   area.id.StartsWith(StressIdPrefix,StringComparison.Ordinal))return true;
+            return false;
+        }
+
+        void AddStressArea()
+        {
+            if(HasStressArea())return;
+            Undo.RecordObject(profile,"Add firefly isolated stress zone");
+            var view=SceneView.lastActiveSceneView;
+            Vector2 point=view ? new Vector2(view.pivot.x,view.pivot.z) :
+                new Vector2(profile.mapBounds.x+profile.mapBounds.z*.5f,
+                            profile.mapBounds.y+profile.mapBounds.w*.5f);
+            point.x=Mathf.Clamp(point.x,profile.mapBounds.x,profile.mapBounds.x+profile.mapBounds.z);
+            point.y=Mathf.Clamp(point.y,profile.mapBounds.y,profile.mapBounds.y+profile.mapBounds.w);
+            profile.areas.Add(new FireflyPreviewZone {
+                id=StressIdPrefix+Guid.NewGuid().ToString("N"),
+                displayName="СТРЕСС-ТЕСТ: высокая плотность",
+                shape=FireflyPreviewZoneShape.Ellipse,
+                center=point,radii=new Vector2(18f,14f),
+                densityMode=FireflyPreviewDensityMode.Set,
+                densityValue=100f,falloff=.22f,
+                priority=1000,seed=404,overrideColor=true,
+                color=new Color(1f,.92f,.42f)
+            });
+            selectedZone=profile.areas.Count-1;
+            profile.Validate();MarkChanged();
+        }
+
+        void RemoveStressAreas()
+        {
+            if(!HasStressArea())return;
+            Undo.RecordObject(profile,"Remove firefly isolated stress zone");
+            profile.areas.RemoveAll(a=>a!=null && !string.IsNullOrEmpty(a.id) &&
+                a.id.StartsWith(StressIdPrefix,StringComparison.Ordinal));
+            selectedZone=Mathf.Clamp(selectedZone,0,Mathf.Max(0,profile.areas.Count-1));
+            MarkChanged();
         }
 
         void RemoveArea()
