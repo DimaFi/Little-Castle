@@ -22,6 +22,11 @@ namespace LittleCastle.Editor
         [SerializeField] int customWorldCap=4500;
         [SerializeField] int customNearCap=12;
         [SerializeField] float customViewRange=100f;
+        [SerializeField] bool adaptiveQuality=true;
+        [SerializeField] float targetFps=60f;
+        [SerializeField] float minimumAdaptiveScale=.35f;
+        [SerializeField] bool simulateLowFps;
+        [SerializeField] float simulatedFps=28f;
         [SerializeField] Vector2 scroll;
 
         GameObject previewObject;
@@ -70,6 +75,10 @@ namespace LittleCastle.Editor
                 rendererView.quality.customWorldCap=customWorldCap;
                 rendererView.quality.customNearCap=customNearCap;
                 rendererView.quality.customRangeMetres=customViewRange;
+                rendererView.quality.adaptiveEnabled=adaptiveQuality;
+                rendererView.quality.targetFps=targetFps;
+                rendererView.quality.minimumAdaptiveScale=minimumAdaptiveScale;
+                rendererView.ConfigureFpsSimulation(simulateLowFps,simulatedFps);
             }
             if(EditorApplication.timeSinceStartup>=nextRepaint)
             {
@@ -121,6 +130,20 @@ namespace LittleCastle.Editor
             editHandles=EditorGUILayout.Toggle("Перемещать области",editHandles);
             visualQuality=(FireflyPreviewQuality)EditorGUILayout.EnumPopup("Качество",visualQuality);
             graphicsVsFps=EditorGUILayout.Slider("FPS ← → графика",graphicsVsFps,0f,1f);
+            adaptiveQuality=EditorGUILayout.Toggle("Автобюджет FPS",adaptiveQuality);
+            if(adaptiveQuality)
+            {
+                targetFps=EditorGUILayout.Slider("Целевой FPS (Play)",targetFps,20f,144f);
+                minimumAdaptiveScale=EditorGUILayout.Slider("Мин. бюджет",minimumAdaptiveScale,.2f,1f);
+                simulateLowFps=EditorGUILayout.Toggle("Симуляция низкого FPS",simulateLowFps);
+                if(simulateLowFps)
+                    simulatedFps=EditorGUILayout.Slider("Тестовый FPS (НЕ замер)",simulatedFps,5f,120f);
+                EditorGUILayout.HelpBox(
+                    "В Edit Mode автобюджет меняется только при включённой симуляции. " +
+                    "Реальный FPS считывается лишь из Game камеры в Play Mode; " +
+                    "само окно предпросмотра автоматически закрывает временный объект при Play.",
+                    MessageType.None);
+            }
             if(visualQuality==FireflyPreviewQuality.Custom)
             {
                 customWorldCap=EditorGUILayout.IntSlider("Лимит мировых",customWorldCap,0,50000);
@@ -131,7 +154,9 @@ namespace LittleCastle.Editor
             var budget=new FireflyPreviewBudget{
                 quality=visualQuality,graphicsVsPerformance=graphicsVsFps,
                 customWorldCap=customWorldCap,customNearCap=customNearCap,
-                customRangeMetres=customViewRange};
+                customRangeMetres=customViewRange,
+                adaptiveEnabled=adaptiveQuality,targetFps=targetFps,
+                minimumAdaptiveScale=minimumAdaptiveScale};
             budget.Resolve(out int maxWorld,out int maxNear,out float distance);
             EditorGUILayout.LabelField("Бюджет: "+maxWorld+" мировых, "+maxNear+
                 " близких, радиус "+distance.ToString("F0")+" м",EditorStyles.miniLabel);
@@ -142,6 +167,9 @@ namespace LittleCastle.Editor
                     " | отправлено "+rendererView.SubmittedWorldCount+
                     " | запрошено "+rendererView.DesiredWorldCount+
                     " | близких "+rendererView.SubmittedNearCount,EditorStyles.miniLabel);
+                EditorGUILayout.LabelField("Текущий адаптивный множитель "+
+                    rendererView.AdaptiveScale.ToString("F2")+
+                    " (автобюджет влияет только на светлячков)",EditorStyles.miniLabel);
                 EditorGUILayout.LabelField("Cells "+rendererView.ResidentCellCount+
                     " | ожидают "+rendererView.MissingCells+
                     " | отсечено бюджетом "+rendererView.BudgetRejected,EditorStyles.miniLabel);
@@ -157,6 +185,13 @@ namespace LittleCastle.Editor
             scroll=scope.scrollPosition;
             EditorGUILayout.Space();
             EditorGUILayout.LabelField("Локальные области",EditorStyles.boldLabel);
+            using(new EditorGUILayout.HorizontalScope())
+            {
+                if(GUILayout.Button("Тест: очень плотная поляна"))
+                    AddSampleZones(true);
+                if(GUILayout.Button("Пример: 3 скопления"))
+                    AddSampleZones(false);
+            }
             using(new EditorGUILayout.HorizontalScope())
             {
                 if(GUILayout.Button("+ Эллипс"))AddArea(FireflyPreviewZoneShape.Ellipse);
@@ -247,6 +282,50 @@ namespace LittleCastle.Editor
                 a.polygon.Add(p+new Vector2(0f,7f));
             }
             profile.areas.Add(a);selectedZone=profile.areas.Count-1;MarkChanged();
+        }
+
+        void AddSampleZones(bool stress)
+        {
+            if(!profile)return;
+            var view=SceneView.lastActiveSceneView;
+            Vector2 center=view ? new Vector2(view.pivot.x,view.pivot.z)
+                : new Vector2(profile.mapBounds.x+profile.mapBounds.z*.5f,
+                              profile.mapBounds.y+profile.mapBounds.w*.5f);
+            center.x=Mathf.Clamp(center.x,profile.mapBounds.x,
+                profile.mapBounds.x+profile.mapBounds.z);
+            center.y=Mathf.Clamp(center.y,profile.mapBounds.y,
+                profile.mapBounds.y+profile.mapBounds.w);
+
+            Undo.RecordObject(profile,stress ?
+                "Create stress-test firefly meadow" : "Create example firefly clusters");
+            int total=stress ? 1 : 3;
+            for(int i=0;i<total;i++)
+            {
+                Vector2 offset=stress ? Vector2.zero
+                    : new Vector2((i-1)*12f, i==1?6f:-3f);
+                var zone=new FireflyPreviewZone {
+                    id=Guid.NewGuid().ToString("N"),
+                    displayName=stress ? "СТРЕСС-ТЕСТ (80 / 100 м²)"
+                        : "Пример: тёплая группа "+(i+1),
+                    shape=FireflyPreviewZoneShape.Ellipse,
+                    center=center+offset,
+                    radii=stress ? new Vector2(24f,18f)
+                        : new Vector2(9f+i*2f,6f+i),
+                    falloff=stress ? .35f : .45f,
+                    priority=stress ? 100 : 5,
+                    seed=profile.seed+110+i*997,
+                    densityMode=stress ? FireflyPreviewDensityMode.Set :
+                        FireflyPreviewDensityMode.Multiply,
+                    densityValue=stress ? 80f : 8f,
+                    overrideColor=true,
+                    color=stress ? new Color(1f,.89f,.41f) :
+                        new Color(1f,.84f+i*.025f,.28f+i*.08f)
+                };
+                profile.areas.Add(zone);
+            }
+            selectedZone=profile.areas.Count-total;
+            profile.Validate();
+            MarkChanged();
         }
 
         void RemoveArea()
