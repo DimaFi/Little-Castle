@@ -194,6 +194,95 @@ namespace LittleCastle.Tests
         }
 
         [Test]
+        public void AutoWorld_OffPreservesManualDistribution()
+        {
+            var a=profile.automaticWorld;
+            Assert.IsFalse(a.enabled);
+            Assert.That(FireflyPreviewHabitats.Multiplier(a,1f,false,1f,1f,1f,1f,1f,1f),
+                Is.EqualTo(1f));
+            Assert.That(FireflyPreviewDistribution.Density(profile,Vector2.zero,out _),
+                Is.EqualTo(8f));
+        }
+
+        [Test]
+        public void AutoWorld_ForestWaterAndShoreAreFavouredOverEmptyMeadow()
+        {
+            var a=profile.automaticWorld;
+            a.enabled=true;
+            float empty=FireflyPreviewHabitats.Multiplier(a,40f,false,0,0,0,0,0,0);
+            float forest=FireflyPreviewHabitats.Multiplier(a,1f,false,0,0,0,0,0,0);
+            float shore=FireflyPreviewHabitats.Multiplier(a,40f,false,1,0,0,0,0,0);
+            float water=FireflyPreviewHabitats.Multiplier(a,40f,true,0,0,0,0,0,0);
+            Assert.That(forest,Is.GreaterThan(empty));
+            Assert.That(shore,Is.GreaterThan(empty));
+            Assert.That(water,Is.GreaterThan(empty));
+            Assert.That(forest,Is.LessThanOrEqualTo(a.maximumHabitatMultiplier));
+        }
+
+        [Test]
+        public void AutoWorld_RoadsideWithoutSpawningOnPath()
+        {
+            var a=profile.automaticWorld;
+            a.enabled=true;
+            float path=FireflyPreviewHabitats.Multiplier(a,100f,false,0,1,0,0,0,0);
+            float roadside=FireflyPreviewHabitats.Multiplier(a,100f,false,0,0,1,0,0,0);
+            Assert.That(roadside,Is.GreaterThan(path));
+            Assert.That(roadside,Is.GreaterThan(a.meadowWeight));
+        }
+
+        [Test]
+        public void AutoWorld_WinterSnowAndMagicalThemesAreControllable()
+        {
+            var a=profile.automaticWorld;
+            a.enabled=true;
+            float summer=FireflyPreviewHabitats.Multiplier(a,0f,false,0,0,0,0,0,0);
+            float magic=FireflyPreviewHabitats.Multiplier(a,0f,false,0,0,0,0,0,1);
+            float winter=FireflyPreviewHabitats.Multiplier(a,0f,false,0,0,0,1,0,0);
+            float snow=FireflyPreviewHabitats.Multiplier(a,0f,false,0,0,0,0,1,0);
+            Assert.That(magic,Is.GreaterThan(summer));
+            Assert.Zero(winter);
+            Assert.That(snow,Is.LessThan(summer));
+            Assert.That(snow,Is.GreaterThanOrEqualTo(0f));
+        }
+
+        [Test]
+        public void AutoWorld_ManualZonesOverrideAndExcludeAutomaticPlacement()
+        {
+            profile.automaticWorld.enabled=true;
+            profile.mapBounds=new Vector4(0,0,1,1);
+            Vector2 outsideProfileMap=new Vector2(10,0);
+            float autoBase=24f;
+            Assert.That(FireflyPreviewDistribution.Density(profile,outsideProfileMap,
+                out _,autoBase,true),Is.EqualTo(24f));
+            profile.areas.Add(new FireflyPreviewZone{id="exclusion",center=outsideProfileMap,
+                radii=new Vector2(8f,8f),
+                densityMode=FireflyPreviewDensityMode.Exclude});
+            Assert.Zero(FireflyPreviewDistribution.Density(profile,outsideProfileMap,
+                out _,autoBase,true));
+            profile.areas.Clear();
+            profile.areas.Add(new FireflyPreviewZone{id="override",center=outsideProfileMap,
+                radii=new Vector2(8f,8f),densityMode=FireflyPreviewDensityMode.Set,
+                densityValue=42f});
+            Assert.That(FireflyPreviewDistribution.Density(profile,outsideProfileMap,
+                out _,autoBase,true),Is.EqualTo(42f));
+            Assert.Zero(FireflyPreviewDistribution.Density(profile,outsideProfileMap,
+                out _));
+        }
+
+        [Test]
+        public void AutoWorld_InvalidInspectorValuesAreClamped()
+        {
+            profile.automaticWorld.enabled=true;
+            profile.automaticWorld.treeInfluenceRadius=-100f;
+            profile.automaticWorld.forestWeight=100f;
+            profile.automaticWorld.maximumHabitatMultiplier=-1f;
+            profile.Validate();
+            Assert.That(profile.automaticWorld.treeInfluenceRadius,Is.EqualTo(1f));
+            Assert.That(profile.automaticWorld.forestWeight,Is.EqualTo(8f));
+            Assert.That(profile.automaticWorld.maximumHabitatMultiplier,Is.EqualTo(.1f));
+        }
+
+        [Test]
         public void Profile_ValidateDoesNotModifyOtherGameplayAssets()
         {
             profile.densityPer100SquareMetres=100;
