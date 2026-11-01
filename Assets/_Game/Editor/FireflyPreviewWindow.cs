@@ -83,6 +83,11 @@ namespace LittleCastle.Editor
                         Resources.FindObjectsOfTypeAll<MapAuthoringWindow>(),w=>w.VerificationSession!=null);
                     rendererView.ConnectReadOnlyWorld(currentWorld?currentWorld.VerificationSession:null);
                 }
+                if(profile.runtimeBudget!=null)
+                {
+                    rendererView.quality.buildSamplesPerFrame=profile.runtimeBudget.buildSamplesPerFrame;
+                    rendererView.quality.buildMillisecondsPerFrame=profile.runtimeBudget.buildMillisecondsPerFrame;
+                }
                 rendererView.quality.quality=visualQuality;
                 rendererView.quality.graphicsVsPerformance=graphicsVsFps;
                 rendererView.quality.customWorldCap=customWorldCap;

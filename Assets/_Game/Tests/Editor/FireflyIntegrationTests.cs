@@ -63,8 +63,15 @@ namespace LittleCastle.Tests
                 renderer.quality.quality=FireflyPreviewQuality.Off;
                 Capture(camera,target,pixels);int dark=LitPixels(pixels);
                 renderer.quality.quality=FireflyPreviewQuality.Custom;
+                renderer.quality.buildSamplesPerFrame=1;
+                Capture(camera,target,pixels);Capture(camera,target,pixels);
+                Assert.That(renderer.BuildStepsThisFrame,Is.LessThanOrEqualTo(1),"Render requests share the frame budget");
+                Assert.That(renderer.PendingCellCount,Is.GreaterThan(0));
+                Assert.That(renderer.SubmittedWorldCount,Is.Zero,"Incomplete cells are not drawn");
+                renderer.quality.buildSamplesPerFrame=24;
                 Capture(camera,target,pixels);yield return new WaitForSecondsRealtime(.15f);
-                for(int i=0;i<4;i++){yield return null;Capture(camera,target,pixels);}
+                for(int i=0;i<180&&renderer.SubmittedWorldCount==0;i++){yield return null;Capture(camera,target,pixels);}
+                yield return new WaitForSecondsRealtime(.15f);Capture(camera,target,pixels);
                 int lit=LitPixels(pixels);
                 Assert.That(lit,Is.GreaterThan(dark+20),"Native render must contain visible glow");
                 Assert.That(renderer.AutomaticWorldReady,Is.True);

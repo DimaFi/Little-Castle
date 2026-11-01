@@ -12,7 +12,8 @@ namespace LittleCastle.Rendering
         readonly Material material;
         readonly RiverVisualQualityProfile profile;
         readonly MapRockCatalog rocks;
-        readonly MapEditSession session;
+        MapEditSession session;
+        internal void RebindSession(MapEditSession value){session=value;}
         public RiverSurfaceEffects(MapEditSession session,MapRockCatalog rocks,RiverVisualQualityProfile profile)
         {
             this.session=session;this.rocks=rocks;this.profile=profile;

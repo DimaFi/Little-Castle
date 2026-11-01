@@ -172,6 +172,10 @@ namespace LittleCastle.Rendering.Fireflies
         [Range(0, 48)] public int customNearCap = 12;
         [Range(1f, 300f)] public float customRangeMetres = 100f;
         // Standalone preview only; changes no global graphics settings.
+        [Tooltip("Shared sample budget for all game cameras in one frame.")]
+        [Range(1,256)] public int buildSamplesPerFrame=24;
+        [Tooltip("Cooperative CPU budget; one sample is allowed to finish before yielding.")]
+        [Range(.05f,4f)] public float buildMillisecondsPerFrame=.6f;
         public bool adaptiveEnabled = true;
         [Range(20f, 144f)] public float targetFps = 60f;
         [Range(.2f, 1f)] public float minimumAdaptiveScale = .35f;

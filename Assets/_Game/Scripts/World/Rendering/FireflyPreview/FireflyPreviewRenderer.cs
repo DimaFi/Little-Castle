@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections;
 using LittleCastle.Research;
 using LittleCastle.World;
 using LittleCastle.World.Environment;
@@ -44,6 +45,8 @@ namespace LittleCastle.Rendering.Fireflies
             public readonly MaterialPropertyBlock properties=new MaterialPropertyBlock();
             public int desired, count;
             public float createdAt;
+            public IEnumerator builder;
+            public bool complete;
             public Bounds bounds;
         }
 
@@ -71,6 +74,39 @@ namespace LittleCastle.Rendering.Fireflies
         readonly Matrix4x4[] nearby=new Matrix4x4[48];
         readonly Plane[] planes=new Plane[6];
         readonly RaycastHit[] groundHits=new RaycastHit[16];
+
+        int buildFrame=-1,buildSteps,buildStarts;
+        static int editorBuildFrame;
+        /// <summary>The Editor adapter advances this once per update; runtime has no Editor dependency.</summary>
+        public static void AdvanceEditorBuildFrame(){unchecked{editorBuildFrame++;}}
+        long buildTicks;
+        public int BuildStepsThisFrame=>buildSteps;
+        public double BuildMillisecondsThisFrame=>buildTicks*1000d/System.Diagnostics.Stopwatch.Frequency;
+        public int PendingCellCount
+        {
+            get{int n=0;foreach(var cell in cells.Values)if(!cell.complete)n++;return n;}
+        }
+        void BeginBuildFrame()
+        {
+            int frame=Application.isPlaying?Time.frameCount:editorBuildFrame;
+            if(buildFrame==frame)return;
+            buildFrame=frame;buildSteps=buildStarts=0;buildTicks=0;
+        }
+        bool HasBuildBudget=>buildSteps<Mathf.Clamp(quality.buildSamplesPerFrame,1,256)&&
+            BuildMillisecondsThisFrame<Mathf.Clamp(quality.buildMillisecondsPerFrame,.05f,4f);
+        void AdvanceCell(ResidentCell cell)
+        {
+            while(!cell.complete&&HasBuildBudget)
+            {
+                long start=System.Diagnostics.Stopwatch.GetTimestamp();
+                try
+                {
+                    if(!cell.builder.MoveNext())
+                    {cell.complete=true;cell.builder=null;cell.createdAt=Time.realtimeSinceStartup;}
+                }
+                finally{buildTicks+=System.Diagnostics.Stopwatch.GetTimestamp()-start;buildSteps++;}
+            }
+        }
 
         Material generatedMaterial;
         Mesh quad;
@@ -372,7 +408,7 @@ namespace LittleCastle.Rendering.Fireflies
                 Invalidate();
                 lastSignature=signature;lastCacheProfileId=profileId;
             }
-            DrawCells(camera,cap,range);
+            DrawCells(camera,cap,range,!reflection);
             SubmittedNearCount=nearCap>0 && profile.nearEnabled && !reflection
                 ? DrawNearby(camera,Mathf.Min(nearCap,profile.desiredNearCount)) : 0;
         }
@@ -470,7 +506,7 @@ namespace LittleCastle.Rendering.Fireflies
             }
         }
 
-        void DrawCells(Camera camera,int cap,float range)
+        void DrawCells(Camera camera,int cap,float range,bool canBuild)
         {
             Vector3 eye=camera.transform.position;
             int minX=Mathf.FloorToInt((eye.x-range)/CellWidth);
@@ -480,7 +516,7 @@ namespace LittleCastle.Rendering.Fireflies
             float rangeSq=(range+CellWidth)*(range+CellWidth);
             GeometryUtility.CalculateFrustumPlanes(camera,planes);
             SubmittedWorldCount=DesiredWorldCount=DrawCalls=MissingCells=BudgetRejected=LodRejected=0;
-            int built=0;
+            BeginBuildFrame();
             // Center-first rings: nearby light survives the world budget instead
             // of wasting all slots on the distant corner of a strategic view.
             int centerX=Mathf.FloorToInt(eye.x/CellWidth);
@@ -508,11 +544,13 @@ namespace LittleCastle.Rendering.Fireflies
                 var key=new Vector2Int(x,z);
                 if(!cells.TryGetValue(key,out ResidentCell cell))
                 {
-                    if(built>=maxCellBuildsPerCamera || cells.Count>=maxResidentCells)
+                    if(!canBuild||!HasBuildBudget||buildStarts>=maxCellBuildsPerCamera||cells.Count>=maxResidentCells)
                     {MissingCells++;continue;}
-                    cell=BuildCell(x,z);
-                    cells.Add(key,cell);built++;
+                    cell=new ResidentCell();cell.builder=BuildCell(cell,x,z);
+                    cells.Add(key,cell);buildStarts++;
                 }
+                if(!cell.complete&&canBuild)AdvanceCell(cell);
+                if(!cell.complete){MissingCells++;continue;}
                 DesiredWorldCount+=cell.desired;
                 if(cell.count==0)continue;
                 if(!GeometryUtility.TestPlanesAABB(planes,cell.bounds))continue;
@@ -541,9 +579,8 @@ namespace LittleCastle.Rendering.Fireflies
             foreach(var key in toEvict)cells.Remove(key);
         }
 
-        ResidentCell BuildCell(int x,int z)
+        IEnumerator BuildCell(ResidentCell cell,int x,int z)
         {
-            var cell=new ResidentCell{createdAt=Time.realtimeSinceStartup};
             float baseX=x*CellWidth,baseZ=z*CellWidth;
             float lowest=float.MaxValue,highest=float.MinValue;
             bool automatic=activeWorldSession!=null && profile.automaticWorld!=null &&
@@ -559,6 +596,8 @@ namespace LittleCastle.Rendering.Fireflies
             const float spacing=CellWidth/CellSamples;
             for(int iz=0;iz<CellSamples;iz++)for(int ix=0;ix<CellSamples;ix++)
             {
+                // One bounded sample per MoveNext, including all early-out paths.
+                yield return null;
                 int gx=x*CellSamples+ix,gz=z*CellSamples+iz;
                 float px=baseX+(ix+FireflyPreviewDistribution.Random01(gx,gz,profile.seed,1))*spacing;
                 float pz=baseZ+(iz+FireflyPreviewDistribution.Random01(gx,gz,profile.seed,2))*spacing;
@@ -641,7 +680,6 @@ namespace LittleCastle.Rendering.Fireflies
             float pad=Mathf.Max(3f,profile.movementAmplitude*2f+profile.worldDiameter*4f);
             cell.bounds=new Bounds(new Vector3(baseX+CellWidth*.5f,(lowest+highest)*.5f,baseZ+CellWidth*.5f),
                 new Vector3(CellWidth+pad*2f,highest-lowest+pad*2f,CellWidth+pad*2f));
-            return cell;
         }
 
         static bool WithinBounds(Vector4 b,float x,float z) =>

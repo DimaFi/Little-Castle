@@ -10,7 +10,7 @@ namespace LittleCastle.Rendering
     public sealed partial class MapRiverPresentation : IDisposable
     {
         sealed class Tile {public long owner;public int index;public Rect area;public GameObject root;public Mesh water,bank;public Texture2D flow;}
-        readonly MapEditSession session;
+        MapEditSession session;
         readonly MapRockCatalog catalog;
         readonly MapRockCatalog rockCatalog;
         readonly bool waterOnly;
@@ -42,6 +42,16 @@ namespace LittleCastle.Rendering
         public bool AnimationAdvanced=>waterfalls.AnimationAdvanced&&(tiles.Count>0||waterfalls.ResidentCount>0);
         readonly MaterialPropertyBlock animationProperties=new MaterialPropertyBlock();
         public double LastMeshMilliseconds {get;private set;}
+        public void RebindSession(MapEditSession replacement,Rect area)
+        {
+            if(replacement==null||replacement.MapId!=session.MapId||replacement.Bounds!=session.Bounds)
+                throw new ArgumentException("Water preview requires the same map.");
+            if(ReferenceEquals(session,replacement))return;
+            session.Changed-=Changed;session=replacement;session.Changed+=Changed;
+            if(rockCatalog)session.RegisterRockCatalog(rockCatalog.Definitions);
+            effects.RebindSession(session);waterfalls.RebindSession(session,area);
+            Changed(new MapRegionChange(area,false,MapChangeKind.Height|MapChangeKind.Rivers));
+        }
         public MapRiverPresentation(MapEditSession session,MapRockCatalog catalog,bool waterOnly=false,MapRockCatalog legacyRockCatalog=null)
         {
             this.session=session;this.catalog=catalog;this.waterOnly=waterOnly;

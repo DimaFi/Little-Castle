@@ -37,7 +37,7 @@ namespace LittleCastle.Tests
                 camera.transform.SetPositionAndRotation(new Vector3(0,20,0),Quaternion.Euler(90,0,0));
                 // This isolated test controls only the presentation signal, never world data.
                 globals.ApplyGlobals();
-                yield return null;yield return null;yield return null;
+                for(int i=0;i<120&&renderer.SubmittedWorldCount==0;i++)yield return null;
                 Assert.That(renderer.SubmittedWorldCount,Is.GreaterThan(0));
                 renderer.quality.Resolve(out int cap,out _,out _);
                 Assert.That(renderer.SubmittedWorldCount,Is.LessThanOrEqualTo(cap));

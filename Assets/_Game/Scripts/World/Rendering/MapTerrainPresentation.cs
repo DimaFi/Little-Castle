@@ -42,7 +42,7 @@ namespace LittleCastle.Rendering
             public Vector3[] vertices,normals;public Vector2[] riverSurface;public Rect bounds;public int x,z,width,depth,factor=1;
         }
         struct Anchor {public Transform transform;public Vector3 original;public float offset;}
-        readonly MapEditSession session;
+        MapEditSession session;
         readonly MapHeightField reference;
         readonly MeshFilter source;
         readonly MeshRenderer sourceRenderer;
@@ -173,6 +173,17 @@ namespace LittleCastle.Rendering
             foreach(var chunk in chunks)if(chunk.bounds.Overlaps(change.bounds))
             {UpdateChunk(chunk);LastTerrainChunks++;if(queued.Add(chunk))collisionQueue.Enqueue(chunk);}
             ProjectPlants(change.bounds);scatter?.Rebuild(scatter.painter,change.bounds);
+        }
+        /// <summary>Reuse resident terrain/plants for a detached edit of the same map.</summary>
+        public void RebindSession(MapEditSession replacement,Rect dirty)
+        {
+            if(replacement==null||replacement.MapId!=session.MapId||replacement.Bounds!=session.Bounds||
+                replacement.HeightSpacing!=session.HeightSpacing||replacement.HeightOrigin!=session.HeightOrigin)
+                throw new ArgumentException("Terrain preview requires the same map and height lattice.");
+            if(ReferenceEquals(session,replacement))return;
+            session.Changed-=Changed;session=replacement;session.Changed+=Changed;
+            if(scatter)scatter.heightSampler=session.SampleHeight;
+            Changed(new MapRegionChange(dirty,false,MapChangeKind.Height));
         }
         void ProjectPlants(Rect area)
         {

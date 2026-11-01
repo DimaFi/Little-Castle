@@ -10,7 +10,7 @@ namespace LittleCastle.Rendering
     public sealed class MapWaterfallPresentation : IDisposable
     {
         sealed class View { public GameObject root; public Mesh body, impact; public readonly List<Mesh> ledgeFoam=new List<Mesh>();public ParticleSystem[] spray; public Renderer[] renderers; }
-        readonly MapEditSession session;
+        MapEditSession session;
         readonly MapWaterfallVisualProfile profile;
         readonly Dictionary<long, View> views = new Dictionary<long, View>();
         readonly HashSet<long> wanted = new HashSet<long>();
@@ -29,6 +29,11 @@ namespace LittleCastle.Rendering
         public RiverEffectsQuality SprayQuality=>profile?profile.sprayQuality:RiverEffectsQuality.Off;
         public IEnumerable<ParticleSystem> SpraySystems {get{foreach(var view in views.Values)if(view.spray!=null)foreach(var system in view.spray)if(system)yield return system;}}
         public IEnumerable<Renderer> Renderers {get{foreach(var view in views.Values)if(view.renderers!=null)foreach(var renderer in view.renderers)if(renderer)yield return renderer;}}
+        internal void RebindSession(MapEditSession replacement,Rect area)
+        {
+            session.Changed-=Changed;session=replacement;session.Changed+=Changed;
+            Changed(new MapRegionChange(area,false,MapChangeKind.Rivers));
+        }
         public MapWaterfallPresentation(MapEditSession session, MapWaterfallVisualProfile profile = null)
         {
             this.session = session;
