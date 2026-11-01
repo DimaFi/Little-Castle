@@ -29,6 +29,9 @@ namespace LittleCastle.Rendering.Fireflies
         static readonly int FogId=Shader.PropertyToID("_FireflyFog");
         static readonly int FadesId=Shader.PropertyToID("_FireflyFades");
         static readonly int InstanceColorId=Shader.PropertyToID("_FireflyInstanceColor");
+        static readonly int BehaviorId=Shader.PropertyToID("_FireflyBehavior");
+        static readonly int LookId=Shader.PropertyToID("_FireflyLook");
+        static readonly int LodId=Shader.PropertyToID("_FireflyLod");
 
         sealed class ResidentCell
         {
@@ -70,6 +73,12 @@ namespace LittleCastle.Rendering.Fireflies
         int lastSignature=int.MinValue;
         int lastCacheProfileId;
         float cachedRange;
+        float adaptiveScale=1f;
+        float smoothedFrameSeconds=1f/60f;
+        float lastAdaptiveCheck;
+        int lastSampledFrame=-1;
+        bool simulateEditorFps;
+        float editorSimulatedFps=60f;
         public int DesiredWorldCount { get; private set; }
         public int SubmittedWorldCount { get; private set; }
         public int SubmittedNearCount { get; private set; }
@@ -78,6 +87,16 @@ namespace LittleCastle.Rendering.Fireflies
         public int DrawCalls { get; private set; }
         public int BudgetRejected { get; private set; }
         public FireflyPreviewProfile Profile=>profile;
+        public float AdaptiveScale=>adaptiveScale;
+        public float EstimatedFrameFps=>smoothedFrameSeconds>.0001f
+            ?1f/smoothedFrameSeconds:0f;
+
+        // Explicit editor demonstration only; never treats SceneView repaint as real FPS.
+        public void ConfigureFpsSimulation(bool enabled,float fps)
+        {
+            simulateEditorFps=enabled;
+            editorSimulatedFps=Mathf.Clamp(fps,5f,240f);
+        }
 
         public void Connect(FireflyPreviewProfile value)
         {
@@ -95,6 +114,10 @@ namespace LittleCastle.Rendering.Fireflies
         {
             RenderPipelineManager.beginCameraRendering+=Render;
             Invalidate();
+            adaptiveScale=1f;
+            smoothedFrameSeconds=1f/60f;
+            lastAdaptiveCheck=0f;
+            lastSampledFrame=-1;
         }
 
         void OnDisable()
@@ -164,6 +187,7 @@ namespace LittleCastle.Rendering.Fireflies
             if(camera.cameraType!=CameraType.SceneView && camera.cameraType!=CameraType.Game && !reflection)return;
             quality.Resolve(out int cap,out int nearCap,out float range);
             if(reflection){cap=Mathf.Min(cap,reflectionPointLimit);nearCap=0;}
+            else ApplyAdaptiveBudget(camera,ref cap,ref nearCap,ref range);
             if(cap<=0 || range<=0 || profile.desiredGlobalCap==0)
             {
                 if(cells.Count>0)cells.Clear();
@@ -194,6 +218,13 @@ namespace LittleCastle.Rendering.Fireflies
             generatedMaterial.SetFloat(TimeId,Time.realtimeSinceStartup);
             generatedMaterial.SetFloat(RangeId,range);
             generatedMaterial.SetFloat(FogId,fogMultiplier);
+            generatedMaterial.SetVector(BehaviorId,new Vector4(
+                profile.motionPauseFraction,profile.motionCycleSeconds,0f,0f));
+            generatedMaterial.SetVector(LookId,new Vector4(
+                profile.brightCoreRadius,profile.haloStrength,profile.maxDiameterPixels,0f));
+            generatedMaterial.SetVector(LodId,new Vector4(
+                profile.farLodStartFraction,profile.farLodSurvivalFraction,
+                profile.farBrightnessFraction,0f));
             if(softDepthFade)generatedMaterial.EnableKeyword("_LC_FIREFLY_SOFT_DEPTH");
             else generatedMaterial.DisableKeyword("_LC_FIREFLY_SOFT_DEPTH");
             generatedMaterial.SetVector(FadesId,new Vector4(nearFadeMetres,softDepthFade?depthFadeMetres:0f,
@@ -201,8 +232,7 @@ namespace LittleCastle.Rendering.Fireflies
 
             int profileId=profile.GetInstanceID();
             int signature=ProfileSignature(profile);
-            if(lastCacheProfileId!=profileId || lastSignature!=signature ||
-               Mathf.Abs(cachedRange-range)>8f)
+            if(lastCacheProfileId!=profileId || lastSignature!=signature)
             {
                 Invalidate();
                 lastSignature=signature;lastCacheProfileId=profileId;cachedRange=range;
@@ -212,7 +242,42 @@ namespace LittleCastle.Rendering.Fireflies
                 ? DrawNearby(camera,Mathf.Min(nearCap,profile.desiredNearCount)) : 0;
         }
 
-        // Captures runtime profile changes; Undo and validation from Editor call Invalidate explicitly.
+        // A real game frame is sampled once; in edit mode only deliberate simulated FPS
+        // can modify this preview budget. This controller does not measure GPU time.
+        void ApplyAdaptiveBudget(Camera camera,ref int world,ref int near,ref float range)
+        {
+            if(!quality.adaptiveEnabled)
+            {
+                adaptiveScale=1f;
+                return;
+            }
+            bool simulated=!Application.isPlaying && simulateEditorFps;
+            if(!Application.isPlaying && !simulated)
+            {
+                adaptiveScale=1f;
+                return;
+            }
+            if(!simulated && camera.cameraType==CameraType.Game &&
+               lastSampledFrame!=Time.frameCount)
+            {
+                lastSampledFrame=Time.frameCount;
+                float delta=Time.unscaledDeltaTime;
+                if(delta>.001f && delta<.25f)
+                    smoothedFrameSeconds=Mathf.Lerp(smoothedFrameSeconds,delta,.08f);
+            }
+            float now=Time.realtimeSinceStartup;
+            if(now-lastAdaptiveCheck>=.8f)
+            {
+                lastAdaptiveCheck=now;
+                float fps=simulated ? editorSimulatedFps :
+                    1f/Mathf.Max(.001f,smoothedFrameSeconds);
+                adaptiveScale=FireflyPreviewAdaptation.NextScale(
+                    adaptiveScale,fps,quality.targetFps,quality.minimumAdaptiveScale);
+            }
+            FireflyPreviewAdaptation.ApplyScale(adaptiveScale,ref world,ref near,ref range);
+        }
+
+        // Detect changes outside the preview window too, e.g. direct asset Inspector edits.
         static int ProfileSignature(FireflyPreviewProfile p)
         {
             unchecked
@@ -221,6 +286,29 @@ namespace LittleCastle.Rendering.Fireflies
                 s=(s*397)^p.densityPer100SquareMetres.GetHashCode();
                 s=(s*397)^p.desiredCellCap;
                 s=(s*397)^p.mapBounds.GetHashCode();
+                s=(s*397)^p.minimumHeight.GetHashCode();
+                s=(s*397)^p.maximumHeight.GetHashCode();
+                s=(s*397)^p.maximumSlopeDegrees.GetHashCode();
+                if(p.areas!=null)for(int i=0;i<p.areas.Count;i++)
+                {
+                    var a=p.areas[i];
+                    if(a==null){s=s*397+1;continue;}
+                    s=s*397 ^ a.enabled.GetHashCode();
+                    s=s*397 ^ a.center.GetHashCode();
+                    s=s*397 ^ a.radii.GetHashCode();
+                    s=s*397 ^ a.rotationDegrees.GetHashCode();
+                    s=s*397 ^ a.falloff.GetHashCode();
+                    s=s*397 ^ a.priority;
+                    s=s*397 ^ a.seed;
+                    s=s*397 ^ (int)a.shape;
+                    s=s*397 ^ (int)a.densityMode;
+                    s=s*397 ^ a.densityValue.GetHashCode();
+                    s=s*397 ^ a.color.GetHashCode();
+                    s=s*397 ^ a.overrideColor.GetHashCode();
+                    if(a.polygon!=null)
+                        for(int j=0;j<a.polygon.Count;j++)
+                            s=s*397 ^ a.polygon[j].GetHashCode();
+                }
                 return s;
             }
         }
