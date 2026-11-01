@@ -362,8 +362,27 @@ namespace LittleCastle.Editor
                     AssetDatabase.SaveAssets();
                 }
             }
-            if(GUILayout.Button("Открыть глобальные настройки качества"))
-                Selection.activeObject=globalSettings;
+            using(new EditorGUILayout.HorizontalScope())
+            {
+                if(GUILayout.Button("Качество из предпросмотра → в игру"))
+                {
+                    Undo.RecordObject(globalSettings,"Apply firefly preview quality globally");
+                    globalSettings.quality=new FireflyPreviewBudget {
+                        quality=visualQuality,
+                        graphicsVsPerformance=graphicsVsFps,
+                        customWorldCap=customWorldCap,
+                        customNearCap=customNearCap,
+                        customRangeMetres=customViewRange,
+                        adaptiveEnabled=adaptiveQuality,
+                        targetFps=targetFps,
+                        minimumAdaptiveScale=minimumAdaptiveScale
+                    };
+                    EditorUtility.SetDirty(globalSettings);
+                    AssetDatabase.SaveAssets();
+                }
+                if(GUILayout.Button("Открыть настройки"))
+                    Selection.activeObject=globalSettings;
+            }
             if(globalSettings.enabledEverywhere &&
                 (!globalSettings.profile || !globalSettings.profile.automaticWorldPlacement))
                 EditorGUILayout.HelpBox("Выберите профиль с включённым авторазмещением. " +
@@ -383,6 +402,16 @@ namespace LittleCastle.Editor
             value.profile=profile;
             value.previewShader=Shader.Find("Little Castle/Effects/Firefly Preview URP");
             value.enabledEverywhere=false; // always opt-in
+            value.quality=new FireflyPreviewBudget {
+                quality=visualQuality,
+                graphicsVsPerformance=graphicsVsFps,
+                customWorldCap=customWorldCap,
+                customNearCap=customNearCap,
+                customRangeMetres=customViewRange,
+                adaptiveEnabled=adaptiveQuality,
+                targetFps=targetFps,
+                minimumAdaptiveScale=minimumAdaptiveScale
+            };
             AssetDatabase.CreateAsset(value,GlobalAssetPath);
             AssetDatabase.SaveAssets();
             globalSettings=value;
