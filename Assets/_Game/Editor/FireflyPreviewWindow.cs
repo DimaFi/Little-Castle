@@ -158,7 +158,7 @@ namespace LittleCastle.Editor
                     EditorGUILayout.LabelField(rendererView.AutomaticWorldStatus,
                         EditorStyles.miniLabel);
             }
-            bool registered=AssetDatabase.LoadAssetAtPath<FireflyPreviewProfile>(
+            var registered=AssetDatabase.LoadAssetAtPath<FireflyPreviewProfile>(
                 RuntimeAssetPath);
             using(new EditorGUILayout.HorizontalScope())
             {
@@ -415,7 +415,7 @@ namespace LittleCastle.Editor
             var source=profile;
             if(!registered)
             {
-                registered=Instantiate(profile);
+                registered=UnityEngine.Object.Instantiate(profile);
                 registered.name="FireflyAutoWorld";
                 AssetDatabase.CreateAsset(registered,RuntimeAssetPath);
             }
