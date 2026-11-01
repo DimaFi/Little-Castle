@@ -55,6 +55,10 @@ namespace LittleCastle.Rendering.Fireflies
         [Range(0f, .5f)] public float flickerAmount = .22f;
         [Range(0f, 1f)] public float minimumNightAmount = .10f;
         [Range(0f, 2f)] public float windResponse = .12f;
+        [Header("Distant fireflies (stable, shuffled LOD)")]
+        [Range(0f, .9f)] public float lodStartFraction = .42f;
+        [Range(.1f, 1f)] public float lodEndFraction = .88f;
+        [Range(.05f, 1f)] public float lodMinimumFraction = .23f;
         public bool nearEnabled = true;
         public FireflyPreviewNearMode nearMode = FireflyPreviewNearMode.NaturalZones;
         [Range(0, 48)] public int desiredNearCount = 8;
@@ -73,6 +77,9 @@ namespace LittleCastle.Rendering.Fireflies
             densityPer100SquareMetres = Mathf.Clamp(densityPer100SquareMetres, 0f, 80f);
             desiredGlobalCap = Mathf.Clamp(desiredGlobalCap, 0, 50000);
             desiredCellCap = Mathf.Clamp(desiredCellCap, 1, 1023);
+            lodStartFraction = Mathf.Clamp(lodStartFraction, 0f, .9f);
+            lodEndFraction = Mathf.Clamp(lodEndFraction, lodStartFraction + .05f, 1f);
+            lodMinimumFraction = Mathf.Clamp(lodMinimumFraction, .05f, 1f);
             minimumHeight = Mathf.Clamp(minimumHeight, 0f, 50f);
             maximumHeight = Mathf.Clamp(maximumHeight, minimumHeight, 100f);
             maximumSlopeDegrees = Mathf.Clamp(maximumSlopeDegrees, 0f, 90f);
@@ -101,6 +108,10 @@ namespace LittleCastle.Rendering.Fireflies
         [Range(0, 50000)] public int customWorldCap = 4500;
         [Range(0, 48)] public int customNearCap = 12;
         [Range(1f, 300f)] public float customRangeMetres = 100f;
+        [Header("Automatic FPS protection (Game camera / Play Mode only)")]
+        public bool automaticFpsBudget;
+        [Range(30, 144)] public int targetFps = 60;
+        [Range(.2f, .9f)] public float minimumAutomaticScale = .4f;
 
         public void Resolve(out int world, out int near, out float range)
         {
@@ -121,6 +132,54 @@ namespace LittleCastle.Rendering.Fireflies
         }
     }
 
+    /// <summary>
+    /// Small, allocation-free, independent feedback controller. Frame time is a signal,
+    /// not a promise: it protects draw budgets but cannot guarantee target FPS.
+    /// Used only in Play Mode and only once per rendered game frame.
+    /// </summary>
+    public sealed class FireflyPreviewAdaptiveBudget
+    {
+        float smoothedDelta;
+        float lastAdjustment;
+        int samples;
+        public float Scale { get; private set; } = 1f;
+        public float SmoothedFps => smoothedDelta > .00001f ? 1f / smoothedDelta : 0f;
+
+        public void Reset()
+        {
+            smoothedDelta = 0f;
+            lastAdjustment = 0f;
+            samples = 0;
+            Scale = 1f;
+        }
+
+        public float Step(float deltaSeconds, float nowSeconds, int targetFps, float minimumScale)
+        {
+            if(float.IsNaN(deltaSeconds) || float.IsInfinity(deltaSeconds) ||
+               deltaSeconds <= 0f || deltaSeconds > .5f)return Scale;
+
+            minimumScale = Mathf.Clamp(minimumScale, .2f, .9f);
+            targetFps = Mathf.Clamp(targetFps, 30, 144);
+            if(samples == 0)
+            {
+                smoothedDelta = deltaSeconds;
+                lastAdjustment = nowSeconds;
+            }
+            else smoothedDelta = Mathf.Lerp(smoothedDelta, deltaSeconds, .08f);
+            samples++;
+            if(samples < 25 || nowSeconds - lastAdjustment < 1.25f)return Scale;
+
+            float targetDelta = 1f / targetFps;
+            // Hysteresis + slow recovery avoid flickering between quality levels.
+            if(smoothedDelta > targetDelta * 1.10f)
+                Scale = Mathf.Max(minimumScale, Scale - .12f);
+            else if(smoothedDelta < targetDelta * .82f)
+                Scale = Mathf.Min(1f, Scale + .05f);
+            lastAdjustment = nowSeconds;
+            return Scale;
+        }
+    }
+
     /// <summary>Side-effect-free, repeatable random placement and area blending.</summary>
     public static class FireflyPreviewDistribution
     {
@@ -136,6 +195,18 @@ namespace LittleCastle.Rendering.Fireflies
         }
         public static float Random01(int x, int z, int seed, int stream = 0) =>
             (Hash(x,z,seed,stream) >> 8) * (1f/16777216f);
+
+        // GPU instances are pre-shuffled within each cell; rendering a shorter prefix
+        // therefore covers the whole area rather than clipping one side of the cell.
+        public static int LodCount(int cellCount, float distanceFraction,
+            float startFraction, float endFraction, float minimumFraction)
+        {
+            if(cellCount <= 0)return 0;
+            float t = Mathf.SmoothStep(0f, 1f, Mathf.InverseLerp(
+                startFraction, Mathf.Max(startFraction + .001f, endFraction), distanceFraction));
+            return Mathf.Clamp(Mathf.RoundToInt(cellCount *
+                Mathf.Lerp(1f, Mathf.Clamp01(minimumFraction), t)), 1, cellCount);
+        }
 
         public static float Influence(FireflyPreviewZone a, Vector2 at)
         {
