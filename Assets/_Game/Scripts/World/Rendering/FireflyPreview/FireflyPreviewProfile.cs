@@ -251,14 +251,21 @@ namespace LittleCastle.Rendering.Fireflies
 
         // GPU instances are pre-shuffled within each cell; rendering a shorter prefix
         // therefore covers the whole area rather than clipping one side of the cell.
+        public static float LodPopulation(int cellCount, float distanceFraction,
+            float startFraction, float endFraction, float minimumFraction)
+        {
+            if(cellCount <= 0)return 0f;
+            float t = Mathf.SmoothStep(0f, 1f, Mathf.InverseLerp(
+                startFraction, Mathf.Max(startFraction + .001f, endFraction), distanceFraction));
+            return Mathf.Clamp(cellCount *
+                Mathf.Lerp(1f, Mathf.Clamp01(minimumFraction), t), 1f, cellCount);
+        }
+
         public static int LodCount(int cellCount, float distanceFraction,
             float startFraction, float endFraction, float minimumFraction)
         {
-            if(cellCount <= 0)return 0;
-            float t = Mathf.SmoothStep(0f, 1f, Mathf.InverseLerp(
-                startFraction, Mathf.Max(startFraction + .001f, endFraction), distanceFraction));
-            return Mathf.Clamp(Mathf.RoundToInt(cellCount *
-                Mathf.Lerp(1f, Mathf.Clamp01(minimumFraction), t)), 1, cellCount);
+            return Mathf.CeilToInt(LodPopulation(cellCount,distanceFraction,
+                startFraction,endFraction,minimumFraction));
         }
 
         public static float Influence(FireflyPreviewZone a, Vector2 at)
