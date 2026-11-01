@@ -154,6 +154,18 @@ namespace LittleCastle.Tests
         }
 
         [Test]
+        public void LOD_FractionalPopulationFadesBoundaryInsteadOfDroppingIt()
+        {
+            float population=FireflyPreviewDistribution.LodPopulation(16,.65f,.42f,.88f,.23f);
+            int drawCount=FireflyPreviewDistribution.LodCount(16,.65f,.42f,.88f,.23f);
+            Assert.Greater(population,0f);
+            Assert.AreEqual(Mathf.CeilToInt(population),drawCount);
+            Assert.That(drawCount-population,Is.InRange(0f,1f));
+            Assert.That(FireflyPreviewDistribution.LodPopulation(16,0f,.42f,.88f,.23f),
+                Is.EqualTo(16f).Within(.0001f));
+        }
+
+        [Test]
         public void AdaptiveBudget_DropsUnderPressureAndRecoversGradually()
         {
             var controller=new FireflyPreviewAdaptiveBudget();
