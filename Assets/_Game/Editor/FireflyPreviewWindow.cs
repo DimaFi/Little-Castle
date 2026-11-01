@@ -29,6 +29,11 @@ namespace LittleCastle.Editor
         [SerializeField] float simulatedFps=28f;
         [SerializeField] Vector2 scroll;
 
+        const string RuntimeAssetPath=
+            "Assets/_Game/Resources/LittleCastle/FireflyAutoWorld.asset";
+        const string RuntimeMaterialPath=
+            "Assets/_Game/Resources/LittleCastle/FireflyAutoWorld.mat";
+
         GameObject previewObject;
         FireflyPreviewRenderer rendererView;
         UnityEditor.Editor profileInspector;
@@ -125,6 +130,49 @@ namespace LittleCastle.Editor
                     if(GUILayout.Button("Выделить asset"))Selection.activeObject=profile;
             }
             if(!profile)return;
+
+            if(profile.automaticWorld==null)profile.Validate();
+            EditorGUILayout.Space();
+            EditorGUILayout.LabelField("Автоматическое размещение по всей карте",
+                EditorStyles.boldLabel);
+            bool autoEnabled=EditorGUILayout.Toggle(
+                "Включить по всей карте",profile.automaticWorld.enabled);
+            if(autoEnabled!=profile.automaticWorld.enabled)
+            {
+                Undo.RecordObject(profile,"Toggle automatic firefly placement");
+                profile.automaticWorld.enabled=autoEnabled;
+                MarkChanged();
+            }
+            if(autoEnabled)
+            {
+                EditorGUILayout.HelpBox(
+                    "Автоматически: вокруг деревьев, над реками и водой, у берегов " +
+                    "и рядом с дорогами. Зима и снег уменьшают плотность. " +
+                    "Ручные области продолжают работать поверх этих правил. " +
+                    "Правила и веса изменяются в инспекторе профиля ниже.",
+                    MessageType.Info);
+                if(rendererView && !rendererView.AutomaticWorldReady)
+                    EditorGUILayout.HelpBox(rendererView.AutomaticWorldStatus,
+                        MessageType.Warning);
+                else if(rendererView)
+                    EditorGUILayout.LabelField(rendererView.AutomaticWorldStatus,
+                        EditorStyles.miniLabel);
+            }
+            bool registered=AssetDatabase.LoadAssetAtPath<FireflyPreviewProfile>(
+                RuntimeAssetPath);
+            using(new EditorGUILayout.HorizontalScope())
+            {
+                if(GUILayout.Button("Включить автоматически в игре"))
+                    RegisterRuntimeProfile();
+                if(registered && GUILayout.Button("Отключить запуск в игре"))
+                    DisableRuntimeProfile();
+            }
+            EditorGUILayout.HelpBox(
+                "Глобальный автозапуск — отдельная опция. Он действует только при " +
+                "наличии зарегистрированного профиля и карты MeadowSurfacePainter; " +
+                "не изменяет исходные сцены или MapEditSession. " +
+                "Настройки графики при регистрации копируются из ползунков окна.",
+                MessageType.None);
 
             previewEnabled=EditorGUILayout.Toggle("Показывать в SceneView",previewEnabled);
             editHandles=EditorGUILayout.Toggle("Перемещать области",editHandles);
@@ -335,6 +383,96 @@ namespace LittleCastle.Editor
             profile.areas.RemoveAt(Mathf.Clamp(selectedZone,0,profile.areas.Count-1));
             selectedZone=Mathf.Clamp(selectedZone,0,Mathf.Max(0,profile.areas.Count-1));
             MarkChanged();
+        }
+
+        static void EnsureRuntimeFolders()
+        {
+            if(!AssetDatabase.IsValidFolder("Assets/_Game/Resources"))
+                AssetDatabase.CreateFolder("Assets/_Game","Resources");
+            if(!AssetDatabase.IsValidFolder("Assets/_Game/Resources/LittleCastle"))
+                AssetDatabase.CreateFolder("Assets/_Game/Resources","LittleCastle");
+        }
+
+        void RegisterRuntimeProfile()
+        {
+            if(!profile)return;
+            var shader=Shader.Find("Little Castle/Effects/Firefly Preview URP");
+            if(!shader || !shader.isSupported)
+            {
+                EditorUtility.DisplayDialog("Светлячки",
+                    "Не найден поддерживаемый URP-шейдер светлячков. " +
+                    "Сначала проверьте импорт шейдера.", "OK");
+                return;
+            }
+            EnsureRuntimeFolders();
+            var registered=AssetDatabase.LoadAssetAtPath<FireflyPreviewProfile>(
+                RuntimeAssetPath);
+            if(registered && registered!=profile &&
+                !EditorUtility.DisplayDialog("Светлячки",
+                    "Заменить существующий глобальный профиль текущими настройками?",
+                    "Заменить","Отмена"))
+                return;
+            var source=profile;
+            if(!registered)
+            {
+                registered=Instantiate(profile);
+                registered.name="FireflyAutoWorld";
+                AssetDatabase.CreateAsset(registered,RuntimeAssetPath);
+            }
+            else if(registered!=profile)
+            {
+                Undo.RecordObject(registered,"Update global firefly profile");
+                EditorUtility.CopySerialized(profile,registered);
+            }
+            var material=AssetDatabase.LoadAssetAtPath<Material>(
+                RuntimeMaterialPath);
+            if(!material)
+            {
+                material=new Material(shader){name="Firefly Auto World URP",
+                    enableInstancing=true};
+                AssetDatabase.CreateAsset(material,RuntimeMaterialPath);
+            }
+            else
+            {
+                material.shader=shader;
+                material.enableInstancing=true;
+            }
+            Undo.RecordObject(registered,"Enable global fireflies");
+            registered.enabled=true;
+            registered.automaticWorld.enabled=true;
+            registered.automaticWorld.runtimeAutoStart=true;
+            registered.materialForBuild=material;
+            if(registered.runtimeBudget==null)
+                registered.runtimeBudget=new FireflyPreviewBudget();
+            registered.runtimeBudget.quality=visualQuality;
+            registered.runtimeBudget.graphicsVsPerformance=graphicsVsFps;
+            registered.runtimeBudget.customWorldCap=customWorldCap;
+            registered.runtimeBudget.customNearCap=customNearCap;
+            registered.runtimeBudget.customRangeMetres=customViewRange;
+            registered.runtimeBudget.adaptiveEnabled=adaptiveQuality;
+            registered.runtimeBudget.targetFps=targetFps;
+            registered.runtimeBudget.minimumAdaptiveScale=minimumAdaptiveScale;
+            registered.Validate();
+            EditorUtility.SetDirty(material);
+            EditorUtility.SetDirty(registered);
+            AssetDatabase.SaveAssets();
+            profile=registered;
+            DestroyPreview();
+            Repaint();
+            Debug.Log("Firefly auto-world enabled through Resources/LittleCastle/" +
+                "FireflyAutoWorld. Changes restricted to dedicated preview assets.");
+        }
+
+        void DisableRuntimeProfile()
+        {
+            var registered=AssetDatabase.LoadAssetAtPath<FireflyPreviewProfile>(
+                RuntimeAssetPath);
+            if(!registered || registered.automaticWorld==null)return;
+            Undo.RecordObject(registered,"Disable global fireflies");
+            registered.automaticWorld.runtimeAutoStart=false;
+            EditorUtility.SetDirty(registered);
+            AssetDatabase.SaveAssets();
+            Repaint();
         }
 
         void CreateProfile()
