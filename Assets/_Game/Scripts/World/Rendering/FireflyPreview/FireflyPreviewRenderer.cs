@@ -266,6 +266,15 @@ namespace LittleCastle.Rendering.Fireflies
                 return;
             }
             ResolveExistingReferences();
+            // Don't fake ecology outside an actual map. Keep the opt-in dormant
+            // on loading/menu scenes until the painter has an initialized session.
+            if(profile.automaticWorldPlacement && observedSession==null)
+            {
+                if(cells.Count>0)cells.Clear();
+                DesiredWorldCount=SubmittedWorldCount=SubmittedNearCount=0;
+                MissingCells=DrawCalls=BudgetRejected=0;
+                return;
+            }
             EnsureDrawing();
             if(!generatedMaterial || !quad)return;
             cap=Mathf.Min(cap,profile.desiredGlobalCap);
@@ -586,9 +595,9 @@ namespace LittleCastle.Rendering.Fireflies
                 Vector4 map=session.Bounds;
                 if(x<map.x||z<map.y||x>map.x+map.z||z>map.y+map.w)
                 {height=0;normalUp=1;return false;}
-                height=session.QueryWater(new Vector2(x,z),out float water,out _,out _)
-                    ?water:session.SampleHeight(x,z);
-                normalUp=session.SampleNormal(x,z).y;
+                bool onWater=session.QueryWater(new Vector2(x,z),out float water,out _,out _);
+                height=onWater ? water : session.SampleHeight(x,z);
+                normalUp=onWater ? 1f : session.SampleNormal(x,z).y;
                 return true;
             }
             int hits=Physics.RaycastNonAlloc(new Vector3(x,rayStartY,z),Vector3.down,
