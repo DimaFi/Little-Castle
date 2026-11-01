@@ -54,13 +54,13 @@ namespace LittleCastle.Editor
             restoreAttempted=false;
             titleContent=new GUIContent("World Editor");minSize=new Vector2(340,420);
             SceneView.duringSceneGui+=SceneGUI;EditorApplication.playModeStateChanged+=PlayState;EditorApplication.update+=Tick;
-            AssemblyReloadEvents.beforeAssemblyReload+=CheckpointSession;EditorApplication.delayCall+=RestoreWindowSession;
+            AssemblyReloadEvents.beforeAssemblyReload+=BeforeAssemblyReload;EditorApplication.delayCall+=RestoreWindowSession;
         }
         void OnDisable()
         {
             CheckpointSession();if(session!=null)session.Changed-=Changed;
             SceneView.duringSceneGui-=SceneGUI;EditorApplication.playModeStateChanged-=PlayState;EditorApplication.update-=Tick;
-            AssemblyReloadEvents.beforeAssemblyReload-=CheckpointSession;EditorApplication.delayCall-=RestoreWindowSession;
+            AssemblyReloadEvents.beforeAssemblyReload-=BeforeAssemblyReload;EditorApplication.delayCall-=RestoreWindowSession;
             RestorePreview();if(preview)DestroyImmediate(preview);
         }
         void Tick(){if(!EditorApplication.isPlaying){ConfigureWaterPreviewCameras();TickTools();TickEnvironmentPreview();terrainPreview?.FlushColliderBudget(2);var riverView=SceneView.lastActiveSceneView;if(riverView&&riverView.camera){riverPreview?.Tick(riverView.camera.transform.position);if(riverPreview!=null&&riverPreview.AnimationAdvanced)riverView.Repaint();}if(treePreview!=null){var view=SceneView.lastActiveSceneView;treePreview.Tick(view&&view.camera?view.camera.transform.position:Vector3.zero);}}}
@@ -70,6 +70,13 @@ namespace LittleCastle.Editor
             if(state==PlayModeStateChange.EnteredEditMode)RestoreWindowSession();
         }
         bool previewRebindScheduled;
+        void BeforeAssemblyReload()
+        {
+            CheckpointSession();
+            // Restore source references before Unity serializes the scene for reload.
+            // HideAndDontSave terrain/grass clones cannot survive that serialization.
+            RestorePreview();
+        }
         internal void SuspendPreviewForSave()
         {
             CancelRiverGesture(false);

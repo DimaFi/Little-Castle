@@ -15,6 +15,7 @@ namespace LittleCastle.Editor
         MapRiverEditGesture riverGesture;
         MapTerrainPresentation riverGestureTerrain;
         MapRiverPresentation riverGestureWater;
+        MapTreePresentation riverGestureTrees;
         bool riverPreviewVisible,riverPreviewPending;
         double nextRiverPreview;
         long pickRevision=-1;List<MapRiverPath> pickPaths;
@@ -78,6 +79,7 @@ namespace LittleCastle.Editor
         bool DirectRiverSceneGUI(SceneView view)
         {
             var e=Event.current;
+            bool released=e.rawType==EventType.MouseUp&&e.button==0;
             if(riverGesture!=null&&(toolCategory!=3||CurrentToolId!="river.points")){CancelRiverGesture();return false;}
             if(!riverDirectEditingEnabled||toolCategory!=3||CurrentToolId!="river.points"||riverTools.mode==3||riverTools.mode==4||riverTools.mode==5)return false;
             if(riverGesture!=null&&(e.type==EventType.Ignore||e.type==EventType.KeyDown&&e.keyCode==KeyCode.Escape)){CancelRiverGesture();e.Use();return true;}
@@ -86,7 +88,7 @@ namespace LittleCastle.Editor
             if(draft!=null&&draft.nodes.Count>=2)DrawResolvedRiverCurve(riverGesture?.LastValid?.river??draft);
             int beforeControl=GUIUtility.hotControl;
             if(draft!=null&&draft.nodes.Count>0)DrawRiverNodeHandles(draft);
-            if(riverGesture!=null&&e.rawType==EventType.MouseUp&&e.button==0)
+            if(riverGesture!=null&&(released||beforeControl!=0&&GUIUtility.hotControl==0))
             {UpdateRiverGesturePreview(true);FinishRiverGesture();e.Use();return true;}
             if(e.type==EventType.Used||beforeControl!=GUIUtility.hotControl||GUIUtility.hotControl!=0)return true;
             if(e.type==EventType.MouseDown&&e.button==0&&riverTools.mode!=1)
@@ -179,6 +181,7 @@ namespace LittleCastle.Editor
                     BindRiverGestureMask(painter);
                     var ground=MeadowSurfacePainter.FindGround(painter.terrainMaterial);
                     if(ground)riverGestureTerrain=new MapTerrainPresentation(riverGesture.PreviewSession,ground,FindAnyObjectByType<MeadowGrassRenderer>(),FindAnyObjectByType<InnerverseGrassStudy>());
+                    if(treeCatalog)riverGestureTrees=new MapTreePresentation(riverGesture.PreviewSession,treeCatalog);
                     var catalog=painter.riverCatalogOverride?painter.riverCatalogOverride:MapRockCatalog.Default;
                     if(catalog)riverGestureWater=new MapRiverPresentation(riverGesture.PreviewSession,catalog,painter.waterOnlyRivers);
                     riverPreviewVisible=true;
@@ -192,7 +195,7 @@ namespace LittleCastle.Editor
             if(riverGesture==null)return;
             if(EditorWindow.focusedWindow&&!(EditorWindow.focusedWindow is SceneView)){CancelRiverGesture();return;}
             UpdateRiverGesturePreview(false);riverGestureTerrain?.FlushColliderBudget(2);
-            var view=SceneView.lastActiveSceneView;if(view&&view.camera)riverGestureWater?.Tick(view.camera.transform.position);
+            var view=SceneView.lastActiveSceneView;if(view&&view.camera){riverGestureWater?.Tick(view.camera.transform.position);riverGestureTrees?.Tick(view.camera.transform.position);}
         }
         void FinishRiverGesture()
         {
@@ -203,12 +206,12 @@ namespace LittleCastle.Editor
             if(applied){riverTools.SelectRiver(session,candidate.id);riverTools.node=Mathf.Clamp(selected,0,candidate.nodes.Count-1);MarkDocumentDirty();}else riverTools.draft=candidate;
             riverTools.status=message;BindScenePreview();Repaint();SceneView.RepaintAll();
         }
-        void ClearRiverGesturePreview(){riverGestureWater?.Dispose();riverGestureWater=null;riverGestureTerrain?.Dispose();riverGestureTerrain=null;if(riverGestureMask)DestroyImmediate(riverGestureMask);riverGestureMask=null;riverGesturePixels=null;riverGestureMaskArea=default;riverPreviewVisible=false;riverPreviewPending=false;}
+        void ClearRiverGesturePreview(){riverGestureWater?.Dispose();riverGestureWater=null;riverGestureTrees?.Dispose();riverGestureTrees=null;riverGestureTerrain?.Dispose();riverGestureTerrain=null;if(riverGestureMask)DestroyImmediate(riverGestureMask);riverGestureMask=null;riverGesturePixels=null;riverGestureMaskArea=default;riverPreviewVisible=false;riverPreviewPending=false;}
         void BindRiverGestureMask(MeadowSurfacePainter painter)
         {
             riverGesturePixels=(byte[])pixels.Clone();riverGestureMask=new Texture2D(Resolution,Resolution,TextureFormat.RG16,false,true){hideFlags=HideFlags.HideAndDontSave,filterMode=FilterMode.Bilinear};
             riverGestureMask.SetPixelData(riverGesturePixels,0);riverGestureMask.Apply(false,false);
-            var properties=new MaterialPropertyBlock();properties.SetTexture("_SurfacePaint",riverGestureMask);properties.SetVector("_SurfacePaintBounds",source.bounds);properties.SetFloat("_UseSurfacePaint",1);
+            var b=source.bounds;var properties=new MaterialPropertyBlock();properties.SetTexture("_SurfacePaint",riverGestureMask);properties.SetVector("_SurfacePaintBounds",new Vector4(b.x,b.y,1/b.z,1/b.w));properties.SetFloat("_UseSurfacePaint",1);
             foreach(var renderer in FindObjectsByType<MeshRenderer>())if(Array.IndexOf(renderer.sharedMaterials,painter.terrainMaterial)>=0||Array.IndexOf(renderer.sharedMaterials,painter.grassMaterial)>=0||Array.IndexOf(renderer.sharedMaterials,painter.accentMaterial)>=0)
             {var old=new MaterialPropertyBlock();renderer.GetPropertyBlock(old);rendererBindings.Add(renderer,old);renderer.SetPropertyBlock(properties);}
             foreach(var grass in FindObjectsByType<MeadowGrassRenderer>())if(grass.material==painter.grassMaterial){grassBindings.Add(grass,grass.surfaceOverrides);grass.surfaceOverrides=properties;}
