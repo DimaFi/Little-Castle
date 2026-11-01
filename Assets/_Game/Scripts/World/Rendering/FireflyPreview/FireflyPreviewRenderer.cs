@@ -72,7 +72,6 @@ namespace LittleCastle.Rendering.Fireflies
         bool foundReferences;
         int lastSignature=int.MinValue;
         int lastCacheProfileId;
-        float cachedRange;
         float adaptiveScale=1f;
         float smoothedFrameSeconds=1f/60f;
         float lastAdaptiveCheck;
@@ -235,7 +234,7 @@ namespace LittleCastle.Rendering.Fireflies
             if(lastCacheProfileId!=profileId || lastSignature!=signature)
             {
                 Invalidate();
-                lastSignature=signature;lastCacheProfileId=profileId;cachedRange=range;
+                lastSignature=signature;lastCacheProfileId=profileId;
             }
             DrawCells(camera,cap,range);
             SubmittedNearCount=nearCap>0 && profile.nearEnabled && !reflection
@@ -282,7 +281,7 @@ namespace LittleCastle.Rendering.Fireflies
         {
             unchecked
             {
-                int s=p.seed*397 ^ p.areas.Count;
+                int s=p.seed*397 ^ (p.areas==null ? 0 : p.areas.Count);
                 s=(s*397)^p.densityPer100SquareMetres.GetHashCode();
                 s=(s*397)^p.desiredCellCap;
                 s=(s*397)^p.mapBounds.GetHashCode();
