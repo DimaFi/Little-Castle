@@ -9,6 +9,30 @@ namespace LittleCastle.Rendering.Fireflies
     public enum FireflyPreviewDensityMode { Inherit, Multiply, Set, Exclude }
     public enum FireflyPreviewNearMode { NaturalZones, Everywhere }
 
+    /// <summary>Automatic habitat rules for the entire active map; never edits map data.</summary>
+    [Serializable]
+    public sealed class FireflyPreviewAutoWorldSettings
+    {
+        [Tooltip("One switch: automatically place fireflies near trees, riverbanks, water and paths across the map.")]
+        public bool enabled;
+        [Tooltip("Opt-in: start automatically in Play using the registered Resources profile.")]
+        public bool runtimeAutoStart;
+        [Range(0f,4f)] public float meadowWeight=.12f;
+        [Range(0f,8f)] public float forestWeight=2.4f;
+        [Range(1f,24f)] public float treeInfluenceRadius=10f;
+        [Range(0f,8f)] public float shoreWeight=2.8f;
+        [Range(1f,12f)] public float shoreSearchRadius=5f;
+        [Range(0f,8f)] public float waterSurfaceWeight=1.3f;
+        [Range(0f,8f)] public float roadsideWeight=.95f;
+        [Range(.5f,10f)] public float roadsideSearchRadius=4f;
+        [Range(0f,1f)] public float pavedRoadMultiplier=.04f;
+        [Range(0f,4f)] public float enchantedForestMultiplier=1.45f;
+        [Range(0f,1f)] public float winterMultiplier=0f;
+        [Range(0f,1f)] public float snowMultiplier=.10f;
+        [Range(.1f,12f)] public float maximumHabitatMultiplier=6f;
+        public bool avoidReservedGround=true;
+    }
+
     [Serializable]
     public sealed class FireflyPreviewZone
     {
@@ -68,6 +92,12 @@ namespace LittleCastle.Rendering.Fireflies
         [Range(0, 48)] public int desiredNearCount = 8;
         [Range(1f, 20f)] public float nearRadius = 7f;
         [Range(0f, 100f)] public float maximumCameraHeightForNear = 22f;
+        [Header("Automatic world distribution (read-only map detection)")]
+        public FireflyPreviewAutoWorldSettings automaticWorld=new FireflyPreviewAutoWorldSettings();
+        [Header("Runtime budget used by optional opt-in startup")]
+        public FireflyPreviewBudget runtimeBudget=new FireflyPreviewBudget();
+        [Tooltip("Reference from a saved material to retain the URP shader in player builds.")]
+        public Material materialForBuild;
         public List<FireflyPreviewZone> areas = new List<FireflyPreviewZone>();
 
         public bool Includes(float x, float z) =>
@@ -94,6 +124,21 @@ namespace LittleCastle.Rendering.Fireflies
             farLodSurvivalFraction = Mathf.Clamp(farLodSurvivalFraction, .05f, 1f);
             farBrightnessFraction = Mathf.Clamp(farBrightnessFraction, .1f, 1f);
             nearRadius = Mathf.Clamp(nearRadius, 1f, 20f);
+            if(automaticWorld == null) automaticWorld=new FireflyPreviewAutoWorldSettings();
+            automaticWorld.meadowWeight=Mathf.Clamp(automaticWorld.meadowWeight,0f,4f);
+            automaticWorld.forestWeight=Mathf.Clamp(automaticWorld.forestWeight,0f,8f);
+            automaticWorld.treeInfluenceRadius=Mathf.Clamp(automaticWorld.treeInfluenceRadius,1f,24f);
+            automaticWorld.shoreWeight=Mathf.Clamp(automaticWorld.shoreWeight,0f,8f);
+            automaticWorld.shoreSearchRadius=Mathf.Clamp(automaticWorld.shoreSearchRadius,1f,12f);
+            automaticWorld.waterSurfaceWeight=Mathf.Clamp(automaticWorld.waterSurfaceWeight,0f,8f);
+            automaticWorld.roadsideWeight=Mathf.Clamp(automaticWorld.roadsideWeight,0f,8f);
+            automaticWorld.roadsideSearchRadius=Mathf.Clamp(automaticWorld.roadsideSearchRadius,.5f,10f);
+            automaticWorld.pavedRoadMultiplier=Mathf.Clamp01(automaticWorld.pavedRoadMultiplier);
+            automaticWorld.enchantedForestMultiplier=Mathf.Clamp(automaticWorld.enchantedForestMultiplier,0f,4f);
+            automaticWorld.winterMultiplier=Mathf.Clamp01(automaticWorld.winterMultiplier);
+            automaticWorld.snowMultiplier=Mathf.Clamp01(automaticWorld.snowMultiplier);
+            automaticWorld.maximumHabitatMultiplier=Mathf.Clamp(automaticWorld.maximumHabitatMultiplier,.1f,12f);
+            if(runtimeBudget == null) runtimeBudget=new FireflyPreviewBudget();
             if(areas == null) areas = new List<FireflyPreviewZone>();
             for(int i = areas.Count - 1; i >= 0; i--)
             {
@@ -169,6 +214,40 @@ namespace LittleCastle.Rendering.Fireflies
         }
     }
 
+    /// <summary>
+    /// Deterministic habitat decision, separate from map access and density zone overrides.
+    /// Inputs are normalized observations. All multipliers remain bounded.
+    /// </summary>
+    public static class FireflyPreviewHabitats
+    {
+        public static float Multiplier(FireflyPreviewAutoWorldSettings a,
+            float nearestTreeMetres,bool waterHere,float waterProximity,
+            float roadHere,float roadProximity,float winter,float snow,
+            float magicalForest)
+        {
+            if(a==null || !a.enabled)return 1f;
+            float m=Mathf.Max(0f,a.meadowWeight);
+            if(nearestTreeMetres<a.treeInfluenceRadius)
+            {
+                float t=1f-Mathf.Clamp01(nearestTreeMetres/
+                    Mathf.Max(.01f,a.treeInfluenceRadius));
+                m=Mathf.Max(m,Mathf.Lerp(a.meadowWeight,a.forestWeight,
+                    t*t*(3f-2f*t)));
+            }
+            if(waterHere)m=Mathf.Max(m,a.waterSurfaceWeight);
+            else m=Mathf.Max(m,a.shoreWeight*Mathf.Clamp01(waterProximity));
+            m=Mathf.Max(m,a.roadsideWeight*Mathf.Clamp01(roadProximity));
+            // Directly over a travelled path, avoid an intrusive carpet of lights.
+            if(!waterHere)m*=Mathf.Lerp(1f,a.pavedRoadMultiplier,
+                Mathf.Clamp01(roadHere));
+            m*=Mathf.Lerp(1f,a.enchantedForestMultiplier,
+                Mathf.Clamp01(magicalForest));
+            m*=Mathf.Lerp(1f,a.winterMultiplier,Mathf.Clamp01(winter));
+            m*=Mathf.Lerp(1f,a.snowMultiplier,Mathf.Clamp01(snow));
+            return Mathf.Clamp(m,0f,Mathf.Max(.1f,a.maximumHabitatMultiplier));
+        }
+    }
+
     /// <summary>Side-effect-free, repeatable random placement and area blending.</summary>
     public static class FireflyPreviewDistribution
     {
@@ -219,11 +298,13 @@ namespace LittleCastle.Rendering.Fireflies
             return Mathf.SmoothStep(0f,1f,edgeDistance/fadeMetres);
         }
 
-        public static float Density(FireflyPreviewProfile profile,Vector2 at,out FireflyPreviewZone selected)
+        public static float Density(FireflyPreviewProfile profile,Vector2 at,
+            out FireflyPreviewZone selected,float autoBaseDensity=-1f,bool useSessionBounds=false)
         {
             selected=null;
-            if(profile==null || !profile.enabled || !profile.Includes(at.x,at.y))return 0f;
-            float baseDensity=profile.densityPer100SquareMetres;
+            if(profile==null || !profile.enabled ||
+               (!useSessionBounds && !profile.Includes(at.x,at.y)))return 0f;
+            float baseDensity=autoBaseDensity>=0f?autoBaseDensity:profile.densityPer100SquareMetres;
             float result=baseDensity;
             float exclusion=1f, selectedWeight=0f;
             var areas=profile.areas;
