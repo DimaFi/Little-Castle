@@ -53,6 +53,14 @@ namespace LittleCastle.Rendering.Fireflies
         [Range(0f, 2f)] public float movementAmplitude = .6f;
         [Range(0f, 5f)] public float movementSpeed = .7f;
         [Range(0f, .5f)] public float flickerAmount = .22f;
+        [Range(0f, .8f)] public float motionPauseFraction = .22f;
+        [Range(2f, 25f)] public float motionCycleSeconds = 7f;
+        [Range(.05f, .32f)] public float brightCoreRadius = .13f;
+        [Range(0f, .5f)] public float haloStrength = .20f;
+        [Range(3f, 20f)] public float maxDiameterPixels = 11f;
+        [Range(.25f, .95f)] public float farLodStartFraction = .58f;
+        [Range(.05f, 1f)] public float farLodSurvivalFraction = .28f;
+        [Range(.1f, 1f)] public float farBrightnessFraction = .65f;
         [Range(0f, 1f)] public float minimumNightAmount = .10f;
         [Range(0f, 2f)] public float windResponse = .12f;
         public bool nearEnabled = true;
@@ -77,6 +85,14 @@ namespace LittleCastle.Rendering.Fireflies
             maximumHeight = Mathf.Clamp(maximumHeight, minimumHeight, 100f);
             maximumSlopeDegrees = Mathf.Clamp(maximumSlopeDegrees, 0f, 90f);
             desiredNearCount = Mathf.Clamp(desiredNearCount, 0, 48);
+            motionPauseFraction = Mathf.Clamp(motionPauseFraction, 0f, .8f);
+            motionCycleSeconds = Mathf.Clamp(motionCycleSeconds, 2f, 25f);
+            brightCoreRadius = Mathf.Clamp(brightCoreRadius, .05f, .32f);
+            haloStrength = Mathf.Clamp(haloStrength, 0f, .5f);
+            maxDiameterPixels = Mathf.Clamp(maxDiameterPixels, 3f, 20f);
+            farLodStartFraction = Mathf.Clamp(farLodStartFraction, .25f, .95f);
+            farLodSurvivalFraction = Mathf.Clamp(farLodSurvivalFraction, .05f, 1f);
+            farBrightnessFraction = Mathf.Clamp(farBrightnessFraction, .1f, 1f);
             nearRadius = Mathf.Clamp(nearRadius, 1f, 20f);
             if(areas == null) areas = new List<FireflyPreviewZone>();
             for(int i = areas.Count - 1; i >= 0; i--)
@@ -101,6 +117,10 @@ namespace LittleCastle.Rendering.Fireflies
         [Range(0, 50000)] public int customWorldCap = 4500;
         [Range(0, 48)] public int customNearCap = 12;
         [Range(1f, 300f)] public float customRangeMetres = 100f;
+        // Standalone preview only; changes no global graphics settings.
+        public bool adaptiveEnabled = true;
+        [Range(20f, 144f)] public float targetFps = 60f;
+        [Range(.2f, 1f)] public float minimumAdaptiveScale = .35f;
 
         public void Resolve(out int world, out int near, out float range)
         {
@@ -118,6 +138,34 @@ namespace LittleCastle.Rendering.Fireflies
             world = Mathf.Clamp(Mathf.RoundToInt(world*Mathf.Lerp(.4f,1.6f,t)),0,50000);
             near = Mathf.Clamp(Mathf.RoundToInt(near*Mathf.Lerp(.4f,1.6f,t)),0,48);
             range *= Mathf.Lerp(.75f,1.2f,t);
+        }
+    }
+
+    /// <summary>Hysteresis FPS guard: a frame-time signal, not GPU profiling.</summary>
+    public static class FireflyPreviewAdaptation
+    {
+        public static float NextScale(float previous, float measuredFps,
+            float targetFps, float minimumScale)
+        {
+            float low = Mathf.Clamp(minimumScale, .2f, 1f);
+            float scale = Mathf.Clamp(previous, low, 1f);
+            float target = Mathf.Clamp(targetFps, 20f, 144f);
+            if(float.IsNaN(measuredFps) || measuredFps <= 0f) return scale;
+            if(measuredFps < target * .90f)
+                return Mathf.Max(low, scale - Mathf.Clamp(
+                    (target - measuredFps) / target * .40f, .05f, .15f));
+            if(measuredFps > target * 1.12f)
+                return Mathf.Min(1f, scale + .04f);
+            return scale;
+        }
+
+        public static void ApplyScale(float scale, ref int world,
+            ref int near, ref float range)
+        {
+            float factor = Mathf.Clamp01(scale);
+            world = Mathf.RoundToInt(world * factor);
+            near = Mathf.RoundToInt(near * factor);
+            range *= Mathf.Lerp(.70f, 1f, factor);
         }
     }
 
