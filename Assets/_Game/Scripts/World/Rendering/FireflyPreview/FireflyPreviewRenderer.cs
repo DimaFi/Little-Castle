@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using LittleCastle.Research;
 using LittleCastle.World;
+using LittleCastle.World.Environment;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -43,6 +45,7 @@ namespace LittleCastle.Rendering.Fireflies
         }
 
         [SerializeField] FireflyPreviewProfile profile;
+        [SerializeField] Shader explicitPreviewShader;
         [SerializeField] public FireflyPreviewBudget quality=new FireflyPreviewBudget();
         [SerializeField] Camera onlyCamera;
         [SerializeField] MeadowSurfacePainter optionalPainter;
@@ -70,6 +73,8 @@ namespace LittleCastle.Rendering.Fireflies
         Material generatedMaterial;
         Mesh quad;
         bool foundReferences;
+        MapEditSession observedSession;
+        float nextReferenceProbe;
         int lastSignature=int.MinValue;
         int lastCacheProfileId;
         float adaptiveScale=1f;
@@ -86,6 +91,21 @@ namespace LittleCastle.Rendering.Fireflies
         public int DrawCalls { get; private set; }
         public int BudgetRejected { get; private set; }
         public FireflyPreviewProfile Profile=>profile;
+        public bool HasActiveMap=>observedSession!=null;
+        public string ActiveMapId=>observedSession?.MapId;
+        public bool AutomaticPlacementActive=>profile && profile.automaticWorldPlacement &&
+            observedSession!=null;
+        public void UseShader(Shader value)
+        {
+            if(explicitPreviewShader==value)return;
+            explicitPreviewShader=value;
+            if(generatedMaterial)
+            {
+                if(Application.isPlaying)Destroy(generatedMaterial);
+                else DestroyImmediate(generatedMaterial);
+                generatedMaterial=null;
+            }
+        }
         public float AdaptiveScale=>adaptiveScale;
         public float EstimatedFrameFps=>smoothedFrameSeconds>.0001f
             ?1f/smoothedFrameSeconds:0f;
@@ -112,6 +132,7 @@ namespace LittleCastle.Rendering.Fireflies
         void OnEnable()
         {
             RenderPipelineManager.beginCameraRendering+=Render;
+            SceneManager.activeSceneChanged+=OnActiveSceneChanged;
             Invalidate();
             adaptiveScale=1f;
             smoothedFrameSeconds=1f/60f;
@@ -122,6 +143,8 @@ namespace LittleCastle.Rendering.Fireflies
         void OnDisable()
         {
             RenderPipelineManager.beginCameraRendering-=Render;
+            SceneManager.activeSceneChanged-=OnActiveSceneChanged;
+            BindSession(null);
             DisposeResources();
         }
         void OnDestroy()=>DisposeResources();
@@ -144,19 +167,67 @@ namespace LittleCastle.Rendering.Fireflies
             DesiredWorldCount=SubmittedWorldCount=SubmittedNearCount=MissingCells=DrawCalls=BudgetRejected=0;
         }
 
+        void OnActiveSceneChanged(Scene oldScene,Scene newScene)
+        {
+            BindSession(null);
+            optionalPainter=null;
+            existingLighting=null;
+            foundReferences=false;
+            nextReferenceProbe=0f;
+            Invalidate();
+        }
+
+        void BindSession(MapEditSession next)
+        {
+            if(ReferenceEquals(observedSession,next))return;
+            if(observedSession!=null)observedSession.Changed-=OnMapChanged;
+            observedSession=next;
+            if(observedSession!=null)observedSession.Changed+=OnMapChanged;
+            Invalidate();
+        }
+
+        void OnMapChanged(MapRegionChange change)
+        {
+            if(profile==null || !profile.automaticWorldPlacement)return;
+            // Include proximity queries (trees, paths and nearby riverbanks).
+            float radius=Mathf.Max(profile.automaticTreeRadius,
+                Mathf.Max(profile.automaticWaterRadius,profile.automaticPathRadius))+2f;
+            Rect area=change.bounds;
+            area.xMin-=radius;area.xMax+=radius;
+            area.yMin-=radius;area.yMax+=radius;
+            toEvict.Clear();
+            foreach(var entry in cells)
+            {
+                Rect cellRect=new Rect(entry.Key.x*CellWidth,entry.Key.y*CellWidth,
+                    CellWidth,CellWidth);
+                if(area.Overlaps(cellRect))toEvict.Add(entry.Key);
+            }
+            foreach(var key in toEvict)cells.Remove(key);
+        }
+
         void ResolveExistingReferences()
         {
-            if(foundReferences)return;
+            if(optionalPainter && optionalPainter.Session!=null)
+            {
+                BindSession(optionalPainter.Session);
+                if(!existingLighting && Time.realtimeSinceStartup>=nextReferenceProbe)
+                    existingLighting=FindAnyObjectByType<StylizedLightingGlobals>();
+                return;
+            }
+            if(Time.realtimeSinceStartup<nextReferenceProbe && foundReferences)return;
             foundReferences=true;
-            if(!optionalPainter)optionalPainter=FindAnyObjectByType<MeadowSurfacePainter>();
+            nextReferenceProbe=Time.realtimeSinceStartup+1.5f;
+            optionalPainter=FindAnyObjectByType<MeadowSurfacePainter>();
             if(!existingLighting)existingLighting=FindAnyObjectByType<StylizedLightingGlobals>();
+            BindSession(optionalPainter ? optionalPainter.Session : null);
         }
 
         void EnsureDrawing()
         {
             if(!generatedMaterial)
             {
-                var shader=Shader.Find("Little Castle/Effects/Firefly Preview URP");
+                var shader=explicitPreviewShader ?
+                    explicitPreviewShader : Shader.Find("Little Castle/Effects/Firefly Preview URP");
                 if(shader==null || !shader.isSupported)return;
                 generatedMaterial=new Material(shader) {
                     name="Firefly preview (runtime only)",hideFlags=HideFlags.HideAndDontSave,enableInstancing=true
@@ -288,6 +359,22 @@ namespace LittleCastle.Rendering.Fireflies
                 s=(s*397)^p.minimumHeight.GetHashCode();
                 s=(s*397)^p.maximumHeight.GetHashCode();
                 s=(s*397)^p.maximumSlopeDegrees.GetHashCode();
+                s=(s*397)^p.automaticWorldPlacement.GetHashCode();
+                s=(s*397)^p.automaticUseMapBounds.GetHashCode();
+                s=(s*397)^p.automaticIncludeForests.GetHashCode();
+                s=(s*397)^p.automaticIncludeWater.GetHashCode();
+                s=(s*397)^p.automaticIncludePaths.GetHashCode();
+                s=(s*397)^p.automaticIncludeMeadows.GetHashCode();
+                s=(s*397)^p.automaticTreeRadius.GetHashCode();
+                s=(s*397)^p.automaticWaterRadius.GetHashCode();
+                s=(s*397)^p.automaticPathRadius.GetHashCode();
+                s=(s*397)^p.automaticForestMultiplier.GetHashCode();
+                s=(s*397)^p.automaticWaterMultiplier.GetHashCode();
+                s=(s*397)^p.automaticPathMultiplier.GetHashCode();
+                s=(s*397)^p.automaticMeadowMultiplier.GetHashCode();
+                s=(s*397)^p.automaticWinterMultiplier.GetHashCode();
+                s=(s*397)^p.automaticSnowMultiplier.GetHashCode();
+                s=(s*397)^p.automaticExcludeReservedGround.GetHashCode();
                 if(p.areas!=null)for(int i=0;i<p.areas.Count;i++)
                 {
                     var a=p.areas[i];
@@ -363,10 +450,84 @@ namespace LittleCastle.Rendering.Fireflies
             foreach(var key in toEvict)cells.Remove(key);
         }
 
+        Vector4 CurrentBounds=>
+            profile.automaticWorldPlacement && profile.automaticUseMapBounds &&
+            observedSession!=null ? observedSession.Bounds : profile.mapBounds;
+
+        static bool InBounds(Vector4 b,float x,float z)=>x>=b.x && z>=b.y &&
+            x<=b.x+b.z && z<=b.y+b.w;
+
+        float AutomaticFactor(float px,float pz,MapEditSession session,
+            List<MapTreeInstance> nearbyTrees)
+        {
+            if(session==null)return 0f;
+            Vector2 at=new Vector2(px,pz);
+            float water=0f;
+            bool wet=false;
+            if(profile.automaticIncludeWater)
+            {
+                wet=session.QueryWater(at,out _,out _,out _);
+                if(wet)water=1f;
+                else
+                {
+                    float radius=profile.automaticWaterRadius;
+                    if(session.QueryWater(at+Vector2.right*radius,out _,out _,out _) ||
+                       session.QueryWater(at-Vector2.right*radius,out _,out _,out _) ||
+                       session.QueryWater(at+Vector2.up*radius,out _,out _,out _) ||
+                       session.QueryWater(at-Vector2.up*radius,out _,out _,out _))
+                        water=.68f;
+                }
+            }
+            float forest=0f;
+            if(profile.automaticIncludeForests && nearbyTrees!=null)
+            {
+                float sq=profile.automaticTreeRadius*profile.automaticTreeRadius;
+                for(int i=0;i<nearbyTrees.Count;i++)
+                {
+                    float d=(nearbyTrees[i].position-at).sqrMagnitude;
+                    if(d<sq)forest=Mathf.Max(forest,1f-d/sq);
+                }
+            }
+            float path=0f,meadow=0f;
+            if(optionalPainter)
+            {
+                float road=optionalPainter.SampleRoad01(px,pz);
+                float radius=profile.automaticPathRadius;
+                if(profile.automaticIncludePaths)
+                {
+                    float neighbour=Mathf.Max(
+                        Mathf.Max(optionalPainter.SampleRoad01(px+radius,pz),
+                            optionalPainter.SampleRoad01(px-radius,pz)),
+                        Mathf.Max(optionalPainter.SampleRoad01(px,pz+radius),
+                            optionalPainter.SampleRoad01(px,pz-radius)));
+                    path=Mathf.Clamp01(neighbour*(1f-road)+road*.15f);
+                }
+                if(profile.automaticIncludeMeadows)
+                    meadow=Mathf.Clamp01(optionalPainter.SampleGrass01(px,pz))*(1f-road);
+            }
+            float winter=session.EnvironmentThemes!=null
+                ?session.EnvironmentThemes.Sample(EnvironmentThemeIds.Winter,px,pz):0f;
+            float snow=session.SampleEnvironmentSnow(px,pz);
+            bool blocked=profile.automaticExcludeReservedGround && !wet &&
+                !session.VegetationAllowed(px,pz,0f);
+            return FireflyPreviewDistribution.AutomaticFactor(profile,
+                forest,water,path,meadow,winter,snow,blocked);
+        }
+
         ResidentCell BuildCell(int x,int z)
         {
             var cell=new ResidentCell();
             float baseX=x*CellWidth,baseZ=z*CellWidth;
+            bool automatic=profile.automaticWorldPlacement;
+            var map=observedSession;
+            Vector4 bounds=CurrentBounds;
+            // Exactly one spatial tree query per built cell, never per insect/frame.
+            List<MapTreeInstance> trees=automatic && map!=null &&
+                profile.automaticIncludeForests ?
+                map.QueryTrees(new Rect(baseX-profile.automaticTreeRadius,
+                    baseZ-profile.automaticTreeRadius,
+                    CellWidth+profile.automaticTreeRadius*2f,
+                    CellWidth+profile.automaticTreeRadius*2f)) : null;
             float lowest=float.MaxValue,highest=float.MinValue;
             int localCap=Mathf.Min(InstanceLimit,profile.desiredCellCap);
             const float spacing=CellWidth/CellSamples;
@@ -375,9 +536,12 @@ namespace LittleCastle.Rendering.Fireflies
                 int gx=x*CellSamples+ix,gz=z*CellSamples+iz;
                 float px=baseX+(ix+FireflyPreviewDistribution.Random01(gx,gz,profile.seed,1))*spacing;
                 float pz=baseZ+(iz+FireflyPreviewDistribution.Random01(gx,gz,profile.seed,2))*spacing;
-                if(!profile.Includes(px,pz))continue;
+                if(!InBounds(bounds,px,pz))continue;
                 Vector2 at=new Vector2(px,pz);
-                float density=FireflyPreviewDistribution.Density(profile,at,out var selectedArea);
+                float baseDensity=profile.densityPer100SquareMetres;
+                if(automatic)baseDensity*=AutomaticFactor(px,pz,map,trees);
+                float density=FireflyPreviewDistribution.Density(
+                    profile,at,out var selectedArea,bounds,baseDensity);
                 int areaSeed=profile.seed ^ (selectedArea!=null?selectedArea.seed:0);
                 float expectation=Mathf.Clamp(density*CellWidth*CellWidth/
                     (100f*CellSamples*CellSamples),0f,8f);
@@ -450,9 +614,19 @@ namespace LittleCastle.Rendering.Fireflies
             Vector3 eye=camera.transform.position;
             if(!TrySampleGround(eye.x,eye.z,out float ground,out _))return 0;
             if(eye.y-ground>profile.maximumCameraHeightForNear || eye.y<ground)return 0;
-            if(profile.nearMode==FireflyPreviewNearMode.NaturalZones &&
-               FireflyPreviewDistribution.Density(profile,new Vector2(eye.x,eye.z),out _)<=.01f)
-                return 0;
+            if(profile.nearMode==FireflyPreviewNearMode.NaturalZones)
+            {
+                if(profile.automaticWorldPlacement)
+                {
+                    if(observedSession==null)return 0;
+                    var key=new Vector2Int(Mathf.FloorToInt(eye.x/CellWidth),
+                        Mathf.FloorToInt(eye.z/CellWidth));
+                    if(!cells.TryGetValue(key,out var c) || c.count==0)return 0;
+                }
+                else if(FireflyPreviewDistribution.Density(profile,
+                    new Vector2(eye.x,eye.z),out _)<=.01f)return 0;
+            }
+            Vector4 activeBounds=CurrentBounds;
             float radius=profile.nearRadius;
             const float spacing=2.6f;
             int fromX=Mathf.FloorToInt((eye.x-radius)/spacing),toX=Mathf.CeilToInt((eye.x+radius)/spacing);
@@ -464,7 +638,8 @@ namespace LittleCastle.Rendering.Fireflies
                 float px=(x+FireflyPreviewDistribution.Random01(x,z,profile.seed,141))*spacing;
                 float pz=(z+FireflyPreviewDistribution.Random01(x,z,profile.seed,142))*spacing;
                 float dist=Vector2.Distance(new Vector2(px,pz),new Vector2(eye.x,eye.z));
-                if(dist>radius || dist<1.35f || !profile.Includes(px,pz))continue;
+                if(dist>radius || dist<1.35f ||
+                   !InBounds(activeBounds,px,pz))continue;
                 if(FireflyPreviewDistribution.Random01(x,z,profile.seed,143)>.45f)continue;
                 if(!TrySampleGround(px,pz,out float y,out _))continue;
                 y+=Mathf.Lerp(profile.minimumHeight,profile.maximumHeight,
