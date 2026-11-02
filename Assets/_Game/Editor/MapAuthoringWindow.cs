@@ -63,10 +63,21 @@ namespace LittleCastle.Editor
             AssemblyReloadEvents.beforeAssemblyReload-=BeforeAssemblyReload;EditorApplication.delayCall-=RestoreWindowSession;
             RestorePreview();if(preview)DestroyImmediate(preview);
         }
-        void Tick(){if(!EditorApplication.isPlaying){ConfigureWaterPreviewCameras();TickTools();TickEnvironmentPreview();terrainPreview?.FlushColliderBudget(2);var riverView=SceneView.lastActiveSceneView;if(riverView&&riverView.camera){riverPreview?.Tick(riverView.camera.transform.position);if(riverPreview!=null&&riverPreview.AnimationAdvanced)riverView.Repaint();}if(treePreview!=null){var view=SceneView.lastActiveSceneView;treePreview.Tick(view&&view.camera?view.camera.transform.position:Vector3.zero);}}}
+        void Tick(){if(!EditorApplication.isPlaying){EnsureScenePreview();ConfigureWaterPreviewCameras();TickTools();TickEnvironmentPreview();terrainPreview?.FlushColliderBudget(2);var riverView=SceneView.lastActiveSceneView;if(riverView&&riverView.camera){riverPreview?.Tick(riverView.camera.transform.position);if(riverPreview!=null&&riverPreview.AnimationAdvanced)riverView.Repaint();}if(treePreview!=null){var view=SceneView.lastActiveSceneView;treePreview.Tick(view&&view.camera?view.camera.transform.position:Vector3.zero);}}}
+        bool scenePreviewRecoveryPending;
+        void EnsureScenePreview()
+        {
+            if(EditorApplication.isPlayingOrWillChangePlaymode)return;
+            // Scene restoration (including Test Runner) destroys scene objects without a domain
+            // reload. Preserve the document/draft and rebuild only its disposable presentation.
+            if(terrainPreview!=null&&!terrainPreview.IsValid){scenePreviewRecoveryPending=true;RestorePreview();}
+            if(!scenePreviewRecoveryPending||session==null)return;
+            var painter=FindAnyObjectByType<MeadowSurfacePainter>();
+            if(painter&&painter.source==source)BindScenePreview();
+        }
         void PlayState(PlayModeStateChange state)
         {
-            if(state==PlayModeStateChange.ExitingEditMode){CheckpointSession();RestorePreview();}
+            if(state==PlayModeStateChange.ExitingEditMode){scenePreviewRecoveryPending=session!=null&&source;CheckpointSession();RestorePreview();}
             if(state==PlayModeStateChange.EnteredEditMode)RestoreWindowSession();
         }
         bool previewRebindScheduled;
@@ -88,6 +99,7 @@ namespace LittleCastle.Editor
         }
         internal void RestorePreview()
         {
+            CancelRiverGesture(false);ClearRiverGesturePreview();
             fencePreview?.Dispose();fencePreview=null;
             pathPreview?.Dispose();pathPreview=null;
             RestoreEnvironmentPreview();
@@ -100,13 +112,16 @@ namespace LittleCastle.Editor
         }
         void BindScenePreview()
         {
-            ConfigureRiverProfile();RestorePreview();if(EditorApplication.isPlaying)return;
-            var painter=FindAnyObjectByType<MeadowSurfacePainter>();if(!painter||painter.source!=source)return;
+            scenePreviewRecoveryPending=session!=null&&source;
+            ConfigureRiverProfile();RestorePreview();if(EditorApplication.isPlayingOrWillChangePlaymode||session==null||!source)return;
+            var painter=FindAnyObjectByType<MeadowSurfacePainter>();
+            if(!painter||painter.source!=source||!painter.gameObject.scene.IsValid()||!painter.gameObject.scene.isLoaded)return;
+            var ground=MeadowSurfacePainter.FindGround(painter.terrainMaterial);
+            if(!ground||!ground.sharedMesh||!ground.gameObject.scene.IsValid()||!ground.gameObject.scene.isLoaded)return;
             // Initialize the loaded scene's existing presentation values in Edit Mode.
             // No lighting settings, materials or shaders are authored by this window.
             var globals=FindAnyObjectByType<StylizedLightingGlobals>();if(globals)globals.ApplyGlobals();
-            var ground=MeadowSurfacePainter.FindGround(painter.terrainMaterial);
-            if(ground)terrainPreview=new MapTerrainPresentation(session,ground,FindAnyObjectByType<MeadowGrassRenderer>(),FindAnyObjectByType<InnerverseGrassStudy>());
+            terrainPreview=new MapTerrainPresentation(session,ground,FindAnyObjectByType<MeadowGrassRenderer>(),FindAnyObjectByType<InnerverseGrassStudy>());
             if(treeCatalog)treePreview=new MapTreePresentation(session,treeCatalog);
             BindFencePreview();
             var rockCatalog=painter.riverCatalogOverride?painter.riverCatalogOverride:MapRockCatalog.Default;
@@ -122,6 +137,7 @@ namespace LittleCastle.Editor
             BindScatterPreview(painter);
             BindEnvironmentPreview(painter);
             pathPreview=new MapPathPresentation(session,painter.terrainMaterial,Resolution);
+            scenePreviewRecoveryPending=false;
         }
         internal void Connect(SurfacePaintData data)
         {

@@ -10,12 +10,15 @@ namespace LittleCastle.World
         public MapEditSession preview;
         public string message;
         public int attempts;
+        public double exportMilliseconds,sessionMilliseconds,applyMilliseconds;
     }
     public static class MapRiverEditSolver
     {
         // Fixed search order and finite budgets. Author positions and handle recipes are retained.
         public const int MaximumAttempts=12;
-        public static bool TrySolve(MapEditSession session,MapRiverRecord input,out MapRiverEditSolution result,out string error,bool allowCorrection=true)
+        // Opt-in diagnostics for the owning editor benchmark, never part of map persistence.
+        public static bool CaptureTimings {get;set;}
+        public static bool TrySolve(MapEditSession session,MapRiverRecord input,out MapRiverEditSolution result,out string error,bool allowCorrection=true,bool materializePreview=true)
         {
             result=null;error="";
             if(session.HasPending){error="Завершите текущий штрих.";return false;}
@@ -27,7 +30,9 @@ namespace LittleCastle.World
                 if(n==null||!float.IsFinite(n.width)||!float.IsFinite(n.depth)||!float.IsFinite(n.speed)){error="Неверные параметры точки.";return false;}
                 n.width=Mathf.Clamp(n.width,original.layoutVersion==3?2:4,60);n.depth=Mathf.Clamp(n.depth,.15f,10);n.speed=Mathf.Clamp(n.speed,original.layoutVersion==3?.02f:.05f,6);
             }
-            var map=session.ExportMap();
+            var watch=CaptureTimings?System.Diagnostics.Stopwatch.StartNew():null;
+            var map=materializePreview?session.ExportMap():null;
+            double exportMilliseconds=watch?.Elapsed.TotalMilliseconds??0,sessionMilliseconds=0,applyMilliseconds=0;
             for(int attempt=0;attempt<(allowCorrection&&original.layoutVersion==3?MaximumAttempts:1);attempt++)
             {
                 var candidate=MapRiverNodeEditing.Copy(original);
@@ -56,8 +61,13 @@ namespace LittleCastle.World
                 }
                 try
                 {
-                    var preview=new MapEditSession(map,session.Access);preview.ApplyRiverEdit(candidate);
-                    result=new MapRiverEditSolution{river=preview.GetRiver(candidate.id),preview=preview,attempts=attempt+1,message=attempt==0?"Готово":"Автокоррекция: сохранены точки; подстроены изгиб и локальное сечение в заданных пределах."};return true;
+                    watch?.Restart();var preview=materializePreview?new MapEditSession(map,session.Access):null;
+                    sessionMilliseconds+=watch?.Elapsed.TotalMilliseconds??0;
+                    watch?.Restart();MapRiverRecord validated;
+                    if(preview!=null){preview.ApplyRiverEdit(candidate);validated=preview.GetRiver(candidate.id);}
+                    else validated=session.ValidateRiverEditCandidate(candidate);
+                    applyMilliseconds+=watch?.Elapsed.TotalMilliseconds??0;
+                    result=new MapRiverEditSolution{river=validated,preview=preview,attempts=attempt+1,exportMilliseconds=exportMilliseconds,sessionMilliseconds=sessionMilliseconds,applyMilliseconds=applyMilliseconds,message=attempt==0?"Готово":"Автокоррекция: сохранены точки; подстроены изгиб и локальное сечение в заданных пределах."};return true;
                 }
                 catch(Exception e)when(e is InvalidDataException||e is InvalidOperationException||e is ArgumentException||e is UnauthorizedAccessException)
                 {

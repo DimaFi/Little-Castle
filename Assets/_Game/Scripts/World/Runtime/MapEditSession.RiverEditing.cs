@@ -13,9 +13,26 @@ namespace LittleCastle.World
         public void ApplyRiverEdit(MapRiverRecord input)
         {
             RequireRiverAccess();if(HasPending)throw new InvalidOperationException("Завершите текущий штрих.");
-            if(!rivers.TryGetValue(input.id,out var previous)){UpsertRiver(input);return;}
+            if(!rivers.ContainsKey(input.id)){UpsertRiver(input);return;}
+            var command=PrepareRiverEdit(input);if(command!=null)Execute(command);
+        }
+        /// <summary>Run the complete baseline validation/rock/route preparation without changing data or history.</summary>
+        public MapRiverRecord ValidateRiverEditCandidate(MapRiverRecord input)
+        {
+            RequireRiverAccess();if(HasPending)throw new InvalidOperationException("Завершите текущий штрих.");
+            if(!rivers.ContainsKey(input.id))
+            {
+                // New-river placement retains the existing Upsert behavior on a detached map.
+                var preview=new MapEditSession(ExportMap(),Access);preview.ApplyRiverEdit(input);return preview.GetRiver(input.id);
+            }
+            var command=PrepareRiverEdit(input);
+            return Clone(command==null?rivers[input.id].record:command.rivers[0].after);
+        }
+        Command PrepareRiverEdit(MapRiverRecord input)
+        {
+            var previous=rivers[input.id];
             var record=Clone(input);var path=ValidateRiver(record);
-            if(JsonUtility.ToJson(previous.record)==JsonUtility.ToJson(record))return;
+            if(JsonUtility.ToJson(previous.record)==JsonUtility.ToJson(record))return null;
             foreach(var rock in record.rocks)if(!rock.manual)
             {
                 var originalRock=previous.record.rocks.Find(v=>v.id==rock.id);
@@ -52,7 +69,7 @@ namespace LittleCastle.World
             Rect dirty=Union(previous.bounds,path.bounds);dirty=Union(dirty,Union(ConnectedWaterfallBounds(record.id,riverNetwork),ConnectedWaterfallBounds(record.id,next)));
             var command=new Command{bounds=Pad(dirty,HeightSpacing*2),kind=RiverKinds};
             command.rivers.Add(new RiverChange{before=previous.record,after=record});AttachRiverNetwork(command,next);
-            Execute(command);
+            return command;
         }
     }
 }

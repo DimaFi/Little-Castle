@@ -54,7 +54,9 @@ half4 LCRiverSurface(float3 position,float3 geometricNormal,float2 screenUV,
             half3 background=SampleSceneColor(refractUV);
             half caustic=SAMPLE_TEXTURE2D(_RiverCausticMap,sampler_RiverCausticMap,position.xz*1.1+time*.035).r;
             background+=caustic*caustic*.12*(1-deep)*saturate(depth*5);
-            lit=lerp(background,lit,saturate(.28+deep*.68+fresnel+foam));
+            // The bed remains visible without overwhelming the authored water palette
+            // on pale/snowy terrain. Shared by rivers and the waterfall landing.
+            lit=lerp(lit,background,(1-saturate(.28+deep*.68+fresnel+foam))*saturate(_RiverBackgroundContribution));
         }
     }
     return half4(lit,_Opacity);

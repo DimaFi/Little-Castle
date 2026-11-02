@@ -32,6 +32,7 @@ Shader "Little Castle/Experimental/Waterfall Volume V2"
         _RiverShallowColor ("River shallows", Color) = (.12,.42,.48,1)
         _RiverDeepColor ("River depth", Color) = (.035,.16,.24,1)
         _RiverWaveStrength ("Bounded river waves", Range(0,1)) = 1
+        _RiverBackgroundContribution ("Refracted ground contribution", Range(0,1)) = 1
         [HideInInspector] _RiverReflection ("Per plane reflection", 2D) = "black" {}
     }
     SubShader
@@ -70,7 +71,7 @@ Shader "Little Castle/Experimental/Waterfall Volume V2"
                 float _SurfaceMode, _PreviewTime, _DetailFade, _ContactSoftness, _ConnectedRoute, _WaveScale;
                 float _LandingDepth;
                 half4 _RiverShallowColor,_RiverDeepColor;
-                float _RiverWaveStrength,_LC_UseFlowMap,_RiverReflectionValid,_RiverOpaqueAvailable;
+                float _RiverWaveStrength,_LC_UseFlowMap,_RiverReflectionValid,_RiverOpaqueAvailable,_RiverBackgroundContribution;
                 float4 _LC_FlowBounds,_Effects,_RiverFlowDirection;
                 float _ObstacleCount;
                 float4 _Obstacles[8],_ObstacleFlows[8];

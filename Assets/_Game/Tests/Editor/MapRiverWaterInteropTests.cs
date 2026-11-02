@@ -79,6 +79,19 @@ namespace LittleCastle.Tests
             Assert.That(session.VegetationAllowed(-20,0),Is.False,"Actual water still excludes vegetation.");
             Assert.That(session.VegetationAllowed(10,0),Is.True);
         }
+        [Test] public void RiverExclusionMatchesPerPixelOracleWithMixedCoverageAndPartialDirtyRect()
+        {
+            var map=Map();map.placementExclusions.Add(new Rect(-1,-1,2,2));
+            var session=new MapEditSession(map);session.UpsertRiver(River());
+            var bounds=new Vector4(-40,-8,48,16);const int width=64,height=24;
+            var actual=new byte[width*height*2];
+            for(int i=0;i<actual.Length;i++)actual[i]=(byte)((i*73)%256);
+            var expected=(byte[])actual.Clone();var dirty=new RectInt(3,2,56,18);
+            for(int y=dirty.yMin;y<dirty.yMax;y++)for(int x=dirty.xMin;x<dirty.xMax;x++)
+                if(!session.VegetationAllowed(bounds.x+(x+.5f)*bounds.z/width,bounds.y+(y+.5f)*bounds.w/height))expected[(y*width+x)*2+1]=0;
+            SurfacePaintRasterizer.ApplyRiverExclusions(actual,bounds,width,height,session,dirty);
+            CollectionAssert.AreEqual(expected,actual);
+        }
         [TestCase(0f)] [TestCase(.5f)] [TestCase(1f)]
         public void V2FordBed_IsContinuousAcrossBothBankEdges(float ford)
         {

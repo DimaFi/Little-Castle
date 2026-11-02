@@ -173,6 +173,8 @@ namespace LittleCastle.Editor
             }
             var registered=AssetDatabase.LoadAssetAtPath<FireflyPreviewProfile>(
                 RuntimeAssetPath);
+            if(GUILayout.Button("Сохранить для Game-теста (автозапуск выключен)"))
+                RegisterRuntimeProfile(false);
             using(new EditorGUILayout.HorizontalScope())
             {
                 if(GUILayout.Button("Включить автоматически в игре"))
@@ -406,7 +408,7 @@ namespace LittleCastle.Editor
                 AssetDatabase.CreateFolder("Assets/_Game/Resources","LittleCastle");
         }
 
-        void RegisterRuntimeProfile()
+        void RegisterRuntimeProfile(bool enableAutoStart=true)
         {
             if(!profile)return;
             var shader=Shader.Find("Little Castle/Effects/Firefly Preview URP");
@@ -453,7 +455,7 @@ namespace LittleCastle.Editor
             Undo.RecordObject(registered,"Enable global fireflies");
             registered.enabled=true;
             registered.automaticWorld.enabled=true;
-            registered.automaticWorld.runtimeAutoStart=true;
+            registered.automaticWorld.runtimeAutoStart=enableAutoStart;
             registered.materialForBuild=material;
             if(registered.runtimeBudget==null)
                 registered.runtimeBudget=new FireflyPreviewBudget();
@@ -472,7 +474,7 @@ namespace LittleCastle.Editor
             profile=registered;
             DestroyPreview();
             Repaint();
-            Debug.Log("Firefly auto-world enabled through Resources/LittleCastle/" +
+            Debug.Log("Firefly profile saved; runtimeAutoStart="+enableAutoStart+" through Resources/LittleCastle/" +
                 "FireflyAutoWorld. Changes restricted to dedicated preview assets.");
         }
 

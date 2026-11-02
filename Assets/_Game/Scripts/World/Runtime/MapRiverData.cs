@@ -76,6 +76,8 @@ namespace LittleCastle.World
         public readonly List<MapRiverFrame> frames=new List<MapRiverFrame>();
         public readonly Rect bounds;
         readonly Dictionary<ChunkCoordinate,List<int>> segmentIndex=new Dictionary<ChunkCoordinate,List<int>>();
+        struct SegmentBlock {public int start,count;public Vector2 min,max;}
+        readonly Dictionary<ChunkCoordinate,SegmentBlock[]> nearestBlocks=new Dictionary<ChunkCoordinate,SegmentBlock[]>();
         readonly List<float> travelTimes=new List<float>();
         public float Length=>frames[frames.Count-1].station;
         static Vector2 Curve(Vector2 a,Vector2 b,Vector2 c,Vector2 d,float t)=>.5f*((2*b)+(-a+c)*t+(2*a-5*b+4*c-d)*t*t+(-a+3*b-3*c+d)*t*t*t);
@@ -143,6 +145,23 @@ namespace LittleCastle.World
                 var min=Vector2.Min(a.center,b.center)-Vector2.one*extent;var max=Vector2.Max(a.center,b.center)+Vector2.one*extent;
                 for(int z=Mathf.FloorToInt(min.y/8);z<=Mathf.FloorToInt(max.y/8);z++)for(int x=Mathf.FloorToInt(min.x/8);x<=Mathf.FloorToInt(max.x/8);x++){var key=new ChunkCoordinate(x,z);if(!segmentIndex.TryGetValue(key,out var list))segmentIndex.Add(key,list=new List<int>());list.Add(i);}
             }
+            foreach(var pair in segmentIndex)
+            {
+                const int blockSize=8;var candidates=pair.Value;
+                var blocks=new SegmentBlock[(candidates.Count+blockSize-1)/blockSize];
+                for(int block=0;block<blocks.Length;block++)
+                {
+                    int start=block*blockSize,count=Mathf.Min(blockSize,candidates.Count-start);
+                    var min=frames[candidates[start]].center;var max=min;
+                    for(int j=start;j<start+count;j++)
+                    {int i=candidates[j];min=Vector2.Min(min,Vector2.Min(frames[i].center,frames[i+1].center));max=Vector2.Max(max,Vector2.Max(frames[i].center,frames[i+1].center));}
+                    // A conservative rounding guard keeps the broad phase outside the exact
+                    // float Lerp used below, including translated/negative map coordinates.
+                    float pad=.0001f+Mathf.Max(Mathf.Max(Mathf.Abs(min.x),Mathf.Abs(min.y)),Mathf.Max(Mathf.Abs(max.x),Mathf.Abs(max.y)))*.000001f;
+                    blocks[block]=new SegmentBlock{start=start,count=count,min=min-Vector2.one*pad,max=max+Vector2.one*pad};
+                }
+                nearestBlocks.Add(pair.Key,blocks);
+            }
             // Nonlocal centre segments may not approach closer than the complete river corridor.
             var checkedPairs=new HashSet<long>();
             foreach(var candidates in segmentIndex.Values)foreach(int i in candidates)foreach(int j in candidates)
@@ -185,12 +204,26 @@ namespace LittleCastle.World
         public bool Nearest(Vector2 p,out MapRiverFrame frame,out float signedDistance)
         {
             frame=default;signedDistance=0;if(!bounds.Contains(p))return false;float best=float.PositiveInfinity;
-            if(!segmentIndex.TryGetValue(new ChunkCoordinate(Mathf.FloorToInt(p.x/8),Mathf.FloorToInt(p.y/8)),out var candidates))return false;
-            foreach(int i in candidates)
+            var key=new ChunkCoordinate(Mathf.FloorToInt(p.x/8),Mathf.FloorToInt(p.y/8));
+            if(!segmentIndex.TryGetValue(key,out var candidates))return false;
+            int nearest=-1;float fraction=0;
+            void Search(SegmentBlock block)
             {
-                var a=frames[i];var b=frames[i+1];var d=b.center-a.center;float t=Mathf.Clamp01(Vector2.Dot(p-a.center,d)/d.sqrMagnitude);var c=Vector2.Lerp(a.center,b.center,t);float sq=(p-c).sqrMagnitude;
-                if(sq>=best)continue;best=sq;frame=Blend(a,b,t);signedDistance=Vector2.Dot(p-c,frame.Left);
+                for(int j=block.start;j<block.start+block.count;j++)
+                {
+                    int i=candidates[j];var a=frames[i];var b=frames[i+1];var d=b.center-a.center;float t=Mathf.Clamp01(Vector2.Dot(p-a.center,d)/d.sqrMagnitude);var c=Vector2.Lerp(a.center,b.center,t);float sq=(p-c).sqrMagnitude;
+                    if(sq>=best&&!(sq==best&&i<nearest))continue;best=sq;nearest=i;fraction=t;
+                }
             }
+            float LowerBound(SegmentBlock block)
+            {float x=Mathf.Max(0,Mathf.Max(block.min.x-p.x,p.x-block.max.x)),y=Mathf.Max(0,Mathf.Max(block.min.y-p.y,p.y-block.max.y));return x*x+y*y;}
+            var blocks=nearestBlocks[key];int seed=0;float lower=float.PositiveInfinity;
+            for(int i=0;i<blocks.Length;i++){float distance=LowerBound(blocks[i]);if(distance<lower){lower=distance;seed=i;}}
+            Search(blocks[seed]);
+            for(int i=0;i<blocks.Length;i++)if(i!=seed&&LowerBound(blocks[i])<=best)Search(blocks[i]);
+            // Candidate order and ties are unchanged. Interpolate the complete section only once,
+            // after selecting its segment; terrain/mask queries do not need the losing frames.
+            if(nearest>=0){frame=Blend(frames[nearest],frames[nearest+1],fraction);signedDistance=Vector2.Dot(p-frame.center,frame.Left);}
             // Round finite end caps; prevent an infinite lateral projection past endpoints.
             return best<Mathf.Pow(frame.width*.5f+Mathf.Max(frame.leftTransition,frame.rightTransition)+3,2);
         }

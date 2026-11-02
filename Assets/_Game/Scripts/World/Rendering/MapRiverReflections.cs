@@ -73,6 +73,7 @@ namespace LittleCastle.Rendering
             for(int i=0;i<RenderedSlots;i++)if(slots[i].frame==Time.frameCount&&Mathf.Abs(slots[i].height-height)<.08f)
             {block.SetFloat("_RiverReflectionValid",1);block.SetTexture("_RiverReflection",slots[i].texture);block.SetMatrix("_RiverReflectionVP",slots[i].vp);break;}
             var p=view.EffectsProfile;block.SetVector("_Effects",p.quality==RiverEffectsQuality.Off?Vector4.zero:new Vector4(p.shorelineFoam,p.obstacleFoam,p.rapids,p.shorelineDepth));
+            block.SetFloat("_RiverBackgroundContribution",Mathf.Clamp01(p.refractionBackground));
             renderer.SetPropertyBlock(block);
         }
         static void Render(Slot slot,Camera source,float height)

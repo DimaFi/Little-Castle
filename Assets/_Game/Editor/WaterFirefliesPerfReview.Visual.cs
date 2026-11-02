@@ -188,6 +188,19 @@ namespace LittleCastle.Editor
         {
             typeof(MapAuthoringWindow).GetMethod("BindScenePreview",BindingFlags.Instance|BindingFlags.NonPublic).Invoke(w,null);
             string map=JsonUtility.ToJson(w.VerificationSession.ExportMap(),true),draft=RiverState(w).ExportDraftJson();
+            string initialDraft=File.ReadAllText(Root+"/live-before/draft.json");
+            // QA selects an existing river. Restore that selection only when the initial
+            // author draft was empty and no unapplied edit exists; never reload the map.
+            if(map==File.ReadAllText(Root+"/live-before/map.json")&&draft!=initialDraft)
+            {
+                var initial=new MapRiverToolState();initial.RestoreDraftJson(initialDraft);
+                if(initial.draft!=null&&initial.draft.id==0&&initial.draft.nodes.Count==0&&
+                   initial.section!=null&&initial.section.points.Count==0&&!RiverState(w).HasUnappliedDraft(w.VerificationSession))
+                {
+                    RiverState(w).RestoreDraftJson(initialDraft);RiverState(w).Refresh(w.VerificationSession);draft=RiverState(w).ExportDraftJson();
+                    typeof(MapAuthoringWindow).GetMethod("CheckpointSession",BindingFlags.Instance|BindingFlags.NonPublic).Invoke(w,null);
+                }
+            }
             File.WriteAllText(Root+"/map-after.json",map);File.WriteAllText(Root+"/draft-after.json",draft);
             if(map!=File.ReadAllText(Root+"/live-before/map.json"))throw new InvalidOperationException("Current map differs from initial snapshot");
             if(draft!=File.ReadAllText(Root+"/live-before/draft.json"))throw new InvalidOperationException("River draft differs from initial snapshot");

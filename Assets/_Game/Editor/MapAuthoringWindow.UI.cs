@@ -36,6 +36,8 @@ namespace LittleCastle.Editor
                             if(GUILayout.Button("Открыть JSON…"))RunGui(OpenDocument);
                             if(GUILayout.Button("Сохранить JSON…"))RunGui(()=>SaveDocument());
                         }
+                        if(GUILayout.Button("Проверить текущую карту в Game…"))
+                            RunGui(()=>CurrentMapGameInspection.Open(this,source));
                         if(GUILayout.Button("Применить к авторской базе и маске"))RunGui(ApplyDocument);
                         using(new EditorGUILayout.HorizontalScope())
                         {

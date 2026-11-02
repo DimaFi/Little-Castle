@@ -78,11 +78,19 @@ namespace LittleCastle.Research
         string V3SavePath=>Path.Combine(Application.persistentDataPath,"meadow-map-edits-v3.json");
         string V2SavePath=>Path.Combine(Application.persistentDataPath,"meadow-map-edits-v2.json");
         string LegacySavePath=>Path.Combine(Application.persistentDataPath,"meadow-surface-edits-v1.json");
+#if UNITY_EDITOR
+        /// <summary>One-shot editor inspection injection before presenters bind. Never serialized or available in players.</summary>
+        public static Func<MeadowSurfacePainter,MapAuthoringDocument> InspectionDocumentProvider;
+#endif
         void Start()
         {
             var ground=FindGround(terrainMaterial);
             treeCatalog=treeCatalog?treeCatalog:MapTreeCatalog.Default;
-            var document=CreateDocument(source,ground,treeCatalog);
+            MapAuthoringDocument document=null;
+#if UNITY_EDITOR
+            document=InspectionDocumentProvider?.Invoke(this);
+#endif
+            if(document==null)document=CreateDocument(source,ground,treeCatalog);
             Session=new MapEditSession(document,allowedTools);InitializeTools();
             if(studyCamera&&studyCamera.TryGetComponent<LittleCastle.CameraSystem.StrategyCameraController>(out var authoringCamera))
                 authoringCamera.ConfigureAuthoringRange(Mathf.Max(source.bounds.z,source.bounds.w)*2);

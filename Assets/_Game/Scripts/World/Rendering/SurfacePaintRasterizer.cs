@@ -16,10 +16,11 @@ namespace LittleCastle.Rendering
             if(session.RiverCount==0&&session.ExportRockSections().Count==0)return;
             for(int y=dirty.yMin;y<dirty.yMax;y++)for(int x=dirty.xMin;x<dirty.xMax;x++)
             {
+                int i=(y*width+x)*2;
+                if(data[i+1]==0)continue;
                 float wx=bounds.x+(x+.5f)*bounds.z/width,wz=bounds.y+(y+.5f)*bounds.w/height;
                 // Road coverage belongs to the surface operation, not vegetation exclusion.
                 // Keeping R lets every path continue into a ford and below shallow water.
-                int i=(y*width+x)*2;
                 // Sand is a material layer, not a forbidden authoring domain.
                 // Dry-bank grass follows the painted mask; authors can erase it explicitly.
                 if(!session.VegetationAllowed(wx,wz))data[i+1]=0;

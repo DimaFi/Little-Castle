@@ -23,6 +23,11 @@ namespace LittleCastle.Editor
         string riverCurveKey;MapRiverPath riverCurve;
         Texture2D riverGestureMask;byte[] riverGesturePixels;
         Rect riverGestureMaskArea;
+        double lastRiverRebindMilliseconds,lastRiverMaskMilliseconds;
+        bool riverGestureTerrainWasBudgeted,riverMaskPending;
+        RectInt riverMaskRect;int riverMaskRow;
+        List<SurfacePaintStroke> riverMaskStrokes;
+        bool RiverPreviewWorkPending=>riverMaskPending||riverGestureTerrain?.HasPendingPreview==true;
         void DrawDirectRiverInspector()
         {
             var draft=riverTools.draft;if(draft==null||draft.nodes.Count==0||riverTools.mode==5)return;
@@ -165,6 +170,7 @@ namespace LittleCastle.Editor
         }
         void ChangeRiverHandle(Action<MapRiverRecord> change)
         {
+            EnsureScenePreview();
             if(riverGesture==null)riverGesture=new MapRiverEditGesture(session,riverTools.draft);
             var candidate=MapRiverNodeEditing.Copy(riverTools.draft);change(candidate);riverTools.draft=candidate;riverPreviewPending=true;UpdateRiverGesturePreview(false);Repaint();SceneView.RepaintAll();
         }
@@ -174,6 +180,7 @@ namespace LittleCastle.Editor
             nextRiverPreview=EditorApplication.timeSinceStartup+.2;riverPreviewPending=false;
             if(!riverGesture.Update(riverTools.draft,riverAutoCorrect)){riverTools.status=riverGesture.Message;return;}
             riverTools.status=riverGesture.Message;
+            var previewWatch=MapRiverEditSolver.CaptureTimings?System.Diagnostics.Stopwatch.StartNew():null;
             if(!riverPreviewVisible)
             {
                 // Reuse the already resident map. Only the edited corridor is recomposed.
@@ -192,20 +199,38 @@ namespace LittleCastle.Editor
                 riverGestureMaskArea=Rect.MinMaxRect(dirty.xMin-pad,dirty.yMin-pad,dirty.xMax+pad,dirty.yMax+pad);
                 riverGestureSession=riverGesture.PreviewSession;riverGestureSession.Changed+=TrackRiverGestureArea;
                 riverGestureTerrain=terrainPreview;riverGestureWater=riverPreview;riverGestureTrees=treePreview;
+                if(riverGestureTerrain!=null){riverGestureTerrainWasBudgeted=riverGestureTerrain.BudgetedUpdates;riverGestureTerrain.BudgetedUpdates=true;}
                 riverGestureTerrain?.RebindSession(riverGesture.PreviewSession,riverGestureMaskArea);
                 riverGestureWater?.RebindSession(riverGesture.PreviewSession,riverGestureMaskArea);
                 riverGestureTrees?.RebindSession(riverGesture.PreviewSession,riverGestureMaskArea);
                 riverGesturePixels=(byte[])pixels.Clone();riverGestureMask=preview;
                 riverPreviewVisible=true;
             }
+            lastRiverRebindMilliseconds=previewWatch?.Elapsed.TotalMilliseconds??0;previewWatch?.Restart();
             UpdateRiverGestureMask();
-            TickRiverEditing();
+            lastRiverMaskMilliseconds=previewWatch?.Elapsed.TotalMilliseconds??0;
         }
         void TickRiverEditing()
         {
             if(riverGesture==null)return;
             if(EditorWindow.focusedWindow&&!(EditorWindow.focusedWindow is SceneView)){CancelRiverGesture();return;}
             UpdateRiverGesturePreview(false);
+            FlushRiverPreviewBudget();
+        }
+        void FlushRiverPreviewBudget()
+        {
+            riverGestureTerrain?.FlushPreviewBudget(256,2);
+            if(!riverMaskPending||riverGesture==null||!riverGestureMask)return;
+            var watch=System.Diagnostics.Stopwatch.StartNew();bool changed=false;
+            do
+            {
+                var row=new RectInt(riverMaskRect.x,riverMaskRow,riverMaskRect.width,1);
+                SurfacePaintRasterizer.Rebuild(riverGesturePixels,source.bounds,Resolution,Resolution,riverMaskStrokes,row);
+                SurfacePaintRasterizer.ApplyRiverExclusions(riverGesturePixels,source.bounds,Resolution,Resolution,riverGesture.PreviewSession,row);
+                riverMaskRow++;changed=true;
+            }while(riverMaskRow<riverMaskRect.yMax&&watch.Elapsed.TotalMilliseconds<2);
+            if(riverMaskRow>=riverMaskRect.yMax){riverMaskPending=false;riverMaskStrokes=null;}
+            if(changed){riverGestureMask.SetPixelData(riverGesturePixels,0);riverGestureMask.Apply(false,false);SceneView.RepaintAll();}
         }
         void FinishRiverGesture()
         {
@@ -222,13 +247,20 @@ namespace LittleCastle.Editor
             riverGestureSession=null;
             if(riverPreviewVisible)
             {
-                riverGestureTerrain?.RebindSession(session,riverGestureMaskArea);
-                riverGestureWater?.RebindSession(session,riverGestureMaskArea);
-                riverGestureTrees?.RebindSession(session,riverGestureMaskArea);
+                if(riverGestureTerrain!=null)riverGestureTerrain.BudgetedUpdates=riverGestureTerrainWasBudgeted;
+                // Unloaded scene objects cannot be rebound. Their owning window disposes and
+                // recreates the complete view; the live session and authored draft are retained.
+                if(riverGestureTerrain==null||riverGestureTerrain.IsValid)
+                {
+                    riverGestureTerrain?.RebindSession(session,riverGestureMaskArea);
+                    riverGestureWater?.RebindSession(session,riverGestureMaskArea);
+                    riverGestureTrees?.RebindSession(session,riverGestureMaskArea);
+                }
                 if(preview){preview.SetPixelData(pixels,0);preview.Apply(false,false);}
             }
             riverGestureTerrain=null;riverGestureWater=null;riverGestureTrees=null;
             riverGestureMask=null;riverGesturePixels=null;riverGestureMaskArea=default;
+            riverMaskPending=false;riverMaskStrokes=null;riverMaskRect=default;riverMaskRow=0;
             riverPreviewVisible=false;riverPreviewPending=false;
         }
         void TrackRiverGestureArea(MapRegionChange change)
@@ -242,9 +274,9 @@ namespace LittleCastle.Editor
             if(riverGestureMaskArea.width==0)riverGestureMaskArea=new MapRiverPath(session.GetRiver(recipe.id)).bounds;
             var area=Rect.MinMaxRect(Mathf.Min(current.xMin,riverGestureMaskArea.xMin),Mathf.Min(current.yMin,riverGestureMaskArea.yMin),Mathf.Max(current.xMax,riverGestureMaskArea.xMax),Mathf.Max(current.yMax,riverGestureMaskArea.yMax));
             var rect=SurfacePaintRasterizer.PixelRect(source.bounds,Resolution,Resolution,area);
-            SurfacePaintRasterizer.Rebuild(riverGesturePixels,source.bounds,Resolution,Resolution,riverGesture.PreviewSession.QuerySurface(area),rect);
-            SurfacePaintRasterizer.ApplyRiverExclusions(riverGesturePixels,source.bounds,Resolution,Resolution,riverGesture.PreviewSession,rect);
-            riverGestureMask.SetPixelData(riverGesturePixels,0);riverGestureMask.Apply(false,false);riverGestureMaskArea=area;
+            // Coalesce pending rows to the latest detached session. The live pixels remain untouched.
+            riverMaskRect=rect;riverMaskRow=rect.yMin;riverMaskStrokes=riverGesture.PreviewSession.QuerySurface(area);
+            riverMaskPending=rect.width>0&&rect.height>0;riverGestureMaskArea=area;
         }
         void CancelRiverGesture(bool rebind=true)
         {

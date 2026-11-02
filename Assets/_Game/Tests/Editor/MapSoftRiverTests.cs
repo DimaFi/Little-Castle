@@ -119,7 +119,7 @@ namespace LittleCastle.Tests
             Assert.That(MapWaterfallSpraySources.Budget(RiverEffectsQuality.Medium),Is.EqualTo(96));
             Assert.That(MapWaterfallSpraySources.Budget(RiverEffectsQuality.High),Is.EqualTo(176));
         }
-        [Test] public void RefinedColliderMatchesTheNarrowBedAndUndoRestoresDryGround()
+        [TestCase(false)] [TestCase(true)] public void RefinedColliderMatchesTheNarrowBedAndUndoRestoresDryGround(bool budgeted)
         {
             var root=new GameObject("Soft river terrain collision test");var mesh=new Mesh();MapTerrainPresentation view=null;
             try
@@ -133,11 +133,18 @@ namespace LittleCastle.Tests
                 mesh.vertices=vertices;mesh.triangles=triangles.ToArray();mesh.RecalculateNormals();
                 root.AddComponent<MeshFilter>().sharedMesh=mesh;root.AddComponent<MeshRenderer>();
                 var session=new MapEditSession(Map());view=new MapTerrainPresentation(session,root.GetComponent<MeshFilter>(),projectSceneTrees:false);
-                session.UpsertRiver(River(2));view.FlushColliderBudget(int.MaxValue);Physics.SyncTransforms();
+                view.BudgetedUpdates=budgeted;session.UpsertRiver(River(2));
+                if(budgeted)
+                {
+                    view.FlushPreviewBudget(3,double.PositiveInfinity);view.FlushColliderBudget(int.MaxValue);Physics.SyncTransforms();
+                    Assert.That(view.Raycast(new Ray(new Vector3(0,5,0),Vector3.down),out var pending),Is.True);Assert.That(pending.point.y,Is.Zero.Within(.001f),"Refinement must retain the complete dry collider while vertices are pending.");
+                    while(view.HasPendingPreview)view.FlushPreviewBudget(128,double.PositiveInfinity);
+                }
+                view.FlushColliderBudget(int.MaxValue);Physics.SyncTransforms();
                 Assert.That(view.Raycast(new Ray(new Vector3(0,5,0),Vector3.down),out var wet),Is.True);
                 Assert.That(wet.point.y,Is.EqualTo(session.SampleHeight(0,0)).Within(.001f));Assert.That(wet.point.y,Is.EqualTo(-1).Within(.001f));
                 Assert.That(session.SampleHeight(7,7),Is.Zero);
-                session.Undo();view.FlushColliderBudget(int.MaxValue);Physics.SyncTransforms();
+                session.Undo();if(budgeted)while(view.HasPendingPreview)view.FlushPreviewBudget(128,double.PositiveInfinity);view.FlushColliderBudget(int.MaxValue);Physics.SyncTransforms();
                 Assert.That(view.Raycast(new Ray(new Vector3(0,5,0),Vector3.down),out var dry),Is.True);Assert.That(dry.point.y,Is.Zero.Within(.001f));
             }
             finally{view?.Dispose();UnityEngine.Object.DestroyImmediate(root);UnityEngine.Object.DestroyImmediate(mesh);}

@@ -79,6 +79,14 @@ namespace LittleCastle.Tests
                 Assert.That(renderer.SubmittedWorldCount,Is.InRange(1,cap));
                 Assert.That(renderer.ResidentCellCount,Is.LessThanOrEqualTo(16),"Do not build empty cells outside the live map");
                 Assert.That(session.ExportJson(),Is.EqualTo(mapBefore),"Rendering must not edit the map");
+                int resident=renderer.ResidentCellCount;
+                typeof(FireflyPreviewRenderer).GetField("allowReflectionCamera",BindingFlags.NonPublic|BindingFlags.Instance).SetValue(renderer,true);
+                typeof(FireflyPreviewRenderer).GetField("reflectionPointLimit",BindingFlags.NonPublic|BindingFlags.Instance).SetValue(renderer,32);
+                camera.cameraType=CameraType.Reflection;
+                camera.transform.position=new Vector3(1000,20,1000);
+                Capture(camera,target,pixels);
+                Assert.That(renderer.ResidentCellCount,Is.EqualTo(resident),"Reflection view must not evict the game camera's resident cells");
+                camera.cameraType=CameraType.Game;camera.transform.position=new Vector3(0,20,0);
                 blocker=GameObject.CreatePrimitive(PrimitiveType.Cube);blocker.hideFlags=HideFlags.HideAndDontSave;
                 blocker.layer=31;blocker.transform.position=new Vector3(0,9,0);blocker.transform.localScale=new Vector3(80,1,80);
                 blockerMaterial=new Material(Shader.Find("Universal Render Pipeline/Unlit")){hideFlags=HideFlags.HideAndDontSave};

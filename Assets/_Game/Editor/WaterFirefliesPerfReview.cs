@@ -17,7 +17,7 @@ namespace LittleCastle.Editor
         [Serializable] sealed class Request{public string id,action,revision;}
         [Serializable] sealed class Result{public string id,status,error;}
         static double next;
-        static WaterFirefliesPerfReview(){EditorApplication.update+=Poll;}
+        static WaterFirefliesPerfReview(){EditorApplication.update+=Poll;EditorApplication.update+=TickGame;Application.logMessageReceived+=OnGameLog;}
         static bool Owns(){try{var l=JsonUtility.FromJson<Lease>(File.ReadAllText("Library/SharedPcControl.json"));return l.ownerThreadId==Owner&&l.status=="active";}catch{return false;}}
         static void Poll()
         {
@@ -44,13 +44,15 @@ namespace LittleCastle.Editor
                 else if(r.action=="b-ui-end")EndBUI(w);
                 else if(r.action=="final-state")FinalState(w);
                 else if(r.action=="benchmark")Benchmark(w);
+                else if(r.action=="water-ab")WaterColourComparison(w);
+                else if(r.action=="game")StartGame(w);
                 else if(r.action=="cold-visual"){StartVisual(w);visualStarted=EditorApplication.timeSinceStartup-44;}
                 else if(r.action=="cleanup")
                 {EditorApplication.update-=Poll;var type=AppDomain.CurrentDomain.GetAssemblies().Select(a=>a.GetType("LittleCastle.Tests.WaterFirefliesPerfTestRunner")).FirstOrDefault(t=>t!=null);type?.GetMethod("Disarm").Invoke(null,null);}
                 else throw new InvalidOperationException("Unknown review action");
             }
             catch(Exception e){result.status="FAIL";result.error=e.ToString();}
-            finally{File.WriteAllText(Root+"/result.json",JsonUtility.ToJson(result,true));if(!visualActive)Release();}
+            finally{File.WriteAllText(Root+"/result.json",JsonUtility.ToJson(result,true));if(!visualActive&&!GameActive)Release();}
         }
         static void Release(){if(Owns())File.WriteAllText("Library/SharedPcControl.json","{\"ownerThreadId\":\""+Owner+"\",\"status\":\"released\",\"purpose\":\"Water/firefly checks finished\",\"updatedAtUtc\":\""+DateTime.UtcNow.ToString("o")+"\"}");}
     }

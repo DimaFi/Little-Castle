@@ -572,6 +572,9 @@ namespace LittleCastle.Rendering.Fireflies
                 BudgetRejected+=lodCount-allowed;
                 DrawCalls++;
             }
+            // Reflections consume the primary cameras' resident data. Their mirrored
+            // position must not evict cells still needed by the game camera.
+            if(!canBuild)return;
             toEvict.Clear();
             foreach(var entry in cells)
                 if(entry.Key.x<minX-1 || entry.Key.x>maxX+1 ||
