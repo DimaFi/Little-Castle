@@ -433,7 +433,15 @@ namespace LittleCastle.World.Weather
                 water = (Settings.waterLayers.value & (1 << hit.collider.gameObject.layer)) != 0;
                 // Avoid puddles on high roofs / bridges if an authored ground height is available.
                 if (!water && mapPainter && mapPainter.Session != null &&
-                    hit.point.y > mapPainter.Session.SampleHeight(x, z) + 0.45f) return false;
+                    hit.point.y > mapPainter.Session.SampleHeight(x, z) + 0.45f)
+                {
+                    // Roof collider is above terrain: use sheltered ground instead of a hard
+                    // collider-shaped cutoff in the wetness/ripple transition.
+                    Vector3 beneath = new Vector3(x, mapPainter.Session.SampleHeight(x, z) + .035f, z);
+                    if (RainShelterVolume.CoverageAt(beneath) <= .01f) return false;
+                    p = beneath;
+                    return true;
+                }
                 if (!water && Settings.roofLayers.value != 0 &&
                     Physics.Raycast(hit.point + Vector3.up * .25f, Vector3.up, 64f,
                         Settings.roofLayers, QueryTriggerInteraction.Ignore)) return false;
