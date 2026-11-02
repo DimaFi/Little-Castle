@@ -45,6 +45,9 @@ namespace LittleCastle.World.Weather
         private static readonly int WetnessId = Shader.PropertyToID("_Wetness");
         private static readonly int SeedId = Shader.PropertyToID("_Seed");
         private static readonly int RippleRateId = Shader.PropertyToID("_RippleRate");
+        private static readonly int GlobalWetId = Shader.PropertyToID("_LC_WeatherWetness");
+        private static readonly int GlobalRainId = Shader.PropertyToID("_LC_WeatherRainIntensity");
+        private bool sheltered;
 
         private RainStormProfile Settings => profile != null ? profile : ownedFallbackProfile;
         public RainMode CurrentMode => mode;
@@ -257,6 +260,8 @@ namespace LittleCastle.World.Weather
             float desired = quality == RainQuality.Off ? 0f : RainStormMath.Intensity(mode);
             intensity = RainStormMath.Approach(intensity, desired, Settings.rainBlendSeconds, dt);
             wetness = RainStormMath.Wetness(wetness, intensity, dt, Settings.wettingSeconds, Settings.dryingSeconds);
+            Shader.SetGlobalFloat(GlobalWetId, wetness);
+            Shader.SetGlobalFloat(GlobalRainId, intensity);
             budget = RainBudget.For(quality, Settings.customBudget);
             if (atmosphere && Settings.driveExistingAtmosphere)
             {
@@ -275,6 +280,7 @@ namespace LittleCastle.World.Weather
             }
             if (!gameplayCamera) { StopRain(); HidePuddles(); return; }
             focus = GetGroundFocus(gameplayCamera);
+            if (Time.time >= nextSurfaceUpdate) sheltered = IsSheltered(focus);
             TickRain();
             if (Time.time >= nextSurfaceUpdate)
             {
@@ -297,6 +303,13 @@ namespace LittleCastle.World.Weather
             return p;
         }
 
+        private bool IsSheltered(Vector3 point)
+        {
+            int layers = Settings.roofLayers.value;
+            return layers != 0 && Physics.Raycast(point + Vector3.up * .3f, Vector3.up,
+                Settings.spawnHeight + 16f, layers, QueryTriggerInteraction.Ignore);
+        }
+
         private void TickRain()
         {
             if (intensity < 0.004f || budget.nearParticles + budget.distantParticles == 0) { StopRain(); return; }
@@ -305,7 +318,7 @@ namespace LittleCastle.World.Weather
                 nearRain.Play(); distantRain.Play();
                 rainPlaying = true;
             }
-            ConfigureRainLayer(nearRain, nearTransform, budget.nearParticles, Settings.nearRadius, 1f);
+            ConfigureRainLayer(nearRain, nearTransform, budget.nearParticles, Settings.nearRadius, sheltered ? 0f : 1f);
             ConfigureRainLayer(distantRain, distantTransform, budget.distantParticles, Settings.distantRadius, .65f);
         }
 
@@ -352,6 +365,11 @@ namespace LittleCastle.World.Weather
                 // Avoid puddles on high roofs / bridges if an authored ground height is available.
                 if (!water && mapPainter && mapPainter.Session != null &&
                     hit.point.y > mapPainter.Session.SampleHeight(x, z) + 0.45f) return false;
+                if (!water && Settings.roofLayers.value != 0 &&
+                    Physics.Raycast(hit.point + Vector3.up * .25f, Vector3.up, 64f,
+                        Settings.roofLayers, QueryTriggerInteraction.Ignore)) return false;
+                if (mapPainter && mapPainter.Session != null &&
+                    mapPainter.Session.SampleEnvironmentSnow(x, z) > .55f) return false;
                 if (!water && Vector3.Dot(hit.normal, Vector3.up) < 1f - Settings.maximumGroundSlope) return false;
                 p = hit.point + Vector3.up * (water ? 0.045f : 0.035f);
                 return true;
@@ -361,6 +379,9 @@ namespace LittleCastle.World.Weather
             if (Settings.useMapHeightFallback && mapPainter && mapPainter.Session != null)
             {
                 p = new Vector3(x, mapPainter.Session.SampleHeight(x, z) + .035f, z);
+                if (mapPainter.Session.SampleEnvironmentSnow(x, z) > .55f) return false;
+                if (Vector3.Dot(mapPainter.Session.SampleNormal(x, z), Vector3.up) <
+                    1f - Settings.maximumGroundSlope) return false;
                 return true;
             }
             return false;
@@ -539,7 +560,12 @@ namespace LittleCastle.World.Weather
             if (ownedFallbackProfile) Destroy(ownedFallbackProfile);
             ownedRoot = null; puddleMesh = null; streakMaterial = null; rippleMaterial = null;
             ownedFallbackProfile = null; initialized = false; rainPlaying = false; stormWasActive = false;
-            if (active == this) active = null;
+            if (active == this)
+            {
+                Shader.SetGlobalFloat(GlobalWetId, 0f);
+                Shader.SetGlobalFloat(GlobalRainId, 0f);
+                active = null;
+            }
             puddles = null; nearRain = distantRain = splash = null;
             lightningLine = lightningBranch = null; thunderSource = null; rainSource = null; flashLight = null;
         }
