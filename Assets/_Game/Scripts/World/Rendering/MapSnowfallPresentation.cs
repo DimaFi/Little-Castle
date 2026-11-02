@@ -40,7 +40,16 @@ namespace LittleCastle.Rendering
         {
             if(!root)return;
             var settings=session.EnvironmentSettings;
-            float intensity=settings.simulateWeather?settings.snowfallIntensity*session.EnvironmentThemes.Sample(EnvironmentThemeIds.Winter,groundFocus.x,groundFocus.z):0;
+            // A soft ambient snowfall is always present over winter-themed / snow-covered land,
+            // even when simulateWeather is disabled. Heavy blizzards remain a future feature.
+            float winterTheme=Mathf.Clamp01(session.EnvironmentThemes.Sample(EnvironmentThemeIds.Winter,groundFocus.x,groundFocus.z));
+            float visibleSnow=Mathf.Clamp01(session.SampleEnvironmentSnow(groundFocus.x,groundFocus.z));
+            float winterPresence=Mathf.Max(winterTheme,visibleSnow);
+            float gentleFlurry=.17f*winterPresence;
+            float authoredWeather=settings.simulateWeather?settings.snowfallIntensity*winterTheme:0f;
+            // Avoid two strong simultaneous precipitation systems after rain integration.
+            float rain=Mathf.Clamp01(Shader.GetGlobalFloat("_LC_WeatherRainIntensity"));
+            float intensity=Mathf.Clamp01(Mathf.Max(gentleFlurry,authoredWeather)*(1f-Mathf.Clamp01(rain*2f)));
             renderer.enabled=intensity>.001f;if(!renderer.enabled)return;
             root.transform.position=groundFocus;material.SetColor("_Color",new Color(.86f,.93f,1,.65f*intensity));
         }
