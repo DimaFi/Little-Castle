@@ -24,7 +24,7 @@ Avoid opaque white rain wall, black night, repetition, mandatory giant full-scre
 ## Files
 - `Assets/_Game/Scripts/World/Weather/RainStormMath.cs`: deterministic hashing, world grid, smooth intensity and wet/dry transitions.
 - `RainStormProfile.cs`: configurable ScriptableObject with safe default values, precipitation presets, custom budgets, art and lightning controls.
-- `RainStormController.cs`: explicit MonoBehaviour opt-in, bounded Shuriken rain layers, sparse contact/splash sampling, pooled ripple overlays, procedural lightning and optional thunder; Game debug controls.
+- `RainStormController.cs`: explicit MonoBehaviour opt-in, bounded Shuriken rain layers, sparse contact/splash sampling, pooled ripple overlays, procedural lightning, optional ambient rain loop and thunder; Game debug controls.
 - `Assets/_Game/Resources/RainStorm/LC_RainStreak.shader`: URP transparent softened rain billboards.
 - `Assets/_Game/Resources/RainStorm/LC_RainRipple.shader`: URP irregular pool overlay with animated repeating impact rings.
 - `Assets/_Game/Editor/RainStormPreviewMenu.cs`: menu and in-Play inspector controls.
@@ -53,7 +53,7 @@ If no valid camera exists, its rendering stays inactive; do not use a SceneView 
 - The ground overlay is not actual pooled water volume / SSR. It is a deliberately cheap alpha ripple mesh; the wetness factor is rendered on the mesh only. Nothing edits permanent map data.
 - Fallback `MeadowSurfacePainter.Session.SampleHeight` is used only when Physics has no surface hit. **It cannot classify river / waterfall regions**, so turn `useMapHeightFallback` off where terrain overlays cross rivers. No promise that every water shader supports depth sorting.
 - `DayNightLightingController.SetWeatherPresentation(cloudiness, precipitation)` receives smoothed amounts. Full sky/fog attenuation requires an existing complete AtmosphereProfile; otherwise the controller's legacy lighting remains authoritative. No second sky/sun/moon/time system is created.
-- A lightning bolt is one deterministic polyline plus a smaller branch, with one temporary shadowless Point Light. Thunder uses **only user-supplied licensed audio clips**; without clips it is silent. Flash reduction is supported.
+- A lightning bolt is one deterministic polyline plus a smaller branch, with one temporary shadowless Point Light. Thunder uses **only user-supplied licensed audio clips**; without clips it is silent. Optional 2D `rainAmbience` also accepts a licensed audio loop and fades volume according to intensity. Flash reduction is supported.
 - No routine use of `FindObjectsByType`, per-drop GameObjects, compute or VFX Graph, Runtime `UnityEditor` imports, modified save schema, PlayerPrefs or editor auto-start.
 - Debug `OnGUI` is for visual QA only; remove or replace with proper Game settings UI before shipping.
 
