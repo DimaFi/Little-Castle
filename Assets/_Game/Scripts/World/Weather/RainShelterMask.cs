@@ -9,7 +9,7 @@ namespace LittleCastle.World.Weather
     /// </summary>
     public sealed class RainShelterMask : System.IDisposable
     {
-        public const int Resolution = 128;
+        public const int Resolution = 256;
         private const float WorldSize = 152f;
         private const float RefreshSeconds = .75f;
         private const float MoveStep = 2f;
