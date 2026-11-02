@@ -92,6 +92,64 @@ namespace LittleCastle.EditorTools
                 "При необходимости открой префаб и поправь позицию синей рамки под карнизом.", "ОК");
         }
 
+        /// <summary>
+        /// Optional one-time eave markers; all placed houses inherit them from the prefab.
+        /// The automatic location is a starting suggestion. Gabled/complex roofs need manual adjustment.
+        /// </summary>
+        [MenuItem("Little Castle/Weather/Configure Roof Drips on Selected Prefabs")]
+        private static void ConfigureRunoff()
+        {
+            int updated = 0, skipped = 0;
+            var paths = new HashSet<string>();
+            foreach (Object selection in Selection.objects)
+            {
+                if (!(selection is GameObject go)) continue;
+                string path = AssetDatabase.GetAssetPath(go);
+                if (string.IsNullOrEmpty(path))
+                    path = PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(go);
+                if (path.EndsWith(".prefab", System.StringComparison.OrdinalIgnoreCase)) paths.Add(path);
+            }
+            foreach (string path in paths)
+            {
+                GameObject prefab = null;
+                try
+                {
+                    prefab = PrefabUtility.LoadPrefabContents(path);
+                    if (!TryLocalBounds(prefab, out Bounds bounds)) { skipped++; continue; }
+                    bool changed = false;
+                    float y = bounds.max.y - bounds.size.y * .20f;
+                    for (int side = 0; side < 2; side++)
+                    {
+                        string name = side == 0 ? "Rain Drip Eave A" : "Rain Drip Eave B";
+                        if (prefab.transform.Find(name)) continue;
+                        var marker = new GameObject(name);
+                        marker.transform.SetParent(prefab.transform, false);
+                        marker.transform.localPosition = new Vector3(bounds.center.x, y,
+                            side == 0 ? bounds.min.z : bounds.max.z);
+                        var component = marker.AddComponent<RainRoofDripSource>();
+                        component.edgeLength = Mathf.Clamp(bounds.size.x * .85f, .25f, 16f);
+                        changed = true;
+                    }
+                    if (changed)
+                    {
+                        PrefabUtility.SaveAsPrefabAsset(prefab, path);
+                        updated++;
+                    }
+                }
+                catch (System.Exception e)
+                {
+                    skipped++;
+                    Debug.LogError("Rain Drips prefab setup failed on " + path + ": " + e);
+                }
+                finally { if (prefab) PrefabUtility.UnloadPrefabContents(prefab); }
+            }
+            AssetDatabase.SaveAssets();
+            Debug.Log($"Rain roof runoff: updated {updated} prefab assets; skipped/previously configured {skipped}.");
+        }
+
+        [MenuItem("Little Castle/Weather/Configure Roof Drips on Selected Prefabs", true)]
+        private static bool CanConfigureRunoff() => Selection.objects != null && Selection.objects.Length > 0;
+
         private static bool TryLocalBounds(GameObject root, out Bounds result)
         {
             result = default;
