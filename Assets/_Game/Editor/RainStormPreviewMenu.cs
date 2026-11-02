@@ -34,9 +34,8 @@ namespace LittleCastle.EditorTools
             EditorSceneManager.MarkSceneDirty(root.scene);
             Debug.Log("RainStorm: select Camera / Atmosphere / Map Painter references in the component if needed. Enter Play, choose rain in Game. No authored world objects have been replaced.");
         }
-    }
 
-    [MenuItem("Little Castle/Weather/Add Roof Drip Marker to Selected Object")]
+        [MenuItem("Little Castle/Weather/Add Roof Drip Marker to Selected Object")]
     public static void AddRoofDripMarker()
     {
         var selected = Selection.activeTransform;
@@ -53,6 +52,7 @@ namespace LittleCastle.EditorTools
 
     [MenuItem("Little Castle/Weather/Add Roof Drip Marker to Selected Object", true)]
     public static bool CanAddRoofDripMarker() => Selection.activeTransform != null;
+    }
 
     [CustomEditor(typeof(RainStormController))]
     public sealed class RainStormControllerEditor : UnityEditor.Editor
