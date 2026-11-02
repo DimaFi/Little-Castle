@@ -26,7 +26,7 @@ namespace LittleCastle.EditorTools
                 string path = AssetDatabase.GetAssetPath(go);
                 if (string.IsNullOrEmpty(path))
                     path = PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(go);
-                if (path.EndsWith(".prefab", System.StringComparison.OrdinalIgnoreCase))
+                if (!string.IsNullOrEmpty(path) && path.EndsWith(".prefab", System.StringComparison.OrdinalIgnoreCase))
                     unique.Add(path);
             }
             if (unique.Count == 0)
@@ -107,7 +107,7 @@ namespace LittleCastle.EditorTools
                 string path = AssetDatabase.GetAssetPath(go);
                 if (string.IsNullOrEmpty(path))
                     path = PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(go);
-                if (path.EndsWith(".prefab", System.StringComparison.OrdinalIgnoreCase)) paths.Add(path);
+                if (!string.IsNullOrEmpty(path) && path.EndsWith(".prefab", System.StringComparison.OrdinalIgnoreCase)) paths.Add(path);
             }
             foreach (string path in paths)
             {
