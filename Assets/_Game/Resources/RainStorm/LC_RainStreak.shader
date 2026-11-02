@@ -17,7 +17,7 @@ Shader "Little Castle/Weather/Cozy Rain Streak"
             Cull Off
 
             HLSLPROGRAM
-            #pragma target 2.0
+            #pragma target 3.0
             #pragma vertex Vert
             #pragma fragment Frag
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
