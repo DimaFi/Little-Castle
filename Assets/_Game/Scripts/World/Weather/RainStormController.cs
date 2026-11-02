@@ -442,7 +442,7 @@ namespace LittleCastle.World.Weather
                     p = beneath;
                     return true;
                 }
-                if (!water && Settings.roofLayers.value != 0 &&
+                if (!water && RainShelterVolume.Active.Count == 0 && Settings.roofLayers.value != 0 &&
                     Physics.Raycast(hit.point + Vector3.up * .25f, Vector3.up, 64f,
                         Settings.roofLayers, QueryTriggerInteraction.Ignore)) return false;
                 if (mapPainter && mapPainter.Session != null &&
