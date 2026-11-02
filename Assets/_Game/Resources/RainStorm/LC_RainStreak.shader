@@ -21,6 +21,8 @@ Shader "Little Castle/Weather/Cozy Rain Streak"
             #pragma vertex Vert
             #pragma fragment Frag
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+            #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/GlobalSamplers.hlsl"
+            #include "../../Shaders/Surface/LC_WeatherWet.hlsl"
 
             CBUFFER_START(UnityPerMaterial)
                 half4 _Tint;
@@ -37,11 +39,13 @@ Shader "Little Castle/Weather/Cozy Rain Streak"
                 float4 positionCS : SV_POSITION;
                 half4 color : COLOR;
                 float2 uv : TEXCOORD0;
+                float3 worldPos : TEXCOORD1;
             };
             Varyings Vert(Attributes a)
             {
                 Varyings o;
                 o.positionCS = TransformObjectToHClip(a.positionOS.xyz);
+                o.worldPos = TransformObjectToWorld(a.positionOS.xyz);
                 o.color = a.color;
                 o.uv = a.uv;
                 return o;
@@ -51,7 +55,8 @@ Shader "Little Castle/Weather/Cozy Rain Streak"
                 // Soft transparent taper; no hard white rectangular particles.
                 half edgeX = smoothstep(0.0h, 0.13h, i.uv.x) * (1.0h - smoothstep(0.87h, 1.0h, i.uv.x));
                 half edgeY = smoothstep(0.0h, 0.22h, i.uv.y) * (1.0h - smoothstep(0.78h, 1.0h, i.uv.y));
-                half alpha = _Tint.a * i.color.a * edgeX * edgeY;
+                half alpha = _Tint.a * i.color.a * edgeX * edgeY *
+                    (1.0h - LCWeatherShelterCoverage(i.worldPos));
                 return half4(_Tint.rgb * i.color.rgb, alpha);
             }
             ENDHLSL
