@@ -2,6 +2,7 @@ using System;
 using LittleCastle.Research;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.UI;
 
 namespace LittleCastle.World.Weather
 {
@@ -34,6 +35,8 @@ namespace LittleCastle.World.Weather
         private LineRenderer lightningLine, lightningBranch;
         private Light flashLight;
         private AudioSource thunderSource, rainSource;
+        private GameObject lensRoot;
+        private Material lensMaterial;
         private float intensity, wetness, nextSurfaceUpdate, nextLightning, lightningAge = 100f;
         private float thunderDelay = -1f;
         private int lightningSequence;
@@ -104,6 +107,7 @@ namespace LittleCastle.World.Weather
             puddleMesh = MakeQuad();
             CreatePuddles(64);
             CreateLightning();
+            CreateLensOverlay();
             nextLightning = Time.time + NextLightningInterval();
             initialized = true;
         }
@@ -234,6 +238,31 @@ namespace LittleCastle.World.Weather
             }
         }
 
+        private void CreateLensOverlay()
+        {
+            Shader shader = Resources.Load<Shader>("RainStorm/LC_RainLens");
+            if (!shader) return; // The rest of weather works without optional lens UI.
+            lensMaterial = new Material(shader) { hideFlags = HideFlags.HideAndDontSave };
+            lensRoot = new GameObject("Weather lens overlay (behind HUD)");
+            lensRoot.hideFlags = HideFlags.HideAndDontSave;
+            var canvas = lensRoot.AddComponent<Canvas>();
+            canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+            canvas.overrideSorting = true;
+            canvas.sortingOrder = -200;
+            var child = new GameObject("Sparse water droplets", typeof(RectTransform), typeof(CanvasRenderer), typeof(RawImage));
+            child.transform.SetParent(lensRoot.transform, false);
+            var rect = (RectTransform)child.transform;
+            rect.anchorMin = Vector2.zero;
+            rect.anchorMax = Vector2.one;
+            rect.offsetMin = Vector2.zero;
+            rect.offsetMax = Vector2.zero;
+            var image = child.GetComponent<RawImage>();
+            image.texture = Texture2D.whiteTexture;
+            image.raycastTarget = false;
+            image.material = lensMaterial;
+            lensRoot.SetActive(false);
+        }
+
         private void CreateLightning()
         {
             var obj = new GameObject("Procedural lightning");
@@ -291,6 +320,14 @@ namespace LittleCastle.World.Weather
             Shader.SetGlobalFloat(GlobalWetId, wetness);
             Shader.SetGlobalFloat(GlobalRainId, intensity);
             budget = RainBudget.For(quality, Settings.customBudget);
+            if (lensRoot)
+            {
+                bool lensEnabled = Settings.allowLensRain && intensity > .05f &&
+                    (quality == RainQuality.High || quality == RainQuality.Custom);
+                if (lensRoot.activeSelf != lensEnabled) lensRoot.SetActive(lensEnabled);
+                if (lensEnabled && lensMaterial) lensMaterial.SetFloat("_Opacity",
+                    Mathf.Clamp01(intensity * Settings.lensStrength));
+            }
             if (atmosphere && Settings.driveExistingAtmosphere)
             {
                 atmosphere.SetWeatherPresentation(intensity * Settings.cloudiness, intensity * Settings.precipitationForAtmosphere);
@@ -623,11 +660,14 @@ namespace LittleCastle.World.Weather
             if (active == this && atmosphere && Settings && Settings.driveExistingAtmosphere)
                 atmosphere.SetWeatherPresentation(0f, 0f);
             if (ownedRoot) Destroy(ownedRoot);
+            if (lensRoot) Destroy(lensRoot);
+            if (lensMaterial) Destroy(lensMaterial);
             if (puddleMesh) Destroy(puddleMesh);
             if (streakMaterial) Destroy(streakMaterial);
             if (rippleMaterial) Destroy(rippleMaterial);
             if (ownedFallbackProfile) Destroy(ownedFallbackProfile);
             ownedRoot = null; puddleMesh = null; streakMaterial = null; rippleMaterial = null;
+            lensRoot = null; lensMaterial = null;
             ownedFallbackProfile = null; initialized = false; rainPlaying = false; stormWasActive = false;
             if (active == this)
             {
