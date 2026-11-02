@@ -1,5 +1,6 @@
 using LittleCastle.World.Weather;
 using NUnit.Framework;
+using UnityEngine;
 
 namespace LittleCastle.Tests
 {
@@ -47,6 +48,13 @@ namespace LittleCastle.Tests
             Assert.AreEqual(64, b.puddleCount);
             Assert.AreEqual(40, b.splashCount);
             Assert.AreEqual(0, RainBudget.For(RainQuality.Off, custom).nearParticles);
+        }
+
+        [Test]
+        public void BothRainShadersLoadFromResources()
+        {
+            Assert.IsNotNull(Resources.Load<Shader>("RainStorm/LC_RainStreak"));
+            Assert.IsNotNull(Resources.Load<Shader>("RainStorm/LC_RainRipple"));
         }
 
         [Test]
