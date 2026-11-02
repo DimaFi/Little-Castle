@@ -349,6 +349,9 @@ namespace LittleCastle.World.Weather
             if (Physics.Raycast(origin, Vector3.down, out RaycastHit hit, 320f, mask, QueryTriggerInteraction.Ignore))
             {
                 water = (Settings.waterLayers.value & (1 << hit.collider.gameObject.layer)) != 0;
+                // Avoid puddles on high roofs / bridges if an authored ground height is available.
+                if (!water && mapPainter && mapPainter.Session != null &&
+                    hit.point.y > mapPainter.Session.SampleHeight(x, z) + 0.45f) return false;
                 if (!water && Vector3.Dot(hit.normal, Vector3.up) < 1f - Settings.maximumGroundSlope) return false;
                 p = hit.point + Vector3.up * (water ? 0.045f : 0.035f);
                 return true;
