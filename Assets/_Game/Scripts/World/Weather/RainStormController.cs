@@ -173,6 +173,7 @@ namespace LittleCastle.World.Weather
             public MeshRenderer renderer;
             public MaterialPropertyBlock properties;
             public int x, z;
+            public bool water;
         }
 
         private static Mesh MakeQuad()
@@ -357,6 +358,14 @@ namespace LittleCastle.World.Weather
         {
             water = false;
             p = default;
+            // Existing river geometry owns its waterline; never add a second water surface.
+            if (mapPainter && mapPainter.Session != null &&
+                mapPainter.Session.TrySampleWeatherRiverWater(x, z, out float riverHeight))
+            {
+                water = true;
+                p = new Vector3(x, riverHeight + .045f, z);
+                return true;
+            }
             Vector3 origin = new Vector3(x, focus.y + 160f, z);
             int mask = Settings.groundLayers.value | Settings.waterLayers.value;
             if (Physics.Raycast(origin, Vector3.down, out RaycastHit hit, 320f, mask, QueryTriggerInteraction.Ignore))
@@ -422,10 +431,10 @@ namespace LittleCastle.World.Weather
                     pd.obj.transform.position = surface;
                     pd.obj.transform.rotation = Quaternion.Euler(0, RainStormMath.Unit(seed + 4) * 360f, 0);
                     pd.obj.transform.localScale = new Vector3(size * 2, 1, size * 2);
-                    pd.x = x; pd.z = z; puddles[i] = pd;
+                    pd.x = x; pd.z = z; pd.water = isWater; puddles[i] = pd;
                 }
                 pd.properties.Clear();
-                pd.properties.SetFloat(WetnessId, wetness * Settings.wetReflection);
+                pd.properties.SetFloat(WetnessId, wetness * (pd.water ? .45f : Settings.wetReflection));
                 pd.properties.SetFloat(SeedId, RainStormMath.Unit(seed + 5));
                 pd.renderer.SetPropertyBlock(pd.properties);
                 pd.obj.SetActive(true);
