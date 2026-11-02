@@ -102,6 +102,7 @@ Shader "Little Castle/Terrain/LC Terrain"
         #include "../Surface/LC_GroundPalette.cginc"
         #include "../Surface/LC_SurfacePaint.hlsl"
         #include "../Surface/LC_EnvironmentAppearance.hlsl"
+        #include "../Surface/LC_WeatherWet.hlsl"
 
         TEXTURE2D(_GrassTex); SAMPLER(sampler_GrassTex);
         TEXTURE2D(_DirtTex); SAMPLER(sampler_DirtTex);
@@ -506,6 +507,10 @@ Shader "Little Castle/Terrain/LC Terrain"
             // No vertex-mask channel is repurposed for snow.
             snowWeight *= 1 - pathMask * _SnowPathClearance * (1-pathSnowRetention);
             snowWeight *= 1 - wetness * .65h;
+            // New rain weather is additive; it never repurposes existing vertex-G, river UV3 or snow masks.
+            half rainWet = LCWeatherWetAmount(i.worldPosition, normal, snowWeight);
+            rainWet *= lerp(.48h, .95h, saturate(pathMask + rockWeight * .6h));
+            wetness = max(wetness, rainWet);
             half microAO=1;
             [branch] if(max(surfaceDetail,pathMaterialAmount*nearDetail)>.001h) {
                 half3 grassN=UnpackNormal(SAMPLE_TEXTURE2D(_GrassNormal, sampler_GrassTex, worldUv));
@@ -631,6 +636,15 @@ Shader "Little Castle/Terrain/LC Terrain"
             // The same bounded URP point/spot loop as foliage and grass makes
             // a nearby lantern illuminate the snow, not only the building.
             finalColor += albedo * LCAtmosphereAdditionalDiffuse(i.worldPosition, i.pos, normal, 0.10h);
+            // Optional low-cost wet-road sheen; actual sky reflection probes are a later quality option.
+            [branch] if (rainWet > .02h)
+            {
+                half shallowPool = LCWeatherShallowPool(i.worldPosition, normal, rainWet) *
+                    saturate(pathMask * .85h + dirtWeight * .5h + rockWeight * .2h);
+                half3 eyeDir = GetWorldSpaceNormalizeViewDir(i.worldPosition);
+                half grazing = pow(1.0h - saturate(dot(normal, eyeDir)), 3.0h);
+                finalColor += _LC_AmbientSkyColor.rgb * shallowPool * (.045h + .13h * grazing);
+            }
             [branch] if(_AlpineEnabled>.5h)
             {
                 half3 viewDirection=GetWorldSpaceNormalizeViewDir(i.worldPosition);
