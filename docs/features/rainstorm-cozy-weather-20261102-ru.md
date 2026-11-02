@@ -21,6 +21,17 @@ The user approved a cinematic 3D painterly cozy medieval rainy-village reference
 **Priority:** light and atmosphere > wet material response > puddles/ripples > rain streaks > contact details > thunder.
 Avoid opaque white rain wall, black night, repetition, mandatory giant full-screen post effect, or photorealism inconsistent with Tiny-Glade-inspired Little Castle.
 
+## Roof shelters on prefab assets (2026-11-02 addition)
+
+**NEW:** Configured once in original building prefab, not per building instance.
+Use `Little Castle > Weather > Configure Roof Shelter on Selected Prefabs` in Unity after selecting one or several prefab assets in Project (or their instances in the scene). The tool creates one `Rain Shelter` child with `RainShelterVolume` using approximate renderer bounds; all prefab instances inherit it. Open Prefab Mode to adjust its blue outer footprint, green dry core, roof underside Y, soft `edgeFade` and `irregularity`. It does not edit scene instances or auto-import any FBX.
+
+Optional menu `Little Castle > Weather > Configure Roof Drips on Selected Prefabs` creates two approximate eave sources in the prefab, shared runoff pool. Existing manually configured shelter anchors are preserved.
+
+The new `RainShelterMask` builds one 256×256 resident world-space texture around the main camera and is sampled in both the material wetness and rain streak shaders. Edge falloff is smooth and irregular, and wetness/precipitation above the roof remains unaffected. Ripple puddles and splashes also respect CPU shelter coverage. No per-drop physics or per-building renderer.
+
+**Full technical guidance and verification:** [rain-prefab-shelters-20261102-ru.md](rain-prefab-shelters-20261102-ru.md). Unity import, visual rain feather and performance tests are still NOT RUN; initial roof heights are heuristic and must be checked on actual models.
+
 ## Files
 - `Assets/_Game/Scripts/World/Weather/RainStormMath.cs`: deterministic hashing, world grid, smooth intensity and wet/dry transitions.
 - `RainStormProfile.cs`: configurable ScriptableObject with safe default values, precipitation presets, custom budgets, art and lightning controls.
