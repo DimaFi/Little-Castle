@@ -527,7 +527,7 @@ namespace LittleCastle.World.Weather
 
         private void Cleanup()
         {
-            if (atmosphere && Settings && Settings.driveExistingAtmosphere)
+            if (active == this && atmosphere && Settings && Settings.driveExistingAtmosphere)
                 atmosphere.SetWeatherPresentation(0f, 0f);
             if (ownedRoot) Destroy(ownedRoot);
             if (puddleMesh) Destroy(puddleMesh);
