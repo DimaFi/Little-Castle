@@ -52,6 +52,8 @@ namespace LittleCastle.World.Weather
         [Header("Surface sampling: manually choose solid ground and optionally water layers")]
         public LayerMask groundLayers = ~0;
         public LayerMask waterLayers = 0;
+        [Tooltip("Assign only roof / bridge / shelter physics layers. Zero disables roof tests; no per-drop raycasts.")]
+        public LayerMask roofLayers = 0;
         public bool useMapHeightFallback = true;
         [Range(0.1f, 0.85f)] public float maximumGroundSlope = 0.27f;
         [Range(0.3f, 4f)] public float puddleRadius = 1.25f;
