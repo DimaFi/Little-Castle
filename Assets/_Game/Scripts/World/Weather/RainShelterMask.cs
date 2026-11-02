@@ -78,8 +78,9 @@ namespace LittleCastle.World.Weather
                 RainShelterVolume marker = sources[i];
                 if (!marker || !marker.isActiveAndEnabled) continue;
                 var s = marker.WorldShape;
-                float reachX = Mathf.Abs(s.right.x) * s.halfSize.x + Mathf.Abs(s.forward.x) * s.halfSize.y;
-                float reachZ = Mathf.Abs(s.right.y) * s.halfSize.x + Mathf.Abs(s.forward.y) * s.halfSize.y;
+                float margin = s.edgeFade * s.irregularity + metresPerPixel;
+                float reachX = Mathf.Abs(s.right.x) * s.halfSize.x + Mathf.Abs(s.forward.x) * s.halfSize.y + margin;
+                float reachZ = Mathf.Abs(s.right.y) * s.halfSize.x + Mathf.Abs(s.forward.y) * s.halfSize.y + margin;
                 if (s.center.x + reachX < x0 || s.center.x - reachX > x0 + WorldSize ||
                     s.center.y + reachZ < z0 || s.center.y - reachZ > z0 + WorldSize)
                     continue;
