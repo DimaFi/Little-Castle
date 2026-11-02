@@ -40,9 +40,25 @@ namespace LittleCastle.Rendering
         {
             if(!root)return;
             var settings=session.EnvironmentSettings;
-            float intensity=settings.simulateWeather?settings.snowfallIntensity*session.EnvironmentThemes.Sample(EnvironmentThemeIds.Winter,groundFocus.x,groundFocus.z):0;
+            // A soft ambient snowfall is always present over winter-themed / snow-covered land,
+            // even when simulateWeather is disabled. Heavy blizzards remain a future feature.
+            float winterTheme=Mathf.Clamp01(session.EnvironmentThemes.Sample(EnvironmentThemeIds.Winter,groundFocus.x,groundFocus.z));
+            float visibleSnow=Mathf.Clamp01(session.SampleEnvironmentSnow(groundFocus.x,groundFocus.z));
+            float rain=Shader.GetGlobalFloat("_LC_WeatherRainIntensity");
+            float intensity=EvaluateIntensity(winterTheme,visibleSnow,settings.simulateWeather,
+                settings.snowfallIntensity,rain);
             renderer.enabled=intensity>.001f;if(!renderer.enabled)return;
             root.transform.position=groundFocus;material.SetColor("_Color",new Color(.86f,.93f,1,.65f*intensity));
+        }
+        /// <summary>Reusable pure presentation function for subtle perpetual winter snowfall.</summary>
+        public static float EvaluateIntensity(float winterTheme,float visibleSnow,bool simulateWeather,
+            float authoredSnow,float rainIntensity)
+        {
+            float winter=Mathf.Max(Mathf.Clamp01(winterTheme),Mathf.Clamp01(visibleSnow));
+            float gentle=.17f*winter;
+            float authored=simulateWeather?Mathf.Clamp01(authoredSnow)*Mathf.Clamp01(winterTheme):0f;
+            return Mathf.Clamp01(Mathf.Max(gentle,authored)*
+                (1f-Mathf.Clamp01(Mathf.Clamp01(rainIntensity)*2f)));
         }
         public void Dispose(){Destroy(root);Destroy(mesh);Destroy(material);}
         static void Destroy(UnityEngine.Object value){if(!value)return;if(Application.isPlaying)UnityEngine.Object.Destroy(value);else UnityEngine.Object.DestroyImmediate(value);}
