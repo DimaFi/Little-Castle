@@ -44,14 +44,21 @@ namespace LittleCastle.Rendering
             // even when simulateWeather is disabled. Heavy blizzards remain a future feature.
             float winterTheme=Mathf.Clamp01(session.EnvironmentThemes.Sample(EnvironmentThemeIds.Winter,groundFocus.x,groundFocus.z));
             float visibleSnow=Mathf.Clamp01(session.SampleEnvironmentSnow(groundFocus.x,groundFocus.z));
-            float winterPresence=Mathf.Max(winterTheme,visibleSnow);
-            float gentleFlurry=.17f*winterPresence;
-            float authoredWeather=settings.simulateWeather?settings.snowfallIntensity*winterTheme:0f;
-            // Avoid two strong simultaneous precipitation systems after rain integration.
-            float rain=Mathf.Clamp01(Shader.GetGlobalFloat("_LC_WeatherRainIntensity"));
-            float intensity=Mathf.Clamp01(Mathf.Max(gentleFlurry,authoredWeather)*(1f-Mathf.Clamp01(rain*2f)));
+            float rain=Shader.GetGlobalFloat("_LC_WeatherRainIntensity");
+            float intensity=EvaluateIntensity(winterTheme,visibleSnow,settings.simulateWeather,
+                settings.snowfallIntensity,rain);
             renderer.enabled=intensity>.001f;if(!renderer.enabled)return;
             root.transform.position=groundFocus;material.SetColor("_Color",new Color(.86f,.93f,1,.65f*intensity));
+        }
+        /// <summary>Reusable pure presentation function for subtle perpetual winter snowfall.</summary>
+        public static float EvaluateIntensity(float winterTheme,float visibleSnow,bool simulateWeather,
+            float authoredSnow,float rainIntensity)
+        {
+            float winter=Mathf.Max(Mathf.Clamp01(winterTheme),Mathf.Clamp01(visibleSnow));
+            float gentle=.17f*winter;
+            float authored=simulateWeather?Mathf.Clamp01(authoredSnow)*Mathf.Clamp01(winterTheme):0f;
+            return Mathf.Clamp01(Mathf.Max(gentle,authored)*
+                (1f-Mathf.Clamp01(Mathf.Clamp01(rainIntensity)*2f)));
         }
         public void Dispose(){Destroy(root);Destroy(mesh);Destroy(material);}
         static void Destroy(UnityEngine.Object value){if(!value)return;if(Application.isPlaying)UnityEngine.Object.Destroy(value);else UnityEngine.Object.DestroyImmediate(value);}
