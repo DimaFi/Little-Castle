@@ -3,6 +3,7 @@
 
 #include "LC_VegetationURPCommon.hlsl"
 #include "../Surface/LC_EnvironmentAppearance.hlsl"
+#include "../Surface/LC_WeatherWet.hlsl"
 
 // Identical material layout in every pass (SRP Batcher).
 CBUFFER_START(UnityPerMaterial)
@@ -320,6 +321,10 @@ half4 frag(
     // snow settles on top without whitening vertical cards or their undersides.
     albedo = LCEnvironmentAlbedo(albedo, i.worldPosition,
         normalize(i.geometricNormalWS) * faceSign, _SnowAcceptance);
+    // Wet foliage stays saturated rather than becoming shiny metallic / unrealistically black.
+    half rainWet = LCWeatherWetAmount(i.worldPosition, normalize(i.geometricNormalWS) * faceSign,
+        LCEnvironmentSnow(i.worldPosition, normalize(i.geometricNormalWS) * faceSign, _SnowAcceptance));
+    albedo = LCWeatherDarken(albedo, rainWet, .13h);
 
     half3 normal =
         EvaluateNormal(

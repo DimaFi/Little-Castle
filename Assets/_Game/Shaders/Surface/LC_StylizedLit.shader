@@ -7,6 +7,7 @@ Shader "Little Castle/Surface/LC Stylized Lit"
         _MainTex ("Base Color", 2D) = "white" {}
         _Color ("Tint", Color) = (1,1,1,1)
         _SnowAcceptance ("Environment Snow Acceptance", Range(0,1)) = 1
+        _RainWetAcceptance ("Rain Wet Acceptance", Range(0,1)) = 0.7
 
         [Normal] _BumpMap ("Normal Map", 2D) = "bump" {}
         _BumpScale ("Normal Strength", Range(0,2)) = 1
@@ -52,11 +53,13 @@ Shader "Little Castle/Surface/LC Stylized Lit"
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
         #include "LC_LightingCommon.hlsl"
         #include "LC_EnvironmentAppearance.hlsl"
+        #include "LC_WeatherWet.hlsl"
 
         CBUFFER_START(UnityPerMaterial)
             float4 _MainTex_ST;
             half4 _Color;
             half _SnowAcceptance;
+            half _RainWetAcceptance;
             half4 _EmissionColor;
             half _Cull;
             half _BumpScale;
@@ -227,6 +230,9 @@ Shader "Little Castle/Surface/LC Stylized Lit"
                 half4 albedo = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, input.uv) * _Color;
                 albedo.rgb = LCEnvironmentAlbedo(albedo.rgb, input.positionWS,
                     normalize(input.normalWS), _SnowAcceptance);
+                half rainWet = LCWeatherWetAmount(input.positionWS, normalize(input.normalWS),
+                    LCEnvironmentSnow(input.positionWS, normalize(input.normalWS), _SnowAcceptance)) * _RainWetAcceptance;
+                albedo.rgb = LCWeatherDarken(albedo.rgb, rainWet, .23h);
                 half3 normal = LCEvaluateNormal(input);
                 half3 viewDirection = GetWorldSpaceNormalizeViewDir(input.positionWS);
                 half3 sunDirection = SafeNormalize(_LC_SunDirection.xyz);
@@ -262,6 +268,8 @@ Shader "Little Castle/Surface/LC Stylized Lit"
 
                 half roughness = saturate(lerp(_Roughness,
                     SAMPLE_TEXTURE2D(_RoughnessMap, sampler_RoughnessMap, input.uv).r, _RoughnessMapStrength));
+                // Damp material becomes slightly smoother; no forced mirror gloss on stone or timber.
+                roughness = lerp(roughness, max(.18h, roughness * .55h), rainWet);
                 half smoothness = 1.0h - roughness;
                 half specularPower = lerp(6.0h, _SpecularPower, smoothness * smoothness);
                 half specularStrength = _SpecularStrength * lerp(0.32h, 1.0h, smoothness);
