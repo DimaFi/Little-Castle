@@ -509,7 +509,7 @@ namespace LittleCastle.World.Weather
                         velocity = new Vector3(0, .6f + chance, 0),
                         startLifetime = .22f,
                         startSize = .04f + chance * .05f,
-                        startColor = new Color(.8f, .88f, .97f, intensity * Settings.splashIntensity)
+                        startColor = new Color(.8f, .88f, .97f, intensity * Settings.splashIntensity * exposed)
                     };
                     splash.Emit(burst, 2);
                 }
