@@ -39,7 +39,8 @@ namespace LittleCastle.World.Weather
         private int lightningSequence;
         private Vector3 focus, strikePoint;
         private RainBudget budget;
-        private bool initialized, rainPlaying;
+        private bool initialized, rainPlaying, stormWasActive;
+        private static RainStormController active;
         private static readonly int TintId = Shader.PropertyToID("_Tint");
         private static readonly int WetnessId = Shader.PropertyToID("_Wetness");
         private static readonly int SeedId = Shader.PropertyToID("_Seed");
@@ -63,6 +64,13 @@ namespace LittleCastle.World.Weather
         private void Initialize()
         {
             if (initialized) return;
+            if (active && active != this)
+            {
+                Debug.LogWarning("RainStorm: only one active weather presenter is allowed per scene. Duplicate disabled.", this);
+                enabled = false;
+                return;
+            }
+            active = this;
             if (!profile)
             {
                 ownedFallbackProfile = ScriptableObject.CreateInstance<RainStormProfile>();
@@ -351,6 +359,7 @@ namespace LittleCastle.World.Weather
             int columns = Mathf.Max(1, Mathf.CeilToInt(Mathf.Sqrt(Mathf.Max(1, used))));
             const float cellSize = 7f;
             int cx = RainStormMath.Cell(focus.x, cellSize), cz = RainStormMath.Cell(focus.z, cellSize);
+            int availableProbes = budget.probeCount;
             for (int i = 0; i < puddles.Length; i++)
             {
                 var pd = puddles[i];
@@ -362,14 +371,20 @@ namespace LittleCastle.World.Weather
                 if (chance < .25f) { pd.obj.SetActive(false); continue; }
                 float px = (x + .25f + RainStormMath.Unit(seed + 1) * .5f) * cellSize;
                 float pz = (z + .25f + RainStormMath.Unit(seed + 2) * .5f) * cellSize;
-                if (!TrySurface(px, pz, out Vector3 surface, out bool isWater))
-                { pd.obj.SetActive(false); continue; }
-                float size = Settings.puddleRadius * (0.6f + RainStormMath.Unit(seed + 3) * .9f);
-                pd.obj.transform.position = surface;
-                pd.obj.transform.rotation = Quaternion.Euler(0, RainStormMath.Unit(seed + 4) * 360f, 0);
-                pd.obj.transform.localScale = new Vector3(size * 2, 1, size * 2);
+                bool isWater = false;
+                if (pd.x != x || pd.z != z || !pd.obj.activeSelf)
+                {
+                    if (availableProbes-- <= 0) { pd.obj.SetActive(false); continue; }
+                    if (!TrySurface(px, pz, out Vector3 surface, out isWater))
+                    { pd.obj.SetActive(false); continue; }
+                    float size = Settings.puddleRadius * (0.6f + RainStormMath.Unit(seed + 3) * .9f);
+                    pd.obj.transform.position = surface;
+                    pd.obj.transform.rotation = Quaternion.Euler(0, RainStormMath.Unit(seed + 4) * 360f, 0);
+                    pd.obj.transform.localScale = new Vector3(size * 2, 1, size * 2);
+                    pd.x = x; pd.z = z; puddles[i] = pd;
+                }
                 pd.properties.Clear();
-                pd.properties.SetFloat(WetnessId, wetness * (isWater ? .55f : Settings.wetReflection));
+                pd.properties.SetFloat(WetnessId, wetness * Settings.wetReflection);
                 pd.properties.SetFloat(SeedId, RainStormMath.Unit(seed + 5));
                 pd.renderer.SetPropertyBlock(pd.properties);
                 pd.obj.SetActive(true);
@@ -378,7 +393,7 @@ namespace LittleCastle.World.Weather
                 {
                     var burst = new ParticleSystem.EmitParams
                     {
-                        position = surface,
+                        position = pd.obj.transform.position,
                         velocity = new Vector3(0, .6f + chance, 0),
                         startLifetime = .22f,
                         startSize = .04f + chance * .05f,
@@ -403,8 +418,14 @@ namespace LittleCastle.World.Weather
             {
                 lightningLine.enabled = lightningBranch.enabled = false;
                 thunderDelay = -1f;
-                nextLightning = Time.time + NextLightningInterval();
+                if (stormWasActive) nextLightning = Time.time + NextLightningInterval();
+                stormWasActive = false;
                 return;
+            }
+            if (!stormWasActive)
+            {
+                stormWasActive = true;
+                nextLightning = Time.time + NextLightningInterval();
             }
             if (Time.time >= nextLightning)
             {
@@ -497,7 +518,8 @@ namespace LittleCastle.World.Weather
             if (rippleMaterial) Destroy(rippleMaterial);
             if (ownedFallbackProfile) Destroy(ownedFallbackProfile);
             ownedRoot = null; puddleMesh = null; streakMaterial = null; rippleMaterial = null;
-            ownedFallbackProfile = null; initialized = false; rainPlaying = false;
+            ownedFallbackProfile = null; initialized = false; rainPlaying = false; stormWasActive = false;
+            if (active == this) active = null;
             puddles = null; nearRain = distantRain = splash = null;
             lightningLine = lightningBranch = null; thunderSource = null; flashLight = null;
         }
