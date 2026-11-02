@@ -65,7 +65,7 @@ namespace LittleCastle.Tests
             {Assert.That(material.HasProperty(property),Is.True,property);Assert.That(material.GetTexture(property),Is.Not.Null,property);}
             foreach(var property in new[]{"_LC_RiverFlowMap","_LC_FlowBounds","_LC_UseFlowMap"})Assert.That(material.HasProperty(property),Is.True,property);
         }
-        [Test] public void RiverExclusion_PreservesAnyPaintedPathAcrossFordAndSuppressesBankVegetation()
+        [Test] public void RiverExclusion_PreservesPaintedPathAndAllowsDryBankVegetation()
         {
             var session=new MapEditSession(Map());session.UpsertRiver(River());
             var road=new SurfacePaintStroke{id="crossing",road=true,radius=3,strength=1,
@@ -75,8 +75,22 @@ namespace LittleCastle.Tests
             SurfacePaintRasterizer.Rebuild(pixels,bounds,width,height,new List<SurfacePaintStroke>{road},dirty);
             var before=(byte[])pixels.Clone();SurfacePaintRasterizer.ApplyRiverExclusions(pixels,bounds,width,height,session,dirty);
             for(int i=0;i<pixels.Length;i+=2)Assert.That(pixels[i],Is.EqualTo(before[i]),"All road coverage must survive vegetation masking.");
-            Assert.That(session.VegetationAllowed(-10,0),Is.False,"The entire sloping bank stays clear.");
+            Assert.That(session.VegetationAllowed(-10,0),Is.True,"Dry sloping banks remain editable and plantable.");
+            Assert.That(session.VegetationAllowed(-20,0),Is.False,"Actual water still excludes vegetation.");
             Assert.That(session.VegetationAllowed(10,0),Is.True);
+        }
+        [Test] public void RiverExclusionMatchesPerPixelOracleWithMixedCoverageAndPartialDirtyRect()
+        {
+            var map=Map();map.placementExclusions.Add(new Rect(-1,-1,2,2));
+            var session=new MapEditSession(map);session.UpsertRiver(River());
+            var bounds=new Vector4(-40,-8,48,16);const int width=64,height=24;
+            var actual=new byte[width*height*2];
+            for(int i=0;i<actual.Length;i++)actual[i]=(byte)((i*73)%256);
+            var expected=(byte[])actual.Clone();var dirty=new RectInt(3,2,56,18);
+            for(int y=dirty.yMin;y<dirty.yMax;y++)for(int x=dirty.xMin;x<dirty.xMax;x++)
+                if(!session.VegetationAllowed(bounds.x+(x+.5f)*bounds.z/width,bounds.y+(y+.5f)*bounds.w/height))expected[(y*width+x)*2+1]=0;
+            SurfacePaintRasterizer.ApplyRiverExclusions(actual,bounds,width,height,session,dirty);
+            CollectionAssert.AreEqual(expected,actual);
         }
         [TestCase(0f)] [TestCase(.5f)] [TestCase(1f)]
         public void V2FordBed_IsContinuousAcrossBothBankEdges(float ford)

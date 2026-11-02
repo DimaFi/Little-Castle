@@ -39,10 +39,11 @@ namespace LittleCastle.Rendering
         sealed class Chunk
         {
             public GameObject root;public Mesh mesh,collisionMesh;public MeshCollider collider;
-            public Vector3[] vertices,normals;public Vector2[] riverSurface;public Rect bounds;public int x,z,width,depth;
+            public Vector3[] vertices,normals;public Vector2[] riverSurface;public Rect bounds;public int x,z,width,depth,factor=1;
+            public Vector2[] pendingUV;public Color[] pendingColors;public int[] pendingTriangles;
         }
         struct Anchor {public Transform transform;public Vector3 original;public float offset;}
-        readonly MapEditSession session;
+        MapEditSession session;
         readonly MapHeightField reference;
         readonly MeshFilter source;
         readonly MeshRenderer sourceRenderer;
@@ -64,6 +65,22 @@ namespace LittleCastle.Rendering
         readonly HashSet<Collider> ownedColliders=new HashSet<Collider>();
         readonly RaycastHit[] rayHits=new RaycastHit[64];
         readonly Vector3[] baseVertices;
+        readonly Queue<Chunk> visualQueue=new Queue<Chunk>();
+        readonly HashSet<Chunk> visualQueued=new HashSet<Chunk>();
+        Chunk updatingChunk;int updatingVertex;
+        IEnumerator<int> plantSteps;Rect pendingPlantArea;
+        bool disposed;
+        public bool BudgetedUpdates {get;set;}
+        public bool HasPendingPreview=>updatingChunk!=null||visualQueue.Count>0||plantSteps!=null;
+        public bool IsValid
+        {
+            get
+            {
+                if(disposed||!source||!source.sharedMesh||!sourceRenderer||!source.gameObject.scene.IsValid()||!source.gameObject.scene.isLoaded)return false;
+                foreach(var chunk in chunks)if(!chunk.root||!chunk.mesh||!chunk.collisionMesh)return false;
+                return true;
+            }
+        }
         public int LastTerrainChunks {get;private set;}
         public int LastGrassPatches {get;private set;}
         public int LastAnchors {get;private set;}
@@ -129,26 +146,128 @@ namespace LittleCastle.Rendering
         }
         void UpdateChunk(Chunk chunk)
         {
-            for(int i=0;i<chunk.vertices.Length;i++)
-            {
+            PrepareChunk(chunk);
+            for(int i=0;i<chunk.vertices.Length;i++)UpdateVertex(chunk,i);
+            PublishChunk(chunk);
+        }
+        void PrepareChunk(Chunk chunk)
+        {
+            int factor=session.FineRiverTerrainRequired(chunk.bounds)?Mathf.Max(1,Mathf.CeilToInt(session.HeightSpacing/MapRiverSection.TerrainStep)):1;
+            if(factor!=chunk.factor)Refine(chunk,factor);
+        }
+        void UpdateVertex(Chunk chunk,int i)
+        {
                 var world=source.transform.TransformPoint(chunk.vertices[i]);world.y=session.SampleHeight(world.x,world.z);
                 chunk.vertices[i]=source.transform.InverseTransformPoint(world);chunk.normals[i]=source.transform.InverseTransformDirection(session.SampleNormal(world.x,world.z));
                 float sand=session.SandCoverage(world.x,world.z);
                 bool wet=session.QueryWater(new Vector2(world.x,world.z),out _,out _,out _);
                 chunk.riverSurface[i]=new Vector2(sand,wet?sand:sand*.3f);
+        }
+        void PublishChunk(Chunk chunk)
+        {
+            if(chunk.pendingTriangles!=null)
+            {
+                chunk.mesh.Clear();chunk.mesh.indexFormat=chunk.vertices.Length>65535?IndexFormat.UInt32:IndexFormat.UInt16;
+                chunk.mesh.vertices=chunk.vertices;chunk.mesh.uv=chunk.pendingUV;if(chunk.pendingColors!=null)chunk.mesh.colors=chunk.pendingColors;chunk.mesh.triangles=chunk.pendingTriangles;
+                chunk.pendingUV=null;chunk.pendingColors=null;chunk.pendingTriangles=null;
             }
             chunk.mesh.vertices=chunk.vertices;chunk.mesh.normals=chunk.normals;chunk.mesh.uv3=chunk.riverSurface;chunk.mesh.RecalculateBounds();
         }
+        void Refine(Chunk chunk,int factor)
+        {
+            // Subdivide only resident tiles touched by the new corridor. All dry source data is interpolated.
+            chunk.factor=factor;int width=chunk.width*factor,depth=chunk.depth*factor,count=(width+1)*(depth+1);
+            chunk.vertices=new Vector3[count];chunk.normals=new Vector3[count];chunk.riverSurface=new Vector2[count];
+            var uv=new Vector2[count];var colors=new Color[count];var sourceUV=source.sharedMesh.uv;var sourceColors=source.sharedMesh.colors;
+            for(int z=0;z<=depth;z++)for(int x=0;x<=width;x++)
+            {
+                float gx=chunk.x+x/(float)factor,gz=chunk.z+z/(float)factor;
+                int ix=Mathf.Min(columns-2,Mathf.FloorToInt(gx)),iz=Mathf.Min(rows-2,Mathf.FloorToInt(gz));float u=gx-ix,v=gz-iz;
+                int a=iz*columns+ix,b=a+1,c=a+columns,d=c+1,index=z*(width+1)+x;
+                chunk.vertices[index]=u+v<=1?baseVertices[a]+(baseVertices[b]-baseVertices[a])*u+(baseVertices[c]-baseVertices[a])*v:
+                    baseVertices[d]+(baseVertices[c]-baseVertices[d])*(1-u)+(baseVertices[b]-baseVertices[d])*(1-v);
+                if(sourceUV.Length>0)uv[index]=u+v<=1?sourceUV[a]+(sourceUV[b]-sourceUV[a])*u+(sourceUV[c]-sourceUV[a])*v:
+                    sourceUV[d]+(sourceUV[c]-sourceUV[d])*(1-u)+(sourceUV[b]-sourceUV[d])*(1-v);
+                if(sourceColors.Length>0)colors[index]=u+v<=1?sourceColors[a]+(sourceColors[b]-sourceColors[a])*u+(sourceColors[c]-sourceColors[a])*v:
+                    sourceColors[d]+(sourceColors[c]-sourceColors[d])*(1-u)+(sourceColors[b]-sourceColors[d])*(1-v);
+            }
+            var triangles=new int[width*depth*6];int t=0;
+            for(int z=0;z<depth;z++)for(int x=0;x<width;x++)
+            {int i=z*(width+1)+x;triangles[t++]=i;triangles[t++]=i+width+1;triangles[t++]=i+1;triangles[t++]=i+1;triangles[t++]=i+width+1;triangles[t++]=i+width+2;}
+            // Keep the old published mesh/collider until the complete replacement is ready.
+            chunk.pendingUV=uv;chunk.pendingColors=sourceColors.Length>0?colors:null;chunk.pendingTriangles=triangles;
+        }
         void Changed(MapRegionChange change)
         {
+            if(!IsValid)return;
             // One revision can now arrive as several disjoint chunk-local notifications.
             if((change.kind&MapChangeKind.Height)==0)return;
             LastTerrainChunks=0;
+            if(BudgetedUpdates||HasPendingPreview)
+            {
+                foreach(var chunk in chunks)if(chunk.bounds.Overlaps(change.bounds))
+                {
+                    if(ReferenceEquals(updatingChunk,chunk))updatingVertex=0;
+                    else if(visualQueued.Add(chunk))visualQueue.Enqueue(chunk);
+                }
+                QueuePlants(change.bounds);
+                if(!BudgetedUpdates)while(HasPendingPreview)FlushPreviewBudget(int.MaxValue,double.PositiveInfinity);
+                return;
+            }
+            DiscardPendingPreview();
             foreach(var chunk in chunks)if(chunk.bounds.Overlaps(change.bounds))
             {UpdateChunk(chunk);LastTerrainChunks++;if(queued.Add(chunk))collisionQueue.Enqueue(chunk);}
             ProjectPlants(change.bounds);scatter?.Rebuild(scatter.painter,change.bounds);
         }
+        void QueuePlants(Rect area)
+        {
+            pendingPlantArea=pendingPlantArea.width==0?area:Rect.MinMaxRect(Mathf.Min(area.xMin,pendingPlantArea.xMin),Mathf.Min(area.yMin,pendingPlantArea.yMin),Mathf.Max(area.xMax,pendingPlantArea.xMax),Mathf.Max(area.yMax,pendingPlantArea.yMax));
+            plantSteps?.Dispose();plantSteps=ProjectPlantSteps(pendingPlantArea).GetEnumerator();
+        }
+        /// <summary>Cooperative owner-update work. New changes restart unfinished tiles against the latest session.</summary>
+        public int FlushPreviewBudget(int maximumSteps=128,double maximumMilliseconds=2)
+        {
+            if(!IsValid){DiscardPendingPreview();return 0;}
+            var watch=System.Diagnostics.Stopwatch.StartNew();int steps=0;
+            while(steps<maximumSteps&&watch.Elapsed.TotalMilliseconds<maximumMilliseconds)
+            {
+                if(updatingChunk==null&&visualQueue.Count>0){updatingChunk=visualQueue.Dequeue();updatingVertex=0;}
+                if(updatingChunk!=null)
+                {
+                    if(updatingVertex==0)PrepareChunk(updatingChunk);
+                    UpdateVertex(updatingChunk,updatingVertex++);steps++;
+                    if(updatingVertex==updatingChunk.vertices.Length)
+                    {
+                        PublishChunk(updatingChunk);if(queued.Add(updatingChunk))collisionQueue.Enqueue(updatingChunk);
+                        visualQueued.Remove(updatingChunk);updatingChunk=null;LastTerrainChunks++;
+                    }
+                    continue;
+                }
+                if(plantSteps==null)break;
+                if(plantSteps.MoveNext()){steps++;continue;}
+                plantSteps.Dispose();plantSteps=null;
+                // Scatter is optional; the World Editor owns its separate scatter preview.
+                scatter?.Rebuild(scatter.painter,pendingPlantArea);pendingPlantArea=default;
+            }
+            return steps;
+        }
+        void DiscardPendingPreview()
+        {visualQueue.Clear();visualQueued.Clear();updatingChunk=null;updatingVertex=0;plantSteps?.Dispose();plantSteps=null;pendingPlantArea=default;}
+        /// <summary>Reuse resident terrain/plants for a detached edit of the same map.</summary>
+        public void RebindSession(MapEditSession replacement,Rect dirty)
+        {
+            if(!IsValid)throw new InvalidOperationException("Terrain preview source was unloaded; recreate the presentation for the loaded scene.");
+            if(replacement==null||replacement.MapId!=session.MapId||replacement.Bounds!=session.Bounds||
+                replacement.HeightSpacing!=session.HeightSpacing||replacement.HeightOrigin!=session.HeightOrigin)
+                throw new ArgumentException("Terrain preview requires the same map and height lattice.");
+            if(ReferenceEquals(session,replacement))return;
+            session.Changed-=Changed;session=replacement;session.Changed+=Changed;
+            if(scatter)scatter.heightSampler=session.SampleHeight;
+            Changed(new MapRegionChange(dirty,false,MapChangeKind.Height));
+        }
         void ProjectPlants(Rect area)
+        {foreach(var step in ProjectPlantSteps(area)){} }
+        IEnumerable<int> ProjectPlantSteps(Rect area)
         {
             LastGrassPatches=LastAnchors=0;
             if(derivedGrass)for(int p=0;p<derivedGrass.patches.Length;p++)
@@ -159,7 +278,7 @@ namespace LittleCastle.Rendering
                 if(!baseGrassHeights.TryGetValue(p,out var baseHeights))
                 {
                     baseHeights=new float[original.matrices.Length];var normals=new Vector3[baseHeights.Length];
-                    for(int i=0;i<baseHeights.Length;i++){Vector3 pos=original.matrices[i].GetColumn(3);baseHeights[i]=reference.Height(pos.x,pos.z);normals[i]=reference.Normal(pos.x,pos.z);}
+                    for(int i=0;i<baseHeights.Length;i++){Vector3 pos=original.matrices[i].GetColumn(3);baseHeights[i]=reference.Height(pos.x,pos.z);normals[i]=reference.Normal(pos.x,pos.z);yield return 0;}
                     baseGrassHeights.Add(p,baseHeights);baseGrassNormals.Add(p,normals);
                 }
                 var baseNormals=baseGrassNormals[p];
@@ -169,13 +288,14 @@ namespace LittleCastle.Rendering
                     if(area.Contains(new Vector2(origin.x,origin.z))){matrix=ProjectMatrix(original.matrices[i],true,baseHeights[i],baseNormals[i]);target.matrices[i]=matrix;}
                     Vector3 pos=matrix.GetColumn(3);
                     if(first){bounds=new Bounds(pos,Vector3.zero);first=false;}else bounds.Encapsulate(pos);
+                    yield return 0;
                 }
                 bounds.Expand(new Vector3(3.2f,3.2f,3.2f));target.bounds=bounds;
             }
             if(originalAccents!=null)for(int i=0;i<originalAccents.Length;i++)
-            {Vector3 p=originalAccents[i].GetColumn(3);if(area.Contains(new Vector2(p.x,p.z)))accents.authoredMatrices[i]=ProjectMatrix(originalAccents[i],false);}
+            {Vector3 p=originalAccents[i].GetColumn(3);if(area.Contains(new Vector2(p.x,p.z)))accents.authoredMatrices[i]=ProjectMatrix(originalAccents[i],false);yield return 0;}
             foreach(var anchor in anchors)if(anchor.transform&&area.Contains(new Vector2(anchor.original.x,anchor.original.z)))
-            {var p=anchor.original;p.y=session.SampleHeight(p.x,p.z)+anchor.offset;anchor.transform.position=p;LastAnchors++;}
+            {var p=anchor.original;p.y=session.SampleHeight(p.x,p.z)+anchor.offset;anchor.transform.position=p;LastAnchors++;yield return 0;}
         }
         Matrix4x4 ProjectMatrix(Matrix4x4 original,bool alignNormal,float? baseHeight=null,Vector3? baseNormal=null)
         {
@@ -188,8 +308,9 @@ namespace LittleCastle.Rendering
         /// <summary>Bounded work once per owning view update, never per plant.</summary>
         public int FlushColliderBudget(int maximumChunks=2)
         {
+            if(!IsValid)return 0;
             int updated=0;while(updated<maximumChunks&&collisionQueue.Count>0)
-            {var chunk=collisionQueue.Dequeue();queued.Remove(chunk);chunk.collisionMesh.vertices=chunk.vertices;chunk.collisionMesh.RecalculateBounds();chunk.collider.sharedMesh=null;chunk.collider.sharedMesh=chunk.collisionMesh;updated++;}return updated;
+            {var chunk=collisionQueue.Dequeue();queued.Remove(chunk);chunk.collisionMesh.Clear();chunk.collisionMesh.indexFormat=chunk.mesh.indexFormat;chunk.collisionMesh.vertices=chunk.mesh.vertices;chunk.collisionMesh.triangles=chunk.mesh.triangles;chunk.collisionMesh.RecalculateBounds();chunk.collider.sharedMesh=null;chunk.collider.sharedMesh=chunk.collisionMesh;updated++;}return updated;
         }
         public bool Raycast(Ray ray,out RaycastHit hit,float distance=10000)
         {
@@ -205,12 +326,14 @@ namespace LittleCastle.Rendering
         }
         public void Dispose()
         {
+            if(disposed)return;disposed=true;
+            DiscardPendingPreview();
             session.Changed-=Changed;if(sourceRenderer)sourceRenderer.enabled=rendererEnabled;if(sourceCollider)sourceCollider.enabled=colliderEnabled;
             foreach(var chunk in chunks){Destroy(chunk.root);Destroy(chunk.mesh);Destroy(chunk.collisionMesh);}chunks.Clear();ownedColliders.Clear();collisionQueue.Clear();queued.Clear();
             if(grass)grass.data=originalGrass;if(derivedGrass)Destroy(derivedGrass);if(accents)accents.authoredMatrices=originalAccents;
             foreach(var anchor in anchors)if(anchor.transform)anchor.transform.position=anchor.original;
             if(scatter)scatter.heightSampler=previousHeightSampler;
         }
-        static void Destroy(UnityEngine.Object obj){if(Application.isPlaying)UnityEngine.Object.Destroy(obj);else UnityEngine.Object.DestroyImmediate(obj);}
+        static void Destroy(UnityEngine.Object obj){if(!obj)return;if(Application.isPlaying)UnityEngine.Object.Destroy(obj);else UnityEngine.Object.DestroyImmediate(obj);}
     }
 }

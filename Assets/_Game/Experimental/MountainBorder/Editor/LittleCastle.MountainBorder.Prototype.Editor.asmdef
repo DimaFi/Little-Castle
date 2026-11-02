@@ -1,0 +1,10 @@
+{
+  "name": "LittleCastle.MountainBorder.Prototype.Editor",
+  "rootNamespace": "LittleCastle.Experimental.MountainBorder.Editor",
+  "references": ["LittleCastle.MountainBorder.Prototype", "LittleCastle.Runtime", "LittleCastle.LandscapePresentation", "Unity.RenderPipelines.Universal.Runtime", "Unity.RenderPipelines.Core.Runtime"],
+  "includePlatforms": ["Editor"],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "autoReferenced": false,
+  "noEngineReferences": false
+}

@@ -27,6 +27,7 @@ Shader "Little Castle/Foliage/LC Grass"
         [Toggle(_LC_SURFACE_PAINT)] _UseSurfacePaint ("Authored / Player Road Mask", Float) = 0
         _SurfacePaint ("Derived Road Coverage", 2D) = "black" {}
         _SurfacePaintBounds ("Road Mask Origin XZ / Inverse Size", Vector) = (0,0,.01,.01)
+        _PathEdgeVariation ("Natural Grass At Painted Path Edges", Range(0,1)) = 0
 
         _ColorVariation ("Per Clump Variation", Range(0,0.3)) = 0.08
         _MeadowPaletteStrength ("Shared Meadow Palette", Range(0,1)) = 0
@@ -66,9 +67,13 @@ Shader "Little Castle/Foliage/LC Grass"
             ZWrite On
             ZTest LEqual
             HLSLPROGRAM
-            #pragma target 3.0
+            #pragma target 3.5
             #pragma vertex vert
             #pragma fragment frag
+            #pragma multi_compile _ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS
+            #pragma multi_compile_fragment _ _ADDITIONAL_LIGHT_SHADOWS
+            #pragma multi_compile_fragment _ _LIGHT_COOKIES
+            #pragma multi_compile _ _CLUSTER_LIGHT_LOOP
             #pragma multi_compile_fragment _ _SCREEN_SPACE_OCCLUSION
             #pragma multi_compile_fragment _ _LC_SPATIAL_INDIRECT
             #pragma target 4.5 _LC_SPATIAL_INDIRECT

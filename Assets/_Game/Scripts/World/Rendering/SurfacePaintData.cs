@@ -29,6 +29,8 @@ namespace LittleCastle.Rendering
     {
         public string id;
         public bool road=true;
+        // Stable catalog key. Empty means the original dirt path, including old saves.
+        public string pathMaterialId;
         public bool scatter;
         // Zero preserves old JSON strokes which did not store a scatter profile.
         public MeadowScatterProfile scatterProfile=MeadowScatterProfile.Mixed;
@@ -57,8 +59,10 @@ namespace LittleCastle.Rendering
         public bool hasEnvironmentBase;
         public LittleCastle.World.Environment.MapEnvironmentData environment;
         public List<LittleCastle.World.MapRiverRecord> rivers=new List<LittleCastle.World.MapRiverRecord>();
+        public LittleCastle.World.MapRiverNetworkData riverNetwork;
         public List<LittleCastle.World.MapRockSection> rockSections=new List<LittleCastle.World.MapRockSection>();
         public List<LittleCastle.World.MapTreeInstance> treeInstances=new List<LittleCastle.World.MapTreeInstance>();
+        public List<LittleCastle.World.MapFenceRecord> fences=new List<LittleCastle.World.MapFenceRecord>();
         public List<Rect> placementExclusions=new List<Rect>();
         public Vector4 bounds=new Vector4(-48,-40,96,104);
         public SurfacePaintDocument authored=new SurfacePaintDocument();

@@ -34,11 +34,12 @@ namespace LittleCastle.Research
             },false));
             registry.Register(new MapClickTool("tree.move","Переместить дерево","Растительность",p=>
             {if(Session.HasTree(selectedTree))Session.TransformTree(selectedTree,p.position,treeYaw,treeScale);treeTool=3;}));
-            registry.Register(new MapClickTool("river.points","Контрольные точки","Вода и берега",p=>GetComponent<MapRiverRuntimeTool>().Click(p.position),true,MapToolGesture.ControlPoints));
+            registry.Register(new MapClickTool("river.points","Контрольные точки","Вода и берега",p=>GetComponent<MapRiverRuntimeTool>().Click(p),true,MapToolGesture.ControlPoints));
             tools=new MapToolController(Session,registry);
         }
         void Update()
         {
+            TickFencePresentation();
             if(cursor)cursor.enabled=false;if(Session==null||!studyCamera)return;
             Session.Access=playerMode?allowedTools&MapEditAccess.Player:allowedTools;
             var river=GetComponent<MapRiverRuntimeTool>();
@@ -63,6 +64,7 @@ namespace LittleCastle.Research
                 {
                     var c=tools.context;c.settings.radius=Mathf.Clamp(radius,treeTool==2?1:.5f,tools.Selected.MaximumRadius(Session));
                     c.environmentThemeId=environmentThemeId;c.environmentMode=environmentMode;
+                    c.pathMaterialId=pathMaterialId;
                     c.settings.strength=strength;c.settings.softness=brushSoftness;c.density=treeTool==2?treeBrushDensity:density;
                     c.terrainRate=terrainMetresPerSecond;c.scatter=populatePlants;c.scatterProfile=currentProfile;c.treeSpacing=treeBrushSpacing;c.seed=treeBrushSeed;
                     if(treeCatalog&&treeCatalog.packs.Length>0)c.treePackId=treeCatalog.packs[Mathf.Clamp(selectedTreePack,0,treeCatalog.packs.Length-1)].id;

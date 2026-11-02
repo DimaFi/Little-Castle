@@ -41,7 +41,7 @@ namespace LittleCastle.Editor
         [MenuItem("Little Castle/Research/Ground Biomes/Build PNG and Vegetation Comparison")]
         public static void Build()
         {
-            if(!Path.GetFileName(Path.GetDirectoryName(Application.dataPath)).StartsWith("Little-Castle_URP_"))throw new Exception("URP study copy only.");
+            OwnedStudyWorkflow.Require(Root, Scene);
             if(!File.Exists(Path.Combine(Output,"preflight_playmode.txt")))throw new Exception("Complete real-model foliage preflight first.");
             for(int i=0;i<EditorSceneManager.sceneCount;i++)if(EditorSceneManager.GetSceneAt(i).isDirty)throw new Exception("Unsaved scene preserved.");
             Directory.CreateDirectory(Output);AssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport);

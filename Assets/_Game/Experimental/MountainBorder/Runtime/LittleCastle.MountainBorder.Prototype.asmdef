@@ -1,0 +1,10 @@
+{
+  "name": "LittleCastle.MountainBorder.Prototype",
+  "rootNamespace": "LittleCastle.Experimental.MountainBorder",
+  "references": [],
+  "includePlatforms": ["Editor"],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "autoReferenced": false,
+  "noEngineReferences": false
+}

@@ -9,6 +9,7 @@ namespace LittleCastle.Editor
         MapRiverPresentation riverPreview;
         MapRiverToolState riverTools=new MapRiverToolState();
         GUIStyle riverWrappedLabel,riverWrappedButton,riverWrappedBox;
+        [SerializeField] float upgradeFillLimit=2;
         void ConfigureRiverProfile()
         {
             var painter=FindAnyObjectByType<MeadowSurfacePainter>();
@@ -17,7 +18,10 @@ namespace LittleCastle.Editor
         void DrawRiverTools()
         {
             ConfigureRiverProfile();
-            EditorGUILayout.HelpBox("1. Новая река → 2. Точки по земле в SceneView по течению → 3. Применить реку. Только после применения река входит в JSON и авторскую базу.",MessageType.Info);
+            bool direct=EditorGUILayout.Toggle("Прямое редактирование B · проверка",riverDirectEditingEnabled);
+            if(direct!=riverDirectEditingEnabled){CancelRiverGesture();riverDirectEditingEnabled=direct;Repaint();GUIUtility.ExitGUI();}
+            if(direct)EditorGUILayout.HelpBox("Этап B ещё не принят: данные и операции проверены тестами, живое управление и стоимость preview требуют отдельной проверки.",MessageType.Warning);
+            EditorGUILayout.HelpBox("Рисуйте точки по течению. Готовая река проверяется и применяется при сохранении карты; незавершённые точки сохраняются отдельным черновиком.",MessageType.Info);
             if(riverTools.HasUnappliedDraft(session)&&GUILayout.Button("Сбросить неприменённый черновик…"))
             {
                 if(EditorUtility.DisplayDialog("Сбросить черновик реки?","Удалить неприменённые точки и настройки? Уже применённые реки останутся в карте.","Сбросить черновик","Отмена"))
@@ -31,7 +35,7 @@ namespace LittleCastle.Editor
             try
             {
                 GUI.skin.label=riverWrappedLabel;GUI.skin.button=riverWrappedButton;GUI.skin.box=riverWrappedBox;
-                riverTools.Draw(session,false);
+                riverTools.Draw(session,false,riverDirectEditingEnabled);
             }
             finally{GUI.skin.label=label;GUI.skin.button=button;GUI.skin.box=box;}
             if(riverTools.ModeRevision!=revision||riverTools.mode!=mode)
@@ -40,6 +44,29 @@ namespace LittleCastle.Editor
                 else {tools.Complete();pointerHeld=false;brush=false;}
                 SceneView.RepaintAll();
             }
+            if(riverTools.GuiTreeChanged){Repaint();GUIUtility.ExitGUI();}
+            var selected=riverTools.draft;
+            if(selected!=null&&selected.id!=0)
+            {
+                if(selected.layoutVersion==3&&selected.sectionProfile!=null)
+                {
+                    EditorGUILayout.LabelField("Мягкое русло · профиль всей реки",EditorStyles.boldLabel);
+                    selected.sectionProfile.bankRise=EditorGUILayout.Slider("Борт над водой, м",selected.sectionProfile.bankRise,.03f,.4f);
+                    selected.sectionProfile.maximumCut=EditorGUILayout.Slider("Предел выемки, м",selected.sectionProfile.maximumCut,.15f,12);
+                    selected.sectionProfile.maximumFill=EditorGUILayout.Slider("Предел насыпи, м",selected.sectionProfile.maximumFill,0,4);
+                }
+                else if(!riverTools.HasUnappliedDraft(session))
+                {
+                    upgradeFillLimit=EditorGUILayout.Slider("Предел насыпи при переходе, м",upgradeFillLimit,0,4);
+                    if(GUILayout.Button("Перейти на мягкое русло · предпросмотр / одна отмена"))
+                    {
+                        Run(()=>{session.UpgradeRiverProfiles(new[]{selected.id},new LittleCastle.World.MapRiverSectionProfile{maximumFill=upgradeFillLimit});riverTools.SelectRiver(session,selected.id);});
+                        GUIUtility.ExitGUI();
+                    }
+                }
+            }
+            DrawWaterfallTools();
+            if(riverDirectEditingEnabled)DrawDirectRiverInspector();
         }
         void DrawRiverDraft()
         {

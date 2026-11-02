@@ -210,7 +210,7 @@ Shader "Little Castle/Surface/LC Stylized Lit"
                 half wrap = _LightWrap * 0.35h;
                 half wrapped = saturate((dot(normal, light.direction) + wrap) / (1.0h + wrap));
                 half halfWidth = max(0.015h, _ShadowSoftness * 0.34h);
-                half diffuse = smoothstep(0.38h - halfWidth, 0.38h + halfWidth, wrapped);
+                half diffuse = lerp(smoothstep(0.38h - halfWidth, 0.38h + halfWidth, wrapped), wrapped, _LightResponse);
                 half specularPower = lerp(6.0h, _SpecularPower, smoothness * smoothness);
                 half specularStrength = _LocalLightSpecular * lerp(0.28h, 1.0h, smoothness);
                 half specular = pow(saturate(dot(normal, SafeNormalize(light.direction + viewDirection))),
@@ -244,6 +244,7 @@ Shader "Little Castle/Surface/LC Stylized Lit"
                     ? mainLight.shadowAttenuation : 1.0h;
                 half moonShadow = dot(mainLight.direction, moonDirection) > 0.95h
                     ? mainLight.shadowAttenuation : 1.0h;
+                sunShadow *= LCAtmosphereCloudShadow(input.positionWS);
                 half sunDiffuse = LCEvaluateDiffuse(normal, sunDirection) * sunShadow;
                 half moonDiffuse = LCEvaluateDiffuse(normal, moonDirection) * moonShadow;
 
@@ -252,7 +253,8 @@ Shader "Little Castle/Surface/LC Stylized Lit"
                 half directPresence = saturate(sunDiffuse + moonDiffuse * 0.45h);
                 half3 shadowTint = lerp(half3(1, 1, 1), _LC_ShadowTint.rgb, _ShadowTintStrength);
                 half3 ambientTint = lerp(shadowTint, half3(1, 1, 1), directPresence);
-                half3 ambient = LCSpatialIndirect(input.positionWS, normal, LCEvaluateAmbient(normal)) * _AmbientStrength * ambientTint
+                half3 ambient = (LCSpatialIndirect(input.positionWS, normal, LCEvaluateAmbient(normal)) +
+                    LCAtmosphereGroundFill(normal) * .5h) * _AmbientStrength * ambientTint
                     * LCIndirectOcclusion(input.positionCS, occlusion);
                 half directOcclusion = lerp(occlusion, 1.0h, 0.72h);
                 half3 lighting = ambient + (_LC_SunColor.rgb * sunDiffuse
@@ -293,7 +295,8 @@ Shader "Little Castle/Surface/LC Stylized Lit"
                 float3 flickerCell = floor(input.positionWS * 0.35);
                 half flicker = 1.0h + sin(_LC_GameTime.z * _EmissionFlickerSpeed
                     + dot(flickerCell, float3(0.73, 1.37, 2.11))) * _EmissionFlickerStrength;
-                finalColor += SAMPLE_TEXTURE2D(_EmissionMap, sampler_EmissionMap, input.uv).rgb
+                half3 emissionMask = SAMPLE_TEXTURE2D(_EmissionMap, sampler_EmissionMap, input.uv).rgb;
+                finalColor += emissionMask
                     * _EmissionColor.rgb * emissionStrength * max(0.0h, flicker);
                 half fogFactor = InitializeInputDataFog(float4(input.positionWS, 1.0), input.fogFactor);
                 return half4(MixFog(finalColor, fogFactor), albedo.a);

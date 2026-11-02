@@ -96,7 +96,7 @@ namespace LittleCastle.Tests
             long existing=state.draft.id;state.ConfigureNewRiverProfile(true);
             Assert.That(session.GetRiver(existing).layoutVersion,Is.EqualTo(1));
             state.StartRiver();state.Click(session,new Vector2(40,-20));state.Click(session,new Vector2(40,20));
-            Assert.That(state.draft.layoutVersion,Is.EqualTo(2));Assert.That(state.draft.nodes[0].leftBank,Is.EqualTo(MapBankKind.Sand));
+            Assert.That(state.draft.layoutVersion,Is.EqualTo(3));Assert.That(state.draft.nodes[0].leftBank,Is.EqualTo(MapBankKind.Sand));
             Assert.That(state.HasUnappliedDraft(session),Is.True);state.DiscardDraft();
             Assert.That(state.HasUnappliedDraft(session),Is.False);Assert.That(state.mode,Is.Zero);
             Assert.That(session.RiverCount,Is.EqualTo(1));Assert.That(session.GetRiver(existing).layoutVersion,Is.EqualTo(1));
