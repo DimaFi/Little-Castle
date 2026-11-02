@@ -75,6 +75,9 @@ namespace LittleCastle.World.Weather
         [Range(0f, 1f)] public float thunderVolume = 0.55f;
         public AudioClip distantThunder;
         public AudioClip closeThunder;
+        [Header("Optional ambient rain audio (supply a licensed loop)")]
+        public AudioClip rainAmbience;
+        [Range(0f, 1f)] public float rainVolume = 0.35f;
 
         [Header("Optional lens / later integration")]
         public bool allowLensRain;
