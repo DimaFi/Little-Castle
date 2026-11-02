@@ -33,7 +33,7 @@ namespace LittleCastle.World.Weather
         private Puddle[] puddles;
         private LineRenderer lightningLine, lightningBranch;
         private Light flashLight;
-        private AudioSource thunderSource;
+        private AudioSource thunderSource, rainSource;
         private float intensity, wetness, nextSurfaceUpdate, nextLightning, lightningAge = 100f;
         private float thunderDelay = -1f;
         private int lightningSequence;
@@ -226,6 +226,12 @@ namespace LittleCastle.World.Weather
             thunderSource = soundObj.AddComponent<AudioSource>();
             thunderSource.playOnAwake = false;
             thunderSource.spatialBlend = 0.6f;
+            var rainObj = new GameObject("Rain ambience (optional 2D loop)");
+            rainObj.transform.SetParent(ownedRoot.transform, false);
+            rainSource = rainObj.AddComponent<AudioSource>();
+            rainSource.playOnAwake = false;
+            rainSource.loop = true;
+            rainSource.spatialBlend = 0f;
         }
 
         private void ConfigureLine(LineRenderer line, float width)
@@ -255,6 +261,17 @@ namespace LittleCastle.World.Weather
             if (atmosphere && Settings.driveExistingAtmosphere)
             {
                 atmosphere.SetWeatherPresentation(intensity * Settings.cloudiness, intensity * Settings.precipitationForAtmosphere);
+            }
+            if (rainSource)
+            {
+                if (rainSource.clip != Settings.rainAmbience)
+                {
+                    rainSource.Stop();
+                    rainSource.clip = Settings.rainAmbience;
+                }
+                rainSource.volume = intensity * Settings.rainVolume;
+                if (rainSource.clip && !rainSource.isPlaying && intensity > .01f) rainSource.Play();
+                if (rainSource.isPlaying && intensity <= .001f) rainSource.Stop();
             }
             if (!gameplayCamera) { StopRain(); HidePuddles(); return; }
             focus = GetGroundFocus(gameplayCamera);
@@ -521,7 +538,7 @@ namespace LittleCastle.World.Weather
             ownedFallbackProfile = null; initialized = false; rainPlaying = false; stormWasActive = false;
             if (active == this) active = null;
             puddles = null; nearRain = distantRain = splash = null;
-            lightningLine = lightningBranch = null; thunderSource = null; flashLight = null;
+            lightningLine = lightningBranch = null; thunderSource = null; rainSource = null; flashLight = null;
         }
     }
 }
