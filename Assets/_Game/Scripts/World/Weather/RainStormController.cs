@@ -35,6 +35,7 @@ namespace LittleCastle.World.Weather
         private LineRenderer lightningLine, lightningBranch;
         private Light flashLight;
         private AudioSource thunderSource, rainSource;
+        private RainShelterMask shelterMask;
         private GameObject lensRoot;
         private Material lensMaterial;
         private float intensity, wetness, nextSurfaceUpdate, nextLightning, lightningAge = 100f;
@@ -50,7 +51,7 @@ namespace LittleCastle.World.Weather
         private static readonly int RippleRateId = Shader.PropertyToID("_RippleRate");
         private static readonly int GlobalWetId = Shader.PropertyToID("_LC_WeatherWetness");
         private static readonly int GlobalRainId = Shader.PropertyToID("_LC_WeatherRainIntensity");
-        private bool sheltered;
+        
 
         private RainStormProfile Settings => profile != null ? profile : ownedFallbackProfile;
         public RainMode CurrentMode => mode;
@@ -107,6 +108,7 @@ namespace LittleCastle.World.Weather
             puddleMesh = MakeQuad();
             CreatePuddles(64);
             CreateLightning();
+            shelterMask = new RainShelterMask();
             CreateLensOverlay();
             nextLightning = Time.time + NextLightningInterval();
             initialized = true;
@@ -345,7 +347,7 @@ namespace LittleCastle.World.Weather
             }
             if (!gameplayCamera) { StopRain(); HidePuddles(); return; }
             focus = GetGroundFocus(gameplayCamera);
-            if (Time.time >= nextSurfaceUpdate) sheltered = IsSheltered(focus);
+            shelterMask?.Tick(focus);
             TickRain();
             if (Time.time >= nextSurfaceUpdate)
             {
@@ -369,13 +371,6 @@ namespace LittleCastle.World.Weather
             return p;
         }
 
-        private bool IsSheltered(Vector3 point)
-        {
-            int layers = Settings.roofLayers.value;
-            return layers != 0 && Physics.Raycast(point + Vector3.up * .3f, Vector3.up,
-                Settings.spawnHeight + 16f, layers, QueryTriggerInteraction.Ignore);
-        }
-
         private void TickRain()
         {
             if (intensity < 0.004f || budget.nearParticles + budget.distantParticles == 0) { StopRain(); return; }
@@ -384,7 +379,7 @@ namespace LittleCastle.World.Weather
                 nearRain.Play(); distantRain.Play();
                 rainPlaying = true;
             }
-            ConfigureRainLayer(nearRain, nearTransform, budget.nearParticles, Settings.nearRadius, sheltered ? 0f : 1f);
+            ConfigureRainLayer(nearRain, nearTransform, budget.nearParticles, Settings.nearRadius, 1f);
             ConfigureRainLayer(distantRain, distantTransform, budget.distantParticles, Settings.distantRadius, .65f);
         }
 
@@ -499,12 +494,14 @@ namespace LittleCastle.World.Weather
                     pd.x = x; pd.z = z; pd.water = isWater; puddles[i] = pd;
                 }
                 pd.properties.Clear();
-                pd.properties.SetFloat(WetnessId, wetness * (pd.water ? .45f : Settings.wetReflection));
+                // Smooth coverage from the same prefab roof footprint used by the shader.
+                float exposed = 1f - RainShelterVolume.CoverageAt(pd.obj.transform.position);
+                pd.properties.SetFloat(WetnessId, wetness * exposed * (pd.water ? .45f : Settings.wetReflection));
                 pd.properties.SetFloat(SeedId, RainStormMath.Unit(seed + 5));
                 pd.renderer.SetPropertyBlock(pd.properties);
                 pd.obj.SetActive(true);
                 // A bounded handful of splash bursts per update, never physics for every drop.
-                if (intensity > .05f && i < Mathf.Min(budget.probeCount, budget.splashCount))
+                if (intensity > .05f && exposed > .15f && i < Mathf.Min(budget.probeCount, budget.splashCount))
                 {
                     var burst = new ParticleSystem.EmitParams
                     {
@@ -659,6 +656,7 @@ namespace LittleCastle.World.Weather
         {
             if (active == this && atmosphere && Settings && Settings.driveExistingAtmosphere)
                 atmosphere.SetWeatherPresentation(0f, 0f);
+            if (shelterMask != null) { shelterMask.Dispose(); shelterMask = null; }
             if (ownedRoot) Destroy(ownedRoot);
             if (lensRoot) Destroy(lensRoot);
             if (lensMaterial) Destroy(lensMaterial);
