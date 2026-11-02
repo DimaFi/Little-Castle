@@ -28,7 +28,7 @@ namespace LittleCastle.World.Weather
         private Material streakMaterial, rippleMaterial;
         private GameObject ownedRoot;
         private Mesh puddleMesh;
-        private ParticleSystem nearRain, distantRain, splash;
+        private ParticleSystem nearRain, distantRain, splash, roofDrips;
         private Transform nearTransform, distantTransform;
         private Puddle[] puddles;
         private LineRenderer lightningLine, lightningBranch;
@@ -100,6 +100,7 @@ namespace LittleCastle.World.Weather
             nearRain = CreateRain("Near streaks", out nearTransform, 0.45f);
             distantRain = CreateRain("Distant streaks", out distantTransform, 0.23f);
             splash = CreateSplash();
+            roofDrips = CreateRoofDrips();
             puddleMesh = MakeQuad();
             CreatePuddles(64);
             CreateLightning();
@@ -161,6 +162,32 @@ namespace LittleCastle.World.Weather
             var renderer = ps.GetComponent<ParticleSystemRenderer>();
             renderer.sharedMaterial = streakMaterial;
             renderer.renderMode = ParticleSystemRenderMode.Billboard;
+            renderer.shadowCastingMode = ShadowCastingMode.Off;
+            renderer.receiveShadows = false;
+            ps.Play();
+            return ps;
+        }
+
+        private ParticleSystem CreateRoofDrips()
+        {
+            var obj = new GameObject("Shared roof-edge runoff pool");
+            obj.transform.SetParent(ownedRoot.transform, false);
+            var ps = obj.AddComponent<ParticleSystem>();
+            ps.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+            var main = ps.main;
+            main.playOnAwake = false;
+            main.simulationSpace = ParticleSystemSimulationSpace.World;
+            main.loop = true;
+            main.startSpeed = 0f;
+            main.startLifetime = 1.3f;
+            main.maxParticles = 480;
+            var emission = ps.emission; emission.rateOverTime = 0f;
+            var shape = ps.shape; shape.enabled = false;
+            var renderer = ps.GetComponent<ParticleSystemRenderer>();
+            renderer.sharedMaterial = streakMaterial;
+            renderer.renderMode = ParticleSystemRenderMode.Stretch;
+            renderer.lengthScale = .24f;
+            renderer.velocityScale = .07f;
             renderer.shadowCastingMode = ShadowCastingMode.Off;
             renderer.receiveShadows = false;
             ps.Play();
@@ -286,6 +313,7 @@ namespace LittleCastle.World.Weather
             if (Time.time >= nextSurfaceUpdate)
             {
                 UpdateSurfaces();
+                TickRoofDrips();
                 nextSurfaceUpdate = Time.time + 0.35f;
             }
             TickLightning(dt);
@@ -454,6 +482,38 @@ namespace LittleCastle.World.Weather
             }
         }
 
+        private void TickRoofDrips()
+        {
+            if (!roofDrips || quality == RainQuality.Off) return;
+            float strength = Mathf.Max(intensity, wetness * .2f);
+            if (strength < .035f) return;
+            var sources = RainRoofDripSource.Active;
+            int remaining = Mathf.Min(budget.splashCount * 2, 24);
+            for (int i = 0; i < sources.Count && remaining > 0; i++)
+            {
+                RainRoofDripSource source = sources[i];
+                if (!source || !source.affectsPreview || source.dripAmount <= 0f) continue;
+                if ((source.transform.position - focus).sqrMagnitude > 70f * 70f) continue;
+                float actual = source.continueAfterRain ? strength : intensity;
+                int drops = Mathf.Min(remaining, Mathf.FloorToInt(actual * source.dripAmount * 5f));
+                for (int drop = 0; drop < drops; drop++)
+                {
+                    uint h = unchecked((uint)Settings.seed ^ (uint)(i * 7907) ^ (uint)(Time.frameCount * 251 + drop));
+                    float along = RainStormMath.Unit(h) - .5f;
+                    var emit = new ParticleSystem.EmitParams
+                    {
+                        position = source.transform.position + source.transform.right * (along * source.edgeLength),
+                        velocity = new Vector3(0f, -4.5f - RainStormMath.Unit(h + 1) * 1.5f, 0f),
+                        startLifetime = 1.05f,
+                        startSize = .027f,
+                        startColor = new Color(.75f, .84f, 1f, .52f)
+                    };
+                    roofDrips.Emit(emit, 1);
+                }
+                remaining -= drops;
+            }
+        }
+
         private float NextLightningInterval()
         {
             uint seed = unchecked((uint)Settings.seed + (uint)lightningSequence++ * 747796405u);
@@ -575,7 +635,7 @@ namespace LittleCastle.World.Weather
                 Shader.SetGlobalFloat(GlobalRainId, 0f);
                 active = null;
             }
-            puddles = null; nearRain = distantRain = splash = null;
+            puddles = null; nearRain = distantRain = splash = roofDrips = null;
             lightningLine = lightningBranch = null; thunderSource = null; rainSource = null; flashLight = null;
         }
     }
