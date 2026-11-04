@@ -605,6 +605,7 @@ namespace LittleCastle.World.Weather
         private void TickLightning(float dt)
         {
             lightningAge += dt;
+            Shader.SetGlobalFloat("_LC_StormFlash", 0f);
             if (flashLight) flashLight.enabled = false;
             if (mode != RainMode.Storm || intensity < .65f ||
                 quality == RainQuality.Off || !Settings.enableLightning || !gameplayCamera)
@@ -634,6 +635,7 @@ namespace LittleCastle.World.Weather
                 lightningAge < .28f ? .04f :
                 lightningAge < .41f ? .27f : 0f;
             if (Settings.reducedFlashes) flicker *= .35f;
+            Shader.SetGlobalFloat("_LC_StormFlash", Settings.lightningFlash * flicker);
             bool visible = flicker > .055f;
             lightningLine.enabled = lightningBranch.enabled = visible;
             bool expensiveGlow = quality == RainQuality.High || quality == RainQuality.Custom;
@@ -770,6 +772,7 @@ namespace LittleCastle.World.Weather
             {
                 Shader.SetGlobalFloat(GlobalWetId, 0f);
                 Shader.SetGlobalFloat(GlobalRainId, 0f);
+                Shader.SetGlobalFloat("_LC_StormFlash", 0f);
                 active = null;
             }
             puddles = null; nearRain = distantRain = splash = roofDrips = null;
