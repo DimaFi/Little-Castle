@@ -1,3 +1,9 @@
+# Integrated checkpoint 2026-11-04
+
+Read docs/handoffs/integrated-project-checkpoint-20261104-ru.md first.
+This is a WIP testing branch, with missing private scene/art and open issue #94.
+Preserve authored data and other working changes. Smoke PR88 and cottage are separate.
+
 # AGENTS.md — Little Castle
 
 This file defines rules for AI coding agents working in this repository.
