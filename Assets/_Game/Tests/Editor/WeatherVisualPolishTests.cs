@@ -67,9 +67,28 @@ namespace LittleCastle.Tests
                 Assert.IsTrue(material.HasProperty("_StormCloudBase"));
                 Assert.IsTrue(material.HasProperty("_StormCloudReach"));
                 Assert.IsTrue(material.HasProperty("_StormCloudDensity"));
+                Assert.IsTrue(material.HasProperty("_StormPeakCloudMass"));
+                Assert.IsTrue(material.HasProperty("_StormPeakCloudLower"));
+                Assert.IsTrue(material.HasProperty("_StormPeakCloudUpper"));
+                Assert.IsTrue(material.HasProperty("_StormPeakCloudDensity"));
+                Assert.IsTrue(material.HasProperty("_StormPeakCloudSoftness"));
+                Assert.That(material.GetFloat("_StormPeakCloudMass"), Is.EqualTo(0f).Within(.0001f));
                 Assert.That(material.GetFloat("_StormCloudMass"), Is.EqualTo(0f).Within(.0001f));
             }
             finally { Object.DestroyImmediate(material); }
+        }
+
+        [Test]
+        public void FarSnowfallMaterialSupportsContinuousHeightAndRadialFades()
+        {
+            var material = Resources.Load<Material>("MapAuthoring/LocalSnowfall");
+            Assert.That(material, Is.Not.Null);
+            Assert.That(material.HasProperty("_FallHeight"), Is.True);
+            Assert.That(material.HasProperty("_BaseHeight"), Is.True);
+            Assert.That(material.HasProperty("_FieldRadius"), Is.True);
+            Assert.That(material.HasProperty("_MinDistance"), Is.True);
+            Assert.That(material.HasProperty("_FlakeScale"), Is.True);
+            Assert.That(material.HasProperty("_LayerOpacity"), Is.True);
         }
 
         [Test]
@@ -81,6 +100,8 @@ namespace LittleCastle.Tests
                 Assert.That(profile.stormBankLower, Is.GreaterThan(0f));
                 Assert.That(profile.stormBankReach, Is.GreaterThan(profile.stormBankLower));
                 Assert.That(profile.stormBankDensity, Is.InRange(0f, 1f));
+                Assert.That(profile.stormPeakCloudMass, Is.InRange(0f, 1f));
+                Assert.That(profile.stormPeakCloudUpper, Is.GreaterThan(profile.stormPeakCloudLower));
             }
             finally { Object.DestroyImmediate(profile); }
         }
