@@ -67,6 +67,9 @@ Shader "Little Castle/Sky/Stylized Day Night"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
             #include "LC_CloudNoise.hlsl"
 
+            // Owned by RainStormController; always reset on disable.
+            float _LC_StormFlash;
+
             struct appdata
             {
                 float4 vertex : POSITION;
@@ -404,6 +407,10 @@ Shader "Little Castle/Sky/Stylized Day Night"
                         color = lerp(color, lerp(nightCloud, dayCloud, _Daylight), clouds);
                     }
                 }
+
+                // A brief diffuse illumination of storm clouds, not a second sky renderer.
+                color = lerp(color, float3(.66, .75, .91),
+                    saturate(_LC_StormFlash) * .72);
 
                 return half4(color, 1.0);
             }

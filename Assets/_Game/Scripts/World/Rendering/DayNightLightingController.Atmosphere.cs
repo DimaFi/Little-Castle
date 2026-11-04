@@ -9,6 +9,7 @@ namespace LittleCastle.World
         [SerializeField] private AtmosphereProfile atmosphereProfile;
         [SerializeField, Range(0, 1)] private float overcast;
         [SerializeField, Range(0, 1)] private float precipitation;
+        [SerializeField, Range(0, 1)] private float stormStrength;
         [SerializeField] private TerrainStarterPreviewControls.PreviewQuality atmosphereQuality = TerrainStarterPreviewControls.PreviewQuality.Medium;
         public AtmosphereProfile UnifiedProfile { get => atmosphereProfile; set => atmosphereProfile = value; }
         public TerrainStarterPreviewControls.PreviewQuality AtmosphereQuality => atmosphereQuality;
@@ -24,7 +25,7 @@ namespace LittleCastle.World
             observedQualityLevel = -1;
         }
 
-        float localSnow, localSnowfall, smoothSnow, smoothOvercast;
+        float localSnow, localSnowfall, smoothSnow, smoothOvercast, smoothStorm;
         int atmosphereFrame = -1;
         int observedQualityLevel = -1;
         Vector2 cloudDrift;
@@ -44,6 +45,12 @@ namespace LittleCastle.World
         {
             overcast = AtmosphereProfile.SanitizeUnit(cloudiness);
             precipitation = AtmosphereProfile.SanitizeUnit(rainOrSnow);
+        }
+
+        /// <summary>Explicit storm look: this is weather, not a second clock or sky system.</summary>
+        public void SetStormPresentation(float strength)
+        {
+            stormStrength = AtmosphereProfile.SanitizeUnit(strength);
         }
 
         public void SetLocalEnvironmentPresentation(float snowCoverage, float snowfall)
@@ -72,6 +79,8 @@ namespace LittleCastle.World
 
         private void ApplyAtmosphereProfile(float daylight, float twilight, float solarAngle)
         {
+            float stormBlend = 1f - Mathf.Exp(-Mathf.Min(Time.unscaledDeltaTime, .1f) / 2.5f);
+            smoothStorm = Mathf.Lerp(smoothStorm, stormStrength, stormBlend);
             var profile = atmosphereProfile;
             if (!profile || !profile.IsComplete)
             {
@@ -84,6 +93,7 @@ namespace LittleCastle.World
                     UpdateSky(daylight, twilight);
                     atmosphereSkyApplied = false;
                 }
+                ApplyLegacyStormLook();
                 return;
             }
             int qualityLevel = QualitySettings.GetQualityLevel();
@@ -121,7 +131,8 @@ namespace LittleCastle.World
             }
             float elevation = Mathf.Asin(Mathf.Sin(solarAngle * Mathf.Deg2Rad)) * Mathf.Rad2Deg;
             AtmosphereLook look = profile.Evaluate(daylight, twilight, elevation, smoothSnow);
-            float directAttenuation = 1 - smoothOvercast * profile.overcastSunAttenuation;
+            float directAttenuation = (1 - smoothOvercast * profile.overcastSunAttenuation)
+                * Mathf.Lerp(1f, .58f, smoothStorm);
             if (shadowControlledSun != sun) RestoreAtmosphereSun();
             if (sun)
             {
@@ -146,15 +157,17 @@ namespace LittleCastle.World
                 if (profile.artDirectedMoonOrbit)
                     moon.intensity *= Mathf.SmoothStep(0, 1, Mathf.InverseLerp(-.025f, .015f, -moon.transform.forward.y));
             }
-            RenderSettings.ambientSkyColor = look.ambientSky;
-            RenderSettings.ambientEquatorColor = look.ambientEquator;
-            RenderSettings.ambientGroundColor = look.ambientGround;
+            RenderSettings.ambientSkyColor = look.ambientSky * Mathf.Lerp(1f, .65f, smoothStorm);
+            RenderSettings.ambientEquatorColor = look.ambientEquator * Mathf.Lerp(1f, .68f, smoothStorm);
+            RenderSettings.ambientGroundColor = look.ambientGround * Mathf.Lerp(1f, .72f, smoothStorm);
             if (controlFog)
             {
-                RenderSettings.fogColor = Color.Lerp(look.fog, look.cloudShade, smoothOvercast * .24f);
+                RenderSettings.fogColor = Color.Lerp(
+                    Color.Lerp(look.fog, look.cloudShade, smoothOvercast * .24f),
+                    new Color(.24f,.30f,.36f,1f), smoothStorm * .45f);
                 RenderSettings.fogStartDistance = look.fogStart * Mathf.Lerp(1, .60f, smoothOvercast);
                 RenderSettings.fogEndDistance = Mathf.Max(RenderSettings.fogStartDistance + 1,
-                    look.fogEnd * Mathf.Lerp(1, .64f, smoothOvercast));
+                    look.fogEnd * Mathf.Lerp(1, .64f, smoothOvercast) * Mathf.Lerp(1f, .76f, smoothStorm));
             }
             Shader.SetGlobalFloat(TransmissionId, look.transmission * directAttenuation);
             Shader.SetGlobalColor(GroundBounceId, StylizedLightingGlobals.ToWorkingColor(look.groundBounce) *
@@ -163,20 +176,24 @@ namespace LittleCastle.World
             Material sky = GetPresentationSkybox();
             if (!sky) { Shader.SetGlobalVector(CloudShadowId, Vector4.zero); return; }
             atmosphereSkyApplied = true;
-            sky.SetColor("_ZenithColor", Color.Lerp(look.zenith, look.cloudShade, smoothOvercast * .48f));
-            sky.SetColor("_HorizonColor", Color.Lerp(look.horizon, look.cloudLight, smoothOvercast * .32f));
+            sky.SetColor("_ZenithColor", Color.Lerp(
+                Color.Lerp(look.zenith, look.cloudShade, smoothOvercast * .48f),
+                new Color(.17f,.22f,.28f,1f), smoothStorm * .72f));
+            sky.SetColor("_HorizonColor", Color.Lerp(
+                Color.Lerp(look.horizon, look.cloudLight, smoothOvercast * .32f),
+                new Color(.27f,.31f,.36f,1f), smoothStorm * .54f));
             sky.SetColor("_LowerSkyColor", look.lowerSky);
             sky.SetColor("_TwilightColor", profile.goldenHour.look.horizon);
             sky.SetColor("_SunColor", look.direct * 1.45f);
             sky.SetColor("_MoonColor", Color.Lerp(profile.blueNight.look.direct, profile.snowyMoonlight.look.direct, smoothSnow) * 1.15f);
-            sky.SetColor("_CloudLightColor", look.cloudLight);
-            sky.SetColor("_CloudShadeColor", look.cloudShade);
+            sky.SetColor("_CloudLightColor", Color.Lerp(look.cloudLight, new Color(.38f,.45f,.52f,1f), smoothStorm));
+            sky.SetColor("_CloudShadeColor", Color.Lerp(look.cloudShade, new Color(.13f,.18f,.24f,1f), smoothStorm));
             sky.SetFloat("_CloudCoverage", Mathf.Lerp(profile.cloudCoverage, .96f, smoothOvercast));
-            sky.SetFloat("_CloudStrength", profile.cloudOpacity);
+            sky.SetFloat("_CloudStrength", Mathf.Lerp(profile.cloudOpacity, 1f, smoothStorm));
             sky.SetFloat("_CloudScale", profile.cloudScale);
             sky.SetFloat("_CloudAltitude", profile.cloudAltitude);
-            sky.SetFloat("_CloudShape", (float)profile.cloudShape);
-            sky.SetFloat("_HighCloudCoverage", profile.highCloudCoverage);
+            sky.SetFloat("_CloudShape", smoothStorm > .45f ? 3f : (float)profile.cloudShape);
+            sky.SetFloat("_HighCloudCoverage", Mathf.Lerp(profile.highCloudCoverage, .76f, smoothStorm));
             sky.SetFloat("_CloudQuality", (int)atmosphereQuality);
             sky.SetFloat("_CloudWindDriven", 1);
             sky.SetVector("_CloudDrift", new Vector4(cloudDrift.x, cloudDrift.y, 0, 0));
@@ -196,6 +213,43 @@ namespace LittleCastle.World
             Shader.SetGlobalVector(CloudShadowId, new Vector4(shadowStrength, .012f * profile.cloudScale,
                 profile.cloudCoverage, profile.cloudAltitude));
             Shader.SetGlobalVector(CloudShadowDriftId, new Vector4(cloudDrift.x, cloudDrift.y, 0, 0));
+        }
+
+        // A complete atmosphere profile is optional in existing user-authored scenes.
+        // Legacy mode uses the controller's OWN runtime sky clone and restores source
+        // cloud properties when the storm stops; never modifies the authored material.
+        private void ApplyLegacyStormLook()
+        {
+            if (sun) sun.intensity *= Mathf.Lerp(1f, .40f, smoothStorm);
+            float ambient = Mathf.Lerp(1f, .58f, smoothStorm);
+            RenderSettings.ambientSkyColor *= ambient;
+            RenderSettings.ambientEquatorColor *= ambient;
+            RenderSettings.ambientGroundColor *= Mathf.Lerp(1f, .70f, smoothStorm);
+            if (controlFog)
+            {
+                RenderSettings.fogColor = Color.Lerp(RenderSettings.fogColor,
+                    new Color(.23f,.29f,.35f,1f), smoothStorm * .4f);
+                RenderSettings.fogEndDistance *= Mathf.Lerp(1f, .68f, smoothStorm);
+            }
+
+            Material sky = GetPresentationSkybox();
+            if (!sky) return;
+            Material source = skyboxMaterial;
+            if (!source || !source.shader ||
+                source.shader.name != "Little Castle/Sky/Stylized Day Night") return;
+            sky.SetFloat("_CloudWindDriven", Mathf.Lerp(source.GetFloat("_CloudWindDriven"), 1f, smoothStorm));
+            sky.SetFloat("_CloudShape", smoothStorm > .45f ? 3f : source.GetFloat("_CloudShape"));
+            sky.SetFloat("_CloudStrength", Mathf.Lerp(source.GetFloat("_CloudStrength"), 1f, smoothStorm));
+            sky.SetFloat("_CloudCoverage", Mathf.Lerp(source.GetFloat("_CloudCoverage"), .98f, smoothStorm));
+            sky.SetFloat("_HighCloudCoverage", Mathf.Lerp(source.GetFloat("_HighCloudCoverage"), .72f, smoothStorm));
+            sky.SetColor("_CloudShadeColor", Color.Lerp(source.GetColor("_CloudShadeColor"),
+                new Color(.14f,.19f,.26f,1f), smoothStorm));
+            sky.SetColor("_CloudLightColor", Color.Lerp(source.GetColor("_CloudLightColor"),
+                new Color(.39f,.45f,.51f,1f), smoothStorm));
+            sky.SetColor("_ZenithColor", Color.Lerp(sky.GetColor("_ZenithColor"),
+                new Color(.17f,.21f,.28f,1f), smoothStorm * .8f));
+            sky.SetColor("_HorizonColor", Color.Lerp(sky.GetColor("_HorizonColor"),
+                new Color(.27f,.31f,.38f,1f), smoothStorm * .7f));
         }
 
         private static void ResetAtmosphereGlobals()

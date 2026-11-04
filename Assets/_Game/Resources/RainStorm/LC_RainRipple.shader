@@ -25,6 +25,9 @@ Shader "Little Castle/Weather/Cozy Puddle Ripples"
             #pragma fragment Frag
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 
+            // Global storm strength, driven by the existing weather controller.
+            float _LC_WeatherRainIntensity;
+
             CBUFFER_START(UnityPerMaterial)
                 half4 _WaterColor;
                 float _Wetness;
@@ -59,8 +62,15 @@ Shader "Little Castle/Weather/Cozy Puddle Ripples"
                 float ripple = Ring(i.uv, float2(.36, .41), t * .49 + _Seed);
                 ripple += Ring(i.uv, float2(.63, .57), t * .61 + _Seed * 4.7);
                 ripple += Ring(i.uv, float2(.53, .25), t * .39 + _Seed * 3.3);
-                float3 color = lerp(_WaterColor.rgb, float3(.76, .86, .95), saturate(ripple * .65));
-                float alpha = saturate(_Wetness) * mask * (.34 + ripple * .40);
+                // Several staggered drops remain cheap and avoid one lonely repeating ring.
+                float storm = saturate(_LC_WeatherRainIntensity);
+                ripple += Ring(i.uv, float2(.27, .66), t * .57 + _Seed * 7.1) * storm;
+                ripple += Ring(i.uv, float2(.74, .29), t * .69 + _Seed * 5.2) * storm;
+                ripple += Ring(i.uv, float2(.43, .72), t * .42 + _Seed * 9.3) * storm;
+                float3 color = lerp(_WaterColor.rgb, float3(.76, .86, .95),
+                    saturate(ripple * .77));
+                float alpha = saturate(_Wetness) * mask * (.30 + saturate(ripple) * .56)
+                    * lerp(.9, 1.2, storm);
                 return half4(color, alpha);
             }
             ENDHLSL

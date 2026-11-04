@@ -10,57 +10,92 @@ namespace LittleCastle.Rendering
     public sealed class MapSnowfallPresentation : IDisposable
     {
         readonly MapEditSession session;
+        readonly MapWeatherBiomeMask biomeMask;
         readonly GameObject root;
         readonly Mesh mesh;
         readonly Material material;
         readonly MeshRenderer renderer;
+
         public MapSnowfallPresentation(MapEditSession session)
         {
-            this.session=session;
-            var template=Resources.Load<Material>("MapAuthoring/LocalSnowfall");
-            if(!template)return;
-            root=new GameObject("Local biome snowfall"){hideFlags=HideFlags.HideAndDontSave};
-            mesh=new Mesh{name="512 local snow billboards",hideFlags=HideFlags.HideAndDontSave};
-            const int count=512;var vertices=new Vector3[count*4];var uv=new Vector2[vertices.Length];var seeds=new Vector2[vertices.Length];var indices=new int[count*6];
-            uint random=741103;
-            for(int i=0;i<count;i++){
-                random=unchecked(random*1664525+1013904223);float x=(random&65535)/65535f;
-                random=unchecked(random*1664525+1013904223);float z=(random&65535)/65535f;
-                var seed=new Vector2((i*.618033989f)%1,(i*.414213562f)%1);
-                for(int j=0;j<4;j++){vertices[i*4+j]=new Vector3((x-.5f)*44,-2,(z-.5f)*44);seeds[i*4+j]=seed;}
-                uv[i*4]=Vector2.zero;uv[i*4+1]=Vector2.right;uv[i*4+2]=Vector2.one;uv[i*4+3]=Vector2.up;
-                int at=i*6,v=i*4;indices[at]=v;indices[at+1]=v+2;indices[at+2]=v+1;indices[at+3]=v;indices[at+4]=v+3;indices[at+5]=v+2;
+            this.session = session;
+            biomeMask = new MapWeatherBiomeMask(session);
+            var template = Resources.Load<Material>("MapAuthoring/LocalSnowfall");
+            if (!template) return;
+            root = new GameObject("Local biome snowfall") { hideFlags = HideFlags.HideAndDontSave };
+            mesh = new Mesh { name = "512 local snow billboards", hideFlags = HideFlags.HideAndDontSave };
+            const int count = 512;
+            var vertices = new Vector3[count * 4];
+            var uv = new Vector2[vertices.Length];
+            var seeds = new Vector2[vertices.Length];
+            var indices = new int[count * 6];
+            uint random = 741103;
+            for (int i = 0; i < count; i++)
+            {
+                random = unchecked(random * 1664525 + 1013904223);
+                float x = (random & 65535) / 65535f;
+                random = unchecked(random * 1664525 + 1013904223);
+                float z = (random & 65535) / 65535f;
+                var seed = new Vector2((i * .618033989f) % 1, (i * .414213562f) % 1);
+                for (int j = 0; j < 4; j++)
+                {
+                    vertices[i * 4 + j] = new Vector3((x - .5f) * 44, -2, (z - .5f) * 44);
+                    seeds[i * 4 + j] = seed;
+                }
+                uv[i * 4] = Vector2.zero; uv[i * 4 + 1] = Vector2.right;
+                uv[i * 4 + 2] = Vector2.one; uv[i * 4 + 3] = Vector2.up;
+                int at = i * 6, v = i * 4;
+                indices[at] = v; indices[at + 1] = v + 2; indices[at + 2] = v + 1;
+                indices[at + 3] = v; indices[at + 4] = v + 3; indices[at + 5] = v + 2;
             }
-            mesh.vertices=vertices;mesh.uv=uv;mesh.uv2=seeds;mesh.triangles=indices;mesh.bounds=new Bounds(new Vector3(0,9,0),new Vector3(54,28,54));
-            root.AddComponent<MeshFilter>().sharedMesh=mesh;renderer=root.AddComponent<MeshRenderer>();
-            material=new Material(template){hideFlags=HideFlags.HideAndDontSave};renderer.sharedMaterial=material;
-            renderer.shadowCastingMode=ShadowCastingMode.Off;renderer.receiveShadows=false;renderer.lightProbeUsage=LightProbeUsage.Off;renderer.enabled=false;
+            mesh.vertices = vertices; mesh.uv = uv; mesh.uv2 = seeds; mesh.triangles = indices;
+            mesh.bounds = new Bounds(new Vector3(0, 9, 0), new Vector3(54, 28, 54));
+            root.AddComponent<MeshFilter>().sharedMesh = mesh;
+            renderer = root.AddComponent<MeshRenderer>();
+            material = new Material(template) { hideFlags = HideFlags.HideAndDontSave };
+            renderer.sharedMaterial = material;
+            renderer.shadowCastingMode = ShadowCastingMode.Off;
+            renderer.receiveShadows = false; renderer.lightProbeUsage = LightProbeUsage.Off;
+            renderer.enabled = false;
         }
-        public void Tick(Vector3 groundFocus)
+
+        public void Tick(Vector3 groundFocus, float ambientWinterSnow = .17f)
         {
-            if(!root)return;
-            var settings=session.EnvironmentSettings;
-            // A soft ambient snowfall is always present over winter-themed / snow-covered land,
-            // even when simulateWeather is disabled. Heavy blizzards remain a future feature.
-            float winterTheme=Mathf.Clamp01(session.EnvironmentThemes.Sample(EnvironmentThemeIds.Winter,groundFocus.x,groundFocus.z));
-            float visibleSnow=Mathf.Clamp01(session.SampleEnvironmentSnow(groundFocus.x,groundFocus.z));
-            float rain=Shader.GetGlobalFloat("_LC_WeatherRainIntensity");
-            float intensity=EvaluateIntensity(winterTheme,visibleSnow,settings.simulateWeather,
-                settings.snowfallIntensity,rain);
-            renderer.enabled=intensity>.001f;if(!renderer.enabled)return;
-            root.transform.position=groundFocus;material.SetColor("_Color",new Color(.86f,.93f,1,.65f*intensity));
+            // Even if the flake material is absent, the shared mask must still suppress
+            // rain in locally cold regions. Mask is independent of the global rain value.
+            biomeMask.Tick(groundFocus);
+            if (!root) return;
+            float nearby = biomeMask.NearbyWinter(groundFocus);
+            var settings = session.EnvironmentSettings;
+            float precipitation = Shader.GetGlobalFloat("_LC_WeatherRainIntensity");
+            float strength = EvaluateIntensity(1f, 1f, settings.simulateWeather,
+                settings.snowfallIntensity, precipitation, ambientWinterSnow);
+            renderer.enabled = nearby > .015f && strength > .001f;
+            if (!renderer.enabled) return;
+            root.transform.position = groundFocus;
+            material.SetColor("_Color", new Color(.86f, .93f, 1f, .8f));
+            material.SetFloat("_SnowfallDensity", strength);
         }
-        /// <summary>Reusable pure presentation function for subtle perpetual winter snowfall.</summary>
-        public static float EvaluateIntensity(float winterTheme,float visibleSnow,bool simulateWeather,
-            float authoredSnow,float rainIntensity)
+
+        /// <summary>
+        /// Weather strength increases flake density in winter; it is not a liquid-rain flag.
+        /// Ambient flakes can be disabled explicitly with ambientSnow=0.
+        /// </summary>
+        public static float EvaluateIntensity(float winterTheme, float visibleSnow, bool simulateWeather,
+            float authoredSnow, float precipitationIntensity, float ambientSnow = .17f)
         {
-            float winter=Mathf.Max(Mathf.Clamp01(winterTheme),Mathf.Clamp01(visibleSnow));
-            float gentle=.17f*winter;
-            float authored=simulateWeather?Mathf.Clamp01(authoredSnow)*Mathf.Clamp01(winterTheme):0f;
-            return Mathf.Clamp01(Mathf.Max(gentle,authored)*
-                (1f-Mathf.Clamp01(Mathf.Clamp01(rainIntensity)*2f)));
+            float winter = Mathf.Max(Mathf.Clamp01(winterTheme), Mathf.Clamp01(visibleSnow));
+            float gentle = Mathf.Clamp01(ambientSnow);
+            float authored = simulateWeather ? Mathf.Clamp01(authoredSnow) : 0f;
+            float weather = gentle + (1f - gentle) * Mathf.Clamp01(precipitationIntensity);
+            return Mathf.Clamp01(Mathf.Max(gentle, Mathf.Max(authored, weather)) * winter);
         }
-        public void Dispose(){Destroy(root);Destroy(mesh);Destroy(material);}
+
+        public void Dispose()
+        {
+            biomeMask.Dispose();
+            Destroy(root); Destroy(mesh); Destroy(material);
+        }
         static void Destroy(UnityEngine.Object value){if(!value)return;if(Application.isPlaying)UnityEngine.Object.Destroy(value);else UnityEngine.Object.DestroyImmediate(value);}
     }
 }

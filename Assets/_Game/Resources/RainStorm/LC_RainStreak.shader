@@ -56,7 +56,8 @@ Shader "Little Castle/Weather/Cozy Rain Streak"
                 half edgeX = smoothstep(0.0h, 0.13h, i.uv.x) * (1.0h - smoothstep(0.87h, 1.0h, i.uv.x));
                 half edgeY = smoothstep(0.0h, 0.22h, i.uv.y) * (1.0h - smoothstep(0.78h, 1.0h, i.uv.y));
                 half alpha = _Tint.a * i.color.a * edgeX * edgeY *
-                    (1.0h - LCWeatherShelterCoverage(i.worldPos));
+                    (1.0h - LCWeatherShelterCoverage(i.worldPos)) *
+                    (1.0h - LCWeatherBiomeSnowCoverage(i.worldPos));
                 return half4(_Tint.rgb * i.color.rgb, alpha);
             }
             ENDHLSL
