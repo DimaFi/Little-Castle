@@ -41,6 +41,11 @@ Shader "Little Castle/Sky/Stylized Day Night"
         _StormCloudBase ("Storm Bank Lower Sky Elevation", Range(0.01,0.4)) = .065
         _StormCloudReach ("Storm Bank Upper Sky Elevation", Range(0.3,1)) = .78
         _StormCloudDensity ("Storm Bank Density", Range(0,1)) = .84
+        [HideInInspector] _StormPeakCloudMass ("Peak Cloud Mass", Range(0,1)) = 0
+        _StormPeakCloudLower ("Peak Clouds Lower Elevation", Range(-.1,.4)) = .005
+        _StormPeakCloudUpper ("Peak Clouds Upper Elevation", Range(.25,1)) = .68
+        _StormPeakCloudDensity ("Peak Clouds Density", Range(0,1)) = .89
+        _StormPeakCloudSoftness ("Peak Clouds Softness", Range(.01,.3)) = .09
         _MoonPhase ("Moon Phase (0 new, .5 full)", Range(0, 1)) = .5
     }
 
@@ -114,6 +119,8 @@ Shader "Little Castle/Sky/Stylized Day Night"
                 float _CloudShape, _CloudQuality, _MoonPhase, _CloudWindDriven;
                 float4 _CloudDrift, _CloudLightColor, _CloudShadeColor;
                 float _StormCloudMass, _StormCloudBase, _StormCloudReach, _StormCloudDensity;
+                float _StormPeakCloudMass, _StormPeakCloudLower, _StormPeakCloudUpper;
+                float _StormPeakCloudDensity, _StormPeakCloudSoftness;
             CBUFFER_END
 
             v2f vert(appdata v)
@@ -250,6 +257,53 @@ Shader "Little Castle/Sky/Stylized Day Night"
                 color = lerp(color, float3(.72,.82,1.0),
                     saturate(_LC_StormFlash) * flashSpot * .94);
                 return float4(color, bank);
+            }
+
+            // A second, closer-looking storm bank composed in sky angular space.
+            // The rolling, asymmetric lower edge reads beside distant alpine peaks
+            // without introducing a camera-following cloud ceiling.
+            float4 StormPeakCloudLayer(float3 dir)
+            {
+                float elev = dir.y;
+                float2 drift = lerp(_Time.y * _CloudSpeed * float2(.54,.30),
+                    _CloudDrift.xy, _CloudWindDriven);
+                float2 p = dir.xz / max(.15, elev + .26) *
+                    (_CloudScale * 3.55) - drift * .74;
+                float broad = LCCloudNoise(p * .57 + 17.3);
+                float rolling = LCCloudNoise(p * 1.17 + 43.1);
+                float detail = LCCloudNoise(p * 2.42 + 9.7);
+                float swirl = broad * .56 + rolling * .33 + detail * .11;
+
+                // Break the lower edge into rounded scallops rather than the
+                // existing long horizontal overcast streaks.
+                float raggedLow = _StormPeakCloudLower +
+                    (broad - .5) * .10 + (rolling - .5) * .055;
+                float low = smoothstep(raggedLow - _StormPeakCloudSoftness,
+                    raggedLow + _StormPeakCloudSoftness, elev);
+                float high = 1 - smoothstep(
+                    _StormPeakCloudUpper - _StormPeakCloudSoftness * 2,
+                    _StormPeakCloudUpper + _StormPeakCloudSoftness, elev);
+                float threshold = lerp(.73,.27, _StormPeakCloudDensity);
+                float mass = smoothstep(threshold, threshold + .14, swirl);
+                // Keep a few distinct holes; the background bank fills them
+                // with a different parallax scale and shade.
+                float holes = .76 + .24 * smoothstep(.26,.68,detail);
+                float coverage = saturate(mass * holes * low * high *
+                    _StormPeakCloudMass);
+
+                float underside = 1 - smoothstep(raggedLow + .01,
+                    _StormPeakCloudUpper * .72, elev);
+                float3 shadow = _CloudShadeColor.rgb * lerp(.62, 1.25, broad);
+                float3 lit = _CloudLightColor.rgb * lerp(.46,.82,rolling);
+                float3 color = lerp(shadow, lit,
+                    saturate(.14 + (1-underside) * (.33 + detail*.18)));
+
+                float3 flashDir = normalize(
+                    _LC_StormFlashDirection.xyz + float3(.00001,.00001,.00001));
+                float halo = pow(saturate(dot(dir, flashDir)), 16);
+                color = lerp(color, float3(.75,.84,1.0),
+                    saturate(_LC_StormFlash) * halo * .94);
+                return float4(color, coverage);
             }
 
             float LegacyCloudSignal(float3 dir)
@@ -458,6 +512,11 @@ Shader "Little Castle/Sky/Stylized Day Night"
                 {
                     float4 bank = StormCloudBank(dir, sunDir);
                     color = lerp(color, bank.rgb, bank.a);
+                }
+                if (_StormPeakCloudMass > .001 && dir.y > -.02)
+                {
+                    float4 peaks = StormPeakCloudLayer(dir);
+                    color = lerp(color, peaks.rgb, peaks.a);
                 }
 
                 // Directional cloud illumination from the existing distant
