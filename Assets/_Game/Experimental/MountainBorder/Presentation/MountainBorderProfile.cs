@@ -28,10 +28,11 @@ namespace LittleCastle.Experimental.MountainBorder.Presentation
         [Range(1,45)] public float snowTransition=22;
         [Header("Optional distant clouds in front of alpine peaks")]
         public bool enablePeakStormClouds = true;
-        [Range(3,16)] public int peakCloudCount = 11;
-        [Range(.1f,1f)] public float peakCloudOpacity = .74f;
-        [Range(.5f,2f)] public float peakCloudWidthMultiplier = 1f;
-        [Range(0f,40f)] public float peakCloudFrontOffset = 16f;
-        [Min(40f)] public float peakCloudMinimumDistance = 115f;
+        [Range(3,16)] public int peakCloudCount = 14;
+        [Range(1,3)] public int peakCloudBillowRows = 3;
+        [Range(.1f,1f)] public float peakCloudOpacity = .78f;
+        [Range(.5f,2f)] public float peakCloudWidthMultiplier = 1.28f;
+        [Range(0f,40f)] public float peakCloudFrontOffset = 22f;
+        [Min(40f)] public float peakCloudMinimumDistance = 58f;
     }
 }
