@@ -27,6 +27,9 @@ namespace LittleCastle.Rendering
 
         [Header("Cristian Qiu volumetric lighting")]
         [SerializeField] private bool enableVolumetricFog;
+        [SerializeField] private bool followWeatherForFog = true;
+        [SerializeField, Range(0f, 2f)] private float clearFogMultiplier = .55f;
+        [SerializeField, Range(0f, 2f)] private float stormFogMultiplier = 1.25f;
         [SerializeField, Range(0f, 1f)] private float fogDensity = .08f;
         [SerializeField, Range(0f, 512f)] private float fogDistance = 120f;
         [SerializeField] private float fogBaseHeight = 0f;
@@ -93,7 +96,13 @@ namespace LittleCastle.Rendering
                 wantPhysical && enablePhysicalScattering);
 
             volumetricFog.enabled.Override(enableVolumetricFog);
-            volumetricFog.density.Override(Mathf.Clamp01(fogDensity));
+            float weather = atmosphere ? Mathf.Max(
+                atmosphere.RequestedPrecipitation, atmosphere.RequestedStormStrength) : 0f;
+            float density = followWeatherForFog
+                ? EvaluateWeatherFogDensity(fogDensity, weather,
+                    clearFogMultiplier, stormFogMultiplier)
+                : Mathf.Clamp01(fogDensity);
+            volumetricFog.density.Override(density);
             volumetricFog.distance.Override(Mathf.Clamp(fogDistance, 0f, 512f));
             volumetricFog.baseHeight.Override(fogBaseHeight);
             volumetricFog.maximumHeight.Override(
@@ -171,8 +180,19 @@ namespace LittleCastle.Rendering
             else DestroyImmediate(value);
         }
 
+        public static float EvaluateWeatherFogDensity(float baseDensity,
+            float weatherStrength, float clearMultiplier, float stormMultiplier)
+        {
+            return Mathf.Clamp01(Mathf.Clamp01(baseDensity) * Mathf.Lerp(
+                Mathf.Clamp(clearMultiplier, 0f, 2f),
+                Mathf.Clamp(stormMultiplier, 0f, 2f),
+                Mathf.Clamp01(weatherStrength)));
+        }
+
         private void OnValidate()
         {
+            clearFogMultiplier = Mathf.Clamp(clearFogMultiplier, 0f, 2f);
+            stormFogMultiplier = Mathf.Clamp(stormFogMultiplier, 0f, 2f);
             fogDensity = Mathf.Clamp01(fogDensity);
             fogDistance = Mathf.Clamp(fogDistance, 0f, 512f);
             fogSteps = Mathf.Clamp(fogSteps, 8, 256);
