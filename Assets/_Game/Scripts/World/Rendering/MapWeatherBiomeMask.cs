@@ -11,8 +11,8 @@ namespace LittleCastle.Rendering
     /// </summary>
     public sealed class MapWeatherBiomeMask : IDisposable
     {
-        const int Resolution = 48;
-        const float WorldSize = 176f;
+        const int Resolution = 64;
+        const float WorldSize = 256f;
         const float HalfSize = WorldSize * .5f;
         static readonly int MapId = Shader.PropertyToID("_LC_WeatherBiomeMap");
         static readonly int BoundsId = Shader.PropertyToID("_LC_WeatherBiomeBounds");
@@ -23,6 +23,7 @@ namespace LittleCastle.Rendering
         Vector2 centerCached;
         float nextUpdate;
         bool filled;
+        public float VisibleWinterCoverage { get; private set; }
 
         public MapWeatherBiomeMask(MapEditSession session)
         {
@@ -64,6 +65,7 @@ namespace LittleCastle.Rendering
             {
                 centerCached = center;
                 nextUpdate = Time.time + .65f;
+                float highest = 0f;
                 float unit = WorldSize / Resolution;
                 float minX = center.x - HalfSize, minZ = center.y - HalfSize;
                 for (int z = 0; z < Resolution; z++)
@@ -74,8 +76,10 @@ namespace LittleCastle.Rendering
                         float wx = minX + (x + .5f) * unit;
                         byte value = (byte)Mathf.RoundToInt(255f * SnowWeight(session, wx, wz));
                         pixels[z * Resolution + x] = new Color32(value, 0, 0, 255);
+                        highest = Mathf.Max(highest, value / 255f);
                     }
                 }
+                VisibleWinterCoverage = highest;
                 texture.SetPixels32(pixels);
                 texture.Apply(false, false);
                 filled = true;
