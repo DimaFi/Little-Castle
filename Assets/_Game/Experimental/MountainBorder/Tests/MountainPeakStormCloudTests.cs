@@ -54,6 +54,7 @@ namespace LittleCastle.Experimental.MountainBorder.Tests
         {
             var shader = Resources.Load<Shader>("MapAuthoring/LC_MountainPeakClouds");
             Assert.That(shader, Is.Not.Null);
+            Assert.That(shader.isSupported, Is.True, "Summit cloud shader failed compilation or URP compatibility.");
             var material = new Material(shader);
             try
             {
