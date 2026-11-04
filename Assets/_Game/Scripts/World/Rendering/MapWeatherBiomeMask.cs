@@ -21,7 +21,6 @@ namespace LittleCastle.Rendering
         readonly Texture2D texture;
         readonly Color32[] pixels = new Color32[Resolution * Resolution];
         Vector2 centerCached;
-        long revisionCached = long.MinValue;
         float nextUpdate;
         bool filled;
 
@@ -60,12 +59,10 @@ namespace LittleCastle.Rendering
         {
             if (session == null) return;
             Vector2 center = new Vector2(Mathf.Round(focus.x / 2f) * 2f, Mathf.Round(focus.z / 2f) * 2f);
-            long revision = session.EnvironmentRevision;
-            if (!filled || revision != revisionCached || (center - centerCached).sqrMagnitude > 4f
-                || Time.time >= nextUpdate)
+            // Cap uploads even if the winter revision advances every simulation frame.
+            if (!filled || (center - centerCached).sqrMagnitude > 144f || Time.time >= nextUpdate)
             {
                 centerCached = center;
-                revisionCached = revision;
                 nextUpdate = Time.time + .65f;
                 float unit = WorldSize / Resolution;
                 float minX = center.x - HalfSize, minZ = center.y - HalfSize;
