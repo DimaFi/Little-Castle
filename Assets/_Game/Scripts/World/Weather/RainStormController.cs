@@ -722,6 +722,11 @@ namespace LittleCastle.World.Weather
                 lightningBranchGlow.SetPosition(i, p);
             }
             flashLight.transform.position = Vector3.Lerp(top, end, .45f);
+            // Skybox is infinitely distant. This view ray makes the storm bank
+            // glow around the actual bolt origin instead of flashing the entire sky.
+            Vector3 skyDirection = (top - gameplayCamera.transform.position).normalized;
+            Shader.SetGlobalVector("_LC_StormFlashDirection",
+                new Vector4(skyDirection.x, skyDirection.y, skyDirection.z, 0f));
             lightningAge = 0f;
             thunderDelay = Mathf.Clamp(Vector3.Distance(gameplayCamera.transform.position, end) / 343f, .15f, 3f);
         }
@@ -787,6 +792,7 @@ namespace LittleCastle.World.Weather
                 Shader.SetGlobalFloat(GlobalWetId, 0f);
                 Shader.SetGlobalFloat(GlobalRainId, 0f);
                 Shader.SetGlobalFloat("_LC_StormFlash", 0f);
+                Shader.SetGlobalVector("_LC_StormFlashDirection", Vector4.zero);
                 active = null;
             }
             puddles = null; nearRain = distantRain = splash = roofDrips = null;
