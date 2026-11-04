@@ -272,27 +272,54 @@ namespace LittleCastle.World.Weather
 
         private void CreateLightning()
         {
-            var obj = new GameObject("Procedural lightning");
+            Shader shader = Resources.Load<Shader>("RainStorm/LC_StormLightning");
+            // Missing optional shader must never prevent rain/snow rendering.
+            if (shader)
+            {
+                lightningMaterial = new Material(shader)
+                {
+                    name = "Storm bolt HDR (runtime)", hideFlags = HideFlags.HideAndDontSave
+                };
+                lightningMaterial.SetColor("_EmissionColor", new Color(3.3f, 4.2f, 5.8f, 1f));
+                lightningGlowMaterial = new Material(shader)
+                {
+                    name = "Storm wide glow (runtime)", hideFlags = HideFlags.HideAndDontSave
+                };
+                lightningGlowMaterial.SetColor("_EmissionColor", new Color(.32f, .55f, 1.2f, 1f));
+                lightningGlowMaterial.SetFloat("_Opacity", .38f);
+            }
+            var obj = new GameObject("Procedural distant lightning");
             obj.transform.SetParent(ownedRoot.transform, false);
             lightningLine = obj.AddComponent<LineRenderer>();
-            ConfigureLine(lightningLine, 0.13f);
+            ConfigureLine(lightningLine, .40f, lightningMaterial);
             var branchObj = new GameObject("Branch");
             branchObj.transform.SetParent(obj.transform, false);
             lightningBranch = branchObj.AddComponent<LineRenderer>();
-            ConfigureLine(lightningBranch, .055f);
-            var lightObj = new GameObject("Storm flash (no shadows)");
+            ConfigureLine(lightningBranch, .22f, lightningMaterial);
+
+            var glowObj = new GameObject("Wide soft glow");
+            glowObj.transform.SetParent(obj.transform, false);
+            lightningGlow = glowObj.AddComponent<LineRenderer>();
+            ConfigureLine(lightningGlow, 1.5f, lightningGlowMaterial);
+            var branchGlowObj = new GameObject("Branch glow");
+            branchGlowObj.transform.SetParent(obj.transform, false);
+            lightningBranchGlow = branchGlowObj.AddComponent<LineRenderer>();
+            ConfigureLine(lightningBranchGlow, .8f, lightningGlowMaterial);
+
+            var lightObj = new GameObject("Distant storm flash (shadowless)");
             lightObj.transform.SetParent(ownedRoot.transform, false);
             flashLight = lightObj.AddComponent<Light>();
             flashLight.type = LightType.Point;
-            flashLight.range = 125f;
+            flashLight.range = 165f;
             flashLight.shadows = LightShadows.None;
             flashLight.color = new Color(.65f, .78f, 1f);
             flashLight.enabled = false;
+
             var soundObj = new GameObject("Thunder audio");
             soundObj.transform.SetParent(ownedRoot.transform, false);
             thunderSource = soundObj.AddComponent<AudioSource>();
             thunderSource.playOnAwake = false;
-            thunderSource.spatialBlend = 0.6f;
+            thunderSource.spatialBlend = .6f;
             var rainObj = new GameObject("Rain ambience (optional 2D loop)");
             rainObj.transform.SetParent(ownedRoot.transform, false);
             rainSource = rainObj.AddComponent<AudioSource>();
@@ -301,9 +328,9 @@ namespace LittleCastle.World.Weather
             rainSource.spatialBlend = 0f;
         }
 
-        private void ConfigureLine(LineRenderer line, float width)
+        private void ConfigureLine(LineRenderer line, float width, Material overrideMaterial = null)
         {
-            line.sharedMaterial = streakMaterial;
+            line.sharedMaterial = overrideMaterial ? overrideMaterial : streakMaterial;
             line.widthMultiplier = width;
             line.useWorldSpace = true;
             line.numCapVertices = 2;
