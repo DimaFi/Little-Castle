@@ -7,6 +7,8 @@
     "com.unity.modules.ai": "1.0.0",
     "com.unity.modules.imageconversion": "1.0.0",
     "com.unity.modules.physics": "1.0.0",
-    "com.unity.modules.particlesystem": "1.0.0"
+    "com.unity.modules.particlesystem": "1.0.0",
+    "com.jiaozi158.unity-physically-based-sky-urp": "https://github.com/jiaozi158/UnityPhysicallyBasedSkyURP.git#f8f1f3fbc4708f378252b6188ce416a57ccd06af",
+    "com.cqf.urpvolumetricfog": "https://github.com/CristianQiu/Unity-URP-Volumetric-Light.git#354ebc5b6ed3c2c40dc9797c813b56d5da213c4e"
   }
 }
