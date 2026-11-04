@@ -39,6 +39,8 @@ namespace LittleCastle.Rendering
         [Header("Visual diagnostic (does not change authored paint / prefabs)")]
         [Tooltip("-1 shows all flower, shrub and grass prototypes. Set a prototype index to isolate one black/invalid shape.")]
         public int debugOnlyPrototype = -1;
+        [Tooltip("Temporarily hides only procedural meadow scatter to check whether black shapes are terrain or painted vegetation. Never erases paint.")]
+        public bool debugHideScatter;
         [Tooltip("Skip obviously broken/unsupported render materials instead of drawing black cards.")]
         public bool rejectBrokenScatterMaterials = true;
         bool digestDirty=true;
@@ -394,7 +396,8 @@ namespace LittleCastle.Rendering
 
         void Draw(ScriptableRenderContext context, Camera camera)
         {
-            if (!isActiveAndEnabled || !library || batches == null || !camera || camera.cameraType == CameraType.Preview || !SystemInfo.supportsInstancing) return;
+            if (!isActiveAndEnabled || debugHideScatter || !library || batches == null || !camera ||
+                camera.cameraType == CameraType.Preview || !SystemInfo.supportsInstancing) return;
             using (DrawMarker.Auto())
             {
                 visiblePatches = submittedInstances = submittedTriangles = drawCalls = 0;
