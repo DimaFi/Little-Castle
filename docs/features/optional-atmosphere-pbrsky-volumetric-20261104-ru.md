@@ -3,6 +3,17 @@
 Дата: 2026-11-04. **Статус: source-only Draft; Unity import / C# / shader compilation / GPU / Game QA НЕ ЗАПУСКАЛИСЬ.**
 Эта ветка основана на PR #99, а не на `main`; цепочка #95 → #96 → #97 → #98 → #99 всё ещё находится на художественной приёмке. Авторская локальная карта, WIP водопада и локальные артовые GUID не публиковались. **Не делать checkout поверх рабочей сцены и не сливать автоматически.**
 
+## Исправление после реального импорта Unity — 04.11.2026
+
+Временная копия Unity 6000.5.5f1 обнаружила 13 ошибок: 10 CS0115 в upstream PBSkyURP и три CS0246 в нашем адаптере. В **этом же черновом PR #102** подготовлен исправляющий исходный код (commit `bba554e`):
+
+- `Packages/com.jiaozi158.unity-physically-based-sky-urp/` — **embedded package**, исходная MIT-копия `jiaozi158` @ `f8f1f3fb` с сохранением оригинальных `.meta` и лицензии. Единственная изменённая программа `Runtime/PhysicallyBasedSkyURP.cs`: пять пар устаревших `OnCameraSetup/Execute` изолированы для Unity до 6000.4; пять `RecordRenderGraph` оставлены.
+- `LittleCastle.Runtime.asmdef` и `LittleCastle.Editor.asmdef` теперь прямо ссылаются на `PBSkyURP` и `com.cqf.urpvolumetricfog.runtime`.
+- Прежняя Git-зависимость PBSkyURP **по-прежнему закреплена** в `manifest.json`: Unity отдаёт приоритет одноимённому embedded package в `Packages/`. Для тестового отката можно удалить embedded каталог в **отдельной копии проекта**, вернувшись к исходному pin; в рабочем проекте это делать нельзя без резервной копии.
+- Прочитать `Packages/com.jiaozi158.unity-physically-based-sky-urp/LC_PORT_NOTES.md`.
+
+**Это устранение выявленных причин в исходниках, а НЕ подтверждённое исправление всех ошибок Unity.** Повторную компиляцию Unity, импорт шейдеров, Frame Debugger, PlayMode, Editor/Player build и GPU QA всё ещё нужно выполнить. Возможно появление дополнительных ошибок API/шейдеров.
+
 ## Выбранные пакеты и лицензии
 
 | Источник | Роль | Pin | Лицензия |
@@ -11,7 +22,7 @@
 | [CristianQiu/Unity-URP-Volumetric-Light](https://github.com/CristianQiu/Unity-URP-Volumetric-Light) | объёмный туман, направленный свет, точечные/spot источники | `354ebc5b6ed3c2c40dc9797c813b56d5da213c4e` | MIT |
 | [phlippos/unity-urp-volumetric-fog](https://github.com/phlippos/unity-urp-volumetric-fog) | только справочное исследование и бенчмарки | не импортирован | **нет лицензии** |
 
-Первые два подключены к `Packages/manifest.json` как pinned Git UPM dependencies; код не копируется в Assets. Полные upstream MIT тексты зафиксированы в `docs/licenses/`, также присутствует `ATMOSPHERE_THIRD_PARTY_NOTICES.txt`. Эти уведомления надо включать в дистрибутив игры, если соответствующее ПО включено. Исходники третьего проекта не импортированы, потому что его автор прямо пишет о невыбранной лицензии.
+Обе исходные зависимости закреплены в `Packages/manifest.json`; **PBSkyURP теперь также включён как приоритетный embedded package с минимальным локальным портом**, Volumetric Light остаётся нетронутой Git UPM dependency. Код не копировался в `Assets/`. Полные upstream MIT тексты зафиксированы в `docs/licenses/`, также присутствует `ATMOSPHERE_THIRD_PARTY_NOTICES.txt`. Эти уведомления надо включать в дистрибутив игры, если соответствующее ПО включено. Исходники третьего проекта не импортированы, потому что его автор прямо пишет о невыбранной лицензии.
 
 ## Что подготовлено
 
@@ -27,7 +38,7 @@
 ## Порядок безопасного запуска Unity 6000.5.5f1 + URP 17.5
 
 1. Сначала сохранить свою карту, сцены, материалы, WIP и убедиться, что все внешние артовые GUID на месте. Использовать **изолированный worktree или копию проекта** с актуальным стеком PR #95–#99 и этой экспериментальной веткой.
-2. Unity Package Manager должен разрешить оба Git пакета из `manifest.json`. Проверить, что URP остаётся 17.5.0 и пакеты не понизили версию. Только после успешного import допускается обновить `packages-lock.json`. Если есть C#/shader errors — **остановиться** и откатить эксперимент, не трогать локальную основную сцену.
+2. Unity Package Manager должен выбрать embedded PBSkyURP и разрешить Git-пакет CristianQiu; проверьте фактический путь `Packages/com.jiaozi158.unity-physically-based-sky-urp` и существование обеих сборок. Проверить, что URP остаётся 17.5.0 и пакеты не понизили версию. Только после успешного import допускается обновить `packages-lock.json`. Если есть C#/shader errors — **остановиться** и откатить эксперимент, не трогать локальную основную сцену.
 3. **Клонировать URP Renderer Data и URP Pipeline Asset** для отдельного тестового preset, а не редактировать активный production renderer. В копии Renderer Data вручную добавить `Physically Based Sky URP` и `Volumetric Fog Renderer Feature`. Проверить поля sky shader/LUT material; если нужны, назначить их ресурсами из установленного PBR Sky package. Обе Renderer Features должны работать только в тестовом preset.
 4. Дублировать сцену World Editor как `Atmosphere_Comparison` (вне пользовательской исходной сцены). Подключить копию URP pipeline через тестовый Quality/Graphics preset. Добавить `LittleCastleOptionalAtmosphereStack` на один тестовый GameObject, назначить существующий `DayNightLightingController` и поставить `enableExperimentalStack = true`.
 5. Начать с `SkySource=ExistingStylized`, `enableVolumetricFog=false`: это baseline на тестовом renderer. Проверить обычные дождь, снег, грозовые облака, молнии, ночь, смену сцены и горизонты.
