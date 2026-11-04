@@ -10,6 +10,10 @@ namespace LittleCastle.World
         [SerializeField, Range(0, 1)] private float overcast;
         [SerializeField, Range(0, 1)] private float precipitation;
         [SerializeField, Range(0, 1)] private float stormStrength;
+        [Header("Legacy scene storm bank (when no complete AtmosphereProfile exists)")]
+        [SerializeField, Range(.01f, .35f)] private float legacyStormBankLower = .065f;
+        [SerializeField, Range(.35f, 1f)] private float legacyStormBankReach = .78f;
+        [SerializeField, Range(0f, 1f)] private float legacyStormBankDensity = .84f;
         [SerializeField] private TerrainStarterPreviewControls.PreviewQuality atmosphereQuality = TerrainStarterPreviewControls.PreviewQuality.Medium;
         public AtmosphereProfile UnifiedProfile { get => atmosphereProfile; set => atmosphereProfile = value; }
         public TerrainStarterPreviewControls.PreviewQuality AtmosphereQuality => atmosphereQuality;
@@ -39,6 +43,7 @@ namespace LittleCastle.World
         static readonly int CloudShadowDriftId = Shader.PropertyToID("_LC_CloudShadowDrift");
         static readonly int GroundBounceId = Shader.PropertyToID("_LC_AtmosphereGroundBounce");
         static readonly int GradeId = Shader.PropertyToID("_LC_AtmosphereGrade");
+        static readonly int MountainCloudId = Shader.PropertyToID("_LC_MountainStormCloud");
 
         /// <summary>Visual adapter for a weather provider; never advances a clock or modifies the map.</summary>
         public void SetWeatherPresentation(float cloudiness, float rainOrSnow)
@@ -81,10 +86,12 @@ namespace LittleCastle.World
         {
             float stormBlend = 1f - Mathf.Exp(-Mathf.Min(Time.unscaledDeltaTime, .1f) / 2.5f);
             smoothStorm = Mathf.Lerp(smoothStorm, stormStrength, stormBlend);
+            Shader.SetGlobalFloat(MountainCloudId, smoothStorm);
             var profile = atmosphereProfile;
             if (!profile || !profile.IsComplete)
             {
                 ResetAtmosphereGlobals();
+                Shader.SetGlobalFloat(MountainCloudId, smoothStorm);
                 RestoreAtmosphereSun();
                 if (atmosphereSkyApplied)
                 {
@@ -194,6 +201,10 @@ namespace LittleCastle.World
             sky.SetFloat("_CloudAltitude", profile.cloudAltitude);
             sky.SetFloat("_CloudShape", smoothStorm > .45f ? 3f : (float)profile.cloudShape);
             sky.SetFloat("_HighCloudCoverage", Mathf.Lerp(profile.highCloudCoverage, .76f, smoothStorm));
+            sky.SetFloat("_StormCloudMass", smoothStorm);
+            sky.SetFloat("_StormCloudBase", profile.stormBankLower);
+            sky.SetFloat("_StormCloudReach", profile.stormBankReach);
+            sky.SetFloat("_StormCloudDensity", profile.stormBankDensity);
             sky.SetFloat("_CloudQuality", (int)atmosphereQuality);
             sky.SetFloat("_CloudWindDriven", 1);
             sky.SetVector("_CloudDrift", new Vector4(cloudDrift.x, cloudDrift.y, 0, 0));
@@ -242,6 +253,10 @@ namespace LittleCastle.World
             sky.SetFloat("_CloudStrength", Mathf.Lerp(source.GetFloat("_CloudStrength"), 1f, smoothStorm));
             sky.SetFloat("_CloudCoverage", Mathf.Lerp(source.GetFloat("_CloudCoverage"), .98f, smoothStorm));
             sky.SetFloat("_HighCloudCoverage", Mathf.Lerp(source.GetFloat("_HighCloudCoverage"), .72f, smoothStorm));
+            sky.SetFloat("_StormCloudMass", smoothStorm);
+            sky.SetFloat("_StormCloudBase", legacyStormBankLower);
+            sky.SetFloat("_StormCloudReach", legacyStormBankReach);
+            sky.SetFloat("_StormCloudDensity", legacyStormBankDensity);
             sky.SetColor("_CloudShadeColor", Color.Lerp(source.GetColor("_CloudShadeColor"),
                 new Color(.14f,.19f,.26f,1f), smoothStorm));
             sky.SetColor("_CloudLightColor", Color.Lerp(source.GetColor("_CloudLightColor"),
@@ -258,6 +273,7 @@ namespace LittleCastle.World
             Shader.SetGlobalColor(GroundBounceId, Color.clear);
             Shader.SetGlobalVector(GradeId, Vector4.zero);
             Shader.SetGlobalVector(CloudShadowId, Vector4.zero);
+            Shader.SetGlobalFloat(MountainCloudId, 0f);
         }
 
         private void RestoreAtmosphereSun()

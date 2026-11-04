@@ -26,6 +26,12 @@ namespace LittleCastle.Rendering
         public MapRiverReflections(MapRiverPresentation view){this.view=view;RenderPipelineManager.beginCameraRendering+=Begin;}
         static bool IsSurface(Renderer r)=>r&&r.sharedMaterial&&r.sharedMaterial.HasProperty("_RiverWaveStrength");
         public static int Budget(RiverEffectsQuality quality)=>quality>=RiverEffectsQuality.High?2:quality==RiverEffectsQuality.Medium?1:0;
+        // Capturing only some visible planes makes adjacent river tiles alternate between
+        // planar reflections and a sky fallback. Do not expose that hard boundary.
+        public static bool CanCaptureCoherently(int visiblePlanes, int budget, bool requireAll)
+        {
+            return visiblePlanes > 0 && budget > 0 && (!requireAll || visiblePlanes <= budget);
+        }
         void Begin(ScriptableRenderContext context,Camera camera)
         {
             if(rendering||!camera||camera.cameraType==CameraType.Reflection||camera.cameraType==CameraType.Preview||(camera.cullingMask&(1<<4))==0)return;
@@ -43,7 +49,7 @@ namespace LittleCastle.Rendering
             if(!cameraOptions.ContainsKey(camera))cameraOptions.Add(camera,(data.requiresDepthOption,data.requiresColorOption));
             // Camera-local requests; shared URP pipeline assets are never modified.
             data.requiresDepthTexture=true;data.requiresColorTexture=true;
-            int budget=Budget(view.EffectsProfile.quality);RenderedSlots=0;LastFrame=Time.frameCount;Generation++;
+            int budget=view.EffectsProfile.enablePlanarReflections ? Budget(view.EffectsProfile.quality) : 0;RenderedSlots=0;LastFrame=Time.frameCount;Generation++;
             var frustum=GeometryUtility.CalculateFrustumPlanes(camera);var candidates=new List<(float height,float priority)>();
             foreach(var renderer in renderers)
             {
@@ -55,9 +61,15 @@ namespace LittleCastle.Rendering
             try
             {
                 rendering=true;
-                foreach(var candidate in candidates.OrderBy(c=>c.priority).Take(budget))
+                // Avoid a conspicuous rectangular patchwork when the scene has more
+                // distinct visible water levels than our bounded reflection slots.
+                // In that case every tile shares the same consistent fallback.
+                if (CanCaptureCoherently(candidates.Count, budget, view.EffectsProfile.coherentPlanarReflections))
                 {
-                    var slot=slots[RenderedSlots];Render(slot,camera,candidate.height);slot.frame=Time.frameCount;RenderedSlots++;
+                    foreach(var candidate in candidates.OrderBy(c=>c.priority).Take(budget))
+                    {
+                        var slot=slots[RenderedSlots];Render(slot,camera,candidate.height);slot.frame=Time.frameCount;RenderedSlots++;
+                    }
                 }
             }
             catch(Exception e){RenderedSlots=0;Debug.LogException(e);}

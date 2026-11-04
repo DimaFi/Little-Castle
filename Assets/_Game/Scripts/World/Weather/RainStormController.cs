@@ -529,12 +529,17 @@ namespace LittleCastle.World.Weather
                     if (availableProbes-- <= 0) { pd.obj.SetActive(false); continue; }
                     if (!TrySurface(px, pz, out Vector3 surface, out isWater))
                     { pd.obj.SetActive(false); continue; }
+                    // Rain puddles are flat, ground-only overlays. Placing their quads
+                    // over river ribbons produces large pale polygons and Z/sorting seams.
+                    // Water keeps its own dedicated river shading and future ripple path.
+                    if (isWater) { pd.obj.SetActive(false); pd.x = int.MinValue; pd.z = int.MinValue; puddles[i] = pd; continue; }
                     float size = Settings.puddleRadius * (0.6f + RainStormMath.Unit(seed + 3) * .9f);
                     pd.obj.transform.position = surface;
                     pd.obj.transform.rotation = Quaternion.Euler(0, RainStormMath.Unit(seed + 4) * 360f, 0);
                     pd.obj.transform.localScale = new Vector3(size * 2, 1, size * 2);
                     pd.x = x; pd.z = z; pd.water = isWater; puddles[i] = pd;
                 }
+                if (pd.water) { pd.obj.SetActive(false); continue; }
                 pd.properties.Clear();
                 // Smooth coverage from the same prefab roof footprint used by the shader.
                 float exposed = 1f - RainShelterVolume.CoverageAt(pd.obj.transform.position);
@@ -717,6 +722,11 @@ namespace LittleCastle.World.Weather
                 lightningBranchGlow.SetPosition(i, p);
             }
             flashLight.transform.position = Vector3.Lerp(top, end, .45f);
+            // Skybox is infinitely distant. This view ray makes the storm bank
+            // glow around the actual bolt origin instead of flashing the entire sky.
+            Vector3 skyDirection = (top - gameplayCamera.transform.position).normalized;
+            Shader.SetGlobalVector("_LC_StormFlashDirection",
+                new Vector4(skyDirection.x, skyDirection.y, skyDirection.z, 0f));
             lightningAge = 0f;
             thunderDelay = Mathf.Clamp(Vector3.Distance(gameplayCamera.transform.position, end) / 343f, .15f, 3f);
         }
@@ -782,6 +792,7 @@ namespace LittleCastle.World.Weather
                 Shader.SetGlobalFloat(GlobalWetId, 0f);
                 Shader.SetGlobalFloat(GlobalRainId, 0f);
                 Shader.SetGlobalFloat("_LC_StormFlash", 0f);
+                Shader.SetGlobalVector("_LC_StormFlashDirection", Vector4.zero);
                 active = null;
             }
             puddles = null; nearRain = distantRain = splash = roofDrips = null;
