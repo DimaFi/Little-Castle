@@ -15,6 +15,7 @@ namespace LittleCastle.Experimental.MountainBorder.Presentation
         public MountainBorderProfile profile;
         public bool showWaterfall=true,showTrees=true;
         [NonSerialized] public int activeLandLod,treeCount,landTriangles,grassClumps;
+        [NonSerialized] public int stormCloudCardCount;
         [NonSerialized] public string lastError;
         GameObject generated;
         MeshRenderer landRenderer;
@@ -37,6 +38,18 @@ namespace LittleCastle.Experimental.MountainBorder.Presentation
         MaterialPropertyBlock landProperties;
         Material riverBodyOwned;
         MountainPeakCloudPresentation stormPeakClouds;
+
+        [ContextMenu("Diagnose far mountain storm clouds")]
+        void DiagnoseStormClouds()
+        {
+            var shader = Resources.Load<Shader>("MapAuthoring/LC_MountainPeakClouds");
+            Debug.Log(name + ": peak cloud cards=" + stormCloudCardCount +
+                ", shader=" + (shader ? shader.name : "MISSING") +
+                ", storm intensity=" + Shader.GetGlobalFloat("_LC_MountainStormCloud")
+                .ToString("F2") + ". For a visible result the mountain must be farther than " +
+                (profile ? profile.peakCloudMinimumDistance.ToString("F0") : "?") +
+                " metres and have an assigned MountainBorderProfile.", this);
+        }
 
         void OnEnable(){RenderPipelineManager.beginCameraRendering+=BeginCamera;Rebuild();}
         void OnDisable(){RenderPipelineManager.beginCameraRendering-=BeginCamera;Release();}
@@ -97,6 +110,7 @@ namespace LittleCastle.Experimental.MountainBorder.Presentation
                 // One optional cloud-band mesh on the actual distant mountain ridge.
                 // Fully owned/derived: never changes artist-authored mountain mesh/scene.
                 stormPeakClouds = new MountainPeakCloudPresentation(generated.transform, profile);
+                stormCloudCardCount = stormPeakClouds.CardCount;
                 if(showTrees&&profile.sprucePrefab)BuildTrees();
                 if(profile.grassSource&&profile.grassMaterial&&profile.maximumGrassClumps>0)BuildGrass();
                 TickPresentation(null,Time.realtimeSinceStartup);
@@ -251,7 +265,7 @@ namespace LittleCastle.Experimental.MountainBorder.Presentation
         public void ReleaseCapture(){captureTime=-1;}
         public void Release()
         {
-            stormPeakClouds?.Dispose();stormPeakClouds=null;
+            stormPeakClouds?.Dispose();stormPeakClouds=null;stormCloudCardCount=0;
             fall?.Dispose();fall=null;riverEffects?.Dispose();riverEffects=null;
             if(generated)DestroyOwned(generated);generated=null;
             water?.Dispose();water=null;

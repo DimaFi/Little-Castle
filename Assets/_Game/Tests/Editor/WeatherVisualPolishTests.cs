@@ -60,6 +60,7 @@ namespace LittleCastle.Tests
         {
             Shader shader = Shader.Find("Little Castle/Sky/Stylized Day Night");
             Assert.IsNotNull(shader);
+            Assert.IsTrue(shader.isSupported, "Storm sky shader is unsupported or failed compilation.");
             var material = new Material(shader);
             try
             {
@@ -72,6 +73,9 @@ namespace LittleCastle.Tests
                 Assert.IsTrue(material.HasProperty("_StormPeakCloudUpper"));
                 Assert.IsTrue(material.HasProperty("_StormPeakCloudDensity"));
                 Assert.IsTrue(material.HasProperty("_StormPeakCloudSoftness"));
+                Assert.IsNotNull(Shader.Find("Little Castle/Sky/Stylized Day Night"));
+                // Three-dimensional storm cloud field is the dominant cloud
+                // appearance in Storm mode; clear weather retains legacy cloud style.
                 Assert.That(material.GetFloat("_StormPeakCloudMass"), Is.EqualTo(0f).Within(.0001f));
                 Assert.That(material.GetFloat("_StormCloudMass"), Is.EqualTo(0f).Within(.0001f));
             }

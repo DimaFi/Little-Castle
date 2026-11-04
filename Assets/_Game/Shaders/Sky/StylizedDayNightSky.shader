@@ -75,6 +75,7 @@ Shader "Little Castle/Sky/Stylized Day Night"
 
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
             #include "LC_CloudNoise.hlsl"
+            #include "LC_StormCloudField.hlsl"
 
             // Owned by RainStormController; always reset on disable.
             float _LC_StormFlash;
@@ -222,87 +223,102 @@ Shader "Little Castle/Sky/Stylized Day Night"
             // Art-directed storm bank: a distant sky layer, NOT fog/meshes around the
             // player camera. It reads as large billowing clouds over the far mountains
             // while remaining safely behind all gameplay geometry.
+            // First dense 3D-look storm bank. Unlike legacy planar UV clouds,
+            // this samples direction-space noise: scalloped outlines survive when
+            // the strategy camera tilts toward distant mountains.
             float4 StormCloudBank(float3 dir, float3 sunDir)
             {
-                float elev = dir.y;
-                float low = smoothstep(_StormCloudBase - .045, _StormCloudBase + .045, elev);
-                float high = 1.0 - smoothstep(_StormCloudReach * .78,
-                    min(1.0, _StormCloudReach + .18), elev);
-                float horizonBand = low * high;
-                float2 drift = lerp(_Time.y * _CloudSpeed * float2(.7, .3),
+                float2 drift = lerp(_Time.y * _CloudSpeed * float2(.7,.3),
                     _CloudDrift.xy, _CloudWindDriven);
-                float2 p = dir.xz / max(.22, dir.y + .34) *
-                    (_CloudScale * 3.15) - drift * .7;
-                float broad = LCCloudNoise(p * .56 + 12.9);
-                float rolling = LCCloudNoise(p * 1.24 + 83.7);
-                float billow = broad * .66 + rolling * .34;
-                if (_CloudQuality > .5)
-                    billow = billow * .86 + LCCloudNoise(p * 2.6 + 36.1) * .14;
-                // Large rounded masses with smaller broken edges; no horizontal
-                // hard cloud stripe or expensive screen-space ray marching.
-                float threshold = lerp(.74, .30, _StormCloudDensity);
-                float mass = smoothstep(threshold, threshold + .16, billow);
-                float bank = saturate(mass * horizonBand * _StormCloudMass);
-                float underside = 1.0 - smoothstep(_StormCloudBase + .05,
-                    _StormCloudReach * .72, elev);
-                float3 shaded = lerp(_CloudShadeColor.rgb * .55,
-                    _CloudShadeColor.rgb * 1.35, saturate(broad * .76 + .18));
-                float3 color = lerp(shaded,
-                    _CloudLightColor.rgb * .72,
-                    saturate((1.0 - underside) * (.38 + rolling * .38)));
-                // Short, broad illumination *inside* the distant bank. The same
-                // directional flash also lights the overcast above the bolt.
-                float3 flashDir = normalize(_LC_StormFlashDirection.xyz + float3(.00001,.00001,.00001));
-                float flashSpot = pow(saturate(dot(dir, flashDir)), 22);
-                color = lerp(color, float3(.72,.82,1.0),
-                    saturate(_LC_StormFlash) * flashSpot * .94);
-                return float4(color, bank);
+                float3 p = dir * (5.1 * _CloudScale) +
+                    float3(drift.x * .28, .65, drift.y * .28);
+                float broad, fine;
+                float body = LCStormField(p, _CloudQuality, broad, fine);
+
+                // Each column has a different top/bottom, rather than one
+                // visible horizontal stripe across the horizon.
+                float lower = _StormCloudBase +
+                    (broad - .5) * .23 + (fine - .5) * .095;
+                float upper = _StormCloudReach + (broad - .5) * .34;
+                float lowerFade = smoothstep(lower - .095, lower + .070, dir.y);
+                float upperFade = 1 - smoothstep(upper - .16, upper + .095, dir.y);
+                float density = smoothstep(lerp(.67,.35,_StormCloudDensity),
+                    lerp(.83,.51,_StormCloudDensity), body);
+                float coverage = saturate(density * lowerFade * upperFade *
+                    _StormCloudMass);
+
+                // Three tonal values fake depth/self-shadow. The upper billows
+                // receive cooler highlights, while their bellies stay dark.
+                float belly = 1 - smoothstep(lower + .02, upper * .80, dir.y);
+                float detailLight = saturate(.13 + fine * .55 +
+                    (broad - fine) * .75 + (1 - belly) * .27);
+                if (_CloudQuality > 1.5)
+                {
+                    // Cheap two-octave fake self-shadow from an offset sample:
+                    // crests catch light while recessed billows stay dark.
+                    float bs, fs;
+                    float shadow = LCStormField(p + sunDir * .48,
+                        0, bs, fs);
+                    detailLight = saturate(detailLight +
+                        (body - shadow) * 2.0);
+                }
+                float3 bottom = _CloudShadeColor.rgb * .68;
+                float3 illuminated = _CloudLightColor.rgb * 1.18;
+                float3 color = lerp(bottom, illuminated, detailLight);
+                // Dim creases and give a little painterly ridge contrast.
+                color *= lerp(.77, 1.12, broad);
+
+                float flash = LCStormFlashHalo(dir,
+                    _LC_StormFlashDirection, _LC_StormFlash);
+                color = lerp(color, float3(.76,.85,1.0), flash * .91);
+                return float4(color, coverage);
             }
 
-            // A second, closer-looking storm bank composed in sky angular space.
-            // The rolling, asymmetric lower edge reads beside distant alpine peaks
-            // without introducing a camera-following cloud ceiling.
+            // Second bank: compact, rounded rolling cloud heads at peak height.
+            // Built from differently scaled direction-space noise, so it has
+            // independent silhouettes instead of repeating the main storm strip.
             float4 StormPeakCloudLayer(float3 dir)
             {
-                float elev = dir.y;
                 float2 drift = lerp(_Time.y * _CloudSpeed * float2(.54,.30),
                     _CloudDrift.xy, _CloudWindDriven);
-                float2 p = dir.xz / max(.15, elev + .26) *
-                    (_CloudScale * 3.55) - drift * .74;
-                float broad = LCCloudNoise(p * .57 + 17.3);
-                float rolling = LCCloudNoise(p * 1.17 + 43.1);
-                float detail = LCCloudNoise(p * 2.42 + 9.7);
-                float swirl = broad * .56 + rolling * .33 + detail * .11;
+                float3 p = dir * (8.0 * _CloudScale) +
+                    float3(drift.x * .38 + 11.7, 3.1, drift.y * .38 + 28.9);
+                float broad, fine;
+                float billow = LCStormField(p, _CloudQuality, broad, fine);
 
-                // Break the lower edge into rounded scallops rather than the
-                // existing long horizontal overcast streaks.
-                float raggedLow = _StormPeakCloudLower +
-                    (broad - .5) * .10 + (rolling - .5) * .055;
-                float low = smoothstep(raggedLow - _StormPeakCloudSoftness,
-                    raggedLow + _StormPeakCloudSoftness, elev);
+                float raggedLower = _StormPeakCloudLower +
+                    (broad - .5) * .19 + (fine - .5) * .065;
+                float raggedTop = _StormPeakCloudUpper +
+                    (broad - .5) * .24;
+                float low = smoothstep(
+                    raggedLower - _StormPeakCloudSoftness,
+                    raggedLower + _StormPeakCloudSoftness * .68, dir.y);
                 float high = 1 - smoothstep(
-                    _StormPeakCloudUpper - _StormPeakCloudSoftness * 2,
-                    _StormPeakCloudUpper + _StormPeakCloudSoftness, elev);
-                float threshold = lerp(.73,.27, _StormPeakCloudDensity);
-                float mass = smoothstep(threshold, threshold + .14, swirl);
-                // Keep a few distinct holes; the background bank fills them
-                // with a different parallax scale and shade.
-                float holes = .76 + .24 * smoothstep(.26,.68,detail);
-                float coverage = saturate(mass * holes * low * high *
+                    raggedTop - _StormPeakCloudSoftness * 1.6,
+                    raggedTop + _StormPeakCloudSoftness, dir.y);
+                float threshold = lerp(.66,.35,_StormPeakCloudDensity);
+                float density = smoothstep(threshold, threshold + .16, billow);
+                float coverage = saturate(density * low * high *
                     _StormPeakCloudMass);
+                float underside = 1 - smoothstep(raggedLower + .02,
+                    raggedTop * .70, dir.y);
+                float lit = saturate(.19 + fine * .52 +
+                    (broad - fine) * .87 + (1 - underside) * .23);
+                if (_CloudQuality > 1.5)
+                {
+                    float bs, fs;
+                    float recessed = LCStormField(p + float3(.27,.49,.15),
+                        0, bs, fs);
+                    lit = saturate(lit + (billow - recessed) * 2.1);
+                }
+                float3 shadow = _CloudShadeColor.rgb * .61;
+                float3 highlights = _CloudLightColor.rgb * .97;
+                float3 color = lerp(shadow, highlights, lit);
+                color *= lerp(.83, 1.14, broad);
 
-                float underside = 1 - smoothstep(raggedLow + .01,
-                    _StormPeakCloudUpper * .72, elev);
-                float3 shadow = _CloudShadeColor.rgb * lerp(.62, 1.25, broad);
-                float3 lit = _CloudLightColor.rgb * lerp(.46,.82,rolling);
-                float3 color = lerp(shadow, lit,
-                    saturate(.14 + (1-underside) * (.33 + detail*.18)));
-
-                float3 flashDir = normalize(
-                    _LC_StormFlashDirection.xyz + float3(.00001,.00001,.00001));
-                float halo = pow(saturate(dot(dir, flashDir)), 16);
-                color = lerp(color, float3(.75,.84,1.0),
-                    saturate(_LC_StormFlash) * halo * .94);
+                float flash = LCStormFlashHalo(dir,
+                    _LC_StormFlashDirection, _LC_StormFlash);
+                color = lerp(color, float3(.79,.88,1.0), flash * .95);
                 return float4(color, coverage);
             }
 
@@ -496,12 +512,17 @@ Shader "Little Castle/Sky/Stylized Day Night"
                     if (_CloudWindDriven > .5)
                     {
                         float4 clouds = CloudLayer(dir, sunDir);
+                        // The old overcast field makes thin horizontal streaks.
+                        // During thunderstorms leave it only as a faint background
+                        // under the new round, layered thunderhead geometry.
+                        clouds.a *= 1 - saturate(_StormCloudMass) * .86;
                         color = lerp(color, clouds.rgb, clouds.a);
                     }
                     else
                     {
                         float clouds = smoothstep(.30, .72, LegacyCloudSignal(dir))
-                            * smoothstep(-.015, .30, dir.y) * _CloudStrength;
+                            * smoothstep(-.015, .30, dir.y) * _CloudStrength *
+                            (1 - saturate(_StormCloudMass) * .86);
                         float3 dayCloud = lerp(_HorizonColor.rgb, float3(1, 1, 1), .62);
                         float3 nightCloud = lerp(_HorizonColor.rgb, _ZenithColor.rgb, .55);
                         color = lerp(color, lerp(nightCloud, dayCloud, _Daylight), clouds);

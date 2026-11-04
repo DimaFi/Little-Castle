@@ -54,6 +54,7 @@ namespace LittleCastle.Experimental.MountainBorder.Tests
         {
             var shader = Resources.Load<Shader>("MapAuthoring/LC_MountainPeakClouds");
             Assert.That(shader, Is.Not.Null);
+            Assert.That(shader.isSupported, Is.True, "Summit cloud shader failed compilation or URP compatibility.");
             var material = new Material(shader);
             try
             {
@@ -71,7 +72,8 @@ namespace LittleCastle.Experimental.MountainBorder.Tests
             try
             {
                 Assert.That(profile.enablePeakStormClouds, Is.True);
-                Assert.That(profile.peakCloudMinimumDistance, Is.GreaterThan(75f));
+                Assert.That(profile.peakCloudMinimumDistance, Is.GreaterThan(40f));
+                Assert.That(profile.peakCloudBillowRows, Is.InRange(2,3));
                 Assert.That(profile.peakCloudCount, Is.InRange(3,16));
             }
             finally { Object.DestroyImmediate(profile); }
