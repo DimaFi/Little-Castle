@@ -27,6 +27,7 @@ Shader "Little Castle/Weather/Mountain Peak Storm Clouds"
             #pragma fragment frag
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
             #include "../../Shaders/Sky/LC_CloudNoise.hlsl"
+            #include "../../Shaders/Sky/LC_StormCloudField.hlsl"
 
             CBUFFER_START(UnityPerMaterial)
                 float _CloudWidth, _CloudHeight;
@@ -80,30 +81,40 @@ Shader "Little Castle/Weather/Mountain Peak Storm Clouds"
 
             half4 frag(V input) : SV_Target
             {
-                float2 p = (input.uv - .5) * 2;
-                float2 noiseUV = input.uv * 3.6 + input.seed * 8.3
-                    + float2(_Time.y * .009, _Time.y * .005);
-                float broad = LCCloudNoise(noiseUV);
-                float small = LCCloudNoise(noiseUV * 2.16 + 31.7);
-                float distortion = (broad - .5) * .27 +
-                                   (small - .5) * .11;
-                float shape = length(float2(p.x * .86, p.y * 1.17))
-                    + distortion;
-                float boundary = 1 - smoothstep(.52, 1.04, shape);
-                float soft = saturate(boundary * (.76 + broad * .30));
+                // Three joined puffy heads per card give a scalloped silhouette,
+                // unlike the previous one smooth ellipsoid with a dark stripe.
+                float2 p = (input.uv - .5) * 2.0;
+                float3 volumeP = float3(input.uv * 5.3, input.seed.x * 13.7) +
+                    float3(_Time.y * .015, _Time.y * .006, .0);
+                float broad, fine;
+                LCStormField(volumeP, 1.0, broad, fine);
+                float erosion = (broad - .5) * .29 + (fine - .5) * .12;
+                float r0 = length((p - float2(-.39,-.07)) * float2(.96,1.17));
+                float r1 = length((p - float2(.02,.15)) * float2(.88,1.00));
+                float r2 = length((p - float2(.40,-.08)) * float2(.95,1.23));
+                float lobeDistance = min(r0, min(r1, r2)) + erosion;
+                float silhouette = 1.0 - smoothstep(.56,.98,lobeDistance);
+
+                // No rectangular texture-card edges, even if the noise happens
+                // to extend its silhouette beyond the underlying quad.
+                float feather = smoothstep(.0,.13,input.uv.x) *
+                    (1 - smoothstep(.87,1.0,input.uv.x)) *
+                    smoothstep(.0,.13,input.uv.y) *
+                    (1 - smoothstep(.87,1.0,input.uv.y));
                 float storm = saturate(_LC_MountainStormCloud);
-                float alpha = soft * storm * _Opacity * input.distanceFade;
+                float alpha = silhouette * feather * storm * _Opacity *
+                    input.distanceFade * lerp(.81,1.0,broad);
 
-                float underside = saturate(1 - input.uv.y);
-                float3 dark = float3(.13,.18,.24);
-                float3 lit = float3(.35,.40,.48);
-                float3 col = lerp(dark, lit,
-                    saturate(.17 + input.uv.y * .39 + small * .18));
-
-                float3 flashDir = normalize(
-                    _LC_StormFlashDirection.xyz + float3(.00001,.00001,.00001));
-                float flash = pow(saturate(dot(input.viewDir, flashDir)), 14);
-                col = lerp(col, float3(.72,.82,1), saturate(_LC_StormFlash) * flash);
+                float lightSide = saturate(.17 + input.uv.y * .44 +
+                    (broad - fine) * .70 + fine * .21);
+                float3 dark = float3(.10,.15,.21);
+                float3 lit = float3(.38,.46,.57);
+                float3 col = lerp(dark, lit, lightSide);
+                col *= lerp(.86,1.12,broad);
+                // The light strikes visibly above/beyond the distant mountains.
+                float flash = LCStormFlashHalo(input.viewDir,
+                    _LC_StormFlashDirection, _LC_StormFlash);
+                col = lerp(col, float3(.75,.84,1.0), flash * .94);
                 return half4(col, alpha);
             }
             ENDHLSL
