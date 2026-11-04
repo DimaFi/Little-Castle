@@ -235,7 +235,8 @@ namespace LittleCastle.World
             Material sky = GetPresentationSkybox();
             if (!sky) return;
             Material source = skyboxMaterial;
-            if (!source) return;
+            if (!source || !source.shader ||
+                source.shader.name != "Little Castle/Sky/Stylized Day Night") return;
             sky.SetFloat("_CloudWindDriven", Mathf.Lerp(source.GetFloat("_CloudWindDriven"), 1f, smoothStorm));
             sky.SetFloat("_CloudShape", smoothStorm > .45f ? 3f : source.GetFloat("_CloudShape"));
             sky.SetFloat("_CloudStrength", Mathf.Lerp(source.GetFloat("_CloudStrength"), 1f, smoothStorm));
