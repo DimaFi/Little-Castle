@@ -43,6 +43,7 @@ namespace LittleCastle.World
         static readonly int CloudShadowDriftId = Shader.PropertyToID("_LC_CloudShadowDrift");
         static readonly int GroundBounceId = Shader.PropertyToID("_LC_AtmosphereGroundBounce");
         static readonly int GradeId = Shader.PropertyToID("_LC_AtmosphereGrade");
+        static readonly int MountainCloudId = Shader.PropertyToID("_LC_MountainStormCloud");
 
         /// <summary>Visual adapter for a weather provider; never advances a clock or modifies the map.</summary>
         public void SetWeatherPresentation(float cloudiness, float rainOrSnow)
@@ -85,10 +86,12 @@ namespace LittleCastle.World
         {
             float stormBlend = 1f - Mathf.Exp(-Mathf.Min(Time.unscaledDeltaTime, .1f) / 2.5f);
             smoothStorm = Mathf.Lerp(smoothStorm, stormStrength, stormBlend);
+            Shader.SetGlobalFloat(MountainCloudId, smoothStorm);
             var profile = atmosphereProfile;
             if (!profile || !profile.IsComplete)
             {
                 ResetAtmosphereGlobals();
+                Shader.SetGlobalFloat(MountainCloudId, smoothStorm);
                 RestoreAtmosphereSun();
                 if (atmosphereSkyApplied)
                 {
@@ -270,6 +273,7 @@ namespace LittleCastle.World
             Shader.SetGlobalColor(GroundBounceId, Color.clear);
             Shader.SetGlobalVector(GradeId, Vector4.zero);
             Shader.SetGlobalVector(CloudShadowId, Vector4.zero);
+            Shader.SetGlobalFloat(MountainCloudId, 0f);
         }
 
         private void RestoreAtmosphereSun()
