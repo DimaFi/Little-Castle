@@ -495,12 +495,17 @@ Shader "Little Castle/Sky/Stylized Day Night"
                     if (_CloudWindDriven > .5)
                     {
                         float4 clouds = CloudLayer(dir, sunDir);
+                        // The old overcast field makes thin horizontal streaks.
+                        // During thunderstorms leave it only as a faint background
+                        // under the new round, layered thunderhead geometry.
+                        clouds.a *= 1 - saturate(_StormCloudMass) * .86;
                         color = lerp(color, clouds.rgb, clouds.a);
                     }
                     else
                     {
                         float clouds = smoothstep(.30, .72, LegacyCloudSignal(dir))
-                            * smoothstep(-.015, .30, dir.y) * _CloudStrength;
+                            * smoothstep(-.015, .30, dir.y) * _CloudStrength *
+                            (1 - saturate(_StormCloudMass) * .86);
                         float3 dayCloud = lerp(_HorizonColor.rgb, float3(1, 1, 1), .62);
                         float3 nightCloud = lerp(_HorizonColor.rgb, _ZenithColor.rgb, .55);
                         color = lerp(color, lerp(nightCloud, dayCloud, _Daylight), clouds);
