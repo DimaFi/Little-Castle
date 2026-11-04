@@ -242,8 +242,8 @@ Shader "Little Castle/Sky/Stylized Day Night"
                 float upper = _StormCloudReach + (broad - .5) * .34;
                 float lowerFade = smoothstep(lower - .095, lower + .070, dir.y);
                 float upperFade = 1 - smoothstep(upper - .16, upper + .095, dir.y);
-                float density = smoothstep(lerp(.66,.39,_StormCloudDensity),
-                    lerp(.82,.55,_StormCloudDensity), body);
+                float density = smoothstep(lerp(.67,.35,_StormCloudDensity),
+                    lerp(.83,.51,_StormCloudDensity), body);
                 float coverage = saturate(density * lowerFade * upperFade *
                     _StormCloudMass);
 
@@ -286,7 +286,7 @@ Shader "Little Castle/Sky/Stylized Day Night"
                 float high = 1 - smoothstep(
                     raggedTop - _StormPeakCloudSoftness * 1.6,
                     raggedTop + _StormPeakCloudSoftness, dir.y);
-                float threshold = lerp(.66,.405,_StormPeakCloudDensity);
+                float threshold = lerp(.66,.35,_StormPeakCloudDensity);
                 float density = smoothstep(threshold, threshold + .16, billow);
                 float coverage = saturate(density * low * high *
                     _StormPeakCloudMass);
