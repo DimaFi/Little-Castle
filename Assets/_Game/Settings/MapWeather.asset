@@ -43,8 +43,8 @@ MonoBehaviour:
   precipitationForAtmosphere: 0.9
   driveExistingAtmosphere: 1
   enableLightning: 1
-  minLightningInterval: 16
-  maxLightningInterval: 42
+  minLightningInterval: 10
+  maxLightningInterval: 24
   lightningFlash: 0.5
   reducedFlashes: 0
   enableThunder: 1
