@@ -8,6 +8,8 @@ namespace LittleCastle.Research
     {
         [Tooltip("Optional existing world clock for local snow weather. No clock means no weather advancement.")]
         public WorldTimeSystem environmentTimeSource;
+        [Header("Winter precipitation")]
+        [Range(0f, 1f)] public float ambientWinterSnowfall = .17f;
         MapSnowfallPresentation snowfallView;
         DayNightLightingController environmentAtmosphere;
         public MapEnvironmentPresentation EnvironmentView { get; private set; }
@@ -34,7 +36,7 @@ namespace LittleCastle.Research
                 ? (float)(environmentTimeSource.GameHoursAdvancedLastTick * 3600.0) : 0f;
             EnvironmentView.Tick(studyCamera, elapsedWorldSeconds);
             ShoreDecorationView?.Tick(EnvironmentView.GroundFocus);
-            snowfallView?.Tick(EnvironmentView.GroundFocus);
+            snowfallView?.Tick(EnvironmentView.GroundFocus, ambientWinterSnowfall);
             if (environmentAtmosphere)
             {
                 Vector3 p = EnvironmentView.GroundFocus;
