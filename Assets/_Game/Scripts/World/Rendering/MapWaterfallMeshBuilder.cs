@@ -8,18 +8,32 @@ namespace LittleCastle.Rendering
 {
     public static class MapWaterfallMeshBuilder
     {
-        public static Mesh Build(MapWaterfallRouteData route, float travelOffset = 0,MapRiverPath receivingRiver=null,bool joinedUpstream=false)
+        public static Mesh Build(MapWaterfallRouteData route, float travelOffset = 0,MapRiverPath receivingRiver=null,bool joinedUpstream=false,
+            MapRiverPath upstreamRiver=null,System.Func<float,float,float> heightSampler=null)
         {
             int rows = route.sections.Count, columns = route.sections[0].points.Count, plane = rows * columns;
             int triangleCount = (rows - 1) * (columns - 1) * 4 + (rows - 1) * 4 + (columns - 1) * 4;
             if (triangleCount > 11200) throw new InvalidDataException("Контактная геометрия превышает бюджет M1 (11200 треугольников). Сузьте поток или сократите переход.");
             var vertices = new Vector3[plane * 2]; var uv = new Vector2[vertices.Length]; var colors = new Color[vertices.Length];
             var normalized = new List<Vector2>(vertices.Length); var sections = new List<Vector4>(vertices.Length);
+            var lipData=new List<Vector2>(vertices.Length);
             float time = travelOffset;
             float length = 0;
             var distances = new float[rows];
             for (int row = 1; row < rows; row++)
                 distances[row] = length += Vector3.Distance(route.sections[row].FrontCenter, route.sections[row - 1].FrontCenter);
+            bool softLip=upstreamRiver?.record.layoutVersion==3;
+            var upper=softLip?upstreamRiver.frames[upstreamRiver.frames.Count-1]:default;
+            // End the calm transition before a detached/steep section. Old saved routes get
+            // the same derived join, without changing their support samples or serialized data.
+            float lipLength=Mathf.Min(.8f,length*.25f);
+            if(softLip)for(int row=1;row<rows;row++)
+            {
+                var section=route.sections[row];var prior=route.sections[row-1];
+                var delta=section.FrontCenter-prior.FrontCenter;
+                if(section.kind==MapWaterfallSectionKind.FreeFall||section.points.Exists(p=>p.detached)||Mathf.Abs(delta.y)>new Vector2(delta.x,delta.z).magnitude*.35f)
+                {lipLength=Mathf.Min(lipLength,distances[row]);break;}
+            }
             int landingStart=rows-1;
             if(receivingRiver?.record.layoutVersion==3)
                 for(int row=0;row<rows;row++)if((route.sections[row].points[columns/2].surfaceKey??"").StartsWith(MapWaterfallLanding.SurfacePrefix,System.StringComparison.Ordinal)){landingStart=row;break;}
@@ -36,9 +50,22 @@ namespace LittleCastle.Rendering
                         var p = section.points[col]; int index = side * plane + row * columns + col;
                         vertices[index] = side == 0 ? p.Front(section.thickness) : p.position;
                         uv[index] = new Vector2(p.across >= 0 ? p.across : col / (float)(columns - 1), time * 4.5f);
+                        float lip=softLip?(row==0?1:1-Mathf.SmoothStep(0,1,Mathf.Clamp01(distances[row]/Mathf.Max(.0001f,lipLength)))):0;
+                        float depth=0;
+                        if(softLip)
+                        {
+                            float signed=upper.width*(uv[index].x-.5f);var at=upper.center+upper.Left*signed;
+                            float bed=heightSampler!=null?heightSampler(at.x,at.y):MapRiverSection.Bed(upper,signed,upper.water);
+                            depth=Mathf.Max(0,upper.water-bed);
+                            if(row==0)vertices[index]=new Vector3(at.x,side==0?upper.water+.018f:Mathf.Min(upper.water+.018f,bed),at.y);
+                            else if(side==1&&lip>0)vertices[index]=Vector3.Lerp(vertices[index],p.Front(section.thickness)-Vector3.up*(depth+.018f),lip);
+                        }
+                        lipData.Add(new Vector2(lip,depth));
                         normalized.Add(new Vector2(uv[index].x, length > .0001f ? distances[row] / length : 0));
                         // Contact geometry remains fixed; animation lives in the shared flow shader.
-                        sections.Add(new Vector4(p.normal.x, p.normal.y, p.normal.z, p.thickness > 0 ? p.thickness : section.thickness));
+                        float thickness=p.thickness>0?p.thickness:section.thickness;
+                        if(softLip)thickness=Mathf.Lerp(thickness,depth+.018f,lip);
+                        sections.Add(new Vector4(p.normal.x, p.normal.y, p.normal.z,thickness));
                         float landing=landingStart<rows-1?Mathf.SmoothStep(0,1,Mathf.InverseLerp(distances[landingStart],length,distances[row])):0;
                         colors[index] = new Color(1, .17f, p.detached ? .9f : .3f, landing);
                     }
@@ -60,13 +87,26 @@ namespace LittleCastle.Rendering
             for (int col = 0; col < columns - 1; col++)
             {
                 int a = col, b = col + 1, c = (rows - 1) * columns + col, d = c + 1;
-                if(!joinedUpstream){Tri(a, a + plane, b); Tri(b, a + plane, b + plane);}
+                if(!joinedUpstream&&!softLip){Tri(a, a + plane, b); Tri(b, a + plane, b + plane);}
                 if(receivingRiver?.record.layoutVersion!=3){Tri(c, d, c + plane); Tri(d, d + plane, c + plane);}
             }
             var mesh = new Mesh { name = "Saved contact waterfall volume", hideFlags = HideFlags.HideAndDontSave,
                 indexFormat = vertices.Length > 65535 ? IndexFormat.UInt32 : IndexFormat.UInt16 };
             mesh.vertices = vertices; mesh.uv = uv; mesh.colors = colors; mesh.SetUVs(1, normalized); mesh.SetUVs(2, sections);
+            mesh.SetUVs(3,lipData);
             mesh.SetTriangles(triangles, 0); mesh.RecalculateNormals();
+            if(softLip)
+            {
+                var normals=mesh.normals;var normal=upstreamRiver.SurfaceNormal(upstreamRiver.Length);
+                for(int row=0;row<rows;row++)for(int col=0;col<columns;col++)
+                {
+                    int index=row*columns+col;float lip=lipData[index].x;
+                    if(lip<=0)continue;
+                    normals[index]=Vector3.Slerp(normals[index],normal,lip).normalized;
+                    normals[plane+index]=Vector3.Slerp(normals[plane+index],-normal,lip).normalized;
+                }
+                mesh.normals=normals;
+            }
             if(landingStart<rows-1)
             {
                 var normals=mesh.normals;var normal=receivingRiver.SurfaceNormal(0);

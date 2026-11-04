@@ -55,6 +55,7 @@ namespace LittleCastle.Research
                 if(tools.Selected==null||tools.Selected.Id!=id)brushSoftness=id.StartsWith("terrain.")?1:id=="vegetation.grove"?0:.38f;
                 tools.Select(id);
                 bool blocked=Input.mousePosition.x<320*Mathf.Clamp(Screen.width/1600f,.85f,1.3f)||
+                    LittleCastle.World.Weather.RainStormController.PointerOverDebugPanel(Input.mousePosition)||
                     riverActive&&!river.Embedded&&Input.mousePosition.x>Screen.width-360||EventSystem.current&&EventSystem.current.IsPointerOverGameObject()||
                     Input.GetMouseButton(1)||Input.GetMouseButton(2)||Input.GetKey(KeyCode.LeftAlt)||Input.GetKey(KeyCode.RightAlt);
                 if(blocked){tools.Release();tools.Tick(Time.unscaledTimeAsDouble);return;}

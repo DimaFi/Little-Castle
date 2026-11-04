@@ -20,7 +20,7 @@ namespace LittleCastle.Editor
 {
     public static partial class WaterFirefliesPerfReview
     {
-        const string GameRoot="E:/Games_Develop/Research/WaterFirefliesFinish_20261102/game";
+        const string GameRoot="E:/Games_Develop/Research/MapSettings_20261104/game";
         const string GameKey="LC.WaterFirefliesFinish.Game.";
         static string GameStage{get=>SessionState.GetString(GameKey+"stage","");set=>SessionState.SetString(GameKey+"stage",value);}
         static bool GameActive=>GameStage!="";

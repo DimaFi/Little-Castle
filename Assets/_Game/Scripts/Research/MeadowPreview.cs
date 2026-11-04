@@ -44,14 +44,14 @@ namespace LittleCastle.Research
             studyCamera.transform.position=eye[i];studyCamera.transform.LookAt(target[i]);
             if(worldEditorMode){var rig=studyCamera.GetComponent<StrategyCameraController>();rig.SyncFromCurrentView();rig.enabled=true;free=true;}
         }
-        void Awake(){automationRequested=Array.IndexOf(Environment.GetCommandLineArgs(),"-meadowCapture")>=0;previous=QualitySettings.renderPipeline;QualitySettings.renderPipeline=profile;originalSoftness=grass.material.GetFloat("_MeadowSoftness");Application.runInBackground=true;Application.targetFrameRate=60;Application.logMessageReceived+=Log;}
-        void OnDestroy(){if(QualitySettings.renderPipeline==profile)QualitySettings.renderPipeline=previous;if(grass&&grass.material)grass.material.SetFloat("_MeadowSoftness",originalSoftness);Application.logMessageReceived-=Log;}
+        void Awake(){automationRequested=Array.IndexOf(Environment.GetCommandLineArgs(),"-meadowCapture")>=0;previous=QualitySettings.renderPipeline;if(profile)QualitySettings.renderPipeline=profile;originalSoftness=grass&&grass.material?grass.material.GetFloat("_MeadowSoftness"):0;if(worldEditorMode&&!demonstrator)moveProxy=false;Application.runInBackground=true;Application.targetFrameRate=60;Application.logMessageReceived+=Log;}
+        void OnDestroy(){if(profile&&QualitySettings.renderPipeline==profile)QualitySettings.renderPipeline=previous;if(grass&&grass.material)grass.material.SetFloat("_MeadowSoftness",originalSoftness);Application.logMessageReceived-=Log;}
         void Log(string message,string stack,LogType type){if(type==LogType.Error||type==LogType.Exception||type==LogType.Assert)errors+=message+"\n"+stack+"\n";if(automationRequested&&(type==LogType.Exception||type==LogType.Assert))Application.Quit(2);}
-        void ApplyWind(){globals.SetWindPresentation(new Vector2(.86f,.5f),wind?.6f:0,.65f);}
+        void ApplyWind(){if(globals)globals.SetWindPresentation(new Vector2(.86f,.5f),wind?.6f:0,.65f);}
         public static float SampleHeight(float x,float z)=>.25f+.22f*Mathf.Sin(x*.085f)*Mathf.Cos(z*.068f)+3*Mathf.Exp(-((x+22)*(x+22)/240+(z-25)*(z-25)/380))+2.2f*Mathf.Exp(-((x-25)*(x-25)/310+(z-43)*(z-43)/260));
         void Update()
         {
-            if(moveProxy){float t=Time.unscaledTime*.5f;float x=-2.8f+3.2f*Mathf.Sin(t),z=1.8f+2.0f*Mathf.Cos(t);demonstrator.position=new Vector3(x,(painter&&painter.Session!=null?painter.Session.SampleHeight(x,z):SampleHeight(x,z))+.7f,z);}
+            if(moveProxy&&demonstrator){float t=Time.unscaledTime*.5f;float x=-2.8f+3.2f*Mathf.Sin(t),z=1.8f+2.0f*Mathf.Cos(t);demonstrator.position=new Vector3(x,(painter&&painter.Session!=null?painter.Session.SampleHeight(x,z):SampleHeight(x,z))+.7f,z);}
             if(!automated){if(!worldEditorMode)for(int i=0;i<4;i++)if(Input.GetKeyDown(KeyCode.Alpha1+i))SetView(i);if(Input.GetKeyDown(KeyCode.H))showUI=!showUI;if(Input.GetKeyDown(KeyCode.Escape)&&(!painter||painter.ShouldQuitOnEscape))Application.Quit();}
         }
         IEnumerator Start()

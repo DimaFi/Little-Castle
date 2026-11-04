@@ -26,6 +26,11 @@ namespace LittleCastle.Editor
             {
                 using(new EditorGUI.DisabledScope(EditorApplication.isPlayingOrWillChangePlaymode))
                 {
+                    if(GUILayout.Button("Новая карта…"))
+                        RunGui(()=>MapNewDocumentWindow.Open(this));
+                    if(GUILayout.Button("Открыть карту (сцену)…"))
+                        RunGui(OpenMapScene);
+                    if(GUILayout.Button("Настройки систем карты…"))RunGui(MapSystemsWindow.Open);
                     var selected=(SurfacePaintData)EditorGUILayout.ObjectField("База карты",source,typeof(SurfacePaintData),false);
                     if(selected!=source&&ConfirmReplaceDocument()){Connect(selected);GUIUtility.ExitGUI();}
                     if(!source&&GUILayout.Button("Подключить карту открытой сцены")){ConnectSceneMap();GUIUtility.ExitGUI();}
@@ -38,7 +43,7 @@ namespace LittleCastle.Editor
                         }
                         if(GUILayout.Button("Проверить текущую карту в Game…"))
                             RunGui(()=>CurrentMapGameInspection.Open(this,source));
-                        if(GUILayout.Button("Применить к авторской базе и маске"))RunGui(ApplyDocument);
+                        if(GUILayout.Button(new GUIContent("Сохранить карту в базу","Сохраняет правки в базу этой сцены. При следующем открытии сцены карта загрузится с ними. JSON сохраняется отдельно.")))RunGui(ApplyDocument);
                         using(new EditorGUILayout.HorizontalScope())
                         {
                             using(new EditorGUI.DisabledScope(session==null||!session.CanUndo))

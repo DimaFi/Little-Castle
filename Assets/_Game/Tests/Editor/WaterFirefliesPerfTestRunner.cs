@@ -12,7 +12,7 @@ namespace LittleCastle.Tests
         const string Root="E:/Games_Develop/Research/WaterFirefliesPerf_20261102";
         const string Owner="01a191ef-b3bd-7be0-8e9d-bd5a9894b22c";
         [Serializable] sealed class Lease {public string ownerThreadId,status;}
-        const string BuildTag="P01";
+        const string BuildTag="M02";
         [Serializable] sealed class Request {public string id,mode,group,revision;}
         static double next;static TestRunnerApi runner;
         static WaterFirefliesPerfTestRunner(){EditorApplication.update+=Poll;EditorApplication.delayCall+=Resume;}
@@ -37,6 +37,9 @@ namespace LittleCastle.Tests
             runner=ScriptableObject.CreateInstance<TestRunnerApi>();runner.RegisterCallbacks(new Results(r.id));
             var filter=new Filter{testMode=r.mode=="edit"?TestMode.EditMode:TestMode.PlayMode};
             if(r.mode=="edit"&&r.group=="gpu")filter.testNames=new[]{"LittleCastle.Tests.FireflyIntegrationTests"};
+            if(r.mode=="edit"&&r.group=="weather")filter.testNames=new[]{"LittleCastle.Tests.RainStormMathTests","LittleCastle.Tests.RainShelterVolumeTests","LittleCastle.Tests.AmbientSnowfallTests"};
+            if(r.mode=="edit"&&r.group=="map-settings")filter.testNames=new[]{"LittleCastle.Tests.MapCreationFactoryTests","LittleCastle.Tests.MapNewDocumentTests","LittleCastle.Tests.RainStormMathTests","LittleCastle.Tests.RainShelterVolumeTests","LittleCastle.Tests.AmbientSnowfallTests"};
+            if(r.mode=="edit"&&r.group=="map-creation")filter.testNames=new[]{"LittleCastle.Tests.MapCreationFactoryTests","LittleCastle.Tests.MapNewDocumentTests"};
             if(r.mode=="edit"&&r.group=="focused")filter.testNames=new[]{"LittleCastle.Tests.RegionalPreviewTests","LittleCastle.Tests.FireflyIntegrationTests","LittleCastle.Tests.MapRiverBTests","LittleCastle.Tests.FireflyPreviewTests","LittleCastle.Tests.MapRiverRecoveryTests","LittleCastle.Tests.MapSoftRiverTests","LittleCastle.Tests.ConnectedWaterM1Tests","LittleCastle.Tests.MapRiverNetworkSessionTests","LittleCastle.Tests.RiverBankAuthoringFreedomTests","LittleCastle.Tests.MapRiverTests","LittleCastle.Tests.MapRiverWaterInteropTests","LittleCastle.Tests.MapTerrainPresentationTests"};
             File.WriteAllText(Root+"/tests-"+r.id+"-status.txt","RUNNING");runner.Execute(new ExecutionSettings(filter));
         }

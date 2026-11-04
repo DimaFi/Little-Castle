@@ -106,14 +106,22 @@ namespace LittleCastle.Research
                     if(player){if(authoringRivers)authoringRivers.CloseTools();if(painter.treeTool==2)painter.SetTreeTool(1);}
                 }
                 bool nextWind=GUILayout.Toggle(wind,"Ветер");if(nextWind!=wind){wind=nextWind;ApplyWind();}
-                grass.enabled=GUILayout.Toggle(grass.enabled,"Объёмная трава");
-                interaction.interactionEnabled=GUILayout.Toggle(interaction.interactionEnabled,"Пригибание рядом с объектом");
-                moveProxy=GUILayout.Toggle(moveProxy,"Движение тестового объекта");
-                bool soft=GUILayout.Toggle(grass.material.GetFloat("_MeadowSoftness")>.01f,"Мягкая трава вдали");grass.material.SetFloat("_MeadowSoftness",soft?originalSoftness:0);
-                float distance=AuthoringSlider("Дальность травы, м",grass.maximumDistance,40,128);
-                if(!Mathf.Approximately(distance,grass.maximumDistance)){grass.maximumDistance=distance;grass.material.SetFloat("_FadeStart",distance*.84375f);grass.material.SetFloat("_FadeEnd",distance);}
-                interaction.activeDistance=AuthoringSlider("Дальность пригибания, м",interaction.activeDistance,12,60);grass.material.SetFloat("_InteractionDistance",interaction.activeDistance);
-                GUILayout.Label("Пучки "+grass.submittedClumps+" · вызовы "+grass.drawCalls,authoringWrap);
+                if(grass&&grass.material)
+                {
+                    grass.enabled=GUILayout.Toggle(grass.enabled,"Объёмная трава");
+                    bool soft=GUILayout.Toggle(grass.material.GetFloat("_MeadowSoftness")>.01f,"Мягкая трава вдали");grass.material.SetFloat("_MeadowSoftness",soft?originalSoftness:0);
+                    float distance=AuthoringSlider("Дальность травы, м",grass.maximumDistance,40,128);
+                    if(!Mathf.Approximately(distance,grass.maximumDistance)){grass.maximumDistance=distance;grass.material.SetFloat("_FadeStart",distance*.84375f);grass.material.SetFloat("_FadeEnd",distance);}
+                    GUILayout.Label("Пучки "+grass.submittedClumps+" · вызовы "+grass.drawCalls,authoringWrap);
+                }
+                else GUILayout.Label("Готовый ковёр объёмной травы в этой карте не задан.",authoringWrap);
+                if(interaction)
+                {
+                    interaction.interactionEnabled=GUILayout.Toggle(interaction.interactionEnabled,"Пригибание рядом с объектом");
+                    interaction.activeDistance=AuthoringSlider("Дальность пригибания, м",interaction.activeDistance,12,60);
+                    if(grass&&grass.material)grass.material.SetFloat("_InteractionDistance",interaction.activeDistance);
+                }
+                if(demonstrator)moveProxy=GUILayout.Toggle(moveProxy,"Движение тестового объекта");
                 if(GUILayout.Button("Сбросить изменения этой сессии")&&AuthoringDocumentReady()){painter.EndStroke();painter.ResetEdits();}
             }
             GUILayout.Label("WASD / СКМ — движение · ПКМ — поворот\nКолесо — масштаб · H — скрыть панель",authoringWrap,GUILayout.Width(268));

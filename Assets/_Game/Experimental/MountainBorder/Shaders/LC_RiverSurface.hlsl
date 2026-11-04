@@ -3,7 +3,7 @@
 // Source subgraphs and full license remain vendored; no external caustic image.
 // Included after Shade(), sharing the waterfall landing's exact final evaluation.
 half4 LCRiverSurface(float3 position,float3 geometricNormal,float2 screenUV,
-    float eyeDepth,float depth,float speed,float time,half front,float2 flow)
+    float eyeDepth,float depth,float speed,float time,half front,float2 flow,float useLipReflection)
 {
     flow=normalize(flow+float2(.000001,0));
     // Two advected phases: resetting one sample never resets the visible pattern.
@@ -38,10 +38,16 @@ half4 LCRiverSurface(float3 position,float3 geometricNormal,float2 screenUV,
     float3 view=SafeNormalize(GetWorldSpaceViewDir(position));
     half fresnel=.035+.65*pow(1-saturate(dot(n,view)),5);
     half3 environment=GlossyEnvironmentReflection(reflect(-view,n),.24h,1.0h);
-    float4 reflected=mul(_RiverReflectionVP,float4(position,1));
+    // The body spans two planes. Its calm upper lip consumes the very same current-frame
+    // slot as the upper river; it must never borrow the receiving plane's projection.
+    float4 reflected=useLipReflection>.5?mul(_RiverLipReflectionVP,float4(position,1)):mul(_RiverReflectionVP,float4(position,1));
     float2 reflectionUV=reflected.xy/max(.0001,reflected.w)*.5+.5+ripple*.012;
-    if(_RiverReflectionValid>.5&&front>0&&all(reflectionUV>.002)&&all(reflectionUV<.998)&&reflected.w>0)
-        environment=SAMPLE_TEXTURE2D(_RiverReflection,sampler_RiverReflection,reflectionUV).rgb;
+    float reflectionValid=useLipReflection>.5?_RiverLipReflectionValid:_RiverReflectionValid;
+    if(reflectionValid>.5&&front>0&&all(reflectionUV>.002)&&all(reflectionUV<.998)&&reflected.w>0)
+    {
+        if(useLipReflection>.5)environment=SAMPLE_TEXTURE2D(_RiverLipReflection,sampler_RiverLipReflection,reflectionUV).rgb;
+        else environment=SAMPLE_TEXTURE2D(_RiverReflection,sampler_RiverReflection,reflectionUV).rgb;
+    }
     lit=lerp(lit,environment,fresnel*(1-foam));
     // The opaque buffer is optional; reject out-of-screen and foreground samples.
     if(_RiverOpaqueAvailable>.5&&_CameraOpaqueTexture_TexelSize.z>2&&front>0)

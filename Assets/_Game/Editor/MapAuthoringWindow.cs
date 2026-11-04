@@ -5,6 +5,7 @@ using LittleCastle.Rendering;
 using LittleCastle.Research;
 using LittleCastle.World;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
 namespace LittleCastle.Editor
@@ -48,6 +49,32 @@ namespace LittleCastle.Editor
         {
             var painter=FindAnyObjectByType<MeadowSurfacePainter>();
             if(painter&&painter.source)Connect(painter.source);
+        }
+        internal bool CanReplaceMap()=>ConfirmReplaceDocument();
+        internal void SuspendMapPreview()=>RestorePreview();
+        internal void ResumeMapPreview()=>BindScenePreview();
+        void OpenMapScene()
+        {
+            string path=EditorUtility.OpenFilePanel("Открыть сцену авторской карты",Application.dataPath,"unity");
+            if(string.IsNullOrEmpty(path))return;
+            string assets=Path.GetFullPath(Application.dataPath)+Path.DirectorySeparatorChar;
+            string absolute=Path.GetFullPath(path);
+            if(!absolute.StartsWith(assets,StringComparison.OrdinalIgnoreCase))
+                throw new InvalidOperationException("Выберите сцену внутри Assets текущего проекта.");
+            string relative="Assets/"+absolute.Substring(assets.Length).Replace('\\','/');
+            if(!AssetDatabase.LoadAssetAtPath<SceneAsset>(relative))throw new InvalidOperationException("Сцена карты не найдена.");
+            if(!CanReplaceMap())return;
+            RestorePreview();
+            if(!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()){BindScenePreview();return;}
+            EditorSceneManager.OpenScene(relative,OpenSceneMode.Single);
+            var painter=FindAnyObjectByType<MeadowSurfacePainter>();
+            if(!painter||!painter.source){Connect(null);status="В сцене нет базы авторской карты.";return;}
+            ConnectCreatedMap(painter.source);
+        }
+        internal void ConnectCreatedMap(SurfacePaintData data)
+        {
+            Connect(data);
+            FrameMap();
         }
         void OnEnable()
         {

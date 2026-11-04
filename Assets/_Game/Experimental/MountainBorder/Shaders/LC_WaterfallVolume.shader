@@ -25,6 +25,7 @@ Shader "Little Castle/Experimental/Waterfall Volume V2"
         [HideInInspector] _PreviewTime ("Presentation seconds", Float) = -1
         [HideInInspector] _DetailFade ("Distance detail", Float) = 1
         [HideInInspector] _LandingDepth ("Receiving channel depth", Float) = 0
+        [HideInInspector] _UpstreamFlowDirection ("Upstream tangent / speed / connected lip", Vector) = (0,0,0,0)
         [NoScaleOffset] _RiverNormalMap ("Uber river ripple", 2D) = "bump" {}
         [NoScaleOffset] _RiverFoamMap ("Uber surface foam", 2D) = "gray" {}
         [NoScaleOffset] _RiverShoreMap ("Uber shoreline dissolve", 2D) = "gray" {}
@@ -34,6 +35,7 @@ Shader "Little Castle/Experimental/Waterfall Volume V2"
         _RiverWaveStrength ("Bounded river waves", Range(0,1)) = 1
         _RiverBackgroundContribution ("Refracted ground contribution", Range(0,1)) = 1
         [HideInInspector] _RiverReflection ("Per plane reflection", 2D) = "black" {}
+        [HideInInspector] _RiverLipReflection ("Upper river plane reflection", 2D) = "black" {}
     }
     SubShader
     {
@@ -64,6 +66,7 @@ Shader "Little Castle/Experimental/Waterfall Volume V2"
             TEXTURE2D(_RiverCausticMap); SAMPLER(sampler_RiverCausticMap);
             TEXTURE2D(_LC_RiverFlowMap); SAMPLER(sampler_LC_RiverFlowMap);
             TEXTURE2D(_RiverReflection); SAMPLER(sampler_RiverReflection);
+            TEXTURE2D(_RiverLipReflection); SAMPLER(sampler_RiverLipReflection);
             CBUFFER_START(UnityPerMaterial)
                 half4 _WaterColor, _FoamColor;
                 float4 _ImpactPosition, _LipPosition, _FlowDirection, _ChannelWidths;
@@ -71,11 +74,11 @@ Shader "Little Castle/Experimental/Waterfall Volume V2"
                 float _SurfaceMode, _PreviewTime, _DetailFade, _ContactSoftness, _ConnectedRoute, _WaveScale;
                 float _LandingDepth;
                 half4 _RiverShallowColor,_RiverDeepColor;
-                float _RiverWaveStrength,_LC_UseFlowMap,_RiverReflectionValid,_RiverOpaqueAvailable,_RiverBackgroundContribution;
-                float4 _LC_FlowBounds,_Effects,_RiverFlowDirection;
+                float _RiverWaveStrength,_LC_UseFlowMap,_RiverReflectionValid,_RiverLipReflectionValid,_RiverOpaqueAvailable,_RiverBackgroundContribution;
+                float4 _LC_FlowBounds,_Effects,_RiverFlowDirection,_UpstreamFlowDirection;
                 float _ObstacleCount;
                 float4 _Obstacles[8],_ObstacleFlows[8];
-                float4x4 _RiverReflectionVP;
+                float4x4 _RiverReflectionVP,_RiverLipReflectionVP;
             CBUFFER_END
             half4 _LC_SunDirection, _LC_SunColor, _LC_MoonDirection, _LC_MoonColor;
             half4 _LC_AmbientColor, _LC_AmbientSkyColor, _LC_AmbientEquatorColor, _LC_AmbientGroundColor;
@@ -88,6 +91,7 @@ Shader "Little Castle/Experimental/Waterfall Volume V2"
                 float2 uv : TEXCOORD0;
                 float2 station : TEXCOORD1;
                 float4 section : TEXCOORD2;
+                float2 upstream : TEXCOORD3;
                 half4 color : COLOR;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
@@ -103,6 +107,7 @@ Shader "Little Castle/Experimental/Waterfall Volume V2"
                 float viewZ : TEXCOORD5;
                 float thickness : TEXCOORD6;
                 float waveEnvelope : TEXCOORD7;
+                float2 upstream : TEXCOORD8;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
                 UNITY_VERTEX_OUTPUT_STEREO
             };
@@ -119,7 +124,10 @@ Shader "Little Castle/Experimental/Waterfall Volume V2"
                     * sin(input.uv.x * 13 + input.uv.y * .38 - time * 1.7);
                 float3 position = input.positionOS.xyz;
                 if (_SurfaceMode < .5)
-                    position += input.section.xyz * (wave * input.section.w * .18 * _DetailFade * _WaveScale);
+                    // The river's connected endpoint is stationary. Match it exactly before
+                    // restoring the exposed sheet's motion beyond the derived lip transition.
+                    position += input.section.xyz * (wave * input.section.w * .18 * _DetailFade * _WaveScale
+                        * (1-saturate(input.upstream.x)*saturate(_UpstreamFlowDirection.w)));
                 else if (_SurfaceMode > 2.5)
                     position.y += sin(input.uv.x*17-time*4) * input.color.r * .12;
                 else if (_SurfaceMode > 1.5 && _ConnectedRoute > .5)
@@ -129,6 +137,7 @@ Shader "Little Castle/Experimental/Waterfall Volume V2"
                 o.sourcePosition = position;
                 o.normalWS = TransformObjectToWorldNormal(input.normalOS);
                 o.uv = input.uv; o.station = input.station; o.color = input.color;
+                o.upstream=input.upstream;
                 o.viewZ = p.positionVS.z;
                 o.thickness = input.section.w;
                 o.waveEnvelope=_ConnectedRoute>.5&&_SurfaceMode>1.5&&_SurfaceMode<2.5?input.section.w*_RiverWaveStrength:0;
@@ -299,22 +308,33 @@ Shader "Little Castle/Experimental/Waterfall Volume V2"
                 float rawDepth = SampleSceneDepth(GetNormalizedScreenSpaceUV(input.positionCS));
                 float sceneEye = IsPerspectiveProjection() ? LinearEyeDepth(rawDepth,_ZBufferParams)
                     : LinearDepthToEyeDepth(rawDepth);
-                alpha *= saturate((sceneEye + input.viewZ) / max(.01,_ContactSoftness));
+                half contactAlpha=saturate((sceneEye + input.viewZ) / max(.01,_ContactSoftness));
+                alpha *= contactAlpha;
                 half3 albedo = lerp(waterPigment,_FoamColor.rgb,foam);
                 half3 color = Shade(albedo,n,input.positionWS,foam);
+                half lip=_ConnectedRoute>.5&&_SurfaceMode<.5?saturate(input.upstream.x)*saturate(_UpstreamFlowDirection.w):0;
                 half calm=_ConnectedRoute>.5&&_SurfaceMode>1.5&&_SurfaceMode<2.5?1:
-                    (_ConnectedRoute>.5&&_SurfaceMode<.5?saturate(input.color.a):0);
+                    (_ConnectedRoute>.5&&_SurfaceMode<.5?max(saturate(input.color.a),lip):0);
                 if(calm>0)
                 {
                     float riverDepth=_SurfaceMode>1.5?max(0,input.station.x):
                         max(0,_LandingDepth)*(1-smoothstep(.3,1,abs(baseUV.x*2-1)));
                     float speed=_SurfaceMode>1.5?input.station.y:_RiverFlowDirection.z;
+                    float2 sharedFlow=downstream.xz;
+                    if(lip>0)
+                    {
+                        float upstreamMix=lip/max(.0001,lip+saturate(input.color.a));
+                        riverDepth=lerp(riverDepth,max(0,input.upstream.y),upstreamMix);
+                        speed=lerp(speed,_UpstreamFlowDirection.z,upstreamMix);
+                        sharedFlow=lerp(sharedFlow,_UpstreamFlowDirection.xy,upstreamMix);
+                    }
                     // Smooth analytic wave normal avoids exposing individual mesh triangles.
                     float2 slope=LCRiverWaveSlope(input.positionWS.xz,time)*input.waveEnvelope;
                     half3 geometric=SafeNormalize(input.normalWS+float3(-slope.x,0,-slope.y));
                     half4 river=LCRiverSurface(input.positionWS,geometric,GetNormalizedScreenSpaceUV(input.positionCS),
-                        -input.viewZ,riverDepth,speed,time,IS_FRONT_VFACE(frontFace,1,-1),downstream.xz);
+                        -input.viewZ,riverDepth,speed,time,IS_FRONT_VFACE(frontFace,1,-1),sharedFlow,lip>0?1:0);
                     color=lerp(color,river.rgb,calm);
+                    alpha=lerp(alpha,river.a*smoothstep(0,.035,edge)*contactAlpha,lip);
                 }
                 half fog = ComputeFogFactorZ0ToFar(max(-input.viewZ - _ProjectionParams.y,0));
                 return half4(MixFog(color,fog),saturate(alpha));

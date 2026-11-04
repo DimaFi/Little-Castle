@@ -203,5 +203,50 @@ namespace LittleCastle.Tests
             }
             finally{UnityEngine.Object.DestroyImmediate(body);UnityEngine.Object.DestroyImmediate(foam);}
         }
+        [Test] public void ExistingSavedRouteLipUsesExactUpperSurfaceBedAndStationaryJoinData()
+        {
+            var s=LandingSession();var route=s.GetWaterfall(810003).route;string before=JsonUtility.ToJson(route),save=s.ExportJson();
+            var upper=new MapRiverPath(s.GetRiver(810001));var lower=new MapRiverPath(s.GetRiver(810002));
+            var end=upper.frames[upper.frames.Count-1];const float offset=17.5f;
+            var mesh=MapWaterfallMeshBuilder.Build(route,offset,lower,upstreamRiver:upper,heightSampler:s.SampleHeight);
+            try
+            {
+                int columns=route.sections[0].points.Count,plane=columns*route.sections.Count;
+                var vertices=mesh.vertices;var normals=mesh.normals;var lip=new List<Vector2>();mesh.GetUVs(3,lip);
+                Assert.That(vertices.Length,Is.EqualTo(plane*2),"The join adapts the existing strip, without covering geometry.");
+                for(int c=0;c<columns;c++)
+                {
+                    float fraction=route.sections[0].points[c].across>=0?route.sections[0].points[c].across:c/(float)(columns-1);
+                    var at=end.center+end.Left*(end.width*(fraction-.5f));float bed=s.SampleHeight(at.x,at.y);
+                    Assert.That(Vector3.Distance(vertices[c],new Vector3(at.x,end.water+.018f,at.y)),Is.LessThan(.00001f));
+                    Assert.That(vertices[plane+c].y,Is.EqualTo(Mathf.Min(end.water+.018f,bed)).Within(.00001f));
+                    Assert.That(Vector3.Distance(normals[c],upper.SurfaceNormal(upper.Length)),Is.LessThan(.00001f));
+                    Assert.That(lip[c].x,Is.EqualTo(1));Assert.That(lip[c].y,Is.EqualTo(Mathf.Max(0,end.water-bed)).Within(.00001f));
+                    Assert.That(mesh.uv[c].y,Is.EqualTo(offset*4.5f));
+                }
+                for(int row=0;row<route.sections.Count;row++)
+                {
+                    Assert.That(lip[row*columns].x,Is.InRange(0,1));
+                    if(row>0)Assert.That(lip[row*columns].x,Is.LessThanOrEqualTo(lip[(row-1)*columns].x));
+                    if(route.sections[row].kind==MapWaterfallSectionKind.FreeFall||route.sections[row].points.Exists(p=>p.detached))Assert.That(lip[row*columns].x,Is.Zero);
+                }
+                Assert.That(lip[(route.sections.Count-1)*columns].x,Is.Zero);
+                Assert.That(JsonUtility.ToJson(route),Is.EqualTo(before));Assert.That(s.ExportJson(),Is.EqualTo(save));
+            }
+            finally{UnityEngine.Object.DestroyImmediate(mesh);}
+        }
+        [Test] public void WaterfallPresentationSuppliesActualUpperAndReceivingFlow()
+        {
+            var s=LandingSession();string before=s.ExportJson();var upper=s.RiverNetwork.Endpoint(810001,false);var lower=s.RiverNetwork.Endpoint(810002,true);
+            using(var view=new MapWaterfallPresentation(s))
+            {
+                view.Tick(new Vector3(upper.position.x,upper.waterHeight+1,upper.position.y),true);
+                Assert.That(view.LastError,Is.Null);var renderer=view.Renderers.First(r=>r.gameObject.name=="Contact and free-fall volume");
+                var block=new MaterialPropertyBlock();renderer.GetPropertyBlock(block);
+                Assert.That(block.GetVector("_UpstreamFlowDirection"),Is.EqualTo(new Vector4(upper.tangent.x,upper.tangent.y,upper.speed,1)));
+                Assert.That(block.GetVector("_RiverFlowDirection"),Is.EqualTo(new Vector4(lower.tangent.x,lower.tangent.y,lower.speed,0)));
+                Assert.That(s.ExportJson(),Is.EqualTo(before));
+            }
+        }
     }
 }

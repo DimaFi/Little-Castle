@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using LittleCastle.Rendering;
 using LittleCastle.World;
 using NUnit.Framework;
@@ -61,6 +62,61 @@ namespace LittleCastle.Tests
             Assert.That(Shader.Find("Little Castle/Rivers/Uber Water Adapted"),Is.Not.Null);
             var profile=Resources.Load<MapWaterfallVisualProfile>("MapAuthoring/ConnectedWaterVisuals");
             foreach(var material in new[]{profile.river,profile.body})foreach(string property in new[]{"_RiverNormalMap","_RiverShoreMap","_RiverFoamMap","_RiverCausticMap"})Assert.That(material.GetTexture(property),Is.Not.Null,material.name+" "+property);
+        }
+        [Test] public void UpperLipConsumesItsOwnCurrentFrameSlotWithoutBorrowingLowerPlane()
+        {
+            var session=new MapEditSession(new MapAuthoringDocument{mapId="lip-reflection",bounds=new Vector4(-8,-8,16,16)});
+            var root=new GameObject("Lip reflection binding test");var material=new Material(Shader.Find("Little Castle/Experimental/Waterfall Volume V2"));
+            try
+            {
+                var renderer=root.AddComponent<MeshRenderer>();renderer.sharedMaterial=material;
+                using(var view=new MapRiverPresentation(session,MapRockCatalog.Default,true))
+                {
+                    var reflections=view.Reflections;var flags=BindingFlags.Instance|BindingFlags.NonPublic;
+                    var slots=(System.Array)typeof(MapRiverReflections).GetField("slots",flags).GetValue(reflections);
+                    var upper=slots.GetValue(0);var lower=slots.GetValue(1);var type=upper.GetType();
+                    var upperTexture=new RenderTexture(16,16,0);var lowerTexture=new RenderTexture(16,16,0);
+                    upperTexture.Create();lowerTexture.Create();
+                    var upperVP=Matrix4x4.Translate(new Vector3(0,4,0));var lowerVP=Matrix4x4.Translate(new Vector3(0,1,0));
+                    void Set(object slot,float height,RenderTexture texture,Matrix4x4 vp,int frame)
+                    {type.GetField("height").SetValue(slot,height);type.GetField("texture").SetValue(slot,texture);type.GetField("vp").SetValue(slot,vp);type.GetField("frame").SetValue(slot,frame);}
+                    Set(upper,4,upperTexture,upperVP,Time.frameCount);Set(lower,1,lowerTexture,lowerVP,Time.frameCount);
+                    var count=typeof(MapRiverReflections).GetProperty("RenderedSlots").GetSetMethod(true);
+                    var apply=typeof(MapRiverReflections).GetMethod("Apply",flags);var block=new MaterialPropertyBlock();
+                    count.Invoke(reflections,new object[]{1});apply.Invoke(reflections,new object[]{renderer,1f,true,4f});renderer.GetPropertyBlock(block);
+                    Assert.That(block.GetFloat("_RiverLipReflectionValid"),Is.EqualTo(1));Assert.That(block.GetTexture("_RiverLipReflection"),Is.SameAs(upperTexture));
+                    Assert.That(block.GetMatrix("_RiverLipReflectionVP"),Is.EqualTo(upperVP));Assert.That(block.GetFloat("_RiverReflectionValid"),Is.Zero,"An upper-only Medium slot cannot act as the receiving plane.");
+                    count.Invoke(reflections,new object[]{2});apply.Invoke(reflections,new object[]{renderer,1f,true,4f});renderer.GetPropertyBlock(block);
+                    Assert.That(block.GetFloat("_RiverReflectionValid"),Is.EqualTo(1));Assert.That(block.GetTexture("_RiverReflection"),Is.SameAs(lowerTexture));Assert.That(block.GetMatrix("_RiverReflectionVP"),Is.EqualTo(lowerVP));
+                    Set(upper,4,upperTexture,upperVP,Time.frameCount-1);apply.Invoke(reflections,new object[]{renderer,1f,true,4f});renderer.GetPropertyBlock(block);
+                    Assert.That(block.GetFloat("_RiverLipReflectionValid"),Is.Zero,"Stale upper captures fall back to the same environment as an unserved upper river.");
+                }
+            }
+            finally{Object.DestroyImmediate(root);Object.DestroyImmediate(material);}
+        }
+        [Test] public void FallOutlivingRiverTilesClearsBothReflectionValidityFlags()
+        {
+            string path=Application.dataPath+"/_Game/Tests/Editor/Fixtures/SoftRiverV9/authored-map.json";
+            var session=new MapEditSession(JsonUtility.FromJson<MapAuthoringDocument>(System.IO.File.ReadAllText(path)));
+            var cameraRoot=new GameObject("Empty river resident reflection test");
+            try
+            {
+                var camera=cameraRoot.AddComponent<Camera>();camera.enabled=false;
+                using(var view=new MapRiverPresentation(session,MapRockCatalog.Default,true))
+                {
+                    var endpoint=session.RiverNetwork.Endpoint(810001,false);
+                    view.Waterfalls.Tick(new Vector3(endpoint.position.x,endpoint.waterHeight+1,endpoint.position.y),true);
+                    Assert.That(view.WaterRenderers,Is.Empty);Assert.That(view.Waterfalls.LastError,Is.Null);
+                    var renderer=view.Waterfalls.Renderers.First(r=>r.gameObject.name=="Contact and free-fall volume");
+                    var block=new MaterialPropertyBlock();renderer.GetPropertyBlock(block);
+                    block.SetFloat("_RiverReflectionValid",1);block.SetFloat("_RiverLipReflectionValid",1);renderer.SetPropertyBlock(block);
+                    typeof(MapRiverReflections).GetMethod("Begin",BindingFlags.Instance|BindingFlags.NonPublic).Invoke(view.Reflections,new object[]{default(UnityEngine.Rendering.ScriptableRenderContext),camera});
+                    renderer.GetPropertyBlock(block);
+                    Assert.That(block.GetFloat("_RiverReflectionValid"),Is.Zero);Assert.That(block.GetFloat("_RiverLipReflectionValid"),Is.Zero);
+                    Assert.That(view.Reflections.RenderedSlots,Is.Zero);
+                }
+            }
+            finally{Object.DestroyImmediate(cameraRoot);}
         }
     }
 }

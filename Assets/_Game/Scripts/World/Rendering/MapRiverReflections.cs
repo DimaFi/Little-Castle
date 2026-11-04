@@ -29,7 +29,16 @@ namespace LittleCastle.Rendering
         void Begin(ScriptableRenderContext context,Camera camera)
         {
             if(rendering||!camera||camera.cameraType==CameraType.Reflection||camera.cameraType==CameraType.Preview||(camera.cullingMask&(1<<4))==0)return;
-            var renderers=view.WaterRenderers.Where(IsSurface).ToArray();if(renderers.Length==0)return;
+            var renderers=view.WaterRenderers.Where(IsSurface).ToArray();
+            if(renderers.Length==0)
+            {
+                // A resident fall can outlive its river tiles at the distance boundary.
+                // Neither end may keep advertising a capture from the previous camera/frame.
+                RenderedSlots=0;
+                foreach(var renderer in view.Waterfalls.Renderers.Where(IsSurface))
+                {renderer.GetPropertyBlock(block);block.SetFloat("_RiverReflectionValid",0);block.SetFloat("_RiverLipReflectionValid",0);renderer.SetPropertyBlock(block);}
+                return;
+            }
             var data=camera.GetUniversalAdditionalCameraData();
             if(!cameraOptions.ContainsKey(camera))cameraOptions.Add(camera,(data.requiresDepthOption,data.requiresColorOption));
             // Camera-local requests; shared URP pipeline assets are never modified.
@@ -59,7 +68,9 @@ namespace LittleCastle.Rendering
             }
             foreach(var renderer in view.Waterfalls.Renderers.Where(IsSurface))
             {
-                renderer.GetPropertyBlock(block);Apply(renderer,block.GetVector("_ImpactPosition").y,true);
+                renderer.GetPropertyBlock(block);float landing=block.GetVector("_ImpactPosition").y;
+                float lip=block.GetVector("_UpstreamFlowDirection").w>.5f?block.GetVector("_LipPosition").y:float.NaN;
+                Apply(renderer,landing,true,lip);
             }
         }
         // The bounds include the bed. Derive the plane from exposed top vertices only.
@@ -67,11 +78,14 @@ namespace LittleCastle.Rendering
         {
             renderer.GetPropertyBlock(block);var plane=block.GetVector("_RiverPlane");height=plane.x;return plane.y>.5f;
         }
-        void Apply(Renderer renderer,float height,bool opaque)
+        void Apply(Renderer renderer,float height,bool opaque,float lipHeight=float.NaN)
         {
             renderer.GetPropertyBlock(block);block.SetFloat("_RiverReflectionValid",0);block.SetFloat("_RiverOpaqueAvailable",opaque?1:0);
+            block.SetFloat("_RiverLipReflectionValid",0);
             for(int i=0;i<RenderedSlots;i++)if(slots[i].frame==Time.frameCount&&Mathf.Abs(slots[i].height-height)<.08f)
             {block.SetFloat("_RiverReflectionValid",1);block.SetTexture("_RiverReflection",slots[i].texture);block.SetMatrix("_RiverReflectionVP",slots[i].vp);break;}
+            for(int i=0;i<RenderedSlots;i++)if(slots[i].frame==Time.frameCount&&Mathf.Abs(slots[i].height-lipHeight)<.08f)
+            {block.SetFloat("_RiverLipReflectionValid",1);block.SetTexture("_RiverLipReflection",slots[i].texture);block.SetMatrix("_RiverLipReflectionVP",slots[i].vp);break;}
             var p=view.EffectsProfile;block.SetVector("_Effects",p.quality==RiverEffectsQuality.Off?Vector4.zero:new Vector4(p.shorelineFoam,p.obstacleFoam,p.rapids,p.shorelineDepth));
             block.SetFloat("_RiverBackgroundContribution",Mathf.Clamp01(p.refractionBackground));
             renderer.SetPropertyBlock(block);

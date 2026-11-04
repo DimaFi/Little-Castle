@@ -72,9 +72,9 @@ namespace LittleCastle.Rendering
             try
             {
                 view.root = new GameObject("Saved waterfall " + record.id) { hideFlags = HideFlags.HideAndDontSave };
-                view.body = MapWaterfallMeshBuilder.Build(record.route, offset,lower,upper.record.layoutVersion==3);
+                view.body = MapWaterfallMeshBuilder.Build(record.route, offset,lower,upper.record.layoutVersion==3,upper,session.SampleHeight);
                 view.impact = MapWaterfallMeshBuilder.Impact(record.route,receivingRiver:lower,flowTimeOffset:session.RiverFlowTimeOffset(record.downstreamRiverId));
-                Add(view.root, "Contact and free-fall volume", view.body, profile.body, record,landingDepth:Mathf.Lerp(lower.frames[0].depth,lower.frames[0].shallowDepth,lower.frames[0].ford),landingSpeed:lower.frames[0].speed);
+                Add(view.root, "Contact and free-fall volume", view.body, profile.body, record,landingDepth:Mathf.Lerp(lower.frames[0].depth,lower.frames[0].shallowDepth,lower.frames[0].ford),landingSpeed:lower.frames[0].speed,upstreamRiver:upper,receivingRiver:lower);
                 Add(view.root, "Lower river impact", view.impact, profile.foam, record,foamOpacity:lower.record.layoutVersion==3?.24f:-1);
                 foreach(var site in MapWaterfallSpraySources.Resolve(record.route))if(site.row>0&&site.row<record.route.sections.Count-1)
                 {
@@ -87,7 +87,7 @@ namespace LittleCastle.Rendering
             }
             catch { DisposeView(view); throw; }
         }
-        static void Add(GameObject root, string name, Mesh mesh, Material material, MapWaterfallRecord record,MapWaterfallSection impactSection=null,float landingDepth=0,float foamOpacity=-1,float landingSpeed=0)
+        static void Add(GameObject root, string name, Mesh mesh, Material material, MapWaterfallRecord record,MapWaterfallSection impactSection=null,float landingDepth=0,float foamOpacity=-1,float landingSpeed=0,MapRiverPath upstreamRiver=null,MapRiverPath receivingRiver=null)
         {
             var child = new GameObject(name) { hideFlags = HideFlags.HideAndDontSave, layer = 4 };
             child.transform.SetParent(root.transform, false); child.AddComponent<MeshFilter>().sharedMesh = mesh;
@@ -101,7 +101,13 @@ namespace LittleCastle.Rendering
             properties.SetVector("_ImpactPosition", landing); properties.SetVector("_LipPosition", sections[0].FrontCenter);
             properties.SetVector("_FlowDirection", direction); properties.SetVector("_ChannelWidths", new Vector4(width, width, 0, 0));
             properties.SetFloat("_LandingDepth",landingDepth);
-            properties.SetVector("_RiverFlowDirection",new Vector4(direction.x,direction.z,landingSpeed,0));
+            var receiving=receivingRiver!=null?receivingRiver.frames[0].tangent:new Vector2(direction.x,direction.z);
+            properties.SetVector("_RiverFlowDirection",new Vector4(receiving.x,receiving.y,landingSpeed,0));
+            if(upstreamRiver?.record.layoutVersion==3)
+            {
+                var lip=upstreamRiver.frames[upstreamRiver.frames.Count-1];
+                properties.SetVector("_UpstreamFlowDirection",new Vector4(lip.tangent.x,lip.tangent.y,lip.speed,1));
+            }
             properties.SetVector("_Effects",new Vector4(.6f,.7f,.35f,.5f));
             if(foamOpacity>=0)properties.SetFloat("_Opacity",foamOpacity);
             renderer.SetPropertyBlock(properties);

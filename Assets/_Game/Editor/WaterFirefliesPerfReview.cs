@@ -45,6 +45,33 @@ namespace LittleCastle.Editor
                 else if(r.action=="final-state")FinalState(w);
                 else if(r.action=="benchmark")Benchmark(w);
                 else if(r.action=="water-ab")WaterColourComparison(w);
+                else if(r.action=="upper-join")UpperJoinReview(w);
+                else if(r.action=="settings-prepare")
+                {
+                    Directory.CreateDirectory(Root+"/settings-before");
+                    File.WriteAllText(Root+"/settings-before/map.json",JsonUtility.ToJson(w.VerificationSession.ExportMap(),true));
+                    var state=(MapRiverToolState)typeof(MapAuthoringWindow).GetField("riverTools",BindingFlags.NonPublic|BindingFlags.Instance).GetValue(w);
+                    File.WriteAllText(Root+"/settings-before/draft.json",state.ExportDraftJson());
+                    w.RestorePreview();
+                    try
+                    {
+                        if(!UnityEditor.SceneManagement.EditorSceneManager.SaveScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene()))throw new InvalidOperationException("Cannot preserve current scene before tests");
+                        SessionState.SetBool("LC.WaterFirefliesPerf.Tests",false);
+                    }
+                    catch{w.ResumeMapPreview();throw;}
+                }
+                else if(r.action=="settings-resume")w.ResumeMapPreview();
+                else if(r.action=="settings-audit")
+                {
+                    var painter=UnityEngine.Object.FindAnyObjectByType<MeadowSurfacePainter>();
+                    var first=LittleCastle.Editor.MapSystemsWindow.EnsureWeather(painter);
+                    if(first!=LittleCastle.Editor.MapSystemsWindow.EnsureWeather(painter))throw new InvalidOperationException("Duplicate weather");
+                    var serialized=new SerializedObject(first);
+                    if(serialized.FindProperty("mapPainter").objectReferenceValue!=painter||serialized.FindProperty("gameplayCamera").objectReferenceValue!=painter.studyCamera||!serialized.FindProperty("atmosphere").objectReferenceValue)throw new InvalidOperationException("Weather links missing");
+                    if(File.ReadAllText(Root+"/settings-before/map.json")!=JsonUtility.ToJson(w.VerificationSession.ExportMap(),true))throw new InvalidOperationException("Map changed");
+                    var state=(MapRiverToolState)typeof(MapAuthoringWindow).GetField("riverTools",BindingFlags.NonPublic|BindingFlags.Instance).GetValue(w);
+                    if(File.ReadAllText(Root+"/settings-before/draft.json")!=state.ExportDraftJson())throw new InvalidOperationException("Draft changed");
+                }
                 else if(r.action=="game")StartGame(w);
                 else if(r.action=="cold-visual"){StartVisual(w);visualStarted=EditorApplication.timeSinceStartup-44;}
                 else if(r.action=="cleanup")

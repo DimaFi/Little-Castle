@@ -13,6 +13,43 @@ namespace LittleCastle.Editor
 {
     public static partial class WaterFirefliesPerfReview
     {
+        static void UpperJoinReview(MapAuthoringWindow w)
+        {
+            if(w.VerificationSession.HasPending||typeof(MapAuthoringWindow).GetField("riverGesture",BindingFlags.Instance|BindingFlags.NonPublic).GetValue(w)!=null)
+                throw new InvalidOperationException("Author gesture active; capture deferred");
+            typeof(MapAuthoringWindow).GetMethod("EnsureScenePreview",BindingFlags.Instance|BindingFlags.NonPublic).Invoke(w,null);
+            var view=(MapRiverPresentation)typeof(MapAuthoringWindow).GetField("riverPreview",BindingFlags.Instance|BindingFlags.NonPublic).GetValue(w);
+            var painter=UnityEngine.Object.FindAnyObjectByType<MeadowSurfacePainter>();
+            if(view==null||!painter||!painter.studyCamera)throw new InvalidOperationException("Current map view unavailable");
+            string before=JsonUtility.ToJson(w.VerificationSession.ExportMap()),draft=RiverState(w).ExportDraftJson();
+            var fall=w.VerificationSession.GetWaterfall(810003);var target=fall.route.sections[0].FrontCenter;
+            string root="E:/Games_Develop/Research/WaterfallLip_20261102";Directory.CreateDirectory(root);
+            var go=new GameObject("Upper join review camera"){hideFlags=HideFlags.HideAndDontSave};
+            var camera=go.AddComponent<Camera>();camera.CopyFrom(painter.studyCamera);camera.enabled=false;camera.orthographic=false;camera.fieldOfView=50;
+            view.Tick(target,true);
+            var renderers=view.WaterRenderers.Cast<Renderer>().Concat(view.Waterfalls.Renderers).Where(r=>r).ToArray();
+            var blocks=new MaterialPropertyBlock[renderers.Length];
+            for(int i=0;i<renderers.Length;i++){blocks[i]=new MaterialPropertyBlock();renderers[i].GetPropertyBlock(blocks[i]);}
+            try
+            {
+                var offsets=new[]{new Vector3(4,3,-6),new Vector3(4,.6f,-5),new Vector3(3,-1.5f,-5)};
+                for(int angle=0;angle<offsets.Length;angle++)for(int phase=0;phase<3;phase++)
+                {
+                    camera.transform.SetPositionAndRotation(target+offsets[angle],Quaternion.LookRotation(-offsets[angle]));
+                    foreach(var renderer in renderers){var block=new MaterialPropertyBlock();renderer.GetPropertyBlock(block);block.SetFloat("_PreviewTime",phase*.75f);renderer.SetPropertyBlock(block);}
+                    Capture(camera,root+"/lip-"+angle+"-"+phase+".png",1000,700);
+                }
+                bool shaders=renderers.Where(r=>r.sharedMaterial).All(r=>!UnityEditor.ShaderUtil.ShaderHasError(r.sharedMaterial.shader));
+                if(!shaders)throw new InvalidOperationException("Shader compilation error");
+                if(before!=JsonUtility.ToJson(w.VerificationSession.ExportMap())||draft!=RiverState(w).ExportDraftJson())throw new InvalidOperationException("Author data changed");
+                File.WriteAllText(root+"/status.txt","PASS capture, shaders, map/draft preservation; visual review required");
+            }
+            finally
+            {
+                for(int i=0;i<renderers.Length;i++)if(renderers[i])renderers[i].SetPropertyBlock(blocks[i]);
+                UnityEngine.Object.DestroyImmediate(go);
+            }
+        }
         static void WaterColourComparison(MapAuthoringWindow w)
         {
             var painter=UnityEngine.Object.FindAnyObjectByType<MeadowSurfacePainter>();
