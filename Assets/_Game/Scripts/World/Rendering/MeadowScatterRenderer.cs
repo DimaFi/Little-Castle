@@ -116,10 +116,19 @@ namespace LittleCastle.Rendering
         public int lastRebuiltRegions {get;private set;}
         Patch[] patches = Array.Empty<Patch>();
         Batch[,] batches;
+        bool[] unsafeVisualPrototypes;
+        void RefreshVisualSafety()
+        {
+            if (!library || library.prototypes == null) { unsafeVisualPrototypes = null; return; }
+            unsafeVisualPrototypes = new bool[library.prototypes.Length];
+            for (int i = 0; i < unsafeVisualPrototypes.Length; i++)
+                unsafeVisualPrototypes[i] = HasUnsafeMaterials(library.prototypes[i]);
+        }
         Vector2 samplingOrigin;
         MapEditSession placementSession;
 
-        void OnEnable() { RenderPipelineManager.beginCameraRendering += Draw; }
+        void OnEnable() { RefreshVisualSafety(); RenderPipelineManager.beginCameraRendering += Draw; }
+        void OnValidate() { RefreshVisualSafety(); }
         void OnDisable() { RenderPipelineManager.beginCameraRendering -= Draw; }
         void Start() { if (patches.Length == 0 && painter && painter.mask) Rebuild(painter); }
 
@@ -128,7 +137,7 @@ namespace LittleCastle.Rendering
 
         public void InitializeSpawns(MeadowScatterLibrary source,IReadOnlyList<WorldSpawnData> spawns,WorldChunkData chunk=null,float chunkWorldSize=0)
         {
-            library=source;painter=null;regionPlacements.Clear();patchCache.Clear();digestDirty=true;
+            library=source;RefreshVisualSafety();painter=null;regionPlacements.Clear();patchCache.Clear();digestDirty=true;
             var placements=new List<Placement>();
             if(source&&source.prototypes!=null)foreach(var spawn in spawns)
             {
@@ -172,6 +181,7 @@ namespace LittleCastle.Rendering
             Func<float,float,float> sampleGrass,Rect? dirty=null)
         {
             placementSession=session;
+            RefreshVisualSafety();
             authoredInstances = visiblePatches = submittedInstances = submittedTriangles = drawCalls = 0;
             if(!dirty.HasValue){regionPlacements.Clear();patchCache.Clear();}
             digestDirty=true;lastRebuiltRegions=0;
@@ -428,7 +438,8 @@ namespace LittleCastle.Rendering
                     var prototype = library.prototypes[type];
                     if(!Valid(prototype))continue;
                     var mesh = prototype.lodMeshes[lod];
-                    if (rejectBrokenScatterMaterials && HasUnsafeMaterials(prototype)) continue;
+                    if (rejectBrokenScatterMaterials && unsafeVisualPrototypes != null &&
+                        type < unsafeVisualPrototypes.Length && unsafeVisualPrototypes[type]) continue;
                     submittedInstances += batch.count;
                     for (int sub = 0; sub < mesh.subMeshCount; sub++)
                     {
