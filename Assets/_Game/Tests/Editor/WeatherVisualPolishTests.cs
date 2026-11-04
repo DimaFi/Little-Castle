@@ -60,6 +60,7 @@ namespace LittleCastle.Tests
         {
             Shader shader = Shader.Find("Little Castle/Sky/Stylized Day Night");
             Assert.IsNotNull(shader);
+            Assert.IsTrue(shader.isSupported, "Storm sky shader is unsupported or failed compilation.");
             var material = new Material(shader);
             try
             {
