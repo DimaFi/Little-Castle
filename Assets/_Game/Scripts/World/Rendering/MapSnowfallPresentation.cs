@@ -59,7 +59,7 @@ namespace LittleCastle.Rendering
             renderer.enabled = false;
         }
 
-        public void Tick(Vector3 groundFocus)
+        public void Tick(Vector3 groundFocus, float ambientWinterSnow = .17f)
         {
             // Even if the flake material is absent, the shared mask must still suppress
             // rain in locally cold regions. Mask is independent of the global rain value.
@@ -69,7 +69,7 @@ namespace LittleCastle.Rendering
             var settings = session.EnvironmentSettings;
             float precipitation = Shader.GetGlobalFloat("_LC_WeatherRainIntensity");
             float strength = EvaluateIntensity(1f, 1f, settings.simulateWeather,
-                settings.snowfallIntensity, precipitation);
+                settings.snowfallIntensity, precipitation, ambientWinterSnow);
             renderer.enabled = nearby > .015f && strength > .001f;
             if (!renderer.enabled) return;
             root.transform.position = groundFocus;
