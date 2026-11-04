@@ -19,6 +19,8 @@ MonoBehaviour:
   wetRock: 0.55
   shorelineDepth: 0.5
   animationSpeed: 1
+  refractionBackground: 0.22
+  coherentPlanarReflections: 1
   foamColor: {r: 0.73, g: 0.85, b: 0.81, a: 1}
   maximumTrianglesPerTile: 8192
   maximumObstaclesPerTile: 8
