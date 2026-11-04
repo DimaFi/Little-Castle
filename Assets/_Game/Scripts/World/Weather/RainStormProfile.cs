@@ -69,8 +69,8 @@ namespace LittleCastle.World.Weather
 
         [Header("Thunder; optional licensed audio assigned in Inspector")]
         public bool enableLightning = true;
-        [Min(4f)] public float minLightningInterval = 16f;
-        [Min(5f)] public float maxLightningInterval = 42f;
+        [Min(4f)] public float minLightningInterval = 10f;
+        [Min(5f)] public float maxLightningInterval = 24f;
         [Range(0f, 1f)] public float lightningFlash = 0.5f;
         public bool reducedFlashes;
         public bool enableThunder = true;
