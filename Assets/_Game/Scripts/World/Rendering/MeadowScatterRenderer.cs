@@ -36,6 +36,11 @@ namespace LittleCastle.Rendering
         [NonSerialized] public Func<float,float,float,bool> placementAllowed;
         public int authoredInstances, visiblePatches, submittedInstances, submittedTriangles, drawCalls;
         public bool candidateBudgetReached;
+        [Header("Visual diagnostic (does not change authored paint / prefabs)")]
+        [Tooltip("-1 shows all flower, shrub and grass prototypes. Set a prototype index to isolate one black/invalid shape.")]
+        public int debugOnlyPrototype = -1;
+        [Tooltip("Skip obviously broken/unsupported render materials instead of drawing black cards.")]
+        public bool rejectBrokenScatterMaterials = true;
         bool digestDirty=true;
         ulong cachedDigest;
         public ulong placementDigest
@@ -416,10 +421,11 @@ namespace LittleCastle.Rendering
                 for (int type = 0; type < library.prototypes.Length; type++) for (int lod = 0; lod < 4; lod++)
                 {
                     var batch = batches[type, lod];
-                    if (batch.count == 0) continue;
+                    if (batch.count == 0 || debugOnlyPrototype >= 0 && type != debugOnlyPrototype) continue;
                     var prototype = library.prototypes[type];
                     if(!Valid(prototype))continue;
                     var mesh = prototype.lodMeshes[lod];
+                    if (rejectBrokenScatterMaterials && HasUnsafeMaterials(prototype)) continue;
                     submittedInstances += batch.count;
                     for (int sub = 0; sub < mesh.subMeshCount; sub++)
                     {
@@ -437,6 +443,79 @@ namespace LittleCastle.Rendering
                     }
                 }
             }
+        }
+
+        // The connected checkpoint does not contain every locally authored flower/tree
+        // material. This non-destructive preflight prevents unsupported shaders or
+        // grossly mismatched LOD bounds from painting giant dark geometry. It does not
+        // replace/correct source assets or guess which specific object is bad.
+        public static string VisualSafetyIssue(MeadowScatterLibrary.Prototype prototype)
+        {
+            if (prototype == null) return "Missing prototype";
+            if (!prototype.enabled) return null; // Intentionally disabled in library.
+            if (prototype.lodMeshes == null || prototype.lodMeshes.Length != 4)
+                return "Missing 4 LOD mesh references";
+            if (prototype.materials == null || prototype.materials.Length == 0)
+                return "Missing material array";
+            float expected = Mathf.Max(1f, prototype.localBounds.size.magnitude);
+            for (int i = 0; i < 4; i++)
+            {
+                Mesh mesh = prototype.lodMeshes[i];
+                if (!mesh) return "Missing mesh at LOD " + i;
+                if (mesh.subMeshCount > prototype.materials.Length)
+                    return "LOD " + i + " needs more material slots";
+                if (mesh.bounds.size.magnitude > Mathf.Max(12f, expected * 3f))
+                    return "LOD " + i + " has an oversized mesh, possible dark geometry patch";
+                for (int slot = 0; slot < mesh.subMeshCount; slot++)
+                {
+                    Material material = prototype.materials[slot];
+                    if (!material || !material.shader || !material.shader.isSupported ||
+                        material.shader.name == "Hidden/InternalErrorShader")
+                        return "Unsupported or missing material at slot " + slot;
+                }
+            }
+            return null;
+        }
+
+        static bool HasUnsafeMaterials(MeadowScatterLibrary.Prototype prototype)
+        {
+            return VisualSafetyIssue(prototype) != null;
+        }
+
+        [ContextMenu("Diagnose painted scatter visuals")]
+        public void DiagnosePaintedScatter()
+        {
+            if (!library || library.prototypes == null)
+            {
+                Debug.LogWarning("Meadow scatter: no library assigned.", this);
+                return;
+            }
+            int problems = 0;
+            for (int i = 0; i < library.prototypes.Length; i++)
+            {
+                var p = library.prototypes[i];
+                string issue = VisualSafetyIssue(p);
+                if (!string.IsNullOrEmpty(issue))
+                {
+                    problems++;
+                    Debug.LogWarning("Scatter [" + i + "] " + (p?.stableId ?? "<null>") +
+                        " (" + (p?.sourceAssetPath ?? "<no source>") + "): " + issue, this);
+                }
+                // A cutout-card without a texture is suspicious, but it can be a legitimate
+                // untextured blade. Warn instead of removing it from the painted world.
+                if (p?.materials == null) continue;
+                foreach (var material in p.materials)
+                {
+                    if (!material || !material.shader) continue;
+                    if (material.HasProperty("_Cutoff") && material.HasProperty("_MainTex")
+                        && material.GetTexture("_MainTex") == null)
+                        Debug.LogWarning("Scatter [" + i + "] may have untextured alpha cards: " +
+                            material.name + ". Inspect alpha/texture import or UVs.", this);
+                }
+            }
+            Debug.Log("Scatter material inspection: " + problems +
+                " unsafe prototypes. To isolate a black shape, set debugOnlyPrototype to an index" +
+                " and look at the same camera/paint area. No map data changed.", this);
         }
 
         static bool Valid(MeadowScatterLibrary.Prototype prototype)
