@@ -5,6 +5,20 @@
 // Only the opt-in rain controller drives this global; zero preserves existing looks.
 float _LC_WeatherWetness;
 
+// Same map is read by falling rain, falling snow, wetness and ground splashes.
+// No map presenter means neutral warm coverage, preserving legacy scenes.
+TEXTURE2D(_LC_WeatherBiomeMap);
+float4 _LC_WeatherBiomeBounds;
+float _LC_WeatherBiomeEnabled;
+
+half LCWeatherBiomeSnowCoverage(float3 worldPos)
+{
+    if (_LC_WeatherBiomeEnabled < .5) return 0;
+    float2 uv = (worldPos.xz - _LC_WeatherBiomeBounds.xy) * _LC_WeatherBiomeBounds.zw;
+    if (any(uv < 0.0) || any(uv > 1.0)) return 0;
+    return saturate(SAMPLE_TEXTURE2D_LOD(_LC_WeatherBiomeMap, sampler_LinearClamp, uv, 0).r);
+}
+
 // One low-resolution resident world-space texture for all prefab-authored eaves.
 // Neutral until RainStormController explicitly opts in; reuse URP's linear clamp sampler.
 TEXTURE2D(_LC_RainShelterMap);
@@ -34,7 +48,7 @@ half LCWeatherWetAmount(float3 positionWS, half3 geometricNormal, half snowCover
     float2 p = positionWS.xz;
     float variation = sin(p.x * .83 + sin(p.y * .31)) * cos(p.y * 1.11 + sin(p.x * .47));
     half broad = .83h + .17h * variation;
-    half snowFree = 1.0h - saturate(snowCoverage);
+    half snowFree = (1.0h - saturate(snowCoverage)) * (1.0h - LCWeatherBiomeSnowCoverage(positionWS));
     return saturate(overall * broad * snowFree * (1.0h - LCWeatherShelterCoverage(positionWS)));
 }
 
