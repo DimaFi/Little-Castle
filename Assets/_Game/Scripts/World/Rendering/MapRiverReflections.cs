@@ -49,7 +49,7 @@ namespace LittleCastle.Rendering
             if(!cameraOptions.ContainsKey(camera))cameraOptions.Add(camera,(data.requiresDepthOption,data.requiresColorOption));
             // Camera-local requests; shared URP pipeline assets are never modified.
             data.requiresDepthTexture=true;data.requiresColorTexture=true;
-            int budget=Budget(view.EffectsProfile.quality);RenderedSlots=0;LastFrame=Time.frameCount;Generation++;
+            int budget=view.EffectsProfile.enablePlanarReflections ? Budget(view.EffectsProfile.quality) : 0;RenderedSlots=0;LastFrame=Time.frameCount;Generation++;
             var frustum=GeometryUtility.CalculateFrustumPlanes(camera);var candidates=new List<(float height,float priority)>();
             foreach(var renderer in renderers)
             {
