@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25db9284faf84361aa1830a3831c84a5, type: 3}
+  m_Name: ConnectedWaterVisuals
+  m_EditorClassIdentifier: LittleCastle.Runtime::LittleCastle.Rendering.MapWaterfallVisualProfile
+  body: {fileID: 2100000, guid: df269b72024c3724ea3310c6e8985e91, type: 2}
+  river: {fileID: 2100000, guid: 814555c6da5e7144f907f0e4634dc64f, type: 2}
+  foam: {fileID: 2100000, guid: 15f5d9782aef42844996da75c8acbbfc, type: 2}
+  spray: {fileID: 2100000, guid: e5670a6983dfa93409edc8367b3014e7, type: 2}
+  sprayQuality: 2
+  maximumDistance: 120
+  maximumResident: 4
