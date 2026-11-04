@@ -25,11 +25,16 @@ namespace LittleCastle.Tests
         }
 
         [Test]
-        public void HeavyRainSuppressesSnowButZeroRainDoesNot()
+        public void WinterPrecipitationGrowsDuringRainAndStorm()
         {
-            float snow=MapSnowfallPresentation.EvaluateIntensity(1f,0f,true,.7f,0f);
-            Assert.Greater(snow,.5f);
-            Assert.AreEqual(0f,MapSnowfallPresentation.EvaluateIntensity(1f,0f,true,.7f,1f),.0001f);
+            float quiet = MapSnowfallPresentation.EvaluateIntensity(1f,0f,false,0f,0f);
+            float rain = MapSnowfallPresentation.EvaluateIntensity(1f,0f,false,0f,.48f);
+            float storm = MapSnowfallPresentation.EvaluateIntensity(1f,0f,false,0f,1f);
+            Assert.AreEqual(.17f, quiet, .0001f);
+            Assert.Greater(rain, quiet);
+            Assert.AreEqual(1f, storm, .0001f);
+            Assert.AreEqual(0f, MapSnowfallPresentation.EvaluateIntensity(0f,0f,true,1f,1f), .0001f);
+            Assert.AreEqual(0f, MapSnowfallPresentation.EvaluateIntensity(1f,1f,false,0f,0f,0f), .0001f);
         }
     }
 }
