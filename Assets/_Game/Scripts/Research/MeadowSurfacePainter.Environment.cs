@@ -10,6 +10,8 @@ namespace LittleCastle.Research
         public WorldTimeSystem environmentTimeSource;
         [Header("Winter precipitation")]
         [Range(0f, 1f)] public float ambientWinterSnowfall = .17f;
+        [Tooltip("Far winter flakes, useful for distant snow fields. Disable on weaker GPUs or to compare the old near-only rendering.")]
+        public bool enableDistantSnowfall = true;
         MapSnowfallPresentation snowfallView;
         DayNightLightingController environmentAtmosphere;
         public MapEnvironmentPresentation EnvironmentView { get; private set; }
@@ -36,7 +38,7 @@ namespace LittleCastle.Research
                 ? (float)(environmentTimeSource.GameHoursAdvancedLastTick * 3600.0) : 0f;
             EnvironmentView.Tick(studyCamera, elapsedWorldSeconds);
             ShoreDecorationView?.Tick(EnvironmentView.GroundFocus);
-            snowfallView?.Tick(EnvironmentView.GroundFocus, ambientWinterSnowfall);
+            snowfallView?.Tick(EnvironmentView.GroundFocus, ambientWinterSnowfall, enableDistantSnowfall);
             if (environmentAtmosphere)
             {
                 Vector3 p = EnvironmentView.GroundFocus;
