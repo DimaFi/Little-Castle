@@ -252,6 +252,16 @@ Shader "Little Castle/Sky/Stylized Day Night"
                 float belly = 1 - smoothstep(lower + .02, upper * .80, dir.y);
                 float detailLight = saturate(.13 + fine * .55 +
                     (broad - fine) * .75 + (1 - belly) * .27);
+                if (_CloudQuality > 1.5)
+                {
+                    // Cheap two-octave fake self-shadow from an offset sample:
+                    // crests catch light while recessed billows stay dark.
+                    float bs, fs;
+                    float shadow = LCStormField(p + sunDir * .48,
+                        0, bs, fs);
+                    detailLight = saturate(detailLight +
+                        (body - shadow) * 2.0);
+                }
                 float3 bottom = _CloudShadeColor.rgb * .68;
                 float3 illuminated = _CloudLightColor.rgb * 1.18;
                 float3 color = lerp(bottom, illuminated, detailLight);
@@ -294,6 +304,13 @@ Shader "Little Castle/Sky/Stylized Day Night"
                     raggedTop * .70, dir.y);
                 float lit = saturate(.19 + fine * .52 +
                     (broad - fine) * .87 + (1 - underside) * .23);
+                if (_CloudQuality > 1.5)
+                {
+                    float bs, fs;
+                    float recessed = LCStormField(p + float3(.27,.49,.15),
+                        0, bs, fs);
+                    lit = saturate(lit + (billow - recessed) * 2.1);
+                }
                 float3 shadow = _CloudShadeColor.rgb * .61;
                 float3 highlights = _CloudLightColor.rgb * .97;
                 float3 color = lerp(shadow, highlights, lit);
