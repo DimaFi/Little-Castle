@@ -1,5 +1,6 @@
 using System;
 using LittleCastle.Research;
+using LittleCastle.Rendering;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
@@ -507,6 +508,9 @@ namespace LittleCastle.World.Weather
                 pd.properties.Clear();
                 // Smooth coverage from the same prefab roof footprint used by the shader.
                 float exposed = 1f - RainShelterVolume.CoverageAt(pd.obj.transform.position);
+                if (mapPainter && mapPainter.Session != null)
+                    exposed *= 1f - MapWeatherBiomeMask.SnowWeight(mapPainter.Session,
+                        pd.obj.transform.position.x, pd.obj.transform.position.z);
                 pd.properties.SetFloat(WetnessId, wetness * exposed * (pd.water ? .45f : Settings.wetReflection));
                 pd.properties.SetFloat(SeedId, RainStormMath.Unit(seed + 5));
                 pd.renderer.SetPropertyBlock(pd.properties);
@@ -538,6 +542,9 @@ namespace LittleCastle.World.Weather
             {
                 RainRoofDripSource source = sources[i];
                 if (!source || !source.affectsPreview || source.dripAmount <= 0f) continue;
+                if (mapPainter && mapPainter.Session != null &&
+                    MapWeatherBiomeMask.SnowWeight(mapPainter.Session,
+                        source.transform.position.x, source.transform.position.z) > .8f) continue;
                 if ((source.transform.position - focus).sqrMagnitude > 70f * 70f) continue;
                 float actual = source.continueAfterRain ? strength : intensity;
                 int drops = Mathf.Min(remaining, Mathf.FloorToInt(actual * source.dripAmount * 5f));
