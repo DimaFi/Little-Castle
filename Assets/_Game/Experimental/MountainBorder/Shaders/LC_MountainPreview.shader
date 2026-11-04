@@ -34,6 +34,7 @@ Shader "Little Castle/Experimental/Mountain Border Preview"
         _SnowColor ("Snow Color", Color) = (0.86,0.9,0.94,1)
         _SnowNoiseAmplitude ("Snow Line Noise (Metres)", Float) = 6
         _SnowNoiseScale ("Snow Line Noise Scale", Float) = 0.025
+        _StormPeakVeil ("Far mountain cloud overlap (storm only)", Range(0,0.6)) = .28
     }
 
     SubShader
@@ -82,6 +83,7 @@ Shader "Little Castle/Experimental/Mountain Border Preview"
             float _SnowSlopeMax;
             float _SnowNoiseAmplitude;
             float _SnowNoiseScale;
+            float _StormPeakVeil;
         CBUFFER_END
 
         // Owned by the existing presentation system, never set by this shader.
@@ -93,6 +95,7 @@ Shader "Little Castle/Experimental/Mountain Border Preview"
         half4 _LC_AmbientSkyColor;
         half4 _LC_AmbientEquatorColor;
         half4 _LC_AmbientGroundColor;
+        float _LC_MountainStormCloud;
 
         struct MountainAttributes
         {
@@ -287,6 +290,22 @@ Shader "Little Castle/Experimental/Mountain Border Preview"
             }
             float nearToFarZ = max(-input.viewZ - _ProjectionParams.y, 0.0);
             half fog = ComputeFogFactorZ0ToFar(nearToFarZ);
+            // Far alpine peak veil only. A soft density field blends the mountain
+            // into the distant storm bank without adding geometry above the camera,
+            // changing terrain topology, or hiding nearby paths/units.
+            [branch] if (_LC_MountainStormCloud > .001 && _StormPeakVeil > .001)
+            {
+                float far = smoothstep(100.0, 240.0,
+                    distance(GetCameraPositionWS(), input.positionWS));
+                float mountainTop = smoothstep(_SnowLine - 28.0,
+                    _SnowLine + 22.0, input.positionWS.y);
+                float2 p = input.positionWS.xz * .028;
+                float pattern = sin(p.x * 1.17 + sin(p.y * .8)) * .35 +
+                    cos(p.y * 1.63 - p.x * .3) * .28;
+                float veil = saturate(.63 + pattern) * far * mountainTop *
+                    _LC_MountainStormCloud * _StormPeakVeil;
+                color = lerp(color, half3(.32,.38,.46), veil);
+            }
             return half4(MixFog(color, fog), 1);
         }
         ENDHLSL
