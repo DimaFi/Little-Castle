@@ -18,6 +18,7 @@ namespace LittleCastle.Experimental.MountainBorder.Presentation
         readonly Material material;
         readonly MeshRenderer renderer;
         readonly float minimumDistance;
+        public int CardCount { get; private set; }
 
         public static Vector3[] PickRidgeAnchors(Mesh source, int bands = 11)
         {
@@ -73,7 +74,9 @@ namespace LittleCastle.Experimental.MountainBorder.Presentation
                 hideFlags = HideFlags.HideAndDontSave
             };
 
-            int count = peaks.Length;
+            int rows = Mathf.Clamp(profile.peakCloudBillowRows, 1, 3);
+            int count = peaks.Length * rows;
+            CardCount = count;
             var vertices = new Vector3[count * 4];
             var uv = new Vector2[count * 4];
             var seeds = new Vector2[count * 4];
@@ -81,9 +84,18 @@ namespace LittleCastle.Experimental.MountainBorder.Presentation
             float cloudHeight = Mathf.Clamp(source.bounds.size.y * .24f, 14, 48);
             for (int i = 0; i < count; i++)
             {
+                int anchorIndex = i / rows;
+                int rowIndex = i % rows;
                 float jitter = Mathf.Sin((i + profile.seed) * 1.917f);
-                Vector3 center = peaks[i];
-                center.y -= cloudHeight * (.12f + (jitter + 1) * .09f);
+                Vector3 center = peaks[anchorIndex];
+                float rowOffset = rowIndex - (rows - 1) * .5f;
+                float span = Mathf.Clamp(source.bounds.size.x /
+                    Mathf.Max(3, profile.peakCloudCount) * 2.1f, 20, 96) *
+                    profile.peakCloudWidthMultiplier;
+                center.x += rowOffset * span * .40f;
+                center.y -= cloudHeight * (.10f + (jitter + 1) * .09f
+                    + Mathf.Abs(rowOffset) * .19f);
+                center.z += Mathf.Sin(i * 1.43f) * cloudHeight * .12f;
                 for (int j = 0; j < 4; j++)
                 {
                     vertices[i * 4 + j] = center;
@@ -134,7 +146,7 @@ namespace LittleCastle.Experimental.MountainBorder.Presentation
             float distance = camera ? Vector3.Distance(camera.transform.position,
                 root.transform.TransformPoint(mesh.bounds.center)) : 0f;
             renderer.enabled = camera && camera.cameraType != CameraType.Reflection &&
-                distance > minimumDistance * .75f &&
+                distance > minimumDistance * .64f &&
                 Shader.GetGlobalFloat("_LC_MountainStormCloud") > .035f;
         }
 
