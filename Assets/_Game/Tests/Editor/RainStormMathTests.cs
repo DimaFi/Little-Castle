@@ -67,6 +67,24 @@ namespace LittleCastle.Tests
         }
 
         [Test]
+        public void DistantLightningShaderIsAvailableForURPStorm()
+        {
+            Assert.IsNotNull(Resources.Load<Shader>("RainStorm/LC_StormLightning"),
+                "The distant lightning shader must be included in Resources.");
+        }
+
+        [Test]
+        public void WinterSnowfallCanBeDisabledWithoutDisablingStormSnow()
+        {
+            Assert.AreEqual(0f,
+                LittleCastle.Rendering.MapSnowfallPresentation.EvaluateIntensity(
+                    1f, 1f, false, 0f, 0f, 0f), .0001f);
+            Assert.Greater(
+                LittleCastle.Rendering.MapSnowfallPresentation.EvaluateIntensity(
+                    1f, 1f, false, 0f, 1f, 0f), .99f);
+        }
+
+        [Test]
         public void NoTimeNoBlendAndNoOvershoot()
         {
             Assert.AreEqual(.3f, RainStormMath.Approach(.3f, 1, 4, 0));
