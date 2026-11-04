@@ -12,6 +12,9 @@ namespace LittleCastle.World
     public sealed class TerrainStarterPreviewControls : MonoBehaviour
     {
         private bool low;
+        private DayNightLightingController atmosphere;
+        private PreviewQuality previousAtmosphereQuality;
+        private bool previousAtmosphereQualityOverride;
         public enum PreviewQuality { Low, Medium, High, Ultra }
         private PreviewQuality quality=PreviewQuality.Medium;
         private bool stackOff, aoOff, dofOff, filterOff, terrainOff;
@@ -43,6 +46,9 @@ namespace LittleCastle.World
         private void OnEnable()
         {
             previewCamera=GetComponent<Camera>();
+            atmosphere=FindAnyObjectByType<DayNightLightingController>();
+            if(atmosphere) { previousAtmosphereQuality=atmosphere.AtmosphereQuality;
+                previousAtmosphereQualityOverride=atmosphere.HasAtmosphereQualityOverride; }
             oldRunInBackground=Application.runInBackground;
             softScene=GetComponent<TerrainStarterSoftScene>();
             if(softScene) { oldSoftEnabled=softScene.enabled; oldBlur=softScene.blurStrength;
@@ -103,6 +109,8 @@ namespace LittleCastle.World
         }
         private void OnDisable()
         {
+            if(atmosphere) { atmosphere.SetAtmosphereQuality(previousAtmosphereQuality);
+                if(!previousAtmosphereQualityOverride) atmosphere.ClearAtmosphereQualityOverride(); }
             RenderPipelineManager.endCameraRendering-=OnEndCameraRendering;
             urpQuality?.Dispose(); urpQuality=null;
             Application.runInBackground=oldRunInBackground;
@@ -120,6 +128,7 @@ namespace LittleCastle.World
         private void ApplyQuality()
         {
             low=quality==PreviewQuality.Low;
+            if(atmosphere) atmosphere.SetAtmosphereQuality(quality);
             Shader.SetGlobalFloat("_LC_LowTerrainDetail",low || terrainOff ? 1 : 0);
             if(urpQuality!=null) urpQuality.SetQuality(quality);
             else if(GraphicsSettings.currentRenderPipeline==null)

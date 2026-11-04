@@ -12,6 +12,8 @@ namespace LittleCastle.World
     [DisallowMultipleRendererFeature("Little Castle Soft Scene")]
     public sealed class TerrainStarterSoftSceneRendererFeature : ScriptableRendererFeature
     {
+        /// <summary>Executed composites, for native capture diagnostics (not gameplay state).</summary>
+        public static int CompositeDrawCount { get; private set; }
         private SoftScenePass pass;
 
         public override void Create()
@@ -176,6 +178,7 @@ namespace LittleCastle.World
                         // Pass feature; the MPB snapshots each draw without mutating shared materials.
                         context.cmd.DrawProcedural(Matrix4x4.identity, passData.material,
                             passData.shaderPass, MeshTopology.Triangles, 3, 1, Properties);
+                        if (passData.shaderPass == 1) CompositeDrawCount++;
                     });
                 }
             }

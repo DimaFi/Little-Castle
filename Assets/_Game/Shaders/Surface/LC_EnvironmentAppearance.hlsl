@@ -2,6 +2,7 @@
 #define LC_ENVIRONMENT_APPEARANCE_INCLUDED
 
 #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/GlobalSamplers.hlsl"
+#include "../Sky/LC_CloudNoise.hlsl"
 
 // Presentation-only, outside UnityPerMaterial. The producer supplies linear
 // palette multipliers (neutral summer = 1) and local snow coverage in R.
@@ -37,10 +38,14 @@ half LCEnvironmentSnow(float3 worldPos, half3 geometricNormal, half acceptance)
     {
     half coverage = saturate(SAMPLE_TEXTURE2D_LOD(
         _LC_EnvironmentSnow, sampler_LinearClamp, uv, 0).r);
-    // Bounded, low-frequency variation only modulates existing local coverage.
+    // A two-dimensional field has no preferred band direction. Fade breakup
+    // out in deep snow: full coverage must remain full instead of exposing
+    // periodic dark soil. Reuse the project's existing continuous world noise;
+    // no new texture, sampler, per-object seed or screen-space dependency.
     // Multiply acceptance and slope AFTER noise: zero coverage, vertical walls,
     // undersides and opted-out materials must never acquire stray snow.
-    half noise = 0.88h + 0.12h * sin(dot(worldPos.xz, float2(0.73, 1.17)));
+    half breakup = 0.82h + 0.18h * LCCloudNoise(worldPos.xz * 0.23);
+    half noise = lerp(breakup, 1.0h, smoothstep(0.55h, 0.95h, coverage));
     half slope = smoothstep(0.15h, 0.75h, normalize(geometricNormal).y);
     snow = coverage * noise * saturate(acceptance) * slope;
     }

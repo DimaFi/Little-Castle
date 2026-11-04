@@ -40,7 +40,7 @@ namespace LittleCastle.World
         {if(riverIndex.TryGetValue(TreeCell(p),out var group))foreach(long id in group)yield return rivers[id];}
         public void UpsertRiver(MapRiverRecord input)
         {
-            CommitStroke();RequireRiverAccess();var record=Clone(input);var path=ValidateRiver(record);
+            RequireRiverAccess();var record=Clone(input);var path=ValidateRiver(record);
             rivers.TryGetValue(record.id,out var before);
             if(before!=null&&JsonUtility.ToJson(new NodeList{nodes=before.record.nodes})!=JsonUtility.ToJson(new NodeList{nodes=record.nodes}))
                 foreach(var rock in record.rocks)if(!rock.manual)
@@ -63,7 +63,10 @@ namespace LittleCastle.World
                 dirty=default;foreach(var patch in before.record.patches)dirty=Union(dirty,PatchBounds(before,patch));foreach(var patch in record.patches)dirty=Union(dirty,PatchBounds(path,patch));
                 if(dirty.width==0)dirty=path.bounds;
             }
-            var c=new Command{bounds=Pad(dirty,HeightSpacing*2),kind=RiverKinds};c.rivers.Add(new RiverChange{before=before?.record,after=record});Execute(c);
+            var proposed=ExportRivers();proposed.RemoveAll(r=>r.id==record.id);proposed.Add(record);
+            var nextNetwork=riverNetwork.WithRivers(proposed,false,MapObjectIds.New);ValidateRiverNetworkPlacement(nextNetwork);
+            dirty=Union(dirty,Union(ConnectedWaterfallBounds(record.id,riverNetwork),ConnectedWaterfallBounds(record.id,nextNetwork)));
+            CommitStroke();var c=new Command{bounds=Pad(dirty,HeightSpacing*2),kind=RiverKinds};c.rivers.Add(new RiverChange{before=before?.record,after=record});AttachRiverNetwork(c,nextNetwork);Execute(c);
         }
         [Serializable] sealed class NodeList {public List<MapRiverNode> nodes;}
         static Rect Pad(Rect r,float amount)=>Rect.MinMaxRect(r.xMin-amount,r.yMin-amount,r.xMax+amount,r.yMax+amount);
@@ -73,8 +76,14 @@ namespace LittleCastle.World
         {
             var r=GetRiver(id);foreach(var n in r.nodes)n.position+=delta;foreach(var rock in r.rocks)if(rock.manual)rock.position+=delta;UpsertRiver(r);
         }
-        public void DeleteRiver(long id)
-        {CommitStroke();RequireRiverAccess();if(!rivers.TryGetValue(id,out var p))return;var c=new Command{bounds=Pad(p.bounds,HeightSpacing*2),kind=RiverKinds};c.rivers.Add(new RiverChange{before=p.record});Execute(c);}
+        public void DeleteRiver(long id,bool removeDependentWaterfalls=false)
+        {
+            RequireRiverAccess();if(!rivers.TryGetValue(id,out var p))return;
+            var proposed=ExportRivers();proposed.RemoveAll(r=>r.id==id);
+            var nextNetwork=riverNetwork.WithRivers(proposed,removeDependentWaterfalls,MapObjectIds.New);
+            Rect dirty=p.bounds;foreach(var link in ExportRiverNetwork().waterfalls)if(link.upstreamRiverId==id||link.downstreamRiverId==id)dirty=Union(dirty,WaterfallBounds(link));
+            CommitStroke();var c=new Command{bounds=Pad(dirty,HeightSpacing*2),kind=RiverKinds};c.rivers.Add(new RiverChange{before=p.record});AttachRiverNetwork(c,nextNetwork);Execute(c);
+        }
         public long PaintBank(long riverId,float station,float radius,bool left,bool right,bool ford=false,float shallowDepth=.25f)
         {
             var r=GetRiver(riverId);long id=MapObjectIds.New();r.patches.Add(new MapBankPatch{id=id,station=station,radius=radius,left=left,right=right,crossChannel=ford,shallowDepth=shallowDepth});UpsertRiver(r);return id;
@@ -107,6 +116,15 @@ namespace LittleCastle.World
             {
                 ValidatePoint(f.Edge(1)+f.Left*f.leftTransition);ValidatePoint(f.Edge(-1)-f.Left*f.rightTransition);
                 foreach(var protectedArea in heightField.Definition.protectedAreas)if(Pad(protectedArea,HeightSpacing).Contains(f.center)||protectedArea.Contains(f.Edge(1))||protectedArea.Contains(f.Edge(-1)))throw new InvalidDataException("Река задевает защищённый рельеф.");
+                if(r.layoutVersion==3)
+                    for(int side=-1;side<=1;side+=2)for(int j=0;j<=8;j++)
+                    {
+                        float distance=(f.width*.5f+(side>0?f.leftTransition:f.rightTransition))*j/8f;
+                        var p=f.center+f.Left*(distance*side);ValidatePoint(p);
+                        float ground=SampleBaseHeight(p.x,p.y),bed=MapRiverSection.Bed(f,distance*side,ground);
+                        if(bed<MinimumHeight||bed>MaximumHeight+r.sectionProfile.bankRise+.001f||ground-bed>r.sectionProfile.maximumCut+.001f||bed-ground>r.sectionProfile.maximumFill+.001f)
+                            throw new InvalidDataException("Русло требует слишком большой выемки или насыпи у "+p+": земля "+ground.ToString("F2")+", профиль "+bed.ToString("F2")+". Измените уровень воды или предел локальной правки.");
+                    }
             }
             ValidateRockRecords(r.rocks);return path;
         }
@@ -163,26 +181,42 @@ namespace LittleCastle.World
             foreach(var s in baseS.Values)c.sections.Add(new RockSectionChange{after=s});
             c.bounds=Union(c.bounds,AllRiverBounds());foreach(var r in authored.rivers)c.bounds=Union(c.bounds,new MapRiverPath(r).bounds);foreach(var s in authored.rockSections)c.bounds=Union(c.bounds,SectionBounds(s));c.kind|=RiverKinds;
         }
-        float RiverGridSample(int x,int z)
+        float RiverGridSample(int x,int z,long plannedUpper=0,long plannedLower=0)
         {
-            var key=new ChunkCoordinate(x,z);if(composedHeightCache.TryGetValue(key,out var cached))return cached;
+            bool proposed=plannedUpper!=0||plannedLower!=0;
+            var key=new ChunkCoordinate(x,z);if(!proposed&&composedHeightCache.TryGetValue(key,out var cached))return cached;
             var p=heightField.Position(x,z);float h=heightField.Sample(x,z);
-            foreach(var path in RiversAt(p))if(path.Nearest(p,out var f,out float d))
+            foreach(var path in RiversAt(p))if(path.record.layoutVersion!=3&&!BeyondRoutedTerminal(path,p,plannedUpper,plannedLower)&&path.Nearest(p,out var f,out float d))
             {
                 float radial=Vector2.Distance(p,f.center);if(radial>Mathf.Abs(d)+.01f)d=Mathf.Sign(d==0?1:d)*radial;
                 float transition=d>=0?f.leftTransition:f.rightTransition;if(Mathf.Abs(d)>f.width*.5f+transition)continue;
                 h=MapRiverPath.Bed(f,d,h);
             }
-            h=Mathf.Clamp(h,MinimumHeight,MaximumHeight);composedHeightCache[key]=h;return h;
+            h=Mathf.Clamp(h,MinimumHeight,MaximumHeight);if(!proposed)composedHeightCache[key]=h;return h;
+        }
+        // Linear response of the composed river bed to a change in underlying
+        // ground at a lattice position. Use the same path/radial/transition
+        // rules and ordering as RiverGridSample, before its final height clamp.
+        internal float RiverGroundInfluence(Vector2 p)
+        {
+            float lo=0f,hi=1f;
+            foreach(var path in RiversAt(p))if(!BeyondRoutedTerminal(path,p)&&path.Nearest(p,out var f,out float d))
+            {
+                float radial=Vector2.Distance(p,f.center);if(radial>Mathf.Abs(d)+.01f)d=Mathf.Sign(d==0?1:d)*radial;
+                float transition=d>=0?f.leftTransition:f.rightTransition;if(Mathf.Abs(d)>f.width*.5f+transition)continue;
+                lo=MapRiverPath.Bed(f,d,lo);hi=MapRiverPath.Bed(f,d,hi);
+            }
+            return hi-lo;
         }
         void InvalidateComposedHeight(Rect area)
         {
+            InvalidateFineHeight(area);
             if(composedHeightCache.Count==0)return;
             var lo=heightField.Grid(area.xMin-HeightSpacing*2,area.yMin-HeightSpacing*2);var hi=heightField.Grid(area.xMax+HeightSpacing*2,area.yMax+HeightSpacing*2);
             for(int z=Mathf.FloorToInt(lo.y);z<=Mathf.CeilToInt(hi.y);z++)for(int x=Mathf.FloorToInt(lo.x);x<=Mathf.CeilToInt(hi.x);x++)composedHeightCache.Remove(new ChunkCoordinate(x,z));
         }
         public float SampleBaseHeight(float x,float z)=>heightField.Height(x,z);
-        float ComposedHeight(float x,float z)
+        float LegacyComposedHeight(float x,float z)
         {
             if(rivers.Count==0)return heightField.Height(x,z);var g=heightField.Grid(x,z);int ix=Mathf.FloorToInt(g.x),iz=Mathf.FloorToInt(g.y);float u=g.x-ix,v=g.y-iz;
             float a=RiverGridSample(ix,iz),b=RiverGridSample(ix+1,iz),c=RiverGridSample(ix,iz+1),d=RiverGridSample(ix+1,iz+1);
@@ -190,21 +224,56 @@ namespace LittleCastle.World
         }
         public bool QueryWater(Vector2 p,out float level,out float depth,out Vector2 flow)
         {
-            foreach(var path in RiversAt(p))if(path.Nearest(p,out var f,out float d)&&Vector2.Distance(p,f.center)<=f.width*.5f+(f.layoutVersion>=2?(d>=0?f.leftTransition:f.rightTransition):0))
+            foreach(var path in RiversAt(p))if(!BeyondRoutedTerminal(path,p)&&path.Nearest(p,out var f,out float d)&&Vector2.Distance(p,f.center)<=f.width*.5f+(f.layoutVersion==2?(d>=0?f.leftTransition:f.rightTransition):0))
             {level=f.water;depth=Mathf.Max(0,level-SampleHeight(p.x,p.y));flow=f.tangent*f.speed;return depth>.01f;}
             level=depth=0;flow=Vector2.zero;return false;
         }
         public bool VegetationAllowed(float x,float z,float clearance=.3f)
         {
+            if(!Finite(x)||!Finite(z))throw new ArgumentOutOfRangeException(nameof(x));
+            // MapTreeInstance validation already uses this same footprint limit.
+            if(!Finite(clearance)||clearance<0||clearance>64f)throw new ArgumentOutOfRangeException(nameof(clearance));
             var footprint=new Rect(x-clearance,z-clearance,2*clearance,2*clearance);
             foreach(var reserved in authored.placementExclusions)if(reserved.Overlaps(footprint)||reserved.Contains(new Vector2(x,z)))return false;
-            var p=new Vector2(x,z);foreach(var path in RiversAt(p))if(path.Nearest(p,out var f,out float d))
+            var p=new Vector2(x,z);
+            if(!WaterfallVegetationAllowed(p,clearance))return false;
+            // Query every index cell touched by the footprint: its center can
+            // be in another cell from the river. Duplicate candidates are safe.
+            int minX=Mathf.FloorToInt((x-clearance)/RegionSize),maxX=Mathf.FloorToInt((x+clearance)/RegionSize);
+            int minZ=Mathf.FloorToInt((z-clearance)/RegionSize),maxZ=Mathf.FloorToInt((z+clearance)/RegionSize);
+            for(int iz=minZ;iz<=maxZ;iz++)for(int ix=minX;ix<=maxX;ix++)
             {
-                float sand=d>=0?f.leftSand:f.rightSand;float edge=f.width*.5f+(sand>.05f?(d>=0?f.leftTransition:f.rightTransition):2);
-                if(Vector2.Distance(p,f.center)<edge+clearance)return false;
+                if(!riverIndex.TryGetValue(new ChunkCoordinate(ix,iz),out var group))continue;
+                foreach(long id in group)
+                {
+                    var path=rivers[id];
+                    if(x+clearance<path.bounds.xMin||x-clearance>path.bounds.xMax||z+clearance<path.bounds.yMin||z-clearance>path.bounds.yMax)continue;
+                    if(IsWetRiverPoint(path,p))return false;
+                    if(clearance<=0f)continue;
+                    if(path.Nearest(p,out var f,out _))
+                    {
+                        var toRiver=f.center-p;
+                        if(toRiver.sqrMagnitude>1e-10f&&IsWetRiverPoint(path,p+toRiver.normalized*Mathf.Min(clearance,toRiver.magnitude)))return false;
+                    }
+                    // This is a bounded footprint approximation, not an exact
+                    // collider test for arbitrary bends or tiny water pockets.
+                    for(int i=0;i<8;i++)
+                    {
+                        float angle=i*Mathf.PI*.25f;
+                        if(IsWetRiverPoint(path,p+new Vector2(Mathf.Cos(angle),Mathf.Sin(angle))*clearance))return false;
+                    }
+                }
             }
+            foreach(var path in rivers.Values)foreach(var rock in path.record.rocks)if(!rock.removed&&(rock.position-p).sqrMagnitude<Mathf.Pow(2+clearance,2))return false;
             foreach(var s in rockSections.Values)foreach(var rock in s.rocks)if(!rock.removed&&(rock.position-p).sqrMagnitude<Mathf.Pow(2+clearance,2))return false;
             return true;
+        }
+        bool IsWetRiverPoint(MapRiverPath path,Vector2 p)
+        {
+            if(!path.Nearest(p,out var f,out float d))return false;
+            float transition=d>=0?f.leftTransition:f.rightTransition;
+            if(Vector2.Distance(p,f.center)>f.width*.5f+transition)return false;
+            return SampleHeight(p.x,p.y)<f.water-.01f;
         }
         public float SandCoverage(float x,float z)
         {

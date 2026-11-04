@@ -17,6 +17,7 @@ namespace LittleCastle.Editor
         {
             tools?.Complete();pointerHeld=false;
             var registry=MapToolRegistry.ExistingBrushes();
+            RegisterFenceTools(registry);
             registry.Register(new MapSurfaceTool("vegetation.flowers","Цветы и мелочь",false,false));
             if(treeCatalog&&treeCatalog.entries.Length>0)
             {
@@ -31,6 +32,7 @@ namespace LittleCastle.Editor
                 registry.Register(new MapClickTool("tree.move","Переместить дерево","Растительность",p=>
                 {if(session.HasTree(selectedTree))session.TransformTree(selectedTree,p.position,treeYaw,treeScale);treeTool=3;activeToolId="tree.pick";}));
             }
+            registry.Register(new MapClickTool("waterfall.points","Водопад","Вода и берега",p=>waterfallTools.Click(session,p),true,MapToolGesture.ControlPoints));
             registry.Register(new MapClickTool("river.points","Контрольные точки","Вода и берега",p=>riverTools.Click(session,p.position),true,MapToolGesture.ControlPoints));
             tools=new MapToolController(session,registry);
             bool found=false;foreach(var tool in registry.Tools)if(tool.Id==activeToolId){found=true;break;}
@@ -42,8 +44,11 @@ namespace LittleCastle.Editor
         string CurrentToolId=>activeToolId;
         internal void SetTool(string id)
         {
+            if(id!="river.points")CancelRiverGesture();
             tools.Complete();pointerHeld=false;
             var selected=tools.registry.Get(id);
+            if(id!="waterfall.points"&&waterfallTools.Active)waterfallTools.Stop();
+            if(id=="waterfall.points"&&!waterfallTools.Active)waterfallTools.Begin();
             if(id!="river.points")riverTools.Stop();
             else if(riverTools.mode==0)riverTools.Resume();
             if(CurrentToolId!=id)softness=id.StartsWith("terrain.")?1:id=="vegetation.grove"?0:.38f;
@@ -71,6 +76,9 @@ namespace LittleCastle.Editor
             if(tools.Active)return;
             var c=tools.context;c.settings.radius=Mathf.Clamp(radius,treeTool==2?1:.5f,tools.Selected.MaximumRadius(session));
             c.environmentThemeId=environmentThemeId;c.environmentMode=environmentMode;
+            c.fenceVariantId=FenceVariantId;c.fenceSpacing=fenceSpacing;c.fenceSmoothing=fenceSmoothing;c.fenceScale=fenceScale;
+            if(CurrentToolId=="fence.draw")c.settings.radius=1;
+            c.pathMaterialId=pathMaterialId;
             c.settings.strength=strength;c.settings.softness=softness;c.density=treeTool==2?treeDensity:density;
             c.scatter=CurrentToolId=="vegetation.flowers"||scatter;c.scatterProfile=profile;c.terrainRate=terrainRate;c.treeSpacing=treeSpacing;c.seed=treeSeed;
             if(treeCatalog&&treeCatalog.packs.Length>0)c.treePackId=treeCatalog.packs[Mathf.Clamp(selectedTreePack,0,treeCatalog.packs.Length-1)].id;
@@ -80,6 +88,8 @@ namespace LittleCastle.Editor
         internal void CompleteVerificationStroke(){tools.Complete();pointerHeld=false;}
         void TickTools()
         {
+            TickRiverEditing();
+            TickFencePreview();
             if(tools==null||session==null)return;
             if(!brush){tools.Complete();pointerHeld=false;return;}
             if(pointerHeld&&!(EditorWindow.mouseOverWindow is SceneView)){tools.Release();pointerHeld=false;}
@@ -87,10 +97,12 @@ namespace LittleCastle.Editor
         }
         void SceneGUI(SceneView view)
         {
-            if(session==null||EditorApplication.isPlaying||!brush)return;
+            if(session==null||EditorApplication.isPlaying)return;
+            if(DirectRiverSceneGUI(view))return;
+            if(!brush)return;
             var e=Event.current;ConfigureTools();
             if(e.type==EventType.KeyDown&&e.keyCode==KeyCode.Escape)
-            {tools.Cancel();pointerHeld=false;riverTools.Stop();brush=false;e.Use();return;}
+            {tools.Cancel();pointerHeld=false;riverTools.Stop();waterfallTools.Stop();brush=false;e.Use();return;}
             if(e.type==EventType.KeyDown&&(e.control||e.command)&&(e.keyCode==KeyCode.Z||e.keyCode==KeyCode.Y))
             {pointerHeld=false;if(e.keyCode==KeyCode.Y||e.shift)tools.Redo();else tools.Undo();riverTools.Refresh(session);e.Use();return;}
             if(e.alt||e.button==1||e.button==2)
@@ -101,6 +113,8 @@ namespace LittleCastle.Editor
             bool hit=MapSurfaceQuery.Raycast(session,ray,out var ground);
             var p=new MapToolPointer(ray,hit,new Vector2(ground.point.x,ground.point.z));
             DrawRiverDraft();
+            DrawWaterfallDraft(p);
+            DrawFenceDraft();
             if(hit&&(tools.Selected.Controls&MapToolControls.Radius)!=0)
             {
                 MapBrushFalloff.Outline(session,p.position,radius,outerOutline);Handles.color=new Color(.3f,1,.5f,.95f);Handles.DrawAAPolyLine(2,outerOutline);

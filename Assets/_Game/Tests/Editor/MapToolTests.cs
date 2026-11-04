@@ -105,7 +105,7 @@ namespace LittleCastle.Tests
         [Test] public void MapTools_OldBaseFingerprintRemainsAcceptedWithMissingOptionalSoftness()
         {
             var map=Map();map.surface.strokes.Add(new SurfacePaintStroke{id="old",points=new List<Vector2>{Vector2.zero}});
-            string raw=JsonUtility.ToJson(map).Replace(",\"brushSoftness\":0.0","").Replace(",\"brushSoftness\":0","");ulong hash=14695981039346656037UL;
+            string raw=MapLegacyTestDocument.V6Json(map).Replace(",\"brushSoftness\":0.0","").Replace(",\"brushSoftness\":0","").Replace(",\"pathMaterialId\":\"\"","").Replace(",\"pathMaterialId\":null","").Replace(",\"fences\":[]","");ulong hash=14695981039346656037UL;
             foreach(char ch in raw){hash^=ch;hash=unchecked(hash*1099511628211UL);}
             var s=new MapEditSession(map);var save=s.ExportSave();save.baseFingerprint=hash.ToString("x16");
             Assert.DoesNotThrow(()=>s.LoadJson(JsonUtility.ToJson(save)));

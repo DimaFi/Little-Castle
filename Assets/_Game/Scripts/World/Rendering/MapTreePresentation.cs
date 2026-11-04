@@ -9,7 +9,7 @@ namespace LittleCastle.Rendering
     public sealed class MapTreePresentation : IDisposable
     {
         sealed class View {public GameObject root;public string source;public CapsuleCollider collider;public Bounds bounds;}
-        readonly MapEditSession session;
+        MapEditSession session;
         readonly MapTreeCatalog catalog;
         readonly Dictionary<long,View> views=new Dictionary<long,View>();
         readonly Dictionary<GameObject,bool> sourceStates=new Dictionary<GameObject,bool>();
@@ -22,6 +22,14 @@ namespace LittleCastle.Rendering
         public int maximumResident=96,creationBudget=8;
         public int ResidentCount=>views.Count;
         public int MissingSources {get;private set;}
+        public void RebindSession(MapEditSession replacement,Rect area)
+        {
+            if(replacement==null||replacement.MapId!=session.MapId||replacement.Bounds!=session.Bounds)
+                throw new ArgumentException("Tree preview requires the same map.");
+            if(ReferenceEquals(session,replacement))return;
+            session.Changed-=Changed;session=replacement;session.Changed+=Changed;
+            Changed(new MapRegionChange(area,false,MapChangeKind.Height|MapChangeKind.Rivers));
+        }
         public MapTreePresentation(MapEditSession session,MapTreeCatalog catalog,bool hideSceneSources=true)
         {
             this.session=session;this.catalog=catalog;
@@ -64,7 +72,7 @@ namespace LittleCastle.Rendering
             bool height=(change.kind&MapChangeKind.Height)!=0;
             if(!objects&&!height&&(change.kind&MapChangeKind.Rivers)==0)return;
             if((change.kind&MapChangeKind.Rivers)!=0)dirty=true;
-            if(objects)dirty=true;
+            if(objects||height)dirty=true;
             removals.Clear();
             foreach(var pair in views)
             {

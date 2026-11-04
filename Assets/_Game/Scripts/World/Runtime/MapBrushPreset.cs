@@ -6,6 +6,7 @@ namespace LittleCastle.World
     public sealed class MapBrushPreset : ScriptableObject
     {
         public string toolId="surface.meadow";
+        public string pathMaterialId;
         public MapBrushSettings settings=new MapBrushSettings();
     }
 }

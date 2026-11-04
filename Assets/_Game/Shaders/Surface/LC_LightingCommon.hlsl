@@ -3,6 +3,7 @@
 
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/AmbientOcclusion.hlsl"
 #include "LC_SpatialIndirect.hlsl"
+#include "LC_AtmosphereLighting.hlsl"
 
 // Screen AO describes missing indirect light. Do not multiply emission, fog,
 // direct sunlight or the final composited colour. Use the stronger occlusion

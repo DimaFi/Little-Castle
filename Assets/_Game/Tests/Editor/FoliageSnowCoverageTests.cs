@@ -241,8 +241,9 @@ namespace LittleCastle.Tests
                 SetVector("_WorldSpaceCameraPos", new Vector4(eye.x, eye.y, eye.z, 1));
                 var view = Matrix4x4.Scale(new Vector3(1, 1, -1)) *
                     Matrix4x4.TRS(eye, Quaternion.LookRotation(center - eye, up), Vector3.one).inverse;
-                var projection = GL.GetGPUProjectionMatrix(Matrix4x4.Ortho(-size, size,
-                    -size, size, .1f, 100), true);
+                // CommandBuffer performs the API conversion. Pre-converting here
+                // flips render-target winding twice on D3D12 and inverts leaf faces.
+                var projection = Matrix4x4.Ortho(-size, size, -size, size, .1f, 100);
                 commands.Clear();
                 commands.SetRenderTarget(target);
                 commands.ClearRenderTarget(true, true, Color.clear);

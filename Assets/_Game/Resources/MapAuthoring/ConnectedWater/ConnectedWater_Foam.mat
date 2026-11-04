@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: ConnectedWater_Foam
+  m_Shader: {fileID: 4800000, guid: 3675485241363074099639dbed830877, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: 3010
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _FoamTex:
+        m_Texture: {fileID: 2800000, guid: cf272a97f5184637a9534bdff5af82e4, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalTex:
+        m_Texture: {fileID: 2800000, guid: 4086aeed52884336af9fb1d7aa1f6850, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _PhaseTex:
+        m_Texture: {fileID: 2800000, guid: e6c870c78cf04a35aef7140fbc3d942b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _ConnectedRoute: 1
+    - _ContactSoftness: 0.045
+    - _Cull: 0
+    - _DetailFade: 1
+    - _FlowSpeed: 4.5
+    - _FoamStrength: 1
+    - _NormalStrength: 0.38
+    - _Opacity: 0.86
+    - _PreviewTime: -1
+    - _SurfaceMode: 1
+    - _WaveScale: 0
+    m_Colors:
+    - _ChannelWidths: {r: 5.5, g: 6.5, b: 0, a: 0}
+    - _FlowDirection: {r: 0, g: 0, b: -1, a: 0}
+    - _FoamColor: {r: 0.86, g: 0.95, b: 1, a: 1}
+    - _ImpactPosition: {r: -58, g: 1, b: 8, a: 0}
+    - _LipPosition: {r: -58, g: 24.15, b: 24, a: 0}
+    - _WaterColor: {r: 0.055, g: 0.34, b: 0.56, a: 1}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1

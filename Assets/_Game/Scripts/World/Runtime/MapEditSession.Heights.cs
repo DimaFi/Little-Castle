@@ -20,10 +20,14 @@ namespace LittleCastle.World
         public float MaximumHeight=>heightField.Definition.maximumHeight;
         public int EditedHeightSamples=>heightField.EditCount;
         public float SampleHeight(float x,float z)=>ComposedHeight(x,z);
-        public Vector3 SampleNormal(float x,float z)=>new Vector3(SampleHeight(x-HeightSpacing,z)-SampleHeight(x+HeightSpacing,z),2*HeightSpacing,SampleHeight(x,z-HeightSpacing)-SampleHeight(x,z+HeightSpacing)).normalized;
+        public Vector3 SampleNormal(float x,float z)
+        {
+            float step=FineRiverTerrainRequired(new Rect(x-HeightSpacing,z-HeightSpacing,HeightSpacing*2,HeightSpacing*2))?RiverTerrainStep:HeightSpacing;
+            return new Vector3(SampleHeight(x-step,z)-SampleHeight(x+step,z),2*step,SampleHeight(x,z-step)-SampleHeight(x,z+step)).normalized;
+        }
         public MapAuthoringDocument ExportMap()
         {
-            CommitStroke();var result=ExportAuthored();result.surface.strokes.AddRange(ExportEdits().strokes);result.heightField=heightField.Bake();result.trees=ExportTrees();result.rivers=ExportRivers();result.rockSections=ExportRockSections();result.environment=ExportEnvironment();return result;
+            CommitStroke();var result=ExportAuthored();result.surface.strokes.AddRange(ExportEdits().strokes);result.heightField=heightField.Bake();result.trees=ExportTrees();result.rivers=ExportRivers();result.riverNetwork=ExportRiverNetwork();result.rockSections=ExportRockSections();result.environment=ExportEnvironment();result.fences=ExportFences();return result;
         }
         void RequireTerrainAccess(){if((Access&MapEditAccess.Terrain)==0)throw new UnauthorizedAccessException("Terrain editing is disabled for this role.");}
         public void BeginHeightStroke(float radius,float deltaPerStamp,float softness=1)
@@ -44,7 +48,17 @@ namespace LittleCastle.World
                 bool blocked=false;foreach(var area in heightField.Definition.protectedAreas)
                 {var padded=area;padded.xMin-=HeightSpacing;padded.yMin-=HeightSpacing;padded.xMax+=HeightSpacing;padded.yMax+=HeightSpacing;if(padded.Contains(p)){blocked=true;break;}}
                 if(blocked)continue;
-                float before=heightField.Sample(x,z),after=Mathf.Clamp(before+heightStep*MapBrushFalloff.Weight(distance,heightRadius,heightSoftness),MinimumHeight,MaximumHeight);
+                float before=heightField.Sample(x,z);
+                float increment=heightStep*MapBrushFalloff.Weight(distance,heightRadius,heightSoftness);
+                // Author brushes target the visible bank, rather than losing most of their
+                // strength to river transition blending. Persist the solved underlying sample;
+                // existing saves and the river-owned channel bed keep their original semantics.
+                if((Access&MapEditAccess.Author)!=0&&rivers.Count>0)
+                {
+                    float influence=RiverGroundInfluence(p);
+                    if(influence>.0001f)increment/=influence;
+                }
+                float after=Mathf.Clamp(before+increment,MinimumHeight,MaximumHeight);
                 if(before==after)continue;var key=new ChunkCoordinate(x,z);
                 if(!pendingHeights.TryGetValue(key,out var change))change=new HeightChange{x=x,z=z,before=before};
                 change.after=after;pendingHeights[key]=change;heightField.Set(x,z,after);

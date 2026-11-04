@@ -1,0 +1,79 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f973fa2f7944d38b9d52a2a273b2201, type: 3}
+  m_Name: FireflyGameInspection
+  m_EditorClassIdentifier: LittleCastle.Runtime::LittleCastle.Rendering.Fireflies.FireflyPreviewProfile
+  enabled: 1
+  seed: 73421
+  mapBounds: {x: -48, y: -40, z: 96, w: 104}
+  densityPer100SquareMetres: 4
+  desiredGlobalCap: 10000
+  desiredCellCap: 512
+  minimumHeight: 0.45
+  maximumHeight: 2.8
+  maximumSlopeDegrees: 55
+  worldDiameter: 0.13
+  coreColor: {r: 1, g: 0.89, b: 0.38, a: 1}
+  colorVariance: 0.15
+  emission: 1.4
+  movementAmplitude: 0.6
+  movementSpeed: 0.7
+  flickerAmount: 0.22
+  motionPauseFraction: 0.22
+  motionCycleSeconds: 7
+  brightCoreRadius: 0.13
+  haloStrength: 0.2
+  maxDiameterPixels: 11
+  farLodStartFraction: 0.58
+  farLodSurvivalFraction: 0.28
+  farBrightnessFraction: 0.65
+  minimumNightAmount: 0.1
+  windResponse: 0.12
+  lodStartFraction: 0.42
+  lodEndFraction: 0.88
+  lodMinimumFraction: 0.23
+  cellFadeSeconds: 0.9
+  nearEnabled: 1
+  nearMode: 0
+  desiredNearCount: 8
+  nearRadius: 7
+  maximumCameraHeightForNear: 22
+  automaticWorld:
+    enabled: 1
+    runtimeAutoStart: 0
+    meadowWeight: 0.12
+    forestWeight: 2.4
+    treeInfluenceRadius: 10
+    shoreWeight: 2.8
+    shoreSearchRadius: 5
+    waterSurfaceWeight: 1.3
+    roadsideWeight: 0.95
+    roadsideSearchRadius: 4
+    pavedRoadMultiplier: 0.04
+    enchantedForestMultiplier: 1.45
+    winterMultiplier: 0
+    snowMultiplier: 0.1
+    maximumHabitatMultiplier: 6
+    avoidReservedGround: 1
+  runtimeBudget:
+    quality: 2
+    graphicsVsPerformance: 0.5
+    customWorldCap: 4500
+    customNearCap: 12
+    customRangeMetres: 100
+    buildSamplesPerFrame: 24
+    buildMillisecondsPerFrame: 0.6
+    adaptiveEnabled: 1
+    targetFps: 60
+    minimumAdaptiveScale: 0.35
+  materialForBuild: {fileID: 2100000, guid: 6d66fd495418240428fdbf65cdc0adf8, type: 2}
+  areas: []

@@ -66,6 +66,7 @@ namespace LittleCastle.Research
                 else if(authoringSection==1)
                 {
                     if(GUILayout.Button("Дорожка"))ArmAuthoringBrush("surface.road");
+                    if(painter.road)DrawAuthoringPaths();
                     using(new GUILayout.HorizontalScope())
                     {if(GUILayout.Button("Луг"))ArmAuthoringBrush("surface.meadow");if(GUILayout.Button("Убрать траву"))ArmAuthoringBrush("surface.erase");}
                 }
@@ -105,14 +106,22 @@ namespace LittleCastle.Research
                     if(player){if(authoringRivers)authoringRivers.CloseTools();if(painter.treeTool==2)painter.SetTreeTool(1);}
                 }
                 bool nextWind=GUILayout.Toggle(wind,"Ветер");if(nextWind!=wind){wind=nextWind;ApplyWind();}
-                grass.enabled=GUILayout.Toggle(grass.enabled,"Объёмная трава");
-                interaction.interactionEnabled=GUILayout.Toggle(interaction.interactionEnabled,"Пригибание рядом с объектом");
-                moveProxy=GUILayout.Toggle(moveProxy,"Движение тестового объекта");
-                bool soft=GUILayout.Toggle(grass.material.GetFloat("_MeadowSoftness")>.01f,"Мягкая трава вдали");grass.material.SetFloat("_MeadowSoftness",soft?originalSoftness:0);
-                float distance=AuthoringSlider("Дальность травы, м",grass.maximumDistance,40,128);
-                if(!Mathf.Approximately(distance,grass.maximumDistance)){grass.maximumDistance=distance;grass.material.SetFloat("_FadeStart",distance*.84375f);grass.material.SetFloat("_FadeEnd",distance);}
-                interaction.activeDistance=AuthoringSlider("Дальность пригибания, м",interaction.activeDistance,12,60);grass.material.SetFloat("_InteractionDistance",interaction.activeDistance);
-                GUILayout.Label("Пучки "+grass.submittedClumps+" · вызовы "+grass.drawCalls,authoringWrap);
+                if(grass&&grass.material)
+                {
+                    grass.enabled=GUILayout.Toggle(grass.enabled,"Объёмная трава");
+                    bool soft=GUILayout.Toggle(grass.material.GetFloat("_MeadowSoftness")>.01f,"Мягкая трава вдали");grass.material.SetFloat("_MeadowSoftness",soft?originalSoftness:0);
+                    float distance=AuthoringSlider("Дальность травы, м",grass.maximumDistance,40,128);
+                    if(!Mathf.Approximately(distance,grass.maximumDistance)){grass.maximumDistance=distance;grass.material.SetFloat("_FadeStart",distance*.84375f);grass.material.SetFloat("_FadeEnd",distance);}
+                    GUILayout.Label("Пучки "+grass.submittedClumps+" · вызовы "+grass.drawCalls,authoringWrap);
+                }
+                else GUILayout.Label("Готовый ковёр объёмной травы в этой карте не задан.",authoringWrap);
+                if(interaction)
+                {
+                    interaction.interactionEnabled=GUILayout.Toggle(interaction.interactionEnabled,"Пригибание рядом с объектом");
+                    interaction.activeDistance=AuthoringSlider("Дальность пригибания, м",interaction.activeDistance,12,60);
+                    if(grass&&grass.material)grass.material.SetFloat("_InteractionDistance",interaction.activeDistance);
+                }
+                if(demonstrator)moveProxy=GUILayout.Toggle(moveProxy,"Движение тестового объекта");
                 if(GUILayout.Button("Сбросить изменения этой сессии")&&AuthoringDocumentReady()){painter.EndStroke();painter.ResetEdits();}
             }
             GUILayout.Label("WASD / СКМ — движение · ПКМ — поворот\nКолесо — масштаб · H — скрыть панель",authoringWrap,GUILayout.Width(268));
@@ -126,6 +135,22 @@ namespace LittleCastle.Research
             if(authoringRivers){if(section==3)authoringRivers.OpenTools();else authoringRivers.CloseTools();}
             if(section==1){painter.road=true;painter.erase=false;}
             if(section==2){painter.road=false;painter.erase=false;painter.populatePlants=true;}
+        }
+        void DrawAuthoringPaths()
+        {
+            var catalog=MapPathCatalog.Default;if(!catalog)return;
+            for(int row=0;row<(catalog.Count+1)/2;row++)
+            {
+                using(new GUILayout.HorizontalScope())for(int col=0;col<2;col++)
+                {
+                    int i=row*2+col;if(i>=catalog.Count)break;var entry=catalog.entries[i];
+                    var old=GUI.backgroundColor;if(catalog.IndexOf(painter.pathMaterialId)==i)GUI.backgroundColor=new Color(.55f,.85f,.6f);
+                    if(GUILayout.Button(new GUIContent(entry.title,entry.thumbnail),new GUIStyle(GUI.skin.button){imagePosition=ImagePosition.ImageAbove,wordWrap=true},GUILayout.Width(128),GUILayout.Height(96)))
+                    {painter.EndStroke();painter.pathMaterialId=entry.id;ArmAuthoringBrush("surface.road");}
+                    GUI.backgroundColor=old;
+                }
+            }
+            GUILayout.Label("Снег автоматически покрывает дорожку в зимнем биоме.",authoringWrap,GUILayout.Width(268));
         }
         bool AuthoringDocumentReady()
         {

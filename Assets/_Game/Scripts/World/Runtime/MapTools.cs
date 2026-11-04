@@ -58,8 +58,11 @@ namespace LittleCastle.World
         public bool scatter=true;
         public MeadowScatterProfile scatterProfile;
         public string treePackId;
+        public string pathMaterialId;
         public int seed=1729;
         public int environmentThemeId=3;
+        public string fenceVariantId="fence.wood01";
+        public float fenceSpacing=1.6f,fenceSmoothing=.85f,fenceScale=1;
         public MapEnvironmentBrushMode environmentMode=MapEnvironmentBrushMode.Add;
         public MapToolContext(MapEditSession session){this.session=session??throw new ArgumentNullException(nameof(session));}
     }
@@ -204,7 +207,7 @@ namespace LittleCastle.World
         public override string Title=>title;
         public override string Category=>"Поверхности";
         public override void Begin(MapToolContext c,MapToolPointer p)=>c.session.BeginStroke(new SurfacePaintStroke{
-            road=road,erase=erase,scatter=!road&&!erase&&c.scatter,scatterProfile=c.scatterProfile,
+            road=road,erase=erase,pathMaterialId=road?c.pathMaterialId:null,scatter=!road&&!erase&&c.scatter,scatterProfile=c.scatterProfile,
             radius=c.settings.radius,strength=c.settings.strength,brushSoftness=c.settings.softness+.001f,density=c.density});
         public override void Apply(MapToolContext c,MapToolPointer p,float seconds)=>c.session.AppendPoint(p.position);
     }

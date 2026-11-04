@@ -22,6 +22,7 @@ namespace LittleCastle.Research
             MeshRenderer nearest=null;float best=float.PositiveInfinity;var eye=painter.studyCamera.transform.position;
             foreach(var renderer in painter.RiverView.WaterRenderers)
             {
+                if(!renderer.sharedMaterial||!renderer.sharedMaterial.IsKeywordEnabled("_ENABLEPLANERREFLECTION"))continue;
                 var b=renderer.bounds;float x=Mathf.Clamp(eye.x,b.min.x,b.max.x),z=Mathf.Clamp(eye.z,b.min.z,b.max.z),distance=(new Vector2(x,z)-new Vector2(eye.x,eye.z)).sqrMagnitude;
                 if(distance<best){nearest=renderer;best=distance;}
             }
