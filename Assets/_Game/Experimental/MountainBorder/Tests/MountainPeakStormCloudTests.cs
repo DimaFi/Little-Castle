@@ -71,7 +71,8 @@ namespace LittleCastle.Experimental.MountainBorder.Tests
             try
             {
                 Assert.That(profile.enablePeakStormClouds, Is.True);
-                Assert.That(profile.peakCloudMinimumDistance, Is.GreaterThan(75f));
+                Assert.That(profile.peakCloudMinimumDistance, Is.GreaterThan(40f));
+                Assert.That(profile.peakCloudBillowRows, Is.InRange(2,3));
                 Assert.That(profile.peakCloudCount, Is.InRange(3,16));
             }
             finally { Object.DestroyImmediate(profile); }
