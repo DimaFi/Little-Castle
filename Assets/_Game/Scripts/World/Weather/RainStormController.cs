@@ -64,7 +64,7 @@ namespace LittleCastle.World.Weather
         public void SetMode(RainMode value) { mode = value; }
         public void SetQuality(RainQuality value) { quality = value; }
         public void ToggleDebugUI() { showDebugUI = !showDebugUI; }
-        public static Rect DebugPanelBounds(int width,int height)=>new Rect(Mathf.Max(12,width-277),12,265,227);
+        public static Rect DebugPanelBounds(int width,int height)=>new Rect(Mathf.Max(12,width-277),12,265,253);
         public static bool PointerOverDebugPanel(Vector2 screenPoint)=>active&&active.isActiveAndEnabled&&active.showDebugUI&&
             DebugPanelBounds(Screen.width,Screen.height).Contains(new Vector2(screenPoint.x,Screen.height-screenPoint.y));
 
@@ -759,6 +759,23 @@ namespace LittleCastle.World.Weather
                     CreateBolt();
                     nextLightning = Time.time + NextLightningInterval();
                 }
+            }
+            if (mode == RainMode.Storm)
+            {
+                // Direct indication of the *actual* rendered skybox, not just
+                // what the weather profile asked the atmosphere controller to set.
+                Material actualSky = RenderSettings.skybox;
+                bool supported = actualSky && actualSky.shader &&
+                    actualSky.shader.name == "Little Castle/Sky/Stylized Day Night" &&
+                    actualSky.HasProperty("_StormPeakCloudMass");
+                if (!supported)
+                    GUILayout.Label("Облака: проверь skybox / шейдер");
+                else
+                    GUILayout.Label("Тучи: " +
+                        Mathf.RoundToInt(actualSky.GetFloat("_StormPeakCloudMass") * 100f) +
+                        "% | горы: " +
+                        Mathf.RoundToInt(Shader.GetGlobalFloat("_LC_MountainStormCloud") * 100f) +
+                        "%");
             }
             if (GUILayout.Button("Скрыть панель (Inspector: showDebugUI)")) showDebugUI = false;
             GUILayout.EndArea();
