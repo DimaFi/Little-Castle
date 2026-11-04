@@ -33,7 +33,8 @@ namespace LittleCastle.World.Weather
         private ParticleSystem nearRain, distantRain, splash, roofDrips;
         private Transform nearTransform, distantTransform;
         private Puddle[] puddles;
-        private LineRenderer lightningLine, lightningBranch;
+        private LineRenderer lightningLine, lightningBranch, lightningGlow, lightningBranchGlow;
+        private Material lightningMaterial, lightningGlowMaterial;
         private Light flashLight;
         private AudioSource thunderSource, rainSource;
         private RainShelterMask shelterMask;
@@ -337,6 +338,8 @@ namespace LittleCastle.World.Weather
             if (atmosphere && Settings.driveExistingAtmosphere)
             {
                 atmosphere.SetWeatherPresentation(intensity * Settings.cloudiness, intensity * Settings.precipitationForAtmosphere);
+                atmosphere.SetStormPresentation(mode == RainMode.Storm && quality != RainQuality.Off
+                    ? intensity : 0f);
             }
             if (rainSource)
             {
@@ -673,12 +676,17 @@ namespace LittleCastle.World.Weather
         private void Cleanup()
         {
             if (active == this && atmosphere && Settings && Settings.driveExistingAtmosphere)
+            {
                 atmosphere.SetWeatherPresentation(0f, 0f);
+                atmosphere.SetStormPresentation(0f);
+            }
             if (shelterMask != null) { shelterMask.Dispose(); shelterMask = null; }
             if (ownedRoot) Destroy(ownedRoot);
             if (lensRoot) Destroy(lensRoot);
             if (lensMaterial) Destroy(lensMaterial);
             if (puddleMesh) Destroy(puddleMesh);
+            if (lightningMaterial) Destroy(lightningMaterial);
+            if (lightningGlowMaterial) Destroy(lightningGlowMaterial);
             if (streakMaterial) Destroy(streakMaterial);
             if (rippleMaterial) Destroy(rippleMaterial);
             if (ownedFallbackProfile) Destroy(ownedFallbackProfile);
@@ -692,7 +700,9 @@ namespace LittleCastle.World.Weather
                 active = null;
             }
             puddles = null; nearRain = distantRain = splash = roofDrips = null;
-            lightningLine = lightningBranch = null; thunderSource = null; rainSource = null; flashLight = null;
+            lightningLine = lightningBranch = lightningGlow = lightningBranchGlow = null;
+            lightningMaterial = lightningGlowMaterial = null;
+            thunderSource = null; rainSource = null; flashLight = null;
         }
     }
 }
