@@ -541,7 +541,7 @@ namespace LittleCastle.World.Weather
                 if (mapPainter && mapPainter.Session != null)
                     exposed *= 1f - MapWeatherBiomeMask.SnowWeight(mapPainter.Session,
                         pd.obj.transform.position.x, pd.obj.transform.position.z);
-                pd.properties.SetFloat(WetnessId, wetness * exposed * (pd.water ? .45f : Settings.wetReflection));
+                pd.properties.SetFloat(WetnessId, wetness * exposed * (pd.water ? .70f : Settings.wetReflection));
                 pd.properties.SetFloat(SeedId, RainStormMath.Unit(seed + 5));
                 pd.renderer.SetPropertyBlock(pd.properties);
                 pd.obj.SetActive(true);
@@ -556,7 +556,7 @@ namespace LittleCastle.World.Weather
                         startSize = .04f + chance * .05f,
                         startColor = new Color(.8f, .88f, .97f, intensity * Settings.splashIntensity * exposed)
                     };
-                    splash.Emit(burst, 2);
+                    splash.Emit(burst, Mathf.Clamp(Mathf.RoundToInt(2f + intensity * 3f), 2, 5));
                 }
             }
         }
