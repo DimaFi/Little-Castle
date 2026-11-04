@@ -64,7 +64,7 @@ namespace LittleCastle.World.Weather
         public void SetMode(RainMode value) { mode = value; }
         public void SetQuality(RainQuality value) { quality = value; }
         public void ToggleDebugUI() { showDebugUI = !showDebugUI; }
-        public static Rect DebugPanelBounds(int width,int height)=>new Rect(Mathf.Max(12,width-277),12,265,190);
+        public static Rect DebugPanelBounds(int width,int height)=>new Rect(Mathf.Max(12,width-277),12,265,227);
         public static bool PointerOverDebugPanel(Vector2 screenPoint)=>active&&active.isActiveAndEnabled&&active.showDebugUI&&
             DebugPanelBounds(Screen.width,Screen.height).Contains(new Vector2(screenPoint.x,Screen.height-screenPoint.y));
 
@@ -741,6 +741,15 @@ namespace LittleCastle.World.Weather
             if (GUILayout.Button("Medium")) quality = RainQuality.Medium;
             if (GUILayout.Button("High")) quality = RainQuality.High;
             GUILayout.EndHorizontal();
+            if (mode == RainMode.Storm && intensity > .65f && Settings.enableLightning)
+            {
+                GUILayout.Label("Молния через " + Mathf.Max(0f, nextLightning-Time.time).ToString("F0") + " с");
+                if (GUILayout.Button("Показать молнию сейчас"))
+                {
+                    CreateBolt();
+                    nextLightning = Time.time + NextLightningInterval();
+                }
+            }
             if (GUILayout.Button("Скрыть панель (Inspector: showDebugUI)")) showDebugUI = false;
             GUILayout.EndArea();
         }
