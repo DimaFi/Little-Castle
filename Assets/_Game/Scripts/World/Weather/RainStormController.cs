@@ -606,39 +606,59 @@ namespace LittleCastle.World.Weather
         {
             lightningAge += dt;
             if (flashLight) flashLight.enabled = false;
-            if (mode != RainMode.Storm || intensity < .65f || quality == RainQuality.Off || !Settings.enableLightning)
+            if (mode != RainMode.Storm || intensity < .65f ||
+                quality == RainQuality.Off || !Settings.enableLightning || !gameplayCamera)
             {
                 lightningLine.enabled = lightningBranch.enabled = false;
+                lightningGlow.enabled = lightningBranchGlow.enabled = false;
                 thunderDelay = -1f;
-                if (stormWasActive) nextLightning = Time.time + NextLightningInterval();
                 stormWasActive = false;
                 return;
             }
             if (!stormWasActive)
             {
                 stormWasActive = true;
-                nextLightning = Time.time + NextLightningInterval();
+                // A first strike during the initial visual test, not 16–42 seconds later.
+                nextLightning = Time.time + Mathf.Min(5f, NextLightningInterval());
             }
             if (Time.time >= nextLightning)
             {
                 CreateBolt();
                 nextLightning = Time.time + NextLightningInterval();
             }
-            bool visible = lightningAge < .23f && (lightningAge < .095f || lightningAge > .145f);
+
+            // Cloud lightning reads as a short double/triple flicker rather than a single white frame.
+            float flicker = lightningAge < .085f ? 1f :
+                lightningAge < .125f ? .08f :
+                lightningAge < .22f ? .9f :
+                lightningAge < .28f ? .04f :
+                lightningAge < .41f ? .27f : 0f;
+            if (Settings.reducedFlashes) flicker *= .35f;
+            bool visible = flicker > .055f;
             lightningLine.enabled = lightningBranch.enabled = visible;
-            if (visible && flashLight)
+            bool expensiveGlow = quality == RainQuality.High || quality == RainQuality.Custom;
+            lightningGlow.enabled = lightningBranchGlow.enabled = visible && expensiveGlow;
+            if (visible)
             {
-                flashLight.enabled = true;
-                float factor = lightningAge < .095f ? 1f : .3f;
-                flashLight.intensity = (Settings.reducedFlashes ? .25f : 1f) * Settings.lightningFlash * 5f * factor;
+                Color color = new Color(1f, 1f, 1f, flicker);
+                lightningLine.startColor = lightningLine.endColor = color;
+                lightningBranch.startColor = lightningBranch.endColor = color;
+                lightningGlow.startColor = lightningGlow.endColor = color;
+                lightningBranchGlow.startColor = lightningBranchGlow.endColor = color;
+                if (flashLight)
+                {
+                    flashLight.enabled = true;
+                    flashLight.intensity = Settings.lightningFlash * 7f * flicker;
+                }
             }
+
             if (thunderDelay >= 0f)
             {
                 thunderDelay -= dt;
                 if (thunderDelay < 0f && Settings.enableThunder && thunderSource)
                 {
-                    AudioClip clip = Vector3.Distance(gameplayCamera.transform.position, strikePoint) < 55f ?
-                        Settings.closeThunder : Settings.distantThunder;
+                    // The lightning is purposely far from the player.
+                    AudioClip clip = Settings.distantThunder ? Settings.distantThunder : Settings.closeThunder;
                     if (clip) thunderSource.PlayOneShot(clip, Settings.thunderVolume);
                 }
             }
@@ -647,30 +667,56 @@ namespace LittleCastle.World.Weather
         private void CreateBolt()
         {
             uint seed = unchecked((uint)Settings.seed + (uint)lightningSequence * 2654435761u);
-            float dx = (RainStormMath.Unit(seed + 1) - .5f) * 115f;
-            float dz = (RainStormMath.Unit(seed + 2) - .5f) * 115f;
-            strikePoint = focus + new Vector3(dx, 0, dz);
-            float height = 42f + RainStormMath.Unit(seed + 3) * 25f;
-            const int segments = 14;
-            var points = new Vector3[segments]; // Rare storm event only, not steady-state allocation.
+            // Place storms in the *visible upper part of the gameplay camera*.
+            // Never target the player, buildings, terrain, or authoring objects.
+            float distance = Mathf.Clamp(gameplayCamera.farClipPlane * .55f, 75f, 245f);
+            float x = .25f + RainStormMath.Unit(seed + 1) * .50f;
+            float y = .55f + RainStormMath.Unit(seed + 2) * .085f;
+            float otherX = x + (RainStormMath.Unit(seed + 3) - .5f) * .09f;
+            Vector3 top = gameplayCamera.ViewportToWorldPoint(new Vector3(x, y + .26f, distance));
+            Vector3 end = gameplayCamera.ViewportToWorldPoint(new Vector3(otherX, y, distance));
+            strikePoint = end;
+            Vector3 side = gameplayCamera.transform.right;
+            Vector3 depth = gameplayCamera.transform.forward;
+            float length = Vector3.Distance(top, end);
+            float deviation = Mathf.Clamp(length * .12f, 1.8f, 7f);
+            const int segments = 20;
+            var points = new Vector3[segments]; // Rare strike event, not per-frame GC.
             for (int i = 0; i < segments; i++)
             {
                 float t = i / (segments - 1f);
-                uint s = seed + (uint)(i * 31);
-                points[i] = strikePoint + new Vector3((RainStormMath.Unit(s + 5) - .5f) * 5f * Mathf.Sin(t * Mathf.PI),
-                    height * (1f - t), (RainStormMath.Unit(s + 6) - .5f) * 5f * Mathf.Sin(t * Mathf.PI));
+                uint step = seed + (uint)(i * 41);
+                float envelope = Mathf.Sin(t * Mathf.PI);
+                points[i] = Vector3.Lerp(top, end, t) +
+                    side * ((RainStormMath.Unit(step + 5) - .5f) * deviation * envelope) +
+                    depth * ((RainStormMath.Unit(step + 6) - .5f) * deviation * envelope * .35f);
             }
+
+            lightningLine.widthMultiplier = Mathf.Clamp(distance * .0019f, .2f, .65f);
+            lightningGlow.widthMultiplier = lightningLine.widthMultiplier * 3.9f;
+            lightningBranch.widthMultiplier = lightningLine.widthMultiplier * .55f;
+            lightningBranchGlow.widthMultiplier = lightningGlow.widthMultiplier * .54f;
             lightningLine.positionCount = segments;
             lightningLine.SetPositions(points);
-            lightningBranch.positionCount = 5;
-            Vector3 b = points[6];
-            for (int i = 0; i < 5; i++)
-                lightningBranch.SetPosition(i, b + new Vector3(i * 2.1f, -i * 3.1f,
-                    (RainStormMath.Unit(seed + 50 + (uint)i) - .5f) * i * 3f));
-            flashLight.transform.position = strikePoint + Vector3.up * 18f;
+            lightningGlow.positionCount = segments;
+            lightningGlow.SetPositions(points);
+            const int branches = 7;
+            lightningBranch.positionCount = branches;
+            lightningBranchGlow.positionCount = branches;
+            Vector3 fork = points[9];
+            Vector3 branchEnd = points[15] + side * (deviation * 1.5f);
+            for (int i = 0; i < branches; i++)
+            {
+                float t = i / (branches - 1f);
+                uint step = seed + 97u + (uint)(i * 13);
+                Vector3 p = Vector3.Lerp(fork, branchEnd, t) +
+                    side * ((RainStormMath.Unit(step) - .5f) * deviation * .6f * Mathf.Sin(t * Mathf.PI));
+                lightningBranch.SetPosition(i, p);
+                lightningBranchGlow.SetPosition(i, p);
+            }
+            flashLight.transform.position = Vector3.Lerp(top, end, .45f);
             lightningAge = 0f;
-            float distance = Vector3.Distance(gameplayCamera.transform.position, strikePoint);
-            thunderDelay = Mathf.Clamp(distance / 343f, .09f, 4f);
+            thunderDelay = Mathf.Clamp(Vector3.Distance(gameplayCamera.transform.position, end) / 343f, .15f, 3f);
         }
 
         private void OnGUI()
