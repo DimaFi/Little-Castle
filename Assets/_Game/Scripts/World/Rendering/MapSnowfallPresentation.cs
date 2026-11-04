@@ -118,7 +118,8 @@ namespace LittleCastle.Rendering
                 -10f, 116f, 24f, .62f, .46f);
         }
 
-        public void Tick(Vector3 groundFocus, float ambientWinterSnow = .17f)
+        public void Tick(Vector3 groundFocus, float ambientWinterSnow = .17f,
+            bool renderDistantSnow = true)
         {
             biomeMask.Tick(groundFocus);
             if (near == null) return;
@@ -130,7 +131,7 @@ namespace LittleCastle.Rendering
             // still see winter snowfall across the river or against distant hills.
             if (biomeMask.VisibleWinterCoverage < .01f) strength = 0f;
             near.Tick(groundFocus, strength);
-            far.Tick(groundFocus, strength * .88f);
+            far.Tick(groundFocus, renderDistantSnow ? strength * .88f : 0f);
         }
 
         public static float EvaluateIntensity(float winterTheme, float visibleSnow,
