@@ -36,6 +36,7 @@ namespace LittleCastle.Experimental.MountainBorder.Presentation
         float captureTime=-1;
         MaterialPropertyBlock landProperties;
         Material riverBodyOwned;
+        MountainPeakCloudPresentation stormPeakClouds;
 
         void OnEnable(){RenderPipelineManager.beginCameraRendering+=BeginCamera;Rebuild();}
         void OnDisable(){RenderPipelineManager.beginCameraRendering-=BeginCamera;Release();}
@@ -93,6 +94,9 @@ namespace LittleCastle.Experimental.MountainBorder.Presentation
                     riverEffects.Attach(upperRoot,upper,upperPath,upperPath.bounds,worldRocks,Array.Empty<MapRockInstance>(),waterMaterial,true);
                     riverEffects.Attach(lowerRoot,lower,lowerPath,lowerPath.bounds,worldRocks,Array.Empty<MapRockInstance>(),waterMaterial,true);
                 }
+                // One optional cloud-band mesh on the actual distant mountain ridge.
+                // Fully owned/derived: never changes artist-authored mountain mesh/scene.
+                stormPeakClouds = new MountainPeakCloudPresentation(generated.transform, profile);
                 if(showTrees&&profile.sprucePrefab)BuildTrees();
                 if(profile.grassSource&&profile.grassMaterial&&profile.maximumGrassClumps>0)BuildGrass();
                 TickPresentation(null,Time.realtimeSinceStartup);
@@ -208,6 +212,7 @@ namespace LittleCastle.Experimental.MountainBorder.Presentation
         public void TickPresentation(Camera camera,float presentationTime)
         {
             if(!generated||!landRenderer)return;
+            stormPeakClouds?.Tick(camera);
             if(riverBodyOwned&&riverBodyOwned.HasProperty("_PreviewTime"))riverBodyOwned.SetFloat("_PreviewTime",captureTime>=0?captureTime:-1);
             float distance=camera?Vector3.Distance(camera.transform.position,transform.TransformPoint(new Vector3(0,55,80))):0;
             int lod=distance>profile.lod1Distance?2:distance>profile.lod0Distance?1:0;
@@ -246,6 +251,7 @@ namespace LittleCastle.Experimental.MountainBorder.Presentation
         public void ReleaseCapture(){captureTime=-1;}
         public void Release()
         {
+            stormPeakClouds?.Dispose();stormPeakClouds=null;
             fall?.Dispose();fall=null;riverEffects?.Dispose();riverEffects=null;
             if(generated)DestroyOwned(generated);generated=null;
             water?.Dispose();water=null;

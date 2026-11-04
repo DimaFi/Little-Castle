@@ -14,6 +14,12 @@ namespace LittleCastle.World
         [SerializeField, Range(.01f, .35f)] private float legacyStormBankLower = .065f;
         [SerializeField, Range(.35f, 1f)] private float legacyStormBankReach = .78f;
         [SerializeField, Range(0f, 1f)] private float legacyStormBankDensity = .84f;
+        [Header("Legacy mountain peak clouds")]
+        [SerializeField, Range(0f,1f)] private float legacyPeakCloudMass = .95f;
+        [SerializeField, Range(-.1f,.4f)] private float legacyPeakCloudLower = .005f;
+        [SerializeField, Range(.25f,1f)] private float legacyPeakCloudUpper = .68f;
+        [SerializeField, Range(0f,1f)] private float legacyPeakCloudDensity = .89f;
+        [SerializeField, Range(.01f,.3f)] private float legacyPeakCloudSoftness = .09f;
         [SerializeField] private TerrainStarterPreviewControls.PreviewQuality atmosphereQuality = TerrainStarterPreviewControls.PreviewQuality.Medium;
         public AtmosphereProfile UnifiedProfile { get => atmosphereProfile; set => atmosphereProfile = value; }
         public TerrainStarterPreviewControls.PreviewQuality AtmosphereQuality => atmosphereQuality;
@@ -205,6 +211,11 @@ namespace LittleCastle.World
             sky.SetFloat("_StormCloudBase", profile.stormBankLower);
             sky.SetFloat("_StormCloudReach", profile.stormBankReach);
             sky.SetFloat("_StormCloudDensity", profile.stormBankDensity);
+            sky.SetFloat("_StormPeakCloudMass", smoothStorm * profile.stormPeakCloudMass);
+            sky.SetFloat("_StormPeakCloudLower", profile.stormPeakCloudLower);
+            sky.SetFloat("_StormPeakCloudUpper", profile.stormPeakCloudUpper);
+            sky.SetFloat("_StormPeakCloudDensity", profile.stormPeakCloudDensity);
+            sky.SetFloat("_StormPeakCloudSoftness", profile.stormPeakCloudSoftness);
             sky.SetFloat("_CloudQuality", (int)atmosphereQuality);
             sky.SetFloat("_CloudWindDriven", 1);
             sky.SetVector("_CloudDrift", new Vector4(cloudDrift.x, cloudDrift.y, 0, 0));
@@ -257,6 +268,11 @@ namespace LittleCastle.World
             sky.SetFloat("_StormCloudBase", legacyStormBankLower);
             sky.SetFloat("_StormCloudReach", legacyStormBankReach);
             sky.SetFloat("_StormCloudDensity", legacyStormBankDensity);
+            sky.SetFloat("_StormPeakCloudMass", smoothStorm * legacyPeakCloudMass);
+            sky.SetFloat("_StormPeakCloudLower", legacyPeakCloudLower);
+            sky.SetFloat("_StormPeakCloudUpper", legacyPeakCloudUpper);
+            sky.SetFloat("_StormPeakCloudDensity", legacyPeakCloudDensity);
+            sky.SetFloat("_StormPeakCloudSoftness", legacyPeakCloudSoftness);
             sky.SetColor("_CloudShadeColor", Color.Lerp(source.GetColor("_CloudShadeColor"),
                 new Color(.14f,.19f,.26f,1f), smoothStorm));
             sky.SetColor("_CloudLightColor", Color.Lerp(source.GetColor("_CloudLightColor"),
