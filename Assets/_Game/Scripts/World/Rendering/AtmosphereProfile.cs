@@ -23,6 +23,13 @@ namespace LittleCastle.World
         [Tooltip("Elevation of the storm bank top. Sky-only clouds never obstruct gameplay geometry.")]
         [Range(.35f,1f)] public float stormBankReach = .78f;
         [Range(0f,1f)] public float stormBankDensity = .84f;
+        [Header("Dense cloud masses around distant mountain summits")]
+        [Tooltip("Second painterly cloud bank, behind world geometry. Peak geometry overlay is controlled separately.")]
+        [Range(0f,1f)] public float stormPeakCloudMass = .95f;
+        [Range(-.1f,.4f)] public float stormPeakCloudLower = .005f;
+        [Range(.25f,1f)] public float stormPeakCloudUpper = .68f;
+        [Range(0f,1f)] public float stormPeakCloudDensity = .89f;
+        [Range(.01f,.3f)] public float stormPeakCloudSoftness = .09f;
         [Header("Moon presentation (same world clock; no camera tracking)")]
         public bool artDirectedMoonOrbit;
         [Tooltip("Minimum daytime / maximum nighttime elevation in degrees. The moon crosses the horizon at sunset and sunrise.")]
