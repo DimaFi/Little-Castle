@@ -495,6 +495,9 @@ namespace LittleCastle.World
             float daylight,
             float twilight)
         {
+            // Optional external sky owns RenderSettings.skybox only when explicitly enabled.
+            if (ExternalSkyPresenterActive) return;
+
             Material sky = GetPresentationSkybox();
             if (sky == null)
                 return;
