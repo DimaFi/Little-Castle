@@ -22,6 +22,15 @@ namespace LittleCastle.Rendering
         static readonly int BoundsId = Shader.PropertyToID("_LC_EnvironmentBounds");
         static readonly int SnowColorId = Shader.PropertyToID("_LC_EnvironmentSnowColor");
         static MapEnvironmentPresentation owner;
+        /// <summary>Presentation ownership for explicitly scoped additive art views.</summary>
+        public static MapEnvironmentPresentation ActivePresentation => owner;
+
+        public void RestorePresentationOwnership()
+        {
+            if (disposed) return;
+            owner = this;
+            if (initialized) Publish();
+        }
 
         readonly MapEditSession session;
         readonly int resolution;

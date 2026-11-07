@@ -1,0 +1,38 @@
+{
+  "package": "com.unity.shadergraph",
+  "version": "17.5.0",
+  "packageFingerprint": "8d7376ec43ee0ba3dca1703338e2749e4cfdf0a8",
+  "date": "2026-10-29",
+  "license": "Unity Companion License for Unity-dependent projects; package LICENSE preserved as Unity-ShaderGraph-LICENSE.md",
+  "officialDocs": "https://docs.unity3d.com/Packages/com.unity.shadergraph@17.5/manual/Shader-Graph-Sample-Production-Ready-Water.html",
+  "scope": "Only texture payload copies and owned new GUIDs. No sample scene, scripts, graph import or pipeline settings. Owned LC_WaterV1 HLSL adapts two-phase flowing normals, foam, falls endpoint fade and slope foam behavior; it is not Unity graph output or full reflection/refraction/depth implementation.",
+  "entries": [
+    {
+      "source": "Library\\PackageCache\\com.unity.shadergraph@8d7376ec43ee\\Samples~\\ProductionReady\\Weather\\Rain\\Textures\\puddle_norm.png",
+      "destination": "Assets\\_Game\\Experimental\\MountainBorder\\Textures\\UnitySampleV1\\Water_NormalPacked.png",
+      "sourceGuid": "eee3279cf0eea85468d825bd69ca206d",
+      "ownedGuid": "4086aeed52884336af9fb1d7aa1f6850",
+      "sourceSHA256": "758ca7d67f1be45a92d02a5a15295020a1531ea2881b164cf7b601925eeeca4a",
+      "destinationSHA256": "758ca7d67f1be45a92d02a5a15295020a1531ea2881b164cf7b601925eeeca4a",
+      "importSettings": "Unmodified source .meta except newly assigned GUID; Default/SingleChannel linear packed data, not Unity NormalMap importer."
+    },
+    {
+      "source": "Library\\PackageCache\\com.unity.shadergraph@8d7376ec43ee\\Samples~\\ProductionReady\\Environment\\Water\\foam_detail_tiling.png",
+      "destination": "Assets\\_Game\\Experimental\\MountainBorder\\Textures\\UnitySampleV1\\Water_FoamPacked.png",
+      "sourceGuid": "cd93c6b740bc9f349889cec601c6f7f0",
+      "ownedGuid": "cf272a97f5184637a9534bdff5af82e4",
+      "sourceSHA256": "955a8aeeefa68273972511fb21f7dfecf93cdf9ddf0de8211d501171359aa756",
+      "destinationSHA256": "955a8aeeefa68273972511fb21f7dfecf93cdf9ddf0de8211d501171359aa756",
+      "importSettings": "Unmodified source .meta except newly assigned GUID; Default/SingleChannel linear packed data, not Unity NormalMap importer."
+    },
+    {
+      "source": "Library\\PackageCache\\com.unity.shadergraph@8d7376ec43ee\\GraphTemplates\\Subgraphs\\SmallNoiseMask.tga",
+      "destination": "Assets\\_Game\\Experimental\\MountainBorder\\Textures\\UnitySampleV1\\Water_PhaseNoise.tga",
+      "sourceGuid": "2fe31a8312ab8524ebd8601be367f0c8",
+      "ownedGuid": "e6c870c78cf04a35aef7140fbc3d942b",
+      "sourceSHA256": "3112e8b848ea66f5ea9d8bf53287b55fda2db47a100a2d60322d719609194059",
+      "destinationSHA256": "3112e8b848ea66f5ea9d8bf53287b55fda2db47a100a2d60322d719609194059",
+      "importSettings": "Unmodified source .meta except newly assigned GUID; Default/SingleChannel linear packed data, not Unity NormalMap importer."
+    }
+  ]
+}

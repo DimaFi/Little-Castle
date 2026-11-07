@@ -2,7 +2,8 @@
   "name": "LittleCastle.Tests.PlayMode",
   "rootNamespace": "LittleCastle.Tests",
   "references": [
-    "LittleCastle.Runtime"
+    "LittleCastle.Runtime",
+    "LittleCastle.LandscapePresentation"
   ],
   "includePlatforms": [],
   "excludePlatforms": [],

@@ -90,6 +90,7 @@ namespace LittleCastle.Editor
         [MenuItem("Little Castle/Research/Valley/Inspect Tree Candidates")]
         public static void Preflight()
         {
+            OwnedStudyWorkflow.Require(Root, ValleyArtStudyBuilder.ScenePath);
             Directory.CreateDirectory(Output);AssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport);
             for(int i=0;i<EditorSceneManager.sceneCount;i++)if(EditorSceneManager.GetSceneAt(i).isDirty)throw new Exception("Unsaved scene preserved.");
             var scene=EditorSceneManager.NewScene(NewSceneSetup.EmptyScene,NewSceneMode.Single);

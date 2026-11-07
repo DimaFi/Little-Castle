@@ -9,6 +9,14 @@ MAP=ROOT.parent/'Little-Castle_BrushFoundation_20261027'
 LIGHT=ROOT.parent/'Little-Castle_LightingIntegration_20261025'
 OUT=ROOT.parent/'Research/WorldIntegration_20261027'
 BACKUP=OUT/'BeforeMain'
+
+# Historical one-time migration: reject missing sources before planning or writes.
+missing_sources=[str(p) for p in (MAP,LIGHT) if not (p/'Assets').is_dir()]
+if missing_sources:
+    raise SystemExit('Historical 2026-10-27 importer: source workspaces retired: '
+        +', '.join(missing_sources)+'. Integration is already in canonical Main. '
+        'See docs/workflows/consolidated-studies-and-water-authoring-ru.md. '
+        'No files were changed.')
 def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
 def text(p):return p.read_text(encoding='utf-8-sig',errors='replace')
 def guid(p):

@@ -3,6 +3,7 @@
 
 #include "LC_VegetationURPCommon.hlsl"
 #include "../Surface/LC_EnvironmentAppearance.hlsl"
+#include "../Surface/LC_WeatherWet.hlsl"
 
 // Identical material layout in every pass (SRP Batcher).
 CBUFFER_START(UnityPerMaterial)
@@ -320,6 +321,10 @@ half4 frag(
     // snow settles on top without whitening vertical cards or their undersides.
     albedo = LCEnvironmentAlbedo(albedo, i.worldPosition,
         normalize(i.geometricNormalWS) * faceSign, _SnowAcceptance);
+    // Wet foliage stays saturated rather than becoming shiny metallic / unrealistically black.
+    half rainWet = LCWeatherWetAmount(i.worldPosition, normalize(i.geometricNormalWS) * faceSign,
+        LCEnvironmentSnow(i.worldPosition, normalize(i.geometricNormalWS) * faceSign, _SnowAcceptance));
+    albedo = LCWeatherDarken(albedo, rainWet, .13h);
 
     half3 normal =
         EvaluateNormal(
@@ -348,6 +353,8 @@ half4 frag(
     half shadow =
         LCVegetationMainShadow(i.worldPosition);
 
+    shadow *= LCAtmosphereCloudShadow(i.worldPosition);
+
     sunDiffuse *=
         shadow;
 
@@ -375,14 +382,21 @@ half4 frag(
         abs(
             ambientNormal.y);
 
-    half3 ambient =
-        LCSpatialIndirect(i.worldPosition, normalize(ambientNormal), EvaluateHemisphereAmbient(normalize(ambientNormal))) *
-        _AmbientStrength *
-        lerp(
+    half3 ambientTint = lerp(
             shadowTint,
             half3(1, 1, 1),
-            directPresence) *
-        LCIndirectOcclusion(i.pos, occlusion);
+            directPresence);
+    half indirectOcclusion = LCIndirectOcclusion(i.pos, occlusion);
+    half3 ambient =
+        LCSpatialIndirect(i.worldPosition, normalize(ambientNormal), EvaluateHemisphereAmbient(normalize(ambientNormal))) *
+        _AmbientStrength * ambientTint * indirectOcclusion;
+
+    // Broad crown fill follows the existing authored canopy normal, without
+    // normal-map chatter. Keep both AO and the light/shadow palette on this fill.
+    half3 fillNormal = normalize(lerp(normalize(i.geometricNormalWS) * faceSign,
+        normalize(i.worldNormal), _CanopyNormalBlend));
+    half3 groundFill = LCAtmosphereGroundFill(fillNormal) * .65h *
+        _AmbientStrength * ambientTint * indirectOcclusion;
 
     half3 direct =
         _LC_SunColor.rgb *
@@ -416,11 +430,7 @@ half4 frag(
             _LC_Twilight *
             0.68h);
 
-    half transmissionShadow =
-        lerp(
-            0.35h,
-            1.0h,
-            shadow);
+    half transmissionShadow = LCAtmosphereTransmissionVisibility(shadow);
 
     half3 transmission =
         sunsetTransmission *
@@ -445,6 +455,18 @@ half4 frag(
         (ambient + direct) +
         albedo *
         transmission;
+
+    // A bounded pigment lift lets dark leaf art receive coloured ground fill
+    // without raising the entire ambient hemisphere or making crowns emissive.
+    finalColor += sqrt(max(albedo, 0)) * groundFill;
+    finalColor += albedo * LCAtmosphereAdditionalDiffuse(i.worldPosition, i.pos, normal, .12h) * .82h;
+
+    // Thin-leaf response uses the faced geometric normal, not noisy normal-map detail.
+    // A lifted pigment keeps transmission visible without multiplying dark albedo twice.
+    half scatter = LCAtmosphereForwardScatter(normalize(i.geometricNormalWS) * faceSign,
+        sunDirection, GetWorldSpaceNormalizeViewDir(i.worldPosition));
+    finalColor += sqrt(max(albedo, 0)) * _LC_SunColor.rgb * scatter *
+        _TransmissionStrength * shadow * sqrt(occlusion);
 
     half4 result =
         half4(

@@ -1,5 +1,19 @@
 {
   "dependencies": {
+    "com.cqf.urpvolumetricfog": {
+      "version": "file:com.cqf.urpvolumetricfog",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
+    "com.jiaozi158.unity-physically-based-sky-urp": {
+      "version": "file:com.jiaozi158.unity-physically-based-sky-urp",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "com.unity.render-pipelines.universal": "14.0.7"
+      }
+    },
     "com.unity.burst": {
       "version": "1.8.29",
       "depth": 2,
@@ -126,6 +140,12 @@
         "com.unity.modules.physics": "1.0.0"
       }
     },
+    "com.unity.modules.ai": {
+      "version": "1.0.0",
+      "depth": 0,
+      "source": "builtin",
+      "dependencies": {}
+    },
     "com.unity.modules.animation": {
       "version": "1.0.0",
       "depth": 2,
@@ -159,6 +179,12 @@
     "com.unity.modules.jsonserialize": {
       "version": "1.0.0",
       "depth": 1,
+      "source": "builtin",
+      "dependencies": {}
+    },
+    "com.unity.modules.particlesystem": {
+      "version": "1.0.0",
+      "depth": 0,
       "source": "builtin",
       "dependencies": {}
     },

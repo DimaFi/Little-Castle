@@ -53,6 +53,10 @@ namespace LittleCastle.CameraSystem
 
         public bool InputEnabled => inputEnabled;
 
+        /// <summary>Maximum vertical separation between the camera and its ground focus.</summary>
+        public float MaximumOrbitRise =>
+            maximumDistance * Mathf.Sin(maximumPitch * Mathf.Deg2Rad) + focusHeightOffset;
+
         public void SetInputEnabled(bool enabled)
         {
             inputEnabled = enabled;

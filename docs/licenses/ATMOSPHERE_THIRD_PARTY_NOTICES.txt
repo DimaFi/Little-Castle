@@ -1,0 +1,20 @@
+Little Castle — Third-Party Atmosphere Notices
+2026-11-08. The following third-party sources are included as embedded Unity packages.
+Their pins record provenance; resolving the project does not fetch either Git repository.
+
+(1) UnityPhysicallyBasedSkyURP, Copyright (c) 2025 jiaozi158
+Repository: https://github.com/jiaozi158/UnityPhysicallyBasedSkyURP
+Pinned commit: f8f1f3fbc4708f378252b6188ce416a57ccd06af
+License: MIT. Full text: PHYSICALLY_BASED_SKY_MIT.txt
+The embedded copy includes the Little Castle Unity 6000.5 port documented in LC_PORT_NOTES.md.
+
+(2) Unity-URP-Volumetric-Light, Copyright (c) 2024-2026 Cristian Qiu
+Repository: https://github.com/CristianQiu/Unity-URP-Volumetric-Light
+Pinned commit: 354ebc5b6ed3c2c40dc9797c813b56d5da213c4e
+License: MIT. Full text: URP_VOLUMETRIC_LIGHT_MIT.txt
+The embedded copy was taken from Unity's local cache for this exact pin, version 0.5.91.
+
+Important: both full notices must be bundled in any redistributed product or source containing their code; see the original license files.
+
+Research only: phlippos/unity-urp-volumetric-fog has NO project license according to its README. No code or assets from it are used.
+https://github.com/phlippos/unity-urp-volumetric-fog

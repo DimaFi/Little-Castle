@@ -1,0 +1,12 @@
+fileFormatVersion: 2
+guid: e87e53b5850b4c9793e05b0b24d5d399
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures:
+  - _NormalTex: {fileID: 2800000, guid: 4086aeed52884336af9fb1d7aa1f6850, type: 3}
+  - _FoamTex: {fileID: 2800000, guid: cf272a97f5184637a9534bdff5af82e4, type: 3}
+  - _PhaseTex: {fileID: 2800000, guid: e6c870c78cf04a35aef7140fbc3d942b, type: 3}
+  nonModifiableTextures: []
+  userData: Owned experimental HLSL; Unity sample texture provenance in Textures/UnitySampleV1/provenance.json
+  assetBundleName:
+  assetBundleVariant:

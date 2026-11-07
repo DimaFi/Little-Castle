@@ -5,6 +5,7 @@ using LittleCastle.Rendering;
 using LittleCastle.Research;
 using LittleCastle.World;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
 namespace LittleCastle.Editor
@@ -18,6 +19,7 @@ namespace LittleCastle.Editor
         [SerializeField] float terrainRate=1.5f,minimumHeight,maximumHeight;
 
         MapTerrainPresentation terrainPreview;
+        MapPathPresentation pathPreview;
         MapTreeCatalog treeCatalog;
         MapTreePresentation treePreview;
         [SerializeField] int treeTool,selectedTreeSource,selectedTreePack,selectedTreeGroup,treeSeed=1729;
@@ -48,30 +50,85 @@ namespace LittleCastle.Editor
             var painter=FindAnyObjectByType<MeadowSurfacePainter>();
             if(painter&&painter.source)Connect(painter.source);
         }
+        internal bool CanReplaceMap()=>ConfirmReplaceDocument();
+        internal void SuspendMapPreview()=>RestorePreview();
+        internal void ResumeMapPreview()=>BindScenePreview();
+        void OpenMapScene()
+        {
+            string path=EditorUtility.OpenFilePanel("Открыть сцену авторской карты",Application.dataPath,"unity");
+            if(string.IsNullOrEmpty(path))return;
+            string assets=Path.GetFullPath(Application.dataPath)+Path.DirectorySeparatorChar;
+            string absolute=Path.GetFullPath(path);
+            if(!absolute.StartsWith(assets,StringComparison.OrdinalIgnoreCase))
+                throw new InvalidOperationException("Выберите сцену внутри Assets текущего проекта.");
+            string relative="Assets/"+absolute.Substring(assets.Length).Replace('\\','/');
+            if(!AssetDatabase.LoadAssetAtPath<SceneAsset>(relative))throw new InvalidOperationException("Сцена карты не найдена.");
+            if(!CanReplaceMap())return;
+            RestorePreview();
+            if(!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()){BindScenePreview();return;}
+            EditorSceneManager.OpenScene(relative,OpenSceneMode.Single);
+            var painter=FindAnyObjectByType<MeadowSurfacePainter>();
+            if(!painter||!painter.source){Connect(null);status="В сцене нет базы авторской карты.";return;}
+            ConnectCreatedMap(painter.source);
+        }
+        internal void ConnectCreatedMap(SurfacePaintData data)
+        {
+            Connect(data);
+            FrameMap();
+        }
         void OnEnable()
         {
             restoreAttempted=false;
             titleContent=new GUIContent("World Editor");minSize=new Vector2(340,420);
             SceneView.duringSceneGui+=SceneGUI;EditorApplication.playModeStateChanged+=PlayState;EditorApplication.update+=Tick;
-            AssemblyReloadEvents.beforeAssemblyReload+=CheckpointSession;EditorApplication.delayCall+=RestoreWindowSession;
+            AssemblyReloadEvents.beforeAssemblyReload+=BeforeAssemblyReload;EditorApplication.delayCall+=RestoreWindowSession;
         }
         void OnDisable()
         {
             CheckpointSession();if(session!=null)session.Changed-=Changed;
             SceneView.duringSceneGui-=SceneGUI;EditorApplication.playModeStateChanged-=PlayState;EditorApplication.update-=Tick;
-            AssemblyReloadEvents.beforeAssemblyReload-=CheckpointSession;EditorApplication.delayCall-=RestoreWindowSession;
+            AssemblyReloadEvents.beforeAssemblyReload-=BeforeAssemblyReload;EditorApplication.delayCall-=RestoreWindowSession;
             RestorePreview();if(preview)DestroyImmediate(preview);
         }
-        void Tick(){if(!EditorApplication.isPlaying){ConfigureWaterPreviewCameras();TickTools();TickEnvironmentPreview();terrainPreview?.FlushColliderBudget(2);var riverView=SceneView.lastActiveSceneView;if(riverView&&riverView.camera)riverPreview?.Tick(riverView.camera.transform.position);if(treePreview!=null){var view=SceneView.lastActiveSceneView;treePreview.Tick(view&&view.camera?view.camera.transform.position:Vector3.zero);}}}
+        void Tick(){if(!EditorApplication.isPlaying){EnsureScenePreview();ConfigureWaterPreviewCameras();TickTools();TickEnvironmentPreview();terrainPreview?.FlushColliderBudget(2);var riverView=SceneView.lastActiveSceneView;if(riverView&&riverView.camera){riverPreview?.Tick(riverView.camera.transform.position);if(riverPreview!=null&&riverPreview.AnimationAdvanced)riverView.Repaint();}if(treePreview!=null){var view=SceneView.lastActiveSceneView;treePreview.Tick(view&&view.camera?view.camera.transform.position:Vector3.zero);}}}
+        bool scenePreviewRecoveryPending;
+        void EnsureScenePreview()
+        {
+            if(EditorApplication.isPlayingOrWillChangePlaymode)return;
+            // Scene restoration (including Test Runner) destroys scene objects without a domain
+            // reload. Preserve the document/draft and rebuild only its disposable presentation.
+            if(terrainPreview!=null&&!terrainPreview.IsValid){scenePreviewRecoveryPending=true;RestorePreview();}
+            if(!scenePreviewRecoveryPending||session==null)return;
+            var painter=FindAnyObjectByType<MeadowSurfacePainter>();
+            if(painter&&painter.source==source)BindScenePreview();
+        }
         void PlayState(PlayModeStateChange state)
         {
-            if(state==PlayModeStateChange.ExitingEditMode){CheckpointSession();RestorePreview();}
+            if(state==PlayModeStateChange.ExitingEditMode){scenePreviewRecoveryPending=session!=null&&source;CheckpointSession();RestorePreview();}
             if(state==PlayModeStateChange.EnteredEditMode)RestoreWindowSession();
         }
+        bool previewRebindScheduled;
+        void BeforeAssemblyReload()
+        {
+            CheckpointSession();
+            // Restore source references before Unity serializes the scene for reload.
+            // HideAndDontSave terrain/grass clones cannot survive that serialization.
+            RestorePreview();
+        }
         internal void SuspendPreviewForSave()
-        {RestorePreview();EditorApplication.delayCall+=()=>{if(this&&session!=null&&preview&&!EditorApplication.isPlaying)BindScenePreview();};}
+        {
+            CancelRiverGesture(false);
+            // A texture-library import may save dozens of importers in one turn.
+            // Restore/rebind the expensive terrain/vegetation preview only once.
+            if(previewRebindScheduled)return;
+            RestorePreview();previewRebindScheduled=true;
+            EditorApplication.delayCall+=()=>{previewRebindScheduled=false;if(this&&session!=null&&preview&&!EditorApplication.isPlaying)BindScenePreview();};
+        }
         internal void RestorePreview()
         {
+            CancelRiverGesture(false);ClearRiverGesturePreview();
+            fencePreview?.Dispose();fencePreview=null;
+            pathPreview?.Dispose();pathPreview=null;
             RestoreEnvironmentPreview();
             RestoreScatterPreview();
             RestoreWaterPreviewCameras();
@@ -82,25 +139,32 @@ namespace LittleCastle.Editor
         }
         void BindScenePreview()
         {
-            ConfigureRiverProfile();RestorePreview();if(EditorApplication.isPlaying)return;
-            var painter=FindAnyObjectByType<MeadowSurfacePainter>();if(!painter||painter.source!=source)return;
+            scenePreviewRecoveryPending=session!=null&&source;
+            ConfigureRiverProfile();RestorePreview();if(EditorApplication.isPlayingOrWillChangePlaymode||session==null||!source)return;
+            var painter=FindAnyObjectByType<MeadowSurfacePainter>();
+            if(!painter||painter.source!=source||!painter.gameObject.scene.IsValid()||!painter.gameObject.scene.isLoaded)return;
+            var ground=MeadowSurfacePainter.FindGround(painter.terrainMaterial);
+            if(!ground||!ground.sharedMesh||!ground.gameObject.scene.IsValid()||!ground.gameObject.scene.isLoaded)return;
             // Initialize the loaded scene's existing presentation values in Edit Mode.
             // No lighting settings, materials or shaders are authored by this window.
             var globals=FindAnyObjectByType<StylizedLightingGlobals>();if(globals)globals.ApplyGlobals();
-            var ground=MeadowSurfacePainter.FindGround(painter.terrainMaterial);
-            if(ground)terrainPreview=new MapTerrainPresentation(session,ground,FindAnyObjectByType<MeadowGrassRenderer>(),FindAnyObjectByType<InnerverseGrassStudy>());
+            terrainPreview=new MapTerrainPresentation(session,ground,FindAnyObjectByType<MeadowGrassRenderer>(),FindAnyObjectByType<InnerverseGrassStudy>());
             if(treeCatalog)treePreview=new MapTreePresentation(session,treeCatalog);
+            BindFencePreview();
             var rockCatalog=painter.riverCatalogOverride?painter.riverCatalogOverride:MapRockCatalog.Default;
             if(rockCatalog)riverPreview=new MapRiverPresentation(session,rockCatalog,painter.waterOnlyRivers);
             previewNeedsWaterBuffers=painter.waterOnlyRivers;ConfigureWaterPreviewCameras();
             var b=source.bounds;var properties=new MaterialPropertyBlock();
             properties.SetTexture("_SurfacePaint",preview);properties.SetVector("_SurfacePaintBounds",new Vector4(b.x,b.y,1/b.z,1/b.w));properties.SetFloat("_UseSurfacePaint",1);
-            foreach(var renderer in FindObjectsByType<Renderer>())if(renderer.sharedMaterial==painter.terrainMaterial)
+            properties.SetFloat("_PathEdgeVariation",.65f);
+            foreach(var renderer in Resources.FindObjectsOfTypeAll<Renderer>())if(renderer.gameObject.scene.IsValid()&&renderer.gameObject.scene.isLoaded&&renderer.sharedMaterial==painter.terrainMaterial)
             {var old=new MaterialPropertyBlock();renderer.GetPropertyBlock(old);rendererBindings.Add(renderer,old);var next=new MaterialPropertyBlock();renderer.GetPropertyBlock(next);next.SetTexture("_SurfacePaint",preview);next.SetVector("_SurfacePaintBounds",new Vector4(b.x,b.y,1/b.z,1/b.w));next.SetFloat("_UseSurfacePaint",1);renderer.SetPropertyBlock(next);}
             foreach(var grass in FindObjectsByType<MeadowGrassRenderer>())if(grass.material==painter.grassMaterial){grassBindings.Add(grass,grass.surfaceOverrides);grass.surfaceOverrides=properties;}
             foreach(var accent in FindObjectsByType<InnerverseGrassStudy>())if(accent.grassMaterial==painter.accentMaterial){accentBindings.Add(accent,accent.surfaceOverrides);accent.surfaceOverrides=properties;}
             BindScatterPreview(painter);
             BindEnvironmentPreview(painter);
+            pathPreview=new MapPathPresentation(session,painter.terrainMaterial,Resolution);
+            scenePreviewRecoveryPending=false;
         }
         internal void Connect(SurfacePaintData data)
         {
@@ -121,8 +185,26 @@ namespace LittleCastle.Editor
             RebuildPreview();
             BindScenePreview();
         }
+        bool haveGuiLayout;int guiLayoutStamp;
+        int GuiLayoutStamp()
+        {
+            unchecked
+            {
+                int h=EditorApplication.isPlayingOrWillChangePlaymode?1:0;
+                h=h*31+(session==null?0:1);h=h*31+toolCategory;h=h*31+(activeToolId?.GetHashCode()??0);
+                h=h*31+(int)(session?.RiverRevision??0);h=h*31+riverTools.GuiLayoutHash;
+                h=h*31+(riverSplineHandles?1:0);h=h*31+(riverAutoCorrect?1:0);
+                h=h*31+(riverDirectEditingEnabled?1:0);
+                h=h*31+waterfallTools.mode;h=h*31+waterfallTools.Candidates.Count;h=h*31+(waterfallTools.PreviewRoute==null?0:1);
+                h=h*31+(waterfallTools.SelectedWaterfallId==0?0:1);h=h*31+(string.IsNullOrEmpty(status)?0:1);
+                h=h*31+(string.IsNullOrEmpty(riverTools.status)?0:1);return h*31+(string.IsNullOrEmpty(waterfallTools.status)?0:1);
+            }
+        }
         void OnGUI()
         {
+            int stamp=GuiLayoutStamp();
+            if(Event.current.type==EventType.Layout){haveGuiLayout=true;guiLayoutStamp=stamp;}
+            else if(!haveGuiLayout||guiLayoutStamp!=stamp){Repaint();GUIUtility.ExitGUI();}
             DrawMapHeader();
             if(EditorApplication.isPlayingOrWillChangePlaymode)
             {
@@ -140,18 +222,26 @@ namespace LittleCastle.Editor
             DrawCommonTools();
             if(toolCategory==0)DrawHeightLimits();
             else if(toolCategory==1&&CurrentToolId=="surface.meadow")DrawScatterSettings();
+            else if(CurrentToolId=="surface.road")DrawPathPalette();
             else if(toolCategory==2)DrawVegetationTools();
             else if(toolCategory==3)DrawRiverTools();
+            else if(toolCategory==5)DrawFenceTools();
             DrawBrushPreset();
             if(!string.IsNullOrEmpty(status))EditorGUILayout.HelpBox(status,MessageType.None);
             showPreview=EditorGUILayout.Foldout(showPreview,"Маска покрытия · R дорожка / G растительность",true);
             if(showPreview&&preview){float size=Mathf.Min(position.width-24,300);GUILayout.Label(preview,GUILayout.Width(size),GUILayout.Height(size));}
         }
-        void Run(Action action){try{action();}catch(Exception e){status=e.Message;Debug.LogException(e);}Repaint();}
+        void Run(Action action)
+        {
+            try{action();}
+            catch(ExitGUIException){throw;}
+            catch(Exception e){status=e.Message;if(!(e is InvalidDataException||e is InvalidOperationException||e is UnauthorizedAccessException||e is ArgumentException))Debug.LogException(e);}
+            Repaint();
+        }
         void Changed(MapRegionChange change)
         {
             if(!rebuildingPreview)MarkDocumentDirty();
-            if((change.kind&MapChangeKind.Surface)==0){if((change.kind&MapChangeKind.Height)!=0)RebuildScatterPreview(change.bounds);Repaint();SceneView.RepaintAll();return;}
+            if(!SurfacePaintRasterizer.RequiresMaskRebuild(change,session)){if((change.kind&MapChangeKind.Height)!=0)RebuildScatterPreview(change.bounds);Repaint();SceneView.RepaintAll();return;}
             var b=source.bounds;var rect=SurfacePaintRasterizer.PixelRect(b,Resolution,Resolution,change.bounds);
             var area=new Rect(b.x+rect.x*b.z/Resolution,b.y+rect.y*b.w/Resolution,rect.width*b.z/Resolution,rect.height*b.w/Resolution);
             SurfacePaintRasterizer.Rebuild(pixels,b,Resolution,Resolution,session.QuerySurface(area),rect);

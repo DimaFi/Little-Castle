@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28f9e2c6d69c490d8d42b20f51d2d102, type: 3}
+  m_Name: MapWeather
+  m_EditorClassIdentifier: LittleCastle.Runtime::LittleCastle.World.Weather.RainStormProfile
+  rainBlendSeconds: 8
+  wettingSeconds: 40
+  dryingSeconds: 160
+  nearRadius: 22
+  distantRadius: 65
+  spawnHeight: 30
+  fallSpeed: 22
+  streakWidth: 0.035
+  streakLength: 0.65
+  windInfluence: 0.55
+  rainTint: {r: 0.68, g: 0.78, b: 0.88, a: 0.55}
+  seed: 90317
+  groundLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  waterLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  roofLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  useMapHeightFallback: 1
+  maximumGroundSlope: 0.27
+  puddleRadius: 1.25
+  rippleSpeed: 0.65
+  wetReflection: 0.36
+  splashIntensity: 0.65
+  cloudiness: 0.95
+  precipitationForAtmosphere: 0.9
+  driveExistingAtmosphere: 1
+  enableLightning: 1
+  minLightningInterval: 10
+  maxLightningInterval: 24
+  lightningFlash: 0.5
+  reducedFlashes: 0
+  enableThunder: 1
+  thunderVolume: 0.55
+  distantThunder: {fileID: 0}
+  closeThunder: {fileID: 0}
+  rainAmbience: {fileID: 0}
+  rainVolume: 0.35
+  allowLensRain: 0
+  lensStrength: 0.15
+  customBudget:
+    nearParticles: 1100
+    distantParticles: 1700
+    probeCount: 10
+    puddleCount: 22
+    splashCount: 12

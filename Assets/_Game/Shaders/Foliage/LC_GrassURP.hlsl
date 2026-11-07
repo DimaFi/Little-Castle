@@ -23,6 +23,7 @@ CBUFFER_START(UnityPerMaterial)
     float _MeadowRootOcclusion;
     float _InteractionStrength, _InteractionDistance;
     float4 _SurfacePaintBounds;
+    float _PathEdgeVariation;
     half _ColorVariation;
     half _MeadowPaletteStrength;
     half4 _DryColor;
@@ -219,6 +220,9 @@ float3 LCDeformVertex(appdata v)
 #endif
 #if defined(_LC_SURFACE_PAINT)
     float2 coverage=LCSurfaceCoverage(rootWorld,_SurfacePaintBounds);
+    // Per-blade root hashing keeps an irregular fringe stable in world space.
+    // It affects only mixed coverage; the road core and unpainted meadow stay clean.
+    coverage.r=saturate(coverage.r+(HashObject(rootWorld)-.5)*_PathEdgeVariation*.32*4*coverage.r*(1-coverage.r));
     fade *= smoothstep(0,.95,coverage.g)*(1-smoothstep(.10,.8,coverage.r));
 #endif
     float weight = saturate(v.uv.y)*fade;
@@ -418,6 +422,8 @@ half4 frag(
     half shadow =
         LCVegetationMainShadow(i.worldPosition);
 
+    shadow *= LCAtmosphereCloudShadow(i.worldPosition);
+
     half sunDiffuse =
         smoothstep(
             0.12h,
@@ -442,7 +448,8 @@ half4 frag(
     materialOcclusion = 1-_MeadowRootOcclusion*(1-smoothstep(0,.65h,i.bladeData.x));
 #endif
     half3 ambient =
-        LCSpatialIndirect(i.worldPosition, normal, EvaluateHemisphereAmbient(normal)) *
+        (LCSpatialIndirect(i.worldPosition, normal, EvaluateHemisphereAmbient(normal)) +
+        LCAtmosphereGroundFill(normal)) *
         LCIndirectOcclusion(i.pos, materialOcclusion) *
         _AmbientStrength *
         lerp(
@@ -480,16 +487,20 @@ half4 frag(
         _LC_SunColor.rgb *
         backlight *
         _TransmissionStrength *
-        lerp(
-            0.35h,
-            1.0h,
-            shadow);
+        LCAtmosphereTransmissionVisibility(shadow);
 
     half3 finalColor =
         albedo *
         (ambient + direct) +
         albedo *
         transmission;
+
+    finalColor += albedo * LCAtmosphereAdditionalDiffuse(i.worldPosition, i.pos, normal, .12h) * .82h;
+
+    half scatter = LCAtmosphereForwardScatter(normalize(i.worldNormal) * faceSign, sunDirection,
+        GetWorldSpaceNormalizeViewDir(i.worldPosition));
+    finalColor += sqrt(max(albedo, 0)) * _LC_SunColor.rgb * scatter *
+        _TransmissionStrength * shadow * materialOcclusion;
 
     half4 result =
         half4(

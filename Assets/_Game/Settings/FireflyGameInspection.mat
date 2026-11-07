@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: FireflyGameInspection
+  m_Shader: {fileID: 4800000, guid: 0b8e1d29d47149eba7507b3e6db46d3f, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 1
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Ints: []
+    m_Floats:
+    - _FireflyCellFade: 1
+    - _FireflyDiameter: 0.13
+    - _FireflyFog: 0.8
+    - _FireflyGlow: 1.4
+    - _FireflyLodCount: 1023
+    - _FireflyNight: 1
+    - _FireflyRange: 95
+    - _FireflyTime: 0
+    m_Colors:
+    - _FireflyBehavior: {r: 0.22, g: 7, b: 0, a: 0}
+    - _FireflyColor: {r: 1, g: 0.89, b: 0.38, a: 1}
+    - _FireflyFades: {r: 0.75, g: 0, b: 0.15, a: 0}
+    - _FireflyInstanceColor: {r: 0, g: 0, b: 0, a: 0}
+    - _FireflyLod: {r: 0.58, g: 0.28, b: 0.65, a: 0}
+    - _FireflyLook: {r: 0.13, g: 0.2, b: 11, a: 0}
+    - _FireflyMotion: {r: 0.6, g: 0.7, b: 0.12, a: 0.22}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1

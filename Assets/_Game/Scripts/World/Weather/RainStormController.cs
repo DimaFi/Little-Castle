@@ -1,0 +1,821 @@
+using System;
+using LittleCastle.Research;
+using LittleCastle.Rendering;
+using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.UI;
+
+namespace LittleCastle.World.Weather
+{
+    /// <summary>
+    /// Explicit opt-in weather presentation. No scene, shared material, map or save data is mutated.
+    /// Driven from the existing camera, atmosphere, and optional world-editor height source.
+    /// </summary>
+    [DefaultExecutionOrder(180)]
+    [DisallowMultipleComponent]
+    public sealed class RainStormController : MonoBehaviour
+    {
+        [Header("References")]
+        [SerializeField] private RainStormProfile profile;
+        [SerializeField] private Camera gameplayCamera;
+        [SerializeField] private DayNightLightingController atmosphere;
+        [SerializeField] private MeadowSurfacePainter mapPainter;
+
+        [Header("Game preview (opt-in component; no automatic spawning)")]
+        [SerializeField] private RainMode mode = RainMode.Rain;
+        [SerializeField] private RainQuality quality = RainQuality.High;
+        [SerializeField] private bool showDebugUI = true;
+
+        private RainStormProfile ownedFallbackProfile;
+        private Material streakMaterial, rippleMaterial;
+        private GameObject ownedRoot;
+        private Mesh puddleMesh;
+        private ParticleSystem nearRain, distantRain, splash, roofDrips;
+        private Transform nearTransform, distantTransform;
+        private Puddle[] puddles;
+        private LineRenderer lightningLine, lightningBranch, lightningGlow, lightningBranchGlow;
+        private Material lightningMaterial, lightningGlowMaterial;
+        private Light flashLight;
+        private AudioSource thunderSource, rainSource;
+        private RainShelterMask shelterMask;
+        private GameObject lensRoot;
+        private Material lensMaterial;
+        private float intensity, wetness, nextSurfaceUpdate, nextLightning, lightningAge = 100f;
+        private float thunderDelay = -1f;
+        private int lightningSequence;
+        private Vector3 focus, strikePoint;
+        private RainBudget budget;
+        private bool initialized, rainPlaying, stormWasActive;
+        private static RainStormController active;
+        private static readonly int TintId = Shader.PropertyToID("_Tint");
+        private static readonly int WetnessId = Shader.PropertyToID("_Wetness");
+        private static readonly int SeedId = Shader.PropertyToID("_Seed");
+        private static readonly int RippleRateId = Shader.PropertyToID("_RippleRate");
+        private static readonly int GlobalWetId = Shader.PropertyToID("_LC_WeatherWetness");
+        private static readonly int GlobalRainId = Shader.PropertyToID("_LC_WeatherRainIntensity");
+        
+
+        private RainStormProfile Settings => profile != null ? profile : ownedFallbackProfile;
+        public RainMode CurrentMode => mode;
+        public RainQuality CurrentQuality => quality;
+        public float CurrentIntensity => intensity;
+        public float CurrentWetness => wetness;
+
+        public void SetMode(RainMode value) { mode = value; }
+        public void SetQuality(RainQuality value) { quality = value; }
+        public void ToggleDebugUI() { showDebugUI = !showDebugUI; }
+        public static Rect DebugPanelBounds(int width,int height)=>new Rect(Mathf.Max(12,width-277),12,265,253);
+        public static bool PointerOverDebugPanel(Vector2 screenPoint)=>active&&active.isActiveAndEnabled&&active.showDebugUI&&
+            DebugPanelBounds(Screen.width,Screen.height).Contains(new Vector2(screenPoint.x,Screen.height-screenPoint.y));
+
+        private void OnEnable()
+        {
+            if (Application.isPlaying) Initialize();
+        }
+
+        private void Initialize()
+        {
+            if (initialized) return;
+            if (active && active != this)
+            {
+                Debug.LogWarning("RainStorm: only one active weather presenter is allowed per scene. Duplicate disabled.", this);
+                enabled = false;
+                return;
+            }
+            active = this;
+            if (!profile)
+            {
+                ownedFallbackProfile = ScriptableObject.CreateInstance<RainStormProfile>();
+                ownedFallbackProfile.hideFlags = HideFlags.HideAndDontSave;
+            }
+            if (!gameplayCamera) gameplayCamera = Camera.main;
+            if (!atmosphere) atmosphere = FindAnyObjectByType<DayNightLightingController>();
+            if (!mapPainter) mapPainter = FindAnyObjectByType<MeadowSurfacePainter>();
+            var streak = Resources.Load<Shader>("RainStorm/LC_RainStreak");
+            var ripple = Resources.Load<Shader>("RainStorm/LC_RainRipple");
+            if (!streak || !ripple)
+            {
+                Debug.LogError("RainStorm: Resources/RainStorm shaders missing. Weather safely disabled.", this);
+                Cleanup();
+                enabled = false;
+                return;
+            }
+            streakMaterial = new Material(streak) { name = "RainStorm Streak (Runtime)", hideFlags = HideFlags.HideAndDontSave };
+            rippleMaterial = new Material(ripple) { name = "RainStorm Ripple (Runtime)", hideFlags = HideFlags.HideAndDontSave };
+            rippleMaterial.SetFloat(RippleRateId, Settings.rippleSpeed);
+            ownedRoot = new GameObject("RainStorm preview (owned runtime resources)");
+            ownedRoot.hideFlags = HideFlags.HideAndDontSave;
+            ownedRoot.transform.SetParent(transform, false);
+            nearRain = CreateRain("Near streaks", out nearTransform, 0.45f);
+            distantRain = CreateRain("Distant streaks", out distantTransform, 0.23f);
+            splash = CreateSplash();
+            roofDrips = CreateRoofDrips();
+            puddleMesh = MakeQuad();
+            CreatePuddles(64);
+            CreateLightning();
+            shelterMask = new RainShelterMask();
+            CreateLensOverlay();
+            nextLightning = Time.time + NextLightningInterval();
+            initialized = true;
+        }
+
+        private ParticleSystem CreateRain(string label, out Transform emitter, float brightness)
+        {
+            var obj = new GameObject(label);
+            obj.transform.SetParent(ownedRoot.transform, false);
+            emitter = obj.transform;
+            var ps = obj.AddComponent<ParticleSystem>();
+            ps.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+            var main = ps.main;
+            main.playOnAwake = false;
+            main.loop = true;
+            main.simulationSpace = ParticleSystemSimulationSpace.World;
+            main.startLifetime = 2.9f;
+            main.startSpeed = 0f;
+            main.maxParticles = 6000;
+            main.startSize = Settings.streakWidth;
+            main.startColor = Settings.rainTint * new Color(1f, 1f, 1f, brightness);
+            main.cullingMode = ParticleSystemCullingMode.PauseAndCatchup;
+            var shape = ps.shape;
+            shape.enabled = true;
+            shape.shapeType = ParticleSystemShapeType.Box;
+            var emission = ps.emission;
+            emission.rateOverTime = 0f;
+            var velocity = ps.velocityOverLifetime;
+            velocity.enabled = true;
+            velocity.space = ParticleSystemSimulationSpace.World;
+            velocity.y = -Settings.fallSpeed;
+            var renderer = ps.GetComponent<ParticleSystemRenderer>();
+            renderer.sharedMaterial = streakMaterial;
+            renderer.renderMode = ParticleSystemRenderMode.Stretch;
+            renderer.velocityScale = 0.08f;
+            renderer.lengthScale = Settings.streakLength;
+            renderer.shadowCastingMode = ShadowCastingMode.Off;
+            renderer.receiveShadows = false;
+            return ps;
+        }
+
+        private ParticleSystem CreateSplash()
+        {
+            var obj = new GameObject("Ground splashes (pooled particles)");
+            obj.transform.SetParent(ownedRoot.transform, false);
+            var ps = obj.AddComponent<ParticleSystem>();
+            ps.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+            var main = ps.main;
+            main.playOnAwake = false;
+            main.loop = true;
+            main.simulationSpace = ParticleSystemSimulationSpace.World;
+            main.startSpeed = 0f;
+            main.startLifetime = 0.3f;
+            main.maxParticles = 320;
+            var emission = ps.emission; emission.rateOverTime = 0f;
+            var shape = ps.shape; shape.enabled = false;
+            var renderer = ps.GetComponent<ParticleSystemRenderer>();
+            renderer.sharedMaterial = streakMaterial;
+            renderer.renderMode = ParticleSystemRenderMode.Billboard;
+            renderer.shadowCastingMode = ShadowCastingMode.Off;
+            renderer.receiveShadows = false;
+            ps.Play();
+            return ps;
+        }
+
+        private ParticleSystem CreateRoofDrips()
+        {
+            var obj = new GameObject("Shared roof-edge runoff pool");
+            obj.transform.SetParent(ownedRoot.transform, false);
+            var ps = obj.AddComponent<ParticleSystem>();
+            ps.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+            var main = ps.main;
+            main.playOnAwake = false;
+            main.simulationSpace = ParticleSystemSimulationSpace.World;
+            main.loop = true;
+            main.startSpeed = 0f;
+            main.startLifetime = 1.3f;
+            main.maxParticles = 480;
+            var emission = ps.emission; emission.rateOverTime = 0f;
+            var shape = ps.shape; shape.enabled = false;
+            var renderer = ps.GetComponent<ParticleSystemRenderer>();
+            renderer.sharedMaterial = streakMaterial;
+            renderer.renderMode = ParticleSystemRenderMode.Stretch;
+            renderer.lengthScale = .24f;
+            renderer.velocityScale = .07f;
+            renderer.shadowCastingMode = ShadowCastingMode.Off;
+            renderer.receiveShadows = false;
+            ps.Play();
+            return ps;
+        }
+
+        private struct Puddle
+        {
+            public GameObject obj;
+            public MeshRenderer renderer;
+            public MaterialPropertyBlock properties;
+            public int x, z;
+            public bool water;
+        }
+
+        private static Mesh MakeQuad()
+        {
+            var mesh = new Mesh { name = "RainStorm quad", hideFlags = HideFlags.HideAndDontSave };
+            mesh.vertices = new[] { new Vector3(-.5f, 0, -.5f), new Vector3(.5f, 0, -.5f),
+                new Vector3(-.5f, 0, .5f), new Vector3(.5f, 0, .5f) };
+            mesh.uv = new[] { Vector2.zero, Vector2.right, Vector2.up, Vector2.one };
+            mesh.triangles = new[] { 0, 2, 1, 2, 3, 1 };
+            mesh.RecalculateNormals();
+            mesh.bounds = new Bounds(Vector3.zero, new Vector3(1f, .1f, 1f));
+            return mesh;
+        }
+
+        private void CreatePuddles(int maximum)
+        {
+            puddles = new Puddle[maximum];
+            for (int i = 0; i < maximum; i++)
+            {
+                var obj = new GameObject("Puddle / water ripple " + i);
+                obj.transform.SetParent(ownedRoot.transform, false);
+                obj.AddComponent<MeshFilter>().sharedMesh = puddleMesh;
+                var renderer = obj.AddComponent<MeshRenderer>();
+                renderer.sharedMaterial = rippleMaterial;
+                renderer.shadowCastingMode = ShadowCastingMode.Off;
+                renderer.receiveShadows = false;
+                renderer.lightProbeUsage = LightProbeUsage.Off;
+                puddles[i] = new Puddle { obj = obj, renderer = renderer,
+                    properties = new MaterialPropertyBlock(), x = int.MinValue, z = int.MinValue };
+                obj.SetActive(false);
+            }
+        }
+
+        private void CreateLensOverlay()
+        {
+            Shader shader = Resources.Load<Shader>("RainStorm/LC_RainLens");
+            if (!shader) return; // The rest of weather works without optional lens UI.
+            lensMaterial = new Material(shader) { hideFlags = HideFlags.HideAndDontSave };
+            lensRoot = new GameObject("Weather lens overlay (behind HUD)");
+            lensRoot.hideFlags = HideFlags.HideAndDontSave;
+            var canvas = lensRoot.AddComponent<Canvas>();
+            canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+            canvas.overrideSorting = true;
+            canvas.sortingOrder = -200;
+            var child = new GameObject("Sparse water droplets", typeof(RectTransform), typeof(CanvasRenderer), typeof(RawImage));
+            child.transform.SetParent(lensRoot.transform, false);
+            var rect = (RectTransform)child.transform;
+            rect.anchorMin = Vector2.zero;
+            rect.anchorMax = Vector2.one;
+            rect.offsetMin = Vector2.zero;
+            rect.offsetMax = Vector2.zero;
+            var image = child.GetComponent<RawImage>();
+            image.texture = Texture2D.whiteTexture;
+            image.raycastTarget = false;
+            image.material = lensMaterial;
+            lensRoot.SetActive(false);
+        }
+
+        private void CreateLightning()
+        {
+            Shader shader = Resources.Load<Shader>("RainStorm/LC_StormLightning");
+            // Missing optional shader must never prevent rain/snow rendering.
+            if (shader)
+            {
+                lightningMaterial = new Material(shader)
+                {
+                    name = "Storm bolt HDR (runtime)", hideFlags = HideFlags.HideAndDontSave
+                };
+                lightningMaterial.SetColor("_EmissionColor", new Color(3.3f, 4.2f, 5.8f, 1f));
+                lightningGlowMaterial = new Material(shader)
+                {
+                    name = "Storm wide glow (runtime)", hideFlags = HideFlags.HideAndDontSave
+                };
+                lightningGlowMaterial.SetColor("_EmissionColor", new Color(.32f, .55f, 1.2f, 1f));
+                lightningGlowMaterial.SetFloat("_Opacity", .38f);
+            }
+            var obj = new GameObject("Procedural distant lightning");
+            obj.transform.SetParent(ownedRoot.transform, false);
+            lightningLine = obj.AddComponent<LineRenderer>();
+            ConfigureLine(lightningLine, .40f, lightningMaterial);
+            var branchObj = new GameObject("Branch");
+            branchObj.transform.SetParent(obj.transform, false);
+            lightningBranch = branchObj.AddComponent<LineRenderer>();
+            ConfigureLine(lightningBranch, .22f, lightningMaterial);
+
+            var glowObj = new GameObject("Wide soft glow");
+            glowObj.transform.SetParent(obj.transform, false);
+            lightningGlow = glowObj.AddComponent<LineRenderer>();
+            ConfigureLine(lightningGlow, 1.5f, lightningGlowMaterial);
+            var branchGlowObj = new GameObject("Branch glow");
+            branchGlowObj.transform.SetParent(obj.transform, false);
+            lightningBranchGlow = branchGlowObj.AddComponent<LineRenderer>();
+            ConfigureLine(lightningBranchGlow, .8f, lightningGlowMaterial);
+
+            var lightObj = new GameObject("Distant storm flash (shadowless)");
+            lightObj.transform.SetParent(ownedRoot.transform, false);
+            flashLight = lightObj.AddComponent<Light>();
+            flashLight.type = LightType.Point;
+            flashLight.range = 165f;
+            flashLight.shadows = LightShadows.None;
+            flashLight.color = new Color(.65f, .78f, 1f);
+            flashLight.enabled = false;
+
+            var soundObj = new GameObject("Thunder audio");
+            soundObj.transform.SetParent(ownedRoot.transform, false);
+            thunderSource = soundObj.AddComponent<AudioSource>();
+            thunderSource.playOnAwake = false;
+            thunderSource.spatialBlend = .6f;
+            var rainObj = new GameObject("Rain ambience (optional 2D loop)");
+            rainObj.transform.SetParent(ownedRoot.transform, false);
+            rainSource = rainObj.AddComponent<AudioSource>();
+            rainSource.playOnAwake = false;
+            rainSource.loop = true;
+            rainSource.spatialBlend = 0f;
+        }
+
+        private void ConfigureLine(LineRenderer line, float width, Material overrideMaterial = null)
+        {
+            line.sharedMaterial = overrideMaterial ? overrideMaterial : streakMaterial;
+            line.widthMultiplier = width;
+            line.useWorldSpace = true;
+            line.numCapVertices = 2;
+            line.shadowCastingMode = ShadowCastingMode.Off;
+            line.receiveShadows = false;
+            line.enabled = false;
+        }
+
+        private void Update()
+        {
+            if (!initialized)
+            {
+                Initialize();
+                if (!initialized) return;
+            }
+            if (!gameplayCamera) gameplayCamera = Camera.main;
+            float dt = Mathf.Min(Time.deltaTime, 0.1f);
+            float desired = quality == RainQuality.Off ? 0f : RainStormMath.Intensity(mode);
+            intensity = RainStormMath.Approach(intensity, desired, Settings.rainBlendSeconds, dt);
+            wetness = RainStormMath.Wetness(wetness, intensity, dt, Settings.wettingSeconds, Settings.dryingSeconds);
+            Shader.SetGlobalFloat(GlobalWetId, wetness);
+            Shader.SetGlobalFloat(GlobalRainId, intensity);
+            budget = RainBudget.For(quality, Settings.customBudget);
+            if (lensRoot)
+            {
+                bool lensEnabled = Settings.allowLensRain && intensity > .05f &&
+                    (quality == RainQuality.High || quality == RainQuality.Custom);
+                if (lensRoot.activeSelf != lensEnabled) lensRoot.SetActive(lensEnabled);
+                if (lensEnabled && lensMaterial) lensMaterial.SetFloat("_Opacity",
+                    Mathf.Clamp01(intensity * Settings.lensStrength));
+            }
+            if (atmosphere && Settings.driveExistingAtmosphere)
+            {
+                atmosphere.SetWeatherPresentation(intensity * Settings.cloudiness, intensity * Settings.precipitationForAtmosphere);
+                atmosphere.SetStormPresentation(mode == RainMode.Storm && quality != RainQuality.Off
+                    ? intensity : 0f);
+            }
+            if (rainSource)
+            {
+                if (rainSource.clip != Settings.rainAmbience)
+                {
+                    rainSource.Stop();
+                    rainSource.clip = Settings.rainAmbience;
+                }
+                rainSource.volume = intensity * Settings.rainVolume;
+                if (rainSource.clip && !rainSource.isPlaying && intensity > .01f) rainSource.Play();
+                if (rainSource.isPlaying && intensity <= .001f) rainSource.Stop();
+            }
+            if (!gameplayCamera) { StopRain(); HidePuddles(); return; }
+            focus = GetGroundFocus(gameplayCamera);
+            shelterMask?.Tick(focus);
+            TickRain();
+            if (Time.time >= nextSurfaceUpdate)
+            {
+                UpdateSurfaces();
+                TickRoofDrips();
+                nextSurfaceUpdate = Time.time + 0.35f;
+            }
+            TickLightning(dt);
+        }
+
+        private Vector3 GetGroundFocus(Camera camera)
+        {
+            Ray ray = camera.ViewportPointToRay(new Vector3(.5f, .5f, 0));
+            var plane = new Plane(Vector3.up, Vector3.zero);
+            Vector3 p = plane.Raycast(ray, out float distance) && distance > 0 ? ray.GetPoint(distance) :
+                camera.transform.position + camera.transform.forward * 30f;
+            if (mapPainter && mapPainter.Session != null)
+                p.y = mapPainter.Session.SampleHeight(p.x, p.z);
+            else if (Physics.Raycast(ray, out RaycastHit hit, 600f, Settings.groundLayers, QueryTriggerInteraction.Ignore))
+                p = hit.point;
+            return p;
+        }
+
+        private void TickRain()
+        {
+            if (intensity < 0.004f || budget.nearParticles + budget.distantParticles == 0) { StopRain(); return; }
+            if (!rainPlaying)
+            {
+                nearRain.Play(); distantRain.Play();
+                rainPlaying = true;
+            }
+            ConfigureRainLayer(nearRain, nearTransform, budget.nearParticles, Settings.nearRadius, 1f);
+            ConfigureRainLayer(distantRain, distantTransform, budget.distantParticles, Settings.distantRadius, .65f);
+        }
+
+        private void ConfigureRainLayer(ParticleSystem ps, Transform t, int count, float radius, float density)
+        {
+            float height = Settings.spawnHeight;
+            Vector3 p = focus + Vector3.up * height;
+            if ((t.position - p).sqrMagnitude > radius * radius * 2f) ps.Clear();
+            t.position = p;
+            var main = ps.main;
+            main.maxParticles = Mathf.Max(1, count);
+            main.startLifetime = Mathf.Max(.4f, (height + 8f) / Settings.fallSpeed);
+            main.startSize = Settings.streakWidth * (density > .9f ? 1f : .72f);
+            main.startColor = Settings.rainTint * new Color(1f, 1f, 1f, Mathf.Clamp01(intensity * density));
+            var shape = ps.shape;
+            shape.scale = new Vector3(radius * 2f, .25f, radius * 2f);
+            var emission = ps.emission;
+            emission.rateOverTime = count > 0 ? count * intensity / Mathf.Max(.4f, main.startLifetime.constant) : 0f;
+            Vector4 wind = Shader.GetGlobalVector("_LC_Wind");
+            var velocity = ps.velocityOverLifetime;
+            float gust = 1f + Mathf.Sin(Time.time * .61f + Settings.seed) * .14f;
+            velocity.x = wind.x * wind.z * Settings.windInfluence * gust * Settings.fallSpeed * 0.24f;
+            velocity.y = -Settings.fallSpeed;
+            velocity.z = wind.y * wind.z * Settings.windInfluence * gust * Settings.fallSpeed * 0.24f;
+        }
+
+        private void StopRain()
+        {
+            if (!rainPlaying) return;
+            nearRain.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+            distantRain.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+            rainPlaying = false;
+        }
+
+        private bool TrySurface(float x, float z, out Vector3 p, out bool water)
+        {
+            water = false;
+            p = default;
+            // Existing river geometry owns its waterline; never add a second water surface.
+            if (mapPainter && mapPainter.Session != null &&
+                mapPainter.Session.TrySampleWeatherRiverWater(x, z, out float riverHeight))
+            {
+                water = true;
+                p = new Vector3(x, riverHeight + .045f, z);
+                return true;
+            }
+            Vector3 origin = new Vector3(x, focus.y + 160f, z);
+            int mask = Settings.groundLayers.value | Settings.waterLayers.value;
+            if (Physics.Raycast(origin, Vector3.down, out RaycastHit hit, 320f, mask, QueryTriggerInteraction.Ignore))
+            {
+                water = (Settings.waterLayers.value & (1 << hit.collider.gameObject.layer)) != 0;
+                // Avoid puddles on high roofs / bridges if an authored ground height is available.
+                if (!water && mapPainter && mapPainter.Session != null &&
+                    hit.point.y > mapPainter.Session.SampleHeight(x, z) + 0.45f)
+                {
+                    // Roof collider is above terrain: use sheltered ground instead of a hard
+                    // collider-shaped cutoff in the wetness/ripple transition.
+                    Vector3 beneath = new Vector3(x, mapPainter.Session.SampleHeight(x, z) + .035f, z);
+                    if (RainShelterVolume.CoverageAt(beneath) <= .01f) return false;
+                    p = beneath;
+                    return true;
+                }
+                if (!water && RainShelterVolume.Active.Count == 0 && Settings.roofLayers.value != 0 &&
+                    Physics.Raycast(hit.point + Vector3.up * .25f, Vector3.up, 64f,
+                        Settings.roofLayers, QueryTriggerInteraction.Ignore)) return false;
+                if (mapPainter && mapPainter.Session != null &&
+                    mapPainter.Session.SampleEnvironmentSnow(x, z) > .55f) return false;
+                if (!water && Vector3.Dot(hit.normal, Vector3.up) < 1f - Settings.maximumGroundSlope) return false;
+                p = hit.point + Vector3.up * (water ? 0.045f : 0.035f);
+                return true;
+            }
+            // The world-editor mesh may have no collider; fallback samples only terrain.
+            // Disable this in the Inspector if the authored map has an uncovered river.
+            if (Settings.useMapHeightFallback && mapPainter && mapPainter.Session != null)
+            {
+                p = new Vector3(x, mapPainter.Session.SampleHeight(x, z) + .035f, z);
+                if (mapPainter.Session.SampleEnvironmentSnow(x, z) > .55f) return false;
+                if (Vector3.Dot(mapPainter.Session.SampleNormal(x, z), Vector3.up) <
+                    1f - Settings.maximumGroundSlope) return false;
+                return true;
+            }
+            return false;
+        }
+
+        private void HidePuddles()
+        {
+            if (puddles == null) return;
+            for (int i = 0; i < puddles.Length; i++) puddles[i].obj.SetActive(false);
+        }
+
+        private void UpdateSurfaces()
+        {
+            if (puddles == null) return;
+            int used = wetness > .08f ? budget.puddleCount : 0;
+            int columns = Mathf.Max(1, Mathf.CeilToInt(Mathf.Sqrt(Mathf.Max(1, used))));
+            const float cellSize = 7f;
+            int cx = RainStormMath.Cell(focus.x, cellSize), cz = RainStormMath.Cell(focus.z, cellSize);
+            int availableProbes = budget.probeCount;
+            for (int i = 0; i < puddles.Length; i++)
+            {
+                var pd = puddles[i];
+                if (i >= used) { pd.obj.SetActive(false); continue; }
+                int x = cx + i % columns - columns / 2;
+                int z = cz + i / columns - columns / 2;
+                uint seed = unchecked((uint)Settings.seed ^ (uint)(x * 73856093) ^ (uint)(z * 19349663));
+                float chance = RainStormMath.Unit(seed);
+                if (chance < .25f) { pd.obj.SetActive(false); continue; }
+                float px = (x + .25f + RainStormMath.Unit(seed + 1) * .5f) * cellSize;
+                float pz = (z + .25f + RainStormMath.Unit(seed + 2) * .5f) * cellSize;
+                bool isWater = false;
+                if (pd.x != x || pd.z != z || !pd.obj.activeSelf)
+                {
+                    if (availableProbes-- <= 0) { pd.obj.SetActive(false); continue; }
+                    if (!TrySurface(px, pz, out Vector3 surface, out isWater))
+                    { pd.obj.SetActive(false); continue; }
+                    // Rain puddles are flat, ground-only overlays. Placing their quads
+                    // over river ribbons produces large pale polygons and Z/sorting seams.
+                    // Water keeps its own dedicated river shading and future ripple path.
+                    if (isWater) { pd.obj.SetActive(false); pd.x = int.MinValue; pd.z = int.MinValue; puddles[i] = pd; continue; }
+                    float size = Settings.puddleRadius * (0.6f + RainStormMath.Unit(seed + 3) * .9f);
+                    pd.obj.transform.position = surface;
+                    pd.obj.transform.rotation = Quaternion.Euler(0, RainStormMath.Unit(seed + 4) * 360f, 0);
+                    pd.obj.transform.localScale = new Vector3(size * 2, 1, size * 2);
+                    pd.x = x; pd.z = z; pd.water = isWater; puddles[i] = pd;
+                }
+                if (pd.water) { pd.obj.SetActive(false); continue; }
+                pd.properties.Clear();
+                // Smooth coverage from the same prefab roof footprint used by the shader.
+                float exposed = 1f - RainShelterVolume.CoverageAt(pd.obj.transform.position);
+                if (mapPainter && mapPainter.Session != null)
+                    exposed *= 1f - MapWeatherBiomeMask.SnowWeight(mapPainter.Session,
+                        pd.obj.transform.position.x, pd.obj.transform.position.z);
+                pd.properties.SetFloat(WetnessId, wetness * exposed * (pd.water ? .70f : Settings.wetReflection));
+                pd.properties.SetFloat(SeedId, RainStormMath.Unit(seed + 5));
+                pd.renderer.SetPropertyBlock(pd.properties);
+                pd.obj.SetActive(true);
+                // A bounded handful of splash bursts per update, never physics for every drop.
+                if (intensity > .05f && exposed > .15f && i < Mathf.Min(budget.probeCount, budget.splashCount))
+                {
+                    var burst = new ParticleSystem.EmitParams
+                    {
+                        position = pd.obj.transform.position,
+                        velocity = new Vector3(0, .6f + chance, 0),
+                        startLifetime = .22f,
+                        startSize = .04f + chance * .05f,
+                        startColor = new Color(.8f, .88f, .97f, intensity * Settings.splashIntensity * exposed)
+                    };
+                    splash.Emit(burst, Mathf.Clamp(Mathf.RoundToInt(2f + intensity * 3f), 2, 5));
+                }
+            }
+        }
+
+        private void TickRoofDrips()
+        {
+            if (!roofDrips || quality == RainQuality.Off) return;
+            float strength = Mathf.Max(intensity, wetness * .2f);
+            if (strength < .035f) return;
+            var sources = RainRoofDripSource.Active;
+            int remaining = Mathf.Min(budget.splashCount * 2, 24);
+            for (int i = 0; i < sources.Count && remaining > 0; i++)
+            {
+                RainRoofDripSource source = sources[i];
+                if (!source || !source.affectsPreview || source.dripAmount <= 0f) continue;
+                if (mapPainter && mapPainter.Session != null &&
+                    MapWeatherBiomeMask.SnowWeight(mapPainter.Session,
+                        source.transform.position.x, source.transform.position.z) > .8f) continue;
+                if ((source.transform.position - focus).sqrMagnitude > 70f * 70f) continue;
+                float actual = source.continueAfterRain ? strength : intensity;
+                int drops = Mathf.Min(remaining, Mathf.FloorToInt(actual * source.dripAmount * 5f));
+                for (int drop = 0; drop < drops; drop++)
+                {
+                    uint h = unchecked((uint)Settings.seed ^ (uint)(i * 7907) ^ (uint)(Time.frameCount * 251 + drop));
+                    float along = RainStormMath.Unit(h) - .5f;
+                    var emit = new ParticleSystem.EmitParams
+                    {
+                        position = source.transform.position + source.transform.right * (along * source.edgeLength),
+                        velocity = new Vector3(0f, -4.5f - RainStormMath.Unit(h + 1) * 1.5f, 0f),
+                        startLifetime = 1.05f,
+                        startSize = .027f,
+                        startColor = new Color(.75f, .84f, 1f, .52f)
+                    };
+                    roofDrips.Emit(emit, 1);
+                }
+                remaining -= drops;
+            }
+        }
+
+        private float NextLightningInterval()
+        {
+            uint seed = unchecked((uint)Settings.seed + (uint)lightningSequence++ * 747796405u);
+            return Mathf.Lerp(Settings.minLightningInterval, Settings.maxLightningInterval, RainStormMath.Unit(seed));
+        }
+
+        private void TickLightning(float dt)
+        {
+            lightningAge += dt;
+            Shader.SetGlobalFloat("_LC_StormFlash", 0f);
+            if (flashLight) flashLight.enabled = false;
+            if (mode != RainMode.Storm || intensity < .65f ||
+                quality == RainQuality.Off || !Settings.enableLightning || !gameplayCamera)
+            {
+                lightningLine.enabled = lightningBranch.enabled = false;
+                lightningGlow.enabled = lightningBranchGlow.enabled = false;
+                thunderDelay = -1f;
+                stormWasActive = false;
+                return;
+            }
+            if (!stormWasActive)
+            {
+                stormWasActive = true;
+                // A first strike during the initial visual test, not 16–42 seconds later.
+                nextLightning = Time.time + Mathf.Min(5f, NextLightningInterval());
+            }
+            if (Time.time >= nextLightning)
+            {
+                CreateBolt();
+                nextLightning = Time.time + NextLightningInterval();
+            }
+
+            // Cloud lightning reads as a short double/triple flicker rather than a single white frame.
+            float flicker = lightningAge < .085f ? 1f :
+                lightningAge < .125f ? .08f :
+                lightningAge < .22f ? .9f :
+                lightningAge < .28f ? .04f :
+                lightningAge < .41f ? .27f : 0f;
+            if (Settings.reducedFlashes) flicker *= .35f;
+            Shader.SetGlobalFloat("_LC_StormFlash", Settings.lightningFlash * flicker);
+            bool visible = flicker > .055f;
+            lightningLine.enabled = lightningBranch.enabled = visible;
+            bool expensiveGlow = quality == RainQuality.High || quality == RainQuality.Custom;
+            lightningGlow.enabled = lightningBranchGlow.enabled = visible && expensiveGlow;
+            if (visible)
+            {
+                Color color = new Color(1f, 1f, 1f, flicker);
+                lightningLine.startColor = lightningLine.endColor = color;
+                lightningBranch.startColor = lightningBranch.endColor = color;
+                lightningGlow.startColor = lightningGlow.endColor = color;
+                lightningBranchGlow.startColor = lightningBranchGlow.endColor = color;
+                if (flashLight)
+                {
+                    flashLight.enabled = true;
+                    flashLight.intensity = Settings.lightningFlash * 7f * flicker;
+                }
+            }
+
+            if (thunderDelay >= 0f)
+            {
+                thunderDelay -= dt;
+                if (thunderDelay < 0f && Settings.enableThunder && thunderSource)
+                {
+                    // The lightning is purposely far from the player.
+                    AudioClip clip = Settings.distantThunder ? Settings.distantThunder : Settings.closeThunder;
+                    if (clip) thunderSource.PlayOneShot(clip, Settings.thunderVolume);
+                }
+            }
+        }
+
+        private void CreateBolt()
+        {
+            uint seed = unchecked((uint)Settings.seed + (uint)lightningSequence * 2654435761u);
+            // Place storms in the *visible upper part of the gameplay camera*.
+            // Never target the player, buildings, terrain, or authoring objects.
+            float distance = Mathf.Clamp(gameplayCamera.farClipPlane * .55f, 75f, 245f);
+            float x = .25f + RainStormMath.Unit(seed + 1) * .50f;
+            float y = .55f + RainStormMath.Unit(seed + 2) * .085f;
+            float otherX = x + (RainStormMath.Unit(seed + 3) - .5f) * .09f;
+            Vector3 top = gameplayCamera.ViewportToWorldPoint(new Vector3(x, y + .26f, distance));
+            Vector3 end = gameplayCamera.ViewportToWorldPoint(new Vector3(otherX, y, distance));
+            strikePoint = end;
+            Vector3 side = gameplayCamera.transform.right;
+            Vector3 depth = gameplayCamera.transform.forward;
+            float length = Vector3.Distance(top, end);
+            float deviation = Mathf.Clamp(length * .12f, 1.8f, 7f);
+            const int segments = 20;
+            var points = new Vector3[segments]; // Rare strike event, not per-frame GC.
+            for (int i = 0; i < segments; i++)
+            {
+                float t = i / (segments - 1f);
+                uint step = seed + (uint)(i * 41);
+                float envelope = Mathf.Sin(t * Mathf.PI);
+                points[i] = Vector3.Lerp(top, end, t) +
+                    side * ((RainStormMath.Unit(step + 5) - .5f) * deviation * envelope) +
+                    depth * ((RainStormMath.Unit(step + 6) - .5f) * deviation * envelope * .35f);
+            }
+
+            lightningLine.widthMultiplier = Mathf.Clamp(distance * .0019f, .2f, .65f);
+            lightningGlow.widthMultiplier = lightningLine.widthMultiplier * 3.9f;
+            lightningBranch.widthMultiplier = lightningLine.widthMultiplier * .55f;
+            lightningBranchGlow.widthMultiplier = lightningGlow.widthMultiplier * .54f;
+            lightningLine.positionCount = segments;
+            lightningLine.SetPositions(points);
+            lightningGlow.positionCount = segments;
+            lightningGlow.SetPositions(points);
+            const int branches = 7;
+            lightningBranch.positionCount = branches;
+            lightningBranchGlow.positionCount = branches;
+            Vector3 fork = points[9];
+            Vector3 branchEnd = points[15] + side * (deviation * 1.5f);
+            for (int i = 0; i < branches; i++)
+            {
+                float t = i / (branches - 1f);
+                uint step = seed + 97u + (uint)(i * 13);
+                Vector3 p = Vector3.Lerp(fork, branchEnd, t) +
+                    side * ((RainStormMath.Unit(step) - .5f) * deviation * .6f * Mathf.Sin(t * Mathf.PI));
+                lightningBranch.SetPosition(i, p);
+                lightningBranchGlow.SetPosition(i, p);
+            }
+            flashLight.transform.position = Vector3.Lerp(top, end, .45f);
+            // Skybox is infinitely distant. This view ray makes the storm bank
+            // glow around the actual bolt origin instead of flashing the entire sky.
+            Vector3 skyDirection = (top - gameplayCamera.transform.position).normalized;
+            Shader.SetGlobalVector("_LC_StormFlashDirection",
+                new Vector4(skyDirection.x, skyDirection.y, skyDirection.z, 0f));
+            lightningAge = 0f;
+            thunderDelay = Mathf.Clamp(Vector3.Distance(gameplayCamera.transform.position, end) / 343f, .15f, 3f);
+        }
+
+        private void OnGUI()
+        {
+            if (!Application.isPlaying || !showDebugUI) return;
+            GUILayout.BeginArea(DebugPanelBounds(Screen.width,Screen.height), GUI.skin.box);
+            GUILayout.Label("Little Castle — Дождь / Гроза");
+            GUILayout.Label("Осадки " + Mathf.RoundToInt(intensity * 100) + "% | Влажность " + Mathf.RoundToInt(wetness * 100) + "%");
+            GUILayout.BeginHorizontal();
+            if (GUILayout.Button("Выкл.")) mode = RainMode.Off;
+            if (GUILayout.Button("Морось")) mode = RainMode.Drizzle;
+            if (GUILayout.Button("Дождь")) mode = RainMode.Rain;
+            GUILayout.EndHorizontal();
+            GUILayout.BeginHorizontal();
+            if (GUILayout.Button("Ливень")) mode = RainMode.Downpour;
+            if (GUILayout.Button("Гроза")) mode = RainMode.Storm;
+            GUILayout.EndHorizontal();
+            GUILayout.BeginHorizontal();
+            if (GUILayout.Button("Low")) quality = RainQuality.Low;
+            if (GUILayout.Button("Medium")) quality = RainQuality.Medium;
+            if (GUILayout.Button("High")) quality = RainQuality.High;
+            GUILayout.EndHorizontal();
+            if (mode == RainMode.Storm && intensity > .65f && Settings.enableLightning)
+            {
+                GUILayout.Label("Молния через " + Mathf.Max(0f, nextLightning-Time.time).ToString("F0") + " с");
+                if (GUILayout.Button("Показать молнию сейчас"))
+                {
+                    CreateBolt();
+                    nextLightning = Time.time + NextLightningInterval();
+                }
+            }
+            if (mode == RainMode.Storm)
+            {
+                // Direct indication of the *actual* rendered skybox, not just
+                // what the weather profile asked the atmosphere controller to set.
+                Material actualSky = RenderSettings.skybox;
+                bool supported = actualSky && actualSky.shader &&
+                    actualSky.shader.name == "Little Castle/Sky/Stylized Day Night" &&
+                    actualSky.HasProperty("_StormPeakCloudMass");
+                if (!supported)
+                    GUILayout.Label("Облака: проверь skybox / шейдер");
+                else
+                    GUILayout.Label("Тучи: " +
+                        Mathf.RoundToInt(actualSky.GetFloat("_StormPeakCloudMass") * 100f) +
+                        "% | горы: " +
+                        Mathf.RoundToInt(Shader.GetGlobalFloat("_LC_MountainStormCloud") * 100f) +
+                        "%");
+            }
+            if (GUILayout.Button("Скрыть панель (Inspector: showDebugUI)")) showDebugUI = false;
+            GUILayout.EndArea();
+        }
+
+        private void OnDisable() { Cleanup(); }
+        private void OnDestroy() { Cleanup(); }
+
+        private void Cleanup()
+        {
+            if (active == this && atmosphere && Settings && Settings.driveExistingAtmosphere)
+            {
+                atmosphere.SetWeatherPresentation(0f, 0f);
+                atmosphere.SetStormPresentation(0f);
+            }
+            if (shelterMask != null) { shelterMask.Dispose(); shelterMask = null; }
+            if (ownedRoot) Destroy(ownedRoot);
+            if (lensRoot) Destroy(lensRoot);
+            if (lensMaterial) Destroy(lensMaterial);
+            if (puddleMesh) Destroy(puddleMesh);
+            if (lightningMaterial) Destroy(lightningMaterial);
+            if (lightningGlowMaterial) Destroy(lightningGlowMaterial);
+            if (streakMaterial) Destroy(streakMaterial);
+            if (rippleMaterial) Destroy(rippleMaterial);
+            if (ownedFallbackProfile) Destroy(ownedFallbackProfile);
+            ownedRoot = null; puddleMesh = null; streakMaterial = null; rippleMaterial = null;
+            lensRoot = null; lensMaterial = null;
+            ownedFallbackProfile = null; initialized = false; rainPlaying = false; stormWasActive = false;
+            if (active == this)
+            {
+                Shader.SetGlobalFloat(GlobalWetId, 0f);
+                Shader.SetGlobalFloat(GlobalRainId, 0f);
+                Shader.SetGlobalFloat("_LC_StormFlash", 0f);
+                Shader.SetGlobalVector("_LC_StormFlashDirection", Vector4.zero);
+                active = null;
+            }
+            puddles = null; nearRain = distantRain = splash = roofDrips = null;
+            lightningLine = lightningBranch = lightningGlow = lightningBranchGlow = null;
+            lightningMaterial = lightningGlowMaterial = null;
+            thunderSource = null; rainSource = null; flashLight = null;
+        }
+    }
+}

@@ -11,7 +11,7 @@ namespace LittleCastle.Editor
 {
     public sealed partial class MapAuthoringWindow
     {
-        static readonly string[] CategoryNames={"Рельеф","Покрытие","Растительность","Реки","Биомы и снег"};
+        static readonly string[] CategoryNames={"Рельеф","Покрытие","Растительность","Реки","Биомы и снег","Заборы"};
         [SerializeField] int toolCategory=1;
         [SerializeField] string activeToolId="surface.road";
         [SerializeField] bool showHeightLimits,showBrushPreset,showPreview;
@@ -19,29 +19,37 @@ namespace LittleCastle.Editor
         [SerializeField] bool documentDirty;
         bool rebuildingPreview,restoreAttempted;
 
+        void RunGui(Action action){Run(action);GUIUtility.ExitGUI();}
         void DrawMapHeader()
         {
             using(new EditorGUILayout.VerticalScope(EditorStyles.helpBox))
             {
                 using(new EditorGUI.DisabledScope(EditorApplication.isPlayingOrWillChangePlaymode))
                 {
+                    if(GUILayout.Button("Новая карта…"))
+                        RunGui(()=>MapNewDocumentWindow.Open(this));
+                    if(GUILayout.Button("Открыть карту (сцену)…"))
+                        RunGui(OpenMapScene);
+                    if(GUILayout.Button("Настройки систем карты…"))RunGui(MapSystemsWindow.Open);
                     var selected=(SurfacePaintData)EditorGUILayout.ObjectField("База карты",source,typeof(SurfacePaintData),false);
-                    if(selected!=source&&ConfirmReplaceDocument())Connect(selected);
-                    if(!source&&GUILayout.Button("Подключить карту открытой сцены"))ConnectSceneMap();
+                    if(selected!=source&&ConfirmReplaceDocument()){Connect(selected);GUIUtility.ExitGUI();}
+                    if(!source&&GUILayout.Button("Подключить карту открытой сцены")){ConnectSceneMap();GUIUtility.ExitGUI();}
                     using(new EditorGUI.DisabledScope(session==null))
                     {
                         using(new EditorGUILayout.HorizontalScope())
                         {
-                            if(GUILayout.Button("Открыть JSON…"))Run(OpenDocument);
-                            if(GUILayout.Button("Сохранить JSON…"))Run(()=>SaveDocument());
+                            if(GUILayout.Button("Открыть JSON…"))RunGui(OpenDocument);
+                            if(GUILayout.Button("Сохранить JSON…"))RunGui(()=>SaveDocument());
                         }
-                        if(GUILayout.Button("Применить к авторской базе и маске"))Run(ApplyDocument);
+                        if(GUILayout.Button("Проверить текущую карту в Game…"))
+                            RunGui(()=>CurrentMapGameInspection.Open(this,source));
+                        if(GUILayout.Button(new GUIContent("Сохранить карту в базу","Сохраняет правки в базу этой сцены. При следующем открытии сцены карта загрузится с ними. JSON сохраняется отдельно.")))RunGui(ApplyDocument);
                         using(new EditorGUILayout.HorizontalScope())
                         {
                             using(new EditorGUI.DisabledScope(session==null||!session.CanUndo))
-                                if(GUILayout.Button("Отменить"))Run(()=>{tools.Undo();pointerHeld=false;riverTools.Refresh(session);});
+                                if(GUILayout.Button("Отменить"))RunGui(()=>{tools.Undo();pointerHeld=false;riverTools.Refresh(session);});
                             using(new EditorGUI.DisabledScope(session==null||!session.CanRedo))
-                                if(GUILayout.Button("Повторить"))Run(()=>{tools.Redo();pointerHeld=false;riverTools.Refresh(session);});
+                                if(GUILayout.Button("Повторить"))RunGui(()=>{tools.Redo();pointerHeld=false;riverTools.Refresh(session);});
                             if(GUILayout.Button("Вся карта"))FrameMap();
                         }
                     }
@@ -56,8 +64,10 @@ namespace LittleCastle.Editor
             int category=GUILayout.SelectionGrid(toolCategory,CategoryNames,columns,EditorStyles.miniButton);
             if(category!=toolCategory)
             {
-                string id=category==0?"terrain.raise":category==1?"surface.road":category==2?"vegetation.flowers":category==3?"river.points":"environment.biome";
+                string id=category==0?"terrain.raise":category==1?"surface.road":category==2?"vegetation.flowers":category==3?"river.points":category==5?"fence.draw":"environment.biome";
                 SetTool(id);
+                // The following control tree belongs to the new category. Rebuild it on Layout.
+                GUIUtility.ExitGUI();
             }
             var ids=new List<string>();var names=new List<string>();int selected=0;
             foreach(var tool in tools.registry.Tools)
@@ -69,7 +79,7 @@ namespace LittleCastle.Editor
             if(ids.Count>0)
             {
                 int next=EditorGUILayout.Popup("Активный инструмент",selected,names.ToArray());
-                if(next!=selected)SetTool(ids[next]);
+                if(next!=selected){SetTool(ids[next]);GUIUtility.ExitGUI();}
             }
             bool enabled=EditorGUILayout.ToggleLeft("Рисовать в SceneView",brush,EditorStyles.boldLabel);
             if(enabled!=brush){tools.Complete();pointerHeld=false;brush=enabled;SceneView.RepaintAll();}
@@ -78,8 +88,9 @@ namespace LittleCastle.Editor
 
         static int CategoryForTool(IMapTool tool)
         {
+            if(tool.Id.StartsWith("fence.",StringComparison.Ordinal))return 5;
             if(tool.Id.StartsWith("terrain.",StringComparison.Ordinal)||tool.Category=="Рельеф")return 0;
-            if(tool.Id.StartsWith("river.",StringComparison.Ordinal))return 3;
+            if(tool.Id.StartsWith("river.",StringComparison.Ordinal)||tool.Id.StartsWith("waterfall.",StringComparison.Ordinal))return 3;
             if(tool.Id.StartsWith("environment.",StringComparison.Ordinal))return 4;
             if(tool.Id.StartsWith("tree.",StringComparison.Ordinal)||tool.Id.StartsWith("vegetation.",StringComparison.Ordinal)||tool.Category=="Растительность")return 2;
             return 1;
@@ -123,13 +134,14 @@ namespace LittleCastle.Editor
                     {
                         var tool=tools.registry.Get(brushPreset.toolId);brushPreset.settings.Validate(tool.MaximumRadius(session));
                         SetTool(tool.Id);radius=brushPreset.settings.radius;strength=brushPreset.settings.strength;softness=brushPreset.settings.softness;
+                        pathMaterialId=brushPreset.pathMaterialId;
                     });
                 using(new EditorGUI.DisabledScope(tools.Selected==null||tools.Selected.Controls==MapToolControls.None))
                     if(GUILayout.Button("Сохранить профиль…"))Run(()=>
                     {
                         string path=EditorUtility.SaveFilePanelInProject("Профиль кисти","MapBrushPreset","asset","Сохранить настройки кисти");
                         if(path.Length==0)return;
-                        var asset=CreateInstance<MapBrushPreset>();asset.toolId=CurrentToolId;asset.settings=new MapBrushSettings{radius=radius,strength=strength,softness=softness};
+                        var asset=CreateInstance<MapBrushPreset>();asset.toolId=CurrentToolId;asset.pathMaterialId=pathMaterialId;asset.settings=new MapBrushSettings{radius=radius,strength=strength,softness=softness};
                         AssetDatabase.CreateAsset(asset,path);brushPreset=asset;
                     });
             }
@@ -208,43 +220,73 @@ namespace LittleCastle.Editor
         bool SaveDocument()
         {
             if(session==null)return false;
-            if(riverTools.HasUnappliedDraft(session))
-            {
-                EditorUtility.DisplayDialog("Есть неприменённый черновик реки","Во вкладке «Реки» нажмите «Применить реку» или примените скальный участок. После этого его можно сохранить в JSON. Точки остаются в окне.","Вернуться к документу");return false;
-            }
             string path=EditorUtility.SaveFilePanel("Авторская карта","","handmade-map.json","json");if(path.Length==0)return false;
-            tools.Complete();pointerHeld=false;File.WriteAllText(path,JsonUtility.ToJson(session.ExportMap(),true));
-            documentDirty=false;hasUnsavedChanges=false;status="JSON сохранён. Авторская база не изменена.";return true;
+            return SaveDocumentAtPath(path);
         }
+        internal bool SaveDocumentAtPath(string path)
+        {
+            if(session==null)return false;
+            tools.Complete();pointerHeld=false;
+            var prepared=PrepareDocument();
+            var map=session.ExportMap();
+            // Recovery first: a failed map write still leaves a complete map+draft pair.
+            MapAuthoringRecovery.Write(MapAuthoringRecovery.Companion(path),map,riverTools.ExportDraftJson());
+            MapAuthoringRecovery.AtomicWrite(path,JsonUtility.ToJson(map,true));
+            documentDirty=false;hasUnsavedChanges=false;
+            status="JSON и восстановительная копия сохранены. "+DraftSaveMessage(prepared);return true;
+        }
+
+        MapRiverToolState.SavePreparation PrepareDocument()
+        {
+            CheckpointSession();
+            string path="Library/WorldEditor-"+AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(source))+".recovery.json";
+            MapAuthoringRecovery.Write(path,session.ExportMap(),riverTools.ExportDraftJson());
+            return riverTools.PrepareForSave(session);
+        }
+        static string DraftSaveMessage(MapRiverToolState.SavePreparation prepared)=>
+            prepared==MapRiverToolState.SavePreparation.Incomplete?"Незавершённые точки остались черновиком; они восстановятся из файла .recovery.json.":
+            prepared==MapRiverToolState.SavePreparation.Invalid?"Черновик требует исправления и сохранён отдельно; в карте осталась последняя корректная геометрия.":
+            prepared==MapRiverToolState.SavePreparation.Applied?"Готовая река автоматически применена.":"Карта сохранена.";
 
         void OpenDocument()
         {
             string path=EditorUtility.OpenFilePanel("Авторская карта","","json");if(path.Length==0)return;
-            var loaded=new MapEditSession(JsonUtility.FromJson<MapAuthoringDocument>(File.ReadAllText(path)));
+            var map=JsonUtility.FromJson<MapAuthoringDocument>(File.ReadAllText(path));
+            var loaded=new MapEditSession(map);
+            MapAuthoringRecovery recovery=null;
+            if(File.Exists(MapAuthoringRecovery.Companion(path)))recovery=MapAuthoringRecovery.Read(MapAuthoringRecovery.Companion(path),map);
             if(loaded.MapId!=source.mapId||loaded.Bounds!=source.bounds)throw new InvalidDataException("Выбран другой ID/размер карты. Выберите соответствующую базу.");
             if(!ConfirmReplaceDocument())return;
             riverTools=new MapRiverToolState();ReplaceSession(loaded);documentDirty=false;hasUnsavedChanges=false;
+            if(recovery!=null){riverTools.RestoreDraftJson(recovery.riverDraft);riverTools.Refresh(session);}
             status="JSON загружен. История отмены начата заново; авторская база не изменена.";
         }
 
         void ApplyDocument()
         {
-            if(riverTools.HasUnappliedDraft(session))throw new InvalidOperationException("Сначала примените черновик реки или скальный участок во вкладке «Реки». Точки остаются в окне.");
-            tools.Complete();pointerHeld=false;var map=session.ExportMap();
+            if((session.Access&MapEditAccess.Author)==0)throw new UnauthorizedAccessException("Применение авторской базы выключено для этой роли.");
+            tools.Complete();pointerHeld=false;
+            var prepared=PrepareDocument();
+            if(prepared==MapRiverToolState.SavePreparation.Invalid){status=riverTools.status+" Восстановительная копия сохранена; авторская база не изменена.";return;}
+            string draft=riverTools.ExportDraftJson();var map=session.ExportMap();
+            // Validate the whole exported candidate before writing either source asset.
+            _=new MapEditSession(map);
             var painter=FindAnyObjectByType<MeadowSurfacePainter>();
             var mask=painter&&painter.source==source?painter.authoredPreviewMask:null;
             if(mask&&(mask.width!=Resolution||mask.height!=Resolution||mask.format!=TextureFormat.RG16))throw new InvalidDataException("Expected 512x512 RG16 authored mask.");
             RestorePreview();Undo.RecordObject(source,"Apply authored map surface and heights");
             source.authored=map.surface;source.heightField=map.heightField;source.hasHeightBase=true;source.treeInstances=map.trees;source.hasTreeBase=true;
             source.environment=map.environment;source.hasEnvironmentBase=true;
-            source.rivers=map.rivers;source.rockSections=map.rockSections;source.placementExclusions=map.placementExclusions;source.revision++;
+            source.fences=map.fences;
+            source.rivers=map.rivers;source.riverNetwork=map.riverNetwork;source.rockSections=map.rockSections;source.placementExclusions=map.placementExclusions;source.revision++;
             EditorUtility.SetDirty(source);AssetDatabase.SaveAssetIfDirty(source);
             if(mask)
             {
                 Undo.RecordObject(mask,"Apply authored surface mask");mask.SetPixelData(MeadowSurfacePainter.BuildAuthoredPixels(source),0);mask.Apply(false,false);
                 EditorUtility.SetDirty(mask);AssetDatabase.SaveAssetIfDirty(mask);
             }
-            Connect(source);hasUnsavedChanges=false;status="Авторская база сохранена. Игровые правки привязаны к новой ревизии.";
+            Connect(source);riverTools.RestoreDraftJson(draft);riverTools.Refresh(session);CheckpointSession();
+            hasUnsavedChanges=riverTools.HasUnappliedDraft(session);status="Авторская база сохранена. "+DraftSaveMessage(prepared);
         }
 
         void ReplaceSession(MapEditSession replacement)
@@ -262,6 +304,7 @@ namespace LittleCastle.Editor
 
         void CheckpointSession()
         {
+            CancelRiverGesture();
             if(session==null)return;
             try
             {

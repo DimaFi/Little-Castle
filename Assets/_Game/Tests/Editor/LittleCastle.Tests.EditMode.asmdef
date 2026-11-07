@@ -2,7 +2,10 @@
   "name": "LittleCastle.Tests.EditMode",
   "rootNamespace": "LittleCastle.Tests",
   "references": [
-    "LittleCastle.Runtime"
+    "LittleCastle.Runtime",
+    "LittleCastle.LandscapePresentation",
+    "Unity.RenderPipelines.Core.Runtime",
+    "Unity.RenderPipelines.Universal.Runtime"
   ],
   "includePlatforms": [
     "Editor"

@@ -18,6 +18,10 @@ Shader "Little Castle/Distance/LC Distant Simple"
         _AmbientStrength ("Ambient Strength", Range(0,2)) = 1
         _NightDesaturate ("Night Desaturate", Range(0,1)) = 0.12
         _SnowAcceptance ("Environment Snow Acceptance", Range(0,1)) = 1
+        _EmissionMap ("Emission", 2D) = "black" {}
+        [HDR] _EmissionColor ("Emission Color", Color) = (0,0,0,0)
+        _EmissionDayStrength ("Emission Day Strength", Range(0,4)) = 0
+        _EmissionNightStrength ("Emission Night Strength", Range(0,8)) = 0
     }
 
     SubShader
@@ -52,6 +56,7 @@ Shader "Little Castle/Distance/LC Distant Simple"
             #include "../Surface/LC_EnvironmentAppearance.hlsl"
 
             TEXTURE2D(_MainTex); SAMPLER(sampler_MainTex);
+            TEXTURE2D(_EmissionMap);
 
             // Shared presentation globals stay outside the material buffer.
             CBUFFER_START(UnityPerMaterial)
@@ -68,6 +73,9 @@ Shader "Little Castle/Distance/LC Distant Simple"
                 half _NightDesaturate;
                 half _Cull;
                 half _SnowAcceptance;
+                half4 _EmissionColor;
+                half _EmissionDayStrength;
+                half _EmissionNightStrength;
             CBUFFER_END
 
             half4 _LC_SunDirection;
@@ -226,6 +234,11 @@ Shader "Little Castle/Distance/LC Distant Simple"
                         1.0);
 
                 float nearToFarZ = max(-i.fogCoord - _ProjectionParams.y, 0.0);
+                // Same masked window contract as the near shader; no light
+                // loop or specular on distant geometry. Fog still occludes it.
+                half emissionStrength = lerp(_EmissionDayStrength, _EmissionNightStrength, saturate(_LC_NightAmount));
+                result.rgb += SAMPLE_TEXTURE2D(_EmissionMap, sampler_MainTex, i.uv).rgb
+                    * _EmissionColor.rgb * emissionStrength;
                 half fogFactor = ComputeFogFactorZ0ToFar(nearToFarZ);
                 result.rgb = MixFog(result.rgb, fogFactor);
 

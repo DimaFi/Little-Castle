@@ -24,7 +24,7 @@ namespace LittleCastle.Editor
             .Select(AssetDatabase.LoadAssetAtPath<GameObject>).First();
         public static void Run()
         {
-            if (!Path.GetFileName(Path.GetDirectoryName(Application.dataPath)).StartsWith("Little-Castle_URP_")) throw new Exception("URP copy only.");
+            OwnedStudyWorkflow.Require(Study, InnerverseStarterStudyScene.ScenePath);
             for(int i=0;i<EditorSceneManager.sceneCount;i++) if(EditorSceneManager.GetSceneAt(i).isDirty) throw new Exception("Unsaved scene preserved.");
             Directory.CreateDirectory(Output); Directory.CreateDirectory(Root); AssetDatabase.Refresh();
             var log = new StringBuilder();

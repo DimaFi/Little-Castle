@@ -10,7 +10,7 @@ namespace LittleCastle.World
     /// time into sun/moon rotation, ambient light, fog and skybox parameters.
     /// </summary>
     [DefaultExecutionOrder(-50)]
-    public sealed class DayNightLightingController : MonoBehaviour
+    public sealed partial class DayNightLightingController : MonoBehaviour
     {
         private static readonly int ZenithColorId =
             Shader.PropertyToID("_ZenithColor");
@@ -267,15 +267,28 @@ namespace LittleCastle.World
             ApplyLighting();
         }
 
-        private void OnDisable() => ReleaseRuntimeSkybox();
+        private void OnDisable()
+        {
+            previewAtmosphere = false;
+            atmosphereInitialized = false;
+            atmosphereSkyApplied = false;
+            atmosphereFrame = -1;
+            ResetAtmosphereGlobals();
+            RestoreAtmosphereSun();
+            ReleaseRuntimeSkybox();
+        }
 
-        private void OnDestroy() => ReleaseRuntimeSkybox();
+        private void OnDestroy()
+        {
+            RestoreAtmosphereSun();
+            ReleaseRuntimeSkybox();
+        }
 
         private Material GetPresentationSkybox()
         {
-            // Explicit Edit Mode authoring keeps using the serialized material.
-            // Play Mode must never animate properties on that shared source asset.
-            if (!Application.isPlaying)
+            // Legacy explicit Edit Mode authoring keeps using the source.
+            // The unified profile and Play Mode always animate an owned clone.
+            if (!Application.isPlaying && atmosphereProfile == null)
                 return skyboxMaterial;
 
             if (runtimeSkyboxMaterial != null && runtimeSkyboxSource == skyboxMaterial)
@@ -332,8 +345,7 @@ namespace LittleCastle.World
                 return;
             }
 
-            float hour =
-                timeSystem.CurrentHour;
+            float hour = previewAtmosphere ? previewHour : timeSystem.CurrentHour;
 
             float sunrise =
                 timeSystem.Settings.DayStartHour;
@@ -384,6 +396,8 @@ namespace LittleCastle.World
             UpdateFog(
                 daylight,
                 twilight);
+
+            ApplyAtmosphereProfile(daylight, twilight, solarAngle);
         }
 
         private void UpdateSun(
@@ -481,6 +495,9 @@ namespace LittleCastle.World
             float daylight,
             float twilight)
         {
+            // Optional external sky owns RenderSettings.skybox only when explicitly enabled.
+            if (ExternalSkyPresenterActive) return;
+
             Material sky = GetPresentationSkybox();
             if (sky == null)
                 return;
@@ -695,38 +712,7 @@ namespace LittleCastle.World
             float sunrise,
             float sunset)
         {
-            float sunriseDistance =
-                CircularHourDistance(
-                    hour,
-                    sunrise);
-
-            float sunsetDistance =
-                CircularHourDistance(
-                    hour,
-                    sunset);
-
-            float distance =
-                Mathf.Min(
-                    sunriseDistance,
-                    sunsetDistance);
-
-            return 1f -
-                Mathf.SmoothStep(
-                    0f,
-                    twilightGameHours,
-                    distance);
-        }
-
-        private static float CircularHourDistance(
-            float a,
-            float b)
-        {
-            float difference =
-                Mathf.Abs(a - b);
-
-            return Mathf.Min(
-                difference,
-                24f - difference);
+            return AtmosphereProfile.TwilightWeight(hour, sunrise, sunset, twilightGameHours);
         }
 
         private static float GetSolarAngle(

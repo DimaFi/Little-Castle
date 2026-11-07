@@ -3,8 +3,11 @@
   "rootNamespace": "LittleCastle.Editor",
   "references": [
     "LittleCastle.Runtime",
+    "LittleCastle.LandscapePresentation",
     "Unity.RenderPipelines.Universal.Runtime",
-    "Unity.RenderPipelines.Core.Runtime"
+    "Unity.RenderPipelines.Core.Runtime",
+    "PBSkyURP",
+    "com.cqf.urpvolumetricfog.runtime"
   ],
   "includePlatforms": [
     "Editor"
