@@ -39,6 +39,16 @@ namespace LittleCastle.Rendering
             var dirty=SurfacePaintRasterizer.PixelRect(session.Bounds,resolution,resolution,change.bounds);
             weights.Rebuild(session,dirty);
         }
+        internal bool TrySampleHeight(float x,float z,out float height)
+        {
+            height=0;
+            return relief!=null&&relief.TrySampleHeight(x,z,out height);
+        }
+        internal bool TryFindPathPoint(Rect area,Vector2 preferred,out Vector2 point)
+        {
+            point=default;
+            return weights!=null&&weights.TryFindPathPoint(area,preferred,out point);
+        }
         public void Dispose()
         {
             session.Changed-=Changed;

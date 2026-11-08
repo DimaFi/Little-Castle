@@ -66,6 +66,7 @@ namespace LittleCastle.Research
                     var c=tools.context;c.settings.radius=Mathf.Clamp(radius,treeTool==2?1:.5f,tools.Selected.MaximumRadius(Session));
                     c.environmentThemeId=environmentThemeId;c.environmentMode=environmentMode;
                     c.pathMaterialId=pathMaterialId;
+                    c.pathReliefHeight=pathReliefHeight;
                     c.settings.strength=strength;c.settings.softness=brushSoftness;c.density=treeTool==2?treeBrushDensity:density;
                     c.terrainRate=terrainMetresPerSecond;c.scatter=populatePlants;c.scatterProfile=currentProfile;c.treeSpacing=treeBrushSpacing;c.seed=treeBrushSeed;
                     if(treeCatalog&&treeCatalog.packs.Length>0)c.treePackId=treeCatalog.packs[Mathf.Clamp(selectedTreePack,0,treeCatalog.packs.Length-1)].id;

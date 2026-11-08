@@ -50,6 +50,7 @@ namespace LittleCastle.World
         static readonly int GroundBounceId = Shader.PropertyToID("_LC_AtmosphereGroundBounce");
         static readonly int GradeId = Shader.PropertyToID("_LC_AtmosphereGrade");
         static readonly int MountainCloudId = Shader.PropertyToID("_LC_MountainStormCloud");
+        static readonly Color StormFogColor = new Color(.26f, .35f, .48f, 1f);
 
         /// <summary>Visual adapter for a weather provider; never advances a clock or modifies the map.</summary>
         public void SetWeatherPresentation(float cloudiness, float rainOrSnow)
@@ -179,7 +180,7 @@ namespace LittleCastle.World
             {
                 RenderSettings.fogColor = Color.Lerp(
                     Color.Lerp(look.fog, look.cloudShade, smoothOvercast * .24f),
-                    new Color(.24f,.30f,.36f,1f), smoothStorm * .45f);
+                    StormFogColor, smoothStorm * .68f);
                 RenderSettings.fogStartDistance = look.fogStart * Mathf.Lerp(1, .60f, smoothOvercast);
                 RenderSettings.fogEndDistance = Mathf.Max(RenderSettings.fogStartDistance + 1,
                     look.fogEnd * Mathf.Lerp(1, .64f, smoothOvercast) * Mathf.Lerp(1f, .76f, smoothStorm));
@@ -253,7 +254,7 @@ namespace LittleCastle.World
             if (controlFog)
             {
                 RenderSettings.fogColor = Color.Lerp(RenderSettings.fogColor,
-                    new Color(.23f,.29f,.35f,1f), smoothStorm * .4f);
+                    StormFogColor, smoothStorm * .63f);
                 RenderSettings.fogEndDistance *= Mathf.Lerp(1f, .68f, smoothStorm);
             }
 

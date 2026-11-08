@@ -59,6 +59,7 @@ namespace LittleCastle.World
         public MeadowScatterProfile scatterProfile;
         public string treePackId;
         public string pathMaterialId;
+        public float pathReliefHeight=SurfacePaintStroke.DefaultPathReliefHeight;
         public int seed=1729;
         public int environmentThemeId=3;
         public string fenceVariantId="fence.wood01";
@@ -208,6 +209,7 @@ namespace LittleCastle.World
         public override string Category=>"Поверхности";
         public override void Begin(MapToolContext c,MapToolPointer p)=>c.session.BeginStroke(new SurfacePaintStroke{
             road=road,erase=erase,pathMaterialId=road?c.pathMaterialId:null,scatter=!road&&!erase&&c.scatter,scatterProfile=c.scatterProfile,
+            pathReliefHeight=road?SurfacePaintStroke.EncodePathReliefHeight(c.pathReliefHeight):0,
             radius=c.settings.radius,strength=c.settings.strength,brushSoftness=c.settings.softness+.001f,density=c.density});
         public override void Apply(MapToolContext c,MapToolPointer p,float seconds)=>c.session.AppendPoint(p.position);
     }

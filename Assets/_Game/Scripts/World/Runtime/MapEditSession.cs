@@ -291,6 +291,7 @@ namespace LittleCastle.World
                 !Finite(s.strength)||s.strength<0||s.strength>1||!Finite(s.density)||s.density<0||s.density>1||
                 !Finite(s.brushSoftness)||s.brushSoftness<0||s.brushSoftness>1.0011f||
                 (s.pathMaterialId!=null&&s.pathMaterialId.Length>128)||
+                !Finite(s.pathReliefHeight)||s.pathReliefHeight<0||s.pathReliefHeight>SurfacePaintStroke.MaximumPathReliefHeight+.0011f||
                 (int)s.scatterProfile<0||(int)s.scatterProfile>=MeadowScatterProfiles.Count)throw new InvalidDataException("Invalid surface stroke.");
         }
         void ValidatePoint(Vector2 p)
@@ -299,7 +300,7 @@ namespace LittleCastle.World
         static T Clone<T>(T value)=>JsonUtility.FromJson<T>(JsonUtility.ToJson(value));
         static List<SurfacePaintStroke> Copy(List<SurfacePaintStroke> values){var r=new List<SurfacePaintStroke>(values.Count);foreach(var s in values)r.Add(Clone(s));return r;}
         static string Fingerprint<T>(T d)
-        { ulong h=14695981039346656037UL;string json=System.Text.RegularExpressions.Regex.Replace(JsonUtility.ToJson(d), @",""brushSoftness"":0(?:\.0)?(?=[,}])", "");
+        { ulong h=14695981039346656037UL;string json=System.Text.RegularExpressions.Regex.Replace(JsonUtility.ToJson(d), @",""(?:brushSoftness|pathReliefHeight)"":0(?:\.0)?(?=[,}])", "");
             json=System.Text.RegularExpressions.Regex.Replace(json, @",""pathMaterialId"":(?:""""|null)", "");
             foreach(char c in json){h^=c;h=unchecked(h*1099511628211UL);}return h.ToString("x16"); }
     }

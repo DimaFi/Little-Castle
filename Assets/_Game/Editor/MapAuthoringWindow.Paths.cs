@@ -7,11 +7,15 @@ namespace LittleCastle.Editor
     public sealed partial class MapAuthoringWindow
     {
         [SerializeField] string pathMaterialId="ground.2";
+        [SerializeField] float pathReliefHeight=SurfacePaintStroke.DefaultPathReliefHeight;
         void DrawPathPalette()
         {
             var catalog=MapPathCatalog.Default;
             if(!catalog){EditorGUILayout.HelpBox("Каталог дорожек пока не импортирован.",MessageType.Info);return;}
             EditorGUILayout.LabelField("Покрытие дорожки",EditorStyles.boldLabel);
+            if(catalog.IndexOf(pathMaterialId)>0)
+                pathReliefHeight=Mathf.Round(EditorGUILayout.Slider("Высота дорожки, см",pathReliefHeight*100f,
+                    0,SurfacePaintStroke.MaximumPathReliefHeight*100f))*.01f;
             int columns=Mathf.Clamp(Mathf.FloorToInt((position.width-36)/112),1,4);
             for(int row=0;row<(catalog.Count+columns-1)/columns;row++)
             {

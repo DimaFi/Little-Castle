@@ -657,7 +657,10 @@ Shader "Little Castle/Terrain/LC Terrain"
                     finalColor,
                     1.0);
 
-            result.rgb = MixFog(result.rgb, InitializeInputDataFog(float4(i.worldPosition, 1), i.fogCoord));
+            half3 fogged = MixFog(result.rgb, InitializeInputDataFog(float4(i.worldPosition, 1), i.fogCoord));
+            // Keep the existing fog on ordinary terrain. The alpine material retains
+            // more ridge contrast even where linear storm fog has fully saturated.
+            result.rgb = _AlpineEnabled > .5h ? lerp(result.rgb, fogged, .65h) : fogged;
 
             return result;
         }

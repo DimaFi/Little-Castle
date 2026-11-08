@@ -56,6 +56,7 @@ Shader "Little Castle/Experimental/Waterfall Volume V2"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DeclareDepthTexture.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DeclareOpaqueTexture.hlsl"
             #include "LC_RiverWaves.hlsl"
+            #include "../../../Shaders/Rivers/LC_RiverRain.hlsl"
             #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Fog.hlsl"
             TEXTURE2D(_NormalTex); SAMPLER(sampler_NormalTex);
             TEXTURE2D(_FoamTex); SAMPLER(sampler_FoamTex);
@@ -336,6 +337,9 @@ Shader "Little Castle/Experimental/Waterfall Volume V2"
                     color=lerp(color,river.rgb,calm);
                     alpha=lerp(alpha,river.a*smoothstep(0,.035,edge)*contactAlpha,lip);
                 }
+                half rainCoverage=calm*smoothstep(.008,.075,edge)
+                    * smoothstep(.75,.98,abs(input.normalWS.y))*IS_FRONT_VFACE(frontFace,1,0);
+                color=LCApplyRiverRain(color,input.positionWS,rainCoverage);
                 half fog = ComputeFogFactorZ0ToFar(max(-input.viewZ - _ProjectionParams.y,0));
                 return half4(MixFog(color,fog),saturate(alpha));
             }

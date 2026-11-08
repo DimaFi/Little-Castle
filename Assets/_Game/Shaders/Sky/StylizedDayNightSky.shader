@@ -74,6 +74,7 @@ Shader "Little Castle/Sky/Stylized Day Night"
             #pragma target 3.5
             #pragma multi_compile_instancing
 
+            #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Fog.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
             #include "LC_CloudNoise.hlsl"
             #include "LC_StormCloudField.hlsl"
@@ -290,7 +291,7 @@ Shader "Little Castle/Sky/Stylized Day Night"
             float3 RainCloudVolume(float3 sky, float3 dir, float3 sunDir,
                 float wet, float storm)
             {
-                float horizon = smoothstep(-.075, .14, dir.y);
+                float horizon = smoothstep(-.055, .16, dir.y);
                 if (horizon <= .001) return sky;
 
                 float2 drift = lerp(_Time.y * _CloudSpeed * float2(.7, .3),
@@ -298,23 +299,28 @@ Shader "Little Castle/Sky/Stylized Day Night"
                 float2 ray = dir.xz / max(.43, dir.y + .43);
                 float3 lightDir = normalize(sunDir * .36 + float3(-.22, .78, .18));
                 float flash = LCStormFlashHalo(dir, _LC_StormFlashDirection, _LC_StormFlash);
-                float3 shade = lerp(float3(.043, .065, .096), float3(.013, .024, .046), storm);
-                float3 crest = lerp(float3(.43, .50, .60), float3(.34, .43, .56), storm);
+                float stormLook = smoothstep(.08, .86, storm);
+                float3 shade = lerp(float3(.066, .089, .13), float3(.006, .013, .029), stormLook);
+                float3 crest = lerp(float3(.45, .53, .63), float3(.105, .165, .265), stormLook);
                 float dayScale = lerp(.23, 1.0, _Daylight);
-                float3 backdrop = lerp(float3(.039, .061, .095), float3(.015, .027, .053), storm);
-                sky = lerp(sky, backdrop * dayScale, horizon * wet * .72);
+                float3 backdrop = lerp(_HorizonColor.rgb * .58, _ZenithColor.rgb * .55,
+                    smoothstep(.04, .58, dir.y));
+                sky = lerp(sky, backdrop * lerp(1.0, .46, stormLook),
+                    horizon * wet * lerp(.58, .86, stormLook));
 
                 int steps = _CloudQuality > 1.5 ? 20 : (_CloudQuality > .5 ? 16 : 10);
                 float invSteps = rcp((float)steps);
                 float transmittance = 1.0;
                 float3 scattering = 0;
-                float threshold = lerp(.31, .12, saturate(.58 * wet +
+                float threshold = lerp(.35, .15, saturate(.58 * wet +
                     .27 * storm * _StormCloudDensity + .15 * _StormPeakCloudMass));
                 float lowBase = clamp(_StormPeakCloudLower, -.04, .12);
                 float lowTop = lerp(.45, .58, saturate(_StormPeakCloudUpper));
                 float highBase = clamp(_StormCloudBase + .40, .39, .57);
                 float highTop = max(highBase + .25, _StormCloudReach + .14);
                 float scale = clamp(_CloudScale, .65, 1.55);
+                // The storm has more compact heads across the sky than rain.
+                float billowScale = scale * lerp(1.0, 1.42, stormLook);
 
                 [loop] for (int i = 0; i < steps; i++)
                 {
@@ -324,26 +330,30 @@ Shader "Little Castle/Sky/Stylized Day Night"
                         (h - lowBase) / (lowTop - lowBase);
                     if (height < 0 || height > 1) continue;
 
-                    float2 horizontal = ray * (.57 + h * .38) * scale + drift * .017;
+                    float2 horizontal = ray * (.57 + h * .51) * billowScale + drift * .017;
                     horizontal += upper ? float2(.37, .64) : float2(.12, .29);
                     float3 p = float3(horizontal.x, height, horizontal.y);
                     float body = CloudCluster(p);
                     if (body < threshold - .13) continue;
 
                     float3 detailSlope;
-                    float erosion = LCStormValue3(p * float3(15.0, 7.3, 15.0) +
+                    float erosion = LCStormValue3(p * float3(10.4, 6.8, 10.4) +
                         float3(11.2, 3.6, 7.4), detailSlope);
                     float edge = 1 - smoothstep(.42, .90, body);
                     float density = smoothstep(threshold, threshold +
                         clamp(_StormPeakCloudSoftness * 1.65, .10, .26),
-                        body + (erosion - .61) * edge * .49);
-                    density *= upper ? .86 : lerp(.70, 1.0, _StormPeakCloudDensity);
-                    float alpha = 1 - exp2(-density * invSteps * wet * lerp(11.0, 20.0, storm));
+                        body + (erosion - .56) * edge * .54);
+                    density *= lerp(.72, 1.10, erosion);
+                    density *= upper ? .82 : lerp(.64, 1.0, _StormPeakCloudDensity);
+                    float alpha = 1 - exp2(-density * invSteps * wet * lerp(10.0, 17.0, storm));
 
                     float obstruction = saturate(CloudCluster(p + lightDir * .22));
-                    float edgeLight = saturate(.43 - dot(detailSlope, lightDir) * .32);
-                    float lit = saturate(.82 - obstruction * .68 + edgeLight * .27 - density * .25);
-                    float3 light = lerp(shade, crest, lit) * dayScale;
+                    float edgeLight = saturate(.45 - dot(detailSlope, lightDir) * .42);
+                    float lit = saturate(.65 + height * .19 - obstruction * .65 +
+                        (edgeLight - .5) * .36 - density * .17);
+                    lit = lerp(lit, lit * lit, stormLook * .78);
+                    float3 deckShade = shade * (upper ? 1.20 : 1.0);
+                    float3 light = lerp(deckShade, crest, lit) * dayScale;
                     light += flash * (.15 + edgeLight * .78) * float3(.60, .69, 1.0);
                     scattering += transmittance * alpha * light;
                     transmittance *= 1 - alpha;
@@ -366,37 +376,17 @@ Shader "Little Castle/Sky/Stylized Day Night"
                 UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
                 float3 dir = normalize(i.worldDir);
 
-                // Most of this sky is seen near the horizon in a strategy
-                // camera, so keep a visible vertical gradient there.
-                float skyHeight =
-                    pow(
-                        saturate((dir.y + 0.025) / 0.975),
-                        0.46);
+                float wet = saturate(max(_RainCloudMass, _StormCloudMass));
+                float skyHeight = pow(saturate(dir.y), .53);
+                float3 lowerSky = lerp(_LowerSkyColor.rgb, _HorizonColor.rgb * .82, wet);
+                float3 color = lerp(_HorizonColor.rgb, _ZenithColor.rgb, skyHeight);
+                color = lerp(color, lowerSky, smoothstep(.0, .24, -dir.y));
 
-                float3 color =
-                    lerp(
-                        _HorizonColor.rgb,
-                        _ZenithColor.rgb,
-                        skyHeight);
-
-                float belowHorizon =
-                    saturate(-dir.y * 5.0);
-
-                color =
-                    lerp(
-                        color,
-                        _LowerSkyColor.rgb,
-                        belowHorizon);
-
-                float horizonBand =
-                    pow(
-                        saturate(1.0 - abs(dir.y) * 2.2),
-                        3.0);
-
-                color +=
-                    _HorizonColor.rgb *
-                    horizonBand *
-                    0.035;
+                // Match the atmosphere between the silhouette and sky. This is an
+                // angular veil over the sky only; terrain keeps its own fog falloff.
+                float horizonVeil = 1 - smoothstep(.015, lerp(.20, .30, wet), abs(dir.y));
+                float3 airlight = MixFog(lerp(_HorizonColor.rgb, lowerSky, .30),
+                    ComputeFogFactorZ0ToFar(_ProjectionParams.z));
 
                 float3 sunDir =
                     normalize(_SunDirection.xyz);
@@ -443,7 +433,7 @@ Shader "Little Castle/Sky/Stylized Day Night"
                         4.0);
 
                 float twilightBand =
-                    horizonBand *
+                    pow(saturate(1.0 - abs(dir.y) * 2.2), 3.0) *
                     twilightAlignment *
                     _TwilightStrength;
 
@@ -538,7 +528,6 @@ Shader "Little Castle/Sky/Stylized Day Night"
                     _StarColor.rgb *
                     stars * (1 - moonOcclusion * _MoonVisibility * moonAboveHorizon);
 
-                float wet = saturate(max(_RainCloudMass, _StormCloudMass));
                 float dayVolume = smoothstep(.16, .68, _Daylight) *
                     (1 - smoothstep(.04, .48, wet)) *
                     (1 - step(.5, _CloudShape));
@@ -572,6 +561,8 @@ Shader "Little Castle/Sky/Stylized Day Night"
 
                 if (wet > .001)
                     color = RainCloudVolume(color, dir, sunDir, wet, saturate(_StormCloudMass));
+
+                color = lerp(color, airlight, horizonVeil * lerp(.20, .43, wet));
 
                 return half4(color, 1.0);
             }

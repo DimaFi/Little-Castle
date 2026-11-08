@@ -56,7 +56,7 @@ namespace LittleCastle.World.Weather
         public LayerMask roofLayers = 0;
         public bool useMapHeightFallback = true;
         [Range(0.1f, 0.85f)] public float maximumGroundSlope = 0.27f;
-        [Range(0.3f, 4f)] public float puddleRadius = 1.25f;
+        [Range(0.3f, 4f)] public float puddleRadius = 2.10f;
         [Range(0.05f, 2f)] public float rippleSpeed = 0.65f;
         [Range(0f, 0.8f)] public float wetReflection = 0.36f;
         [Range(0f, 1f)] public float splashIntensity = 0.65f;

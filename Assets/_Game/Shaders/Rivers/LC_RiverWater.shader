@@ -10,6 +10,7 @@ Shader "Little Castle/Rivers/Flow Water"
             Blend SrcAlpha OneMinusSrcAlpha
             ZWrite Off Cull Back
             HLSLPROGRAM
+            #pragma target 3.0
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
@@ -17,6 +18,7 @@ Shader "Little Castle/Rivers/Flow Water"
             #pragma multi_compile_fog
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
+            #include "LC_RiverRain.hlsl"
             CBUFFER_START(UnityPerMaterial)
             half4 _Shallow,_Deep,_Foam;
             CBUFFER_END
@@ -44,6 +46,7 @@ Shader "Little Castle/Rivers/Flow Water"
                 half3 sharedLight=max(_LC_AmbientColor.rgb*.8+(_LC_SunColor.rgb+_LC_MoonColor.rgb)*.26,half3(.13,.16,.2));
                 color*=sharedLight*lerp(.68,1,sun.shadowAttenuation);
                 color+=streak*.028*(1-_LC_NightAmount);
+                color=LCApplyRiverRain(color,i.world,smoothstep(.02,.22,depth));
                 color=MixFog(color,i.fog);
                 float alpha=lerp(.30,.96,deep);alpha=max(alpha,foam*.72);
                 alpha*=smoothstep(0,.08,depth);

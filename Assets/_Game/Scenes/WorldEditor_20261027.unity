@@ -3416,6 +3416,7 @@ GameObject:
   - component: {fileID: 1486487991}
   - component: {fileID: 1486487990}
   - component: {fileID: 1486487992}
+  - component: {fileID: 1486487993}
   m_Layer: 0
   m_Name: Shared author and player meadow brush
   m_TagString: Untagged
@@ -3711,6 +3712,77 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &492512699
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 492512701}
+  - component: {fileID: 492512700}
+  m_Layer: 0
+  m_Name: Little Castle - Cozy Rain Preview (opt-in)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &492512700
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 492512699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28f9e2c6d69c490d8d42b20f51d2d103, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: LittleCastle.Runtime::LittleCastle.World.Weather.RainStormController
+  profile: {fileID: 11400000, guid: 6dcc6a3953df5a84ead732c3c041e4c7, type: 2}
+  gameplayCamera: {fileID: 76295302}
+  atmosphere: {fileID: 1145319857}
+  mapPainter: {fileID: 1486487990}
+  mode: 2
+  quality: 3
+  showDebugUI: 1
+--- !u!4 &492512701
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 492512699}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1486487993
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1486487989}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8db3311c96c4ba6807b9c5369fa9279, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: LittleCastle.LandscapePresentation::LittleCastle.Experimental.MountainBorder.Presentation.MapAtmospherePresentation
+  painter: {fileID: 1486487990}
+  atmosphere: {fileID: 1145319857}
+  mountainBorder: {fileID: 0}
+  nearWeatherClouds: 1
+  distantValley: 0
+  sky: 0
+  volumetricFog: 0
+  experimentalRenderer: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -3736,3 +3808,4 @@ SceneRoots:
   - {fileID: 1145319858}
   - {fileID: 2136877406}
   - {fileID: 1404078843}
+  - {fileID: 492512701}

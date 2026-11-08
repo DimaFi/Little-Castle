@@ -105,10 +105,32 @@ namespace LittleCastle.Tests
         [Test] public void MapTools_OldBaseFingerprintRemainsAcceptedWithMissingOptionalSoftness()
         {
             var map=Map();map.surface.strokes.Add(new SurfacePaintStroke{id="old",points=new List<Vector2>{Vector2.zero}});
-            string raw=MapLegacyTestDocument.V6Json(map).Replace(",\"brushSoftness\":0.0","").Replace(",\"brushSoftness\":0","").Replace(",\"pathMaterialId\":\"\"","").Replace(",\"pathMaterialId\":null","").Replace(",\"fences\":[]","");ulong hash=14695981039346656037UL;
+            string raw=MapLegacyTestDocument.V6Json(map).Replace(",\"brushSoftness\":0.0","").Replace(",\"brushSoftness\":0","").Replace(",\"pathReliefHeight\":0.0","").Replace(",\"pathReliefHeight\":0","").Replace(",\"pathMaterialId\":\"\"","").Replace(",\"pathMaterialId\":null","").Replace(",\"fences\":[]","");ulong hash=14695981039346656037UL;
             foreach(char ch in raw){hash^=ch;hash=unchecked(hash*1099511628211UL);}
             var s=new MapEditSession(map);var save=s.ExportSave();save.baseFingerprint=hash.ToString("x16");
             Assert.DoesNotThrow(()=>s.LoadJson(JsonUtility.ToJson(save)));
+        }
+        [Test] public void MapTools_PathReliefHeightSurvivesUndoRedoAndSave()
+        {
+            var map=Map();
+            var session=new MapEditSession(map);
+            var tool=Controller(session,"surface.road");
+            tool.context.pathMaterialId="ground.2";
+            tool.context.pathReliefHeight=0;
+            tool.Begin(Pointer(0,0),0);
+            tool.Release();
+            Assert.That(session.ExportEdits().strokes[0].PathReliefHeight,Is.Zero);
+            tool.context.pathReliefHeight=.13f;
+            tool.Begin(Pointer(4,4),1);
+            tool.Release();
+            session.Undo();
+            Assert.That(session.ExportEdits().strokes.Count,Is.EqualTo(1));
+            session.Redo();
+            var reopened=new MapEditSession(map);
+            reopened.LoadJson(JsonUtility.ToJson(session.ExportSave()));
+            Assert.That(reopened.ExportEdits().strokes[0].PathReliefHeight,Is.Zero);
+            Assert.That(reopened.ExportEdits().strokes[1].PathReliefHeight,Is.EqualTo(.13f).Within(.00001f));
+            Assert.That(new SurfacePaintStroke().PathReliefHeight,Is.EqualTo(.07f));
         }
         [Test] public void MapTools_LargeSurfaceOnlyInvalidatesResidentTilesAndPreservesFarTile()
         {

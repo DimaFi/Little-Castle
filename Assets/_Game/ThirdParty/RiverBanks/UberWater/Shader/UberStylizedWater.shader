@@ -149,7 +149,7 @@ Shader "Little Castle/Rivers/Uber Water Adapted"
         HLSLPROGRAM
         
         // Pragmas
-        #pragma target 2.0
+        #pragma target 3.0
         #pragma multi_compile_instancing
         #pragma instancing_options renderinglayer
         #pragma vertex vert
@@ -483,6 +483,7 @@ Shader "Little Castle/Rivers/Uber Water Adapted"
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderGraphFunctions.hlsl"
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DBuffer.hlsl"
         #include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPass.hlsl"
+        #include "../../../../Shaders/Rivers/LC_RiverRain.hlsl"
         
         // --------------------------------------------------
         // Structs and Packing
@@ -2800,7 +2801,12 @@ Shader "Little Castle/Rivers/Uber Water Adapted"
             Bindings_MixFog_aadfc52f8da612746841c7c5af3fcea6_float _MixFog_ac3e2911ed9a4c8d8e9d47152e85d8bf;
             _MixFog_ac3e2911ed9a4c8d8e9d47152e85d8bf.ObjectSpacePosition = IN.ObjectSpacePosition;
             float3 _MixFog_ac3e2911ed9a4c8d8e9d47152e85d8bf_Out_1_Vector3;
-            SG_MixFog_aadfc52f8da612746841c7c5af3fcea6_float((_ColorLayerAlpha_34e3f5e1269e4ba4bff0b5a898665524_Color_1_Vector4.xyz), _MixFog_ac3e2911ed9a4c8d8e9d47152e85d8bf, _MixFog_ac3e2911ed9a4c8d8e9d47152e85d8bf_Out_1_Vector3);
+            // Little Castle: share weather impacts with the connected and fallback river surfaces.
+            half rainCoverage = saturate(_LC_UseWorldLighting)
+                * smoothstep(.04, .45, _Saturate_b78ca5a379dd4abea240bfcdce446581_Out_1_Float);
+            float3 waterColor = LCApplyRiverRain(_ColorLayerAlpha_34e3f5e1269e4ba4bff0b5a898665524_Color_1_Vector4.xyz,
+                IN.AbsoluteWorldSpacePosition, rainCoverage);
+            SG_MixFog_aadfc52f8da612746841c7c5af3fcea6_float(waterColor, _MixFog_ac3e2911ed9a4c8d8e9d47152e85d8bf, _MixFog_ac3e2911ed9a4c8d8e9d47152e85d8bf_Out_1_Vector3);
             Bindings_GetVariable_5951f0cfb2fb4134ea014f63adeff8d9_float _GetVariable_397e978c909c4ad1bf01f75628183f4c;
             float4 _GetVariable_397e978c909c4ad1bf01f75628183f4c_Vector_1_Vector4;
             float _GetVariable_397e978c909c4ad1bf01f75628183f4c_Float_2_Float;

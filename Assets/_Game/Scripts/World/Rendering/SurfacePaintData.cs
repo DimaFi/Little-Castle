@@ -27,10 +27,13 @@ namespace LittleCastle.Rendering
     }
     [Serializable] public sealed class SurfacePaintStroke
     {
+        public const float DefaultPathReliefHeight=.07f,MaximumPathReliefHeight=.16f;
+        const float PathReliefOffset=.001f;
         public string id;
         public bool road=true;
         // Stable catalog key. Empty means the original dirt path, including old saves.
         public string pathMaterialId;
+        public float pathReliefHeight; // 0 = inherited default; otherwise metres + offset
         public bool scatter;
         // Zero preserves old JSON strokes which did not store a scatter profile.
         public MeadowScatterProfile scatterProfile=MeadowScatterProfile.Mixed;
@@ -40,6 +43,10 @@ namespace LittleCastle.Rendering
         public float brushSoftness; // 0 = legacy; otherwise softness + .001
         public float density=1;
         public List<Vector2> points=new List<Vector2>();
+        public float PathReliefHeight=>pathReliefHeight==0?DefaultPathReliefHeight:
+            Mathf.Clamp(pathReliefHeight-PathReliefOffset,0,MaximumPathReliefHeight);
+        public static float EncodePathReliefHeight(float metres)=>Mathf.Approximately(metres,DefaultPathReliefHeight)
+            ?0:Mathf.Clamp(metres,0,MaximumPathReliefHeight)+PathReliefOffset;
         public LittleCastle.World.WorldRoadData ToRoadData()
         {
             // Stable FNV hash, independent of process/.NET string hash randomization.

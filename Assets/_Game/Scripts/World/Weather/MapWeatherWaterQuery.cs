@@ -8,19 +8,22 @@ namespace LittleCastle.World
     /// </summary>
     public sealed partial class MapEditSession
     {
-        public bool TrySampleWeatherRiverWater(float x, float z, out float height)
+        internal bool WeatherPuddleOverlapsRiver(Vector2 point, float radius)
         {
-            height = 0f;
-            Vector2 point = new Vector2(x, z);
-            foreach (MapRiverPath river in RiversAt(point))
+            var area = new Rect(point - Vector2.one * radius, Vector2.one * (radius * 2f));
+            foreach (var cell in Regions(area))
             {
-                if (!river.Nearest(point, out MapRiverFrame frame, out float signed))
-                    continue;
-                // Exclude shoreline transitions: ripples should stay inside the water corridor.
-                if (Mathf.Abs(signed) >= Mathf.Max(0f, frame.width * .5f - .25f))
-                    continue;
-                height = frame.water;
-                return true;
+                if (!riverIndex.TryGetValue(cell, out var paths)) continue;
+                foreach (long id in paths)
+                {
+                    if (!rivers[id].Nearest(point, out MapRiverFrame frame, out _)) continue;
+                    // Older wide ribbons also draw through part of the authored bank transition.
+                    float shoulder = frame.layoutVersion == 2
+                        ? Mathf.Clamp(Mathf.Max(frame.leftTransition, frame.rightTransition) * .3f, .6f, 3f)
+                        : 0f;
+                    if (Vector2.Distance(point, frame.center) <= frame.width * .5f + shoulder + radius)
+                        return true;
+                }
             }
             return false;
         }

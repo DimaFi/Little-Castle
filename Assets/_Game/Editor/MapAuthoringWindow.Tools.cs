@@ -79,6 +79,7 @@ namespace LittleCastle.Editor
             c.fenceVariantId=FenceVariantId;c.fenceSpacing=fenceSpacing;c.fenceSmoothing=fenceSmoothing;c.fenceScale=fenceScale;
             if(CurrentToolId=="fence.draw")c.settings.radius=1;
             c.pathMaterialId=pathMaterialId;
+            c.pathReliefHeight=pathReliefHeight;
             c.settings.strength=strength;c.settings.softness=softness;c.density=treeTool==2?treeDensity:density;
             c.scatter=CurrentToolId=="vegetation.flowers"||scatter;c.scatterProfile=profile;c.terrainRate=terrainRate;c.treeSpacing=treeSpacing;c.seed=treeSeed;
             if(treeCatalog&&treeCatalog.packs.Length>0)c.treePackId=treeCatalog.packs[Mathf.Clamp(selectedTreePack,0,treeCatalog.packs.Length-1)].id;

@@ -139,6 +139,9 @@ namespace LittleCastle.Research
         void DrawAuthoringPaths()
         {
             var catalog=MapPathCatalog.Default;if(!catalog)return;
+            if(catalog.IndexOf(painter.pathMaterialId)>0)
+                painter.pathReliefHeight=Mathf.Round(AuthoringSlider("Высота дорожки, см",painter.pathReliefHeight*100f,
+                    0,SurfacePaintStroke.MaximumPathReliefHeight*100f))*.01f;
             for(int row=0;row<(catalog.Count+1)/2;row++)
             {
                 using(new GUILayout.HorizontalScope())for(int col=0;col<2;col++)

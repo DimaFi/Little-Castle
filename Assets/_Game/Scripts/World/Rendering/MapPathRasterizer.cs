@@ -10,7 +10,7 @@ namespace LittleCastle.Rendering
     {
         public static int SliceCount(int count)=>(count+3)/4;
         public static void Rebuild(byte[][] weights,Vector4 bounds,int width,int height,
-            List<SurfacePaintStroke> strokes,MapPathCatalog catalog,RectInt dirty)
+            List<SurfacePaintStroke> strokes,MapPathCatalog catalog,RectInt dirty,bool reliefHeights=false)
         {
             int count=catalog.Count;
             foreach(var slice in weights)for(int y=dirty.yMin;y<dirty.yMax;y++)
@@ -42,6 +42,7 @@ namespace LittleCastle.Rendering
                     }
                 }
                 int selected=catalog.IndexOf(stroke.pathMaterialId);
+                float target=reliefHeights?stroke.PathReliefHeight/SurfacePaintStroke.MaximumPathReliefHeight:1;
                 for(int y=affected.yMin;y<affected.yMax;y++)for(int x=affected.xMin;x<affected.xMax;x++)
                 {
                     float amount=coverage[(y-dirty.y)*dirty.width+x-dirty.x];if(amount<=0)continue;
@@ -50,7 +51,7 @@ namespace LittleCastle.Rendering
                     {
                         var slice=weights[layer/4];int k=pixel+layer%4;
                         float old=slice[k]/255f;
-                        float value=stroke.road&&layer==selected?Mathf.Lerp(old,1,amount):old*(1-amount);
+                        float value=stroke.road&&layer==selected?Mathf.Lerp(old,target,amount):old*(1-amount);
                         slice[k]=(byte)Mathf.RoundToInt(value*255);
                     }
                 }
@@ -86,6 +87,36 @@ namespace LittleCastle.Rendering
         {
             catalog.Bind(properties);properties.SetTexture("_LC_PathWeights",texture);
             properties.SetVector("_LC_PathBounds",new Vector4(bounds.x,bounds.y,1/bounds.z,1/bounds.w));
+        }
+        public bool TryFindPathPoint(Rect area,Vector2 preferred,out Vector2 point)
+        {
+            point=default;
+            var pixels=SurfacePaintRasterizer.PixelRect(bounds,width,height,area);
+            if(pixels.width==0||pixels.height==0)return false;
+            int preferredX=Mathf.FloorToInt((preferred.x-bounds.x)*width/bounds.z);
+            int preferredY=Mathf.FloorToInt((preferred.y-bounds.y)*height/bounds.w);
+            if(area.Contains(preferred)&&pixels.Contains(new Vector2Int(preferredX,preferredY))&&Coverage(preferredX,preferredY)>=150)
+            {point=preferred;return true;}
+            float best=float.NegativeInfinity;
+            float distanceScale=.18f/Mathf.Max(1,area.size.sqrMagnitude);
+            for(int y=pixels.yMin;y<pixels.yMax;y++)for(int x=pixels.xMin;x<pixels.xMax;x++)
+            {
+                int coverage=Coverage(x,y);
+                if(coverage<96)continue;
+                var candidate=new Vector2(bounds.x+(x+.5f)*bounds.z/width,bounds.y+(y+.5f)*bounds.w/height);
+                if(!area.Contains(candidate))continue;
+                float score=Mathf.Min(coverage,255)/255f-(candidate-preferred).sqrMagnitude*distanceScale;
+                if(score<=best)continue;
+                best=score;point=candidate;
+            }
+            return best>float.NegativeInfinity;
+        }
+        int Coverage(int x,int y)
+        {
+            int offset=(y*width+x)*4,coverage=0;
+            int count=catalog.Count;
+            for(int layer=0;layer<count;layer++)coverage+=weights[layer/4][offset+layer%4];
+            return coverage;
         }
         public void Dispose(){if(Application.isPlaying)UnityEngine.Object.Destroy(texture);else UnityEngine.Object.DestroyImmediate(texture);}
     }

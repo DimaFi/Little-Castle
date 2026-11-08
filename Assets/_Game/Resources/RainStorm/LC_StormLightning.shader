@@ -8,7 +8,7 @@ Shader "Little Castle/Weather/Distant Storm Lightning"
     SubShader
     {
         Tags { "RenderPipeline"="UniversalPipeline" "RenderType"="Transparent"
-               "Queue"="Transparent+20" "IgnoreProjector"="True" }
+               "Queue"="Transparent-20" "IgnoreProjector"="True" }
         Pass
         {
             Name "Distant Lightning"
@@ -46,8 +46,12 @@ Shader "Little Castle/Weather/Distant Storm Lightning"
                 half across = input.uv.y;
                 half edge = smoothstep(0.0h, 0.22h, across) *
                             (1.0h - smoothstep(0.78h, 1.0h, across));
+                // Stretch UVs bury both ends in the bank; render before cloud
+                // scattering so it can actually veil the channel.
+                half along = smoothstep(0.0h, 0.18h, input.uv.x) *
+                             (1.0h - smoothstep(0.70h, 1.0h, input.uv.x));
                 return half4(_EmissionColor.rgb * input.color.rgb,
-                    saturate(_Opacity * input.color.a * edge));
+                    saturate(_Opacity * input.color.a * edge * along));
             }
             ENDHLSL
         }

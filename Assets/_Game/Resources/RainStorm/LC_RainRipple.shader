@@ -20,10 +20,12 @@ Shader "Little Castle/Weather/Cozy Puddle Ripples"
             Cull Off
 
             HLSLPROGRAM
-            #pragma target 2.0
+            #pragma target 3.0
             #pragma vertex Vert
             #pragma fragment Frag
+            #pragma multi_compile_fog
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+            #include "../../Shaders/Surface/LC_WeatherWet.hlsl"
 
             // Global storm strength, driven by the existing weather controller.
             float _LC_WeatherRainIntensity;
@@ -36,42 +38,62 @@ Shader "Little Castle/Weather/Cozy Puddle Ripples"
             CBUFFER_END
 
             struct Attributes { float4 positionOS : POSITION; float2 uv : TEXCOORD0; };
-            struct Varyings { float4 positionCS : SV_POSITION; float2 uv : TEXCOORD0; };
+            struct Varyings
+            {
+                float4 positionCS : SV_POSITION;
+                float2 uv : TEXCOORD0;
+                float3 positionWS : TEXCOORD1;
+                half fog : TEXCOORD2;
+            };
             Varyings Vert(Attributes v)
             {
                 Varyings o;
-                o.positionCS = TransformObjectToHClip(v.positionOS.xyz);
+                o.positionWS = TransformObjectToWorld(v.positionOS.xyz);
+                o.positionCS = TransformWorldToHClip(o.positionWS);
                 o.uv = v.uv;
+                o.fog = ComputeFogFactor(o.positionCS.z);
                 return o;
             }
-            float Ring(float2 uv, float2 p, float phase)
+            float SoftUnion(float a, float b)
             {
-                float r = frac(phase);
-                float radius = r * 0.42;
-                float dist = length((uv - p) * float2(1.0, 0.88));
-                float ring = 1.0 - smoothstep(0.0, 0.015, abs(dist - radius));
-                return ring * (1.0 - r) * smoothstep(0.02, 0.12, r);
+                float overlap = max(.09 - abs(a - b), 0);
+                return min(a, b) - overlap * overlap / .36;
+            }
+            float Ring(float2 uv, float2 center, float phase, float radius, float blur)
+            {
+                float age = frac(phase) * 1.22;
+                float dist = length((uv - center) * float2(1, .82));
+                float offset = dist - saturate(age) * radius;
+                float width = .009 + blur;
+                float ring = 1 - smoothstep(.004, width, abs(offset));
+                return ring * (.009 / width) * smoothstep(.02, .13, age) * (1 - smoothstep(.35, 1, age));
             }
             half4 Frag(Varyings i) : SV_Target
             {
-                float2 centered = (i.uv - 0.5) * float2(1.0, 1.12);
-                float roundness = 1.0 - smoothstep(0.33, 0.49, length(centered));
-                float irregular = 0.91 + 0.09 * sin(i.uv.x * 19 + _Seed * 17) * cos(i.uv.y * 16 + _Seed * 9);
-                float mask = saturate(roundness * irregular);
-                float t = _Time.y * _RippleRate;
-                float ripple = Ring(i.uv, float2(.36, .41), t * .49 + _Seed);
-                ripple += Ring(i.uv, float2(.63, .57), t * .61 + _Seed * 4.7);
-                ripple += Ring(i.uv, float2(.53, .25), t * .39 + _Seed * 3.3);
-                // Several staggered drops remain cheap and avoid one lonely repeating ring.
+                float2 p = i.uv - .5;
+                float2 warp = .024 * sin(p.yx * float2(15, 18) + _Seed * float2(7, 11));
+                float2 shape = p + warp;
+                float middle = length(shape * float2(1, 1.13)) - .32;
+                float left = length((shape + float2(.21, -.065 + .09 * _Seed)) * float2(1, 1.25)) - .197;
+                float right = length((shape - float2(.225, -.11 + .14 * _Seed)) * float2(1, 1.13)) - .202;
+                float outline = SoftUnion(SoftUnion(middle, left), right);
+                half mask = 1 - smoothstep(-.065, .014, outline);
+                half lip = smoothstep(-.12, -.05, outline) * (1 - smoothstep(-.05, -.01, outline));
+                half sheen = smoothstep(-.28, .32, p.y + p.x * .3 + warp.y);
+
+                float t = _Time.y * _RippleRate * 1.6;
+                float blur = length(fwidth(i.uv)) * .45;
                 float storm = saturate(_LC_WeatherRainIntensity);
-                ripple += Ring(i.uv, float2(.27, .66), t * .57 + _Seed * 7.1) * storm;
-                ripple += Ring(i.uv, float2(.74, .29), t * .69 + _Seed * 5.2) * storm;
-                ripple += Ring(i.uv, float2(.43, .72), t * .42 + _Seed * 9.3) * storm;
-                float3 color = lerp(_WaterColor.rgb, float3(.76, .86, .95),
-                    saturate(ripple * .77));
-                float alpha = saturate(_Wetness) * mask * (.30 + saturate(ripple) * .56)
-                    * lerp(.9, 1.2, storm);
-                return half4(color, alpha);
+                float ripple = Ring(p, float2(-.115, -.08 + _Seed * .09), t * .67 + _Seed, .145, blur);
+                ripple += Ring(p, float2(.13, .05 - _Seed * .12), t * .93 + _Seed * 4.7, .19, blur);
+                ripple += Ring(p, float2(.01, -.135), t * .78 + _Seed * 7.1, .12, blur) * storm * .55;
+                ripple *= smoothstep(.006, .18, storm) * (1 - smoothstep(-.095, -.035, outline));
+
+                half3 color = _WaterColor.rgb * (.58h + .42h * sheen);
+                color += half3(.10, .14, .16) * (lip * sheen + saturate(ripple) * .65h);
+                half exposure = 1 - LCWeatherShelterCoverage(i.positionWS);
+                half alpha = saturate(_Wetness) * mask * exposure * (.62h + .22h * sheen + .13h * saturate(ripple));
+                return half4(MixFog(color, i.fog), alpha);
             }
             ENDHLSL
         }

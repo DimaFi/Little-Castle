@@ -1,6 +1,6 @@
-using LittleCastle.CameraSystem;
 using LittleCastle.Research;
 using LittleCastle.World;
+using LittleCastle.World.Weather;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -41,11 +41,11 @@ namespace LittleCastle.Experimental.MountainBorder.Presentation
 
             var session = painter.Session;
             Vector4 bounds = session.Bounds;
-            var cameraRig = painter.studyCamera ? painter.studyCamera.GetComponent<StrategyCameraController>() : null;
-            float orbitRise = cameraRig ? cameraRig.MaximumOrbitRise : 0f;
-            // Keep the bottoms above the camera envelope, including the highest edited terrain.
-            float baseAltitude = Mathf.Max(225f, session.MaximumHeight + orbitRise + 38f);
-            float bankScale = Mathf.Max(1f, (baseAltitude - session.MinimumHeight) / 260f);
+            // Banks sit outside the camera's horizontal orbit. Keeping them lower there
+            // lets a downward-looking strategy camera see them above the horizon.
+            float baseAltitude = Mathf.Max(96f, session.MaximumHeight + 64f);
+            float clipScale = painter.studyCamera ? Mathf.Max(1f, painter.studyCamera.farClipPlane / 880f) : 1f;
+            float bankScale = Mathf.Clamp(Mathf.Max(bounds.z, bounds.w) / 200f, 1f, clipScale);
             Vector3 center = new Vector3(bounds.x + bounds.z * .5f, baseAltitude, bounds.y + bounds.w * .5f);
             root = new GameObject("High rain banks (preview)") { hideFlags = HideFlags.DontSave };
             root.transform.SetParent(transform, false);
@@ -54,7 +54,9 @@ namespace LittleCastle.Experimental.MountainBorder.Presentation
             properties = new MaterialPropertyBlock();
 
             // Broad banks leave open sky between them and sit beyond the playable valley.
-            AddVolume(0, center + new Vector3(-35, 43, 655) * bankScale, new Vector3(495, 86, 205) * bankScale, -9);
+            // Lead the north bank toward the flank of the ridgeline so the high
+            // central peaks do not hide the whole cloud in the low camera view.
+            AddVolume(0, center + new Vector3(-155, 6, 375) * bankScale, new Vector3(310, 96, 150) * bankScale, -9);
             AddVolume(1, center + new Vector3(635, 51, 155) * bankScale, new Vector3(435, 94, 150) * bankScale, 78);
             AddVolume(2, center + new Vector3(-622, 41, -143) * bankScale, new Vector3(465, 76, 188) * bankScale, -67);
             AddVolume(3, center + new Vector3(95, 56, -620) * bankScale, new Vector3(408, 103, 175) * bankScale, 21);
@@ -75,6 +77,7 @@ namespace LittleCastle.Experimental.MountainBorder.Presentation
             renderer.reflectionProbeUsage = ReflectionProbeUsage.Off;
             renderer.enabled = false;
             volumes[index] = renderer;
+            RainStormController.RegisterLightningCloud(renderer);
         }
 
         void LateUpdate()
@@ -122,6 +125,7 @@ namespace LittleCastle.Experimental.MountainBorder.Presentation
 
         void OnDestroy()
         {
+            foreach (var volume in volumes) RainStormController.UnregisterLightningCloud(volume);
             if (root) Destroy(root);
             if (boundsMesh) Destroy(boundsMesh);
             if (material) Destroy(material);

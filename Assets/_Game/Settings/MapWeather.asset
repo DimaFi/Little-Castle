@@ -35,7 +35,7 @@ MonoBehaviour:
     m_Bits: 0
   useMapHeightFallback: 1
   maximumGroundSlope: 0.27
-  puddleRadius: 1.25
+  puddleRadius: 2.1
   rippleSpeed: 0.65
   wetReflection: 0.36
   splashIntensity: 0.65

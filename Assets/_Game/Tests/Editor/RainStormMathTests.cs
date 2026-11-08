@@ -74,6 +74,54 @@ namespace LittleCastle.Tests
         }
 
         [Test]
+        public void LightningChannelRequiresAnActiveVisibleCloudBank()
+        {
+            var owner = new GameObject("Lightning placement test");
+            var cameraObject = new GameObject("Lightning test camera");
+            var bank = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            var renderer = bank.GetComponent<Renderer>();
+            try
+            {
+                var controller = owner.AddComponent<RainStormController>();
+                var camera = cameraObject.AddComponent<Camera>();
+                camera.farClipPlane = 960f;
+                bank.transform.position = new Vector3(0f, 0f, 375f);
+                bank.transform.localScale = new Vector3(310f, 96f, 150f);
+                const System.Reflection.BindingFlags flags =
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic;
+                typeof(RainStormController).GetField("gameplayCamera", flags).SetValue(controller, camera);
+                var select = typeof(RainStormController).GetMethod("TryGetCloudBolt", flags);
+                var args = new object[] { 123u, Vector3.zero, Vector3.zero };
+                RainStormController.RegisterLightningCloud(renderer);
+                Assert.IsTrue((bool)select.Invoke(controller, args));
+                Assert.IsTrue(renderer.bounds.Contains((Vector3)args[1]));
+                Assert.IsTrue(renderer.bounds.Contains((Vector3)args[2]));
+
+                camera.fieldOfView = 44f;
+                camera.aspect = 16f / 9f;
+                bank.transform.position = camera.ViewportToWorldPoint(new Vector3(.10f, .92f, 400f));
+                Assert.IsTrue((bool)select.Invoke(controller, args),
+                    "A bank cropped at the upper-left edge must allow a compact intracloud channel.");
+
+                renderer.enabled = false;
+                Assert.IsFalse((bool)select.Invoke(controller, args), "Hidden bank must produce sheet lightning only.");
+                renderer.enabled = true;
+                bank.transform.position = new Vector3(0f, 0f, -375f);
+                Assert.IsFalse((bool)select.Invoke(controller, args), "Do not project a bolt from a bank behind the camera.");
+                bank.transform.position = new Vector3(0f, 0f, 375f);
+                RainStormController.UnregisterLightningCloud(renderer);
+                Assert.IsFalse((bool)select.Invoke(controller, args), "No registered cloud must leave no floating channel.");
+            }
+            finally
+            {
+                RainStormController.UnregisterLightningCloud(renderer);
+                Object.DestroyImmediate(bank);
+                Object.DestroyImmediate(cameraObject);
+                Object.DestroyImmediate(owner);
+            }
+        }
+
+        [Test]
         public void WinterSnowfallCanBeDisabledWithoutDisablingStormSnow()
         {
             Assert.AreEqual(0f,

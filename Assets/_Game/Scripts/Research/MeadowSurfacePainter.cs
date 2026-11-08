@@ -18,7 +18,18 @@ namespace LittleCastle.Research
         public Texture2D authoredPreviewMask;
         public bool painting,road=true;
         public string pathMaterialId="ground.2";
+        [NonSerialized] public float pathReliefHeight=SurfacePaintStroke.DefaultPathReliefHeight;
         MapPathPresentation pathView;
+        internal bool TrySamplePathHeight(float x,float z,out float height)
+        {
+            height=0;
+            return pathView!=null&&pathView.TrySampleHeight(x,z,out height);
+        }
+        internal bool TryFindPathPoint(Rect area,Vector2 preferred,out Vector2 point)
+        {
+            point=default;
+            return pathView!=null&&pathView.TryFindPathPoint(area,preferred,out point);
+        }
         public bool erase,populatePlants=true;
         public MeadowScatterProfile currentProfile=MeadowScatterProfile.Mixed;
         public MeadowScatterRenderer scatterRenderer;
@@ -163,6 +174,7 @@ namespace LittleCastle.Research
             if(sculpting){Session.BeginHeightStroke(brushRadius,(lowerTerrain?-1:1)*terrainMetresPerSecond/Mathf.Max(1,stampsPerSecond));return;}
             Session.BeginStroke(new SurfacePaintStroke{id=Guid.NewGuid().ToString("N"),road=isRoad,erase=erase,
                 pathMaterialId=isRoad?pathMaterialId:null,
+                pathReliefHeight=isRoad?SurfacePaintStroke.EncodePathReliefHeight(pathReliefHeight):0,
                 scatter=!isRoad&&!erase&&populatePlants,scatterProfile=currentProfile,radius=brushRadius,strength=strength,density=density});
         }
         public void AddStroke(SurfacePaintStroke stroke)=>Session.AddStroke(stroke);

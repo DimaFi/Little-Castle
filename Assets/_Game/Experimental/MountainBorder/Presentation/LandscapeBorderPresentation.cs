@@ -1,4 +1,5 @@
-using System;
+﻿using System;
+using LittleCastle.World.Weather;
 using System.Collections.Generic;
 using LittleCastle.Rendering;
 using LittleCastle.World;
@@ -10,7 +11,7 @@ namespace LittleCastle.Experimental.MountainBorder.Presentation
 {
     /// <summary>One optional decorative sector in the existing map scene. No map/clock/camera writes.</summary>
     [ExecuteAlways,DisallowMultipleComponent]
-    public sealed class LandscapeBorderPresentation : MonoBehaviour
+    public sealed class LandscapeBorderPresentation : MonoBehaviour, ILightningOccluder
     {
         public MountainBorderProfile profile;
         public bool showWaterfall=true,showTrees=true;
@@ -114,6 +115,7 @@ namespace LittleCastle.Experimental.MountainBorder.Presentation
                 if(showTrees&&profile.sprucePrefab)BuildTrees();
                 if(profile.grassSource&&profile.grassMaterial&&profile.maximumGrassClumps>0)BuildGrass();
                 TickPresentation(null,Time.realtimeSinceStartup);
+                RainStormController.RegisterLightningOccluder(this);
             }
             catch(Exception e){lastError=e.Message;Release();Debug.LogException(e,this);}
         }
@@ -256,6 +258,33 @@ namespace LittleCastle.Experimental.MountainBorder.Presentation
                 foreach(var particles in fall.Root.GetComponentsInChildren<ParticleSystem>())if(particles.isPlaying)particles.Simulate(delta,false,false,false);
             }
         }
+        public bool HidesLightningEndpoint(Camera camera, Vector3 endpoint)
+        {
+            if (!this || !isActiveAndEnabled || !landRenderer || !landRenderer.enabled || !camera ||
+                gameObject.scene != camera.gameObject.scene ||
+                (camera.cullingMask & (1 << landRenderer.gameObject.layer)) == 0 ||
+                activeLandLod < 0 || lodQueries == null) return false;
+            var mesh = landFilter.sharedMesh;
+            if (!mesh) return false;
+            // Use the current rendered LOD, not a collider or a bounding box as a
+            // surrogate ridge. The existing spatial height sampler is cached per LOD.
+            if (lodQueries[activeLandLod] == null)
+                lodQueries[activeLandLod] = new MountainRockDetailBuilder.HeightSampler(
+                    new List<Vector3>(mesh.vertices), new List<int>(mesh.triangles));
+            Vector3 start = landFilter.transform.InverseTransformPoint(camera.transform.position);
+            Vector3 end = landFilter.transform.InverseTransformPoint(endpoint);
+            Bounds bounds = mesh.bounds;
+            for (int i = 1; i <= 48; i++)
+            {
+                Vector3 point = Vector3.Lerp(start, end, i / 48f);
+                if (point.x < bounds.min.x || point.x > bounds.max.x ||
+                    point.z < bounds.min.z || point.z > bounds.max.z) continue;
+                float height = lodQueries[activeLandLod].Height(point.x, point.z);
+                if (height > 20f && point.y < height - 8f) return true;
+            }
+            return false;
+        }
+
         public void PrepareCapture(float time)
         {
             captureTime=time;
@@ -265,6 +294,7 @@ namespace LittleCastle.Experimental.MountainBorder.Presentation
         public void ReleaseCapture(){captureTime=-1;}
         public void Release()
         {
+            RainStormController.UnregisterLightningOccluder(this);
             stormPeakClouds?.Dispose();stormPeakClouds=null;stormCloudCardCount=0;
             fall?.Dispose();fall=null;riverEffects?.Dispose();riverEffects=null;
             if(generated)DestroyOwned(generated);generated=null;

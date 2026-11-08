@@ -1,4 +1,5 @@
-using System;
+﻿using System;
+using System.Collections.Generic;
 using LittleCastle.Research;
 using LittleCastle.Rendering;
 using UnityEngine;
@@ -7,6 +8,11 @@ using UnityEngine.UI;
 
 namespace LittleCastle.World.Weather
 {
+    public interface ILightningOccluder
+    {
+        bool HidesLightningEndpoint(Camera camera, Vector3 endpoint);
+    }
+
     /// <summary>
     /// Explicit opt-in weather presentation. No scene, shared material, map or save data is mutated.
     /// Driven from the existing camera, atmosphere, and optional world-editor height source.
@@ -33,6 +39,13 @@ namespace LittleCastle.World.Weather
         private ParticleSystem nearRain, distantRain, splash, roofDrips;
         private Transform nearTransform, distantTransform;
         private Puddle[] puddles;
+        private MapEditSession puddleSession;
+        private const float PuddleCellSize = 7f;
+        private readonly Dictionary<Vector2Int, PuddleSite> puddleSites = new Dictionary<Vector2Int, PuddleSite>(128);
+        private readonly List<(Vector2Int key, float distance)> puddleCandidates = new List<(Vector2Int, float)>(128);
+        private readonly List<Vector2Int> puddleRemoval = new List<Vector2Int>(128);
+        private readonly Stack<int> freePuddles = new Stack<int>(64);
+        private float puddleFadeEnd;
         private LineRenderer lightningLine, lightningBranch, lightningGlow, lightningBranchGlow;
         private Material lightningMaterial, lightningGlowMaterial;
         private Light flashLight;
@@ -45,7 +58,22 @@ namespace LittleCastle.World.Weather
         private int lightningSequence;
         private Vector3 focus, strikePoint;
         private RainBudget budget;
-        private bool initialized, rainPlaying, stormWasActive;
+        private bool initialized, rainPlaying, stormWasActive, hasCloudBolt, isDescendingBolt;
+        private static readonly List<ILightningOccluder> lightningOccluders = new List<ILightningOccluder>(2);
+        public static void RegisterLightningOccluder(ILightningOccluder source)
+        {
+            if (source != null && !lightningOccluders.Contains(source)) lightningOccluders.Add(source);
+        }
+        public static void UnregisterLightningOccluder(ILightningOccluder source) => lightningOccluders.Remove(source);
+        private static readonly List<Renderer> lightningClouds = new List<Renderer>(4);
+
+        // The optional landscape assembly supplies its live volumes without a reverse dependency.
+        public static void RegisterLightningCloud(Renderer cloud)
+        {
+            if (cloud && !lightningClouds.Contains(cloud)) lightningClouds.Add(cloud);
+        }
+
+        public static void UnregisterLightningCloud(Renderer cloud) => lightningClouds.Remove(cloud);
         private static RainStormController active;
         private static readonly int TintId = Shader.PropertyToID("_Tint");
         private static readonly int WetnessId = Shader.PropertyToID("_Wetness");
@@ -53,6 +81,7 @@ namespace LittleCastle.World.Weather
         private static readonly int RippleRateId = Shader.PropertyToID("_RippleRate");
         private static readonly int GlobalWetId = Shader.PropertyToID("_LC_WeatherWetness");
         private static readonly int GlobalRainId = Shader.PropertyToID("_LC_WeatherRainIntensity");
+        private static readonly int GlobalRiverImpactsId = Shader.PropertyToID("_LC_WeatherRiverImpacts");
         
 
         private RainStormProfile Settings => profile != null ? profile : ownedFallbackProfile;
@@ -210,8 +239,16 @@ namespace LittleCastle.World.Weather
             public GameObject obj;
             public MeshRenderer renderer;
             public MaterialPropertyBlock properties;
-            public int x, z;
-            public bool water;
+        }
+
+        private sealed class PuddleSite
+        {
+            public Vector3 position;
+            public Quaternion rotation;
+            public Vector2 radius;
+            public float seed, chance, opacity, writtenWetness, snowFree = 1f;
+            public bool selected, valid;
+            public int rendererIndex = -1;
         }
 
         private static Mesh MakeQuad()
@@ -231,7 +268,7 @@ namespace LittleCastle.World.Weather
             puddles = new Puddle[maximum];
             for (int i = 0; i < maximum; i++)
             {
-                var obj = new GameObject("Puddle / water ripple " + i);
+                var obj = new GameObject("Ground puddle " + i);
                 obj.transform.SetParent(ownedRoot.transform, false);
                 obj.AddComponent<MeshFilter>().sharedMesh = puddleMesh;
                 var renderer = obj.AddComponent<MeshRenderer>();
@@ -239,8 +276,8 @@ namespace LittleCastle.World.Weather
                 renderer.shadowCastingMode = ShadowCastingMode.Off;
                 renderer.receiveShadows = false;
                 renderer.lightProbeUsage = LightProbeUsage.Off;
-                puddles[i] = new Puddle { obj = obj, renderer = renderer,
-                    properties = new MaterialPropertyBlock(), x = int.MinValue, z = int.MinValue };
+                puddles[i] = new Puddle { obj = obj, renderer = renderer, properties = new MaterialPropertyBlock() };
+                freePuddles.Push(i);
                 obj.SetActive(false);
             }
         }
@@ -280,12 +317,12 @@ namespace LittleCastle.World.Weather
                 {
                     name = "Storm bolt HDR (runtime)", hideFlags = HideFlags.HideAndDontSave
                 };
-                lightningMaterial.SetColor("_EmissionColor", new Color(3.3f, 4.2f, 5.8f, 1f));
+                lightningMaterial.SetColor("_EmissionColor", new Color(4.1f, 3.9f, 5.8f, 1f));
                 lightningGlowMaterial = new Material(shader)
                 {
                     name = "Storm wide glow (runtime)", hideFlags = HideFlags.HideAndDontSave
                 };
-                lightningGlowMaterial.SetColor("_EmissionColor", new Color(.32f, .55f, 1.2f, 1f));
+                lightningGlowMaterial.SetColor("_EmissionColor", new Color(.55f, .43f, 1.2f, 1f));
                 lightningGlowMaterial.SetFloat("_Opacity", .38f);
             }
             var obj = new GameObject("Procedural distant lightning");
@@ -333,6 +370,8 @@ namespace LittleCastle.World.Weather
             line.sharedMaterial = overrideMaterial ? overrideMaterial : streakMaterial;
             line.widthMultiplier = width;
             line.useWorldSpace = true;
+            line.textureMode = LineTextureMode.Stretch;
+            line.widthCurve = AnimationCurve.EaseInOut(0f, 1f, 1f, .14f);
             line.numCapVertices = 2;
             line.shadowCastingMode = ShadowCastingMode.Off;
             line.receiveShadows = false;
@@ -354,6 +393,11 @@ namespace LittleCastle.World.Weather
             Shader.SetGlobalFloat(GlobalWetId, wetness);
             Shader.SetGlobalFloat(GlobalRainId, intensity);
             budget = RainBudget.For(quality, Settings.customBudget);
+            Shader.SetGlobalVector(GlobalRiverImpactsId, new Vector4(
+                quality == RainQuality.Off ? 0f : Settings.rippleSpeed,
+                Mathf.Clamp01((budget.splashCount - 4f) / 8f),
+                budget.splashCount > 0 ? Settings.splashIntensity : 0f,
+                RainStormMath.Unit(unchecked((uint)Settings.seed)) * 61f));
             if (lensRoot)
             {
                 bool lensEnabled = Settings.allowLensRain && intensity > .05f &&
@@ -389,6 +433,7 @@ namespace LittleCastle.World.Weather
                 TickRoofDrips();
                 nextSurfaceUpdate = Time.time + 0.35f;
             }
+            TickPuddles(dt);
             TickLightning(dt);
         }
 
@@ -448,122 +493,243 @@ namespace LittleCastle.World.Weather
             rainPlaying = false;
         }
 
-        private bool TrySurface(float x, float z, out Vector3 p, out bool water)
+        private bool TryGroundSurface(float x, float z, out Vector3 p)
         {
-            water = false;
             p = default;
-            // Existing river geometry owns its waterline; never add a second water surface.
-            if (mapPainter && mapPainter.Session != null &&
-                mapPainter.Session.TrySampleWeatherRiverWater(x, z, out float riverHeight))
-            {
-                water = true;
-                p = new Vector3(x, riverHeight + .045f, z);
-                return true;
-            }
+            var session = mapPainter ? mapPainter.Session : null;
+            float minimumUp = 1f - Mathf.Min(.045f, Settings.maximumGroundSlope);
             Vector3 origin = new Vector3(x, focus.y + 160f, z);
             int mask = Settings.groundLayers.value | Settings.waterLayers.value;
             if (Physics.Raycast(origin, Vector3.down, out RaycastHit hit, 320f, mask, QueryTriggerInteraction.Ignore))
             {
-                water = (Settings.waterLayers.value & (1 << hit.collider.gameObject.layer)) != 0;
+                if ((Settings.waterLayers.value & (1 << hit.collider.gameObject.layer)) != 0) return false;
                 // Avoid puddles on high roofs / bridges if an authored ground height is available.
-                if (!water && mapPainter && mapPainter.Session != null &&
-                    hit.point.y > mapPainter.Session.SampleHeight(x, z) + 0.45f)
-                {
-                    // Roof collider is above terrain: use sheltered ground instead of a hard
-                    // collider-shaped cutoff in the wetness/ripple transition.
-                    Vector3 beneath = new Vector3(x, mapPainter.Session.SampleHeight(x, z) + .035f, z);
-                    if (RainShelterVolume.CoverageAt(beneath) <= .01f) return false;
-                    p = beneath;
-                    return true;
-                }
-                if (!water && RainShelterVolume.Active.Count == 0 && Settings.roofLayers.value != 0 &&
+                if (session != null && hit.point.y > session.SampleHeight(x, z) + .16f) return false;
+                if (RainShelterVolume.Active.Count == 0 && Settings.roofLayers.value != 0 &&
                     Physics.Raycast(hit.point + Vector3.up * .25f, Vector3.up, 64f,
                         Settings.roofLayers, QueryTriggerInteraction.Ignore)) return false;
-                if (mapPainter && mapPainter.Session != null &&
-                    mapPainter.Session.SampleEnvironmentSnow(x, z) > .55f) return false;
-                if (!water && Vector3.Dot(hit.normal, Vector3.up) < 1f - Settings.maximumGroundSlope) return false;
-                p = hit.point + Vector3.up * (water ? 0.045f : 0.035f);
+                if (session != null && session.SampleEnvironmentSnow(x, z) > .55f) return false;
+                if (hit.normal.y < minimumUp) return false;
+                p = hit.point;
+                if (mapPainter && mapPainter.TrySamplePathHeight(x, z, out float relief))
+                    p.y = Mathf.Max(p.y, relief);
                 return true;
             }
-            // The world-editor mesh may have no collider; fallback samples only terrain.
-            // Disable this in the Inspector if the authored map has an uncovered river.
-            if (Settings.useMapHeightFallback && mapPainter && mapPainter.Session != null)
+            // Authored terrain previews can run without colliders.
+            if (Settings.useMapHeightFallback && session != null)
             {
-                p = new Vector3(x, mapPainter.Session.SampleHeight(x, z) + .035f, z);
-                if (mapPainter.Session.SampleEnvironmentSnow(x, z) > .55f) return false;
-                if (Vector3.Dot(mapPainter.Session.SampleNormal(x, z), Vector3.up) <
-                    1f - Settings.maximumGroundSlope) return false;
+                Vector4 bounds = session.Bounds;
+                if (x < bounds.x || z < bounds.y || x > bounds.x + bounds.z || z > bounds.y + bounds.w ||
+                    session.SampleEnvironmentSnow(x, z) > .55f || session.SampleNormal(x, z).y < minimumUp)
+                    return false;
+                p = new Vector3(x, session.SampleHeight(x, z), z);
+                if (mapPainter.TrySamplePathHeight(x, z, out float relief)) p.y = Mathf.Max(p.y, relief);
                 return true;
             }
             return false;
         }
 
+        private bool TryFitPuddle(Vector3 center, Quaternion rotation, Vector2 radius, out Vector3 surface)
+        {
+            surface = center;
+            var session = mapPainter ? mapPainter.Session : null;
+            if (session != null && session.WeatherPuddleOverlapsRiver(new Vector2(center.x, center.z), radius.x))
+                return false;
+
+            // Sample both axes of the visible footprint. A flat sheet requires nearly level
+            // support around its centre even when the local normal alone looks horizontal.
+            Vector3 major = rotation * Vector3.right * (radius.x * .85f);
+            Vector3 minor = rotation * Vector3.forward * (radius.y * .78f);
+            float low = center.y, high = center.y;
+            for (int i = 0; i < 4; i++)
+            {
+                Vector3 offset = i < 2 ? major : minor;
+                Vector3 point = center + (i % 2 == 0 ? offset : -offset);
+                if (!TryGroundSurface(point.x, point.z, out Vector3 ground)) return false;
+                low = Mathf.Min(low, ground.y);
+                high = Mathf.Max(high, ground.y);
+                if (high - low > .14f) return false;
+            }
+            surface.y = high + .025f;
+            return true;
+        }
+
         private void HidePuddles()
         {
             if (puddles == null) return;
-            for (int i = 0; i < puddles.Length; i++) puddles[i].obj.SetActive(false);
+            foreach (PuddleSite site in puddleSites.Values) ReleasePuddle(site);
+        }
+
+        private void ReleasePuddle(PuddleSite site)
+        {
+            if (site.rendererIndex < 0) return;
+            puddles[site.rendererIndex].obj.SetActive(false);
+            freePuddles.Push(site.rendererIndex);
+            site.rendererIndex = -1;
+            site.opacity = 0f;
+        }
+
+        private void OnPuddleSurfaceChanged(MapRegionChange change)
+        {
+            if (change.preview || (change.kind & (MapChangeKind.Height | MapChangeKind.Surface |
+                MapChangeKind.Rivers | MapChangeKind.Snow | MapChangeKind.Objects)) == 0) return;
+            Rect area = change.bounds;
+            float margin = Settings.puddleRadius * 1.44f;
+            area.min -= Vector2.one * margin;
+            area.max += Vector2.one * margin;
+            puddleRemoval.Clear();
+            foreach (var pair in puddleSites)
+            {
+                var cell = new Rect((Vector2)pair.Key * PuddleCellSize, Vector2.one * PuddleCellSize);
+                if (area.Overlaps(cell)) puddleRemoval.Add(pair.Key);
+            }
+            foreach (Vector2Int key in puddleRemoval)
+            {
+                ReleasePuddle(puddleSites[key]);
+                puddleSites.Remove(key);
+            }
+        }
+
+        private PuddleSite ProbePuddle(Vector2Int key)
+        {
+            uint seed = unchecked((uint)Settings.seed ^ (uint)(key.x * 73856093) ^ (uint)(key.y * 19349663));
+            var site = new PuddleSite { seed = RainStormMath.Unit(seed + 5), chance = RainStormMath.Unit(seed) };
+            Vector2 origin = (Vector2)key * PuddleCellSize;
+            Vector2 preferred = origin + PuddleCellSize * new Vector2(
+                .25f + RainStormMath.Unit(seed + 1) * .5f, .25f + RainStormMath.Unit(seed + 2) * .5f);
+            Vector2 point = preferred;
+            var inner = new Rect(origin + Vector2.one * .35f, Vector2.one * (PuddleCellSize - .7f));
+            bool onPath = mapPainter && mapPainter.TryFindPathPoint(inner, preferred, out point);
+            if (!onPath) point = preferred;
+            if ((!onPath && site.chance < .25f) || !TryGroundSurface(point.x, point.y, out Vector3 ground))
+                return site;
+            float size = Settings.puddleRadius * (.68f + RainStormMath.Unit(seed + 3) * .76f);
+            site.radius = new Vector2(size, size * (.61f + RainStormMath.Unit(seed + 6) * .36f));
+            site.rotation = Quaternion.Euler(0, RainStormMath.Unit(seed + 4) * 360f, 0);
+            if (!TryFitPuddle(ground, site.rotation, site.radius, out site.position))
+            {
+                site.radius *= .66f;
+                if (!TryFitPuddle(ground, site.rotation, site.radius, out site.position)) return site;
+            }
+            if (puddleSession != null)
+                site.snowFree -= MapWeatherBiomeMask.SnowWeight(puddleSession, point.x, point.y);
+            site.valid = true;
+            return site;
         }
 
         private void UpdateSurfaces()
         {
             if (puddles == null) return;
-            int used = wetness > .08f ? budget.puddleCount : 0;
-            int columns = Mathf.Max(1, Mathf.CeilToInt(Mathf.Sqrt(Mathf.Max(1, used))));
-            const float cellSize = 7f;
-            int cx = RainStormMath.Cell(focus.x, cellSize), cz = RainStormMath.Cell(focus.z, cellSize);
-            int availableProbes = budget.probeCount;
-            for (int i = 0; i < puddles.Length; i++)
+            var session = mapPainter ? mapPainter.Session : null;
+            if (puddleSession != session)
             {
-                var pd = puddles[i];
-                if (i >= used) { pd.obj.SetActive(false); continue; }
-                int x = cx + i % columns - columns / 2;
-                int z = cz + i / columns - columns / 2;
-                uint seed = unchecked((uint)Settings.seed ^ (uint)(x * 73856093) ^ (uint)(z * 19349663));
-                float chance = RainStormMath.Unit(seed);
-                if (chance < .25f) { pd.obj.SetActive(false); continue; }
-                float px = (x + .25f + RainStormMath.Unit(seed + 1) * .5f) * cellSize;
-                float pz = (z + .25f + RainStormMath.Unit(seed + 2) * .5f) * cellSize;
-                bool isWater = false;
-                if (pd.x != x || pd.z != z || !pd.obj.activeSelf)
-                {
-                    if (availableProbes-- <= 0) { pd.obj.SetActive(false); continue; }
-                    if (!TrySurface(px, pz, out Vector3 surface, out isWater))
-                    { pd.obj.SetActive(false); continue; }
-                    // Rain puddles are flat, ground-only overlays. Placing their quads
-                    // over river ribbons produces large pale polygons and Z/sorting seams.
-                    // Water keeps its own dedicated river shading and future ripple path.
-                    if (isWater) { pd.obj.SetActive(false); pd.x = int.MinValue; pd.z = int.MinValue; puddles[i] = pd; continue; }
-                    float size = Settings.puddleRadius * (0.6f + RainStormMath.Unit(seed + 3) * .9f);
-                    pd.obj.transform.position = surface;
-                    pd.obj.transform.rotation = Quaternion.Euler(0, RainStormMath.Unit(seed + 4) * 360f, 0);
-                    pd.obj.transform.localScale = new Vector3(size * 2, 1, size * 2);
-                    pd.x = x; pd.z = z; pd.water = isWater; puddles[i] = pd;
-                }
-                if (pd.water) { pd.obj.SetActive(false); continue; }
-                pd.properties.Clear();
-                // Smooth coverage from the same prefab roof footprint used by the shader.
-                float exposed = 1f - RainShelterVolume.CoverageAt(pd.obj.transform.position);
-                if (mapPainter && mapPainter.Session != null)
-                    exposed *= 1f - MapWeatherBiomeMask.SnowWeight(mapPainter.Session,
-                        pd.obj.transform.position.x, pd.obj.transform.position.z);
-                pd.properties.SetFloat(WetnessId, wetness * exposed * (pd.water ? .70f : Settings.wetReflection));
-                pd.properties.SetFloat(SeedId, RainStormMath.Unit(seed + 5));
-                pd.renderer.SetPropertyBlock(pd.properties);
-                pd.obj.SetActive(true);
-                // A bounded handful of splash bursts per update, never physics for every drop.
-                if (intensity > .05f && exposed > .15f && i < Mathf.Min(budget.probeCount, budget.splashCount))
-                {
-                    var burst = new ParticleSystem.EmitParams
-                    {
-                        position = pd.obj.transform.position,
-                        velocity = new Vector3(0, .6f + chance, 0),
-                        startLifetime = .22f,
-                        startSize = .04f + chance * .05f,
-                        startColor = new Color(.8f, .88f, .97f, intensity * Settings.splashIntensity * exposed)
-                    };
-                    splash.Emit(burst, Mathf.Clamp(Mathf.RoundToInt(2f + intensity * 3f), 2, 5));
-                }
+                if (puddleSession != null) puddleSession.Changed -= OnPuddleSurfaceChanged;
+                HidePuddles();
+                puddleSites.Clear();
+                puddleSession = session;
+                if (puddleSession != null) puddleSession.Changed += OnPuddleSurfaceChanged;
             }
+            int wanted = wetness > .08f ? budget.puddleCount : 0;
+            float reach = PuddleCellSize * (1f + 1.34f * Mathf.Sqrt(wanted / Mathf.PI));
+            puddleFadeEnd = reach;
+            Vector2 look = new Vector2(focus.x, focus.z);
+            float retention = reach + PuddleCellSize * 1.5f;
+            puddleRemoval.Clear();
+            foreach (var pair in puddleSites)
+            {
+                pair.Value.selected = false;
+                Vector2 center = ((Vector2)pair.Key + Vector2.one * .5f) * PuddleCellSize;
+                if (pair.Value.rendererIndex < 0 && (center - look).sqrMagnitude > retention * retention)
+                    puddleRemoval.Add(pair.Key);
+            }
+            foreach (Vector2Int key in puddleRemoval) puddleSites.Remove(key);
+            if (wanted == 0) return;
+
+            puddleCandidates.Clear();
+            int minX = RainStormMath.Cell(look.x - reach, PuddleCellSize);
+            int maxX = RainStormMath.Cell(look.x + reach, PuddleCellSize);
+            int minZ = RainStormMath.Cell(look.y - reach, PuddleCellSize);
+            int maxZ = RainStormMath.Cell(look.y + reach, PuddleCellSize);
+            float search = reach + PuddleCellSize * .5f;
+            for (int z = minZ; z <= maxZ; z++)
+            for (int x = minX; x <= maxX; x++)
+            {
+                var key = new Vector2Int(x, z);
+                Vector2 center = ((Vector2)key + Vector2.one * .5f) * PuddleCellSize;
+                float distance = (center - look).sqrMagnitude;
+                if (distance <= search * search) puddleCandidates.Add((key, distance));
+            }
+            puddleCandidates.Sort((a, b) => a.distance.CompareTo(b.distance));
+            int probes = budget.probeCount, selected = 0;
+            int bursts = Mathf.Min(budget.probeCount, budget.splashCount);
+            foreach (var candidate in puddleCandidates)
+            {
+                if (!puddleSites.TryGetValue(candidate.key, out PuddleSite site))
+                {
+                    if (probes == 0) continue;
+                    probes--;
+                    site = ProbePuddle(candidate.key);
+                    puddleSites.Add(candidate.key, site);
+                }
+                if (!site.valid || PuddleDistance(site) >= reach) continue;
+                site.selected = true;
+                if (bursts > 0 && intensity > .05f && site.opacity > .25f && EmitPuddleSplash(site)) bursts--;
+                if (++selected >= wanted) break;
+            }
+        }
+
+        private float PuddleDistance(PuddleSite site) =>
+            Vector2.Distance(new Vector2(focus.x, focus.z), new Vector2(site.position.x, site.position.z));
+
+        private void TickPuddles(float dt)
+        {
+            if (puddles == null) return;
+            foreach (PuddleSite site in puddleSites.Values)
+            {
+                if (!site.selected && site.rendererIndex < 0) continue;
+                float target = site.selected
+                    ? Mathf.SmoothStep(1f, 0f, Mathf.InverseLerp(puddleFadeEnd * .68f, puddleFadeEnd, PuddleDistance(site)))
+                    : 0f;
+                if (site.rendererIndex < 0)
+                {
+                    if (target <= .001f || freePuddles.Count == 0) continue;
+                    site.rendererIndex = freePuddles.Pop();
+                    var entry = puddles[site.rendererIndex];
+                    entry.obj.transform.SetPositionAndRotation(site.position, site.rotation);
+                    entry.obj.transform.localScale = new Vector3(site.radius.x * 2f, 1f, site.radius.y * 2f);
+                    entry.properties.SetFloat(SeedId, site.seed);
+                    site.writtenWetness = -1f;
+                }
+                site.opacity = Mathf.MoveTowards(site.opacity, target, dt * 1.4f);
+                if (site.opacity <= .001f && target <= .001f)
+                {
+                    ReleasePuddle(site);
+                    continue;
+                }
+                float amount = wetness * Settings.wetReflection * site.snowFree * site.opacity;
+                if (Mathf.Abs(site.writtenWetness - amount) < .001f) continue;
+                site.writtenWetness = amount;
+                var puddle = puddles[site.rendererIndex];
+                puddle.properties.SetFloat(WetnessId, amount);
+                puddle.renderer.SetPropertyBlock(puddle.properties);
+                if (!puddle.obj.activeSelf) puddle.obj.SetActive(true);
+            }
+        }
+
+        private bool EmitPuddleSplash(PuddleSite site)
+        {
+            float exposed = site.snowFree * (1f - RainShelterVolume.CoverageAt(site.position));
+            if (exposed <= .15f) return false;
+            var burst = new ParticleSystem.EmitParams
+            {
+                position = site.position,
+                velocity = new Vector3(0f, .6f + site.chance, 0f),
+                startLifetime = .22f,
+                startSize = .04f + site.chance * .05f,
+                startColor = new Color(.8f, .88f, .97f, intensity * Settings.splashIntensity * exposed * site.opacity)
+            };
+            splash.Emit(burst, Mathf.Clamp(Mathf.RoundToInt(2f + intensity * 3f), 2, 5));
+            return true;
         }
 
         private void TickRoofDrips()
@@ -641,7 +807,7 @@ namespace LittleCastle.World.Weather
                 lightningAge < .41f ? .27f : 0f;
             if (Settings.reducedFlashes) flicker *= .35f;
             Shader.SetGlobalFloat("_LC_StormFlash", Settings.lightningFlash * flicker);
-            bool visible = flicker > .055f;
+            bool visible = hasCloudBolt && flicker > .055f;
             lightningLine.enabled = lightningBranch.enabled = visible;
             bool expensiveGlow = quality == RainQuality.High || quality == RainQuality.Custom;
             lightningGlow.enabled = lightningBranchGlow.enabled = visible && expensiveGlow;
@@ -671,17 +837,95 @@ namespace LittleCastle.World.Weather
             }
         }
 
+        private bool TryGetCloudBolt(uint seed, out Vector3 top, out Vector3 end)
+        {
+            top = end = Vector3.zero;
+            float bestScore = float.NegativeInfinity;
+            for (int i = lightningClouds.Count - 1; i >= 0; i--)
+            {
+                Renderer cloud = lightningClouds[i];
+                if (!cloud) { lightningClouds.RemoveAt(i); continue; }
+                if (!cloud.enabled || !cloud.gameObject.activeInHierarchy ||
+                    cloud.gameObject.scene != gameObject.scene ||
+                    (gameplayCamera.cullingMask & (1 << cloud.gameObject.layer)) == 0) continue;
+                // Stay inside the broad central lobe, away from its noisy boundary.
+                float flip = RainStormMath.Unit(seed + (uint)i * 17u) > .5f ? 1f : -1f;
+                float z = Mathf.Lerp(-.07f, .07f, RainStormMath.Unit(seed + (uint)i + 37u));
+                if (Vector3.Distance(gameplayCamera.transform.position,
+                    cloud.bounds.ClosestPoint(gameplayCamera.transform.position)) < 125f) continue;
+                // The RTS view frequently crops a bank along the top/left edge.
+                // Try compact channels in its central and hanging lobes as well;
+                // never move an endpoint into an arbitrary screen-space position.
+                for (int anchor = 0; anchor < 3; anchor++)
+                {
+                    float halfSpan = anchor == 0 ? .21f : .085f;
+                    float height = anchor == 0 ? .13f : anchor == 1 ? .035f : -.09f;
+                    float depth = anchor == 2 ? .16f : z;
+                    Vector3 a = cloud.transform.TransformPoint(new Vector3(-halfSpan * flip, height, depth));
+                    Vector3 b = cloud.transform.TransformPoint(new Vector3(halfSpan * flip, height - .06f, depth));
+                    Vector3 av = gameplayCamera.WorldToViewportPoint(a);
+                    Vector3 bv = gameplayCamera.WorldToViewportPoint(b);
+                    if (!InLightningView(av) || !InLightningView(bv)) continue;
+                    // Prefer central, visible banks, with deterministic per-strike variation.
+                    float score = 1f - Mathf.Abs((av.x + bv.x) * .5f - .5f) +
+                        RainStormMath.Unit(seed + (uint)i * 71u) * .35f - anchor * .035f;
+                    if (score <= bestScore) continue;
+                    bestScore = score;
+                    top = a;
+                    end = b;
+                }
+            }
+            return bestScore > float.NegativeInfinity;
+        }
+
+        private bool InLightningView(Vector3 viewport) =>
+            viewport.z > gameplayCamera.nearClipPlane && viewport.z < gameplayCamera.farClipPlane * .92f &&
+            viewport.x > .025f && viewport.x < .975f && viewport.y > .08f && viewport.y < .975f;
+
+        private bool TryDescendingBolt(uint seed, Vector3 top, out Vector3 end)
+        {
+            end = top;
+            if (RainStormMath.Unit(seed + 903u) > .68f) return false;
+            // A bounded rare-event query against the rendered mountain LOD. The
+            // endpoint must be buried behind real rock, never just faded in air.
+            Vector3 drift = gameplayCamera.transform.right * ((RainStormMath.Unit(seed + 904u) - .5f) * 12f);
+            for (int step = 0; step < 6; step++)
+            {
+                Vector3 candidate = top + drift - Vector3.up * (45f + step * 24f);
+                if (!InLightningView(gameplayCamera.WorldToViewportPoint(candidate))) continue;
+                foreach (var occluder in lightningOccluders)
+                {
+                    if (occluder.HidesLightningEndpoint(gameplayCamera, top) ||
+                        !occluder.HidesLightningEndpoint(gameplayCamera, candidate)) continue;
+                    end = candidate;
+                    return true;
+                }
+            }
+            return false;
+        }
+
         private void CreateBolt()
         {
             uint seed = unchecked((uint)Settings.seed + (uint)lightningSequence * 2654435761u);
-            // Place storms in the *visible upper part of the gameplay camera*.
-            // Never target the player, buildings, terrain, or authoring objects.
-            float distance = Mathf.Clamp(gameplayCamera.farClipPlane * .55f, 75f, 245f);
-            float x = .25f + RainStormMath.Unit(seed + 1) * .50f;
-            float y = .55f + RainStormMath.Unit(seed + 2) * .085f;
-            float otherX = x + (RainStormMath.Unit(seed + 3) - .5f) * .09f;
-            Vector3 top = gameplayCamera.ViewportToWorldPoint(new Vector3(x, y + .26f, distance));
-            Vector3 end = gameplayCamera.ViewportToWorldPoint(new Vector3(otherX, y, distance));
+            // A visible channel is an intracloud discharge: both ends live inside a
+            // real rendered bank. Without one, use sheet lightning only, never a
+            // camera-space zigzag hovering above the terrain.
+            isDescendingBolt = false;
+            hasCloudBolt = TryGetCloudBolt(seed, out Vector3 top, out Vector3 end);
+            if (!hasCloudBolt)
+            {
+                Vector3 sky = Vector3.ProjectOnPlane(gameplayCamera.transform.forward, Vector3.up);
+                if (sky.sqrMagnitude < .001f) sky = Vector3.forward;
+                sky = (sky.normalized + Vector3.up * .35f).normalized;
+                Shader.SetGlobalVector("_LC_StormFlashDirection", new Vector4(sky.x, sky.y, sky.z, 0f));
+                lightningAge = 0f;
+                thunderDelay = 1.4f;
+                return;
+            }
+            bool descending = TryDescendingBolt(seed, top, out Vector3 hiddenEnd);
+            isDescendingBolt = descending;
+            if (descending) end = hiddenEnd;
+            float distance = Vector3.Distance(gameplayCamera.transform.position, top);
             strikePoint = end;
             Vector3 side = gameplayCamera.transform.right;
             Vector3 depth = gameplayCamera.transform.forward;
@@ -711,7 +955,9 @@ namespace LittleCastle.World.Weather
             lightningBranch.positionCount = branches;
             lightningBranchGlow.positionCount = branches;
             Vector3 fork = points[9];
-            Vector3 branchEnd = points[15] + side * (deviation * 1.5f);
+            Vector3 branchEnd = descending
+                ? points[16] + side * (deviation * 1.1f)
+                : Vector3.Lerp(points[15], top, .2f) + Vector3.up * (deviation * .65f);
             for (int i = 0; i < branches; i++)
             {
                 float t = i / (branches - 1f);
@@ -721,7 +967,7 @@ namespace LittleCastle.World.Weather
                 lightningBranch.SetPosition(i, p);
                 lightningBranchGlow.SetPosition(i, p);
             }
-            flashLight.transform.position = Vector3.Lerp(top, end, .45f);
+            flashLight.transform.position = top;
             // Skybox is infinitely distant. This view ray makes the storm bank
             // glow around the actual bolt origin instead of flashing the entire sky.
             Vector3 skyDirection = (top - gameplayCamera.transform.position).normalized;
@@ -786,6 +1032,12 @@ namespace LittleCastle.World.Weather
 
         private void Cleanup()
         {
+            if (puddleSession != null) puddleSession.Changed -= OnPuddleSurfaceChanged;
+            puddleSession = null;
+            puddleSites.Clear();
+            puddleCandidates.Clear();
+            puddleRemoval.Clear();
+            freePuddles.Clear();
             if (active == this && atmosphere && Settings && Settings.driveExistingAtmosphere)
             {
                 atmosphere.SetWeatherPresentation(0f, 0f);
@@ -808,6 +1060,7 @@ namespace LittleCastle.World.Weather
             {
                 Shader.SetGlobalFloat(GlobalWetId, 0f);
                 Shader.SetGlobalFloat(GlobalRainId, 0f);
+                Shader.SetGlobalVector(GlobalRiverImpactsId, Vector4.zero);
                 Shader.SetGlobalFloat("_LC_StormFlash", 0f);
                 Shader.SetGlobalVector("_LC_StormFlashDirection", Vector4.zero);
                 active = null;
